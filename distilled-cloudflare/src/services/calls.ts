@@ -53,9 +53,8 @@ export const GetSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSfuResponse>;
 
-export const getSfu: (
-  input: GetSfuRequest,
-) => Effect.Effect<
+export const getSfu: API.OperationMethod<
+  GetSfuRequest,
   GetSfuResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -100,9 +99,8 @@ export const CreateSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateSfuResponse>;
 
-export const createSfu: (
-  input: CreateSfuRequest,
-) => Effect.Effect<
+export const createSfu: API.OperationMethod<
+  CreateSfuRequest,
   CreateSfuResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -146,9 +144,8 @@ export const UpdateSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateSfuResponse>;
 
-export const updateSfu: (
-  input: UpdateSfuRequest,
-) => Effect.Effect<
+export const updateSfu: API.OperationMethod<
+  UpdateSfuRequest,
   UpdateSfuResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -192,9 +189,8 @@ export const DeleteSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteSfuResponse>;
 
-export const deleteSfu: (
-  input: DeleteSfuRequest,
-) => Effect.Effect<
+export const deleteSfu: API.OperationMethod<
+  DeleteSfuRequest,
   DeleteSfuResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -235,9 +231,8 @@ export const ListSfusResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListSfusResponse>;
 
-export const listSfus: (
-  input: ListSfusRequest,
-) => Effect.Effect<
+export const listSfus: API.OperationMethod<
+  ListSfusRequest,
   ListSfusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -285,9 +280,8 @@ export const GetTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetTurnResponse>;
 
-export const getTurn: (
-  input: GetTurnRequest,
-) => Effect.Effect<
+export const getTurn: API.OperationMethod<
+  GetTurnRequest,
   GetTurnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -324,9 +318,8 @@ export const ListTurnsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListTurnsResponse>;
 
-export const listTurns: (
-  input: ListTurnsRequest,
-) => Effect.Effect<
+export const listTurns: API.OperationMethod<
+  ListTurnsRequest,
   ListTurnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -371,9 +364,8 @@ export const CreateTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTurnResponse>;
 
-export const createTurn: (
-  input: CreateTurnRequest,
-) => Effect.Effect<
+export const createTurn: API.OperationMethod<
+  CreateTurnRequest,
   CreateTurnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -420,9 +412,8 @@ export const UpdateTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateTurnResponse>;
 
-export const updateTurn: (
-  input: UpdateTurnRequest,
-) => Effect.Effect<
+export const updateTurn: API.OperationMethod<
+  UpdateTurnRequest,
   UpdateTurnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -466,9 +457,8 @@ export const DeleteTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteTurnResponse>;
 
-export const deleteTurn: (
-  input: DeleteTurnRequest,
-) => Effect.Effect<
+export const deleteTurn: API.OperationMethod<
+  DeleteTurnRequest,
   DeleteTurnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

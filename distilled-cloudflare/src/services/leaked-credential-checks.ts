@@ -53,9 +53,8 @@ export const GetDetectionResponse = Schema.Struct({
   username: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetDetectionResponse>;
 
-export const getDetection: (
-  input: GetDetectionRequest,
-) => Effect.Effect<
+export const getDetection: API.OperationMethod<
+  GetDetectionRequest,
   GetDetectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -93,9 +92,8 @@ export const ListDetectionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDetectionsResponse>;
 
-export const listDetections: (
-  input: ListDetectionsRequest,
-) => Effect.Effect<
+export const listDetections: API.OperationMethod<
+  ListDetectionsRequest,
   ListDetectionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -140,9 +138,8 @@ export const CreateDetectionResponse = Schema.Struct({
   username: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDetectionResponse>;
 
-export const createDetection: (
-  input: CreateDetectionRequest,
-) => Effect.Effect<
+export const createDetection: API.OperationMethod<
+  CreateDetectionRequest,
   CreateDetectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -189,9 +186,8 @@ export const UpdateDetectionResponse = Schema.Struct({
   username: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateDetectionResponse>;
 
-export const updateDetection: (
-  input: UpdateDetectionRequest,
-) => Effect.Effect<
+export const updateDetection: API.OperationMethod<
+  UpdateDetectionRequest,
   UpdateDetectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -222,9 +218,8 @@ export type DeleteDetectionResponse = unknown;
 export const DeleteDetectionResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDetectionResponse>;
 
-export const deleteDetection: (
-  input: DeleteDetectionRequest,
-) => Effect.Effect<
+export const deleteDetection: API.OperationMethod<
+  DeleteDetectionRequest,
   DeleteDetectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -258,9 +253,8 @@ export const GetLeakedCredentialCheckResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetLeakedCredentialCheckResponse>;
 
-export const getLeakedCredentialCheck: (
-  input: GetLeakedCredentialCheckRequest,
-) => Effect.Effect<
+export const getLeakedCredentialCheck: API.OperationMethod<
+  GetLeakedCredentialCheckRequest,
   GetLeakedCredentialCheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -293,9 +287,8 @@ export const CreateLeakedCredentialCheckResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateLeakedCredentialCheckResponse>;
 
-export const createLeakedCredentialCheck: (
-  input: CreateLeakedCredentialCheckRequest,
-) => Effect.Effect<
+export const createLeakedCredentialCheck: API.OperationMethod<
+  CreateLeakedCredentialCheckRequest,
   CreateLeakedCredentialCheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

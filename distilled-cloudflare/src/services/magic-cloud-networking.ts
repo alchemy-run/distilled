@@ -564,10 +564,22 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -751,17 +763,28 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DiscoverAllCloudIntegrationResponse>;
 
-export const discoverAllCloudIntegration: (
-  input: DiscoverAllCloudIntegrationRequest,
-) => Effect.Effect<
+export const discoverAllCloudIntegration: API.OperationMethod<
+  DiscoverAllCloudIntegrationRequest,
   DiscoverAllCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -820,19 +843,23 @@ export const GetCatalogSyncResponse = Schema.Struct({
   lastSuccessfulUpdateAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    description: "description",
     destinationId: "destination_id",
     destinationType: "destination_type",
     lastUserUpdateAt: "last_user_update_at",
+    name: "name",
+    policy: "policy",
     updateMode: "update_mode",
+    errors: "errors",
     includesDiscoveriesUntil: "includes_discoveries_until",
     lastAttemptedUpdateAt: "last_attempted_update_at",
     lastSuccessfulUpdateAt: "last_successful_update_at",
   }),
 ) as unknown as Schema.Schema<GetCatalogSyncResponse>;
 
-export const getCatalogSync: (
-  input: GetCatalogSyncRequest,
-) => Effect.Effect<
+export const getCatalogSync: API.OperationMethod<
+  GetCatalogSyncRequest,
   GetCatalogSyncResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -886,10 +913,15 @@ export const ListCatalogSyncsResponse = Schema.Array(
     lastSuccessfulUpdateAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      description: "description",
       destinationId: "destination_id",
       destinationType: "destination_type",
       lastUserUpdateAt: "last_user_update_at",
+      name: "name",
+      policy: "policy",
       updateMode: "update_mode",
+      errors: "errors",
       includesDiscoveriesUntil: "includes_discoveries_until",
       lastAttemptedUpdateAt: "last_attempted_update_at",
       lastSuccessfulUpdateAt: "last_successful_update_at",
@@ -897,9 +929,8 @@ export const ListCatalogSyncsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCatalogSyncsResponse>;
 
-export const listCatalogSyncs: (
-  input: ListCatalogSyncsRequest,
-) => Effect.Effect<
+export const listCatalogSyncs: API.OperationMethod<
+  ListCatalogSyncsRequest,
   ListCatalogSyncsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -937,7 +968,10 @@ export const CreateCatalogSyncRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     destinationType: "destination_type",
+    name: "name",
     updateMode: "update_mode",
+    description: "description",
+    policy: "policy",
   }),
   T.Http({
     method: "POST",
@@ -975,19 +1009,23 @@ export const CreateCatalogSyncResponse = Schema.Struct({
   lastSuccessfulUpdateAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    description: "description",
     destinationId: "destination_id",
     destinationType: "destination_type",
     lastUserUpdateAt: "last_user_update_at",
+    name: "name",
+    policy: "policy",
     updateMode: "update_mode",
+    errors: "errors",
     includesDiscoveriesUntil: "includes_discoveries_until",
     lastAttemptedUpdateAt: "last_attempted_update_at",
     lastSuccessfulUpdateAt: "last_successful_update_at",
   }),
 ) as unknown as Schema.Schema<CreateCatalogSyncResponse>;
 
-export const createCatalogSync: (
-  input: CreateCatalogSyncRequest,
-) => Effect.Effect<
+export const createCatalogSync: API.OperationMethod<
+  CreateCatalogSyncRequest,
   CreateCatalogSyncResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1019,7 +1057,12 @@ export const UpdateCatalogSyncRequest = Schema.Struct({
   policy: Schema.optional(Schema.String),
   updateMode: Schema.optional(Schema.Literals(["AUTO", "MANUAL"])),
 }).pipe(
-  Schema.encodeKeys({ updateMode: "update_mode" }),
+  Schema.encodeKeys({
+    description: "description",
+    name: "name",
+    policy: "policy",
+    updateMode: "update_mode",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}",
@@ -1056,19 +1099,23 @@ export const UpdateCatalogSyncResponse = Schema.Struct({
   lastSuccessfulUpdateAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    description: "description",
     destinationId: "destination_id",
     destinationType: "destination_type",
     lastUserUpdateAt: "last_user_update_at",
+    name: "name",
+    policy: "policy",
     updateMode: "update_mode",
+    errors: "errors",
     includesDiscoveriesUntil: "includes_discoveries_until",
     lastAttemptedUpdateAt: "last_attempted_update_at",
     lastSuccessfulUpdateAt: "last_successful_update_at",
   }),
 ) as unknown as Schema.Schema<UpdateCatalogSyncResponse>;
 
-export const updateCatalogSync: (
-  input: UpdateCatalogSyncRequest,
-) => Effect.Effect<
+export const updateCatalogSync: API.OperationMethod<
+  UpdateCatalogSyncRequest,
   UpdateCatalogSyncResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1100,7 +1147,12 @@ export const PatchCatalogSyncRequest = Schema.Struct({
   policy: Schema.optional(Schema.String),
   updateMode: Schema.optional(Schema.Literals(["AUTO", "MANUAL"])),
 }).pipe(
-  Schema.encodeKeys({ updateMode: "update_mode" }),
+  Schema.encodeKeys({
+    description: "description",
+    name: "name",
+    policy: "policy",
+    updateMode: "update_mode",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}",
@@ -1137,19 +1189,23 @@ export const PatchCatalogSyncResponse = Schema.Struct({
   lastSuccessfulUpdateAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    description: "description",
     destinationId: "destination_id",
     destinationType: "destination_type",
     lastUserUpdateAt: "last_user_update_at",
+    name: "name",
+    policy: "policy",
     updateMode: "update_mode",
+    errors: "errors",
     includesDiscoveriesUntil: "includes_discoveries_until",
     lastAttemptedUpdateAt: "last_attempted_update_at",
     lastSuccessfulUpdateAt: "last_successful_update_at",
   }),
 ) as unknown as Schema.Schema<PatchCatalogSyncResponse>;
 
-export const patchCatalogSync: (
-  input: PatchCatalogSyncRequest,
-) => Effect.Effect<
+export const patchCatalogSync: API.OperationMethod<
+  PatchCatalogSyncRequest,
   PatchCatalogSyncResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1188,9 +1244,8 @@ export const DeleteCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteCatalogSyncResponse>;
 
-export const deleteCatalogSync: (
-  input: DeleteCatalogSyncRequest,
-) => Effect.Effect<
+export const deleteCatalogSync: API.OperationMethod<
+  DeleteCatalogSyncRequest,
   DeleteCatalogSyncResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1220,9 +1275,8 @@ export type RefreshCatalogSyncResponse = string;
 export const RefreshCatalogSyncResponse =
   Schema.String as unknown as Schema.Schema<RefreshCatalogSyncResponse>;
 
-export const refreshCatalogSync: (
-  input: RefreshCatalogSyncRequest,
-) => Effect.Effect<
+export const refreshCatalogSync: API.OperationMethod<
+  RefreshCatalogSyncRequest,
   RefreshCatalogSyncResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1280,9 +1334,8 @@ export const ListCatalogSyncPrebuiltPoliciesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCatalogSyncPrebuiltPoliciesResponse>;
 
-export const listCatalogSyncPrebuiltPolicies: (
-  input: ListCatalogSyncPrebuiltPoliciesRequest,
-) => Effect.Effect<
+export const listCatalogSyncPrebuiltPolicies: API.OperationMethod<
+  ListCatalogSyncPrebuiltPoliciesRequest,
   ListCatalogSyncPrebuiltPoliciesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1427,7 +1480,13 @@ export const GetCloudIntegrationResponse = Schema.Struct({
             id: Schema.String,
             clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
             name: Schema.String,
-          }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              clientType: "client_type",
+              name: "name",
+            }),
+          ),
         ),
       ),
       lastDiscoveryCompletedAt: Schema.optional(Schema.String),
@@ -1441,6 +1500,7 @@ export const GetCloudIntegrationResponse = Schema.Struct({
         discoveryProgressV2: "discovery_progress_v2",
         lastDiscoveryStatus: "last_discovery_status",
         lastDiscoveryStatusV2: "last_discovery_status_v2",
+        regions: "regions",
         credentialsGoodSince: "credentials_good_since",
         credentialsMissingSince: "credentials_missing_since",
         credentialsRejectedSince: "credentials_rejected_since",
@@ -1457,22 +1517,25 @@ export const GetCloudIntegrationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     friendlyName: "friendly_name",
     lastUpdated: "last_updated",
     lifecycleState: "lifecycle_state",
+    state: "state",
     stateV2: "state_v2",
     awsArn: "aws_arn",
     azureSubscriptionId: "azure_subscription_id",
     azureTenantId: "azure_tenant_id",
+    description: "description",
     gcpProjectId: "gcp_project_id",
     gcpServiceAccountEmail: "gcp_service_account_email",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<GetCloudIntegrationResponse>;
 
-export const getCloudIntegration: (
-  input: GetCloudIntegrationRequest,
-) => Effect.Effect<
+export const getCloudIntegration: API.OperationMethod<
+  GetCloudIntegrationRequest,
   GetCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1621,7 +1684,13 @@ export const ListCloudIntegrationsResponse = Schema.Array(
               id: Schema.String,
               clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
               name: Schema.String,
-            }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                id: "id",
+                clientType: "client_type",
+                name: "name",
+              }),
+            ),
           ),
         ),
         lastDiscoveryCompletedAt: Schema.optional(Schema.String),
@@ -1635,6 +1704,7 @@ export const ListCloudIntegrationsResponse = Schema.Array(
           discoveryProgressV2: "discovery_progress_v2",
           lastDiscoveryStatus: "last_discovery_status",
           lastDiscoveryStatusV2: "last_discovery_status_v2",
+          regions: "regions",
           credentialsGoodSince: "credentials_good_since",
           credentialsMissingSince: "credentials_missing_since",
           credentialsRejectedSince: "credentials_rejected_since",
@@ -1651,23 +1721,26 @@ export const ListCloudIntegrationsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       cloudType: "cloud_type",
       friendlyName: "friendly_name",
       lastUpdated: "last_updated",
       lifecycleState: "lifecycle_state",
+      state: "state",
       stateV2: "state_v2",
       awsArn: "aws_arn",
       azureSubscriptionId: "azure_subscription_id",
       azureTenantId: "azure_tenant_id",
+      description: "description",
       gcpProjectId: "gcp_project_id",
       gcpServiceAccountEmail: "gcp_service_account_email",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<ListCloudIntegrationsResponse>;
 
-export const listCloudIntegrations: (
-  input: ListCloudIntegrationsRequest,
-) => Effect.Effect<
+export const listCloudIntegrations: API.OperationMethod<
+  ListCloudIntegrationsRequest,
   ListCloudIntegrationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1697,7 +1770,11 @@ export const CreateCloudIntegrationRequest = Schema.Struct({
   friendlyName: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ cloudType: "cloud_type", friendlyName: "friendly_name" }),
+  Schema.encodeKeys({
+    cloudType: "cloud_type",
+    friendlyName: "friendly_name",
+    description: "description",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/magic/cloud/providers",
@@ -1816,7 +1893,13 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
             id: Schema.String,
             clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
             name: Schema.String,
-          }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              clientType: "client_type",
+              name: "name",
+            }),
+          ),
         ),
       ),
       lastDiscoveryCompletedAt: Schema.optional(Schema.String),
@@ -1830,6 +1913,7 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
         discoveryProgressV2: "discovery_progress_v2",
         lastDiscoveryStatus: "last_discovery_status",
         lastDiscoveryStatusV2: "last_discovery_status_v2",
+        regions: "regions",
         credentialsGoodSince: "credentials_good_since",
         credentialsMissingSince: "credentials_missing_since",
         credentialsRejectedSince: "credentials_rejected_since",
@@ -1846,22 +1930,25 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     friendlyName: "friendly_name",
     lastUpdated: "last_updated",
     lifecycleState: "lifecycle_state",
+    state: "state",
     stateV2: "state_v2",
     awsArn: "aws_arn",
     azureSubscriptionId: "azure_subscription_id",
     azureTenantId: "azure_tenant_id",
+    description: "description",
     gcpProjectId: "gcp_project_id",
     gcpServiceAccountEmail: "gcp_service_account_email",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<CreateCloudIntegrationResponse>;
 
-export const createCloudIntegration: (
-  input: CreateCloudIntegrationRequest,
-) => Effect.Effect<
+export const createCloudIntegration: API.OperationMethod<
+  CreateCloudIntegrationRequest,
   CreateCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1906,6 +1993,7 @@ export const UpdateCloudIntegrationRequest = Schema.Struct({
     awsArn: "aws_arn",
     azureSubscriptionId: "azure_subscription_id",
     azureTenantId: "azure_tenant_id",
+    description: "description",
     friendlyName: "friendly_name",
     gcpProjectId: "gcp_project_id",
     gcpServiceAccountEmail: "gcp_service_account_email",
@@ -2028,7 +2116,13 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
             id: Schema.String,
             clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
             name: Schema.String,
-          }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              clientType: "client_type",
+              name: "name",
+            }),
+          ),
         ),
       ),
       lastDiscoveryCompletedAt: Schema.optional(Schema.String),
@@ -2042,6 +2136,7 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
         discoveryProgressV2: "discovery_progress_v2",
         lastDiscoveryStatus: "last_discovery_status",
         lastDiscoveryStatusV2: "last_discovery_status_v2",
+        regions: "regions",
         credentialsGoodSince: "credentials_good_since",
         credentialsMissingSince: "credentials_missing_since",
         credentialsRejectedSince: "credentials_rejected_since",
@@ -2058,22 +2153,25 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     friendlyName: "friendly_name",
     lastUpdated: "last_updated",
     lifecycleState: "lifecycle_state",
+    state: "state",
     stateV2: "state_v2",
     awsArn: "aws_arn",
     azureSubscriptionId: "azure_subscription_id",
     azureTenantId: "azure_tenant_id",
+    description: "description",
     gcpProjectId: "gcp_project_id",
     gcpServiceAccountEmail: "gcp_service_account_email",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<UpdateCloudIntegrationResponse>;
 
-export const updateCloudIntegration: (
-  input: UpdateCloudIntegrationRequest,
-) => Effect.Effect<
+export const updateCloudIntegration: API.OperationMethod<
+  UpdateCloudIntegrationRequest,
   UpdateCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2118,6 +2216,7 @@ export const PatchCloudIntegrationRequest = Schema.Struct({
     awsArn: "aws_arn",
     azureSubscriptionId: "azure_subscription_id",
     azureTenantId: "azure_tenant_id",
+    description: "description",
     friendlyName: "friendly_name",
     gcpProjectId: "gcp_project_id",
     gcpServiceAccountEmail: "gcp_service_account_email",
@@ -2240,7 +2339,13 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
             id: Schema.String,
             clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
             name: Schema.String,
-          }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              clientType: "client_type",
+              name: "name",
+            }),
+          ),
         ),
       ),
       lastDiscoveryCompletedAt: Schema.optional(Schema.String),
@@ -2254,6 +2359,7 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
         discoveryProgressV2: "discovery_progress_v2",
         lastDiscoveryStatus: "last_discovery_status",
         lastDiscoveryStatusV2: "last_discovery_status_v2",
+        regions: "regions",
         credentialsGoodSince: "credentials_good_since",
         credentialsMissingSince: "credentials_missing_since",
         credentialsRejectedSince: "credentials_rejected_since",
@@ -2270,22 +2376,25 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     friendlyName: "friendly_name",
     lastUpdated: "last_updated",
     lifecycleState: "lifecycle_state",
+    state: "state",
     stateV2: "state_v2",
     awsArn: "aws_arn",
     azureSubscriptionId: "azure_subscription_id",
     azureTenantId: "azure_tenant_id",
+    description: "description",
     gcpProjectId: "gcp_project_id",
     gcpServiceAccountEmail: "gcp_service_account_email",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<PatchCloudIntegrationResponse>;
 
-export const patchCloudIntegration: (
-  input: PatchCloudIntegrationRequest,
-) => Effect.Effect<
+export const patchCloudIntegration: API.OperationMethod<
+  PatchCloudIntegrationRequest,
   PatchCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2318,9 +2427,8 @@ export const DeleteCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteCloudIntegrationResponse>;
 
-export const deleteCloudIntegration: (
-  input: DeleteCloudIntegrationRequest,
-) => Effect.Effect<
+export const deleteCloudIntegration: API.OperationMethod<
+  DeleteCloudIntegrationRequest,
   DeleteCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2878,10 +2986,22 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -3065,17 +3185,28 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DiscoverCloudIntegrationResponse>;
 
-export const discoverCloudIntegration: (
-  input: DiscoverCloudIntegrationRequest,
-) => Effect.Effect<
+export const discoverCloudIntegration: API.OperationMethod<
+  DiscoverCloudIntegrationRequest,
   DiscoverCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3286,7 +3417,9 @@ export const GetOnRampResponse = Schema.Struct({
       proposedMonthlyCost: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        currency: "currency",
         currentMonthlyCost: "current_monthly_cost",
+        diff: "diff",
         proposedMonthlyCost: "proposed_monthly_cost",
       }),
     ),
@@ -3302,6 +3435,7 @@ export const GetOnRampResponse = Schema.Struct({
           rightYaml: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            diff: "diff",
             leftDescription: "left_description",
             leftYaml: "left_yaml",
             rightDescription: "right_description",
@@ -3316,7 +3450,9 @@ export const GetOnRampResponse = Schema.Struct({
           proposedMonthlyCost: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            currency: "currency",
             currentMonthlyCost: "current_monthly_cost",
+            diff: "diff",
             proposedMonthlyCost: "proposed_monthly_cost",
           }),
         ),
@@ -3394,15 +3530,21 @@ export const GetOnRampResponse = Schema.Struct({
           title: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             cloudType: "cloud_type",
+            detail: "detail",
+            name: "name",
             resourceType: "resource_type",
+            title: "title",
           }),
         ),
       }).pipe(
         Schema.encodeKeys({
+          diff: "diff",
           keysRequireReplace: "keys_require_replace",
           monthlyCostEstimateDiff: "monthly_cost_estimate_diff",
           plannedAction: "planned_action",
+          resource: "resource",
         }),
       ),
     ),
@@ -3412,7 +3554,9 @@ export const GetOnRampResponse = Schema.Struct({
     Schema.Struct({
       currency: Schema.String,
       monthlyCost: Schema.Number,
-    }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+    }).pipe(
+      Schema.encodeKeys({ currency: "currency", monthlyCost: "monthly_cost" }),
+    ),
   ),
   postApplyResources: Schema.optional(Schema.Struct({})),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean),
@@ -3449,6 +3593,8 @@ export const GetOnRampResponse = Schema.Struct({
         applyProgress: "apply_progress",
         lifecycleState: "lifecycle_state",
         planProgress: "plan_progress",
+        routes: "routes",
+        tunnels: "tunnels",
         lifecycleErrors: "lifecycle_errors",
       }),
     ),
@@ -3458,14 +3604,19 @@ export const GetOnRampResponse = Schema.Struct({
   vpcsByIdUnavailable: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     dynamicRouting: "dynamic_routing",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
+    name: "name",
+    type: "type",
     updatedAt: "updated_at",
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
     cloudAsn: "cloud_asn",
+    description: "description",
+    hub: "hub",
     lastAppliedAt: "last_applied_at",
     lastExportedAt: "last_exported_at",
     lastPlannedAt: "last_planned_at",
@@ -3477,14 +3628,16 @@ export const GetOnRampResponse = Schema.Struct({
     postApplyMonthlyCostEstimate: "post_apply_monthly_cost_estimate",
     postApplyResources: "post_apply_resources",
     postApplyResourcesUnavailable: "post_apply_resources_unavailable",
+    region: "region",
+    status: "status",
+    vpc: "vpc",
     vpcsById: "vpcs_by_id",
     vpcsByIdUnavailable: "vpcs_by_id_unavailable",
   }),
 ) as unknown as Schema.Schema<GetOnRampResponse>;
 
-export const getOnRamp: (
-  input: GetOnRampRequest,
-) => Effect.Effect<
+export const getOnRamp: API.OperationMethod<
+  GetOnRampRequest,
   GetOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3682,7 +3835,9 @@ export const ListOnRampsResponse = Schema.Array(
         proposedMonthlyCost: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          currency: "currency",
           currentMonthlyCost: "current_monthly_cost",
+          diff: "diff",
           proposedMonthlyCost: "proposed_monthly_cost",
         }),
       ),
@@ -3698,6 +3853,7 @@ export const ListOnRampsResponse = Schema.Array(
             rightYaml: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              diff: "diff",
               leftDescription: "left_description",
               leftYaml: "left_yaml",
               rightDescription: "right_description",
@@ -3712,7 +3868,9 @@ export const ListOnRampsResponse = Schema.Array(
             proposedMonthlyCost: Schema.Number,
           }).pipe(
             Schema.encodeKeys({
+              currency: "currency",
               currentMonthlyCost: "current_monthly_cost",
+              diff: "diff",
               proposedMonthlyCost: "proposed_monthly_cost",
             }),
           ),
@@ -3795,15 +3953,21 @@ export const ListOnRampsResponse = Schema.Array(
             title: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               cloudType: "cloud_type",
+              detail: "detail",
+              name: "name",
               resourceType: "resource_type",
+              title: "title",
             }),
           ),
         }).pipe(
           Schema.encodeKeys({
+            diff: "diff",
             keysRequireReplace: "keys_require_replace",
             monthlyCostEstimateDiff: "monthly_cost_estimate_diff",
             plannedAction: "planned_action",
+            resource: "resource",
           }),
         ),
       ),
@@ -3813,7 +3977,12 @@ export const ListOnRampsResponse = Schema.Array(
       Schema.Struct({
         currency: Schema.String,
         monthlyCost: Schema.Number,
-      }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+      }).pipe(
+        Schema.encodeKeys({
+          currency: "currency",
+          monthlyCost: "monthly_cost",
+        }),
+      ),
     ),
     postApplyResources: Schema.optional(Schema.Struct({})),
     postApplyResourcesUnavailable: Schema.optional(Schema.Boolean),
@@ -3850,6 +4019,8 @@ export const ListOnRampsResponse = Schema.Array(
           applyProgress: "apply_progress",
           lifecycleState: "lifecycle_state",
           planProgress: "plan_progress",
+          routes: "routes",
+          tunnels: "tunnels",
           lifecycleErrors: "lifecycle_errors",
         }),
       ),
@@ -3859,14 +4030,19 @@ export const ListOnRampsResponse = Schema.Array(
     vpcsByIdUnavailable: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       cloudType: "cloud_type",
       dynamicRouting: "dynamic_routing",
       installRoutesInCloud: "install_routes_in_cloud",
       installRoutesInMagicWan: "install_routes_in_magic_wan",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       attachedHubs: "attached_hubs",
       attachedVpcs: "attached_vpcs",
       cloudAsn: "cloud_asn",
+      description: "description",
+      hub: "hub",
       lastAppliedAt: "last_applied_at",
       lastExportedAt: "last_exported_at",
       lastPlannedAt: "last_planned_at",
@@ -3878,15 +4054,17 @@ export const ListOnRampsResponse = Schema.Array(
       postApplyMonthlyCostEstimate: "post_apply_monthly_cost_estimate",
       postApplyResources: "post_apply_resources",
       postApplyResourcesUnavailable: "post_apply_resources_unavailable",
+      region: "region",
+      status: "status",
+      vpc: "vpc",
       vpcsById: "vpcs_by_id",
       vpcsByIdUnavailable: "vpcs_by_id_unavailable",
     }),
   ),
 ) as unknown as Schema.Schema<ListOnRampsResponse>;
 
-export const listOnRamps: (
-  input: ListOnRampsRequest,
-) => Effect.Effect<
+export const listOnRamps: API.OperationMethod<
+  ListOnRampsRequest,
   ListOnRampsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3960,13 +4138,18 @@ export const CreateOnRampRequest = Schema.Struct({
     dynamicRouting: "dynamic_routing",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
+    name: "name",
+    type: "type",
     adoptedHubId: "adopted_hub_id",
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
     cloudAsn: "cloud_asn",
+    description: "description",
     hubProviderId: "hub_provider_id",
     manageHubToHubAttachments: "manage_hub_to_hub_attachments",
     manageVpcToHubAttachments: "manage_vpc_to_hub_attachments",
+    region: "region",
+    vpc: "vpc",
   }),
   T.Http({
     method: "POST",
@@ -4139,7 +4322,9 @@ export const CreateOnRampResponse = Schema.Struct({
       proposedMonthlyCost: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        currency: "currency",
         currentMonthlyCost: "current_monthly_cost",
+        diff: "diff",
         proposedMonthlyCost: "proposed_monthly_cost",
       }),
     ),
@@ -4155,6 +4340,7 @@ export const CreateOnRampResponse = Schema.Struct({
           rightYaml: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            diff: "diff",
             leftDescription: "left_description",
             leftYaml: "left_yaml",
             rightDescription: "right_description",
@@ -4169,7 +4355,9 @@ export const CreateOnRampResponse = Schema.Struct({
           proposedMonthlyCost: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            currency: "currency",
             currentMonthlyCost: "current_monthly_cost",
+            diff: "diff",
             proposedMonthlyCost: "proposed_monthly_cost",
           }),
         ),
@@ -4247,15 +4435,21 @@ export const CreateOnRampResponse = Schema.Struct({
           title: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             cloudType: "cloud_type",
+            detail: "detail",
+            name: "name",
             resourceType: "resource_type",
+            title: "title",
           }),
         ),
       }).pipe(
         Schema.encodeKeys({
+          diff: "diff",
           keysRequireReplace: "keys_require_replace",
           monthlyCostEstimateDiff: "monthly_cost_estimate_diff",
           plannedAction: "planned_action",
+          resource: "resource",
         }),
       ),
     ),
@@ -4265,7 +4459,9 @@ export const CreateOnRampResponse = Schema.Struct({
     Schema.Struct({
       currency: Schema.String,
       monthlyCost: Schema.Number,
-    }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+    }).pipe(
+      Schema.encodeKeys({ currency: "currency", monthlyCost: "monthly_cost" }),
+    ),
   ),
   postApplyResources: Schema.optional(Schema.Struct({})),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean),
@@ -4302,6 +4498,8 @@ export const CreateOnRampResponse = Schema.Struct({
         applyProgress: "apply_progress",
         lifecycleState: "lifecycle_state",
         planProgress: "plan_progress",
+        routes: "routes",
+        tunnels: "tunnels",
         lifecycleErrors: "lifecycle_errors",
       }),
     ),
@@ -4311,14 +4509,19 @@ export const CreateOnRampResponse = Schema.Struct({
   vpcsByIdUnavailable: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     dynamicRouting: "dynamic_routing",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
+    name: "name",
+    type: "type",
     updatedAt: "updated_at",
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
     cloudAsn: "cloud_asn",
+    description: "description",
+    hub: "hub",
     lastAppliedAt: "last_applied_at",
     lastExportedAt: "last_exported_at",
     lastPlannedAt: "last_planned_at",
@@ -4330,14 +4533,16 @@ export const CreateOnRampResponse = Schema.Struct({
     postApplyMonthlyCostEstimate: "post_apply_monthly_cost_estimate",
     postApplyResources: "post_apply_resources",
     postApplyResourcesUnavailable: "post_apply_resources_unavailable",
+    region: "region",
+    status: "status",
+    vpc: "vpc",
     vpcsById: "vpcs_by_id",
     vpcsByIdUnavailable: "vpcs_by_id_unavailable",
   }),
 ) as unknown as Schema.Schema<CreateOnRampResponse>;
 
-export const createOnRamp: (
-  input: CreateOnRampRequest,
-) => Effect.Effect<
+export const createOnRamp: API.OperationMethod<
+  CreateOnRampRequest,
   CreateOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4387,10 +4592,13 @@ export const UpdateOnRampRequest = Schema.Struct({
   Schema.encodeKeys({
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
+    description: "description",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
     manageHubToHubAttachments: "manage_hub_to_hub_attachments",
     manageVpcToHubAttachments: "manage_vpc_to_hub_attachments",
+    name: "name",
+    vpc: "vpc",
   }),
   T.Http({
     method: "PUT",
@@ -4563,7 +4771,9 @@ export const UpdateOnRampResponse = Schema.Struct({
       proposedMonthlyCost: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        currency: "currency",
         currentMonthlyCost: "current_monthly_cost",
+        diff: "diff",
         proposedMonthlyCost: "proposed_monthly_cost",
       }),
     ),
@@ -4579,6 +4789,7 @@ export const UpdateOnRampResponse = Schema.Struct({
           rightYaml: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            diff: "diff",
             leftDescription: "left_description",
             leftYaml: "left_yaml",
             rightDescription: "right_description",
@@ -4593,7 +4804,9 @@ export const UpdateOnRampResponse = Schema.Struct({
           proposedMonthlyCost: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            currency: "currency",
             currentMonthlyCost: "current_monthly_cost",
+            diff: "diff",
             proposedMonthlyCost: "proposed_monthly_cost",
           }),
         ),
@@ -4671,15 +4884,21 @@ export const UpdateOnRampResponse = Schema.Struct({
           title: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             cloudType: "cloud_type",
+            detail: "detail",
+            name: "name",
             resourceType: "resource_type",
+            title: "title",
           }),
         ),
       }).pipe(
         Schema.encodeKeys({
+          diff: "diff",
           keysRequireReplace: "keys_require_replace",
           monthlyCostEstimateDiff: "monthly_cost_estimate_diff",
           plannedAction: "planned_action",
+          resource: "resource",
         }),
       ),
     ),
@@ -4689,7 +4908,9 @@ export const UpdateOnRampResponse = Schema.Struct({
     Schema.Struct({
       currency: Schema.String,
       monthlyCost: Schema.Number,
-    }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+    }).pipe(
+      Schema.encodeKeys({ currency: "currency", monthlyCost: "monthly_cost" }),
+    ),
   ),
   postApplyResources: Schema.optional(Schema.Struct({})),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean),
@@ -4726,6 +4947,8 @@ export const UpdateOnRampResponse = Schema.Struct({
         applyProgress: "apply_progress",
         lifecycleState: "lifecycle_state",
         planProgress: "plan_progress",
+        routes: "routes",
+        tunnels: "tunnels",
         lifecycleErrors: "lifecycle_errors",
       }),
     ),
@@ -4735,14 +4958,19 @@ export const UpdateOnRampResponse = Schema.Struct({
   vpcsByIdUnavailable: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     dynamicRouting: "dynamic_routing",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
+    name: "name",
+    type: "type",
     updatedAt: "updated_at",
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
     cloudAsn: "cloud_asn",
+    description: "description",
+    hub: "hub",
     lastAppliedAt: "last_applied_at",
     lastExportedAt: "last_exported_at",
     lastPlannedAt: "last_planned_at",
@@ -4754,14 +4982,16 @@ export const UpdateOnRampResponse = Schema.Struct({
     postApplyMonthlyCostEstimate: "post_apply_monthly_cost_estimate",
     postApplyResources: "post_apply_resources",
     postApplyResourcesUnavailable: "post_apply_resources_unavailable",
+    region: "region",
+    status: "status",
+    vpc: "vpc",
     vpcsById: "vpcs_by_id",
     vpcsByIdUnavailable: "vpcs_by_id_unavailable",
   }),
 ) as unknown as Schema.Schema<UpdateOnRampResponse>;
 
-export const updateOnRamp: (
-  input: UpdateOnRampRequest,
-) => Effect.Effect<
+export const updateOnRamp: API.OperationMethod<
+  UpdateOnRampRequest,
   UpdateOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4811,10 +5041,13 @@ export const PatchOnRampRequest = Schema.Struct({
   Schema.encodeKeys({
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
+    description: "description",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
     manageHubToHubAttachments: "manage_hub_to_hub_attachments",
     manageVpcToHubAttachments: "manage_vpc_to_hub_attachments",
+    name: "name",
+    vpc: "vpc",
   }),
   T.Http({
     method: "PATCH",
@@ -4987,7 +5220,9 @@ export const PatchOnRampResponse = Schema.Struct({
       proposedMonthlyCost: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        currency: "currency",
         currentMonthlyCost: "current_monthly_cost",
+        diff: "diff",
         proposedMonthlyCost: "proposed_monthly_cost",
       }),
     ),
@@ -5003,6 +5238,7 @@ export const PatchOnRampResponse = Schema.Struct({
           rightYaml: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            diff: "diff",
             leftDescription: "left_description",
             leftYaml: "left_yaml",
             rightDescription: "right_description",
@@ -5017,7 +5253,9 @@ export const PatchOnRampResponse = Schema.Struct({
           proposedMonthlyCost: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            currency: "currency",
             currentMonthlyCost: "current_monthly_cost",
+            diff: "diff",
             proposedMonthlyCost: "proposed_monthly_cost",
           }),
         ),
@@ -5095,15 +5333,21 @@ export const PatchOnRampResponse = Schema.Struct({
           title: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             cloudType: "cloud_type",
+            detail: "detail",
+            name: "name",
             resourceType: "resource_type",
+            title: "title",
           }),
         ),
       }).pipe(
         Schema.encodeKeys({
+          diff: "diff",
           keysRequireReplace: "keys_require_replace",
           monthlyCostEstimateDiff: "monthly_cost_estimate_diff",
           plannedAction: "planned_action",
+          resource: "resource",
         }),
       ),
     ),
@@ -5113,7 +5357,9 @@ export const PatchOnRampResponse = Schema.Struct({
     Schema.Struct({
       currency: Schema.String,
       monthlyCost: Schema.Number,
-    }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+    }).pipe(
+      Schema.encodeKeys({ currency: "currency", monthlyCost: "monthly_cost" }),
+    ),
   ),
   postApplyResources: Schema.optional(Schema.Struct({})),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean),
@@ -5150,6 +5396,8 @@ export const PatchOnRampResponse = Schema.Struct({
         applyProgress: "apply_progress",
         lifecycleState: "lifecycle_state",
         planProgress: "plan_progress",
+        routes: "routes",
+        tunnels: "tunnels",
         lifecycleErrors: "lifecycle_errors",
       }),
     ),
@@ -5159,14 +5407,19 @@ export const PatchOnRampResponse = Schema.Struct({
   vpcsByIdUnavailable: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudType: "cloud_type",
     dynamicRouting: "dynamic_routing",
     installRoutesInCloud: "install_routes_in_cloud",
     installRoutesInMagicWan: "install_routes_in_magic_wan",
+    name: "name",
+    type: "type",
     updatedAt: "updated_at",
     attachedHubs: "attached_hubs",
     attachedVpcs: "attached_vpcs",
     cloudAsn: "cloud_asn",
+    description: "description",
+    hub: "hub",
     lastAppliedAt: "last_applied_at",
     lastExportedAt: "last_exported_at",
     lastPlannedAt: "last_planned_at",
@@ -5178,14 +5431,16 @@ export const PatchOnRampResponse = Schema.Struct({
     postApplyMonthlyCostEstimate: "post_apply_monthly_cost_estimate",
     postApplyResources: "post_apply_resources",
     postApplyResourcesUnavailable: "post_apply_resources_unavailable",
+    region: "region",
+    status: "status",
+    vpc: "vpc",
     vpcsById: "vpcs_by_id",
     vpcsByIdUnavailable: "vpcs_by_id_unavailable",
   }),
 ) as unknown as Schema.Schema<PatchOnRampResponse>;
 
-export const patchOnRamp: (
-  input: PatchOnRampRequest,
-) => Effect.Effect<
+export const patchOnRamp: API.OperationMethod<
+  PatchOnRampRequest,
   PatchOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5225,9 +5480,8 @@ export const DeleteOnRampResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteOnRampResponse>;
 
-export const deleteOnRamp: (
-  input: DeleteOnRampRequest,
-) => Effect.Effect<
+export const deleteOnRamp: API.OperationMethod<
+  DeleteOnRampRequest,
   DeleteOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5781,10 +6035,22 @@ export const ApplyOnRampResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -5968,17 +6234,28 @@ export const ApplyOnRampResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<ApplyOnRampResponse>;
 
-export const applyOnRamp: (
-  input: ApplyOnRampRequest,
-) => Effect.Effect<
+export const applyOnRamp: API.OperationMethod<
+  ApplyOnRampRequest,
   ApplyOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6008,9 +6285,8 @@ export type ExportOnRampResponse = unknown;
 export const ExportOnRampResponse =
   Schema.Unknown as unknown as Schema.Schema<ExportOnRampResponse>;
 
-export const exportOnRamp: (
-  input: ExportOnRampRequest,
-) => Effect.Effect<
+export const exportOnRamp: API.OperationMethod<
+  ExportOnRampRequest,
   ExportOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6564,10 +6840,22 @@ export const PlanOnRampResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -6751,17 +7039,28 @@ export const PlanOnRampResponse = Schema.Struct({
           parameterValueIndex: Schema.optional(Schema.Number),
           pointer: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ parameterValueIndex: "parameter_value_index" }),
+          Schema.encodeKeys({
+            parameter: "parameter",
+            parameterValueIndex: "parameter_value_index",
+            pointer: "pointer",
+          }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        meta: "meta",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<PlanOnRampResponse>;
 
-export const planOnRamp: (
-  input: PlanOnRampRequest,
-) => Effect.Effect<
+export const planOnRamp: API.OperationMethod<
+  PlanOnRampRequest,
   PlanOnRampResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6796,9 +7095,8 @@ export const ListOnRampAddressSpacesResponse = Schema.Struct({
   prefixes: Schema.Array(Schema.String),
 }) as unknown as Schema.Schema<ListOnRampAddressSpacesResponse>;
 
-export const listOnRampAddressSpaces: (
-  input: ListOnRampAddressSpacesRequest,
-) => Effect.Effect<
+export const listOnRampAddressSpaces: API.OperationMethod<
+  ListOnRampAddressSpacesRequest,
   ListOnRampAddressSpacesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6833,9 +7131,8 @@ export const PutOnRampAddressSpaceResponse = Schema.Struct({
   prefixes: Schema.Array(Schema.String),
 }) as unknown as Schema.Schema<PutOnRampAddressSpaceResponse>;
 
-export const putOnRampAddressSpace: (
-  input: PutOnRampAddressSpaceRequest,
-) => Effect.Effect<
+export const putOnRampAddressSpace: API.OperationMethod<
+  PutOnRampAddressSpaceRequest,
   PutOnRampAddressSpaceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6870,9 +7167,8 @@ export const PatchOnRampAddressSpaceResponse = Schema.Struct({
   prefixes: Schema.Array(Schema.String),
 }) as unknown as Schema.Schema<PatchOnRampAddressSpaceResponse>;
 
-export const patchOnRampAddressSpace: (
-  input: PatchOnRampAddressSpaceRequest,
-) => Effect.Effect<
+export const patchOnRampAddressSpace: API.OperationMethod<
+  PatchOnRampAddressSpaceRequest,
   PatchOnRampAddressSpaceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6908,9 +7204,8 @@ export type PolicyPreviewResourceResponse = string;
 export const PolicyPreviewResourceResponse =
   Schema.String as unknown as Schema.Schema<PolicyPreviewResourceResponse>;
 
-export const policyPreviewResource: (
-  input: PolicyPreviewResourceRequest,
-) => Effect.Effect<
+export const policyPreviewResource: API.OperationMethod<
+  PolicyPreviewResourceRequest,
   PolicyPreviewResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7245,7 +7540,9 @@ export const GetResourceResponse = Schema.Struct({
   monthlyCostEstimate: Schema.Struct({
     currency: Schema.String,
     monthlyCost: Schema.Number,
-  }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+  }).pipe(
+    Schema.encodeKeys({ currency: "currency", monthlyCost: "monthly_cost" }),
+  ),
   name: Schema.String,
   nativeId: Schema.String,
   observations: Schema.Struct({}),
@@ -7323,11 +7620,15 @@ export const GetResourceResponse = Schema.Struct({
               Schema.Struct({
                 itemType: Schema.String,
                 string: Schema.String,
-              }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+              }).pipe(
+                Schema.encodeKeys({ itemType: "item_type", string: "string" }),
+              ),
               Schema.Struct({
                 itemType: Schema.String,
                 yaml: Schema.String,
-              }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+              }).pipe(
+                Schema.encodeKeys({ itemType: "item_type", yaml: "yaml" }),
+              ),
               Schema.Struct({
                 itemType: Schema.String,
                 yamlDiff: Schema.Struct({
@@ -7338,6 +7639,7 @@ export const GetResourceResponse = Schema.Struct({
                   rightYaml: Schema.String,
                 }).pipe(
                   Schema.encodeKeys({
+                    diff: "diff",
                     leftDescription: "left_description",
                     leftYaml: "left_yaml",
                     rightDescription: "right_description",
@@ -7424,8 +7726,12 @@ export const GetResourceResponse = Schema.Struct({
                   title: Schema.String,
                 }).pipe(
                   Schema.encodeKeys({
+                    id: "id",
                     cloudType: "cloud_type",
+                    detail: "detail",
+                    name: "name",
                     resourceType: "resource_type",
+                    title: "title",
                   }),
                 ),
               }).pipe(
@@ -7441,7 +7747,12 @@ export const GetResourceResponse = Schema.Struct({
                     Schema.Struct({
                       itemType: Schema.String,
                       string: Schema.String,
-                    }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        itemType: "item_type",
+                        string: "string",
+                      }),
+                    ),
                     Schema.Struct({
                       itemType: Schema.String,
                       resourcePreview: Schema.Struct({
@@ -7516,8 +7827,12 @@ export const GetResourceResponse = Schema.Struct({
                         title: Schema.String,
                       }).pipe(
                         Schema.encodeKeys({
+                          id: "id",
                           cloudType: "cloud_type",
+                          detail: "detail",
+                          name: "name",
                           resourceType: "resource_type",
+                          title: "title",
                         }),
                       ),
                     }).pipe(
@@ -7528,7 +7843,9 @@ export const GetResourceResponse = Schema.Struct({
                     ),
                   ]),
                 ),
-              }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+              }).pipe(
+                Schema.encodeKeys({ itemType: "item_type", list: "list" }),
+              ),
             ]),
           ),
         }),
@@ -7543,11 +7860,15 @@ export const GetResourceResponse = Schema.Struct({
               Schema.Struct({
                 itemType: Schema.String,
                 string: Schema.String,
-              }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+              }).pipe(
+                Schema.encodeKeys({ itemType: "item_type", string: "string" }),
+              ),
               Schema.Struct({
                 itemType: Schema.String,
                 yaml: Schema.String,
-              }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+              }).pipe(
+                Schema.encodeKeys({ itemType: "item_type", yaml: "yaml" }),
+              ),
               Schema.Struct({
                 itemType: Schema.String,
                 yamlDiff: Schema.Struct({
@@ -7558,6 +7879,7 @@ export const GetResourceResponse = Schema.Struct({
                   rightYaml: Schema.String,
                 }).pipe(
                   Schema.encodeKeys({
+                    diff: "diff",
                     leftDescription: "left_description",
                     leftYaml: "left_yaml",
                     rightDescription: "right_description",
@@ -7644,8 +7966,12 @@ export const GetResourceResponse = Schema.Struct({
                   title: Schema.String,
                 }).pipe(
                   Schema.encodeKeys({
+                    id: "id",
                     cloudType: "cloud_type",
+                    detail: "detail",
+                    name: "name",
                     resourceType: "resource_type",
+                    title: "title",
                   }),
                 ),
               }).pipe(
@@ -7661,7 +7987,12 @@ export const GetResourceResponse = Schema.Struct({
                     Schema.Struct({
                       itemType: Schema.String,
                       string: Schema.String,
-                    }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        itemType: "item_type",
+                        string: "string",
+                      }),
+                    ),
                     Schema.Struct({
                       itemType: Schema.String,
                       resourcePreview: Schema.Struct({
@@ -7736,8 +8067,12 @@ export const GetResourceResponse = Schema.Struct({
                         title: Schema.String,
                       }).pipe(
                         Schema.encodeKeys({
+                          id: "id",
                           cloudType: "cloud_type",
+                          detail: "detail",
+                          name: "name",
                           resourceType: "resource_type",
+                          title: "title",
                         }),
                       ),
                     }).pipe(
@@ -7748,7 +8083,9 @@ export const GetResourceResponse = Schema.Struct({
                     ),
                   ]),
                 ),
-              }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+              }).pipe(
+                Schema.encodeKeys({ itemType: "item_type", list: "list" }),
+              ),
             ]),
           ),
         }),
@@ -7757,6 +8094,7 @@ export const GetResourceResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         hiddenItems: "hidden_items",
+        name: "name",
         visibleItems: "visible_items",
         helpText: "help_text",
       }),
@@ -7772,28 +8110,43 @@ export const GetResourceResponse = Schema.Struct({
         id: Schema.String,
         clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
         name: Schema.String,
-      }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          clientType: "client_type",
+          name: "name",
+        }),
+      ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     cloudType: "cloud_type",
+    config: "config",
     deploymentProvider: "deployment_provider",
+    managed: "managed",
     monthlyCostEstimate: "monthly_cost_estimate",
+    name: "name",
     nativeId: "native_id",
+    observations: "observations",
     providerIds: "provider_ids",
     providerNamesById: "provider_names_by_id",
+    region: "region",
     resourceGroup: "resource_group",
     resourceType: "resource_type",
+    sections: "sections",
+    state: "state",
+    tags: "tags",
     updatedAt: "updated_at",
+    url: "url",
     managedBy: "managed_by",
   }),
 ) as unknown as Schema.Schema<GetResourceResponse>;
 
-export const getResource: (
-  input: GetResourceRequest,
-) => Effect.Effect<
+export const getResource: API.OperationMethod<
+  GetResourceRequest,
   GetResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8259,7 +8612,9 @@ export const ListResourcesResponse = Schema.Array(
     monthlyCostEstimate: Schema.Struct({
       currency: Schema.String,
       monthlyCost: Schema.Number,
-    }).pipe(Schema.encodeKeys({ monthlyCost: "monthly_cost" })),
+    }).pipe(
+      Schema.encodeKeys({ currency: "currency", monthlyCost: "monthly_cost" }),
+    ),
     name: Schema.String,
     nativeId: Schema.String,
     observations: Schema.Struct({}),
@@ -8337,11 +8692,18 @@ export const ListResourcesResponse = Schema.Array(
                 Schema.Struct({
                   itemType: Schema.String,
                   string: Schema.String,
-                }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                }).pipe(
+                  Schema.encodeKeys({
+                    itemType: "item_type",
+                    string: "string",
+                  }),
+                ),
                 Schema.Struct({
                   itemType: Schema.String,
                   yaml: Schema.String,
-                }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                }).pipe(
+                  Schema.encodeKeys({ itemType: "item_type", yaml: "yaml" }),
+                ),
                 Schema.Struct({
                   itemType: Schema.String,
                   yamlDiff: Schema.Struct({
@@ -8352,6 +8714,7 @@ export const ListResourcesResponse = Schema.Array(
                     rightYaml: Schema.String,
                   }).pipe(
                     Schema.encodeKeys({
+                      diff: "diff",
                       leftDescription: "left_description",
                       leftYaml: "left_yaml",
                       rightDescription: "right_description",
@@ -8438,8 +8801,12 @@ export const ListResourcesResponse = Schema.Array(
                     title: Schema.String,
                   }).pipe(
                     Schema.encodeKeys({
+                      id: "id",
                       cloudType: "cloud_type",
+                      detail: "detail",
+                      name: "name",
                       resourceType: "resource_type",
+                      title: "title",
                     }),
                   ),
                 }).pipe(
@@ -8455,7 +8822,12 @@ export const ListResourcesResponse = Schema.Array(
                       Schema.Struct({
                         itemType: Schema.Unknown,
                         string: Schema.Unknown,
-                      }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          itemType: "item_type",
+                          string: "string",
+                        }),
+                      ),
                       Schema.Struct({
                         itemType: Schema.Unknown,
                         resourcePreview: Schema.Unknown,
@@ -8467,7 +8839,9 @@ export const ListResourcesResponse = Schema.Array(
                       ),
                     ]),
                   ),
-                }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                }).pipe(
+                  Schema.encodeKeys({ itemType: "item_type", list: "list" }),
+                ),
               ]),
             ),
           }),
@@ -8482,11 +8856,18 @@ export const ListResourcesResponse = Schema.Array(
                 Schema.Struct({
                   itemType: Schema.String,
                   string: Schema.String,
-                }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                }).pipe(
+                  Schema.encodeKeys({
+                    itemType: "item_type",
+                    string: "string",
+                  }),
+                ),
                 Schema.Struct({
                   itemType: Schema.String,
                   yaml: Schema.String,
-                }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                }).pipe(
+                  Schema.encodeKeys({ itemType: "item_type", yaml: "yaml" }),
+                ),
                 Schema.Struct({
                   itemType: Schema.String,
                   yamlDiff: Schema.Struct({
@@ -8497,6 +8878,7 @@ export const ListResourcesResponse = Schema.Array(
                     rightYaml: Schema.String,
                   }).pipe(
                     Schema.encodeKeys({
+                      diff: "diff",
                       leftDescription: "left_description",
                       leftYaml: "left_yaml",
                       rightDescription: "right_description",
@@ -8583,8 +8965,12 @@ export const ListResourcesResponse = Schema.Array(
                     title: Schema.String,
                   }).pipe(
                     Schema.encodeKeys({
+                      id: "id",
                       cloudType: "cloud_type",
+                      detail: "detail",
+                      name: "name",
                       resourceType: "resource_type",
+                      title: "title",
                     }),
                   ),
                 }).pipe(
@@ -8600,7 +8986,12 @@ export const ListResourcesResponse = Schema.Array(
                       Schema.Struct({
                         itemType: Schema.Unknown,
                         string: Schema.Unknown,
-                      }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          itemType: "item_type",
+                          string: "string",
+                        }),
+                      ),
                       Schema.Struct({
                         itemType: Schema.Unknown,
                         resourcePreview: Schema.Unknown,
@@ -8612,7 +9003,9 @@ export const ListResourcesResponse = Schema.Array(
                       ),
                     ]),
                   ),
-                }).pipe(Schema.encodeKeys({ itemType: "item_type" })),
+                }).pipe(
+                  Schema.encodeKeys({ itemType: "item_type", list: "list" }),
+                ),
               ]),
             ),
           }),
@@ -8621,6 +9014,7 @@ export const ListResourcesResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           hiddenItems: "hidden_items",
+          name: "name",
           visibleItems: "visible_items",
           helpText: "help_text",
         }),
@@ -8636,29 +9030,44 @@ export const ListResourcesResponse = Schema.Array(
           id: Schema.String,
           clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP"),
           name: Schema.String,
-        }).pipe(Schema.encodeKeys({ clientType: "client_type" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            clientType: "client_type",
+            name: "name",
+          }),
+        ),
       ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       cloudType: "cloud_type",
+      config: "config",
       deploymentProvider: "deployment_provider",
+      managed: "managed",
       monthlyCostEstimate: "monthly_cost_estimate",
+      name: "name",
       nativeId: "native_id",
+      observations: "observations",
       providerIds: "provider_ids",
       providerNamesById: "provider_names_by_id",
+      region: "region",
       resourceGroup: "resource_group",
       resourceType: "resource_type",
+      sections: "sections",
+      state: "state",
+      tags: "tags",
       updatedAt: "updated_at",
+      url: "url",
       managedBy: "managed_by",
     }),
   ),
 ) as unknown as Schema.Schema<ListResourcesResponse>;
 
-export const listResources: (
-  input: ListResourcesRequest,
-) => Effect.Effect<
+export const listResources: API.OperationMethod<
+  ListResourcesRequest,
   ListResourcesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8840,9 +9249,8 @@ export type ExportResourceResponse = unknown;
 export const ExportResourceResponse =
   Schema.Unknown as unknown as Schema.Schema<ExportResourceResponse>;
 
-export const exportResource: (
-  input: ExportResourceRequest,
-) => Effect.Effect<
+export const exportResource: API.OperationMethod<
+  ExportResourceRequest,
   ExportResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8917,9 +9325,8 @@ export const InitialSetupCloudIntegrationResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<InitialSetupCloudIntegrationResponse>;
 
-export const initialSetupCloudIntegration: (
-  input: InitialSetupCloudIntegrationRequest,
-) => Effect.Effect<
+export const initialSetupCloudIntegration: API.OperationMethod<
+  InitialSetupCloudIntegrationRequest,
   InitialSetupCloudIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -64,9 +64,8 @@ export const ListRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
-export const listRules: (
-  input: ListRulesRequest,
-) => Effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -150,9 +149,8 @@ export const UpdateRuleResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => Effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -226,24 +226,33 @@ export const GetAddressMapResponse = Schema.Struct({
         identifier: Schema.optional(Schema.String),
         kind: Schema.optional(Schema.Literals(["zone", "account"])),
       }).pipe(
-        Schema.encodeKeys({ canDelete: "can_delete", createdAt: "created_at" }),
+        Schema.encodeKeys({
+          canDelete: "can_delete",
+          createdAt: "created_at",
+          identifier: "identifier",
+          kind: "kind",
+        }),
       ),
     ),
   ),
   modifiedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canDelete: "can_delete",
     canModifyIps: "can_modify_ips",
     createdAt: "created_at",
     defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+    ips: "ips",
+    memberships: "memberships",
     modifiedAt: "modified_at",
   }),
 ) as unknown as Schema.Schema<GetAddressMapResponse>;
 
-export const getAddressMap: (
-  input: GetAddressMapRequest,
-) => Effect.Effect<
+export const getAddressMap: API.OperationMethod<
+  GetAddressMapRequest,
   GetAddressMapResponse,
   CommonErrors | AddressMapNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -290,18 +299,20 @@ export const ListAddressMapsResponse = Schema.Array(
     modifiedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       canDelete: "can_delete",
       canModifyIps: "can_modify_ips",
       createdAt: "created_at",
       defaultSni: "default_sni",
+      description: "description",
+      enabled: "enabled",
       modifiedAt: "modified_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListAddressMapsResponse>;
 
-export const listAddressMaps: (
-  input: ListAddressMapsRequest,
-) => Effect.Effect<
+export const listAddressMaps: API.OperationMethod<
+  ListAddressMapsRequest,
   ListAddressMapsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -387,24 +398,33 @@ export const CreateAddressMapResponse = Schema.Struct({
         identifier: Schema.optional(Schema.String),
         kind: Schema.optional(Schema.Literals(["zone", "account"])),
       }).pipe(
-        Schema.encodeKeys({ canDelete: "can_delete", createdAt: "created_at" }),
+        Schema.encodeKeys({
+          canDelete: "can_delete",
+          createdAt: "created_at",
+          identifier: "identifier",
+          kind: "kind",
+        }),
       ),
     ),
   ),
   modifiedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canDelete: "can_delete",
     canModifyIps: "can_modify_ips",
     createdAt: "created_at",
     defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+    ips: "ips",
+    memberships: "memberships",
     modifiedAt: "modified_at",
   }),
 ) as unknown as Schema.Schema<CreateAddressMapResponse>;
 
-export const createAddressMap: (
-  input: CreateAddressMapRequest,
-) => Effect.Effect<
+export const createAddressMap: API.OperationMethod<
+  CreateAddressMapRequest,
   CreateAddressMapResponse,
   CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -433,7 +453,11 @@ export const PatchAddressMapRequest = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ defaultSni: "default_sni" }),
+  Schema.encodeKeys({
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
@@ -468,17 +492,19 @@ export const PatchAddressMapResponse = Schema.Struct({
   modifiedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canDelete: "can_delete",
     canModifyIps: "can_modify_ips",
     createdAt: "created_at",
     defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
     modifiedAt: "modified_at",
   }),
 ) as unknown as Schema.Schema<PatchAddressMapResponse>;
 
-export const patchAddressMap: (
-  input: PatchAddressMapRequest,
-) => Effect.Effect<
+export const patchAddressMap: API.OperationMethod<
+  PatchAddressMapRequest,
   PatchAddressMapResponse,
   CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -538,7 +564,14 @@ export const DeleteAddressMapResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -550,7 +583,14 @@ export const DeleteAddressMapResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -560,16 +600,25 @@ export const DeleteAddressMapResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<DeleteAddressMapResponse>;
 
-export const deleteAddressMap: (
-  input: DeleteAddressMapRequest,
-) => Effect.Effect<
+export const deleteAddressMap: API.OperationMethod<
+  DeleteAddressMapRequest,
   DeleteAddressMapResponse,
   | CommonErrors
   | MethodNotAllowed
@@ -645,7 +694,14 @@ export const PutAddressMapAccountResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -657,7 +713,14 @@ export const PutAddressMapAccountResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -667,16 +730,25 @@ export const PutAddressMapAccountResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<PutAddressMapAccountResponse>;
 
-export const putAddressMapAccount: (
-  input: PutAddressMapAccountRequest,
-) => Effect.Effect<
+export const putAddressMapAccount: API.OperationMethod<
+  PutAddressMapAccountRequest,
   PutAddressMapAccountResponse,
   CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -736,7 +808,14 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -748,7 +827,14 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -758,16 +844,25 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<DeleteAddressMapAccountResponse>;
 
-export const deleteAddressMapAccount: (
-  input: DeleteAddressMapAccountRequest,
-) => Effect.Effect<
+export const deleteAddressMapAccount: API.OperationMethod<
+  DeleteAddressMapAccountRequest,
   DeleteAddressMapAccountResponse,
   CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -836,7 +931,14 @@ export const PutAddressMapIpResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -848,7 +950,14 @@ export const PutAddressMapIpResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -858,16 +967,25 @@ export const PutAddressMapIpResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<PutAddressMapIpResponse>;
 
-export const putAddressMapIp: (
-  input: PutAddressMapIpRequest,
-) => Effect.Effect<
+export const putAddressMapIp: API.OperationMethod<
+  PutAddressMapIpRequest,
   PutAddressMapIpResponse,
   | CommonErrors
   | MethodNotAllowed
@@ -938,7 +1056,14 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -950,7 +1075,14 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -960,16 +1092,25 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<DeleteAddressMapIpResponse>;
 
-export const deleteAddressMapIp: (
-  input: DeleteAddressMapIpRequest,
-) => Effect.Effect<
+export const deleteAddressMapIp: API.OperationMethod<
+  DeleteAddressMapIpRequest,
   DeleteAddressMapIpResponse,
   | CommonErrors
   | MethodNotAllowed
@@ -1048,7 +1189,14 @@ export const PutAddressMapZoneResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1060,7 +1208,14 @@ export const PutAddressMapZoneResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -1070,16 +1225,25 @@ export const PutAddressMapZoneResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<PutAddressMapZoneResponse>;
 
-export const putAddressMapZone: (
-  input: PutAddressMapZoneRequest,
-) => Effect.Effect<
+export const putAddressMapZone: API.OperationMethod<
+  PutAddressMapZoneRequest,
   PutAddressMapZoneResponse,
   CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1142,7 +1306,14 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1154,7 +1325,14 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   resultInfo: Schema.optional(
@@ -1164,16 +1342,25 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<DeleteAddressMapZoneResponse>;
 
-export const deleteAddressMapZone: (
-  input: DeleteAddressMapZoneRequest,
-) => Effect.Effect<
+export const deleteAddressMapZone: API.OperationMethod<
+  DeleteAddressMapZoneRequest,
   DeleteAddressMapZoneResponse,
   CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1210,9 +1397,8 @@ export type GetLoaDocumentResponse = unknown;
 export const GetLoaDocumentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetLoaDocumentResponse>;
 
-export const getLoaDocument: (
-  input: GetLoaDocumentRequest,
-) => Effect.Effect<
+export const getLoaDocument: API.OperationMethod<
+  GetLoaDocumentRequest,
   GetLoaDocumentResponse,
   CommonErrors | LoaDocumentNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1269,16 +1455,19 @@ export const CreateLoaDocumentResponse = Schema.Struct({
   verifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     autoGenerated: "auto_generated",
+    created: "created",
+    filename: "filename",
     sizeBytes: "size_bytes",
+    verified: "verified",
     verifiedAt: "verified_at",
   }),
 ) as unknown as Schema.Schema<CreateLoaDocumentResponse>;
 
-export const createLoaDocument: (
-  input: CreateLoaDocumentRequest,
-) => Effect.Effect<
+export const createLoaDocument: API.OperationMethod<
+  CreateLoaDocumentRequest,
   CreateLoaDocumentResponse,
   CommonErrors | InvalidAccountId | InvalidLoaForm,
   ApiToken | HttpClient.HttpClient
@@ -1368,10 +1557,16 @@ export const GetPrefixResponse = Schema.Struct({
   rpkiValidationState: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
+    advertised: "advertised",
     advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
     createdAt: "created_at",
     delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
     irrValidationState: "irr_validation_state",
     loaDocumentId: "loa_document_id",
     modifiedAt: "modified_at",
@@ -1383,9 +1578,8 @@ export const GetPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPrefixResponse>;
 
-export const getPrefix: (
-  input: GetPrefixRequest,
-) => Effect.Effect<
+export const getPrefix: API.OperationMethod<
+  GetPrefixRequest,
   GetPrefixResponse,
   CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1451,10 +1645,16 @@ export const ListPrefixesResponse = Schema.Array(
     rpkiValidationState: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
+      advertised: "advertised",
       advertisedModifiedAt: "advertised_modified_at",
+      approved: "approved",
+      asn: "asn",
+      cidr: "cidr",
       createdAt: "created_at",
       delegateLoaCreation: "delegate_loa_creation",
+      description: "description",
       irrValidationState: "irr_validation_state",
       loaDocumentId: "loa_document_id",
       modifiedAt: "modified_at",
@@ -1467,9 +1667,8 @@ export const ListPrefixesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixesResponse>;
 
-export const listPrefixes: (
-  input: ListPrefixesRequest,
-) => Effect.Effect<
+export const listPrefixes: API.OperationMethod<
+  ListPrefixesRequest,
   ListPrefixesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1503,7 +1702,10 @@ export const CreatePrefixRequest = Schema.Struct({
   loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    asn: "asn",
+    cidr: "cidr",
     delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
     loaDocumentId: "loa_document_id",
   }),
   T.Http({
@@ -1572,10 +1774,16 @@ export const CreatePrefixResponse = Schema.Struct({
   rpkiValidationState: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
+    advertised: "advertised",
     advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
     createdAt: "created_at",
     delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
     irrValidationState: "irr_validation_state",
     loaDocumentId: "loa_document_id",
     modifiedAt: "modified_at",
@@ -1587,9 +1795,8 @@ export const CreatePrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePrefixResponse>;
 
-export const createPrefix: (
-  input: CreatePrefixRequest,
-) => Effect.Effect<
+export const createPrefix: API.OperationMethod<
+  CreatePrefixRequest,
   CreatePrefixResponse,
   CommonErrors | InvalidAccountId | InvalidNetworkCidr | IrrEntryNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1678,10 +1885,16 @@ export const PatchPrefixResponse = Schema.Struct({
   rpkiValidationState: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
+    advertised: "advertised",
     advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
     createdAt: "created_at",
     delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
     irrValidationState: "irr_validation_state",
     loaDocumentId: "loa_document_id",
     modifiedAt: "modified_at",
@@ -1693,9 +1906,8 @@ export const PatchPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchPrefixResponse>;
 
-export const patchPrefix: (
-  input: PatchPrefixRequest,
-) => Effect.Effect<
+export const patchPrefix: API.OperationMethod<
+  PatchPrefixRequest,
   PatchPrefixResponse,
   CommonErrors | MethodNotAllowed | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1749,7 +1961,14 @@ export const DeletePrefixResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1761,14 +1980,20 @@ export const DeletePrefixResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeletePrefixResponse>;
 
-export const deletePrefix: (
-  input: DeletePrefixRequest,
-) => Effect.Effect<
+export const deletePrefix: API.OperationMethod<
+  DeletePrefixRequest,
   DeletePrefixResponse,
   CommonErrors | MethodNotAllowed | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1811,12 +2036,14 @@ export const GetPrefixAdvertisementStatusResponse = Schema.Struct({
     Schema.Union([Schema.String, Schema.Null]),
   ),
 }).pipe(
-  Schema.encodeKeys({ advertisedModifiedAt: "advertised_modified_at" }),
+  Schema.encodeKeys({
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+  }),
 ) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
 
-export const getPrefixAdvertisementStatus: (
-  input: GetPrefixAdvertisementStatusRequest,
-) => Effect.Effect<
+export const getPrefixAdvertisementStatus: API.OperationMethod<
+  GetPrefixAdvertisementStatusRequest,
   GetPrefixAdvertisementStatusResponse,
   CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1858,12 +2085,14 @@ export const PatchPrefixAdvertisementStatusResponse = Schema.Struct({
     Schema.Union([Schema.String, Schema.Null]),
   ),
 }).pipe(
-  Schema.encodeKeys({ advertisedModifiedAt: "advertised_modified_at" }),
+  Schema.encodeKeys({
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+  }),
 ) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
 
-export const patchPrefixAdvertisementStatus: (
-  input: PatchPrefixAdvertisementStatusRequest,
-) => Effect.Effect<
+export const patchPrefixAdvertisementStatus: API.OperationMethod<
+  PatchPrefixAdvertisementStatusRequest,
   PatchPrefixAdvertisementStatusResponse,
   CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -1926,7 +2155,9 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ modifiedAt: "modified_at" })),
+    }).pipe(
+      Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+    ),
   ),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
@@ -1941,6 +2172,7 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
       onDemandLocked: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        advertised: "advertised",
         advertisedModifiedAt: "advertised_modified_at",
         onDemandEnabled: "on_demand_enabled",
         onDemandLocked: "on_demand_locked",
@@ -1949,18 +2181,20 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    asn: "asn",
     asnPrependCount: "asn_prepend_count",
     autoAdvertiseWithdraw: "auto_advertise_withdraw",
     bgpSignalOpts: "bgp_signal_opts",
+    cidr: "cidr",
     createdAt: "created_at",
     modifiedAt: "modified_at",
     onDemand: "on_demand",
   }),
 ) as unknown as Schema.Schema<GetPrefixBgpPrefixResponse>;
 
-export const getPrefixBgpPrefix: (
-  input: GetPrefixBgpPrefixRequest,
-) => Effect.Effect<
+export const getPrefixBgpPrefix: API.OperationMethod<
+  GetPrefixBgpPrefixRequest,
   GetPrefixBgpPrefixResponse,
   CommonErrors | BgpPrefixNotFound | InvalidAccountId | PrefixNotFound,
   ApiToken | HttpClient.HttpClient
@@ -2013,7 +2247,9 @@ export const ListPrefixBgpPrefixesResponse = Schema.Array(
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }).pipe(Schema.encodeKeys({ modifiedAt: "modified_at" })),
+      }).pipe(
+        Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+      ),
     ),
     cidr: Schema.optional(Schema.String),
     createdAt: Schema.optional(Schema.String),
@@ -2030,6 +2266,7 @@ export const ListPrefixBgpPrefixesResponse = Schema.Array(
         onDemandLocked: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          advertised: "advertised",
           advertisedModifiedAt: "advertised_modified_at",
           onDemandEnabled: "on_demand_enabled",
           onDemandLocked: "on_demand_locked",
@@ -2038,9 +2275,12 @@ export const ListPrefixBgpPrefixesResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      asn: "asn",
       asnPrependCount: "asn_prepend_count",
       autoAdvertiseWithdraw: "auto_advertise_withdraw",
       bgpSignalOpts: "bgp_signal_opts",
+      cidr: "cidr",
       createdAt: "created_at",
       modifiedAt: "modified_at",
       onDemand: "on_demand",
@@ -2048,9 +2288,8 @@ export const ListPrefixBgpPrefixesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixBgpPrefixesResponse>;
 
-export const listPrefixBgpPrefixes: (
-  input: ListPrefixBgpPrefixesRequest,
-) => Effect.Effect<
+export const listPrefixBgpPrefixes: API.OperationMethod<
+  ListPrefixBgpPrefixesRequest,
   ListPrefixBgpPrefixesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2110,7 +2349,9 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ modifiedAt: "modified_at" })),
+    }).pipe(
+      Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+    ),
   ),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
@@ -2125,6 +2366,7 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
       onDemandLocked: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        advertised: "advertised",
         advertisedModifiedAt: "advertised_modified_at",
         onDemandEnabled: "on_demand_enabled",
         onDemandLocked: "on_demand_locked",
@@ -2133,18 +2375,20 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    asn: "asn",
     asnPrependCount: "asn_prepend_count",
     autoAdvertiseWithdraw: "auto_advertise_withdraw",
     bgpSignalOpts: "bgp_signal_opts",
+    cidr: "cidr",
     createdAt: "created_at",
     modifiedAt: "modified_at",
     onDemand: "on_demand",
   }),
 ) as unknown as Schema.Schema<CreatePrefixBgpPrefixResponse>;
 
-export const createPrefixBgpPrefix: (
-  input: CreatePrefixBgpPrefixRequest,
-) => Effect.Effect<
+export const createPrefixBgpPrefix: API.OperationMethod<
+  CreatePrefixBgpPrefixRequest,
   CreatePrefixBgpPrefixResponse,
   | CommonErrors
   | NonexistentAccountPrefix
@@ -2224,7 +2468,9 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ modifiedAt: "modified_at" })),
+    }).pipe(
+      Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+    ),
   ),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String),
@@ -2239,6 +2485,7 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
       onDemandLocked: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        advertised: "advertised",
         advertisedModifiedAt: "advertised_modified_at",
         onDemandEnabled: "on_demand_enabled",
         onDemandLocked: "on_demand_locked",
@@ -2247,18 +2494,20 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    asn: "asn",
     asnPrependCount: "asn_prepend_count",
     autoAdvertiseWithdraw: "auto_advertise_withdraw",
     bgpSignalOpts: "bgp_signal_opts",
+    cidr: "cidr",
     createdAt: "created_at",
     modifiedAt: "modified_at",
     onDemand: "on_demand",
   }),
 ) as unknown as Schema.Schema<PatchPrefixBgpPrefixResponse>;
 
-export const patchPrefixBgpPrefix: (
-  input: PatchPrefixBgpPrefixRequest,
-) => Effect.Effect<
+export const patchPrefixBgpPrefix: API.OperationMethod<
+  PatchPrefixBgpPrefixRequest,
   PatchPrefixBgpPrefixResponse,
   CommonErrors | BgpPrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -2307,6 +2556,8 @@ export const ListPrefixDelegationsResponse = Schema.Array(
     parentPrefixId: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
       createdAt: "created_at",
       delegatedAccountId: "delegated_account_id",
       modifiedAt: "modified_at",
@@ -2315,9 +2566,8 @@ export const ListPrefixDelegationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixDelegationsResponse>;
 
-export const listPrefixDelegations: (
-  input: ListPrefixDelegationsRequest,
-) => Effect.Effect<
+export const listPrefixDelegations: API.OperationMethod<
+  ListPrefixDelegationsRequest,
   ListPrefixDelegationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2343,7 +2593,10 @@ export const CreatePrefixDelegationRequest = Schema.Struct({
   cidr: Schema.String,
   delegatedAccountId: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ delegatedAccountId: "delegated_account_id" }),
+  Schema.encodeKeys({
+    cidr: "cidr",
+    delegatedAccountId: "delegated_account_id",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations",
@@ -2372,6 +2625,8 @@ export const CreatePrefixDelegationResponse = Schema.Struct({
   parentPrefixId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    cidr: "cidr",
     createdAt: "created_at",
     delegatedAccountId: "delegated_account_id",
     modifiedAt: "modified_at",
@@ -2379,9 +2634,8 @@ export const CreatePrefixDelegationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePrefixDelegationResponse>;
 
-export const createPrefixDelegation: (
-  input: CreatePrefixDelegationRequest,
-) => Effect.Effect<
+export const createPrefixDelegation: API.OperationMethod<
+  CreatePrefixDelegationRequest,
   CreatePrefixDelegationResponse,
   CommonErrors | PrefixNotFound | MissingAccountId | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -2418,9 +2672,8 @@ export const DeletePrefixDelegationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePrefixDelegationResponse>;
 
-export const deletePrefixDelegation: (
-  input: DeletePrefixDelegationRequest,
-) => Effect.Effect<
+export const deletePrefixDelegation: API.OperationMethod<
+  DeletePrefixDelegationRequest,
   DeletePrefixDelegationResponse,
   CommonErrors | DelegationNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -2476,12 +2729,17 @@ export const GetPrefixServiceBindingResponse = Schema.Struct({
   serviceId: Schema.optional(Schema.String),
   serviceName: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ serviceId: "service_id", serviceName: "service_name" }),
+  Schema.encodeKeys({
+    id: "id",
+    cidr: "cidr",
+    provisioning: "provisioning",
+    serviceId: "service_id",
+    serviceName: "service_name",
+  }),
 ) as unknown as Schema.Schema<GetPrefixServiceBindingResponse>;
 
-export const getPrefixServiceBinding: (
-  input: GetPrefixServiceBindingRequest,
-) => Effect.Effect<
+export const getPrefixServiceBinding: API.OperationMethod<
+  GetPrefixServiceBindingRequest,
   GetPrefixServiceBindingResponse,
   CommonErrors | BindingNotFound | InvalidAccountId | PrefixNotFound,
   ApiToken | HttpClient.HttpClient
@@ -2527,13 +2785,18 @@ export const ListPrefixServiceBindingsResponse = Schema.Array(
     serviceId: Schema.optional(Schema.String),
     serviceName: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ serviceId: "service_id", serviceName: "service_name" }),
+    Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
+      provisioning: "provisioning",
+      serviceId: "service_id",
+      serviceName: "service_name",
+    }),
   ),
 ) as unknown as Schema.Schema<ListPrefixServiceBindingsResponse>;
 
-export const listPrefixServiceBindings: (
-  input: ListPrefixServiceBindingsRequest,
-) => Effect.Effect<
+export const listPrefixServiceBindings: API.OperationMethod<
+  ListPrefixServiceBindingsRequest,
   ListPrefixServiceBindingsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2559,7 +2822,7 @@ export const CreatePrefixServiceBindingRequest = Schema.Struct({
   cidr: Schema.String,
   serviceId: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ serviceId: "service_id" }),
+  Schema.encodeKeys({ cidr: "cidr", serviceId: "service_id" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings",
@@ -2590,12 +2853,17 @@ export const CreatePrefixServiceBindingResponse = Schema.Struct({
   serviceId: Schema.optional(Schema.String),
   serviceName: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ serviceId: "service_id", serviceName: "service_name" }),
+  Schema.encodeKeys({
+    id: "id",
+    cidr: "cidr",
+    provisioning: "provisioning",
+    serviceId: "service_id",
+    serviceName: "service_name",
+  }),
 ) as unknown as Schema.Schema<CreatePrefixServiceBindingResponse>;
 
-export const createPrefixServiceBinding: (
-  input: CreatePrefixServiceBindingRequest,
-) => Effect.Effect<
+export const createPrefixServiceBinding: API.OperationMethod<
+  CreatePrefixServiceBindingRequest,
   CreatePrefixServiceBindingResponse,
   CommonErrors | UnsupportedBindingConfiguration | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -2651,7 +2919,14 @@ export const DeletePrefixServiceBindingResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -2663,14 +2938,20 @@ export const DeletePrefixServiceBindingResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeletePrefixServiceBindingResponse>;
 
-export const deletePrefixServiceBinding: (
-  input: DeletePrefixServiceBindingRequest,
-) => Effect.Effect<
+export const deletePrefixServiceBinding: API.OperationMethod<
+  DeletePrefixServiceBindingRequest,
   DeletePrefixServiceBindingResponse,
   CommonErrors | BindingNotFound | InvalidAccountId | PrefixNotFound,
   ApiToken | HttpClient.HttpClient
@@ -2717,12 +2998,16 @@ export const GetRegionalHostnameResponse = Schema.Struct({
   regionKey: Schema.String,
   routing: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", regionKey: "region_key" }),
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
 ) as unknown as Schema.Schema<GetRegionalHostnameResponse>;
 
-export const getRegionalHostname: (
-  input: GetRegionalHostnameRequest,
-) => Effect.Effect<
+export const getRegionalHostname: API.OperationMethod<
+  GetRegionalHostnameRequest,
   GetRegionalHostnameResponse,
   | CommonErrors
   | InvalidZoneId
@@ -2763,13 +3048,17 @@ export const ListRegionalHostnamesResponse = Schema.Array(
     regionKey: Schema.String,
     routing: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", regionKey: "region_key" }),
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      hostname: "hostname",
+      regionKey: "region_key",
+      routing: "routing",
+    }),
   ),
 ) as unknown as Schema.Schema<ListRegionalHostnamesResponse>;
 
-export const listRegionalHostnames: (
-  input: ListRegionalHostnamesRequest,
-) => Effect.Effect<
+export const listRegionalHostnames: API.OperationMethod<
+  ListRegionalHostnamesRequest,
   ListRegionalHostnamesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2796,7 +3085,11 @@ export const CreateRegionalHostnameRequest = Schema.Struct({
   regionKey: Schema.String,
   routing: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ regionKey: "region_key" }),
+  Schema.encodeKeys({
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
   T.Http({
     method: "POST",
     path: "/zones/{zone_id}/addressing/regional_hostnames",
@@ -2820,12 +3113,16 @@ export const CreateRegionalHostnameResponse = Schema.Struct({
   regionKey: Schema.String,
   routing: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", regionKey: "region_key" }),
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
 ) as unknown as Schema.Schema<CreateRegionalHostnameResponse>;
 
-export const createRegionalHostname: (
-  input: CreateRegionalHostnameRequest,
-) => Effect.Effect<
+export const createRegionalHostname: API.OperationMethod<
+  CreateRegionalHostnameRequest,
   CreateRegionalHostnameResponse,
   CommonErrors | InvalidZoneId | InvalidHostname | RegionalHostnameEmpty,
   ApiToken | HttpClient.HttpClient
@@ -2872,12 +3169,16 @@ export const PatchRegionalHostnameResponse = Schema.Struct({
   regionKey: Schema.String,
   routing: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", regionKey: "region_key" }),
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    hostname: "hostname",
+    regionKey: "region_key",
+    routing: "routing",
+  }),
 ) as unknown as Schema.Schema<PatchRegionalHostnameResponse>;
 
-export const patchRegionalHostname: (
-  input: PatchRegionalHostnameRequest,
-) => Effect.Effect<
+export const patchRegionalHostname: API.OperationMethod<
+  PatchRegionalHostnameRequest,
   PatchRegionalHostnameResponse,
   | CommonErrors
   | InvalidZoneId
@@ -2934,7 +3235,14 @@ export const DeleteRegionalHostnameResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -2946,14 +3254,20 @@ export const DeleteRegionalHostnameResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRegionalHostnameResponse>;
 
-export const deleteRegionalHostname: (
-  input: DeleteRegionalHostnameRequest,
-) => Effect.Effect<
+export const deleteRegionalHostname: API.OperationMethod<
+  DeleteRegionalHostnameRequest,
   DeleteRegionalHostnameResponse,
   | CommonErrors
   | MethodNotAllowed
@@ -3002,9 +3316,8 @@ export const ListRegionalHostnameRegionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRegionalHostnameRegionsResponse>;
 
-export const listRegionalHostnameRegions: (
-  input: ListRegionalHostnameRegionsRequest,
-) => Effect.Effect<
+export const listRegionalHostnameRegions: API.OperationMethod<
+  ListRegionalHostnameRegionsRequest,
   ListRegionalHostnameRegionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3038,9 +3351,8 @@ export const ListServicesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListServicesResponse>;
 
-export const listServices: (
-  input: ListServicesRequest,
-) => Effect.Effect<
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
   ListServicesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

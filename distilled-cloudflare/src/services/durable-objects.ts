@@ -51,12 +51,19 @@ export const ListNamespacesResponse = Schema.Array(
     name: Schema.optional(Schema.String),
     script: Schema.optional(Schema.String),
     useSqlite: Schema.optional(Schema.Boolean),
-  }).pipe(Schema.encodeKeys({ useSqlite: "use_sqlite" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      class: "class",
+      name: "name",
+      script: "script",
+      useSqlite: "use_sqlite",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
-export const listNamespaces: (
-  input: ListNamespacesRequest,
-) => Effect.Effect<
+export const listNamespaces: API.OperationMethod<
+  ListNamespacesRequest,
   ListNamespacesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -101,9 +108,8 @@ export const ListNamespaceObjectsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
 
-export const listNamespaceObjects: (
-  input: ListNamespaceObjectsRequest,
-) => Effect.Effect<
+export const listNamespaceObjects: API.OperationMethod<
+  ListNamespaceObjectsRequest,
   ListNamespaceObjectsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

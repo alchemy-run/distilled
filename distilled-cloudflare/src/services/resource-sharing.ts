@@ -88,22 +88,27 @@ export const GetRecipientResponse = Schema.Struct({
         terminal: Schema.Boolean,
       }).pipe(
         Schema.encodeKeys({
+          error: "error",
           resourceId: "resource_id",
           resourceVersion: "resource_version",
+          terminal: "terminal",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     associationStatus: "association_status",
+    created: "created",
+    modified: "modified",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<GetRecipientResponse>;
 
-export const getRecipient: (
-  input: GetRecipientRequest,
-) => Effect.Effect<
+export const getRecipient: API.OperationMethod<
+  GetRecipientRequest,
   GetRecipientResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -173,23 +178,28 @@ export const ListRecipientsResponse = Schema.Array(
           terminal: Schema.Boolean,
         }).pipe(
           Schema.encodeKeys({
+            error: "error",
             resourceId: "resource_id",
             resourceVersion: "resource_version",
+            terminal: "terminal",
           }),
         ),
       ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       associationStatus: "association_status",
+      created: "created",
+      modified: "modified",
+      resources: "resources",
     }),
   ),
 ) as unknown as Schema.Schema<ListRecipientsResponse>;
 
-export const listRecipients: (
-  input: ListRecipientsRequest,
-) => Effect.Effect<
+export const listRecipients: API.OperationMethod<
+  ListRecipientsRequest,
   ListRecipientsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -268,22 +278,27 @@ export const CreateRecipientResponse = Schema.Struct({
         terminal: Schema.Boolean,
       }).pipe(
         Schema.encodeKeys({
+          error: "error",
           resourceId: "resource_id",
           resourceVersion: "resource_version",
+          terminal: "terminal",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     associationStatus: "association_status",
+    created: "created",
+    modified: "modified",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<CreateRecipientResponse>;
 
-export const createRecipient: (
-  input: CreateRecipientRequest,
-) => Effect.Effect<
+export const createRecipient: API.OperationMethod<
+  CreateRecipientRequest,
   CreateRecipientResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -354,22 +369,27 @@ export const DeleteRecipientResponse = Schema.Struct({
         terminal: Schema.Boolean,
       }).pipe(
         Schema.encodeKeys({
+          error: "error",
           resourceId: "resource_id",
           resourceVersion: "resource_version",
+          terminal: "terminal",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     associationStatus: "association_status",
+    created: "created",
+    modified: "modified",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<DeleteRecipientResponse>;
 
-export const deleteRecipient: (
-  input: DeleteRecipientRequest,
-) => Effect.Effect<
+export const deleteRecipient: API.OperationMethod<
+  DeleteRecipientRequest,
   DeleteRecipientResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -447,16 +467,20 @@ export const GetResourceResponse = Schema.Struct({
   status: Schema.Literals(["active", "deleting", "deleted"]),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    meta: "meta",
+    modified: "modified",
     resourceAccountId: "resource_account_id",
     resourceId: "resource_id",
     resourceType: "resource_type",
     resourceVersion: "resource_version",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<GetResourceResponse>;
 
-export const getResource: (
-  input: GetResourceRequest,
-) => Effect.Effect<
+export const getResource: API.OperationMethod<
+  GetResourceRequest,
   GetResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -543,17 +567,21 @@ export const ListResourcesResponse = Schema.Array(
     status: Schema.Literals(["active", "deleting", "deleted"]),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      meta: "meta",
+      modified: "modified",
       resourceAccountId: "resource_account_id",
       resourceId: "resource_id",
       resourceType: "resource_type",
       resourceVersion: "resource_version",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<ListResourcesResponse>;
 
-export const listResources: (
-  input: ListResourcesRequest,
-) => Effect.Effect<
+export const listResources: API.OperationMethod<
+  ListResourcesRequest,
   ListResourcesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -599,6 +627,7 @@ export const CreateResourceRequest = Schema.Struct({
   ]),
 }).pipe(
   Schema.encodeKeys({
+    meta: "meta",
     resourceAccountId: "resource_account_id",
     resourceId: "resource_id",
     resourceType: "resource_type",
@@ -655,16 +684,20 @@ export const CreateResourceResponse = Schema.Struct({
   status: Schema.Literals(["active", "deleting", "deleted"]),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    meta: "meta",
+    modified: "modified",
     resourceAccountId: "resource_account_id",
     resourceId: "resource_id",
     resourceType: "resource_type",
     resourceVersion: "resource_version",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<CreateResourceResponse>;
 
-export const createResource: (
-  input: CreateResourceRequest,
-) => Effect.Effect<
+export const createResource: API.OperationMethod<
+  CreateResourceRequest,
   CreateResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -741,16 +774,20 @@ export const UpdateResourceResponse = Schema.Struct({
   status: Schema.Literals(["active", "deleting", "deleted"]),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    meta: "meta",
+    modified: "modified",
     resourceAccountId: "resource_account_id",
     resourceId: "resource_id",
     resourceType: "resource_type",
     resourceVersion: "resource_version",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<UpdateResourceResponse>;
 
-export const updateResource: (
-  input: UpdateResourceRequest,
-) => Effect.Effect<
+export const updateResource: API.OperationMethod<
+  UpdateResourceRequest,
   UpdateResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -824,16 +861,20 @@ export const DeleteResourceResponse = Schema.Struct({
   status: Schema.Literals(["active", "deleting", "deleted"]),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    meta: "meta",
+    modified: "modified",
     resourceAccountId: "resource_account_id",
     resourceId: "resource_id",
     resourceType: "resource_type",
     resourceVersion: "resource_version",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<DeleteResourceResponse>;
 
-export const deleteResource: (
-  input: DeleteResourceRequest,
-) => Effect.Effect<
+export const deleteResource: API.OperationMethod<
+  DeleteResourceRequest,
   DeleteResourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -952,30 +993,41 @@ export const GetResourceSharingResponse = Schema.Struct({
         status: Schema.Literals(["active", "deleting", "deleted"]),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          created: "created",
+          meta: "meta",
+          modified: "modified",
           resourceAccountId: "resource_account_id",
           resourceId: "resource_id",
           resourceType: "resource_type",
           resourceVersion: "resource_version",
+          status: "status",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountName: "account_name",
+    created: "created",
+    modified: "modified",
+    name: "name",
     organizationId: "organization_id",
+    status: "status",
     targetType: "target_type",
     associatedRecipientCount: "associated_recipient_count",
     associatingRecipientCount: "associating_recipient_count",
     disassociatedRecipientCount: "disassociated_recipient_count",
     disassociatingRecipientCount: "disassociating_recipient_count",
+    kind: "kind",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<GetResourceSharingResponse>;
 
-export const getResourceSharing: (
-  input: GetResourceSharingRequest,
-) => Effect.Effect<
+export const getResourceSharing: API.OperationMethod<
+  GetResourceSharingRequest,
   GetResourceSharingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1123,31 +1175,42 @@ export const ListResourceSharingsResponse = Schema.Array(
           status: Schema.Literals(["active", "deleting", "deleted"]),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            meta: "meta",
+            modified: "modified",
             resourceAccountId: "resource_account_id",
             resourceId: "resource_id",
             resourceType: "resource_type",
             resourceVersion: "resource_version",
+            status: "status",
           }),
         ),
       ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       accountName: "account_name",
+      created: "created",
+      modified: "modified",
+      name: "name",
       organizationId: "organization_id",
+      status: "status",
       targetType: "target_type",
       associatedRecipientCount: "associated_recipient_count",
       associatingRecipientCount: "associating_recipient_count",
       disassociatedRecipientCount: "disassociated_recipient_count",
       disassociatingRecipientCount: "disassociating_recipient_count",
+      kind: "kind",
+      resources: "resources",
     }),
   ),
 ) as unknown as Schema.Schema<ListResourceSharingsResponse>;
 
-export const listResourceSharings: (
-  input: ListResourceSharingsRequest,
-) => Effect.Effect<
+export const listResourceSharings: API.OperationMethod<
+  ListResourceSharingsRequest,
   ListResourceSharingsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1208,6 +1271,7 @@ export const CreateResourceSharingRequest = Schema.Struct({
       ]),
     }).pipe(
       Schema.encodeKeys({
+        meta: "meta",
         resourceAccountId: "resource_account_id",
         resourceId: "resource_id",
         resourceType: "resource_type",
@@ -1300,30 +1364,41 @@ export const CreateResourceSharingResponse = Schema.Struct({
         status: Schema.Literals(["active", "deleting", "deleted"]),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          created: "created",
+          meta: "meta",
+          modified: "modified",
           resourceAccountId: "resource_account_id",
           resourceId: "resource_id",
           resourceType: "resource_type",
           resourceVersion: "resource_version",
+          status: "status",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountName: "account_name",
+    created: "created",
+    modified: "modified",
+    name: "name",
     organizationId: "organization_id",
+    status: "status",
     targetType: "target_type",
     associatedRecipientCount: "associated_recipient_count",
     associatingRecipientCount: "associating_recipient_count",
     disassociatedRecipientCount: "disassociated_recipient_count",
     disassociatingRecipientCount: "disassociating_recipient_count",
+    kind: "kind",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<CreateResourceSharingResponse>;
 
-export const createResourceSharing: (
-  input: CreateResourceSharingRequest,
-) => Effect.Effect<
+export const createResourceSharing: API.OperationMethod<
+  CreateResourceSharingRequest,
   CreateResourceSharingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1431,30 +1506,41 @@ export const UpdateResourceSharingResponse = Schema.Struct({
         status: Schema.Literals(["active", "deleting", "deleted"]),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          created: "created",
+          meta: "meta",
+          modified: "modified",
           resourceAccountId: "resource_account_id",
           resourceId: "resource_id",
           resourceType: "resource_type",
           resourceVersion: "resource_version",
+          status: "status",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountName: "account_name",
+    created: "created",
+    modified: "modified",
+    name: "name",
     organizationId: "organization_id",
+    status: "status",
     targetType: "target_type",
     associatedRecipientCount: "associated_recipient_count",
     associatingRecipientCount: "associating_recipient_count",
     disassociatedRecipientCount: "disassociated_recipient_count",
     disassociatingRecipientCount: "disassociating_recipient_count",
+    kind: "kind",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<UpdateResourceSharingResponse>;
 
-export const updateResourceSharing: (
-  input: UpdateResourceSharingRequest,
-) => Effect.Effect<
+export const updateResourceSharing: API.OperationMethod<
+  UpdateResourceSharingRequest,
   UpdateResourceSharingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1559,30 +1645,41 @@ export const DeleteResourceSharingResponse = Schema.Struct({
         status: Schema.Literals(["active", "deleting", "deleted"]),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          created: "created",
+          meta: "meta",
+          modified: "modified",
           resourceAccountId: "resource_account_id",
           resourceId: "resource_id",
           resourceType: "resource_type",
           resourceVersion: "resource_version",
+          status: "status",
         }),
       ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountName: "account_name",
+    created: "created",
+    modified: "modified",
+    name: "name",
     organizationId: "organization_id",
+    status: "status",
     targetType: "target_type",
     associatedRecipientCount: "associated_recipient_count",
     associatingRecipientCount: "associating_recipient_count",
     disassociatedRecipientCount: "disassociated_recipient_count",
     disassociatingRecipientCount: "disassociating_recipient_count",
+    kind: "kind",
+    resources: "resources",
   }),
 ) as unknown as Schema.Schema<DeleteResourceSharingResponse>;
 
-export const deleteResourceSharing: (
-  input: DeleteResourceSharingRequest,
-) => Effect.Effect<
+export const deleteResourceSharing: API.OperationMethod<
+  DeleteResourceSharingRequest,
   DeleteResourceSharingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

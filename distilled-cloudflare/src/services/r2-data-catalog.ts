@@ -86,9 +86,8 @@ export type CreateCredentialResponse = unknown;
 export const CreateCredentialResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateCredentialResponse>;
 
-export const createCredential: (
-  input: CreateCredentialRequest,
-) => Effect.Effect<
+export const createCredential: API.OperationMethod<
+  CreateCredentialRequest,
   CreateCredentialResponse,
   CommonErrors | InvalidRoute | InvalidCredential,
   ApiToken | HttpClient.HttpClient
@@ -172,9 +171,8 @@ export const GetMaintenanceConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetMaintenanceConfigResponse>;
 
-export const getMaintenanceConfig: (
-  input: GetMaintenanceConfigRequest,
-) => Effect.Effect<
+export const getMaintenanceConfig: API.OperationMethod<
+  GetMaintenanceConfigRequest,
   GetMaintenanceConfigResponse,
   CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
   ApiToken | HttpClient.HttpClient
@@ -281,9 +279,8 @@ export const UpdateMaintenanceConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
 
-export const updateMaintenanceConfig: (
-  input: UpdateMaintenanceConfigRequest,
-) => Effect.Effect<
+export const updateMaintenanceConfig: API.OperationMethod<
+  UpdateMaintenanceConfigRequest,
   UpdateMaintenanceConfigResponse,
   CommonErrors | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
@@ -389,9 +386,8 @@ export const ListNamespacesResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
-export const listNamespaces: (
-  input: ListNamespacesRequest,
-) => Effect.Effect<
+export const listNamespaces: API.OperationMethod<
+  ListNamespacesRequest,
   ListNamespacesResponse,
   CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
   ApiToken | HttpClient.HttpClient
@@ -512,9 +508,8 @@ export const ListNamespaceTablesResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
 
-export const listNamespaceTables: (
-  input: ListNamespaceTablesRequest,
-) => Effect.Effect<
+export const listNamespaceTables: API.OperationMethod<
+  ListNamespaceTablesRequest,
   ListNamespaceTablesResponse,
   CommonErrors | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
@@ -596,9 +591,8 @@ export const GetNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   Schema.encodeKeys({ maintenanceConfig: "maintenance_config" }),
 ) as unknown as Schema.Schema<GetNamespaceTableMaintenanceConfigResponse>;
 
-export const getNamespaceTableMaintenanceConfig: (
-  input: GetNamespaceTableMaintenanceConfigRequest,
-) => Effect.Effect<
+export const getNamespaceTableMaintenanceConfig: API.OperationMethod<
+  GetNamespaceTableMaintenanceConfigRequest,
   GetNamespaceTableMaintenanceConfigResponse,
   CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
@@ -709,9 +703,8 @@ export const UpdateNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
 
-export const updateNamespaceTableMaintenanceConfig: (
-  input: UpdateNamespaceTableMaintenanceConfigRequest,
-) => Effect.Effect<
+export const updateNamespaceTableMaintenanceConfig: API.OperationMethod<
+  UpdateNamespaceTableMaintenanceConfigRequest,
   UpdateNamespaceTableMaintenanceConfigResponse,
   CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
@@ -825,9 +818,8 @@ export const GetR2DataCatalogResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
 
-export const getR2DataCatalog: (
-  input: GetR2DataCatalogRequest,
-) => Effect.Effect<
+export const getR2DataCatalog: API.OperationMethod<
+  GetR2DataCatalogRequest,
   GetR2DataCatalogResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -933,9 +925,8 @@ export const ListR2DataCatalogsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListR2DataCatalogsResponse>;
 
-export const listR2DataCatalogs: (
-  input: ListR2DataCatalogsRequest,
-) => Effect.Effect<
+export const listR2DataCatalogs: API.OperationMethod<
+  ListR2DataCatalogsRequest,
   ListR2DataCatalogsResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -973,9 +964,8 @@ export const EnableR2DataCatalogResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
 
-export const enableR2DataCatalog: (
-  input: EnableR2DataCatalogRequest,
-) => Effect.Effect<
+export const enableR2DataCatalog: API.OperationMethod<
+  EnableR2DataCatalogRequest,
   EnableR2DataCatalogResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1006,9 +996,8 @@ export type DisableR2DataCatalogResponse = unknown;
 export const DisableR2DataCatalogResponse =
   Schema.Unknown as unknown as Schema.Schema<DisableR2DataCatalogResponse>;
 
-export const disableR2DataCatalog: (
-  input: DisableR2DataCatalogRequest,
-) => Effect.Effect<
+export const disableR2DataCatalog: API.OperationMethod<
+  DisableR2DataCatalogRequest,
   DisableR2DataCatalogResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient

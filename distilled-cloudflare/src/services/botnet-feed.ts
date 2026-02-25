@@ -44,9 +44,8 @@ export const GetConfigAsnResponse = Schema.Struct({
   asn: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetConfigAsnResponse>;
 
-export const getConfigAsn: (
-  input: GetConfigAsnRequest,
-) => Effect.Effect<
+export const getConfigAsn: API.OperationMethod<
+  GetConfigAsnRequest,
   GetConfigAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -80,9 +79,8 @@ export const DeleteConfigAsnResponse = Schema.Struct({
   asn: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
 
-export const deleteConfigAsn: (
-  input: DeleteConfigAsnRequest,
-) => Effect.Effect<
+export const deleteConfigAsn: API.OperationMethod<
+  DeleteConfigAsnRequest,
   DeleteConfigAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -126,12 +124,15 @@ export const DayReportAsnResponse = Schema.Struct({
   date: Schema.optional(Schema.String),
   offenseCount: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ offenseCount: "offense_count" }),
+  Schema.encodeKeys({
+    cidr: "cidr",
+    date: "date",
+    offenseCount: "offense_count",
+  }),
 ) as unknown as Schema.Schema<DayReportAsnResponse>;
 
-export const dayReportAsn: (
-  input: DayReportAsnRequest,
-) => Effect.Effect<
+export const dayReportAsn: API.OperationMethod<
+  DayReportAsnRequest,
   DayReportAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -168,12 +169,15 @@ export const FullReportAsnResponse = Schema.Struct({
   date: Schema.optional(Schema.String),
   offenseCount: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ offenseCount: "offense_count" }),
+  Schema.encodeKeys({
+    cidr: "cidr",
+    date: "date",
+    offenseCount: "offense_count",
+  }),
 ) as unknown as Schema.Schema<FullReportAsnResponse>;
 
-export const fullReportAsn: (
-  input: FullReportAsnRequest,
-) => Effect.Effect<
+export const fullReportAsn: API.OperationMethod<
+  FullReportAsnRequest,
   FullReportAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

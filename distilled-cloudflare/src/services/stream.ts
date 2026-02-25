@@ -54,9 +54,8 @@ export const GetAudioTrackResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetAudioTrackResponse>;
 
-export const getAudioTrack: (
-  input: GetAudioTrackRequest,
-) => Effect.Effect<
+export const getAudioTrack: API.OperationMethod<
+  GetAudioTrackRequest,
   GetAudioTrackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -108,9 +107,8 @@ export const PatchAudioTrackResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchAudioTrackResponse>;
 
-export const patchAudioTrack: (
-  input: PatchAudioTrackRequest,
-) => Effect.Effect<
+export const patchAudioTrack: API.OperationMethod<
+  PatchAudioTrackRequest,
   PatchAudioTrackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -143,9 +141,8 @@ export type DeleteAudioTrackResponse = string;
 export const DeleteAudioTrackResponse =
   Schema.String as unknown as Schema.Schema<DeleteAudioTrackResponse>;
 
-export const deleteAudioTrack: (
-  input: DeleteAudioTrackRequest,
-) => Effect.Effect<
+export const deleteAudioTrack: API.OperationMethod<
+  DeleteAudioTrackRequest,
   DeleteAudioTrackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -195,9 +192,8 @@ export const CopyAudioTrackResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CopyAudioTrackResponse>;
 
-export const copyAudioTrack: (
-  input: CopyAudioTrackRequest,
-) => Effect.Effect<
+export const copyAudioTrack: API.OperationMethod<
+  CopyAudioTrackRequest,
   CopyAudioTrackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -243,9 +239,8 @@ export const GetCaptionResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetCaptionResponse>;
 
-export const getCaption: (
-  input: GetCaptionRequest,
-) => Effect.Effect<
+export const getCaption: API.OperationMethod<
+  GetCaptionRequest,
   GetCaptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -282,9 +277,8 @@ export type GetCaptionLanguageResponse = unknown;
 export const GetCaptionLanguageResponse =
   Schema.Unknown as unknown as Schema.Schema<GetCaptionLanguageResponse>;
 
-export const getCaptionLanguage: (
-  input: GetCaptionLanguageRequest,
-) => Effect.Effect<
+export const getCaptionLanguage: API.OperationMethod<
+  GetCaptionLanguageRequest,
   GetCaptionLanguageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -317,9 +311,8 @@ export type CreateCaptionLanguageResponse = unknown;
 export const CreateCaptionLanguageResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateCaptionLanguageResponse>;
 
-export const createCaptionLanguage: (
-  input: CreateCaptionLanguageRequest,
-) => Effect.Effect<
+export const createCaptionLanguage: API.OperationMethod<
+  CreateCaptionLanguageRequest,
   CreateCaptionLanguageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -355,9 +348,8 @@ export type UpdateCaptionLanguageResponse = unknown;
 export const UpdateCaptionLanguageResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateCaptionLanguageResponse>;
 
-export const updateCaptionLanguage: (
-  input: UpdateCaptionLanguageRequest,
-) => Effect.Effect<
+export const updateCaptionLanguage: API.OperationMethod<
+  UpdateCaptionLanguageRequest,
   UpdateCaptionLanguageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -390,9 +382,8 @@ export type DeleteCaptionLanguageResponse = string;
 export const DeleteCaptionLanguageResponse =
   Schema.String as unknown as Schema.Schema<DeleteCaptionLanguageResponse>;
 
-export const deleteCaptionLanguage: (
-  input: DeleteCaptionLanguageRequest,
-) => Effect.Effect<
+export const deleteCaptionLanguage: API.OperationMethod<
+  DeleteCaptionLanguageRequest,
   DeleteCaptionLanguageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -429,9 +420,8 @@ export type GetCaptionLanguageVttResponse = unknown;
 export const GetCaptionLanguageVttResponse =
   Schema.Unknown as unknown as Schema.Schema<GetCaptionLanguageVttResponse>;
 
-export const getCaptionLanguageVtt: (
-  input: GetCaptionLanguageVttRequest,
-) => Effect.Effect<
+export const getCaptionLanguageVtt: API.OperationMethod<
+  GetCaptionLanguageVttRequest,
   GetCaptionLanguageVttResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -562,9 +552,8 @@ export const CreateClipResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateClipResponse>;
 
-export const createClip: (
-  input: CreateClipRequest,
-) => Effect.Effect<
+export const createClip: API.OperationMethod<
+  CreateClipRequest,
   CreateClipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -627,9 +616,8 @@ export type CreateCopyResponse = unknown;
 export const CreateCopyResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateCopyResponse>;
 
-export const createCopy: (
-  input: CreateCopyRequest,
-) => Effect.Effect<
+export const createCopy: API.OperationMethod<
+  CreateCopyRequest,
   CreateCopyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -710,9 +698,8 @@ export const CreateDirectUploadResponse = Schema.Struct({
   watermark: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<CreateDirectUploadResponse>;
 
-export const createDirectUpload: (
-  input: CreateDirectUploadRequest,
-) => Effect.Effect<
+export const createDirectUpload: API.OperationMethod<
+  CreateDirectUploadRequest,
   CreateDirectUploadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -778,9 +765,8 @@ export const GetDownloadResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetDownloadResponse>;
 
-export const getDownload: (
-  input: GetDownloadRequest,
-) => Effect.Effect<
+export const getDownload: API.OperationMethod<
+  GetDownloadRequest,
   GetDownloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -824,9 +810,8 @@ export const CreateDownloadResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDownloadResponse>;
 
-export const createDownload: (
-  input: CreateDownloadRequest,
-) => Effect.Effect<
+export const createDownload: API.OperationMethod<
+  CreateDownloadRequest,
   CreateDownloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -857,9 +842,8 @@ export type DeleteDownloadResponse = string;
 export const DeleteDownloadResponse =
   Schema.String as unknown as Schema.Schema<DeleteDownloadResponse>;
 
-export const deleteDownload: (
-  input: DeleteDownloadRequest,
-) => Effect.Effect<
+export const deleteDownload: API.OperationMethod<
+  DeleteDownloadRequest,
   DeleteDownloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -894,9 +878,8 @@ export type GetEmbedResponse = unknown;
 export const GetEmbedResponse =
   Schema.Unknown as unknown as Schema.Schema<GetEmbedResponse>;
 
-export const getEmbed: (
-  input: GetEmbedRequest,
-) => Effect.Effect<
+export const getEmbed: API.OperationMethod<
+  GetEmbedRequest,
   GetEmbedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -930,9 +913,8 @@ export const GetKeyResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetKeyResponse>;
 
-export const getKey: (
-  input: GetKeyRequest,
-) => Effect.Effect<
+export const getKey: API.OperationMethod<
+  GetKeyRequest,
   GetKeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -974,9 +956,8 @@ export const CreateKeyResponse = Schema.Struct({
   pem: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateKeyResponse>;
 
-export const createKey: (
-  input: CreateKeyRequest,
-) => Effect.Effect<
+export const createKey: API.OperationMethod<
+  CreateKeyRequest,
   CreateKeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1007,9 +988,8 @@ export type DeleteKeyResponse = string;
 export const DeleteKeyResponse =
   Schema.String as unknown as Schema.Schema<DeleteKeyResponse>;
 
-export const deleteKey: (
-  input: DeleteKeyRequest,
-) => Effect.Effect<
+export const deleteKey: API.OperationMethod<
+  DeleteKeyRequest,
   DeleteKeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1060,9 +1040,8 @@ export const GetLiveInputResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetLiveInputResponse>;
 
-export const getLiveInput: (
-  input: GetLiveInputRequest,
-) => Effect.Effect<
+export const getLiveInput: API.OperationMethod<
+  GetLiveInputRequest,
   GetLiveInputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1118,9 +1097,8 @@ export const ListLiveInputsResponse = Schema.Struct({
   total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<ListLiveInputsResponse>;
 
-export const listLiveInputs: (
-  input: ListLiveInputsRequest,
-) => Effect.Effect<
+export const listLiveInputs: API.OperationMethod<
+  ListLiveInputsRequest,
   ListLiveInputsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1188,9 +1166,8 @@ export const CreateLiveInputResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateLiveInputResponse>;
 
-export const createLiveInput: (
-  input: CreateLiveInputRequest,
-) => Effect.Effect<
+export const createLiveInput: API.OperationMethod<
+  CreateLiveInputRequest,
   CreateLiveInputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1263,9 +1240,8 @@ export const UpdateLiveInputResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateLiveInputResponse>;
 
-export const updateLiveInput: (
-  input: UpdateLiveInputRequest,
-) => Effect.Effect<
+export const updateLiveInput: API.OperationMethod<
+  UpdateLiveInputRequest,
   UpdateLiveInputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1296,9 +1272,8 @@ export type DeleteLiveInputResponse = unknown;
 export const DeleteLiveInputResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteLiveInputResponse>;
 
-export const deleteLiveInput: (
-  input: DeleteLiveInputRequest,
-) => Effect.Effect<
+export const deleteLiveInput: API.OperationMethod<
+  DeleteLiveInputRequest,
   DeleteLiveInputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1344,9 +1319,8 @@ export const ListLiveInputOutputsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListLiveInputOutputsResponse>;
 
-export const listLiveInputOutputs: (
-  input: ListLiveInputOutputsRequest,
-) => Effect.Effect<
+export const listLiveInputOutputs: API.OperationMethod<
+  ListLiveInputOutputsRequest,
   ListLiveInputOutputsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1399,9 +1373,8 @@ export const CreateLiveInputOutputResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateLiveInputOutputResponse>;
 
-export const createLiveInputOutput: (
-  input: CreateLiveInputOutputRequest,
-) => Effect.Effect<
+export const createLiveInputOutput: API.OperationMethod<
+  CreateLiveInputOutputRequest,
   CreateLiveInputOutputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1450,9 +1423,8 @@ export const UpdateLiveInputOutputResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateLiveInputOutputResponse>;
 
-export const updateLiveInputOutput: (
-  input: UpdateLiveInputOutputRequest,
-) => Effect.Effect<
+export const updateLiveInputOutput: API.OperationMethod<
+  UpdateLiveInputOutputRequest,
   UpdateLiveInputOutputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1485,9 +1457,8 @@ export type DeleteLiveInputOutputResponse = unknown;
 export const DeleteLiveInputOutputResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteLiveInputOutputResponse>;
 
-export const deleteLiveInputOutput: (
-  input: DeleteLiveInputOutputRequest,
-) => Effect.Effect<
+export const deleteLiveInputOutput: API.OperationMethod<
+  DeleteLiveInputOutputRequest,
   DeleteLiveInputOutputResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1625,9 +1596,8 @@ export const GetStreamResponse = Schema.Struct({
   watermark: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<GetStreamResponse>;
 
-export const getStream: (
-  input: GetStreamRequest,
-) => Effect.Effect<
+export const getStream: API.OperationMethod<
+  GetStreamRequest,
   GetStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1787,9 +1757,8 @@ export const ListStreamsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListStreamsResponse>;
 
-export const listStreams: (
-  input: ListStreamsRequest,
-) => Effect.Effect<
+export const listStreams: API.OperationMethod<
+  ListStreamsRequest,
   ListStreamsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1839,9 +1808,8 @@ export type CreateStreamResponse = unknown;
 export const CreateStreamResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateStreamResponse>;
 
-export const createStream: (
-  input: CreateStreamRequest,
-) => Effect.Effect<
+export const createStream: API.OperationMethod<
+  CreateStreamRequest,
   CreateStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1872,9 +1840,8 @@ export type DeleteStreamResponse = unknown;
 export const DeleteStreamResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteStreamResponse>;
 
-export const deleteStream: (
-  input: DeleteStreamRequest,
-) => Effect.Effect<
+export const deleteStream: API.OperationMethod<
+  DeleteStreamRequest,
   DeleteStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2035,9 +2002,8 @@ export const EditStreamResponse = Schema.Struct({
   watermark: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<EditStreamResponse>;
 
-export const editStream: (
-  input: EditStreamRequest,
-) => Effect.Effect<
+export const editStream: API.OperationMethod<
+  EditStreamRequest,
   EditStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2110,9 +2076,8 @@ export const CreateTokenResponse = Schema.Struct({
   token: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTokenResponse>;
 
-export const createToken: (
-  input: CreateTokenRequest,
-) => Effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2161,9 +2126,8 @@ export const StorageUsageVideoResponse = Schema.Struct({
   videoCount: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<StorageUsageVideoResponse>;
 
-export const storageUsageVideo: (
-  input: StorageUsageVideoRequest,
-) => Effect.Effect<
+export const storageUsageVideo: API.OperationMethod<
+  StorageUsageVideoRequest,
   StorageUsageVideoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2232,9 +2196,8 @@ export const GetWatermarkResponse = Schema.Struct({
   width: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetWatermarkResponse>;
 
-export const getWatermark: (
-  input: GetWatermarkRequest,
-) => Effect.Effect<
+export const getWatermark: API.OperationMethod<
+  GetWatermarkRequest,
   GetWatermarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2285,9 +2248,8 @@ export const ListWatermarksResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListWatermarksResponse>;
 
-export const listWatermarks: (
-  input: ListWatermarksRequest,
-) => Effect.Effect<
+export const listWatermarks: API.OperationMethod<
+  ListWatermarksRequest,
   ListWatermarksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2365,9 +2327,8 @@ export const CreateWatermarkResponse = Schema.Struct({
   width: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<CreateWatermarkResponse>;
 
-export const createWatermark: (
-  input: CreateWatermarkRequest,
-) => Effect.Effect<
+export const createWatermark: API.OperationMethod<
+  CreateWatermarkRequest,
   CreateWatermarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2398,9 +2359,8 @@ export type DeleteWatermarkResponse = string;
 export const DeleteWatermarkResponse =
   Schema.String as unknown as Schema.Schema<DeleteWatermarkResponse>;
 
-export const deleteWatermark: (
-  input: DeleteWatermarkRequest,
-) => Effect.Effect<
+export const deleteWatermark: API.OperationMethod<
+  DeleteWatermarkRequest,
   DeleteWatermarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2430,9 +2390,8 @@ export type GetWebhookResponse = unknown;
 export const GetWebhookResponse =
   Schema.Unknown as unknown as Schema.Schema<GetWebhookResponse>;
 
-export const getWebhook: (
-  input: GetWebhookRequest,
-) => Effect.Effect<
+export const getWebhook: API.OperationMethod<
+  GetWebhookRequest,
   GetWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2461,9 +2420,8 @@ export type PutWebhookResponse = unknown;
 export const PutWebhookResponse =
   Schema.Unknown as unknown as Schema.Schema<PutWebhookResponse>;
 
-export const putWebhook: (
-  input: PutWebhookRequest,
-) => Effect.Effect<
+export const putWebhook: API.OperationMethod<
+  PutWebhookRequest,
   PutWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2489,9 +2447,8 @@ export type DeleteWebhookResponse = string;
 export const DeleteWebhookResponse =
   Schema.String as unknown as Schema.Schema<DeleteWebhookResponse>;
 
-export const deleteWebhook: (
-  input: DeleteWebhookRequest,
-) => Effect.Effect<
+export const deleteWebhook: API.OperationMethod<
+  DeleteWebhookRequest,
   DeleteWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

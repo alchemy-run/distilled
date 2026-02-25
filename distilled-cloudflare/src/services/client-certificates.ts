@@ -110,20 +110,29 @@ export const GetClientCertificateResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     certificateAuthority: "certificate_authority",
     commonName: "common_name",
+    country: "country",
+    csr: "csr",
     expiresOn: "expires_on",
     fingerprintSha256: "fingerprint_sha256",
     issuedOn: "issued_on",
+    location: "location",
+    organization: "organization",
     organizationalUnit: "organizational_unit",
     serialNumber: "serial_number",
+    signature: "signature",
+    ski: "ski",
+    state: "state",
+    status: "status",
     validityDays: "validity_days",
   }),
 ) as unknown as Schema.Schema<GetClientCertificateResponse>;
 
-export const getClientCertificate: (
-  input: GetClientCertificateRequest,
-) => Effect.Effect<
+export const getClientCertificate: API.OperationMethod<
+  GetClientCertificateRequest,
   GetClientCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -221,21 +230,30 @@ export const ListClientCertificatesResponse = Schema.Array(
     validityDays: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      certificate: "certificate",
       certificateAuthority: "certificate_authority",
       commonName: "common_name",
+      country: "country",
+      csr: "csr",
       expiresOn: "expires_on",
       fingerprintSha256: "fingerprint_sha256",
       issuedOn: "issued_on",
+      location: "location",
+      organization: "organization",
       organizationalUnit: "organizational_unit",
       serialNumber: "serial_number",
+      signature: "signature",
+      ski: "ski",
+      state: "state",
+      status: "status",
       validityDays: "validity_days",
     }),
   ),
 ) as unknown as Schema.Schema<ListClientCertificatesResponse>;
 
-export const listClientCertificates: (
-  input: ListClientCertificatesRequest,
-) => Effect.Effect<
+export const listClientCertificates: API.OperationMethod<
+  ListClientCertificatesRequest,
   ListClientCertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -259,7 +277,7 @@ export const CreateClientCertificateRequest = Schema.Struct({
   csr: Schema.String,
   validityDays: Schema.Number,
 }).pipe(
-  Schema.encodeKeys({ validityDays: "validity_days" }),
+  Schema.encodeKeys({ csr: "csr", validityDays: "validity_days" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/client_certificates" }),
 ) as unknown as Schema.Schema<CreateClientCertificateRequest>;
 
@@ -335,20 +353,29 @@ export const CreateClientCertificateResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     certificateAuthority: "certificate_authority",
     commonName: "common_name",
+    country: "country",
+    csr: "csr",
     expiresOn: "expires_on",
     fingerprintSha256: "fingerprint_sha256",
     issuedOn: "issued_on",
+    location: "location",
+    organization: "organization",
     organizationalUnit: "organizational_unit",
     serialNumber: "serial_number",
+    signature: "signature",
+    ski: "ski",
+    state: "state",
+    status: "status",
     validityDays: "validity_days",
   }),
 ) as unknown as Schema.Schema<CreateClientCertificateResponse>;
 
-export const createClientCertificate: (
-  input: CreateClientCertificateRequest,
-) => Effect.Effect<
+export const createClientCertificate: API.OperationMethod<
+  CreateClientCertificateRequest,
   CreateClientCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -449,20 +476,29 @@ export const PatchClientCertificateResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     certificateAuthority: "certificate_authority",
     commonName: "common_name",
+    country: "country",
+    csr: "csr",
     expiresOn: "expires_on",
     fingerprintSha256: "fingerprint_sha256",
     issuedOn: "issued_on",
+    location: "location",
+    organization: "organization",
     organizationalUnit: "organizational_unit",
     serialNumber: "serial_number",
+    signature: "signature",
+    ski: "ski",
+    state: "state",
+    status: "status",
     validityDays: "validity_days",
   }),
 ) as unknown as Schema.Schema<PatchClientCertificateResponse>;
 
-export const patchClientCertificate: (
-  input: PatchClientCertificateRequest,
-) => Effect.Effect<
+export const patchClientCertificate: API.OperationMethod<
+  PatchClientCertificateRequest,
   PatchClientCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -560,20 +596,29 @@ export const DeleteClientCertificateResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     certificateAuthority: "certificate_authority",
     commonName: "common_name",
+    country: "country",
+    csr: "csr",
     expiresOn: "expires_on",
     fingerprintSha256: "fingerprint_sha256",
     issuedOn: "issued_on",
+    location: "location",
+    organization: "organization",
     organizationalUnit: "organizational_unit",
     serialNumber: "serial_number",
+    signature: "signature",
+    ski: "ski",
+    state: "state",
+    status: "status",
     validityDays: "validity_days",
   }),
 ) as unknown as Schema.Schema<DeleteClientCertificateResponse>;
 
-export const deleteClientCertificate: (
-  input: DeleteClientCertificateRequest,
-) => Effect.Effect<
+export const deleteClientCertificate: API.OperationMethod<
+  DeleteClientCertificateRequest,
   DeleteClientCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

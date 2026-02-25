@@ -44,9 +44,8 @@ export const GetQuotaResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetQuotaResponse>;
 
-export const getQuota: (
-  input: GetQuotaRequest,
-) => Effect.Effect<
+export const getQuota: API.OperationMethod<
+  GetQuotaRequest,
   GetQuotaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -100,9 +99,8 @@ export const ListStoresResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListStoresResponse>;
 
-export const listStores: (
-  input: ListStoresRequest,
-) => Effect.Effect<
+export const listStores: API.OperationMethod<
+  ListStoresRequest,
   ListStoresResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -149,9 +147,8 @@ export const CreateStoreResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateStoreResponse>;
 
-export const createStore: (
-  input: CreateStoreRequest,
-) => Effect.Effect<
+export const createStore: API.OperationMethod<
+  CreateStoreRequest,
   CreateStoreResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -195,9 +192,8 @@ export const DeleteStoreResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<DeleteStoreResponse>;
 
-export const deleteStore: (
-  input: DeleteStoreRequest,
-) => Effect.Effect<
+export const deleteStore: API.OperationMethod<
+  DeleteStoreRequest,
   DeleteStoreResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -254,12 +250,19 @@ export const GetStoreSecretResponse = Schema.Struct({
   storeId: Schema.String,
   comment: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    modified: "modified",
+    name: "name",
+    status: "status",
+    storeId: "store_id",
+    comment: "comment",
+  }),
 ) as unknown as Schema.Schema<GetStoreSecretResponse>;
 
-export const getStoreSecret: (
-  input: GetStoreSecretRequest,
-) => Effect.Effect<
+export const getStoreSecret: API.OperationMethod<
+  GetStoreSecretRequest,
   GetStoreSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -322,12 +325,21 @@ export const ListStoreSecretsResponse = Schema.Array(
     status: Schema.Literals(["pending", "active", "deleted"]),
     storeId: Schema.String,
     comment: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ storeId: "store_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      modified: "modified",
+      name: "name",
+      status: "status",
+      storeId: "store_id",
+      comment: "comment",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListStoreSecretsResponse>;
 
-export const listStoreSecrets: (
-  input: ListStoreSecretsRequest,
-) => Effect.Effect<
+export const listStoreSecrets: API.OperationMethod<
+  ListStoreSecretsRequest,
   ListStoreSecretsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -382,12 +394,21 @@ export const CreateStoreSecretResponse = Schema.Array(
     status: Schema.Literals(["pending", "active", "deleted"]),
     storeId: Schema.String,
     comment: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ storeId: "store_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      modified: "modified",
+      name: "name",
+      status: "status",
+      storeId: "store_id",
+      comment: "comment",
+    }),
+  ),
 ) as unknown as Schema.Schema<CreateStoreSecretResponse>;
 
-export const createStoreSecret: (
-  input: CreateStoreSecretRequest,
-) => Effect.Effect<
+export const createStoreSecret: API.OperationMethod<
+  CreateStoreSecretRequest,
   CreateStoreSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -446,12 +467,19 @@ export const PatchStoreSecretResponse = Schema.Struct({
   storeId: Schema.String,
   comment: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    modified: "modified",
+    name: "name",
+    status: "status",
+    storeId: "store_id",
+    comment: "comment",
+  }),
 ) as unknown as Schema.Schema<PatchStoreSecretResponse>;
 
-export const patchStoreSecret: (
-  input: PatchStoreSecretRequest,
-) => Effect.Effect<
+export const patchStoreSecret: API.OperationMethod<
+  PatchStoreSecretRequest,
   PatchStoreSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -504,12 +532,19 @@ export const DeleteStoreSecretResponse = Schema.Struct({
   storeId: Schema.String,
   comment: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    modified: "modified",
+    name: "name",
+    status: "status",
+    storeId: "store_id",
+    comment: "comment",
+  }),
 ) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
 
-export const deleteStoreSecret: (
-  input: DeleteStoreSecretRequest,
-) => Effect.Effect<
+export const deleteStoreSecret: API.OperationMethod<
+  DeleteStoreSecretRequest,
   DeleteStoreSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -554,12 +589,21 @@ export const BulkDeleteStoreSecretsResponse = Schema.Array(
     status: Schema.Literals(["pending", "active", "deleted"]),
     storeId: Schema.String,
     comment: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ storeId: "store_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      modified: "modified",
+      name: "name",
+      status: "status",
+      storeId: "store_id",
+      comment: "comment",
+    }),
+  ),
 ) as unknown as Schema.Schema<BulkDeleteStoreSecretsResponse>;
 
-export const bulkDeleteStoreSecrets: (
-  input: BulkDeleteStoreSecretsRequest,
-) => Effect.Effect<
+export const bulkDeleteStoreSecrets: API.OperationMethod<
+  BulkDeleteStoreSecretsRequest,
   BulkDeleteStoreSecretsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -621,12 +665,19 @@ export const DuplicateStoreSecretResponse = Schema.Struct({
   storeId: Schema.String,
   comment: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ storeId: "store_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    created: "created",
+    modified: "modified",
+    name: "name",
+    status: "status",
+    storeId: "store_id",
+    comment: "comment",
+  }),
 ) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;
 
-export const duplicateStoreSecret: (
-  input: DuplicateStoreSecretRequest,
-) => Effect.Effect<
+export const duplicateStoreSecret: API.OperationMethod<
+  DuplicateStoreSecretRequest,
   DuplicateStoreSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

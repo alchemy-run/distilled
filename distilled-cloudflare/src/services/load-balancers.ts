@@ -128,23 +128,31 @@ export const BulkEditPoolsResponse = Schema.Array(
     origins: Schema.optional(Schema.Array(Schema.Unknown)),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       checkRegions: "check_regions",
       createdOn: "created_on",
+      description: "description",
       disabledAt: "disabled_at",
+      enabled: "enabled",
+      latitude: "latitude",
       loadShedding: "load_shedding",
+      longitude: "longitude",
       minimumOrigins: "minimum_origins",
       modifiedOn: "modified_on",
+      monitor: "monitor",
       monitorGroup: "monitor_group",
+      name: "name",
+      networks: "networks",
       notificationEmail: "notification_email",
       notificationFilter: "notification_filter",
       originSteering: "origin_steering",
+      origins: "origins",
     }),
   ),
 ) as unknown as Schema.Schema<BulkEditPoolsResponse>;
 
-export const bulkEditPools: (
-  input: BulkEditPoolsRequest,
-) => Effect.Effect<
+export const bulkEditPools: API.OperationMethod<
+  BulkEditPoolsRequest,
   BulkEditPoolsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -295,7 +303,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
@@ -328,6 +336,7 @@ export const GetLoadBalancerResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -376,12 +385,23 @@ export const GetLoadBalancerResponse = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -402,7 +422,10 @@ export const GetLoadBalancerResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -424,27 +447,34 @@ export const GetLoadBalancerResponse = Schema.Struct({
   zoneName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
     createdOn: "created_on",
     defaultPools: "default_pools",
+    description: "description",
+    enabled: "enabled",
     fallbackPool: "fallback_pool",
     locationStrategy: "location_strategy",
     modifiedOn: "modified_on",
+    name: "name",
+    networks: "networks",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
     zoneName: "zone_name",
   }),
 ) as unknown as Schema.Schema<GetLoadBalancerResponse>;
 
-export const getLoadBalancer: (
-  input: GetLoadBalancerRequest,
-) => Effect.Effect<
+export const getLoadBalancer: API.OperationMethod<
+  GetLoadBalancerRequest,
   GetLoadBalancerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -568,7 +598,7 @@ export const ListLoadBalancersResponse = Schema.Array(
         preferEcs: Schema.optional(
           Schema.Literals(["always", "never", "proximity", "geo"]),
         ),
-      }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+      }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
     ),
     modifiedOn: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
@@ -601,6 +631,7 @@ export const ListLoadBalancersResponse = Schema.Array(
             }).pipe(
               Schema.encodeKeys({
                 contentType: "content_type",
+                location: "location",
                 messageBody: "message_body",
                 statusCode: "status_code",
               }),
@@ -649,12 +680,23 @@ export const ListLoadBalancersResponse = Schema.Array(
                 sessionAffinityAttributes: "session_affinity_attributes",
                 sessionAffinityTtl: "session_affinity_ttl",
                 steeringPolicy: "steering_policy",
+                ttl: "ttl",
               }),
             ),
           ),
           priority: Schema.optional(Schema.Number),
           terminates: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+        }).pipe(
+          Schema.encodeKeys({
+            condition: "condition",
+            disabled: "disabled",
+            fixedResponse: "fixed_response",
+            name: "name",
+            overrides: "overrides",
+            priority: "priority",
+            terminates: "terminates",
+          }),
+        ),
       ),
     ),
     sessionAffinity: Schema.optional(
@@ -675,7 +717,10 @@ export const ListLoadBalancersResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           drainDuration: "drain_duration",
+          headers: "headers",
           requireAllHeaders: "require_all_headers",
+          samesite: "samesite",
+          secure: "secure",
           zeroDowntimeFailover: "zero_downtime_failover",
         }),
       ),
@@ -697,28 +742,35 @@ export const ListLoadBalancersResponse = Schema.Array(
     zoneName: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       adaptiveRouting: "adaptive_routing",
       countryPools: "country_pools",
       createdOn: "created_on",
       defaultPools: "default_pools",
+      description: "description",
+      enabled: "enabled",
       fallbackPool: "fallback_pool",
       locationStrategy: "location_strategy",
       modifiedOn: "modified_on",
+      name: "name",
+      networks: "networks",
       popPools: "pop_pools",
+      proxied: "proxied",
       randomSteering: "random_steering",
       regionPools: "region_pools",
+      rules: "rules",
       sessionAffinity: "session_affinity",
       sessionAffinityAttributes: "session_affinity_attributes",
       sessionAffinityTtl: "session_affinity_ttl",
       steeringPolicy: "steering_policy",
+      ttl: "ttl",
       zoneName: "zone_name",
     }),
   ),
 ) as unknown as Schema.Schema<ListLoadBalancersResponse>;
 
-export const listLoadBalancers: (
-  input: ListLoadBalancersRequest,
-) => Effect.Effect<
+export const listLoadBalancers: API.OperationMethod<
+  ListLoadBalancersRequest,
   ListLoadBalancersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -845,7 +897,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   networks: Schema.optional(Schema.Array(Schema.String)),
   popPools: Schema.optional(Schema.Struct({})),
@@ -876,6 +928,7 @@ export const CreateLoadBalancerRequest = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -924,12 +977,23 @@ export const CreateLoadBalancerRequest = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -950,7 +1014,10 @@ export const CreateLoadBalancerRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -973,16 +1040,22 @@ export const CreateLoadBalancerRequest = Schema.Struct({
   Schema.encodeKeys({
     defaultPools: "default_pools",
     fallbackPool: "fallback_pool",
+    name: "name",
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
+    description: "description",
     locationStrategy: "location_strategy",
+    networks: "networks",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
   }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/load_balancers" }),
 ) as unknown as Schema.Schema<CreateLoadBalancerRequest>;
@@ -1109,7 +1182,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
@@ -1142,6 +1215,7 @@ export const CreateLoadBalancerResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -1190,12 +1264,23 @@ export const CreateLoadBalancerResponse = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -1216,7 +1301,10 @@ export const CreateLoadBalancerResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -1238,27 +1326,34 @@ export const CreateLoadBalancerResponse = Schema.Struct({
   zoneName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
     createdOn: "created_on",
     defaultPools: "default_pools",
+    description: "description",
+    enabled: "enabled",
     fallbackPool: "fallback_pool",
     locationStrategy: "location_strategy",
     modifiedOn: "modified_on",
+    name: "name",
+    networks: "networks",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
     zoneName: "zone_name",
   }),
 ) as unknown as Schema.Schema<CreateLoadBalancerResponse>;
 
-export const createLoadBalancer: (
-  input: CreateLoadBalancerRequest,
-) => Effect.Effect<
+export const createLoadBalancer: API.OperationMethod<
+  CreateLoadBalancerRequest,
   CreateLoadBalancerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1390,7 +1485,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   networks: Schema.optional(Schema.Array(Schema.String)),
   popPools: Schema.optional(Schema.Struct({})),
@@ -1421,6 +1516,7 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -1469,12 +1565,23 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -1495,7 +1602,10 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -1518,16 +1628,23 @@ export const UpdateLoadBalancerRequest = Schema.Struct({
   Schema.encodeKeys({
     defaultPools: "default_pools",
     fallbackPool: "fallback_pool",
+    name: "name",
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
+    description: "description",
+    enabled: "enabled",
     locationStrategy: "location_strategy",
+    networks: "networks",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
   }),
   T.Http({
     method: "PUT",
@@ -1657,7 +1774,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
@@ -1690,6 +1807,7 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -1738,12 +1856,23 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -1764,7 +1893,10 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -1786,27 +1918,34 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
   zoneName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
     createdOn: "created_on",
     defaultPools: "default_pools",
+    description: "description",
+    enabled: "enabled",
     fallbackPool: "fallback_pool",
     locationStrategy: "location_strategy",
     modifiedOn: "modified_on",
+    name: "name",
+    networks: "networks",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
     zoneName: "zone_name",
   }),
 ) as unknown as Schema.Schema<UpdateLoadBalancerResponse>;
 
-export const updateLoadBalancer: (
-  input: UpdateLoadBalancerRequest,
-) => Effect.Effect<
+export const updateLoadBalancer: API.OperationMethod<
+  UpdateLoadBalancerRequest,
   UpdateLoadBalancerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1935,7 +2074,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   name: Schema.optional(Schema.String),
   popPools: Schema.optional(Schema.Struct({})),
@@ -1966,6 +2105,7 @@ export const PatchLoadBalancerRequest = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -2014,12 +2154,23 @@ export const PatchLoadBalancerRequest = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -2040,7 +2191,10 @@ export const PatchLoadBalancerRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -2064,15 +2218,21 @@ export const PatchLoadBalancerRequest = Schema.Struct({
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
     defaultPools: "default_pools",
+    description: "description",
+    enabled: "enabled",
     fallbackPool: "fallback_pool",
     locationStrategy: "location_strategy",
+    name: "name",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
   }),
   T.Http({
     method: "PATCH",
@@ -2202,7 +2362,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
       preferEcs: Schema.optional(
         Schema.Literals(["always", "never", "proximity", "geo"]),
       ),
-    }).pipe(Schema.encodeKeys({ preferEcs: "prefer_ecs" })),
+    }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
   ),
   modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
@@ -2235,6 +2395,7 @@ export const PatchLoadBalancerResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               contentType: "content_type",
+              location: "location",
               messageBody: "message_body",
               statusCode: "status_code",
             }),
@@ -2283,12 +2444,23 @@ export const PatchLoadBalancerResponse = Schema.Struct({
               sessionAffinityAttributes: "session_affinity_attributes",
               sessionAffinityTtl: "session_affinity_ttl",
               steeringPolicy: "steering_policy",
+              ttl: "ttl",
             }),
           ),
         ),
         priority: Schema.optional(Schema.Number),
         terminates: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ fixedResponse: "fixed_response" })),
+      }).pipe(
+        Schema.encodeKeys({
+          condition: "condition",
+          disabled: "disabled",
+          fixedResponse: "fixed_response",
+          name: "name",
+          overrides: "overrides",
+          priority: "priority",
+          terminates: "terminates",
+        }),
+      ),
     ),
   ),
   sessionAffinity: Schema.optional(
@@ -2309,7 +2481,10 @@ export const PatchLoadBalancerResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         drainDuration: "drain_duration",
+        headers: "headers",
         requireAllHeaders: "require_all_headers",
+        samesite: "samesite",
+        secure: "secure",
         zeroDowntimeFailover: "zero_downtime_failover",
       }),
     ),
@@ -2331,27 +2506,34 @@ export const PatchLoadBalancerResponse = Schema.Struct({
   zoneName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     adaptiveRouting: "adaptive_routing",
     countryPools: "country_pools",
     createdOn: "created_on",
     defaultPools: "default_pools",
+    description: "description",
+    enabled: "enabled",
     fallbackPool: "fallback_pool",
     locationStrategy: "location_strategy",
     modifiedOn: "modified_on",
+    name: "name",
+    networks: "networks",
     popPools: "pop_pools",
+    proxied: "proxied",
     randomSteering: "random_steering",
     regionPools: "region_pools",
+    rules: "rules",
     sessionAffinity: "session_affinity",
     sessionAffinityAttributes: "session_affinity_attributes",
     sessionAffinityTtl: "session_affinity_ttl",
     steeringPolicy: "steering_policy",
+    ttl: "ttl",
     zoneName: "zone_name",
   }),
 ) as unknown as Schema.Schema<PatchLoadBalancerResponse>;
 
-export const patchLoadBalancer: (
-  input: PatchLoadBalancerRequest,
-) => Effect.Effect<
+export const patchLoadBalancer: API.OperationMethod<
+  PatchLoadBalancerRequest,
   PatchLoadBalancerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2384,9 +2566,8 @@ export const DeleteLoadBalancerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteLoadBalancerResponse>;
 
-export const deleteLoadBalancer: (
-  input: DeleteLoadBalancerRequest,
-) => Effect.Effect<
+export const deleteLoadBalancer: API.OperationMethod<
+  DeleteLoadBalancerRequest,
   DeleteLoadBalancerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2478,21 +2659,30 @@ export const GetMonitorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
     createdOn: "created_on",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
     modifiedOn: "modified_on",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<GetMonitorResponse>;
 
-export const getMonitor: (
-  input: GetMonitorRequest,
-) => Effect.Effect<
+export const getMonitor: API.OperationMethod<
+  GetMonitorRequest,
   GetMonitorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2570,22 +2760,31 @@ export const ListMonitorsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowInsecure: "allow_insecure",
       consecutiveDown: "consecutive_down",
       consecutiveUp: "consecutive_up",
       createdOn: "created_on",
+      description: "description",
       expectedBody: "expected_body",
       expectedCodes: "expected_codes",
       followRedirects: "follow_redirects",
+      header: "header",
+      interval: "interval",
+      method: "method",
       modifiedOn: "modified_on",
+      path: "path",
+      port: "port",
       probeZone: "probe_zone",
+      retries: "retries",
+      timeout: "timeout",
+      type: "type",
     }),
   ),
 ) as unknown as Schema.Schema<ListMonitorsResponse>;
 
-export const listMonitors: (
-  input: ListMonitorsRequest,
-) => Effect.Effect<
+export const listMonitors: API.OperationMethod<
+  ListMonitorsRequest,
   ListMonitorsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2657,10 +2856,19 @@ export const CreateMonitorRequest = Schema.Struct({
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "POST",
@@ -2730,21 +2938,30 @@ export const CreateMonitorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
     createdOn: "created_on",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
     modifiedOn: "modified_on",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<CreateMonitorResponse>;
 
-export const createMonitor: (
-  input: CreateMonitorRequest,
-) => Effect.Effect<
+export const createMonitor: API.OperationMethod<
+  CreateMonitorRequest,
   CreateMonitorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2818,10 +3035,19 @@ export const UpdateMonitorRequest = Schema.Struct({
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "PUT",
@@ -2891,21 +3117,30 @@ export const UpdateMonitorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
     createdOn: "created_on",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
     modifiedOn: "modified_on",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<UpdateMonitorResponse>;
 
-export const updateMonitor: (
-  input: UpdateMonitorRequest,
-) => Effect.Effect<
+export const updateMonitor: API.OperationMethod<
+  UpdateMonitorRequest,
   UpdateMonitorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2979,10 +3214,19 @@ export const PatchMonitorRequest = Schema.Struct({
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "PATCH",
@@ -3052,21 +3296,30 @@ export const PatchMonitorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
     createdOn: "created_on",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
     modifiedOn: "modified_on",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<PatchMonitorResponse>;
 
-export const patchMonitor: (
-  input: PatchMonitorRequest,
-) => Effect.Effect<
+export const patchMonitor: API.OperationMethod<
+  PatchMonitorRequest,
   PatchMonitorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3100,9 +3353,8 @@ export const DeleteMonitorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteMonitorResponse>;
 
-export const deleteMonitor: (
-  input: DeleteMonitorRequest,
-) => Effect.Effect<
+export const deleteMonitor: API.OperationMethod<
+  DeleteMonitorRequest,
   DeleteMonitorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3165,6 +3417,7 @@ export const GetMonitorGroupResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3176,12 +3429,17 @@ export const GetMonitorGroupResponse = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    members: "members",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<GetMonitorGroupResponse>;
 
-export const getMonitorGroup: (
-  input: GetMonitorGroupRequest,
-) => Effect.Effect<
+export const getMonitorGroup: API.OperationMethod<
+  GetMonitorGroupRequest,
   GetMonitorGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3234,6 +3492,7 @@ export const ListMonitorGroupsResponse = Schema.Array(
         updatedAt: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          enabled: "enabled",
           monitorId: "monitor_id",
           monitoringOnly: "monitoring_only",
           mustBeHealthy: "must_be_healthy",
@@ -3245,13 +3504,18 @@ export const ListMonitorGroupsResponse = Schema.Array(
     createdAt: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      description: "description",
+      members: "members",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    }),
   ),
 ) as unknown as Schema.Schema<ListMonitorGroupsResponse>;
 
-export const listMonitorGroups: (
-  input: ListMonitorGroupsRequest,
-) => Effect.Effect<
+export const listMonitorGroups: API.OperationMethod<
+  ListMonitorGroupsRequest,
   ListMonitorGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3289,6 +3553,7 @@ export const CreateMonitorGroupRequest = Schema.Struct({
       mustBeHealthy: Schema.Boolean,
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3335,6 +3600,7 @@ export const CreateMonitorGroupResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3346,12 +3612,17 @@ export const CreateMonitorGroupResponse = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    members: "members",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<CreateMonitorGroupResponse>;
 
-export const createMonitorGroup: (
-  input: CreateMonitorGroupRequest,
-) => Effect.Effect<
+export const createMonitorGroup: API.OperationMethod<
+  CreateMonitorGroupRequest,
   CreateMonitorGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3391,6 +3662,7 @@ export const UpdateMonitorGroupRequest = Schema.Struct({
       mustBeHealthy: Schema.Boolean,
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3437,6 +3709,7 @@ export const UpdateMonitorGroupResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3448,12 +3721,17 @@ export const UpdateMonitorGroupResponse = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    members: "members",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<UpdateMonitorGroupResponse>;
 
-export const updateMonitorGroup: (
-  input: UpdateMonitorGroupRequest,
-) => Effect.Effect<
+export const updateMonitorGroup: API.OperationMethod<
+  UpdateMonitorGroupRequest,
   UpdateMonitorGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3493,6 +3771,7 @@ export const PatchMonitorGroupRequest = Schema.Struct({
       mustBeHealthy: Schema.Boolean,
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3539,6 +3818,7 @@ export const PatchMonitorGroupResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3550,12 +3830,17 @@ export const PatchMonitorGroupResponse = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    members: "members",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<PatchMonitorGroupResponse>;
 
-export const patchMonitorGroup: (
-  input: PatchMonitorGroupRequest,
-) => Effect.Effect<
+export const patchMonitorGroup: API.OperationMethod<
+  PatchMonitorGroupRequest,
   PatchMonitorGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3614,6 +3899,7 @@ export const DeleteMonitorGroupResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         monitorId: "monitor_id",
         monitoringOnly: "monitoring_only",
         mustBeHealthy: "must_be_healthy",
@@ -3625,12 +3911,17 @@ export const DeleteMonitorGroupResponse = Schema.Struct({
   createdAt: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    members: "members",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<DeleteMonitorGroupResponse>;
 
-export const deleteMonitorGroup: (
-  input: DeleteMonitorGroupRequest,
-) => Effect.Effect<
+export const deleteMonitorGroup: API.OperationMethod<
+  DeleteMonitorGroupRequest,
   DeleteMonitorGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3708,10 +3999,19 @@ export const CreateMonitorPreviewRequest = Schema.Struct({
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "POST",
@@ -3729,12 +4029,11 @@ export const CreateMonitorPreviewResponse = Schema.Struct({
   pools: Schema.optional(Schema.Struct({})),
   previewId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ previewId: "preview_id" }),
+  Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }),
 ) as unknown as Schema.Schema<CreateMonitorPreviewResponse>;
 
-export const createMonitorPreview: (
-  input: CreateMonitorPreviewRequest,
-) => Effect.Effect<
+export const createMonitorPreview: API.OperationMethod<
+  CreateMonitorPreviewRequest,
   CreateMonitorPreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3789,9 +4088,8 @@ export const GetMonitorReferenceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetMonitorReferenceResponse>;
 
-export const getMonitorReference: (
-  input: GetMonitorReferenceRequest,
-) => Effect.Effect<
+export const getMonitorReference: API.OperationMethod<
+  GetMonitorReferenceRequest,
   GetMonitorReferenceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3922,22 +4220,30 @@ export const GetPoolResponse = Schema.Struct({
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkRegions: "check_regions",
     createdOn: "created_on",
+    description: "description",
     disabledAt: "disabled_at",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
     modifiedOn: "modified_on",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
+    name: "name",
+    networks: "networks",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
     originSteering: "origin_steering",
+    origins: "origins",
   }),
 ) as unknown as Schema.Schema<GetPoolResponse>;
 
-export const getPool: (
-  input: GetPoolRequest,
-) => Effect.Effect<
+export const getPool: API.OperationMethod<
+  GetPoolRequest,
   GetPoolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4052,23 +4358,31 @@ export const ListPoolsResponse = Schema.Array(
     origins: Schema.optional(Schema.Array(Schema.Unknown)),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       checkRegions: "check_regions",
       createdOn: "created_on",
+      description: "description",
       disabledAt: "disabled_at",
+      enabled: "enabled",
+      latitude: "latitude",
       loadShedding: "load_shedding",
+      longitude: "longitude",
       minimumOrigins: "minimum_origins",
       modifiedOn: "modified_on",
+      monitor: "monitor",
       monitorGroup: "monitor_group",
+      name: "name",
+      networks: "networks",
       notificationEmail: "notification_email",
       notificationFilter: "notification_filter",
       originSteering: "origin_steering",
+      origins: "origins",
     }),
   ),
 ) as unknown as Schema.Schema<ListPoolsResponse>;
 
-export const listPools: (
-  input: ListPoolsRequest,
-) => Effect.Effect<
+export const listPools: API.OperationMethod<
+  ListPoolsRequest,
   ListPoolsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4128,8 +4442,15 @@ export const CreatePoolRequest = Schema.Struct({
   originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    origins: "origins",
+    description: "description",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
@@ -4242,22 +4563,30 @@ export const CreatePoolResponse = Schema.Struct({
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkRegions: "check_regions",
     createdOn: "created_on",
+    description: "description",
     disabledAt: "disabled_at",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
     modifiedOn: "modified_on",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
+    name: "name",
+    networks: "networks",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
     originSteering: "origin_steering",
+    origins: "origins",
   }),
 ) as unknown as Schema.Schema<CreatePoolResponse>;
 
-export const createPool: (
-  input: CreatePoolRequest,
-) => Effect.Effect<
+export const createPool: API.OperationMethod<
+  CreatePoolRequest,
   CreatePoolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4361,9 +4690,16 @@ export const UpdatePoolRequest = Schema.Struct({
   originSteering: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    origins: "origins",
     checkRegions: "check_regions",
+    description: "description",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
@@ -4476,22 +4812,30 @@ export const UpdatePoolResponse = Schema.Struct({
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkRegions: "check_regions",
     createdOn: "created_on",
+    description: "description",
     disabledAt: "disabled_at",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
     modifiedOn: "modified_on",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
+    name: "name",
+    networks: "networks",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
     originSteering: "origin_steering",
+    origins: "origins",
   }),
 ) as unknown as Schema.Schema<UpdatePoolResponse>;
 
-export const updatePool: (
-  input: UpdatePoolRequest,
-) => Effect.Effect<
+export const updatePool: API.OperationMethod<
+  UpdatePoolRequest,
   UpdatePoolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4596,12 +4940,19 @@ export const PatchPoolRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     checkRegions: "check_regions",
+    description: "description",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
+    name: "name",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
     originSteering: "origin_steering",
+    origins: "origins",
   }),
   T.Http({
     method: "PATCH",
@@ -4710,22 +5061,30 @@ export const PatchPoolResponse = Schema.Struct({
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkRegions: "check_regions",
     createdOn: "created_on",
+    description: "description",
     disabledAt: "disabled_at",
+    enabled: "enabled",
+    latitude: "latitude",
     loadShedding: "load_shedding",
+    longitude: "longitude",
     minimumOrigins: "minimum_origins",
     modifiedOn: "modified_on",
+    monitor: "monitor",
     monitorGroup: "monitor_group",
+    name: "name",
+    networks: "networks",
     notificationEmail: "notification_email",
     notificationFilter: "notification_filter",
     originSteering: "origin_steering",
+    origins: "origins",
   }),
 ) as unknown as Schema.Schema<PatchPoolResponse>;
 
-export const patchPool: (
-  input: PatchPoolRequest,
-) => Effect.Effect<
+export const patchPool: API.OperationMethod<
+  PatchPoolRequest,
   PatchPoolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4759,9 +5118,8 @@ export const DeletePoolResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePoolResponse>;
 
-export const deletePool: (
-  input: DeletePoolRequest,
-) => Effect.Effect<
+export const deletePool: API.OperationMethod<
+  DeletePoolRequest,
   DeletePoolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4825,7 +5183,9 @@ export const GetPoolHealthResponse = Schema.Struct({
               }).pipe(
                 Schema.encodeKeys({
                   failureReason: "failure_reason",
+                  healthy: "healthy",
                   responseCode: "response_code",
+                  rtt: "rtt",
                 }),
               ),
             ),
@@ -4838,9 +5198,8 @@ export const GetPoolHealthResponse = Schema.Struct({
   Schema.encodeKeys({ poolId: "pool_id", popHealth: "pop_health" }),
 ) as unknown as Schema.Schema<GetPoolHealthResponse>;
 
-export const getPoolHealth: (
-  input: GetPoolHealthRequest,
-) => Effect.Effect<
+export const getPoolHealth: API.OperationMethod<
+  GetPoolHealthRequest,
   GetPoolHealthResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4914,10 +5273,19 @@ export const CreatePoolHealthRequest = Schema.Struct({
     allowInsecure: "allow_insecure",
     consecutiveDown: "consecutive_down",
     consecutiveUp: "consecutive_up",
+    description: "description",
     expectedBody: "expected_body",
     expectedCodes: "expected_codes",
     followRedirects: "follow_redirects",
+    header: "header",
+    interval: "interval",
+    method: "method",
+    path: "path",
+    port: "port",
     probeZone: "probe_zone",
+    retries: "retries",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "POST",
@@ -4935,12 +5303,11 @@ export const CreatePoolHealthResponse = Schema.Struct({
   pools: Schema.optional(Schema.Struct({})),
   previewId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ previewId: "preview_id" }),
+  Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }),
 ) as unknown as Schema.Schema<CreatePoolHealthResponse>;
 
-export const createPoolHealth: (
-  input: CreatePoolHealthRequest,
-) => Effect.Effect<
+export const createPoolHealth: API.OperationMethod<
+  CreatePoolHealthRequest,
   CreatePoolHealthResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4995,9 +5362,8 @@ export const GetPoolReferenceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetPoolReferenceResponse>;
 
-export const getPoolReference: (
-  input: GetPoolReferenceRequest,
-) => Effect.Effect<
+export const getPoolReference: API.OperationMethod<
+  GetPoolReferenceRequest,
   GetPoolReferenceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5033,9 +5399,8 @@ export const GetPreviewResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<GetPreviewResponse>;
 
-export const getPreview: (
-  input: GetPreviewRequest,
-) => Effect.Effect<
+export const getPreview: API.OperationMethod<
+  GetPreviewRequest,
   GetPreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5099,9 +5464,8 @@ export const GetRegionResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<GetRegionResponse>;
 
-export const getRegion: (
-  input: GetRegionRequest,
-) => Effect.Effect<
+export const getRegion: API.OperationMethod<
+  GetRegionRequest,
   GetRegionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5147,9 +5511,8 @@ export const ListRegionsResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<ListRegionsResponse>;
 
-export const listRegions: (
-  input: ListRegionsRequest,
-) => Effect.Effect<
+export const listRegions: API.OperationMethod<
+  ListRegionsRequest,
   ListRegionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5212,6 +5575,7 @@ export const ListSearchesResponse = Schema.Array(
         }).pipe(
           Schema.encodeKeys({
             referenceType: "reference_type",
+            references: "references",
             resourceId: "resource_id",
             resourceName: "resource_name",
             resourceType: "resource_type",
@@ -5222,9 +5586,8 @@ export const ListSearchesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListSearchesResponse>;
 
-export const listSearches: (
-  input: ListSearchesRequest,
-) => Effect.Effect<
+export const listSearches: API.OperationMethod<
+  ListSearchesRequest,
   ListSearchesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

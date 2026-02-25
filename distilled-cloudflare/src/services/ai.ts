@@ -188,9 +188,8 @@ export const RunAiResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<RunAiResponse>;
 
-export const runAi: (
-  input: RunAiRequest,
-) => Effect.Effect<
+export const runAi: API.OperationMethod<
+  RunAiRequest,
   RunAiResponse,
   CommonErrors | ModelNotFound,
   ApiToken | HttpClient.HttpClient
@@ -220,9 +219,8 @@ export const ListAuthorsResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListAuthorsResponse>;
 
-export const listAuthors: (
-  input: ListAuthorsRequest,
-) => Effect.Effect<
+export const listAuthors: API.OperationMethod<
+  ListAuthorsRequest,
   ListAuthorsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -275,9 +273,8 @@ export const ListFinetunesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListFinetunesResponse>;
 
-export const listFinetunes: (
-  input: ListFinetunesRequest,
-) => Effect.Effect<
+export const listFinetunes: API.OperationMethod<
+  ListFinetunesRequest,
   ListFinetunesResponse,
   CommonErrors | AccountNotFound,
   ApiToken | HttpClient.HttpClient
@@ -340,9 +337,8 @@ export const CreateFinetuneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateFinetuneResponse>;
 
-export const createFinetune: (
-  input: CreateFinetuneRequest,
-) => Effect.Effect<
+export const createFinetune: API.OperationMethod<
+  CreateFinetuneRequest,
   CreateFinetuneResponse,
   CommonErrors | ModelNotSupported | AccountNotFound,
   ApiToken | HttpClient.HttpClient
@@ -388,9 +384,8 @@ export const CreateFinetuneAssetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateFinetuneAssetResponse>;
 
-export const createFinetuneAsset: (
-  input: CreateFinetuneAssetRequest,
-) => Effect.Effect<
+export const createFinetuneAsset: API.OperationMethod<
+  CreateFinetuneAssetRequest,
   CreateFinetuneAssetResponse,
   CommonErrors | ModelNotSupported | AccountNotFound,
   ApiToken | HttpClient.HttpClient
@@ -456,9 +451,8 @@ export const ListFinetunePublicsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListFinetunePublicsResponse>;
 
-export const listFinetunePublics: (
-  input: ListFinetunePublicsRequest,
-) => Effect.Effect<
+export const listFinetunePublics: API.OperationMethod<
+  ListFinetunePublicsRequest,
   ListFinetunePublicsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -506,9 +500,8 @@ export const ListModelsResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListModelsResponse>;
 
-export const listModels: (
-  input: ListModelsRequest,
-) => Effect.Effect<
+export const listModels: API.OperationMethod<
+  ListModelsRequest,
   ListModelsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -541,9 +534,8 @@ export type GetModelSchemaResponse = unknown;
 export const GetModelSchemaResponse =
   Schema.Unknown as unknown as Schema.Schema<GetModelSchemaResponse>;
 
-export const getModelSchema: (
-  input: GetModelSchemaRequest,
-) => Effect.Effect<
+export const getModelSchema: API.OperationMethod<
+  GetModelSchemaRequest,
   GetModelSchemaResponse,
   CommonErrors | ModelNotSupported | ModelSchemaNotFound | AccountNotFound,
   ApiToken | HttpClient.HttpClient
@@ -573,9 +565,8 @@ export const ListTasksResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListTasksResponse>;
 
-export const listTasks: (
-  input: ListTasksRequest,
-) => Effect.Effect<
+export const listTasks: API.OperationMethod<
+  ListTasksRequest,
   ListTasksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -614,9 +605,8 @@ export const SupportedToMarkdownResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<SupportedToMarkdownResponse>;
 
-export const supportedToMarkdown: (
-  input: SupportedToMarkdownRequest,
-) => Effect.Effect<
+export const supportedToMarkdown: API.OperationMethod<
+  SupportedToMarkdownRequest,
   SupportedToMarkdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -655,9 +645,8 @@ export const TransformToMarkdownResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<TransformToMarkdownResponse>;
 
-export const transformToMarkdown: (
-  input: TransformToMarkdownRequest,
-) => Effect.Effect<
+export const transformToMarkdown: API.OperationMethod<
+  TransformToMarkdownRequest,
   TransformToMarkdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

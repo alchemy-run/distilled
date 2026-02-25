@@ -44,9 +44,8 @@ export type GetBinaryStorageResponse = unknown;
 export const GetBinaryStorageResponse =
   Schema.Unknown as unknown as Schema.Schema<GetBinaryStorageResponse>;
 
-export const getBinaryStorage: (
-  input: GetBinaryStorageRequest,
-) => Effect.Effect<
+export const getBinaryStorage: API.OperationMethod<
+  GetBinaryStorageRequest,
   GetBinaryStorageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -87,12 +86,16 @@ export const CreateBinaryStorageResponse = Schema.Struct({
   sha1: Schema.String,
   sha256: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ contentType: "content_type" }),
+  Schema.encodeKeys({
+    contentType: "content_type",
+    md5: "md5",
+    sha1: "sha1",
+    sha256: "sha256",
+  }),
 ) as unknown as Schema.Schema<CreateBinaryStorageResponse>;
 
-export const createBinaryStorage: (
-  input: CreateBinaryStorageRequest,
-) => Effect.Effect<
+export const createBinaryStorage: API.OperationMethod<
+  CreateBinaryStorageRequest,
   CreateBinaryStorageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -178,14 +181,24 @@ export const GetRequestResponse = Schema.Struct({
   tokens: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    content: "content",
+    created: "created",
+    priority: "priority",
+    request: "request",
+    summary: "summary",
+    tlp: "tlp",
+    updated: "updated",
+    completed: "completed",
     messageTokens: "message_tokens",
     readableId: "readable_id",
+    status: "status",
+    tokens: "tokens",
   }),
 ) as unknown as Schema.Schema<GetRequestResponse>;
 
-export const getRequest: (
-  input: GetRequestRequest,
-) => Effect.Effect<
+export const getRequest: API.OperationMethod<
+  GetRequestRequest,
   GetRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -249,6 +262,7 @@ export const ListRequestsRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    page: "page",
     perPage: "per_page",
     completedAfter: "completed_after",
     completedBefore: "completed_before",
@@ -257,6 +271,7 @@ export const ListRequestsRequest = Schema.Struct({
     requestType: "request_type",
     sortBy: "sort_by",
     sortOrder: "sort_order",
+    status: "status",
   }),
   T.Http({
     method: "GET",
@@ -310,15 +325,24 @@ export const ListRequestsResponse = Schema.Array(
     tokens: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      priority: "priority",
+      request: "request",
+      summary: "summary",
+      tlp: "tlp",
+      updated: "updated",
+      completed: "completed",
       messageTokens: "message_tokens",
       readableId: "readable_id",
+      status: "status",
+      tokens: "tokens",
     }),
   ),
 ) as unknown as Schema.Schema<ListRequestsResponse>;
 
-export const listRequests: (
-  input: ListRequestsRequest,
-) => Effect.Effect<
+export const listRequests: API.OperationMethod<
+  ListRequestsRequest,
   ListRequestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -353,7 +377,13 @@ export const CreateRequestRequest = Schema.Struct({
     Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ requestType: "request_type" }),
+  Schema.encodeKeys({
+    content: "content",
+    priority: "priority",
+    requestType: "request_type",
+    summary: "summary",
+    tlp: "tlp",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/cloudforce-one/requests/new",
@@ -416,14 +446,24 @@ export const CreateRequestResponse = Schema.Struct({
   tokens: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    content: "content",
+    created: "created",
+    priority: "priority",
+    request: "request",
+    summary: "summary",
+    tlp: "tlp",
+    updated: "updated",
+    completed: "completed",
     messageTokens: "message_tokens",
     readableId: "readable_id",
+    status: "status",
+    tokens: "tokens",
   }),
 ) as unknown as Schema.Schema<CreateRequestResponse>;
 
-export const createRequest: (
-  input: CreateRequestRequest,
-) => Effect.Effect<
+export const createRequest: API.OperationMethod<
+  CreateRequestRequest,
   CreateRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -460,7 +500,13 @@ export const UpdateRequestRequest = Schema.Struct({
     Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ requestType: "request_type" }),
+  Schema.encodeKeys({
+    content: "content",
+    priority: "priority",
+    requestType: "request_type",
+    summary: "summary",
+    tlp: "tlp",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}",
@@ -523,14 +569,24 @@ export const UpdateRequestResponse = Schema.Struct({
   tokens: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    content: "content",
+    created: "created",
+    priority: "priority",
+    request: "request",
+    summary: "summary",
+    tlp: "tlp",
+    updated: "updated",
+    completed: "completed",
     messageTokens: "message_tokens",
     readableId: "readable_id",
+    status: "status",
+    tokens: "tokens",
   }),
 ) as unknown as Schema.Schema<UpdateRequestResponse>;
 
-export const updateRequest: (
-  input: UpdateRequestRequest,
-) => Effect.Effect<
+export const updateRequest: API.OperationMethod<
+  UpdateRequestRequest,
   UpdateRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -584,7 +640,14 @@ export const DeleteRequestResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -596,14 +659,20 @@ export const DeleteRequestResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestResponse>;
 
-export const deleteRequest: (
-  input: DeleteRequestRequest,
-) => Effect.Effect<
+export const deleteRequest: API.OperationMethod<
+  DeleteRequestRequest,
   DeleteRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -663,9 +732,8 @@ export const ConstantsRequestResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ConstantsRequestResponse>;
 
-export const constantsRequest: (
-  input: ConstantsRequestRequest,
-) => Effect.Effect<
+export const constantsRequest: API.OperationMethod<
+  ConstantsRequestRequest,
   ConstantsRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -709,12 +777,13 @@ export const QuotaRequestResponse = Schema.Struct({
   Schema.encodeKeys({
     anniversaryDate: "anniversary_date",
     quarterAnniversaryDate: "quarter_anniversary_date",
+    quota: "quota",
+    remaining: "remaining",
   }),
 ) as unknown as Schema.Schema<QuotaRequestResponse>;
 
-export const quotaRequest: (
-  input: QuotaRequestRequest,
-) => Effect.Effect<
+export const quotaRequest: API.OperationMethod<
+  QuotaRequestRequest,
   QuotaRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -744,9 +813,8 @@ export const TypesRequestResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<TypesRequestResponse>;
 
-export const typesRequest: (
-  input: TypesRequestRequest,
-) => Effect.Effect<
+export const typesRequest: API.OperationMethod<
+  TypesRequestRequest,
   TypesRequestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -793,12 +861,19 @@ export const GetRequestAssetResponse = Schema.Array(
     created: Schema.optional(Schema.String),
     description: Schema.optional(Schema.String),
     fileType: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ fileType: "file_type" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      created: "created",
+      description: "description",
+      fileType: "file_type",
+    }),
+  ),
 ) as unknown as Schema.Schema<GetRequestAssetResponse>;
 
-export const getRequestAsset: (
-  input: GetRequestAssetRequest,
-) => Effect.Effect<
+export const getRequestAsset: API.OperationMethod<
+  GetRequestAssetRequest,
   GetRequestAssetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -824,7 +899,7 @@ export const CreateRequestAssetRequest = Schema.Struct({
   page: Schema.Number,
   perPage: Schema.Number,
 }).pipe(
-  Schema.encodeKeys({ perPage: "per_page" }),
+  Schema.encodeKeys({ page: "page", perPage: "per_page" }),
   T.Http({
     method: "GET",
     path: "/accounts/{account_id}/cloudforce-one/requests/{requestId}/asset",
@@ -846,12 +921,19 @@ export const CreateRequestAssetResponse = Schema.Array(
     created: Schema.optional(Schema.String),
     description: Schema.optional(Schema.String),
     fileType: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ fileType: "file_type" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      created: "created",
+      description: "description",
+      fileType: "file_type",
+    }),
+  ),
 ) as unknown as Schema.Schema<CreateRequestAssetResponse>;
 
-export const createRequestAsset: (
-  input: CreateRequestAssetRequest,
-) => Effect.Effect<
+export const createRequestAsset: API.OperationMethod<
+  CreateRequestAssetRequest,
   CreateRequestAssetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -902,12 +984,17 @@ export const PutRequestAssetResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
   fileType: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ fileType: "file_type" }),
+  Schema.encodeKeys({
+    id: "id",
+    name: "name",
+    created: "created",
+    description: "description",
+    fileType: "file_type",
+  }),
 ) as unknown as Schema.Schema<PutRequestAssetResponse>;
 
-export const putRequestAsset: (
-  input: PutRequestAssetRequest,
-) => Effect.Effect<
+export const putRequestAsset: API.OperationMethod<
+  PutRequestAssetRequest,
   PutRequestAssetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -963,7 +1050,14 @@ export const DeleteRequestAssetResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -975,14 +1069,20 @@ export const DeleteRequestAssetResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestAssetResponse>;
 
-export const deleteRequestAsset: (
-  input: DeleteRequestAssetRequest,
-) => Effect.Effect<
+export const deleteRequestAsset: API.OperationMethod<
+  DeleteRequestAssetRequest,
   DeleteRequestAssetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1025,7 +1125,10 @@ export const GetRequestMessageRequest = Schema.Struct({
   sortOrder: Schema.optional(Schema.Literals(["asc", "desc"])),
 }).pipe(
   Schema.encodeKeys({
+    page: "page",
     perPage: "per_page",
+    after: "after",
+    before: "before",
     sortBy: "sort_by",
     sortOrder: "sort_order",
   }),
@@ -1052,12 +1155,18 @@ export const GetRequestMessageResponse = Schema.Array(
         pointer: Schema.optional(Schema.String),
       }),
     ),
-  }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+  }).pipe(
+    Schema.encodeKeys({
+      code: "code",
+      message: "message",
+      documentationUrl: "documentation_url",
+      source: "source",
+    }),
+  ),
 ) as unknown as Schema.Schema<GetRequestMessageResponse>;
 
-export const getRequestMessage: (
-  input: GetRequestMessageRequest,
-) => Effect.Effect<
+export const getRequestMessage: API.OperationMethod<
+  GetRequestMessageRequest,
   GetRequestMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1103,12 +1212,16 @@ export const CreateRequestMessageResponse = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ documentationUrl: "documentation_url" }),
+  Schema.encodeKeys({
+    code: "code",
+    message: "message",
+    documentationUrl: "documentation_url",
+    source: "source",
+  }),
 ) as unknown as Schema.Schema<CreateRequestMessageResponse>;
 
-export const createRequestMessage: (
-  input: CreateRequestMessageRequest,
-) => Effect.Effect<
+export const createRequestMessage: API.OperationMethod<
+  CreateRequestMessageRequest,
   CreateRequestMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1156,12 +1269,16 @@ export const UpdateRequestMessageResponse = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ documentationUrl: "documentation_url" }),
+  Schema.encodeKeys({
+    code: "code",
+    message: "message",
+    documentationUrl: "documentation_url",
+    source: "source",
+  }),
 ) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
 
-export const updateRequestMessage: (
-  input: UpdateRequestMessageRequest,
-) => Effect.Effect<
+export const updateRequestMessage: API.OperationMethod<
+  UpdateRequestMessageRequest,
   UpdateRequestMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1217,7 +1334,14 @@ export const DeleteRequestMessageResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1229,14 +1353,20 @@ export const DeleteRequestMessageResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestMessageResponse>;
 
-export const deleteRequestMessage: (
-  input: DeleteRequestMessageRequest,
-) => Effect.Effect<
+export const deleteRequestMessage: API.OperationMethod<
+  DeleteRequestMessageRequest,
   DeleteRequestMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1271,9 +1401,8 @@ export type GetRequestPriorityResponse = unknown;
 export const GetRequestPriorityResponse =
   Schema.Unknown as unknown as Schema.Schema<GetRequestPriorityResponse>;
 
-export const getRequestPriority: (
-  input: GetRequestPriorityRequest,
-) => Effect.Effect<
+export const getRequestPriority: API.OperationMethod<
+  GetRequestPriorityRequest,
   GetRequestPriorityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1336,9 +1465,8 @@ export const CreateRequestPriorityResponse = Schema.Struct({
   updated: Schema.String,
 }) as unknown as Schema.Schema<CreateRequestPriorityResponse>;
 
-export const createRequestPriority: (
-  input: CreateRequestPriorityRequest,
-) => Effect.Effect<
+export const createRequestPriority: API.OperationMethod<
+  CreateRequestPriorityRequest,
   CreateRequestPriorityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1381,9 +1509,8 @@ export type UpdateRequestPriorityResponse = unknown;
 export const UpdateRequestPriorityResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateRequestPriorityResponse>;
 
-export const updateRequestPriority: (
-  input: UpdateRequestPriorityRequest,
-) => Effect.Effect<
+export const updateRequestPriority: API.OperationMethod<
+  UpdateRequestPriorityRequest,
   UpdateRequestPriorityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1437,7 +1564,14 @@ export const DeleteRequestPriorityResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1449,14 +1583,20 @@ export const DeleteRequestPriorityResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestPriorityResponse>;
 
-export const deleteRequestPriority: (
-  input: DeleteRequestPriorityRequest,
-) => Effect.Effect<
+export const deleteRequestPriority: API.OperationMethod<
+  DeleteRequestPriorityRequest,
   DeleteRequestPriorityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1485,9 +1625,8 @@ export type QuotaRequestPriorityResponse = unknown;
 export const QuotaRequestPriorityResponse =
   Schema.Unknown as unknown as Schema.Schema<QuotaRequestPriorityResponse>;
 
-export const quotaRequestPriority: (
-  input: QuotaRequestPriorityRequest,
-) => Effect.Effect<
+export const quotaRequestPriority: API.OperationMethod<
+  QuotaRequestPriorityRequest,
   QuotaRequestPriorityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1530,12 +1669,19 @@ export const ListScanConfigsResponse = Schema.Array(
     frequency: Schema.Number,
     ips: Schema.Array(Schema.String),
     ports: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ accountId: "account_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      frequency: "frequency",
+      ips: "ips",
+      ports: "ports",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListScanConfigsResponse>;
 
-export const listScanConfigs: (
-  input: ListScanConfigsRequest,
-) => Effect.Effect<
+export const listScanConfigs: API.OperationMethod<
+  ListScanConfigsRequest,
   ListScanConfigsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1587,12 +1733,17 @@ export const CreateScanConfigResponse = Schema.Struct({
   ips: Schema.Array(Schema.String),
   ports: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ accountId: "account_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    frequency: "frequency",
+    ips: "ips",
+    ports: "ports",
+  }),
 ) as unknown as Schema.Schema<CreateScanConfigResponse>;
 
-export const createScanConfig: (
-  input: CreateScanConfigRequest,
-) => Effect.Effect<
+export const createScanConfig: API.OperationMethod<
+  CreateScanConfigRequest,
   CreateScanConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1646,12 +1797,17 @@ export const PatchScanConfigResponse = Schema.Struct({
   ips: Schema.Array(Schema.String),
   ports: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ accountId: "account_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    frequency: "frequency",
+    ips: "ips",
+    ports: "ports",
+  }),
 ) as unknown as Schema.Schema<PatchScanConfigResponse>;
 
-export const patchScanConfig: (
-  input: PatchScanConfigRequest,
-) => Effect.Effect<
+export const patchScanConfig: API.OperationMethod<
+  PatchScanConfigRequest,
   PatchScanConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1682,9 +1838,8 @@ export type DeleteScanConfigResponse = unknown;
 export const DeleteScanConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScanConfigResponse>;
 
-export const deleteScanConfig: (
-  input: DeleteScanConfigRequest,
-) => Effect.Effect<
+export const deleteScanConfig: API.OperationMethod<
+  DeleteScanConfigRequest,
   DeleteScanConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1728,9 +1883,8 @@ export const GetScanResultResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetScanResultResponse>;
 
-export const getScanResult: (
-  input: GetScanResultRequest,
-) => Effect.Effect<
+export const getScanResult: API.OperationMethod<
+  GetScanResultRequest,
   GetScanResultResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1816,9 +1970,8 @@ export const GetThreatEventResponse = Schema.Struct({
   releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetThreatEventResponse>;
 
-export const getThreatEvent: (
-  input: GetThreatEventRequest,
-) => Effect.Effect<
+export const getThreatEvent: API.OperationMethod<
+  GetThreatEventRequest,
   GetThreatEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1977,9 +2130,8 @@ export const ListThreatEventsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventsResponse>;
 
-export const listThreatEvents: (
-  input: ListThreatEventsRequest,
-) => Effect.Effect<
+export const listThreatEvents: API.OperationMethod<
+  ListThreatEventsRequest,
   ListThreatEventsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2118,9 +2270,8 @@ export const CreateThreatEventResponse = Schema.Struct({
   releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventResponse>;
 
-export const createThreatEvent: (
-  input: CreateThreatEventRequest,
-) => Effect.Effect<
+export const createThreatEvent: API.OperationMethod<
+  CreateThreatEventRequest,
   CreateThreatEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2254,9 +2405,8 @@ export const PatchThreatEventResponse = Schema.Struct({
   releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchThreatEventResponse>;
 
-export const patchThreatEvent: (
-  input: PatchThreatEventRequest,
-) => Effect.Effect<
+export const patchThreatEvent: API.OperationMethod<
+  PatchThreatEventRequest,
   PatchThreatEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2290,9 +2440,8 @@ export const DeleteThreatEventResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<DeleteThreatEventResponse>;
 
-export const deleteThreatEvent: (
-  input: DeleteThreatEventRequest,
-) => Effect.Effect<
+export const deleteThreatEvent: API.OperationMethod<
+  DeleteThreatEventRequest,
   DeleteThreatEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2412,9 +2561,8 @@ export const BulkCreateThreatEventsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BulkCreateThreatEventsResponse>;
 
-export const bulkCreateThreatEvents: (
-  input: BulkCreateThreatEventsRequest,
-) => Effect.Effect<
+export const bulkCreateThreatEvents: API.OperationMethod<
+  BulkCreateThreatEventsRequest,
   BulkCreateThreatEventsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2459,9 +2607,8 @@ export const ListThreatEventAttackersResponse = Schema.Struct({
   type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventAttackersResponse>;
 
-export const listThreatEventAttackers: (
-  input: ListThreatEventAttackersRequest,
-) => Effect.Effect<
+export const listThreatEventAttackers: API.OperationMethod<
+  ListThreatEventAttackersRequest,
   ListThreatEventAttackersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2507,9 +2654,8 @@ export const GetThreatEventCategoryResponse = Schema.Struct({
   shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetThreatEventCategoryResponse>;
 
-export const getThreatEventCategory: (
-  input: GetThreatEventCategoryRequest,
-) => Effect.Effect<
+export const getThreatEventCategory: API.OperationMethod<
+  GetThreatEventCategoryRequest,
   GetThreatEventCategoryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2556,9 +2702,8 @@ export const ListThreatEventCategoriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventCategoriesResponse>;
 
-export const listThreatEventCategories: (
-  input: ListThreatEventCategoriesRequest,
-) => Effect.Effect<
+export const listThreatEventCategories: API.OperationMethod<
+  ListThreatEventCategoriesRequest,
   ListThreatEventCategoriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2610,9 +2755,8 @@ export const CreateThreatEventCategoryResponse = Schema.Struct({
   shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventCategoryResponse>;
 
-export const createThreatEventCategory: (
-  input: CreateThreatEventCategoryRequest,
-) => Effect.Effect<
+export const createThreatEventCategory: API.OperationMethod<
+  CreateThreatEventCategoryRequest,
   CreateThreatEventCategoryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2666,9 +2810,8 @@ export const PatchThreatEventCategoryResponse = Schema.Struct({
   shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchThreatEventCategoryResponse>;
 
-export const patchThreatEventCategory: (
-  input: PatchThreatEventCategoryRequest,
-) => Effect.Effect<
+export const patchThreatEventCategory: API.OperationMethod<
+  PatchThreatEventCategoryRequest,
   PatchThreatEventCategoryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2702,9 +2845,8 @@ export const DeleteThreatEventCategoryResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<DeleteThreatEventCategoryResponse>;
 
-export const deleteThreatEventCategory: (
-  input: DeleteThreatEventCategoryRequest,
-) => Effect.Effect<
+export const deleteThreatEventCategory: API.OperationMethod<
+  DeleteThreatEventCategoryRequest,
   DeleteThreatEventCategoryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2749,9 +2891,8 @@ export const ListThreatEventCountriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventCountriesResponse>;
 
-export const listThreatEventCountries: (
-  input: ListThreatEventCountriesRequest,
-) => Effect.Effect<
+export const listThreatEventCountries: API.OperationMethod<
+  ListThreatEventCountriesRequest,
   ListThreatEventCountriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2793,9 +2934,8 @@ export const GetThreatEventDatasetResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<GetThreatEventDatasetResponse>;
 
-export const getThreatEventDataset: (
-  input: GetThreatEventDatasetRequest,
-) => Effect.Effect<
+export const getThreatEventDataset: API.OperationMethod<
+  GetThreatEventDatasetRequest,
   GetThreatEventDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2833,9 +2973,8 @@ export const ListThreatEventDatasetsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventDatasetsResponse>;
 
-export const listThreatEventDatasets: (
-  input: ListThreatEventDatasetsRequest,
-) => Effect.Effect<
+export const listThreatEventDatasets: API.OperationMethod<
+  ListThreatEventDatasetsRequest,
   ListThreatEventDatasetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2877,9 +3016,8 @@ export const CreateThreatEventDatasetResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<CreateThreatEventDatasetResponse>;
 
-export const createThreatEventDataset: (
-  input: CreateThreatEventDatasetRequest,
-) => Effect.Effect<
+export const createThreatEventDataset: API.OperationMethod<
+  CreateThreatEventDatasetRequest,
   CreateThreatEventDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2923,9 +3061,8 @@ export const PatchThreatEventDatasetResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<PatchThreatEventDatasetResponse>;
 
-export const patchThreatEventDataset: (
-  input: PatchThreatEventDatasetRequest,
-) => Effect.Effect<
+export const patchThreatEventDataset: API.OperationMethod<
+  PatchThreatEventDatasetRequest,
   PatchThreatEventDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2971,9 +3108,8 @@ export const RawThreatEventDatasetResponse = Schema.Struct({
   tlp: Schema.String,
 }) as unknown as Schema.Schema<RawThreatEventDatasetResponse>;
 
-export const rawThreatEventDataset: (
-  input: RawThreatEventDatasetRequest,
-) => Effect.Effect<
+export const rawThreatEventDataset: API.OperationMethod<
+  RawThreatEventDatasetRequest,
   RawThreatEventDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3014,9 +3150,8 @@ export const CreateThreatEventEventTagResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateThreatEventEventTagResponse>;
 
-export const createThreatEventEventTag: (
-  input: CreateThreatEventEventTagRequest,
-) => Effect.Effect<
+export const createThreatEventEventTag: API.OperationMethod<
+  CreateThreatEventEventTagRequest,
   CreateThreatEventEventTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3050,9 +3185,8 @@ export const DeleteThreatEventEventTagResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteThreatEventEventTagResponse>;
 
-export const deleteThreatEventEventTag: (
-  input: DeleteThreatEventEventTagRequest,
-) => Effect.Effect<
+export const deleteThreatEventEventTag: API.OperationMethod<
+  DeleteThreatEventEventTagRequest,
   DeleteThreatEventEventTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3092,9 +3226,8 @@ export const ListThreatEventIndicatorTypesResponse = Schema.Struct({
   type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventIndicatorTypesResponse>;
 
-export const listThreatEventIndicatorTypes: (
-  input: ListThreatEventIndicatorTypesRequest,
-) => Effect.Effect<
+export const listThreatEventIndicatorTypes: API.OperationMethod<
+  ListThreatEventIndicatorTypesRequest,
   ListThreatEventIndicatorTypesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3144,9 +3277,8 @@ export const GetThreatEventRawResponse = Schema.Struct({
   tlp: Schema.String,
 }) as unknown as Schema.Schema<GetThreatEventRawResponse>;
 
-export const getThreatEventRaw: (
-  input: GetThreatEventRawRequest,
-) => Effect.Effect<
+export const getThreatEventRaw: API.OperationMethod<
+  GetThreatEventRawRequest,
   GetThreatEventRawResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3193,9 +3325,8 @@ export const PatchThreatEventRawResponse = Schema.Struct({
   data: Schema.Unknown,
 }) as unknown as Schema.Schema<PatchThreatEventRawResponse>;
 
-export const patchThreatEventRaw: (
-  input: PatchThreatEventRawRequest,
-) => Effect.Effect<
+export const patchThreatEventRaw: API.OperationMethod<
+  PatchThreatEventRawRequest,
   PatchThreatEventRawResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3233,9 +3364,8 @@ export const DeleteThreatEventRelateResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteThreatEventRelateResponse>;
 
-export const deleteThreatEventRelate: (
-  input: DeleteThreatEventRelateRequest,
-) => Effect.Effect<
+export const deleteThreatEventRelate: API.OperationMethod<
+  DeleteThreatEventRelateRequest,
   DeleteThreatEventRelateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3353,9 +3483,8 @@ export const CreateThreatEventTagResponse = Schema.Struct({
   sophisticationLevel: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventTagResponse>;
 
-export const createThreatEventTag: (
-  input: CreateThreatEventTagRequest,
-) => Effect.Effect<
+export const createThreatEventTag: API.OperationMethod<
+  CreateThreatEventTagRequest,
   CreateThreatEventTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3400,9 +3529,8 @@ export const ListThreatEventTargetIndustriesResponse = Schema.Struct({
   type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventTargetIndustriesResponse>;
 
-export const listThreatEventTargetIndustries: (
-  input: ListThreatEventTargetIndustriesRequest,
-) => Effect.Effect<
+export const listThreatEventTargetIndustries: API.OperationMethod<
+  ListThreatEventTargetIndustriesRequest,
   ListThreatEventTargetIndustriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

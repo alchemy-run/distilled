@@ -68,16 +68,19 @@ export const GetListResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    kind: "kind",
     modifiedOn: "modified_on",
+    name: "name",
     numItems: "num_items",
     numReferencingFilters: "num_referencing_filters",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<GetListResponse>;
 
-export const getList: (
-  input: GetListRequest,
-) => Effect.Effect<
+export const getList: API.OperationMethod<
+  GetListRequest,
   GetListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -121,17 +124,20 @@ export const ListListsResponse = Schema.Array(
     description: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      kind: "kind",
       modifiedOn: "modified_on",
+      name: "name",
       numItems: "num_items",
       numReferencingFilters: "num_referencing_filters",
+      description: "description",
     }),
   ),
 ) as unknown as Schema.Schema<ListListsResponse>;
 
-export const listLists: (
-  input: ListListsRequest,
-) => Effect.Effect<
+export const listLists: API.OperationMethod<
+  ListListsRequest,
   ListListsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -191,16 +197,19 @@ export const CreateListResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    kind: "kind",
     modifiedOn: "modified_on",
+    name: "name",
     numItems: "num_items",
     numReferencingFilters: "num_referencing_filters",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<CreateListResponse>;
 
-export const createList: (
-  input: CreateListRequest,
-) => Effect.Effect<
+export const createList: API.OperationMethod<
+  CreateListRequest,
   CreateListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -259,16 +268,19 @@ export const UpdateListResponse = Schema.Struct({
   description: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    kind: "kind",
     modifiedOn: "modified_on",
+    name: "name",
     numItems: "num_items",
     numReferencingFilters: "num_referencing_filters",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<UpdateListResponse>;
 
-export const updateList: (
-  input: UpdateListRequest,
-) => Effect.Effect<
+export const updateList: API.OperationMethod<
+  UpdateListRequest,
   UpdateListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -303,9 +315,8 @@ export const DeleteListResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteListResponse>;
 
-export const deleteList: (
-  input: DeleteListRequest,
-) => Effect.Effect<
+export const deleteList: API.OperationMethod<
+  DeleteListRequest,
   DeleteListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -358,9 +369,8 @@ export const GetListBulkOperationResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetListBulkOperationResponse>;
 
-export const getListBulkOperation: (
-  input: GetListBulkOperationRequest,
-) => Effect.Effect<
+export const getListBulkOperation: API.OperationMethod<
+  GetListBulkOperationRequest,
   GetListBulkOperationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -430,7 +440,13 @@ export const GetListItemResponse = Schema.Union([
     modifiedOn: Schema.String,
     comment: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      ip: "ip",
+      modifiedOn: "modified_on",
+      comment: "comment",
+    }),
   ),
   Schema.Struct({
     id: Schema.String,
@@ -439,7 +455,13 @@ export const GetListItemResponse = Schema.Union([
     modifiedOn: Schema.String,
     comment: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      hostname: "hostname",
+      modifiedOn: "modified_on",
+      comment: "comment",
+    }),
   ),
   Schema.Struct({
     id: Schema.String,
@@ -448,7 +470,13 @@ export const GetListItemResponse = Schema.Union([
     redirect: Schema.Unknown,
     comment: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      redirect: "redirect",
+      comment: "comment",
+    }),
   ),
   Schema.Struct({
     id: Schema.String,
@@ -457,13 +485,18 @@ export const GetListItemResponse = Schema.Union([
     modifiedOn: Schema.String,
     comment: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      asn: "asn",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      comment: "comment",
+    }),
   ),
 ]) as unknown as Schema.Schema<GetListItemResponse>;
 
-export const getListItem: (
-  input: GetListItemRequest,
-) => Effect.Effect<
+export const getListItem: API.OperationMethod<
+  GetListItemRequest,
   GetListItemResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -535,7 +568,13 @@ export const ListListItemsResponse = Schema.Array(
       modifiedOn: Schema.String,
       comment: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        ip: "ip",
+        modifiedOn: "modified_on",
+        comment: "comment",
+      }),
     ),
     Schema.Struct({
       id: Schema.String,
@@ -544,7 +583,13 @@ export const ListListItemsResponse = Schema.Array(
       modifiedOn: Schema.String,
       comment: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        hostname: "hostname",
+        modifiedOn: "modified_on",
+        comment: "comment",
+      }),
     ),
     Schema.Struct({
       id: Schema.String,
@@ -553,7 +598,13 @@ export const ListListItemsResponse = Schema.Array(
       redirect: Schema.Unknown,
       comment: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        redirect: "redirect",
+        comment: "comment",
+      }),
     ),
     Schema.Struct({
       id: Schema.String,
@@ -562,14 +613,19 @@ export const ListListItemsResponse = Schema.Array(
       modifiedOn: Schema.String,
       comment: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        asn: "asn",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        comment: "comment",
+      }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListListItemsResponse>;
 
-export const listListItems: (
-  input: ListListItemsRequest,
-) => Effect.Effect<
+export const listListItems: API.OperationMethod<
+  ListListItemsRequest,
   ListListItemsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -633,9 +689,8 @@ export const CreateListItemResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<CreateListItemResponse>;
 
-export const createListItem: (
-  input: CreateListItemRequest,
-) => Effect.Effect<
+export const createListItem: API.OperationMethod<
+  CreateListItemRequest,
   CreateListItemResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -699,9 +754,8 @@ export const UpdateListItemResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<UpdateListItemResponse>;
 
-export const updateListItem: (
-  input: UpdateListItemRequest,
-) => Effect.Effect<
+export const updateListItem: API.OperationMethod<
+  UpdateListItemRequest,
   UpdateListItemResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -747,9 +801,8 @@ export const DeleteListItemResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<DeleteListItemResponse>;
 
-export const deleteListItem: (
-  input: DeleteListItemRequest,
-) => Effect.Effect<
+export const deleteListItem: API.OperationMethod<
+  DeleteListItemRequest,
   DeleteListItemResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

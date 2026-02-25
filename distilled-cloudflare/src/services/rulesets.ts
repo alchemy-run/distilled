@@ -196,6 +196,8 @@ export const GetPhasResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -209,8 +211,18 @@ export const GetPhasResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -247,6 +259,8 @@ export const GetPhasResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -260,8 +274,18 @@ export const GetPhasResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -269,12 +293,20 @@ export const GetPhasResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<GetPhasResponse>;
 
-export const getPhas: (
-  input: GetPhasRequest,
-) => Effect.Effect<
+export const getPhas: API.OperationMethod<
+  GetPhasRequest,
   GetPhasResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -387,6 +419,8 @@ export const PutPhasRequest = Schema.Struct({
               scoreResponseHeaderName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                characteristics: "characteristics",
+                period: "period",
                 countingExpression: "counting_expression",
                 mitigationTimeout: "mitigation_timeout",
                 requestsPerPeriod: "requests_per_period",
@@ -399,8 +433,16 @@ export const PutPhasRequest = Schema.Struct({
           ref: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            action: "action",
             actionParameters: "action_parameters",
+            description: "description",
+            enabled: "enabled",
             exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
           }),
         ),
         Schema.Struct({
@@ -434,6 +476,8 @@ export const PutPhasRequest = Schema.Struct({
               scoreResponseHeaderName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                characteristics: "characteristics",
+                period: "period",
                 countingExpression: "counting_expression",
                 mitigationTimeout: "mitigation_timeout",
                 requestsPerPeriod: "requests_per_period",
@@ -446,8 +490,16 @@ export const PutPhasRequest = Schema.Struct({
           ref: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            action: "action",
             actionParameters: "action_parameters",
+            description: "description",
+            enabled: "enabled",
             exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
           }),
         ),
       ]),
@@ -625,6 +677,8 @@ export const PutPhasResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -638,8 +692,18 @@ export const PutPhasResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -676,6 +740,8 @@ export const PutPhasResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -689,8 +755,18 @@ export const PutPhasResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -698,12 +774,20 @@ export const PutPhasResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<PutPhasResponse>;
 
-export const putPhas: (
-  input: PutPhasRequest,
-) => Effect.Effect<
+export const putPhas: API.OperationMethod<
+  PutPhasRequest,
   PutPhasResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -895,6 +979,8 @@ export const GetPhasVersionResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -908,8 +994,18 @@ export const GetPhasVersionResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -946,6 +1042,8 @@ export const GetPhasVersionResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -959,8 +1057,18 @@ export const GetPhasVersionResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -968,12 +1076,20 @@ export const GetPhasVersionResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<GetPhasVersionResponse>;
 
-export const getPhasVersion: (
-  input: GetPhasVersionRequest,
-) => Effect.Effect<
+export const getPhasVersion: API.OperationMethod<
+  GetPhasVersionRequest,
   GetPhasVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1058,12 +1174,21 @@ export const ListPhasVersionsResponse = Schema.Array(
     ]),
     version: Schema.String,
     description: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      version: "version",
+      description: "description",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListPhasVersionsResponse>;
 
-export const listPhasVersions: (
-  input: ListPhasVersionsRequest,
-) => Effect.Effect<
+export const listPhasVersions: API.OperationMethod<
+  ListPhasVersionsRequest,
   ListPhasVersionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1136,6 +1261,7 @@ export const CreateRuleRequest = Schema.Struct({
           statusCode: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            content: "content",
             contentType: "content_type",
             statusCode: "status_code",
           }),
@@ -1187,6 +1313,8 @@ export const CreateRuleRequest = Schema.Struct({
       scoreResponseHeaderName: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        characteristics: "characteristics",
+        period: "period",
         countingExpression: "counting_expression",
         mitigationTimeout: "mitigation_timeout",
         requestsPerPeriod: "requests_per_period",
@@ -1199,8 +1327,17 @@ export const CreateRuleRequest = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    action: "action",
     actionParameters: "action_parameters",
+    description: "description",
+    enabled: "enabled",
     exposedCredentialCheck: "exposed_credential_check",
+    expression: "expression",
+    logging: "logging",
+    position: "position",
+    ratelimit: "ratelimit",
+    ref: "ref",
   }),
   T.Http({
     method: "POST",
@@ -2008,6 +2145,7 @@ export const CreateRuleResponse = Schema.Struct({
                 statusCode: Schema.Number,
               }).pipe(
                 Schema.encodeKeys({
+                  content: "content",
                   contentType: "content_type",
                   statusCode: "status_code",
                 }),
@@ -2059,6 +2197,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2073,8 +2213,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2111,6 +2260,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2124,8 +2275,18 @@ export const CreateRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2183,6 +2344,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2196,8 +2359,18 @@ export const CreateRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2250,6 +2423,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2264,8 +2439,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2295,6 +2479,9 @@ export const CreateRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        category: "category",
+                        action: "action",
+                        enabled: "enabled",
                         sensitivityLevel: "sensitivity_level",
                       }),
                     ),
@@ -2313,6 +2500,9 @@ export const CreateRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        id: "id",
+                        action: "action",
+                        enabled: "enabled",
                         scoreThreshold: "score_threshold",
                         sensitivityLevel: "sensitivity_level",
                       }),
@@ -2323,10 +2513,22 @@ export const CreateRuleResponse = Schema.Struct({
                   Schema.Literals(["default", "medium", "low", "eoff"]),
                 ),
               }).pipe(
-                Schema.encodeKeys({ sensitivityLevel: "sensitivity_level" }),
+                Schema.encodeKeys({
+                  action: "action",
+                  categories: "categories",
+                  enabled: "enabled",
+                  rules: "rules",
+                  sensitivityLevel: "sensitivity_level",
+                }),
               ),
             ),
-          }).pipe(Schema.encodeKeys({ matchedData: "matched_data" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              matchedData: "matched_data",
+              overrides: "overrides",
+            }),
+          ),
         ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -2372,6 +2574,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2386,8 +2590,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2440,6 +2653,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2454,8 +2669,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2492,6 +2716,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2505,8 +2731,18 @@ export const CreateRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2559,6 +2795,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2573,8 +2811,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2598,6 +2845,7 @@ export const CreateRuleResponse = Schema.Struct({
                   preserveDuplicates: Schema.optional(Schema.Boolean),
                 }).pipe(
                   Schema.encodeKeys({
+                    name: "name",
                     preserveDuplicates: "preserve_duplicates",
                   }),
                 ),
@@ -2617,6 +2865,7 @@ export const CreateRuleResponse = Schema.Struct({
                   preserveDuplicates: Schema.optional(Schema.Boolean),
                 }).pipe(
                   Schema.encodeKeys({
+                    name: "name",
                     preserveDuplicates: "preserve_duplicates",
                   }),
                 ),
@@ -2683,6 +2932,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2697,8 +2948,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2751,6 +3011,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2765,8 +3027,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2851,6 +3122,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2865,8 +3138,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2939,6 +3221,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -2953,8 +3237,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -2976,7 +3269,13 @@ export const CreateRuleResponse = Schema.Struct({
                 value: Schema.String,
               }),
             ),
-          }).pipe(Schema.encodeKeys({ hostHeader: "host_header" })),
+          }).pipe(
+            Schema.encodeKeys({
+              hostHeader: "host_header",
+              origin: "origin",
+              sni: "sni",
+            }),
+          ),
         ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -3022,6 +3321,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -3036,8 +3337,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -3094,6 +3404,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -3108,8 +3420,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -3132,6 +3453,7 @@ export const CreateRuleResponse = Schema.Struct({
               statusCode: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                content: "content",
                 contentType: "content_type",
                 statusCode: "status_code",
               }),
@@ -3200,6 +3522,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -3214,8 +3538,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -3253,7 +3586,10 @@ export const CreateRuleResponse = Schema.Struct({
                         ),
                         include: Schema.optional(Schema.Array(Schema.String)),
                       }).pipe(
-                        Schema.encodeKeys({ checkPresence: "check_presence" }),
+                        Schema.encodeKeys({
+                          checkPresence: "check_presence",
+                          include: "include",
+                        }),
                       ),
                     ),
                     header: Schema.optional(
@@ -3267,7 +3603,9 @@ export const CreateRuleResponse = Schema.Struct({
                       }).pipe(
                         Schema.encodeKeys({
                           checkPresence: "check_presence",
+                          contains: "contains",
                           excludeOrigin: "exclude_origin",
+                          include: "include",
                         }),
                       ),
                     ),
@@ -3297,9 +3635,23 @@ export const CreateRuleResponse = Schema.Struct({
                         deviceType: Schema.optional(Schema.Boolean),
                         geo: Schema.optional(Schema.Boolean),
                         lang: Schema.optional(Schema.Boolean),
-                      }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          deviceType: "device_type",
+                          geo: "geo",
+                          lang: "lang",
+                        }),
+                      ),
                     ),
-                  }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      cookie: "cookie",
+                      header: "header",
+                      host: "host",
+                      queryString: "query_string",
+                      user: "user",
+                    }),
+                  ),
                 ),
                 ignoreQueryStringsOrder: Schema.optional(Schema.Boolean),
               }).pipe(
@@ -3316,7 +3668,10 @@ export const CreateRuleResponse = Schema.Struct({
                 eligible: Schema.Boolean,
                 minimumFileSize: Schema.optional(Schema.Number),
               }).pipe(
-                Schema.encodeKeys({ minimumFileSize: "minimum_file_size" }),
+                Schema.encodeKeys({
+                  eligible: "eligible",
+                  minimumFileSize: "minimum_file_size",
+                }),
               ),
             ),
             edgeTtl: Schema.optional(
@@ -3340,13 +3695,20 @@ export const CreateRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        value: "value",
                         statusCode: "status_code",
                         statusCodeRange: "status_code_range",
                       }),
                     ),
                   ),
                 ),
-              }).pipe(Schema.encodeKeys({ statusCodeTtl: "status_code_ttl" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  mode: "mode",
+                  default: "default",
+                  statusCodeTtl: "status_code_ttl",
+                }),
+              ),
             ),
             originCacheControl: Schema.optional(Schema.Boolean),
             originErrorPagePassthru: Schema.optional(Schema.Boolean),
@@ -3365,6 +3727,7 @@ export const CreateRuleResponse = Schema.Struct({
             Schema.encodeKeys({
               additionalCacheablePorts: "additional_cacheable_ports",
               browserTtl: "browser_ttl",
+              cache: "cache",
               cacheKey: "cache_key",
               cacheReserve: "cache_reserve",
               edgeTtl: "edge_ttl",
@@ -3420,6 +3783,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -3434,8 +3799,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -3497,18 +3871,25 @@ export const CreateRuleResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               automaticHttpsRewrites: "automatic_https_rewrites",
+              autominify: "autominify",
+              bic: "bic",
               disableApps: "disable_apps",
               disablePayPerCrawl: "disable_pay_per_crawl",
               disableRum: "disable_rum",
               disableZaraz: "disable_zaraz",
               emailObfuscation: "email_obfuscation",
+              fonts: "fonts",
               hotlinkProtection: "hotlink_protection",
+              mirage: "mirage",
               opportunisticEncryption: "opportunistic_encryption",
+              polish: "polish",
               requestBodyBuffering: "request_body_buffering",
               responseBodyBuffering: "response_body_buffering",
               rocketLoader: "rocket_loader",
               securityLevel: "security_level",
               serverSideExcludes: "server_side_excludes",
+              ssl: "ssl",
+              sxg: "sxg",
             }),
           ),
         ),
@@ -3544,6 +3925,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -3557,8 +3940,18 @@ export const CreateRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -3660,6 +4053,8 @@ export const CreateRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -3674,8 +4069,17 @@ export const CreateRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -3683,12 +4087,20 @@ export const CreateRuleResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export const createRule: (
-  input: CreateRuleRequest,
-) => Effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3759,6 +4171,7 @@ export const PatchRuleRequest = Schema.Struct({
           statusCode: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            content: "content",
             contentType: "content_type",
             statusCode: "status_code",
           }),
@@ -3810,6 +4223,8 @@ export const PatchRuleRequest = Schema.Struct({
       scoreResponseHeaderName: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        characteristics: "characteristics",
+        period: "period",
         countingExpression: "counting_expression",
         mitigationTimeout: "mitigation_timeout",
         requestsPerPeriod: "requests_per_period",
@@ -3822,8 +4237,17 @@ export const PatchRuleRequest = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    action: "action",
     actionParameters: "action_parameters",
+    description: "description",
+    enabled: "enabled",
     exposedCredentialCheck: "exposed_credential_check",
+    expression: "expression",
+    logging: "logging",
+    position: "position",
+    ratelimit: "ratelimit",
+    ref: "ref",
   }),
   T.Http({
     method: "PATCH",
@@ -4631,6 +5055,7 @@ export const PatchRuleResponse = Schema.Struct({
                 statusCode: Schema.Number,
               }).pipe(
                 Schema.encodeKeys({
+                  content: "content",
                   contentType: "content_type",
                   statusCode: "status_code",
                 }),
@@ -4682,6 +5107,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -4696,8 +5123,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -4734,6 +5170,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -4747,8 +5185,18 @@ export const PatchRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -4806,6 +5254,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -4819,8 +5269,18 @@ export const PatchRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -4873,6 +5333,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -4887,8 +5349,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -4918,6 +5389,9 @@ export const PatchRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        category: "category",
+                        action: "action",
+                        enabled: "enabled",
                         sensitivityLevel: "sensitivity_level",
                       }),
                     ),
@@ -4936,6 +5410,9 @@ export const PatchRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        id: "id",
+                        action: "action",
+                        enabled: "enabled",
                         scoreThreshold: "score_threshold",
                         sensitivityLevel: "sensitivity_level",
                       }),
@@ -4946,10 +5423,22 @@ export const PatchRuleResponse = Schema.Struct({
                   Schema.Literals(["default", "medium", "low", "eoff"]),
                 ),
               }).pipe(
-                Schema.encodeKeys({ sensitivityLevel: "sensitivity_level" }),
+                Schema.encodeKeys({
+                  action: "action",
+                  categories: "categories",
+                  enabled: "enabled",
+                  rules: "rules",
+                  sensitivityLevel: "sensitivity_level",
+                }),
               ),
             ),
-          }).pipe(Schema.encodeKeys({ matchedData: "matched_data" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              matchedData: "matched_data",
+              overrides: "overrides",
+            }),
+          ),
         ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -4995,6 +5484,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5009,8 +5500,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5063,6 +5563,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5077,8 +5579,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5115,6 +5626,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5128,8 +5641,18 @@ export const PatchRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5182,6 +5705,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5196,8 +5721,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5221,6 +5755,7 @@ export const PatchRuleResponse = Schema.Struct({
                   preserveDuplicates: Schema.optional(Schema.Boolean),
                 }).pipe(
                   Schema.encodeKeys({
+                    name: "name",
                     preserveDuplicates: "preserve_duplicates",
                   }),
                 ),
@@ -5240,6 +5775,7 @@ export const PatchRuleResponse = Schema.Struct({
                   preserveDuplicates: Schema.optional(Schema.Boolean),
                 }).pipe(
                   Schema.encodeKeys({
+                    name: "name",
                     preserveDuplicates: "preserve_duplicates",
                   }),
                 ),
@@ -5306,6 +5842,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5320,8 +5858,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5374,6 +5921,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5388,8 +5937,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5474,6 +6032,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5488,8 +6048,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5562,6 +6131,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5576,8 +6147,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5599,7 +6179,13 @@ export const PatchRuleResponse = Schema.Struct({
                 value: Schema.String,
               }),
             ),
-          }).pipe(Schema.encodeKeys({ hostHeader: "host_header" })),
+          }).pipe(
+            Schema.encodeKeys({
+              hostHeader: "host_header",
+              origin: "origin",
+              sni: "sni",
+            }),
+          ),
         ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -5645,6 +6231,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5659,8 +6247,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5717,6 +6314,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5731,8 +6330,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5755,6 +6363,7 @@ export const PatchRuleResponse = Schema.Struct({
               statusCode: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                content: "content",
                 contentType: "content_type",
                 statusCode: "status_code",
               }),
@@ -5823,6 +6432,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -5837,8 +6448,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -5876,7 +6496,10 @@ export const PatchRuleResponse = Schema.Struct({
                         ),
                         include: Schema.optional(Schema.Array(Schema.String)),
                       }).pipe(
-                        Schema.encodeKeys({ checkPresence: "check_presence" }),
+                        Schema.encodeKeys({
+                          checkPresence: "check_presence",
+                          include: "include",
+                        }),
                       ),
                     ),
                     header: Schema.optional(
@@ -5890,7 +6513,9 @@ export const PatchRuleResponse = Schema.Struct({
                       }).pipe(
                         Schema.encodeKeys({
                           checkPresence: "check_presence",
+                          contains: "contains",
                           excludeOrigin: "exclude_origin",
+                          include: "include",
                         }),
                       ),
                     ),
@@ -5920,9 +6545,23 @@ export const PatchRuleResponse = Schema.Struct({
                         deviceType: Schema.optional(Schema.Boolean),
                         geo: Schema.optional(Schema.Boolean),
                         lang: Schema.optional(Schema.Boolean),
-                      }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          deviceType: "device_type",
+                          geo: "geo",
+                          lang: "lang",
+                        }),
+                      ),
                     ),
-                  }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      cookie: "cookie",
+                      header: "header",
+                      host: "host",
+                      queryString: "query_string",
+                      user: "user",
+                    }),
+                  ),
                 ),
                 ignoreQueryStringsOrder: Schema.optional(Schema.Boolean),
               }).pipe(
@@ -5939,7 +6578,10 @@ export const PatchRuleResponse = Schema.Struct({
                 eligible: Schema.Boolean,
                 minimumFileSize: Schema.optional(Schema.Number),
               }).pipe(
-                Schema.encodeKeys({ minimumFileSize: "minimum_file_size" }),
+                Schema.encodeKeys({
+                  eligible: "eligible",
+                  minimumFileSize: "minimum_file_size",
+                }),
               ),
             ),
             edgeTtl: Schema.optional(
@@ -5963,13 +6605,20 @@ export const PatchRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        value: "value",
                         statusCode: "status_code",
                         statusCodeRange: "status_code_range",
                       }),
                     ),
                   ),
                 ),
-              }).pipe(Schema.encodeKeys({ statusCodeTtl: "status_code_ttl" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  mode: "mode",
+                  default: "default",
+                  statusCodeTtl: "status_code_ttl",
+                }),
+              ),
             ),
             originCacheControl: Schema.optional(Schema.Boolean),
             originErrorPagePassthru: Schema.optional(Schema.Boolean),
@@ -5988,6 +6637,7 @@ export const PatchRuleResponse = Schema.Struct({
             Schema.encodeKeys({
               additionalCacheablePorts: "additional_cacheable_ports",
               browserTtl: "browser_ttl",
+              cache: "cache",
               cacheKey: "cache_key",
               cacheReserve: "cache_reserve",
               edgeTtl: "edge_ttl",
@@ -6043,6 +6693,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -6057,8 +6709,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -6120,18 +6781,25 @@ export const PatchRuleResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               automaticHttpsRewrites: "automatic_https_rewrites",
+              autominify: "autominify",
+              bic: "bic",
               disableApps: "disable_apps",
               disablePayPerCrawl: "disable_pay_per_crawl",
               disableRum: "disable_rum",
               disableZaraz: "disable_zaraz",
               emailObfuscation: "email_obfuscation",
+              fonts: "fonts",
               hotlinkProtection: "hotlink_protection",
+              mirage: "mirage",
               opportunisticEncryption: "opportunistic_encryption",
+              polish: "polish",
               requestBodyBuffering: "request_body_buffering",
               responseBodyBuffering: "response_body_buffering",
               rocketLoader: "rocket_loader",
               securityLevel: "security_level",
               serverSideExcludes: "server_side_excludes",
+              ssl: "ssl",
+              sxg: "sxg",
             }),
           ),
         ),
@@ -6167,6 +6835,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -6180,8 +6850,18 @@ export const PatchRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -6283,6 +6963,8 @@ export const PatchRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -6297,8 +6979,17 @@ export const PatchRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -6306,12 +6997,20 @@ export const PatchRuleResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<PatchRuleResponse>;
 
-export const patchRule: (
-  input: PatchRuleRequest,
-) => Effect.Effect<
+export const patchRule: API.OperationMethod<
+  PatchRuleRequest,
   PatchRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7136,6 +7835,7 @@ export const DeleteRuleResponse = Schema.Struct({
                 statusCode: Schema.Number,
               }).pipe(
                 Schema.encodeKeys({
+                  content: "content",
                   contentType: "content_type",
                   statusCode: "status_code",
                 }),
@@ -7187,6 +7887,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7201,8 +7903,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7239,6 +7950,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7252,8 +7965,18 @@ export const DeleteRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7311,6 +8034,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7324,8 +8049,18 @@ export const DeleteRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7378,6 +8113,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7392,8 +8129,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7423,6 +8169,9 @@ export const DeleteRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        category: "category",
+                        action: "action",
+                        enabled: "enabled",
                         sensitivityLevel: "sensitivity_level",
                       }),
                     ),
@@ -7441,6 +8190,9 @@ export const DeleteRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        id: "id",
+                        action: "action",
+                        enabled: "enabled",
                         scoreThreshold: "score_threshold",
                         sensitivityLevel: "sensitivity_level",
                       }),
@@ -7451,10 +8203,22 @@ export const DeleteRuleResponse = Schema.Struct({
                   Schema.Literals(["default", "medium", "low", "eoff"]),
                 ),
               }).pipe(
-                Schema.encodeKeys({ sensitivityLevel: "sensitivity_level" }),
+                Schema.encodeKeys({
+                  action: "action",
+                  categories: "categories",
+                  enabled: "enabled",
+                  rules: "rules",
+                  sensitivityLevel: "sensitivity_level",
+                }),
               ),
             ),
-          }).pipe(Schema.encodeKeys({ matchedData: "matched_data" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              matchedData: "matched_data",
+              overrides: "overrides",
+            }),
+          ),
         ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -7500,6 +8264,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7514,8 +8280,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7568,6 +8343,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7582,8 +8359,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7620,6 +8406,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7633,8 +8421,18 @@ export const DeleteRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7687,6 +8485,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7701,8 +8501,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7726,6 +8535,7 @@ export const DeleteRuleResponse = Schema.Struct({
                   preserveDuplicates: Schema.optional(Schema.Boolean),
                 }).pipe(
                   Schema.encodeKeys({
+                    name: "name",
                     preserveDuplicates: "preserve_duplicates",
                   }),
                 ),
@@ -7745,6 +8555,7 @@ export const DeleteRuleResponse = Schema.Struct({
                   preserveDuplicates: Schema.optional(Schema.Boolean),
                 }).pipe(
                   Schema.encodeKeys({
+                    name: "name",
                     preserveDuplicates: "preserve_duplicates",
                   }),
                 ),
@@ -7811,6 +8622,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7825,8 +8638,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7879,6 +8701,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7893,8 +8717,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -7979,6 +8812,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -7993,8 +8828,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8067,6 +8911,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8081,8 +8927,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8104,7 +8959,13 @@ export const DeleteRuleResponse = Schema.Struct({
                 value: Schema.String,
               }),
             ),
-          }).pipe(Schema.encodeKeys({ hostHeader: "host_header" })),
+          }).pipe(
+            Schema.encodeKeys({
+              hostHeader: "host_header",
+              origin: "origin",
+              sni: "sni",
+            }),
+          ),
         ),
         description: Schema.optional(Schema.String),
         enabled: Schema.optional(Schema.Boolean),
@@ -8150,6 +9011,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8164,8 +9027,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8222,6 +9094,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8236,8 +9110,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8260,6 +9143,7 @@ export const DeleteRuleResponse = Schema.Struct({
               statusCode: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                content: "content",
                 contentType: "content_type",
                 statusCode: "status_code",
               }),
@@ -8328,6 +9212,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8342,8 +9228,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8381,7 +9276,10 @@ export const DeleteRuleResponse = Schema.Struct({
                         ),
                         include: Schema.optional(Schema.Array(Schema.String)),
                       }).pipe(
-                        Schema.encodeKeys({ checkPresence: "check_presence" }),
+                        Schema.encodeKeys({
+                          checkPresence: "check_presence",
+                          include: "include",
+                        }),
                       ),
                     ),
                     header: Schema.optional(
@@ -8395,7 +9293,9 @@ export const DeleteRuleResponse = Schema.Struct({
                       }).pipe(
                         Schema.encodeKeys({
                           checkPresence: "check_presence",
+                          contains: "contains",
                           excludeOrigin: "exclude_origin",
+                          include: "include",
                         }),
                       ),
                     ),
@@ -8425,9 +9325,23 @@ export const DeleteRuleResponse = Schema.Struct({
                         deviceType: Schema.optional(Schema.Boolean),
                         geo: Schema.optional(Schema.Boolean),
                         lang: Schema.optional(Schema.Boolean),
-                      }).pipe(Schema.encodeKeys({ deviceType: "device_type" })),
+                      }).pipe(
+                        Schema.encodeKeys({
+                          deviceType: "device_type",
+                          geo: "geo",
+                          lang: "lang",
+                        }),
+                      ),
                     ),
-                  }).pipe(Schema.encodeKeys({ queryString: "query_string" })),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      cookie: "cookie",
+                      header: "header",
+                      host: "host",
+                      queryString: "query_string",
+                      user: "user",
+                    }),
+                  ),
                 ),
                 ignoreQueryStringsOrder: Schema.optional(Schema.Boolean),
               }).pipe(
@@ -8444,7 +9358,10 @@ export const DeleteRuleResponse = Schema.Struct({
                 eligible: Schema.Boolean,
                 minimumFileSize: Schema.optional(Schema.Number),
               }).pipe(
-                Schema.encodeKeys({ minimumFileSize: "minimum_file_size" }),
+                Schema.encodeKeys({
+                  eligible: "eligible",
+                  minimumFileSize: "minimum_file_size",
+                }),
               ),
             ),
             edgeTtl: Schema.optional(
@@ -8468,13 +9385,20 @@ export const DeleteRuleResponse = Schema.Struct({
                       ),
                     }).pipe(
                       Schema.encodeKeys({
+                        value: "value",
                         statusCode: "status_code",
                         statusCodeRange: "status_code_range",
                       }),
                     ),
                   ),
                 ),
-              }).pipe(Schema.encodeKeys({ statusCodeTtl: "status_code_ttl" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  mode: "mode",
+                  default: "default",
+                  statusCodeTtl: "status_code_ttl",
+                }),
+              ),
             ),
             originCacheControl: Schema.optional(Schema.Boolean),
             originErrorPagePassthru: Schema.optional(Schema.Boolean),
@@ -8493,6 +9417,7 @@ export const DeleteRuleResponse = Schema.Struct({
             Schema.encodeKeys({
               additionalCacheablePorts: "additional_cacheable_ports",
               browserTtl: "browser_ttl",
+              cache: "cache",
               cacheKey: "cache_key",
               cacheReserve: "cache_reserve",
               edgeTtl: "edge_ttl",
@@ -8548,6 +9473,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8562,8 +9489,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8625,18 +9561,25 @@ export const DeleteRuleResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               automaticHttpsRewrites: "automatic_https_rewrites",
+              autominify: "autominify",
+              bic: "bic",
               disableApps: "disable_apps",
               disablePayPerCrawl: "disable_pay_per_crawl",
               disableRum: "disable_rum",
               disableZaraz: "disable_zaraz",
               emailObfuscation: "email_obfuscation",
+              fonts: "fonts",
               hotlinkProtection: "hotlink_protection",
+              mirage: "mirage",
               opportunisticEncryption: "opportunistic_encryption",
+              polish: "polish",
               requestBodyBuffering: "request_body_buffering",
               responseBodyBuffering: "response_body_buffering",
               rocketLoader: "rocket_loader",
               securityLevel: "security_level",
               serverSideExcludes: "server_side_excludes",
+              ssl: "ssl",
+              sxg: "sxg",
             }),
           ),
         ),
@@ -8672,6 +9615,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8685,8 +9630,18 @@ export const DeleteRuleResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -8788,6 +9743,8 @@ export const DeleteRuleResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -8802,8 +9759,17 @@ export const DeleteRuleResponse = Schema.Struct({
         Schema.encodeKeys({
           accountId: "account_id",
           zoneId: "zone_id",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          position: "position",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -8811,12 +9777,20 @@ export const DeleteRuleResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => Effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9008,6 +9982,8 @@ export const GetRulesetResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -9021,8 +9997,18 @@ export const GetRulesetResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -9059,6 +10045,8 @@ export const GetRulesetResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -9072,8 +10060,18 @@ export const GetRulesetResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -9081,12 +10079,20 @@ export const GetRulesetResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<GetRulesetResponse>;
 
-export const getRuleset: (
-  input: GetRulesetRequest,
-) => Effect.Effect<
+export const getRuleset: API.OperationMethod<
+  GetRulesetRequest,
   GetRulesetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9171,12 +10177,21 @@ export const ListRulesetsResponse = Schema.Array(
     ]),
     version: Schema.String,
     description: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      version: "version",
+      description: "description",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListRulesetsResponse>;
 
-export const listRulesets: (
-  input: ListRulesetsRequest,
-) => Effect.Effect<
+export const listRulesets: API.OperationMethod<
+  ListRulesetsRequest,
   ListRulesetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9342,6 +10357,8 @@ export const CreateRulesetRequest = Schema.Struct({
               scoreResponseHeaderName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                characteristics: "characteristics",
+                period: "period",
                 countingExpression: "counting_expression",
                 mitigationTimeout: "mitigation_timeout",
                 requestsPerPeriod: "requests_per_period",
@@ -9354,8 +10371,16 @@ export const CreateRulesetRequest = Schema.Struct({
           ref: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            action: "action",
             actionParameters: "action_parameters",
+            description: "description",
+            enabled: "enabled",
             exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
           }),
         ),
         Schema.Struct({
@@ -9389,6 +10414,8 @@ export const CreateRulesetRequest = Schema.Struct({
               scoreResponseHeaderName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                characteristics: "characteristics",
+                period: "period",
                 countingExpression: "counting_expression",
                 mitigationTimeout: "mitigation_timeout",
                 requestsPerPeriod: "requests_per_period",
@@ -9401,8 +10428,16 @@ export const CreateRulesetRequest = Schema.Struct({
           ref: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            action: "action",
             actionParameters: "action_parameters",
+            description: "description",
+            enabled: "enabled",
             exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
           }),
         ),
       ]),
@@ -9580,6 +10615,8 @@ export const CreateRulesetResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -9593,8 +10630,18 @@ export const CreateRulesetResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -9631,6 +10678,8 @@ export const CreateRulesetResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -9644,8 +10693,18 @@ export const CreateRulesetResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -9653,12 +10712,20 @@ export const CreateRulesetResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<CreateRulesetResponse>;
 
-export const createRuleset: (
-  input: CreateRulesetRequest,
-) => Effect.Effect<
+export const createRuleset: API.OperationMethod<
+  CreateRulesetRequest,
   CreateRulesetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9828,6 +10895,8 @@ export const UpdateRulesetRequest = Schema.Struct({
               scoreResponseHeaderName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                characteristics: "characteristics",
+                period: "period",
                 countingExpression: "counting_expression",
                 mitigationTimeout: "mitigation_timeout",
                 requestsPerPeriod: "requests_per_period",
@@ -9840,8 +10909,16 @@ export const UpdateRulesetRequest = Schema.Struct({
           ref: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            action: "action",
             actionParameters: "action_parameters",
+            description: "description",
+            enabled: "enabled",
             exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
           }),
         ),
         Schema.Struct({
@@ -9875,6 +10952,8 @@ export const UpdateRulesetRequest = Schema.Struct({
               scoreResponseHeaderName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                characteristics: "characteristics",
+                period: "period",
                 countingExpression: "counting_expression",
                 mitigationTimeout: "mitigation_timeout",
                 requestsPerPeriod: "requests_per_period",
@@ -9887,8 +10966,16 @@ export const UpdateRulesetRequest = Schema.Struct({
           ref: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            action: "action",
             actionParameters: "action_parameters",
+            description: "description",
+            enabled: "enabled",
             exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
           }),
         ),
       ]),
@@ -10066,6 +11153,8 @@ export const UpdateRulesetResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -10079,8 +11168,18 @@ export const UpdateRulesetResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -10117,6 +11216,8 @@ export const UpdateRulesetResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -10130,8 +11231,18 @@ export const UpdateRulesetResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -10139,12 +11250,20 @@ export const UpdateRulesetResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<UpdateRulesetResponse>;
 
-export const updateRuleset: (
-  input: UpdateRulesetRequest,
-) => Effect.Effect<
+export const updateRuleset: API.OperationMethod<
+  UpdateRulesetRequest,
   UpdateRulesetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10172,9 +11291,8 @@ export type DeleteRulesetResponse = unknown;
 export const DeleteRulesetResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteRulesetResponse>;
 
-export const deleteRuleset: (
-  input: DeleteRulesetRequest,
-) => Effect.Effect<
+export const deleteRuleset: API.OperationMethod<
+  DeleteRulesetRequest,
   DeleteRulesetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10368,6 +11486,8 @@ export const GetVersionResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -10381,8 +11501,18 @@ export const GetVersionResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
       Schema.Struct({
@@ -10419,6 +11549,8 @@ export const GetVersionResponse = Schema.Struct({
             scoreResponseHeaderName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              characteristics: "characteristics",
+              period: "period",
               countingExpression: "counting_expression",
               mitigationTimeout: "mitigation_timeout",
               requestsPerPeriod: "requests_per_period",
@@ -10432,8 +11564,18 @@ export const GetVersionResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           lastUpdated: "last_updated",
+          version: "version",
+          id: "id",
+          action: "action",
           actionParameters: "action_parameters",
+          categories: "categories",
+          description: "description",
+          enabled: "enabled",
           exposedCredentialCheck: "exposed_credential_check",
+          expression: "expression",
+          logging: "logging",
+          ratelimit: "ratelimit",
+          ref: "ref",
         }),
       ),
     ]),
@@ -10441,12 +11583,20 @@ export const GetVersionResponse = Schema.Struct({
   version: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastUpdated: "last_updated" }),
+  Schema.encodeKeys({
+    id: "id",
+    kind: "kind",
+    lastUpdated: "last_updated",
+    name: "name",
+    phase: "phase",
+    rules: "rules",
+    version: "version",
+    description: "description",
+  }),
 ) as unknown as Schema.Schema<GetVersionResponse>;
 
-export const getVersion: (
-  input: GetVersionRequest,
-) => Effect.Effect<
+export const getVersion: API.OperationMethod<
+  GetVersionRequest,
   GetVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10535,12 +11685,21 @@ export const ListVersionsResponse = Schema.Array(
     ]),
     version: Schema.String,
     description: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      version: "version",
+      description: "description",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListVersionsResponse>;
 
-export const listVersions: (
-  input: ListVersionsRequest,
-) => Effect.Effect<
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
   ListVersionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10570,9 +11729,8 @@ export type DeleteVersionResponse = unknown;
 export const DeleteVersionResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteVersionResponse>;
 
-export const deleteVersion: (
-  input: DeleteVersionRequest,
-) => Effect.Effect<
+export const deleteVersion: API.OperationMethod<
+  DeleteVersionRequest,
   DeleteVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

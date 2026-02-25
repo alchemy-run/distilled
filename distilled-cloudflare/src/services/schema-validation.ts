@@ -65,14 +65,16 @@ export const GetSchemaResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
+    kind: "kind",
+    name: "name",
     schemaId: "schema_id",
+    source: "source",
     validationEnabled: "validation_enabled",
   }),
 ) as unknown as Schema.Schema<GetSchemaResponse>;
 
-export const getSchema: (
-  input: GetSchemaRequest,
-) => Effect.Effect<
+export const getSchema: API.OperationMethod<
+  GetSchemaRequest,
   GetSchemaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -121,15 +123,17 @@ export const ListSchemasResponse = Schema.Array(
   }).pipe(
     Schema.encodeKeys({
       createdAt: "created_at",
+      kind: "kind",
+      name: "name",
       schemaId: "schema_id",
+      source: "source",
       validationEnabled: "validation_enabled",
     }),
   ),
 ) as unknown as Schema.Schema<ListSchemasResponse>;
 
-export const listSchemas: (
-  input: ListSchemasRequest,
-) => Effect.Effect<
+export const listSchemas: API.OperationMethod<
+  ListSchemasRequest,
   ListSchemasResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -159,7 +163,12 @@ export const CreateSchemaRequest = Schema.Struct({
   source: Schema.String,
   validationEnabled: Schema.Boolean,
 }).pipe(
-  Schema.encodeKeys({ validationEnabled: "validation_enabled" }),
+  Schema.encodeKeys({
+    kind: "kind",
+    name: "name",
+    source: "source",
+    validationEnabled: "validation_enabled",
+  }),
   T.Http({
     method: "POST",
     path: "/zones/{zone_id}/schema_validation/schemas",
@@ -190,14 +199,16 @@ export const CreateSchemaResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
+    kind: "kind",
+    name: "name",
     schemaId: "schema_id",
+    source: "source",
     validationEnabled: "validation_enabled",
   }),
 ) as unknown as Schema.Schema<CreateSchemaResponse>;
 
-export const createSchema: (
-  input: CreateSchemaRequest,
-) => Effect.Effect<
+export const createSchema: API.OperationMethod<
+  CreateSchemaRequest,
   CreateSchemaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -251,14 +262,16 @@ export const PatchSchemaResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
+    kind: "kind",
+    name: "name",
     schemaId: "schema_id",
+    source: "source",
     validationEnabled: "validation_enabled",
   }),
 ) as unknown as Schema.Schema<PatchSchemaResponse>;
 
-export const patchSchema: (
-  input: PatchSchemaRequest,
-) => Effect.Effect<
+export const patchSchema: API.OperationMethod<
+  PatchSchemaRequest,
   PatchSchemaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -293,9 +306,8 @@ export const DeleteSchemaResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteSchemaResponse>;
 
-export const deleteSchema: (
-  input: DeleteSchemaRequest,
-) => Effect.Effect<
+export const deleteSchema: API.OperationMethod<
+  DeleteSchemaRequest,
   DeleteSchemaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -340,9 +352,8 @@ export const GetSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingResponse>;
 
-export const getSetting: (
-  input: GetSettingRequest,
-) => Effect.Effect<
+export const getSetting: API.OperationMethod<
+  GetSettingRequest,
   GetSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -395,9 +406,8 @@ export const PutSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSettingResponse>;
 
-export const putSetting: (
-  input: PutSettingRequest,
-) => Effect.Effect<
+export const putSetting: API.OperationMethod<
+  PutSettingRequest,
   PutSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -452,9 +462,8 @@ export const PatchSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingResponse>;
 
-export const patchSetting: (
-  input: PatchSettingRequest,
-) => Effect.Effect<
+export const patchSetting: API.OperationMethod<
+  PatchSettingRequest,
   PatchSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -501,9 +510,8 @@ export const GetSettingOperationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingOperationResponse>;
 
-export const getSettingOperation: (
-  input: GetSettingOperationRequest,
-) => Effect.Effect<
+export const getSettingOperation: API.OperationMethod<
+  GetSettingOperationRequest,
   GetSettingOperationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -544,9 +552,8 @@ export const ListSettingOperationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingOperationsResponse>;
 
-export const listSettingOperations: (
-  input: ListSettingOperationsRequest,
-) => Effect.Effect<
+export const listSettingOperations: API.OperationMethod<
+  ListSettingOperationsRequest,
   ListSettingOperationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -598,9 +605,8 @@ export const PutSettingOperationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSettingOperationResponse>;
 
-export const putSettingOperation: (
-  input: PutSettingOperationRequest,
-) => Effect.Effect<
+export const putSettingOperation: API.OperationMethod<
+  PutSettingOperationRequest,
   PutSettingOperationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -637,9 +643,8 @@ export const DeleteSettingOperationResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<DeleteSettingOperationResponse>;
 
-export const deleteSettingOperation: (
-  input: DeleteSettingOperationRequest,
-) => Effect.Effect<
+export const deleteSettingOperation: API.OperationMethod<
+  DeleteSettingOperationRequest,
   DeleteSettingOperationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -672,9 +677,8 @@ export const BulkPatchSettingOperationsResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<BulkPatchSettingOperationsResponse>;
 
-export const bulkPatchSettingOperations: (
-  input: BulkPatchSettingOperationsRequest,
-) => Effect.Effect<
+export const bulkPatchSettingOperations: API.OperationMethod<
+  BulkPatchSettingOperationsRequest,
   BulkPatchSettingOperationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

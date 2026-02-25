@@ -50,19 +50,21 @@ export const GetConfigResponse = Schema.Struct({
       id: Schema.String,
       name: Schema.String,
       routerIp: Schema.String,
-    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
 ) as unknown as Schema.Schema<GetConfigResponse>;
 
-export const getConfig: (
-  input: GetConfigRequest,
-) => Effect.Effect<
+export const getConfig: API.OperationMethod<
+  GetConfigRequest,
   GetConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -96,12 +98,15 @@ export const CreateConfigRequest = Schema.Struct({
         id: Schema.String,
         name: Schema.String,
         routerIp: Schema.String,
-      }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+      ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
@@ -126,19 +131,21 @@ export const CreateConfigResponse = Schema.Struct({
       id: Schema.String,
       name: Schema.String,
       routerIp: Schema.String,
-    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
 ) as unknown as Schema.Schema<CreateConfigResponse>;
 
-export const createConfig: (
-  input: CreateConfigRequest,
-) => Effect.Effect<
+export const createConfig: API.OperationMethod<
+  CreateConfigRequest,
   CreateConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -172,12 +179,15 @@ export const UpdateConfigRequest = Schema.Struct({
         id: Schema.String,
         name: Schema.String,
         routerIp: Schema.String,
-      }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+      ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
@@ -202,19 +212,21 @@ export const UpdateConfigResponse = Schema.Struct({
       id: Schema.String,
       name: Schema.String,
       routerIp: Schema.String,
-    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
 ) as unknown as Schema.Schema<UpdateConfigResponse>;
 
-export const updateConfig: (
-  input: UpdateConfigRequest,
-) => Effect.Effect<
+export const updateConfig: API.OperationMethod<
+  UpdateConfigRequest,
   UpdateConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -248,12 +260,15 @@ export const PatchConfigRequest = Schema.Struct({
         id: Schema.String,
         name: Schema.String,
         routerIp: Schema.String,
-      }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+      ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
@@ -278,19 +293,21 @@ export const PatchConfigResponse = Schema.Struct({
       id: Schema.String,
       name: Schema.String,
       routerIp: Schema.String,
-    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
 ) as unknown as Schema.Schema<PatchConfigResponse>;
 
-export const patchConfig: (
-  input: PatchConfigRequest,
-) => Effect.Effect<
+export const patchConfig: API.OperationMethod<
+  PatchConfigRequest,
   PatchConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -328,19 +345,21 @@ export const DeleteConfigResponse = Schema.Struct({
       id: Schema.String,
       name: Schema.String,
       routerIp: Schema.String,
-    }).pipe(Schema.encodeKeys({ routerIp: "router_ip" })),
+    }).pipe(
+      Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
     defaultSampling: "default_sampling",
+    name: "name",
     routerIps: "router_ips",
     warpDevices: "warp_devices",
   }),
 ) as unknown as Schema.Schema<DeleteConfigResponse>;
 
-export const deleteConfig: (
-  input: DeleteConfigRequest,
-) => Effect.Effect<
+export const deleteConfig: API.OperationMethod<
+  DeleteConfigRequest,
   DeleteConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -369,9 +388,8 @@ export type GetConfigFullResponse = unknown;
 export const GetConfigFullResponse =
   Schema.Unknown as unknown as Schema.Schema<GetConfigFullResponse>;
 
-export const getConfigFull: (
-  input: GetConfigFullRequest,
-) => Effect.Effect<
+export const getConfigFull: API.OperationMethod<
+  GetConfigFullRequest,
   GetConfigFullResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -458,7 +476,12 @@ export const GetRuleResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
     bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
     packetThreshold: "packet_threshold",
     prefixMatch: "prefix_match",
     zscoreSensitivity: "zscore_sensitivity",
@@ -466,9 +489,8 @@ export const GetRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRuleResponse>;
 
-export const getRule: (
-  input: GetRuleRequest,
-) => Effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -493,9 +515,8 @@ export type ListRulesResponse = unknown;
 export const ListRulesResponse =
   Schema.Unknown as unknown as Schema.Schema<ListRulesResponse>;
 
-export const listRules: (
-  input: ListRulesRequest,
-) => Effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -543,8 +564,12 @@ export const CreateRuleRequest = Schema.Struct({
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    duration: "duration",
+    name: "name",
     automaticAdvertisement: "automatic_advertisement",
+    bandwidth: "bandwidth",
     packetThreshold: "packet_threshold",
+    prefixes: "prefixes",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/rules" }),
 ) as unknown as Schema.Schema<CreateRuleRequest>;
@@ -610,7 +635,12 @@ export const CreateRuleResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
     bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
     packetThreshold: "packet_threshold",
     prefixMatch: "prefix_match",
     zscoreSensitivity: "zscore_sensitivity",
@@ -618,9 +648,8 @@ export const CreateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export const createRule: (
-  input: CreateRuleRequest,
-) => Effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -671,8 +700,13 @@ export const UpdateRuleRequest = Schema.Struct({
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    duration: "duration",
+    name: "name",
+    id: "id",
     automaticAdvertisement: "automatic_advertisement",
+    bandwidth: "bandwidth",
     packetThreshold: "packet_threshold",
+    prefixes: "prefixes",
   }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/rules" }),
 ) as unknown as Schema.Schema<UpdateRuleRequest>;
@@ -738,7 +772,12 @@ export const UpdateRuleResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
     bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
     packetThreshold: "packet_threshold",
     prefixMatch: "prefix_match",
     zscoreSensitivity: "zscore_sensitivity",
@@ -746,9 +785,8 @@ export const UpdateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => Effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -792,7 +830,11 @@ export const PatchRuleRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticAdvertisement: "automatic_advertisement",
+    bandwidth: "bandwidth",
+    duration: "duration",
+    name: "name",
     packetThreshold: "packet_threshold",
+    prefixes: "prefixes",
   }),
   T.Http({
     method: "PATCH",
@@ -861,7 +903,12 @@ export const PatchRuleResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
     bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
     packetThreshold: "packet_threshold",
     prefixMatch: "prefix_match",
     zscoreSensitivity: "zscore_sensitivity",
@@ -869,9 +916,8 @@ export const PatchRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchRuleResponse>;
 
-export const patchRule: (
-  input: PatchRuleRequest,
-) => Effect.Effect<
+export const patchRule: API.OperationMethod<
+  PatchRuleRequest,
   PatchRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -957,7 +1003,12 @@ export const DeleteRuleResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticAdvertisement: "automatic_advertisement",
+    name: "name",
+    prefixes: "prefixes",
+    type: "type",
+    id: "id",
     bandwidthThreshold: "bandwidth_threshold",
+    duration: "duration",
     packetThreshold: "packet_threshold",
     prefixMatch: "prefix_match",
     zscoreSensitivity: "zscore_sensitivity",
@@ -965,9 +1016,8 @@ export const DeleteRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => Effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1011,9 +1061,8 @@ export const PatchRuleAdvertisementResponse = Schema.Struct({
   Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
 ) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
 
-export const patchRuleAdvertisement: (
-  input: PatchRuleAdvertisementRequest,
-) => Effect.Effect<
+export const patchRuleAdvertisement: API.OperationMethod<
+  PatchRuleAdvertisementRequest,
   PatchRuleAdvertisementResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1045,9 +1094,8 @@ export type CreateVpcFlowTokenResponse = string;
 export const CreateVpcFlowTokenResponse =
   Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
 
-export const createVpcFlowToken: (
-  input: CreateVpcFlowTokenRequest,
-) => Effect.Effect<
+export const createVpcFlowToken: API.OperationMethod<
+  CreateVpcFlowTokenRequest,
   CreateVpcFlowTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

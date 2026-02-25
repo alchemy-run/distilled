@@ -57,15 +57,15 @@ export const GetCustomNameserverResponse = Schema.Array(
     Schema.encodeKeys({
       dnsRecords: "dns_records",
       nsName: "ns_name",
+      status: "status",
       zoneTag: "zone_tag",
       nsSet: "ns_set",
     }),
   ),
 ) as unknown as Schema.Schema<GetCustomNameserverResponse>;
 
-export const getCustomNameserver: (
-  input: GetCustomNameserverRequest,
-) => Effect.Effect<
+export const getCustomNameserver: API.OperationMethod<
+  GetCustomNameserverRequest,
   GetCustomNameserverResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -121,14 +121,14 @@ export const CreateCustomNameserverResponse = Schema.Struct({
   Schema.encodeKeys({
     dnsRecords: "dns_records",
     nsName: "ns_name",
+    status: "status",
     zoneTag: "zone_tag",
     nsSet: "ns_set",
   }),
 ) as unknown as Schema.Schema<CreateCustomNameserverResponse>;
 
-export const createCustomNameserver: (
-  input: CreateCustomNameserverRequest,
-) => Effect.Effect<
+export const createCustomNameserver: API.OperationMethod<
+  CreateCustomNameserverRequest,
   CreateCustomNameserverResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -160,9 +160,8 @@ export const DeleteCustomNameserverResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<DeleteCustomNameserverResponse>;
 
-export const deleteCustomNameserver: (
-  input: DeleteCustomNameserverRequest,
-) => Effect.Effect<
+export const deleteCustomNameserver: API.OperationMethod<
+  DeleteCustomNameserverRequest,
   DeleteCustomNameserverResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

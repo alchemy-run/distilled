@@ -60,9 +60,8 @@ export const GetAnalyticAggregateCurrentResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetAnalyticAggregateCurrentResponse>;
 
-export const getAnalyticAggregateCurrent: (
-  input: GetAnalyticAggregateCurrentRequest,
-) => Effect.Effect<
+export const getAnalyticAggregateCurrent: API.OperationMethod<
+  GetAnalyticAggregateCurrentRequest,
   GetAnalyticAggregateCurrentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -228,12 +227,20 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   totals: Schema.Struct({}),
   timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
 }).pipe(
-  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+  Schema.encodeKeys({
+    data: "data",
+    dataLag: "data_lag",
+    max: "max",
+    min: "min",
+    query: "query",
+    rows: "rows",
+    totals: "totals",
+    timeIntervals: "time_intervals",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
-export const getAnalyticEventBytime: (
-  input: GetAnalyticEventBytimeRequest,
-) => Effect.Effect<
+export const getAnalyticEventBytime: API.OperationMethod<
+  GetAnalyticEventBytimeRequest,
   GetAnalyticEventBytimeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -379,12 +386,20 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   totals: Schema.Struct({}),
   timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))),
 }).pipe(
-  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+  Schema.encodeKeys({
+    data: "data",
+    dataLag: "data_lag",
+    max: "max",
+    min: "min",
+    query: "query",
+    rows: "rows",
+    totals: "totals",
+    timeIntervals: "time_intervals",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
-export const getAnalyticEventSummary: (
-  input: GetAnalyticEventSummaryRequest,
-) => Effect.Effect<
+export const getAnalyticEventSummary: API.OperationMethod<
+  GetAnalyticEventSummaryRequest,
   GetAnalyticEventSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -459,8 +474,11 @@ export const GetAppResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      dns: "dns",
       modifiedOn: "modified_on",
+      protocol: "protocol",
       trafficType: "traffic_type",
       argoSmartRouting: "argo_smart_routing",
       edgeIps: "edge_ips",
@@ -469,6 +487,7 @@ export const GetAppResponse = Schema.Union([
       originDns: "origin_dns",
       originPort: "origin_port",
       proxyProtocol: "proxy_protocol",
+      tls: "tls",
     }),
   ),
   Schema.Struct({
@@ -480,16 +499,18 @@ export const GetAppResponse = Schema.Union([
     originDirect: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      dns: "dns",
       modifiedOn: "modified_on",
+      protocol: "protocol",
       originDirect: "origin_direct",
     }),
   ),
 ]) as unknown as Schema.Schema<GetAppResponse>;
 
-export const getApp: (
-  input: GetAppRequest,
-) => Effect.Effect<
+export const getApp: API.OperationMethod<
+  GetAppRequest,
   GetAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -570,8 +591,11 @@ export const ListAppsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdOn: "created_on",
+        dns: "dns",
         modifiedOn: "modified_on",
+        protocol: "protocol",
         trafficType: "traffic_type",
         argoSmartRouting: "argo_smart_routing",
         edgeIps: "edge_ips",
@@ -580,6 +604,7 @@ export const ListAppsResponse = Schema.Array(
         originDns: "origin_dns",
         originPort: "origin_port",
         proxyProtocol: "proxy_protocol",
+        tls: "tls",
       }),
     ),
     Schema.Struct({
@@ -591,17 +616,19 @@ export const ListAppsResponse = Schema.Array(
       originDirect: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdOn: "created_on",
+        dns: "dns",
         modifiedOn: "modified_on",
+        protocol: "protocol",
         originDirect: "origin_direct",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListAppsResponse>;
 
-export const listApps: (
-  input: ListAppsRequest,
-) => Effect.Effect<
+export const listApps: API.OperationMethod<
+  ListAppsRequest,
   ListAppsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -655,6 +682,8 @@ export const CreateAppRequest = Schema.Struct({
   tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
 }).pipe(
   Schema.encodeKeys({
+    dns: "dns",
+    protocol: "protocol",
     trafficType: "traffic_type",
     argoSmartRouting: "argo_smart_routing",
     edgeIps: "edge_ips",
@@ -663,6 +692,7 @@ export const CreateAppRequest = Schema.Struct({
     originDns: "origin_dns",
     originPort: "origin_port",
     proxyProtocol: "proxy_protocol",
+    tls: "tls",
   }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/spectrum/apps" }),
 ) as unknown as Schema.Schema<CreateAppRequest>;
@@ -715,8 +745,11 @@ export const CreateAppResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      dns: "dns",
       modifiedOn: "modified_on",
+      protocol: "protocol",
       trafficType: "traffic_type",
       argoSmartRouting: "argo_smart_routing",
       edgeIps: "edge_ips",
@@ -725,6 +758,7 @@ export const CreateAppResponse = Schema.Union([
       originDns: "origin_dns",
       originPort: "origin_port",
       proxyProtocol: "proxy_protocol",
+      tls: "tls",
     }),
   ),
   Schema.Struct({
@@ -736,16 +770,18 @@ export const CreateAppResponse = Schema.Union([
     originDirect: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      dns: "dns",
       modifiedOn: "modified_on",
+      protocol: "protocol",
       originDirect: "origin_direct",
     }),
   ),
 ]) as unknown as Schema.Schema<CreateAppResponse>;
 
-export const createApp: (
-  input: CreateAppRequest,
-) => Effect.Effect<
+export const createApp: API.OperationMethod<
+  CreateAppRequest,
   CreateAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -801,6 +837,8 @@ export const UpdateAppRequest = Schema.Struct({
   tls: Schema.optional(Schema.Literals(["off", "flexible", "full", "strict"])),
 }).pipe(
   Schema.encodeKeys({
+    dns: "dns",
+    protocol: "protocol",
     trafficType: "traffic_type",
     argoSmartRouting: "argo_smart_routing",
     edgeIps: "edge_ips",
@@ -809,6 +847,7 @@ export const UpdateAppRequest = Schema.Struct({
     originDns: "origin_dns",
     originPort: "origin_port",
     proxyProtocol: "proxy_protocol",
+    tls: "tls",
   }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/spectrum/apps/{appId}" }),
 ) as unknown as Schema.Schema<UpdateAppRequest>;
@@ -861,8 +900,11 @@ export const UpdateAppResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      dns: "dns",
       modifiedOn: "modified_on",
+      protocol: "protocol",
       trafficType: "traffic_type",
       argoSmartRouting: "argo_smart_routing",
       edgeIps: "edge_ips",
@@ -871,6 +913,7 @@ export const UpdateAppResponse = Schema.Union([
       originDns: "origin_dns",
       originPort: "origin_port",
       proxyProtocol: "proxy_protocol",
+      tls: "tls",
     }),
   ),
   Schema.Struct({
@@ -882,16 +925,18 @@ export const UpdateAppResponse = Schema.Union([
     originDirect: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      dns: "dns",
       modifiedOn: "modified_on",
+      protocol: "protocol",
       originDirect: "origin_direct",
     }),
   ),
 ]) as unknown as Schema.Schema<UpdateAppResponse>;
 
-export const updateApp: (
-  input: UpdateAppRequest,
-) => Effect.Effect<
+export const updateApp: API.OperationMethod<
+  UpdateAppRequest,
   UpdateAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -923,9 +968,8 @@ export const DeleteAppResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAppResponse>;
 
-export const deleteApp: (
-  input: DeleteAppRequest,
-) => Effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppRequest,
   DeleteAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

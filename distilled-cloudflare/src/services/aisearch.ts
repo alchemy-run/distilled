@@ -351,7 +351,13 @@ export const ListInstancesResponse = Schema.Array(
               periodMs: Schema.optional(Schema.Number),
               requests: Schema.optional(Schema.Number),
               technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-            }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+            }).pipe(
+              Schema.encodeKeys({
+                periodMs: "period_ms",
+                requests: "requests",
+                technique: "technique",
+              }),
+            ),
           ),
           searchEndpoint: Schema.optional(
             Schema.Struct({
@@ -362,6 +368,8 @@ export const ListInstancesResponse = Schema.Array(
           Schema.encodeKeys({
             authorizedHosts: "authorized_hosts",
             chatCompletionsEndpoint: "chat_completions_endpoint",
+            enabled: "enabled",
+            mcp: "mcp",
             rateLimit: "rate_limit",
             searchEndpoint: "search_endpoint",
           }),
@@ -455,6 +463,7 @@ export const ListInstancesResponse = Schema.Array(
           Schema.encodeKeys({
             excludeItems: "exclude_items",
             includeItems: "include_items",
+            prefix: "prefix",
             r2Jurisdiction: "r2_jurisdiction",
             webCrawler: "web_crawler",
           }),
@@ -508,32 +517,43 @@ export const ListInstancesResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       accountTag: "account_tag",
       createdAt: "created_at",
       internalId: "internal_id",
       modifiedAt: "modified_at",
+      source: "source",
       tokenId: "token_id",
+      type: "type",
       vectorizeName: "vectorize_name",
       aiGatewayId: "ai_gateway_id",
       aiSearchModel: "ai_search_model",
+      cache: "cache",
       cacheThreshold: "cache_threshold",
+      chunk: "chunk",
       chunkOverlap: "chunk_overlap",
       chunkSize: "chunk_size",
       createdBy: "created_by",
       embeddingModel: "embedding_model",
+      enable: "enable",
       engineVersion: "engine_version",
       hybridSearchEnabled: "hybrid_search_enabled",
       lastActivity: "last_activity",
       maxNumResults: "max_num_results",
+      metadata: "metadata",
       modifiedBy: "modified_by",
+      paused: "paused",
       publicEndpointId: "public_endpoint_id",
       publicEndpointParams: "public_endpoint_params",
+      reranking: "reranking",
       rerankingModel: "reranking_model",
       rewriteModel: "rewrite_model",
       rewriteQuery: "rewrite_query",
       scoreThreshold: "score_threshold",
       sourceParams: "source_params",
+      status: "status",
+      summarization: "summarization",
       summarizationModel: "summarization_model",
       systemPromptAiSearch: "system_prompt_ai_search",
       systemPromptIndexSummarization: "system_prompt_index_summarization",
@@ -543,9 +563,8 @@ export const ListInstancesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstancesResponse>;
 
-export const listInstances: (
-  input: ListInstancesRequest,
-) => Effect.Effect<
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
   ListInstancesResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -773,7 +792,13 @@ export const CreateInstanceRequest = Schema.Struct({
           periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
           technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+        }).pipe(
+          Schema.encodeKeys({
+            periodMs: "period_ms",
+            requests: "requests",
+            technique: "technique",
+          }),
+        ),
       ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
@@ -784,6 +809,8 @@ export const CreateInstanceRequest = Schema.Struct({
       Schema.encodeKeys({
         authorizedHosts: "authorized_hosts",
         chatCompletionsEndpoint: "chat_completions_endpoint",
+        enabled: "enabled",
+        mcp: "mcp",
         rateLimit: "rate_limit",
         searchEndpoint: "search_endpoint",
       }),
@@ -872,6 +899,7 @@ export const CreateInstanceRequest = Schema.Struct({
       Schema.encodeKeys({
         excludeItems: "exclude_items",
         includeItems: "include_items",
+        prefix: "prefix",
         r2Jurisdiction: "r2_jurisdiction",
         webCrawler: "web_crawler",
       }),
@@ -879,15 +907,21 @@ export const CreateInstanceRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    source: "source",
     tokenId: "token_id",
+    type: "type",
     aiGatewayId: "ai_gateway_id",
     aiSearchModel: "ai_search_model",
+    chunk: "chunk",
     chunkOverlap: "chunk_overlap",
     chunkSize: "chunk_size",
     embeddingModel: "embedding_model",
     hybridSearchEnabled: "hybrid_search_enabled",
     maxNumResults: "max_num_results",
+    metadata: "metadata",
     publicEndpointParams: "public_endpoint_params",
+    reranking: "reranking",
     rerankingModel: "reranking_model",
     rewriteModel: "rewrite_model",
     rewriteQuery: "rewrite_query",
@@ -1179,7 +1213,13 @@ export const CreateInstanceResponse = Schema.Struct({
             periodMs: Schema.optional(Schema.Number),
             requests: Schema.optional(Schema.Number),
             technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-          }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+          }).pipe(
+            Schema.encodeKeys({
+              periodMs: "period_ms",
+              requests: "requests",
+              technique: "technique",
+            }),
+          ),
         ),
         searchEndpoint: Schema.optional(
           Schema.Struct({
@@ -1190,6 +1230,8 @@ export const CreateInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           authorizedHosts: "authorized_hosts",
           chatCompletionsEndpoint: "chat_completions_endpoint",
+          enabled: "enabled",
+          mcp: "mcp",
           rateLimit: "rate_limit",
           searchEndpoint: "search_endpoint",
         }),
@@ -1283,6 +1325,7 @@ export const CreateInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           excludeItems: "exclude_items",
           includeItems: "include_items",
+          prefix: "prefix",
           r2Jurisdiction: "r2_jurisdiction",
           webCrawler: "web_crawler",
         }),
@@ -1336,32 +1379,43 @@ export const CreateInstanceResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
     internalId: "internal_id",
     modifiedAt: "modified_at",
+    source: "source",
     tokenId: "token_id",
+    type: "type",
     vectorizeName: "vectorize_name",
     aiGatewayId: "ai_gateway_id",
     aiSearchModel: "ai_search_model",
+    cache: "cache",
     cacheThreshold: "cache_threshold",
+    chunk: "chunk",
     chunkOverlap: "chunk_overlap",
     chunkSize: "chunk_size",
     createdBy: "created_by",
     embeddingModel: "embedding_model",
+    enable: "enable",
     engineVersion: "engine_version",
     hybridSearchEnabled: "hybrid_search_enabled",
     lastActivity: "last_activity",
     maxNumResults: "max_num_results",
+    metadata: "metadata",
     modifiedBy: "modified_by",
+    paused: "paused",
     publicEndpointId: "public_endpoint_id",
     publicEndpointParams: "public_endpoint_params",
+    reranking: "reranking",
     rerankingModel: "reranking_model",
     rewriteModel: "rewrite_model",
     rewriteQuery: "rewrite_query",
     scoreThreshold: "score_threshold",
     sourceParams: "source_params",
+    status: "status",
+    summarization: "summarization",
     summarizationModel: "summarization_model",
     systemPromptAiSearch: "system_prompt_ai_search",
     systemPromptIndexSummarization: "system_prompt_index_summarization",
@@ -1370,9 +1424,8 @@ export const CreateInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateInstanceResponse>;
 
-export const createInstance: (
-  input: CreateInstanceRequest,
-) => Effect.Effect<
+export const createInstance: API.OperationMethod<
+  CreateInstanceRequest,
   CreateInstanceResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1648,7 +1701,13 @@ export const UpdateInstanceRequest = Schema.Struct({
           periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
           technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+        }).pipe(
+          Schema.encodeKeys({
+            periodMs: "period_ms",
+            requests: "requests",
+            technique: "technique",
+          }),
+        ),
       ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
@@ -1659,6 +1718,8 @@ export const UpdateInstanceRequest = Schema.Struct({
       Schema.encodeKeys({
         authorizedHosts: "authorized_hosts",
         chatCompletionsEndpoint: "chat_completions_endpoint",
+        enabled: "enabled",
+        mcp: "mcp",
         rateLimit: "rate_limit",
         searchEndpoint: "search_endpoint",
       }),
@@ -1747,6 +1808,7 @@ export const UpdateInstanceRequest = Schema.Struct({
       Schema.encodeKeys({
         excludeItems: "exclude_items",
         includeItems: "include_items",
+        prefix: "prefix",
         r2Jurisdiction: "r2_jurisdiction",
         webCrawler: "web_crawler",
       }),
@@ -1791,18 +1853,24 @@ export const UpdateInstanceRequest = Schema.Struct({
   Schema.encodeKeys({
     aiGatewayId: "ai_gateway_id",
     aiSearchModel: "ai_search_model",
+    cache: "cache",
     cacheThreshold: "cache_threshold",
+    chunk: "chunk",
     chunkOverlap: "chunk_overlap",
     chunkSize: "chunk_size",
     embeddingModel: "embedding_model",
     hybridSearchEnabled: "hybrid_search_enabled",
     maxNumResults: "max_num_results",
+    metadata: "metadata",
+    paused: "paused",
     publicEndpointParams: "public_endpoint_params",
+    reranking: "reranking",
     rerankingModel: "reranking_model",
     rewriteModel: "rewrite_model",
     rewriteQuery: "rewrite_query",
     scoreThreshold: "score_threshold",
     sourceParams: "source_params",
+    summarization: "summarization",
     summarizationModel: "summarization_model",
     systemPromptAiSearch: "system_prompt_ai_search",
     systemPromptIndexSummarization: "system_prompt_index_summarization",
@@ -2094,7 +2162,13 @@ export const UpdateInstanceResponse = Schema.Struct({
             periodMs: Schema.optional(Schema.Number),
             requests: Schema.optional(Schema.Number),
             technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-          }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+          }).pipe(
+            Schema.encodeKeys({
+              periodMs: "period_ms",
+              requests: "requests",
+              technique: "technique",
+            }),
+          ),
         ),
         searchEndpoint: Schema.optional(
           Schema.Struct({
@@ -2105,6 +2179,8 @@ export const UpdateInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           authorizedHosts: "authorized_hosts",
           chatCompletionsEndpoint: "chat_completions_endpoint",
+          enabled: "enabled",
+          mcp: "mcp",
           rateLimit: "rate_limit",
           searchEndpoint: "search_endpoint",
         }),
@@ -2198,6 +2274,7 @@ export const UpdateInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           excludeItems: "exclude_items",
           includeItems: "include_items",
+          prefix: "prefix",
           r2Jurisdiction: "r2_jurisdiction",
           webCrawler: "web_crawler",
         }),
@@ -2251,32 +2328,43 @@ export const UpdateInstanceResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
     internalId: "internal_id",
     modifiedAt: "modified_at",
+    source: "source",
     tokenId: "token_id",
+    type: "type",
     vectorizeName: "vectorize_name",
     aiGatewayId: "ai_gateway_id",
     aiSearchModel: "ai_search_model",
+    cache: "cache",
     cacheThreshold: "cache_threshold",
+    chunk: "chunk",
     chunkOverlap: "chunk_overlap",
     chunkSize: "chunk_size",
     createdBy: "created_by",
     embeddingModel: "embedding_model",
+    enable: "enable",
     engineVersion: "engine_version",
     hybridSearchEnabled: "hybrid_search_enabled",
     lastActivity: "last_activity",
     maxNumResults: "max_num_results",
+    metadata: "metadata",
     modifiedBy: "modified_by",
+    paused: "paused",
     publicEndpointId: "public_endpoint_id",
     publicEndpointParams: "public_endpoint_params",
+    reranking: "reranking",
     rerankingModel: "reranking_model",
     rewriteModel: "rewrite_model",
     rewriteQuery: "rewrite_query",
     scoreThreshold: "score_threshold",
     sourceParams: "source_params",
+    status: "status",
+    summarization: "summarization",
     summarizationModel: "summarization_model",
     systemPromptAiSearch: "system_prompt_ai_search",
     systemPromptIndexSummarization: "system_prompt_index_summarization",
@@ -2285,9 +2373,8 @@ export const UpdateInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateInstanceResponse>;
 
-export const updateInstance: (
-  input: UpdateInstanceRequest,
-) => Effect.Effect<
+export const updateInstance: API.OperationMethod<
+  UpdateInstanceRequest,
   UpdateInstanceResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -2591,7 +2678,13 @@ export const DeleteInstanceResponse = Schema.Struct({
             periodMs: Schema.optional(Schema.Number),
             requests: Schema.optional(Schema.Number),
             technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-          }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+          }).pipe(
+            Schema.encodeKeys({
+              periodMs: "period_ms",
+              requests: "requests",
+              technique: "technique",
+            }),
+          ),
         ),
         searchEndpoint: Schema.optional(
           Schema.Struct({
@@ -2602,6 +2695,8 @@ export const DeleteInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           authorizedHosts: "authorized_hosts",
           chatCompletionsEndpoint: "chat_completions_endpoint",
+          enabled: "enabled",
+          mcp: "mcp",
           rateLimit: "rate_limit",
           searchEndpoint: "search_endpoint",
         }),
@@ -2695,6 +2790,7 @@ export const DeleteInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           excludeItems: "exclude_items",
           includeItems: "include_items",
+          prefix: "prefix",
           r2Jurisdiction: "r2_jurisdiction",
           webCrawler: "web_crawler",
         }),
@@ -2748,32 +2844,43 @@ export const DeleteInstanceResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
     internalId: "internal_id",
     modifiedAt: "modified_at",
+    source: "source",
     tokenId: "token_id",
+    type: "type",
     vectorizeName: "vectorize_name",
     aiGatewayId: "ai_gateway_id",
     aiSearchModel: "ai_search_model",
+    cache: "cache",
     cacheThreshold: "cache_threshold",
+    chunk: "chunk",
     chunkOverlap: "chunk_overlap",
     chunkSize: "chunk_size",
     createdBy: "created_by",
     embeddingModel: "embedding_model",
+    enable: "enable",
     engineVersion: "engine_version",
     hybridSearchEnabled: "hybrid_search_enabled",
     lastActivity: "last_activity",
     maxNumResults: "max_num_results",
+    metadata: "metadata",
     modifiedBy: "modified_by",
+    paused: "paused",
     publicEndpointId: "public_endpoint_id",
     publicEndpointParams: "public_endpoint_params",
+    reranking: "reranking",
     rerankingModel: "reranking_model",
     rewriteModel: "rewrite_model",
     rewriteQuery: "rewrite_query",
     scoreThreshold: "score_threshold",
     sourceParams: "source_params",
+    status: "status",
+    summarization: "summarization",
     summarizationModel: "summarization_model",
     systemPromptAiSearch: "system_prompt_ai_search",
     systemPromptIndexSummarization: "system_prompt_index_summarization",
@@ -2782,9 +2889,8 @@ export const DeleteInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteInstanceResponse>;
 
-export const deleteInstance: (
-  input: DeleteInstanceRequest,
-) => Effect.Effect<
+export const deleteInstance: API.OperationMethod<
+  DeleteInstanceRequest,
   DeleteInstanceResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3088,7 +3194,13 @@ export const ReadInstanceResponse = Schema.Struct({
             periodMs: Schema.optional(Schema.Number),
             requests: Schema.optional(Schema.Number),
             technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
-          }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+          }).pipe(
+            Schema.encodeKeys({
+              periodMs: "period_ms",
+              requests: "requests",
+              technique: "technique",
+            }),
+          ),
         ),
         searchEndpoint: Schema.optional(
           Schema.Struct({
@@ -3099,6 +3211,8 @@ export const ReadInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           authorizedHosts: "authorized_hosts",
           chatCompletionsEndpoint: "chat_completions_endpoint",
+          enabled: "enabled",
+          mcp: "mcp",
           rateLimit: "rate_limit",
           searchEndpoint: "search_endpoint",
         }),
@@ -3192,6 +3306,7 @@ export const ReadInstanceResponse = Schema.Struct({
         Schema.encodeKeys({
           excludeItems: "exclude_items",
           includeItems: "include_items",
+          prefix: "prefix",
           r2Jurisdiction: "r2_jurisdiction",
           webCrawler: "web_crawler",
         }),
@@ -3245,32 +3360,43 @@ export const ReadInstanceResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
     internalId: "internal_id",
     modifiedAt: "modified_at",
+    source: "source",
     tokenId: "token_id",
+    type: "type",
     vectorizeName: "vectorize_name",
     aiGatewayId: "ai_gateway_id",
     aiSearchModel: "ai_search_model",
+    cache: "cache",
     cacheThreshold: "cache_threshold",
+    chunk: "chunk",
     chunkOverlap: "chunk_overlap",
     chunkSize: "chunk_size",
     createdBy: "created_by",
     embeddingModel: "embedding_model",
+    enable: "enable",
     engineVersion: "engine_version",
     hybridSearchEnabled: "hybrid_search_enabled",
     lastActivity: "last_activity",
     maxNumResults: "max_num_results",
+    metadata: "metadata",
     modifiedBy: "modified_by",
+    paused: "paused",
     publicEndpointId: "public_endpoint_id",
     publicEndpointParams: "public_endpoint_params",
+    reranking: "reranking",
     rerankingModel: "reranking_model",
     rewriteModel: "rewrite_model",
     rewriteQuery: "rewrite_query",
     scoreThreshold: "score_threshold",
     sourceParams: "source_params",
+    status: "status",
+    summarization: "summarization",
     summarizationModel: "summarization_model",
     systemPromptAiSearch: "system_prompt_ai_search",
     systemPromptIndexSummarization: "system_prompt_index_summarization",
@@ -3279,9 +3405,8 @@ export const ReadInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ReadInstanceResponse>;
 
-export const readInstance: (
-  input: ReadInstanceRequest,
-) => Effect.Effect<
+export const readInstance: API.OperationMethod<
+  ReadInstanceRequest,
   ReadInstanceResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3328,15 +3453,19 @@ export const StatsInstanceResponse = Schema.Struct({
   skipped: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    completed: "completed",
+    error: "error",
     fileEmbedErrors: "file_embed_errors",
     indexSourceErrors: "index_source_errors",
     lastActivity: "last_activity",
+    queued: "queued",
+    running: "running",
+    skipped: "skipped",
   }),
 ) as unknown as Schema.Schema<StatsInstanceResponse>;
 
-export const statsInstance: (
-  input: StatsInstanceRequest,
-) => Effect.Effect<
+export const statsInstance: API.OperationMethod<
+  StatsInstanceRequest,
   StatsInstanceResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3390,12 +3519,18 @@ export const GetInstanceItemResponse = Schema.Struct({
   lastSeenAt: Schema.optional(Schema.String),
   nextAction: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ lastSeenAt: "last_seen_at", nextAction: "next_action" }),
+  Schema.encodeKeys({
+    id: "id",
+    key: "key",
+    status: "status",
+    error: "error",
+    lastSeenAt: "last_seen_at",
+    nextAction: "next_action",
+  }),
 ) as unknown as Schema.Schema<GetInstanceItemResponse>;
 
-export const getInstanceItem: (
-  input: GetInstanceItemRequest,
-) => Effect.Effect<
+export const getInstanceItem: API.OperationMethod<
+  GetInstanceItemRequest,
   GetInstanceItemResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3454,15 +3589,18 @@ export const ListInstanceItemsResponse = Schema.Array(
     nextAction: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      key: "key",
+      status: "status",
+      error: "error",
       lastSeenAt: "last_seen_at",
       nextAction: "next_action",
     }),
   ),
 ) as unknown as Schema.Schema<ListInstanceItemsResponse>;
 
-export const listInstanceItems: (
-  input: ListInstanceItemsRequest,
-) => Effect.Effect<
+export const listInstanceItems: API.OperationMethod<
+  ListInstanceItemsRequest,
   ListInstanceItemsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3511,6 +3649,8 @@ export const GetInstanceJobResponse = Schema.Struct({
   startedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    source: "source",
     endReason: "end_reason",
     endedAt: "ended_at",
     lastSeenAt: "last_seen_at",
@@ -3518,9 +3658,8 @@ export const GetInstanceJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetInstanceJobResponse>;
 
-export const getInstanceJob: (
-  input: GetInstanceJobRequest,
-) => Effect.Effect<
+export const getInstanceJob: API.OperationMethod<
+  GetInstanceJobRequest,
   GetInstanceJobResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3565,6 +3704,8 @@ export const ListInstanceJobsResponse = Schema.Array(
     startedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      source: "source",
       endReason: "end_reason",
       endedAt: "ended_at",
       lastSeenAt: "last_seen_at",
@@ -3573,9 +3714,8 @@ export const ListInstanceJobsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstanceJobsResponse>;
 
-export const listInstanceJobs: (
-  input: ListInstanceJobsRequest,
-) => Effect.Effect<
+export const listInstanceJobs: API.OperationMethod<
+  ListInstanceJobsRequest,
   ListInstanceJobsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3618,6 +3758,8 @@ export const CreateInstanceJobResponse = Schema.Struct({
   startedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    source: "source",
     endReason: "end_reason",
     endedAt: "ended_at",
     lastSeenAt: "last_seen_at",
@@ -3625,9 +3767,8 @@ export const CreateInstanceJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateInstanceJobResponse>;
 
-export const createInstanceJob: (
-  input: CreateInstanceJobRequest,
-) => Effect.Effect<
+export const createInstanceJob: API.OperationMethod<
+  CreateInstanceJobRequest,
   CreateInstanceJobResponse,
   | CommonErrors
   | ValidationError
@@ -3686,13 +3827,17 @@ export const LogsInstanceJobResponse = Schema.Array(
     message: Schema.String,
     messageType: Schema.Number,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", messageType: "message_type" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      message: "message",
+      messageType: "message_type",
+    }),
   ),
 ) as unknown as Schema.Schema<LogsInstanceJobResponse>;
 
-export const logsInstanceJob: (
-  input: LogsInstanceJobRequest,
-) => Effect.Effect<
+export const logsInstanceJob: API.OperationMethod<
+  LogsInstanceJobRequest,
   LogsInstanceJobResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3750,22 +3895,25 @@ export const ListTokensResponse = Schema.Array(
     syncedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       accountTag: "account_tag",
       cfApiId: "cf_api_id",
       cfApiKey: "cf_api_key",
       createdAt: "created_at",
       modifiedAt: "modified_at",
+      name: "name",
       createdBy: "created_by",
+      enabled: "enabled",
+      legacy: "legacy",
       modifiedBy: "modified_by",
       syncedAt: "synced_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListTokensResponse>;
 
-export const listTokens: (
-  input: ListTokensRequest,
-) => Effect.Effect<
+export const listTokens: API.OperationMethod<
+  ListTokensRequest,
   ListTokensResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3795,7 +3943,12 @@ export const CreateTokenRequest = Schema.Struct({
   name: Schema.String,
   legacy: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ cfApiId: "cf_api_id", cfApiKey: "cf_api_key" }),
+  Schema.encodeKeys({
+    cfApiId: "cf_api_id",
+    cfApiKey: "cf_api_key",
+    name: "name",
+    legacy: "legacy",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/ai-search/tokens" }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
@@ -3831,21 +3984,24 @@ export const CreateTokenResponse = Schema.Struct({
   syncedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cfApiId: "cf_api_id",
     cfApiKey: "cf_api_key",
     createdAt: "created_at",
     modifiedAt: "modified_at",
+    name: "name",
     createdBy: "created_by",
+    enabled: "enabled",
+    legacy: "legacy",
     modifiedBy: "modified_by",
     syncedAt: "synced_at",
   }),
 ) as unknown as Schema.Schema<CreateTokenResponse>;
 
-export const createToken: (
-  input: CreateTokenRequest,
-) => Effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3902,21 +4058,24 @@ export const UpdateTokenResponse = Schema.Struct({
   syncedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cfApiId: "cf_api_id",
     cfApiKey: "cf_api_key",
     createdAt: "created_at",
     modifiedAt: "modified_at",
+    name: "name",
     createdBy: "created_by",
+    enabled: "enabled",
+    legacy: "legacy",
     modifiedBy: "modified_by",
     syncedAt: "synced_at",
   }),
 ) as unknown as Schema.Schema<UpdateTokenResponse>;
 
-export const updateToken: (
-  input: UpdateTokenRequest,
-) => Effect.Effect<
+export const updateToken: API.OperationMethod<
+  UpdateTokenRequest,
   UpdateTokenResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -3973,21 +4132,24 @@ export const DeleteTokenResponse = Schema.Struct({
   syncedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cfApiId: "cf_api_id",
     cfApiKey: "cf_api_key",
     createdAt: "created_at",
     modifiedAt: "modified_at",
+    name: "name",
     createdBy: "created_by",
+    enabled: "enabled",
+    legacy: "legacy",
     modifiedBy: "modified_by",
     syncedAt: "synced_at",
   }),
 ) as unknown as Schema.Schema<DeleteTokenResponse>;
 
-export const deleteToken: (
-  input: DeleteTokenRequest,
-) => Effect.Effect<
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
   DeleteTokenResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -4044,21 +4206,24 @@ export const ReadTokenResponse = Schema.Struct({
   syncedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cfApiId: "cf_api_id",
     cfApiKey: "cf_api_key",
     createdAt: "created_at",
     modifiedAt: "modified_at",
+    name: "name",
     createdBy: "created_by",
+    enabled: "enabled",
+    legacy: "legacy",
     modifiedBy: "modified_by",
     syncedAt: "synced_at",
   }),
 ) as unknown as Schema.Schema<ReadTokenResponse>;
 
-export const readToken: (
-  input: ReadTokenRequest,
-) => Effect.Effect<
+export const readToken: API.OperationMethod<
+  ReadTokenRequest,
   ReadTokenResponse,
   CommonErrors | ValidationError | NotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient

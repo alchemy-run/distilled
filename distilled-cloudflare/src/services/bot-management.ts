@@ -199,9 +199,8 @@ export const GetBotManagementResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetBotManagementResponse>;
 
-export const getBotManagement: (
-  input: GetBotManagementRequest,
-) => Effect.Effect<
+export const getBotManagement: API.OperationMethod<
+  GetBotManagementRequest,
   GetBotManagementResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -416,9 +415,8 @@ export const PutBotManagementResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<PutBotManagementResponse>;
 
-export const putBotManagement: (
-  input: PutBotManagementRequest,
-) => Effect.Effect<
+export const putBotManagement: API.OperationMethod<
+  PutBotManagementRequest,
   PutBotManagementResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -38,9 +38,8 @@ export type GetAsnResponse = unknown;
 export const GetAsnResponse =
   Schema.Unknown as unknown as Schema.Schema<GetAsnResponse>;
 
-export const getAsn: (
-  input: GetAsnRequest,
-) => Effect.Effect<
+export const getAsn: API.OperationMethod<
+  GetAsnRequest,
   GetAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -88,12 +87,18 @@ export const GetAsnSubnetResponse = Schema.Struct({
   perPage: Schema.optional(Schema.Number),
   subnets: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ ipCountTotal: "ip_count_total", perPage: "per_page" }),
+  Schema.encodeKeys({
+    asn: "asn",
+    count: "count",
+    ipCountTotal: "ip_count_total",
+    page: "page",
+    perPage: "per_page",
+    subnets: "subnets",
+  }),
 ) as unknown as Schema.Schema<GetAsnSubnetResponse>;
 
-export const getAsnSubnet: (
-  input: GetAsnSubnetRequest,
-) => Effect.Effect<
+export const getAsnSubnet: API.OperationMethod<
+  GetAsnSubnetRequest,
   GetAsnSubnetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -271,22 +276,35 @@ export const ListAttackSurfaceReportIssuesResponse = Schema.Array(
           timestamp: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            dismissed: "dismissed",
             issueClass: "issue_class",
             issueType: "issue_type",
+            payload: "payload",
             resolveLink: "resolve_link",
             resolveText: "resolve_text",
+            severity: "severity",
+            since: "since",
+            subject: "subject",
+            timestamp: "timestamp",
           }),
         ),
       ),
     ),
     page: Schema.optional(Schema.Number),
     perPage: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ perPage: "per_page" })),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      issues: "issues",
+      page: "page",
+      perPage: "per_page",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesResponse>;
 
-export const listAttackSurfaceReportIssues: (
-  input: ListAttackSurfaceReportIssuesRequest,
-) => Effect.Effect<
+export const listAttackSurfaceReportIssues: API.OperationMethod<
+  ListAttackSurfaceReportIssuesRequest,
   ListAttackSurfaceReportIssuesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -407,9 +425,8 @@ export const ClassAttackSurfaceReportIssueResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueResponse>;
 
-export const classAttackSurfaceReportIssue: (
-  input: ClassAttackSurfaceReportIssueRequest,
-) => Effect.Effect<
+export const classAttackSurfaceReportIssue: API.OperationMethod<
+  ClassAttackSurfaceReportIssueRequest,
   ClassAttackSurfaceReportIssueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -466,7 +483,14 @@ export const DismissAttackSurfaceReportIssueResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -478,14 +502,20 @@ export const DismissAttackSurfaceReportIssueResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DismissAttackSurfaceReportIssueResponse>;
 
-export const dismissAttackSurfaceReportIssue: (
-  input: DismissAttackSurfaceReportIssueRequest,
-) => Effect.Effect<
+export const dismissAttackSurfaceReportIssue: API.OperationMethod<
+  DismissAttackSurfaceReportIssueRequest,
   DismissAttackSurfaceReportIssueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -606,9 +636,8 @@ export const SeverityAttackSurfaceReportIssueResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueResponse>;
 
-export const severityAttackSurfaceReportIssue: (
-  input: SeverityAttackSurfaceReportIssueRequest,
-) => Effect.Effect<
+export const severityAttackSurfaceReportIssue: API.OperationMethod<
+  SeverityAttackSurfaceReportIssueRequest,
   SeverityAttackSurfaceReportIssueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -729,9 +758,8 @@ export const TypeAttackSurfaceReportIssueResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueResponse>;
 
-export const typeAttackSurfaceReportIssue: (
-  input: TypeAttackSurfaceReportIssueRequest,
-) => Effect.Effect<
+export const typeAttackSurfaceReportIssue: API.OperationMethod<
+  TypeAttackSurfaceReportIssueRequest,
   TypeAttackSurfaceReportIssueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -765,9 +793,8 @@ export const GetAttackSurfaceReportIssueTypeResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeResponse>;
 
-export const getAttackSurfaceReportIssueType: (
-  input: GetAttackSurfaceReportIssueTypeRequest,
-) => Effect.Effect<
+export const getAttackSurfaceReportIssueType: API.OperationMethod<
+  GetAttackSurfaceReportIssueTypeRequest,
   GetAttackSurfaceReportIssueTypeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -826,21 +853,26 @@ export const ListDnsResponse = Schema.Array(
           hostname: Schema.optional(Schema.String),
           lastSeen: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ firstSeen: "first_seen", lastSeen: "last_seen" }),
+          Schema.encodeKeys({
+            firstSeen: "first_seen",
+            hostname: "hostname",
+            lastSeen: "last_seen",
+          }),
         ),
       ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      count: "count",
+      page: "page",
       perPage: "per_page",
       reverseRecords: "reverse_records",
     }),
   ),
 ) as unknown as Schema.Schema<ListDnsResponse>;
 
-export const listDns: (
-  input: ListDnsRequest,
-) => Effect.Effect<
+export const listDns: API.OperationMethod<
+  ListDnsRequest,
   ListDnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -920,7 +952,13 @@ export const GetDomainResponse = Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
         superCategoryId: Schema.optional(Schema.Number),
-      }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          superCategoryId: "super_category_id",
+        }),
+      ),
     ),
   ),
   domain: Schema.optional(Schema.String),
@@ -930,7 +968,13 @@ export const GetDomainResponse = Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
         superCategoryId: Schema.optional(Schema.Number),
-      }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          superCategoryId: "super_category_id",
+        }),
+      ),
     ),
   ),
   inheritedFrom: Schema.optional(Schema.String),
@@ -940,7 +984,13 @@ export const GetDomainResponse = Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
         superCategoryId: Schema.optional(Schema.Number),
-      }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          superCategoryId: "super_category_id",
+        }),
+      ),
     ),
   ),
   popularityRank: Schema.optional(Schema.Number),
@@ -959,13 +1009,21 @@ export const GetDomainResponse = Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
         superCategoryId: Schema.optional(Schema.Number),
-      }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          superCategoryId: "super_category_id",
+        }),
+      ),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
     additionalInformation: "additional_information",
+    application: "application",
     contentCategories: "content_categories",
+    domain: "domain",
     inheritedContentCategories: "inherited_content_categories",
     inheritedFrom: "inherited_from",
     inheritedRiskTypes: "inherited_risk_types",
@@ -976,9 +1034,8 @@ export const GetDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDomainResponse>;
 
-export const getDomain: (
-  input: GetDomainRequest,
-) => Effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
   GetDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1056,7 +1113,13 @@ export const GetDomainBulkResponse = Schema.Array(
           id: Schema.optional(Schema.Number),
           name: Schema.optional(Schema.String),
           superCategoryId: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            name: "name",
+            superCategoryId: "super_category_id",
+          }),
+        ),
       ),
     ),
     domain: Schema.optional(Schema.String),
@@ -1066,7 +1129,13 @@ export const GetDomainBulkResponse = Schema.Array(
           id: Schema.optional(Schema.Number),
           name: Schema.optional(Schema.String),
           superCategoryId: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            name: "name",
+            superCategoryId: "super_category_id",
+          }),
+        ),
       ),
     ),
     inheritedFrom: Schema.optional(Schema.String),
@@ -1076,7 +1145,13 @@ export const GetDomainBulkResponse = Schema.Array(
           id: Schema.optional(Schema.Number),
           name: Schema.optional(Schema.String),
           superCategoryId: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            name: "name",
+            superCategoryId: "super_category_id",
+          }),
+        ),
       ),
     ),
     popularityRank: Schema.optional(Schema.Number),
@@ -1087,13 +1162,21 @@ export const GetDomainBulkResponse = Schema.Array(
           id: Schema.optional(Schema.Number),
           name: Schema.optional(Schema.String),
           superCategoryId: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            name: "name",
+            superCategoryId: "super_category_id",
+          }),
+        ),
       ),
     ),
   }).pipe(
     Schema.encodeKeys({
       additionalInformation: "additional_information",
+      application: "application",
       contentCategories: "content_categories",
+      domain: "domain",
       inheritedContentCategories: "inherited_content_categories",
       inheritedFrom: "inherited_from",
       inheritedRiskTypes: "inherited_risk_types",
@@ -1104,9 +1187,8 @@ export const GetDomainBulkResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetDomainBulkResponse>;
 
-export const getDomainBulk: (
-  input: GetDomainBulkRequest,
-) => Effect.Effect<
+export const getDomainBulk: API.OperationMethod<
+  GetDomainBulkRequest,
   GetDomainBulkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1168,9 +1250,8 @@ export const GetDomainHistoryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetDomainHistoryResponse>;
 
-export const getDomainHistory: (
-  input: GetDomainHistoryRequest,
-) => Effect.Effect<
+export const getDomainHistory: API.OperationMethod<
+  GetDomainHistoryRequest,
   GetDomainHistoryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1254,20 +1335,22 @@ export const GetIndicatorFeedResponse = Schema.Struct({
   providerName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    description: "description",
     isAttributable: "is_attributable",
     isDownloadable: "is_downloadable",
     isPublic: "is_public",
     latestUploadStatus: "latest_upload_status",
     modifiedOn: "modified_on",
+    name: "name",
     providerId: "provider_id",
     providerName: "provider_name",
   }),
 ) as unknown as Schema.Schema<GetIndicatorFeedResponse>;
 
-export const getIndicatorFeed: (
-  input: GetIndicatorFeedRequest,
-) => Effect.Effect<
+export const getIndicatorFeed: API.OperationMethod<
+  GetIndicatorFeedRequest,
   GetIndicatorFeedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1314,18 +1397,20 @@ export const ListIndicatorFeedsResponse = Schema.Array(
     name: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      description: "description",
       isAttributable: "is_attributable",
       isDownloadable: "is_downloadable",
       isPublic: "is_public",
       modifiedOn: "modified_on",
+      name: "name",
     }),
   ),
 ) as unknown as Schema.Schema<ListIndicatorFeedsResponse>;
 
-export const listIndicatorFeeds: (
-  input: ListIndicatorFeedsRequest,
-) => Effect.Effect<
+export const listIndicatorFeeds: API.OperationMethod<
+  ListIndicatorFeedsRequest,
   ListIndicatorFeedsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1385,17 +1470,19 @@ export const CreateIndicatorFeedResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    description: "description",
     isAttributable: "is_attributable",
     isDownloadable: "is_downloadable",
     isPublic: "is_public",
     modifiedOn: "modified_on",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<CreateIndicatorFeedResponse>;
 
-export const createIndicatorFeed: (
-  input: CreateIndicatorFeedRequest,
-) => Effect.Effect<
+export const createIndicatorFeed: API.OperationMethod<
+  CreateIndicatorFeedRequest,
   CreateIndicatorFeedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1431,9 +1518,11 @@ export const UpdateIndicatorFeedRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    description: "description",
     isAttributable: "is_attributable",
     isDownloadable: "is_downloadable",
     isPublic: "is_public",
+    name: "name",
   }),
   T.Http({
     method: "PUT",
@@ -1471,17 +1560,19 @@ export const UpdateIndicatorFeedResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    description: "description",
     isAttributable: "is_attributable",
     isDownloadable: "is_downloadable",
     isPublic: "is_public",
     modifiedOn: "modified_on",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<UpdateIndicatorFeedResponse>;
 
-export const updateIndicatorFeed: (
-  input: UpdateIndicatorFeedRequest,
-) => Effect.Effect<
+export const updateIndicatorFeed: API.OperationMethod<
+  UpdateIndicatorFeedRequest,
   UpdateIndicatorFeedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1512,9 +1603,8 @@ export type DataIndicatorFeedResponse = unknown;
 export const DataIndicatorFeedResponse =
   Schema.Unknown as unknown as Schema.Schema<DataIndicatorFeedResponse>;
 
-export const dataIndicatorFeed: (
-  input: DataIndicatorFeedRequest,
-) => Effect.Effect<
+export const dataIndicatorFeed: API.OperationMethod<
+  DataIndicatorFeedRequest,
   DataIndicatorFeedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1561,16 +1651,18 @@ export const ListIndicatorFeedPermissionsResponse = Schema.Array(
     name: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      description: "description",
       isAttributable: "is_attributable",
       isDownloadable: "is_downloadable",
       isPublic: "is_public",
+      name: "name",
     }),
   ),
 ) as unknown as Schema.Schema<ListIndicatorFeedPermissionsResponse>;
 
-export const listIndicatorFeedPermissions: (
-  input: ListIndicatorFeedPermissionsRequest,
-) => Effect.Effect<
+export const listIndicatorFeedPermissions: API.OperationMethod<
+  ListIndicatorFeedPermissionsRequest,
   ListIndicatorFeedPermissionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1610,9 +1702,8 @@ export const CreateIndicatorFeedPermissionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateIndicatorFeedPermissionResponse>;
 
-export const createIndicatorFeedPermission: (
-  input: CreateIndicatorFeedPermissionRequest,
-) => Effect.Effect<
+export const createIndicatorFeedPermission: API.OperationMethod<
+  CreateIndicatorFeedPermissionRequest,
   CreateIndicatorFeedPermissionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1652,9 +1743,8 @@ export const DeleteIndicatorFeedPermissionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionResponse>;
 
-export const deleteIndicatorFeedPermission: (
-  input: DeleteIndicatorFeedPermissionRequest,
-) => Effect.Effect<
+export const deleteIndicatorFeedPermission: API.OperationMethod<
+  DeleteIndicatorFeedPermissionRequest,
   DeleteIndicatorFeedPermissionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1701,12 +1791,15 @@ export const PutIndicatorFeedSnapshotResponse = Schema.Struct({
   filename: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ fileId: "file_id" }),
+  Schema.encodeKeys({
+    fileId: "file_id",
+    filename: "filename",
+    status: "status",
+  }),
 ) as unknown as Schema.Schema<PutIndicatorFeedSnapshotResponse>;
 
-export const putIndicatorFeedSnapshot: (
-  input: PutIndicatorFeedSnapshotRequest,
-) => Effect.Effect<
+export const putIndicatorFeedSnapshot: API.OperationMethod<
+  PutIndicatorFeedSnapshotRequest,
   PutIndicatorFeedSnapshotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1769,20 +1862,26 @@ export const GetIpResponse = Schema.Array(
           id: Schema.optional(Schema.Number),
           name: Schema.optional(Schema.String),
           superCategoryId: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ superCategoryId: "super_category_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            name: "name",
+            superCategoryId: "super_category_id",
+          }),
+        ),
       ),
     ),
   }).pipe(
     Schema.encodeKeys({
       belongsToRef: "belongs_to_ref",
+      ip: "ip",
       riskTypes: "risk_types",
     }),
   ),
 ) as unknown as Schema.Schema<GetIpResponse>;
 
-export const getIp: (
-  input: GetIpRequest,
-) => Effect.Effect<
+export const getIp: API.OperationMethod<
+  GetIpRequest,
   GetIpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1821,9 +1920,8 @@ export const GetIpListResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetIpListResponse>;
 
-export const getIpList: (
-  input: GetIpListRequest,
-) => Effect.Effect<
+export const getIpList: API.OperationMethod<
+  GetIpListRequest,
   GetIpListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1872,8 +1970,10 @@ export const CreateMiscategorizationRequest = Schema.Struct({
     contentAdds: "content_adds",
     contentRemoves: "content_removes",
     indicatorType: "indicator_type",
+    ip: "ip",
     securityAdds: "security_adds",
     securityRemoves: "security_removes",
+    url: "url",
   }),
   T.Http({
     method: "POST",
@@ -1909,7 +2009,14 @@ export const CreateMiscategorizationResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1921,14 +2028,20 @@ export const CreateMiscategorizationResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<CreateMiscategorizationResponse>;
 
-export const createMiscategorization: (
-  input: CreateMiscategorizationRequest,
-) => Effect.Effect<
+export const createMiscategorization: API.OperationMethod<
+  CreateMiscategorizationRequest,
   CreateMiscategorizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1974,18 +2087,19 @@ export const ListSinkholesResponse = Schema.Array(
     r2Id: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountTag: "account_tag",
       createdOn: "created_on",
       modifiedOn: "modified_on",
+      name: "name",
       r2Bucket: "r2_bucket",
       r2Id: "r2_id",
     }),
   ),
 ) as unknown as Schema.Schema<ListSinkholesResponse>;
 
-export const listSinkholes: (
-  input: ListSinkholesRequest,
-) => Effect.Effect<
+export const listSinkholes: API.OperationMethod<
+  ListSinkholesRequest,
   ListSinkholesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2193,6 +2307,15 @@ export const GetWhoiResponse = Schema.Struct({
   whoisServer: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    dnssec: "dnssec",
+    domain: "domain",
+    extension: "extension",
+    found: "found",
+    nameservers: "nameservers",
+    punycode: "punycode",
+    registrant: "registrant",
+    registrar: "registrar",
+    id: "id",
     administrativeCity: "administrative_city",
     administrativeCountry: "administrative_country",
     administrativeEmail: "administrative_email",
@@ -2253,6 +2376,7 @@ export const GetWhoiResponse = Schema.Struct({
     registrarProvince: "registrar_province",
     registrarReferralUrl: "registrar_referral_url",
     registrarStreet: "registrar_street",
+    status: "status",
     technicalCity: "technical_city",
     technicalCountry: "technical_country",
     technicalEmail: "technical_email",
@@ -2273,9 +2397,8 @@ export const GetWhoiResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetWhoiResponse>;
 
-export const getWhoi: (
-  input: GetWhoiRequest,
-) => Effect.Effect<
+export const getWhoi: API.OperationMethod<
+  GetWhoiRequest,
   GetWhoiResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

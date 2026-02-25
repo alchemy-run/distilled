@@ -69,12 +69,20 @@ export const GetHostnameResponse = Schema.Struct({
     Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    description: "description",
+    dnslink: "dnslink",
+    modifiedOn: "modified_on",
+    name: "name",
+    status: "status",
+    target: "target",
+  }),
 ) as unknown as Schema.Schema<GetHostnameResponse>;
 
-export const getHostname: (
-  input: GetHostnameRequest,
-) => Effect.Effect<
+export const getHostname: API.OperationMethod<
+  GetHostnameRequest,
   GetHostnameResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -121,13 +129,21 @@ export const ListHostnamesResponse = Schema.Array(
       Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
     ),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      dnslink: "dnslink",
+      modifiedOn: "modified_on",
+      name: "name",
+      status: "status",
+      target: "target",
+    }),
   ),
 ) as unknown as Schema.Schema<ListHostnamesResponse>;
 
-export const listHostnames: (
-  input: ListHostnamesRequest,
-) => Effect.Effect<
+export const listHostnames: API.OperationMethod<
+  ListHostnamesRequest,
   ListHostnamesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -191,12 +207,20 @@ export const CreateHostnameResponse = Schema.Struct({
     Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    description: "description",
+    dnslink: "dnslink",
+    modifiedOn: "modified_on",
+    name: "name",
+    status: "status",
+    target: "target",
+  }),
 ) as unknown as Schema.Schema<CreateHostnameResponse>;
 
-export const createHostname: (
-  input: CreateHostnameRequest,
-) => Effect.Effect<
+export const createHostname: API.OperationMethod<
+  CreateHostnameRequest,
   CreateHostnameResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -259,12 +283,20 @@ export const PatchHostnameResponse = Schema.Struct({
     Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    description: "description",
+    dnslink: "dnslink",
+    modifiedOn: "modified_on",
+    name: "name",
+    status: "status",
+    target: "target",
+  }),
 ) as unknown as Schema.Schema<PatchHostnameResponse>;
 
-export const patchHostname: (
-  input: PatchHostnameRequest,
-) => Effect.Effect<
+export const patchHostname: API.OperationMethod<
+  PatchHostnameRequest,
   PatchHostnameResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -299,9 +331,8 @@ export const DeleteHostnameResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteHostnameResponse>;
 
-export const deleteHostname: (
-  input: DeleteHostnameRequest,
-) => Effect.Effect<
+export const deleteHostname: API.OperationMethod<
+  DeleteHostnameRequest,
   DeleteHostnameResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -340,9 +371,8 @@ export const GetHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
   action: Schema.optional(Schema.Literal("block")),
 }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListResponse>;
 
-export const getHostnameIpfsUniversalPathContentList: (
-  input: GetHostnameIpfsUniversalPathContentListRequest,
-) => Effect.Effect<
+export const getHostnameIpfsUniversalPathContentList: API.OperationMethod<
+  GetHostnameIpfsUniversalPathContentListRequest,
   GetHostnameIpfsUniversalPathContentListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -393,9 +423,8 @@ export const PutHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
   action: Schema.optional(Schema.Literal("block")),
 }) as unknown as Schema.Schema<PutHostnameIpfsUniversalPathContentListResponse>;
 
-export const putHostnameIpfsUniversalPathContentList: (
-  input: PutHostnameIpfsUniversalPathContentListRequest,
-) => Effect.Effect<
+export const putHostnameIpfsUniversalPathContentList: API.OperationMethod<
+  PutHostnameIpfsUniversalPathContentListRequest,
   PutHostnameIpfsUniversalPathContentListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -452,12 +481,18 @@ export const GetHostnameIpfsUniversalPathContentListEntryResponse =
     modifiedOn: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literals(["cid", "content_path"])),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      content: "content",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      type: "type",
+    }),
   ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
 
-export const getHostnameIpfsUniversalPathContentListEntry: (
-  input: GetHostnameIpfsUniversalPathContentListEntryRequest,
-) => Effect.Effect<
+export const getHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
+  GetHostnameIpfsUniversalPathContentListEntryRequest,
   GetHostnameIpfsUniversalPathContentListEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -509,17 +544,20 @@ export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
           type: Schema.optional(Schema.Literals(["cid", "content_path"])),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            content: "content",
             createdOn: "created_on",
+            description: "description",
             modifiedOn: "modified_on",
+            type: "type",
           }),
         ),
       ),
     ),
   }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
 
-export const listHostnameIpfsUniversalPathContentListEntries: (
-  input: ListHostnameIpfsUniversalPathContentListEntriesRequest,
-) => Effect.Effect<
+export const listHostnameIpfsUniversalPathContentListEntries: API.OperationMethod<
+  ListHostnameIpfsUniversalPathContentListEntriesRequest,
   ListHostnameIpfsUniversalPathContentListEntriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -577,12 +615,18 @@ export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
     modifiedOn: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literals(["cid", "content_path"])),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      content: "content",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      type: "type",
+    }),
   ) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
 
-export const createHostnameIpfsUniversalPathContentListEntry: (
-  input: CreateHostnameIpfsUniversalPathContentListEntryRequest,
-) => Effect.Effect<
+export const createHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
+  CreateHostnameIpfsUniversalPathContentListEntryRequest,
   CreateHostnameIpfsUniversalPathContentListEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -644,12 +688,18 @@ export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
     modifiedOn: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literals(["cid", "content_path"])),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      content: "content",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      type: "type",
+    }),
   ) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
 
-export const updateHostnameIpfsUniversalPathContentListEntry: (
-  input: UpdateHostnameIpfsUniversalPathContentListEntryRequest,
-) => Effect.Effect<
+export const updateHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
+  UpdateHostnameIpfsUniversalPathContentListEntryRequest,
   UpdateHostnameIpfsUniversalPathContentListEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -690,9 +740,8 @@ export const DeleteHostnameIpfsUniversalPathContentListEntryResponse =
     id: Schema.String,
   }) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryResponse>;
 
-export const deleteHostnameIpfsUniversalPathContentListEntry: (
-  input: DeleteHostnameIpfsUniversalPathContentListEntryRequest,
-) => Effect.Effect<
+export const deleteHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
+  DeleteHostnameIpfsUniversalPathContentListEntryRequest,
   DeleteHostnameIpfsUniversalPathContentListEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

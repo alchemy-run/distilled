@@ -146,14 +146,21 @@ export const GetAbuseReportResponse = Schema.Struct({
   urls: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    cdate: "cdate",
+    domain: "domain",
     mitigationSummary: "mitigation_summary",
+    status: "status",
+    type: "type",
+    justification: "justification",
     originalWork: "original_work",
+    submitter: "submitter",
+    urls: "urls",
   }),
 ) as unknown as Schema.Schema<GetAbuseReportResponse>;
 
-export const getAbuseReport: (
-  input: GetAbuseReportRequest,
-) => Effect.Effect<
+export const getAbuseReport: API.OperationMethod<
+  GetAbuseReportRequest,
   GetAbuseReportResponse,
   CommonErrors | InvalidAccountId | AbuseReportNotFound,
   ApiToken | HttpClient.HttpClient
@@ -313,8 +320,16 @@ export const ListAbuseReportsResponse = Schema.Struct({
         urls: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          cdate: "cdate",
+          domain: "domain",
           mitigationSummary: "mitigation_summary",
+          status: "status",
+          type: "type",
+          justification: "justification",
           originalWork: "original_work",
+          submitter: "submitter",
+          urls: "urls",
         }),
       ),
     ),
@@ -322,9 +337,8 @@ export const ListAbuseReportsResponse = Schema.Struct({
   ]),
 }) as unknown as Schema.Schema<ListAbuseReportsResponse>;
 
-export const listAbuseReports: (
-  input: ListAbuseReportsRequest,
-) => Effect.Effect<
+export const listAbuseReports: API.OperationMethod<
+  ListAbuseReportsRequest,
   ListAbuseReportsResponse,
   CommonErrors | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
@@ -408,12 +422,27 @@ export const CreateAbuseReportRequest = Schema.Struct({
   title: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    act: "act",
+    address1: "address1",
     agentName: "agent_name",
+    agree: "agree",
+    city: "city",
+    country: "country",
+    email: "email",
+    email2: "email2",
     hostNotification: "host_notification",
+    name: "name",
     originalWork: "original_work",
     ownerNotification: "owner_notification",
+    signature: "signature",
+    state: "state",
+    urls: "urls",
+    comments: "comments",
+    company: "company",
     reportedCountry: "reported_country",
     reportedUserAgent: "reported_user_agent",
+    tele: "tele",
+    title: "title",
   }),
   T.Http({
     method: "POST",
@@ -426,9 +455,8 @@ export type CreateAbuseReportResponse = string;
 export const CreateAbuseReportResponse =
   Schema.String as unknown as Schema.Schema<CreateAbuseReportResponse>;
 
-export const createAbuseReport: (
-  input: CreateAbuseReportRequest,
-) => Effect.Effect<
+export const createAbuseReport: API.OperationMethod<
+  CreateAbuseReportRequest,
   CreateAbuseReportResponse,
   CommonErrors | InvalidRequest,
   ApiToken | HttpClient.HttpClient
@@ -560,18 +588,20 @@ export const ListMitigationsResponse = Schema.Array(
         ]),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           effectiveDate: "effective_date",
           entityId: "entity_id",
           entityType: "entity_type",
+          status: "status",
+          type: "type",
         }),
       ),
     ),
   }),
 ) as unknown as Schema.Schema<ListMitigationsResponse>;
 
-export const listMitigations: (
-  input: ListMitigationsRequest,
-) => Effect.Effect<
+export const listMitigations: API.OperationMethod<
+  ListMitigationsRequest,
   ListMitigationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -643,16 +673,18 @@ export const ReviewMitigationResponse = Schema.Array(
     ]),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       effectiveDate: "effective_date",
       entityId: "entity_id",
       entityType: "entity_type",
+      status: "status",
+      type: "type",
     }),
   ),
 ) as unknown as Schema.Schema<ReviewMitigationResponse>;
 
-export const reviewMitigation: (
-  input: ReviewMitigationRequest,
-) => Effect.Effect<
+export const reviewMitigation: API.OperationMethod<
+  ReviewMitigationRequest,
   ReviewMitigationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

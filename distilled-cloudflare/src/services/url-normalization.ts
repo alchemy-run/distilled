@@ -45,9 +45,8 @@ export const GetURLNormalizationResponse = Schema.Struct({
   type: Schema.Literals(["cloudflare", "rfc3986"]),
 }) as unknown as Schema.Schema<GetURLNormalizationResponse>;
 
-export const getURLNormalization: (
-  input: GetURLNormalizationRequest,
-) => Effect.Effect<
+export const getURLNormalization: API.OperationMethod<
+  GetURLNormalizationRequest,
   GetURLNormalizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -86,9 +85,8 @@ export const PutURLNormalizationResponse = Schema.Struct({
   type: Schema.Literals(["cloudflare", "rfc3986"]),
 }) as unknown as Schema.Schema<PutURLNormalizationResponse>;
 
-export const putURLNormalization: (
-  input: PutURLNormalizationRequest,
-) => Effect.Effect<
+export const putURLNormalization: API.OperationMethod<
+  PutURLNormalizationRequest,
   PutURLNormalizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -114,9 +112,8 @@ export type DeleteURLNormalizationResponse = unknown;
 export const DeleteURLNormalizationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteURLNormalizationResponse>;
 
-export const deleteURLNormalization: (
-  input: DeleteURLNormalizationRequest,
-) => Effect.Effect<
+export const deleteURLNormalization: API.OperationMethod<
+  DeleteURLNormalizationRequest,
   DeleteURLNormalizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

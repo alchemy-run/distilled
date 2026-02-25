@@ -48,9 +48,8 @@ export const GetContentScanningResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetContentScanningResponse>;
 
-export const getContentScanning: (
-  input: GetContentScanningRequest,
-) => Effect.Effect<
+export const getContentScanning: API.OperationMethod<
+  GetContentScanningRequest,
   GetContentScanningResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -89,9 +88,8 @@ export const CreateContentScanningResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateContentScanningResponse>;
 
-export const createContentScanning: (
-  input: CreateContentScanningRequest,
-) => Effect.Effect<
+export const createContentScanning: API.OperationMethod<
+  CreateContentScanningRequest,
   CreateContentScanningResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -130,9 +128,8 @@ export const PutContentScanningResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutContentScanningResponse>;
 
-export const putContentScanning: (
-  input: PutContentScanningRequest,
-) => Effect.Effect<
+export const putContentScanning: API.OperationMethod<
+  PutContentScanningRequest,
   PutContentScanningResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -161,9 +158,8 @@ export type EnableContentScanningResponse = unknown;
 export const EnableContentScanningResponse =
   Schema.Unknown as unknown as Schema.Schema<EnableContentScanningResponse>;
 
-export const enableContentScanning: (
-  input: EnableContentScanningRequest,
-) => Effect.Effect<
+export const enableContentScanning: API.OperationMethod<
+  EnableContentScanningRequest,
   EnableContentScanningResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -192,9 +188,8 @@ export type DisableContentScanningResponse = unknown;
 export const DisableContentScanningResponse =
   Schema.Unknown as unknown as Schema.Schema<DisableContentScanningResponse>;
 
-export const disableContentScanning: (
-  input: DisableContentScanningRequest,
-) => Effect.Effect<
+export const disableContentScanning: API.OperationMethod<
+  DisableContentScanningRequest,
   DisableContentScanningResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -231,9 +226,8 @@ export const ListPayloadsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPayloadsResponse>;
 
-export const listPayloads: (
-  input: ListPayloadsRequest,
-) => Effect.Effect<
+export const listPayloads: API.OperationMethod<
+  ListPayloadsRequest,
   ListPayloadsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -273,9 +267,8 @@ export const CreatePayloadResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreatePayloadResponse>;
 
-export const createPayload: (
-  input: CreatePayloadRequest,
-) => Effect.Effect<
+export const createPayload: API.OperationMethod<
+  CreatePayloadRequest,
   CreatePayloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -310,9 +303,8 @@ export const DeletePayloadResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<DeletePayloadResponse>;
 
-export const deletePayload: (
-  input: DeletePayloadRequest,
-) => Effect.Effect<
+export const deletePayload: API.OperationMethod<
+  DeletePayloadRequest,
   DeletePayloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -352,9 +344,8 @@ export const GetSettingResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
-export const getSetting: (
-  input: GetSettingRequest,
-) => Effect.Effect<
+export const getSetting: API.OperationMethod<
+  GetSettingRequest,
   GetSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

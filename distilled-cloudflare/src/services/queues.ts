@@ -97,6 +97,9 @@ export const GetConsumerResponse = Schema.Union([
       consumerId: "consumer_id",
       createdOn: "created_on",
       queueId: "queue_id",
+      script: "script",
+      settings: "settings",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -124,13 +127,14 @@ export const GetConsumerResponse = Schema.Union([
       consumerId: "consumer_id",
       createdOn: "created_on",
       queueId: "queue_id",
+      settings: "settings",
+      type: "type",
     }),
   ),
 ]) as unknown as Schema.Schema<GetConsumerResponse>;
 
-export const getConsumer: (
-  input: GetConsumerRequest,
-) => Effect.Effect<
+export const getConsumer: API.OperationMethod<
+  GetConsumerRequest,
   GetConsumerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -215,6 +219,9 @@ export const ListConsumersResponse = Schema.Array(
         consumerId: "consumer_id",
         createdOn: "created_on",
         queueId: "queue_id",
+        script: "script",
+        settings: "settings",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -242,14 +249,15 @@ export const ListConsumersResponse = Schema.Array(
         consumerId: "consumer_id",
         createdOn: "created_on",
         queueId: "queue_id",
+        settings: "settings",
+        type: "type",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListConsumersResponse>;
 
-export const listConsumers: (
-  input: ListConsumersRequest,
-) => Effect.Effect<
+export const listConsumers: API.OperationMethod<
+  ListConsumersRequest,
   ListConsumersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -306,6 +314,8 @@ export const CreateConsumerRequest = Schema.Struct({
   Schema.encodeKeys({
     deadLetterQueue: "dead_letter_queue",
     scriptName: "script_name",
+    settings: "settings",
+    type: "type",
   }),
   T.Http({
     method: "POST",
@@ -370,6 +380,9 @@ export const CreateConsumerResponse = Schema.Union([
       consumerId: "consumer_id",
       createdOn: "created_on",
       queueId: "queue_id",
+      script: "script",
+      settings: "settings",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -397,13 +410,14 @@ export const CreateConsumerResponse = Schema.Union([
       consumerId: "consumer_id",
       createdOn: "created_on",
       queueId: "queue_id",
+      settings: "settings",
+      type: "type",
     }),
   ),
 ]) as unknown as Schema.Schema<CreateConsumerResponse>;
 
-export const createConsumer: (
-  input: CreateConsumerRequest,
-) => Effect.Effect<
+export const createConsumer: API.OperationMethod<
+  CreateConsumerRequest,
   CreateConsumerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -462,6 +476,8 @@ export const UpdateConsumerRequest = Schema.Struct({
   Schema.encodeKeys({
     deadLetterQueue: "dead_letter_queue",
     scriptName: "script_name",
+    settings: "settings",
+    type: "type",
   }),
   T.Http({
     method: "PUT",
@@ -526,6 +542,9 @@ export const UpdateConsumerResponse = Schema.Union([
       consumerId: "consumer_id",
       createdOn: "created_on",
       queueId: "queue_id",
+      script: "script",
+      settings: "settings",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -553,13 +572,14 @@ export const UpdateConsumerResponse = Schema.Union([
       consumerId: "consumer_id",
       createdOn: "created_on",
       queueId: "queue_id",
+      settings: "settings",
+      type: "type",
     }),
   ),
 ]) as unknown as Schema.Schema<UpdateConsumerResponse>;
 
-export const updateConsumer: (
-  input: UpdateConsumerRequest,
-) => Effect.Effect<
+export const updateConsumer: API.OperationMethod<
+  UpdateConsumerRequest,
   UpdateConsumerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -600,9 +620,8 @@ export const DeleteConsumerResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<DeleteConsumerResponse>;
 
-export const deleteConsumer: (
-  input: DeleteConsumerRequest,
-) => Effect.Effect<
+export const deleteConsumer: API.OperationMethod<
+  DeleteConsumerRequest,
   DeleteConsumerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -642,6 +661,7 @@ export const BulkPushMessagesRequest = Schema.Struct({
           delaySeconds: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            body: "body",
             contentType: "content_type",
             delaySeconds: "delay_seconds",
           }),
@@ -652,6 +672,7 @@ export const BulkPushMessagesRequest = Schema.Struct({
           delaySeconds: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            body: "body",
             contentType: "content_type",
             delaySeconds: "delay_seconds",
           }),
@@ -660,7 +681,7 @@ export const BulkPushMessagesRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ delaySeconds: "delay_seconds" }),
+  Schema.encodeKeys({ delaySeconds: "delay_seconds", messages: "messages" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/queues/{queueId}/messages/batch",
@@ -680,9 +701,8 @@ export const BulkPushMessagesResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<BulkPushMessagesResponse>;
 
-export const bulkPushMessages: (
-  input: BulkPushMessagesRequest,
-) => Effect.Effect<
+export const bulkPushMessages: API.OperationMethod<
+  BulkPushMessagesRequest,
   BulkPushMessagesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -743,17 +763,26 @@ export const PullMessageResponse = Schema.Struct({
         metadata: Schema.optional(Schema.Unknown),
         timestampMs: Schema.optional(Schema.Number),
       }).pipe(
-        Schema.encodeKeys({ leaseId: "lease_id", timestampMs: "timestamp_ms" }),
+        Schema.encodeKeys({
+          id: "id",
+          attempts: "attempts",
+          body: "body",
+          leaseId: "lease_id",
+          metadata: "metadata",
+          timestampMs: "timestamp_ms",
+        }),
       ),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ messageBacklogCount: "message_backlog_count" }),
+  Schema.encodeKeys({
+    messageBacklogCount: "message_backlog_count",
+    messages: "messages",
+  }),
 ) as unknown as Schema.Schema<PullMessageResponse>;
 
-export const pullMessage: (
-  input: PullMessageRequest,
-) => Effect.Effect<
+export const pullMessage: API.OperationMethod<
+  PullMessageRequest,
   PullMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -805,9 +834,8 @@ export const PushMessageResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<PushMessageResponse>;
 
-export const pushMessage: (
-  input: PushMessageRequest,
-) => Effect.Effect<
+export const pushMessage: API.OperationMethod<
+  PushMessageRequest,
   PushMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -871,9 +899,8 @@ export const AckMessageResponse = Schema.Struct({
   warnings: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<AckMessageResponse>;
 
-export const ackMessage: (
-  input: AckMessageRequest,
-) => Effect.Effect<
+export const ackMessage: API.OperationMethod<
+  AckMessageRequest,
   AckMessageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -914,9 +941,8 @@ export type StartPurgeResponse = unknown;
 export const StartPurgeResponse =
   Schema.Unknown as unknown as Schema.Schema<StartPurgeResponse>;
 
-export const startPurge: (
-  input: StartPurgeRequest,
-) => Effect.Effect<
+export const startPurge: API.OperationMethod<
+  StartPurgeRequest,
   StartPurgeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -953,12 +979,11 @@ export const StatusPurgeResponse = Schema.Struct({
   completed: Schema.optional(Schema.String),
   startedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ startedAt: "started_at" }),
+  Schema.encodeKeys({ completed: "completed", startedAt: "started_at" }),
 ) as unknown as Schema.Schema<StatusPurgeResponse>;
 
-export const statusPurge: (
-  input: StatusPurgeRequest,
-) => Effect.Effect<
+export const statusPurge: API.OperationMethod<
+  StatusPurgeRequest,
   StatusPurgeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1019,7 +1044,7 @@ export const GetQueueResponse = Schema.Struct({
         Schema.Struct({
           bucketName: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
       ]),
     ),
   ),
@@ -1041,18 +1066,20 @@ export const GetQueueResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    consumers: "consumers",
     consumersTotalCount: "consumers_total_count",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    producers: "producers",
     producersTotalCount: "producers_total_count",
     queueId: "queue_id",
     queueName: "queue_name",
+    settings: "settings",
   }),
 ) as unknown as Schema.Schema<GetQueueResponse>;
 
-export const getQueue: (
-  input: GetQueueRequest,
-) => Effect.Effect<
+export const getQueue: API.OperationMethod<
+  GetQueueRequest,
   GetQueueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1108,7 +1135,9 @@ export const ListQueuesResponse = Schema.Array(
           Schema.Struct({
             bucketName: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("r2_bucket")),
-          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+          }).pipe(
+            Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -1130,19 +1159,21 @@ export const ListQueuesResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      consumers: "consumers",
       consumersTotalCount: "consumers_total_count",
       createdOn: "created_on",
       modifiedOn: "modified_on",
+      producers: "producers",
       producersTotalCount: "producers_total_count",
       queueId: "queue_id",
       queueName: "queue_name",
+      settings: "settings",
     }),
   ),
 ) as unknown as Schema.Schema<ListQueuesResponse>;
 
-export const listQueues: (
-  input: ListQueuesRequest,
-) => Effect.Effect<
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
   ListQueuesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1201,7 +1232,7 @@ export const CreateQueueResponse = Schema.Struct({
         Schema.Struct({
           bucketName: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
       ]),
     ),
   ),
@@ -1223,18 +1254,20 @@ export const CreateQueueResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    consumers: "consumers",
     consumersTotalCount: "consumers_total_count",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    producers: "producers",
     producersTotalCount: "producers_total_count",
     queueId: "queue_id",
     queueName: "queue_name",
+    settings: "settings",
   }),
 ) as unknown as Schema.Schema<CreateQueueResponse>;
 
-export const createQueue: (
-  input: CreateQueueRequest,
-) => Effect.Effect<
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
   CreateQueueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1276,7 +1309,7 @@ export const UpdateQueueRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ queueName: "queue_name" }),
+  Schema.encodeKeys({ queueName: "queue_name", settings: "settings" }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/queues/{queueId}" }),
 ) as unknown as Schema.Schema<UpdateQueueRequest>;
 
@@ -1314,7 +1347,7 @@ export const UpdateQueueResponse = Schema.Struct({
         Schema.Struct({
           bucketName: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
       ]),
     ),
   ),
@@ -1336,18 +1369,20 @@ export const UpdateQueueResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    consumers: "consumers",
     consumersTotalCount: "consumers_total_count",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    producers: "producers",
     producersTotalCount: "producers_total_count",
     queueId: "queue_id",
     queueName: "queue_name",
+    settings: "settings",
   }),
 ) as unknown as Schema.Schema<UpdateQueueResponse>;
 
-export const updateQueue: (
-  input: UpdateQueueRequest,
-) => Effect.Effect<
+export const updateQueue: API.OperationMethod<
+  UpdateQueueRequest,
   UpdateQueueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1389,7 +1424,7 @@ export const PatchQueueRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ queueName: "queue_name" }),
+  Schema.encodeKeys({ queueName: "queue_name", settings: "settings" }),
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/queues/{queueId}" }),
 ) as unknown as Schema.Schema<PatchQueueRequest>;
 
@@ -1427,7 +1462,7 @@ export const PatchQueueResponse = Schema.Struct({
         Schema.Struct({
           bucketName: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
       ]),
     ),
   ),
@@ -1449,18 +1484,20 @@ export const PatchQueueResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    consumers: "consumers",
     consumersTotalCount: "consumers_total_count",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    producers: "producers",
     producersTotalCount: "producers_total_count",
     queueId: "queue_id",
     queueName: "queue_name",
+    settings: "settings",
   }),
 ) as unknown as Schema.Schema<PatchQueueResponse>;
 
-export const patchQueue: (
-  input: PatchQueueRequest,
-) => Effect.Effect<
+export const patchQueue: API.OperationMethod<
+  PatchQueueRequest,
   PatchQueueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1496,9 +1533,8 @@ export const DeleteQueueResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<DeleteQueueResponse>;
 
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => Effect.Effect<
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
   DeleteQueueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1561,7 +1597,7 @@ export const GetSubscriptionResponse = Schema.Struct({
   destination: Schema.Struct({
     queueId: Schema.String,
     type: Schema.Literal("queues.queue"),
-  }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+  }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
   enabled: Schema.Boolean,
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String,
@@ -1585,23 +1621,31 @@ export const GetSubscriptionResponse = Schema.Struct({
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("workersAi.model")),
-    }).pipe(Schema.encodeKeys({ modelName: "model_name" })),
+    }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
       workerName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workerName: "worker_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
       workflowName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workflowName: "workflow_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    destination: "destination",
+    enabled: "enabled",
+    events: "events",
+    modifiedAt: "modified_at",
+    name: "name",
+    source: "source",
+  }),
 ) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
-export const getSubscription: (
-  input: GetSubscriptionRequest,
-) => Effect.Effect<
+export const getSubscription: API.OperationMethod<
+  GetSubscriptionRequest,
   GetSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1661,7 +1705,7 @@ export const ListSubscriptionsResponse = Schema.Array(
     destination: Schema.Struct({
       queueId: Schema.String,
       type: Schema.Literal("queues.queue"),
-    }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+    }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
     enabled: Schema.Boolean,
     events: Schema.Array(Schema.String),
     modifiedAt: Schema.String,
@@ -1685,24 +1729,34 @@ export const ListSubscriptionsResponse = Schema.Array(
       Schema.Struct({
         modelName: Schema.optional(Schema.String),
         type: Schema.optional(Schema.Literal("workersAi.model")),
-      }).pipe(Schema.encodeKeys({ modelName: "model_name" })),
+      }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
       Schema.Struct({
         type: Schema.optional(Schema.Literal("workersBuilds.worker")),
         workerName: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ workerName: "worker_name" })),
+      }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
       Schema.Struct({
         type: Schema.optional(Schema.Literal("workflows.workflow")),
         workflowName: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ workflowName: "workflow_name" })),
+      }).pipe(
+        Schema.encodeKeys({ type: "type", workflowName: "workflow_name" }),
+      ),
     ]),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      destination: "destination",
+      enabled: "enabled",
+      events: "events",
+      modifiedAt: "modified_at",
+      name: "name",
+      source: "source",
+    }),
   ),
 ) as unknown as Schema.Schema<ListSubscriptionsResponse>;
 
-export const listSubscriptions: (
-  input: ListSubscriptionsRequest,
-) => Effect.Effect<
+export const listSubscriptions: API.OperationMethod<
+  ListSubscriptionsRequest,
   ListSubscriptionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1741,7 +1795,7 @@ export const CreateSubscriptionRequest = Schema.Struct({
     Schema.Struct({
       queueId: Schema.String,
       type: Schema.Literal("queues.queue"),
-    }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+    }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
   ),
   enabled: Schema.optional(Schema.Boolean),
   events: Schema.optional(Schema.Array(Schema.String)),
@@ -1766,15 +1820,17 @@ export const CreateSubscriptionRequest = Schema.Struct({
       Schema.Struct({
         modelName: Schema.optional(Schema.String),
         type: Schema.optional(Schema.Literal("workersAi.model")),
-      }).pipe(Schema.encodeKeys({ modelName: "model_name" })),
+      }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
       Schema.Struct({
         type: Schema.optional(Schema.Literal("workersBuilds.worker")),
         workerName: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ workerName: "worker_name" })),
+      }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
       Schema.Struct({
         type: Schema.optional(Schema.Literal("workflows.workflow")),
         workflowName: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ workflowName: "workflow_name" })),
+      }).pipe(
+        Schema.encodeKeys({ type: "type", workflowName: "workflow_name" }),
+      ),
     ]),
   ),
 }).pipe(
@@ -1817,7 +1873,7 @@ export const CreateSubscriptionResponse = Schema.Struct({
   destination: Schema.Struct({
     queueId: Schema.String,
     type: Schema.Literal("queues.queue"),
-  }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+  }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
   enabled: Schema.Boolean,
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String,
@@ -1841,23 +1897,31 @@ export const CreateSubscriptionResponse = Schema.Struct({
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("workersAi.model")),
-    }).pipe(Schema.encodeKeys({ modelName: "model_name" })),
+    }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
       workerName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workerName: "worker_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
       workflowName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workflowName: "workflow_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    destination: "destination",
+    enabled: "enabled",
+    events: "events",
+    modifiedAt: "modified_at",
+    name: "name",
+    source: "source",
+  }),
 ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
-export const createSubscription: (
-  input: CreateSubscriptionRequest,
-) => Effect.Effect<
+export const createSubscription: API.OperationMethod<
+  CreateSubscriptionRequest,
   CreateSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1888,7 +1952,7 @@ export const PatchSubscriptionRequest = Schema.Struct({
     Schema.Struct({
       queueId: Schema.String,
       type: Schema.Literal("queues.queue"),
-    }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+    }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
   ),
   enabled: Schema.optional(Schema.Boolean),
   events: Schema.optional(Schema.Array(Schema.String)),
@@ -1933,7 +1997,7 @@ export const PatchSubscriptionResponse = Schema.Struct({
   destination: Schema.Struct({
     queueId: Schema.String,
     type: Schema.Literal("queues.queue"),
-  }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+  }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
   enabled: Schema.Boolean,
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String,
@@ -1957,23 +2021,31 @@ export const PatchSubscriptionResponse = Schema.Struct({
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("workersAi.model")),
-    }).pipe(Schema.encodeKeys({ modelName: "model_name" })),
+    }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
       workerName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workerName: "worker_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
       workflowName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workflowName: "workflow_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    destination: "destination",
+    enabled: "enabled",
+    events: "events",
+    modifiedAt: "modified_at",
+    name: "name",
+    source: "source",
+  }),
 ) as unknown as Schema.Schema<PatchSubscriptionResponse>;
 
-export const patchSubscription: (
-  input: PatchSubscriptionRequest,
-) => Effect.Effect<
+export const patchSubscription: API.OperationMethod<
+  PatchSubscriptionRequest,
   PatchSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2032,7 +2104,7 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   destination: Schema.Struct({
     queueId: Schema.String,
     type: Schema.Literal("queues.queue"),
-  }).pipe(Schema.encodeKeys({ queueId: "queue_id" })),
+  }).pipe(Schema.encodeKeys({ queueId: "queue_id", type: "type" })),
   enabled: Schema.Boolean,
   events: Schema.Array(Schema.String),
   modifiedAt: Schema.String,
@@ -2056,23 +2128,31 @@ export const DeleteSubscriptionResponse = Schema.Struct({
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.Literal("workersAi.model")),
-    }).pipe(Schema.encodeKeys({ modelName: "model_name" })),
+    }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
       workerName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workerName: "worker_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
       workflowName: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ workflowName: "workflow_name" })),
+    }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    destination: "destination",
+    enabled: "enabled",
+    events: "events",
+    modifiedAt: "modified_at",
+    name: "name",
+    source: "source",
+  }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
-export const deleteSubscription: (
-  input: DeleteSubscriptionRequest,
-) => Effect.Effect<
+export const deleteSubscription: API.OperationMethod<
+  DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

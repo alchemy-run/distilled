@@ -97,9 +97,18 @@ export const GetMembershipResponse = Schema.Struct({
       zones: Schema.optional(Schema.Unknown),
     }).pipe(
       Schema.encodeKeys({
+        analytics: "analytics",
+        billing: "billing",
         cachePurge: "cache_purge",
+        dns: "dns",
         dnsRecords: "dns_records",
+        lb: "lb",
+        logs: "logs",
+        organization: "organization",
+        ssl: "ssl",
+        waf: "waf",
         zoneSettings: "zone_settings",
+        zones: "zones",
       }),
     ),
   ),
@@ -148,6 +157,8 @@ export const GetMembershipResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          access: "access",
           permissionGroups: "permission_groups",
           resourceGroups: "resource_groups",
         }),
@@ -157,12 +168,19 @@ export const GetMembershipResponse = Schema.Struct({
   roles: Schema.optional(Schema.Array(Schema.String)),
   status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
 }).pipe(
-  Schema.encodeKeys({ apiAccessEnabled: "api_access_enabled" }),
+  Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    apiAccessEnabled: "api_access_enabled",
+    permissions: "permissions",
+    policies: "policies",
+    roles: "roles",
+    status: "status",
+  }),
 ) as unknown as Schema.Schema<GetMembershipResponse>;
 
-export const getMembership: (
-  input: GetMembershipRequest,
-) => Effect.Effect<
+export const getMembership: API.OperationMethod<
+  GetMembershipRequest,
   GetMembershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -223,9 +241,18 @@ export const ListMembershipsResponse = Schema.Array(
         zones: Schema.optional(Schema.Unknown),
       }).pipe(
         Schema.encodeKeys({
+          analytics: "analytics",
+          billing: "billing",
           cachePurge: "cache_purge",
+          dns: "dns",
           dnsRecords: "dns_records",
+          lb: "lb",
+          logs: "logs",
+          organization: "organization",
+          ssl: "ssl",
+          waf: "waf",
           zoneSettings: "zone_settings",
+          zones: "zones",
         }),
       ),
     ),
@@ -233,12 +260,20 @@ export const ListMembershipsResponse = Schema.Array(
     status: Schema.optional(
       Schema.Literals(["accepted", "pending", "rejected"]),
     ),
-  }).pipe(Schema.encodeKeys({ apiAccessEnabled: "api_access_enabled" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      account: "account",
+      apiAccessEnabled: "api_access_enabled",
+      permissions: "permissions",
+      roles: "roles",
+      status: "status",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListMembershipsResponse>;
 
-export const listMemberships: (
-  input: ListMembershipsRequest,
-) => Effect.Effect<
+export const listMemberships: API.OperationMethod<
+  ListMembershipsRequest,
   ListMembershipsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -326,9 +361,18 @@ export const PutMembershipResponse = Schema.Struct({
       zones: Schema.optional(Schema.Unknown),
     }).pipe(
       Schema.encodeKeys({
+        analytics: "analytics",
+        billing: "billing",
         cachePurge: "cache_purge",
+        dns: "dns",
         dnsRecords: "dns_records",
+        lb: "lb",
+        logs: "logs",
+        organization: "organization",
+        ssl: "ssl",
+        waf: "waf",
         zoneSettings: "zone_settings",
+        zones: "zones",
       }),
     ),
   ),
@@ -377,6 +421,8 @@ export const PutMembershipResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          access: "access",
           permissionGroups: "permission_groups",
           resourceGroups: "resource_groups",
         }),
@@ -386,12 +432,19 @@ export const PutMembershipResponse = Schema.Struct({
   roles: Schema.optional(Schema.Array(Schema.String)),
   status: Schema.optional(Schema.Literals(["accepted", "pending", "rejected"])),
 }).pipe(
-  Schema.encodeKeys({ apiAccessEnabled: "api_access_enabled" }),
+  Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    apiAccessEnabled: "api_access_enabled",
+    permissions: "permissions",
+    policies: "policies",
+    roles: "roles",
+    status: "status",
+  }),
 ) as unknown as Schema.Schema<PutMembershipResponse>;
 
-export const putMembership: (
-  input: PutMembershipRequest,
-) => Effect.Effect<
+export const putMembership: API.OperationMethod<
+  PutMembershipRequest,
   PutMembershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -420,9 +473,8 @@ export const DeleteMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteMembershipResponse>;
 
-export const deleteMembership: (
-  input: DeleteMembershipRequest,
-) => Effect.Effect<
+export const deleteMembership: API.OperationMethod<
+  DeleteMembershipRequest,
   DeleteMembershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

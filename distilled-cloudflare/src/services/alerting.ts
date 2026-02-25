@@ -108,9 +108,8 @@ export const ListAvailableAlertsResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<ListAvailableAlertsResponse>;
 
-export const listAvailableAlerts: (
-  input: ListAvailableAlertsRequest,
-) => Effect.Effect<
+export const listAvailableAlerts: API.OperationMethod<
+  ListAvailableAlertsRequest,
   ListAvailableAlertsResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -144,9 +143,8 @@ export const GetDestinationEligibleResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<GetDestinationEligibleResponse>;
 
-export const getDestinationEligible: (
-  input: GetDestinationEligibleRequest,
-) => Effect.Effect<
+export const getDestinationEligible: API.OperationMethod<
+  GetDestinationEligibleRequest,
   GetDestinationEligibleResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -183,9 +181,8 @@ export const GetDestinationPagerdutyResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetDestinationPagerdutyResponse>;
 
-export const getDestinationPagerduty: (
-  input: GetDestinationPagerdutyRequest,
-) => Effect.Effect<
+export const getDestinationPagerduty: API.OperationMethod<
+  GetDestinationPagerdutyRequest,
   GetDestinationPagerdutyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -218,9 +215,8 @@ export const CreateDestinationPagerdutyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDestinationPagerdutyResponse>;
 
-export const createDestinationPagerduty: (
-  input: CreateDestinationPagerdutyRequest,
-) => Effect.Effect<
+export const createDestinationPagerduty: API.OperationMethod<
+  CreateDestinationPagerdutyRequest,
   CreateDestinationPagerdutyResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -267,9 +263,8 @@ export const DeleteDestinationPagerdutyResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteDestinationPagerdutyResponse>;
 
-export const deleteDestinationPagerduty: (
-  input: DeleteDestinationPagerdutyRequest,
-) => Effect.Effect<
+export const deleteDestinationPagerduty: API.OperationMethod<
+  DeleteDestinationPagerdutyRequest,
   DeleteDestinationPagerdutyResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -304,9 +299,8 @@ export const LinkDestinationPagerdutyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<LinkDestinationPagerdutyResponse>;
 
-export const linkDestinationPagerduty: (
-  input: LinkDestinationPagerdutyRequest,
-) => Effect.Effect<
+export const linkDestinationPagerduty: API.OperationMethod<
+  LinkDestinationPagerdutyRequest,
   LinkDestinationPagerdutyResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -382,15 +376,18 @@ export const GetDestinationWebhookResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     lastFailure: "last_failure",
     lastSuccess: "last_success",
+    name: "name",
+    type: "type",
+    url: "url",
   }),
 ) as unknown as Schema.Schema<GetDestinationWebhookResponse>;
 
-export const getDestinationWebhook: (
-  input: GetDestinationWebhookRequest,
-) => Effect.Effect<
+export const getDestinationWebhook: API.OperationMethod<
+  GetDestinationWebhookRequest,
   GetDestinationWebhookResponse,
   CommonErrors | InvalidRoute | WebhookNotFound,
   ApiToken | HttpClient.HttpClient
@@ -454,16 +451,19 @@ export const ListDestinationWebhooksResponse = Schema.Array(
     url: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       lastFailure: "last_failure",
       lastSuccess: "last_success",
+      name: "name",
+      type: "type",
+      url: "url",
     }),
   ),
 ) as unknown as Schema.Schema<ListDestinationWebhooksResponse>;
 
-export const listDestinationWebhooks: (
-  input: ListDestinationWebhooksRequest,
-) => Effect.Effect<
+export const listDestinationWebhooks: API.OperationMethod<
+  ListDestinationWebhooksRequest,
   ListDestinationWebhooksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -505,9 +505,8 @@ export const CreateDestinationWebhookResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDestinationWebhookResponse>;
 
-export const createDestinationWebhook: (
-  input: CreateDestinationWebhookRequest,
-) => Effect.Effect<
+export const createDestinationWebhook: API.OperationMethod<
+  CreateDestinationWebhookRequest,
   CreateDestinationWebhookResponse,
   CommonErrors | InvalidRoute | WebhookTestFailed,
   ApiToken | HttpClient.HttpClient
@@ -551,9 +550,8 @@ export const UpdateDestinationWebhookResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateDestinationWebhookResponse>;
 
-export const updateDestinationWebhook: (
-  input: UpdateDestinationWebhookRequest,
-) => Effect.Effect<
+export const updateDestinationWebhook: API.OperationMethod<
+  UpdateDestinationWebhookRequest,
   UpdateDestinationWebhookResponse,
   CommonErrors | InvalidRoute | InvalidWebhookId,
   ApiToken | HttpClient.HttpClient
@@ -602,9 +600,8 @@ export const DeleteDestinationWebhookResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteDestinationWebhookResponse>;
 
-export const deleteDestinationWebhook: (
-  input: DeleteDestinationWebhookRequest,
-) => Effect.Effect<
+export const deleteDestinationWebhook: API.OperationMethod<
+  DeleteDestinationWebhookRequest,
   DeleteDestinationWebhookResponse,
   CommonErrors | InvalidRoute | InternalServerError,
   ApiToken | HttpClient.HttpClient
@@ -662,17 +659,21 @@ export const ListHistoriesResponse = Schema.Array(
     sent: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       alertBody: "alert_body",
       alertType: "alert_type",
+      description: "description",
+      mechanism: "mechanism",
       mechanismType: "mechanism_type",
+      name: "name",
       policyId: "policy_id",
+      sent: "sent",
     }),
   ),
 ) as unknown as Schema.Schema<ListHistoriesResponse>;
 
-export const listHistories: (
-  input: ListHistoriesRequest,
-) => Effect.Effect<
+export const listHistories: API.OperationMethod<
+  ListHistoriesRequest,
   ListHistoriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -982,12 +983,16 @@ export const GetPolicyResponse = Schema.Struct({
       zones: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        actions: "actions",
         affectedAsns: "affected_asns",
         affectedComponents: "affected_components",
         affectedLocations: "affected_locations",
         airportCode: "airport_code",
         alertTriggerPreferences: "alert_trigger_preferences",
         alertTriggerPreferencesValue: "alert_trigger_preferences_value",
+        enabled: "enabled",
+        environment: "environment",
+        event: "event",
         eventSource: "event_source",
         eventType: "event_type",
         groupBy: "group_by",
@@ -995,6 +1000,7 @@ export const GetPolicyResponse = Schema.Struct({
         incidentImpact: "incident_impact",
         inputId: "input_id",
         insightClass: "insight_class",
+        limit: "limit",
         logoTag: "logo_tag",
         megabitsPerSecond: "megabits_per_second",
         newHealth: "new_health",
@@ -1002,15 +1008,24 @@ export const GetPolicyResponse = Schema.Struct({
         packetsPerSecond: "packets_per_second",
         poolId: "pool_id",
         popNames: "pop_names",
+        product: "product",
         projectId: "project_id",
+        protocol: "protocol",
         queryTag: "query_tag",
         requestsPerSecond: "requests_per_second",
+        selectors: "selectors",
+        services: "services",
+        slo: "slo",
+        status: "status",
         targetHostname: "target_hostname",
         targetIp: "target_ip",
         targetZoneName: "target_zone_name",
         trafficExclusions: "traffic_exclusions",
         tunnelId: "tunnel_id",
         tunnelName: "tunnel_name",
+        type: "type",
+        where: "where",
+        zones: "zones",
       }),
     ),
   ),
@@ -1043,14 +1058,21 @@ export const GetPolicyResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     alertInterval: "alert_interval",
     alertType: "alert_type",
+    created: "created",
+    description: "description",
+    enabled: "enabled",
+    filters: "filters",
+    mechanisms: "mechanisms",
+    modified: "modified",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<GetPolicyResponse>;
 
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => Effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   CommonErrors | InvalidRoute | PolicyNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1347,12 +1369,16 @@ export const ListPoliciesResponse = Schema.Array(
         zones: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
         Schema.encodeKeys({
+          actions: "actions",
           affectedAsns: "affected_asns",
           affectedComponents: "affected_components",
           affectedLocations: "affected_locations",
           airportCode: "airport_code",
           alertTriggerPreferences: "alert_trigger_preferences",
           alertTriggerPreferencesValue: "alert_trigger_preferences_value",
+          enabled: "enabled",
+          environment: "environment",
+          event: "event",
           eventSource: "event_source",
           eventType: "event_type",
           groupBy: "group_by",
@@ -1360,6 +1386,7 @@ export const ListPoliciesResponse = Schema.Array(
           incidentImpact: "incident_impact",
           inputId: "input_id",
           insightClass: "insight_class",
+          limit: "limit",
           logoTag: "logo_tag",
           megabitsPerSecond: "megabits_per_second",
           newHealth: "new_health",
@@ -1367,15 +1394,24 @@ export const ListPoliciesResponse = Schema.Array(
           packetsPerSecond: "packets_per_second",
           poolId: "pool_id",
           popNames: "pop_names",
+          product: "product",
           projectId: "project_id",
+          protocol: "protocol",
           queryTag: "query_tag",
           requestsPerSecond: "requests_per_second",
+          selectors: "selectors",
+          services: "services",
+          slo: "slo",
+          status: "status",
           targetHostname: "target_hostname",
           targetIp: "target_ip",
           targetZoneName: "target_zone_name",
           trafficExclusions: "traffic_exclusions",
           tunnelId: "tunnel_id",
           tunnelName: "tunnel_name",
+          type: "type",
+          where: "where",
+          zones: "zones",
         }),
       ),
     ),
@@ -1408,15 +1444,22 @@ export const ListPoliciesResponse = Schema.Array(
     name: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       alertInterval: "alert_interval",
       alertType: "alert_type",
+      created: "created",
+      description: "description",
+      enabled: "enabled",
+      filters: "filters",
+      mechanisms: "mechanisms",
+      modified: "modified",
+      name: "name",
     }),
   ),
 ) as unknown as Schema.Schema<ListPoliciesResponse>;
 
-export const listPolicies: (
-  input: ListPoliciesRequest,
-) => Effect.Effect<
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
   ListPoliciesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1725,12 +1768,16 @@ export const CreatePolicyRequest = Schema.Struct({
       zones: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        actions: "actions",
         affectedAsns: "affected_asns",
         affectedComponents: "affected_components",
         affectedLocations: "affected_locations",
         airportCode: "airport_code",
         alertTriggerPreferences: "alert_trigger_preferences",
         alertTriggerPreferencesValue: "alert_trigger_preferences_value",
+        enabled: "enabled",
+        environment: "environment",
+        event: "event",
         eventSource: "event_source",
         eventType: "event_type",
         groupBy: "group_by",
@@ -1738,6 +1785,7 @@ export const CreatePolicyRequest = Schema.Struct({
         incidentImpact: "incident_impact",
         inputId: "input_id",
         insightClass: "insight_class",
+        limit: "limit",
         logoTag: "logo_tag",
         megabitsPerSecond: "megabits_per_second",
         newHealth: "new_health",
@@ -1745,22 +1793,36 @@ export const CreatePolicyRequest = Schema.Struct({
         packetsPerSecond: "packets_per_second",
         poolId: "pool_id",
         popNames: "pop_names",
+        product: "product",
         projectId: "project_id",
+        protocol: "protocol",
         queryTag: "query_tag",
         requestsPerSecond: "requests_per_second",
+        selectors: "selectors",
+        services: "services",
+        slo: "slo",
+        status: "status",
         targetHostname: "target_hostname",
         targetIp: "target_ip",
         targetZoneName: "target_zone_name",
         trafficExclusions: "traffic_exclusions",
         tunnelId: "tunnel_id",
         tunnelName: "tunnel_name",
+        type: "type",
+        where: "where",
+        zones: "zones",
       }),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
     alertType: "alert_type",
+    enabled: "enabled",
+    mechanisms: "mechanisms",
+    name: "name",
     alertInterval: "alert_interval",
+    description: "description",
+    filters: "filters",
   }),
   T.Http({
     method: "POST",
@@ -1777,9 +1839,8 @@ export const CreatePolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreatePolicyResponse>;
 
-export const createPolicy: (
-  input: CreatePolicyRequest,
-) => Effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
   CreatePolicyResponse,
   CommonErrors | InvalidRoute | FiltersRequired | MechanismRequired,
   ApiToken | HttpClient.HttpClient
@@ -2068,12 +2129,16 @@ export const UpdatePolicyRequest = Schema.Struct({
       zones: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        actions: "actions",
         affectedAsns: "affected_asns",
         affectedComponents: "affected_components",
         affectedLocations: "affected_locations",
         airportCode: "airport_code",
         alertTriggerPreferences: "alert_trigger_preferences",
         alertTriggerPreferencesValue: "alert_trigger_preferences_value",
+        enabled: "enabled",
+        environment: "environment",
+        event: "event",
         eventSource: "event_source",
         eventType: "event_type",
         groupBy: "group_by",
@@ -2081,6 +2146,7 @@ export const UpdatePolicyRequest = Schema.Struct({
         incidentImpact: "incident_impact",
         inputId: "input_id",
         insightClass: "insight_class",
+        limit: "limit",
         logoTag: "logo_tag",
         megabitsPerSecond: "megabits_per_second",
         newHealth: "new_health",
@@ -2088,15 +2154,24 @@ export const UpdatePolicyRequest = Schema.Struct({
         packetsPerSecond: "packets_per_second",
         poolId: "pool_id",
         popNames: "pop_names",
+        product: "product",
         projectId: "project_id",
+        protocol: "protocol",
         queryTag: "query_tag",
         requestsPerSecond: "requests_per_second",
+        selectors: "selectors",
+        services: "services",
+        slo: "slo",
+        status: "status",
         targetHostname: "target_hostname",
         targetIp: "target_ip",
         targetZoneName: "target_zone_name",
         trafficExclusions: "traffic_exclusions",
         tunnelId: "tunnel_id",
         tunnelName: "tunnel_name",
+        type: "type",
+        where: "where",
+        zones: "zones",
       }),
     ),
   ),
@@ -2130,6 +2205,11 @@ export const UpdatePolicyRequest = Schema.Struct({
   Schema.encodeKeys({
     alertInterval: "alert_interval",
     alertType: "alert_type",
+    description: "description",
+    enabled: "enabled",
+    filters: "filters",
+    mechanisms: "mechanisms",
+    name: "name",
   }),
   T.Http({
     method: "PUT",
@@ -2146,9 +2226,8 @@ export const UpdatePolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
-export const updatePolicy: (
-  input: UpdatePolicyRequest,
-) => Effect.Effect<
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
   UpdatePolicyResponse,
   | CommonErrors
   | InvalidRoute
@@ -2216,16 +2295,25 @@ export const DeletePolicyResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<DeletePolicyResponse>;
 
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => Effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   CommonErrors | InvalidRoute | PolicyNotFound,
   ApiToken | HttpClient.HttpClient
@@ -2279,6 +2367,7 @@ export const GetSilenceResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     endTime: "end_time",
     policyId: "policy_id",
@@ -2287,9 +2376,8 @@ export const GetSilenceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSilenceResponse>;
 
-export const getSilence: (
-  input: GetSilenceRequest,
-) => Effect.Effect<
+export const getSilence: API.OperationMethod<
+  GetSilenceRequest,
   GetSilenceResponse,
   CommonErrors | InvalidRoute | InternalServerError,
   ApiToken | HttpClient.HttpClient
@@ -2332,6 +2420,7 @@ export const ListSilencesResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       endTime: "end_time",
       policyId: "policy_id",
@@ -2341,9 +2430,8 @@ export const ListSilencesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSilencesResponse>;
 
-export const listSilences: (
-  input: ListSilencesRequest,
-) => Effect.Effect<
+export const listSilences: API.OperationMethod<
+  ListSilencesRequest,
   ListSilencesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2405,9 +2493,8 @@ export const CreateSilenceResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<CreateSilenceResponse>;
 
-export const createSilence: (
-  input: CreateSilenceRequest,
-) => Effect.Effect<
+export const createSilence: API.OperationMethod<
+  CreateSilenceRequest,
   CreateSilenceResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -2432,7 +2519,11 @@ export const UpdateSilenceRequest = Schema.Struct({
       endTime: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ endTime: "end_time", startTime: "start_time" }),
+      Schema.encodeKeys({
+        id: "id",
+        endTime: "end_time",
+        startTime: "start_time",
+      }),
     ),
   ).pipe(T.HttpBody()),
 }).pipe(
@@ -2461,6 +2552,7 @@ export const UpdateSilenceResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       endTime: "end_time",
       policyId: "policy_id",
@@ -2470,9 +2562,8 @@ export const UpdateSilenceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<UpdateSilenceResponse>;
 
-export const updateSilence: (
-  input: UpdateSilenceRequest,
-) => Effect.Effect<
+export const updateSilence: API.OperationMethod<
+  UpdateSilenceRequest,
   UpdateSilenceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2521,9 +2612,8 @@ export const DeleteSilenceResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteSilenceResponse>;
 
-export const deleteSilence: (
-  input: DeleteSilenceRequest,
-) => Effect.Effect<
+export const deleteSilence: API.OperationMethod<
+  DeleteSilenceRequest,
   DeleteSilenceResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient

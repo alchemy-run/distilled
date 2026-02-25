@@ -68,7 +68,13 @@ export const CreateTraceRequest = Schema.Struct({
       base64: Schema.optional(Schema.String),
       json: Schema.optional(Schema.Unknown),
       plainText: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ plainText: "plain_text" })),
+    }).pipe(
+      Schema.encodeKeys({
+        base64: "base64",
+        json: "json",
+        plainText: "plain_text",
+      }),
+    ),
   ).pipe(T.HttpBody()),
   context: Schema.optional(
     Schema.Struct({
@@ -87,11 +93,16 @@ export const CreateTraceRequest = Schema.Struct({
           timezone: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
+            continent: "continent",
             isEuCountry: "is_eu_country",
             isoCode: "iso_code",
+            latitude: "latitude",
+            longitude: "longitude",
             postalCode: "postal_code",
             regionCode: "region_code",
             subdivision_2IsoCode: "subdivision_2_iso_code",
+            timezone: "timezone",
           }),
         ),
       ),
@@ -100,6 +111,7 @@ export const CreateTraceRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         botScore: "bot_score",
+        geoloc: "geoloc",
         skipChallenge: "skip_challenge",
         threatScore: "threat_score",
       }),
@@ -110,7 +122,15 @@ export const CreateTraceRequest = Schema.Struct({
   protocol: Schema.optional(Schema.String),
   skipResponse: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ skipResponse: "skip_response" }),
+  Schema.encodeKeys({
+    method: "method",
+    url: "url",
+    context: "context",
+    cookies: "cookies",
+    headers: "headers",
+    protocol: "protocol",
+    skipResponse: "skip_response",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/request-tracer/trace",
@@ -127,12 +147,11 @@ export const CreateTraceResponse = Schema.Struct({
   statusCode: Schema.optional(Schema.Number),
   trace: Schema.optional(Schema.Unknown),
 }).pipe(
-  Schema.encodeKeys({ statusCode: "status_code" }),
+  Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }),
 ) as unknown as Schema.Schema<CreateTraceResponse>;
 
-export const createTrace: (
-  input: CreateTraceRequest,
-) => Effect.Effect<
+export const createTrace: API.OperationMethod<
+  CreateTraceRequest,
   CreateTraceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

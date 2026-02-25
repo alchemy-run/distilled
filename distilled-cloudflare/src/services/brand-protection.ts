@@ -51,9 +51,8 @@ export const SubmitBrandProtectionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<SubmitBrandProtectionResponse>;
 
-export const submitBrandProtection: (
-  input: SubmitBrandProtectionRequest,
-) => Effect.Effect<
+export const submitBrandProtection: API.OperationMethod<
+  SubmitBrandProtectionRequest,
   SubmitBrandProtectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -86,9 +85,8 @@ export const UrlInfoBrandProtectionResponse = Schema.Array(
   Schema.Struct({}),
 ) as unknown as Schema.Schema<UrlInfoBrandProtectionResponse>;
 
-export const urlInfoBrandProtection: (
-  input: UrlInfoBrandProtectionRequest,
-) => Effect.Effect<
+export const urlInfoBrandProtection: API.OperationMethod<
+  UrlInfoBrandProtectionRequest,
   UrlInfoBrandProtectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -140,12 +138,11 @@ export const CreateLogoResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
   uploadPath: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ uploadPath: "upload_path" }),
+  Schema.encodeKeys({ id: "id", tag: "tag", uploadPath: "upload_path" }),
 ) as unknown as Schema.Schema<CreateLogoResponse>;
 
-export const createLogo: (
-  input: CreateLogoRequest,
-) => Effect.Effect<
+export const createLogo: API.OperationMethod<
+  CreateLogoRequest,
   CreateLogoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -175,9 +172,8 @@ export type DeleteLogoResponse = unknown;
 export const DeleteLogoResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteLogoResponse>;
 
-export const deleteLogo: (
-  input: DeleteLogoRequest,
-) => Effect.Effect<
+export const deleteLogo: API.OperationMethod<
+  DeleteLogoRequest,
   DeleteLogoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -226,9 +222,8 @@ export const GetLogoMatchResponse = Schema.Struct({
   total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetLogoMatchResponse>;
 
-export const getLogoMatch: (
-  input: GetLogoMatchRequest,
-) => Effect.Effect<
+export const getLogoMatch: API.OperationMethod<
+  GetLogoMatchRequest,
   GetLogoMatchResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -273,9 +268,8 @@ export const DownloadLogoMatchResponse = Schema.Struct({
   total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DownloadLogoMatchResponse>;
 
-export const downloadLogoMatch: (
-  input: DownloadLogoMatchRequest,
-) => Effect.Effect<
+export const downloadLogoMatch: API.OperationMethod<
+  DownloadLogoMatchRequest,
   DownloadLogoMatchResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -327,9 +321,8 @@ export const GetMatchResponse = Schema.Struct({
   total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetMatchResponse>;
 
-export const getMatch: (
-  input: GetMatchRequest,
-) => Effect.Effect<
+export const getMatch: API.OperationMethod<
+  GetMatchRequest,
   GetMatchResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -377,9 +370,8 @@ export const DownloadMatchResponse = Schema.Struct({
   total: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DownloadMatchResponse>;
 
-export const downloadMatch: (
-  input: DownloadMatchRequest,
-) => Effect.Effect<
+export const downloadMatch: API.OperationMethod<
+  DownloadMatchRequest,
   DownloadMatchResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -443,9 +435,8 @@ export type CreateQueryResponse = unknown;
 export const CreateQueryResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateQueryResponse>;
 
-export const createQuery: (
-  input: CreateQueryRequest,
-) => Effect.Effect<
+export const createQuery: API.OperationMethod<
+  CreateQueryRequest,
   CreateQueryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -483,9 +474,8 @@ export type DeleteQueryResponse = unknown;
 export const DeleteQueryResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteQueryResponse>;
 
-export const deleteQuery: (
-  input: DeleteQueryRequest,
-) => Effect.Effect<
+export const deleteQuery: API.OperationMethod<
+  DeleteQueryRequest,
   DeleteQueryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -517,9 +507,8 @@ export type BulkQueryResponse = unknown;
 export const BulkQueryResponse =
   Schema.Unknown as unknown as Schema.Schema<BulkQueryResponse>;
 
-export const bulkQuery: (
-  input: BulkQueryRequest,
-) => Effect.Effect<
+export const bulkQuery: API.OperationMethod<
+  BulkQueryRequest,
   BulkQueryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

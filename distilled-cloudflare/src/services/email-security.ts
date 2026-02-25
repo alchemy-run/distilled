@@ -319,31 +319,39 @@ export const GetInvestigateResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     actionLog: "action_log",
     clientRecipients: "client_recipients",
     detectionReasons: "detection_reasons",
     isPhishSubmission: "is_phish_submission",
     isQuarantined: "is_quarantined",
     postfixId: "postfix_id",
+    properties: "properties",
+    ts: "ts",
     alertId: "alert_id",
     deliveryMode: "delivery_mode",
     edfHash: "edf_hash",
     envelopeFrom: "envelope_from",
     envelopeTo: "envelope_to",
     finalDisposition: "final_disposition",
+    findings: "findings",
+    from: "from",
     fromName: "from_name",
     htmltextStructureHash: "htmltext_structure_hash",
     messageId: "message_id",
     postfixIdOutbound: "postfix_id_outbound",
+    replyto: "replyto",
     sentDate: "sent_date",
+    subject: "subject",
     threatCategories: "threat_categories",
+    to: "to",
     toName: "to_name",
+    validation: "validation",
   }),
 ) as unknown as Schema.Schema<GetInvestigateResponse>;
 
-export const getInvestigate: (
-  input: GetInvestigateRequest,
-) => Effect.Effect<
+export const getInvestigate: API.OperationMethod<
+  GetInvestigateRequest,
   GetInvestigateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -716,32 +724,40 @@ export const ListInvestigatesResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       actionLog: "action_log",
       clientRecipients: "client_recipients",
       detectionReasons: "detection_reasons",
       isPhishSubmission: "is_phish_submission",
       isQuarantined: "is_quarantined",
       postfixId: "postfix_id",
+      properties: "properties",
+      ts: "ts",
       alertId: "alert_id",
       deliveryMode: "delivery_mode",
       edfHash: "edf_hash",
       envelopeFrom: "envelope_from",
       envelopeTo: "envelope_to",
       finalDisposition: "final_disposition",
+      findings: "findings",
+      from: "from",
       fromName: "from_name",
       htmltextStructureHash: "htmltext_structure_hash",
       messageId: "message_id",
       postfixIdOutbound: "postfix_id_outbound",
+      replyto: "replyto",
       sentDate: "sent_date",
+      subject: "subject",
       threatCategories: "threat_categories",
+      to: "to",
       toName: "to_name",
+      validation: "validation",
     }),
   ),
 ) as unknown as Schema.Schema<ListInvestigatesResponse>;
 
-export const listInvestigates: (
-  input: ListInvestigatesRequest,
-) => Effect.Effect<
+export const listInvestigates: API.OperationMethod<
+  ListInvestigatesRequest,
   ListInvestigatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -848,7 +864,15 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
       ),
       encrypted: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+    }).pipe(
+      Schema.encodeKeys({
+        size: "size",
+        contentType: "content_type",
+        detection: "detection",
+        encrypted: "encrypted",
+        name: "name",
+      }),
+    ),
   ),
   headers: Schema.Array(
     Schema.Struct({
@@ -868,7 +892,15 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
     geo: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     pld: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ asName: "as_name", asNumber: "as_number" })),
+  }).pipe(
+    Schema.encodeKeys({
+      asName: "as_name",
+      asNumber: "as_number",
+      geo: "geo",
+      ip: "ip",
+      pld: "pld",
+    }),
+  ),
   threatCategories: Schema.Array(
     Schema.Struct({
       id: Schema.Number,
@@ -926,15 +958,19 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    attachments: "attachments",
+    headers: "headers",
+    links: "links",
     senderInfo: "sender_info",
     threatCategories: "threat_categories",
+    validation: "validation",
     finalDisposition: "final_disposition",
   }),
 ) as unknown as Schema.Schema<GetInvestigateDetectionResponse>;
 
-export const getInvestigateDetection: (
-  input: GetInvestigateDetectionRequest,
-) => Effect.Effect<
+export const getInvestigateDetection: API.OperationMethod<
+  GetInvestigateDetectionRequest,
   GetInvestigateDetectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1003,14 +1039,18 @@ export const CreateInvestigateMoveResponse = Schema.Array(
     Schema.encodeKeys({
       completedTimestamp: "completed_timestamp",
       itemCount: "item_count",
+      success: "success",
+      destination: "destination",
       messageId: "message_id",
+      operation: "operation",
+      recipient: "recipient",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<CreateInvestigateMoveResponse>;
 
-export const createInvestigateMove: (
-  input: CreateInvestigateMoveRequest,
-) => Effect.Effect<
+export const createInvestigateMove: API.OperationMethod<
+  CreateInvestigateMoveRequest,
   CreateInvestigateMoveResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1045,7 +1085,7 @@ export const BulkInvestigateMoveRequest = Schema.Struct({
   ]),
   postfixIds: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ postfixIds: "postfix_ids" }),
+  Schema.encodeKeys({ destination: "destination", postfixIds: "postfix_ids" }),
   T.Http({
     method: "GET",
     path: "/accounts/{account_id}/email-security/investigate/move",
@@ -1077,14 +1117,18 @@ export const BulkInvestigateMoveResponse = Schema.Array(
     Schema.encodeKeys({
       completedTimestamp: "completed_timestamp",
       itemCount: "item_count",
+      success: "success",
+      destination: "destination",
       messageId: "message_id",
+      operation: "operation",
+      recipient: "recipient",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<BulkInvestigateMoveResponse>;
 
-export const bulkInvestigateMove: (
-  input: BulkInvestigateMoveRequest,
-) => Effect.Effect<
+export const bulkInvestigateMove: API.OperationMethod<
+  BulkInvestigateMoveRequest,
   BulkInvestigateMoveResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1123,9 +1167,8 @@ export const GetInvestigatePreviewResponse = Schema.Struct({
   screenshot: Schema.String,
 }) as unknown as Schema.Schema<GetInvestigatePreviewResponse>;
 
-export const getInvestigatePreview: (
-  input: GetInvestigatePreviewRequest,
-) => Effect.Effect<
+export const getInvestigatePreview: API.OperationMethod<
+  GetInvestigatePreviewRequest,
   GetInvestigatePreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1162,9 +1205,8 @@ export const CreateInvestigatePreviewResponse = Schema.Struct({
   screenshot: Schema.String,
 }) as unknown as Schema.Schema<CreateInvestigatePreviewResponse>;
 
-export const createInvestigatePreview: (
-  input: CreateInvestigatePreviewRequest,
-) => Effect.Effect<
+export const createInvestigatePreview: API.OperationMethod<
+  CreateInvestigatePreviewRequest,
   CreateInvestigatePreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1203,9 +1245,8 @@ export const GetInvestigateRawResponse = Schema.Struct({
   raw: Schema.String,
 }) as unknown as Schema.Schema<GetInvestigateRawResponse>;
 
-export const getInvestigateRaw: (
-  input: GetInvestigateRawRequest,
-) => Effect.Effect<
+export const getInvestigateRaw: API.OperationMethod<
+  GetInvestigateRawRequest,
   GetInvestigateRawResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1267,9 +1308,8 @@ export type CreateInvestigateReclassifyResponse = unknown;
 export const CreateInvestigateReclassifyResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateInvestigateReclassifyResponse>;
 
-export const createInvestigateReclassify: (
-  input: CreateInvestigateReclassifyRequest,
-) => Effect.Effect<
+export const createInvestigateReclassify: API.OperationMethod<
+  CreateInvestigateReclassifyRequest,
   CreateInvestigateReclassifyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1319,12 +1359,18 @@ export const BulkInvestigateReleaseResponse = Schema.Array(
     undelivered: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }).pipe(Schema.encodeKeys({ postfixId: "postfix_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      postfixId: "postfix_id",
+      delivered: "delivered",
+      failed: "failed",
+      undelivered: "undelivered",
+    }),
+  ),
 ) as unknown as Schema.Schema<BulkInvestigateReleaseResponse>;
 
-export const bulkInvestigateRelease: (
-  input: BulkInvestigateReleaseRequest,
-) => Effect.Effect<
+export const bulkInvestigateRelease: API.OperationMethod<
+  BulkInvestigateReleaseRequest,
   BulkInvestigateReleaseResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1398,9 +1444,8 @@ export const GetInvestigateTraceResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetInvestigateTraceResponse>;
 
-export const getInvestigateTrace: (
-  input: GetInvestigateTraceRequest,
-) => Effect.Effect<
+export const getInvestigateTrace: API.OperationMethod<
+  GetInvestigateTraceRequest,
   GetInvestigateTraceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1472,23 +1517,25 @@ export const GetSettingAllowPolicyResponse = Schema.Struct({
   isSpoof: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isAcceptableSender: "is_acceptable_sender",
     isExemptRecipient: "is_exempt_recipient",
     isRegex: "is_regex",
     isTrustedSender: "is_trusted_sender",
     lastModified: "last_modified",
+    pattern: "pattern",
     patternType: "pattern_type",
     verifySender: "verify_sender",
+    comments: "comments",
     isRecipient: "is_recipient",
     isSender: "is_sender",
     isSpoof: "is_spoof",
   }),
 ) as unknown as Schema.Schema<GetSettingAllowPolicyResponse>;
 
-export const getSettingAllowPolicy: (
-  input: GetSettingAllowPolicyRequest,
-) => Effect.Effect<
+export const getSettingAllowPolicy: API.OperationMethod<
+  GetSettingAllowPolicyRequest,
   GetSettingAllowPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1599,14 +1646,17 @@ export const ListSettingAllowPoliciesResponse = Schema.Array(
     isSpoof: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       isAcceptableSender: "is_acceptable_sender",
       isExemptRecipient: "is_exempt_recipient",
       isRegex: "is_regex",
       isTrustedSender: "is_trusted_sender",
       lastModified: "last_modified",
+      pattern: "pattern",
       patternType: "pattern_type",
       verifySender: "verify_sender",
+      comments: "comments",
       isRecipient: "is_recipient",
       isSender: "is_sender",
       isSpoof: "is_spoof",
@@ -1614,9 +1664,8 @@ export const ListSettingAllowPoliciesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingAllowPoliciesResponse>;
 
-export const listSettingAllowPolicies: (
-  input: ListSettingAllowPoliciesRequest,
-) => Effect.Effect<
+export const listSettingAllowPolicies: API.OperationMethod<
+  ListSettingAllowPoliciesRequest,
   ListSettingAllowPoliciesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1672,8 +1721,10 @@ export const CreateSettingAllowPolicyRequest = Schema.Struct({
     isExemptRecipient: "is_exempt_recipient",
     isRegex: "is_regex",
     isTrustedSender: "is_trusted_sender",
+    pattern: "pattern",
     patternType: "pattern_type",
     verifySender: "verify_sender",
+    comments: "comments",
     isRecipient: "is_recipient",
     isSender: "is_sender",
     isSpoof: "is_spoof",
@@ -1726,23 +1777,25 @@ export const CreateSettingAllowPolicyResponse = Schema.Struct({
   isSpoof: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isAcceptableSender: "is_acceptable_sender",
     isExemptRecipient: "is_exempt_recipient",
     isRegex: "is_regex",
     isTrustedSender: "is_trusted_sender",
     lastModified: "last_modified",
+    pattern: "pattern",
     patternType: "pattern_type",
     verifySender: "verify_sender",
+    comments: "comments",
     isRecipient: "is_recipient",
     isSender: "is_sender",
     isSpoof: "is_spoof",
   }),
 ) as unknown as Schema.Schema<CreateSettingAllowPolicyResponse>;
 
-export const createSettingAllowPolicy: (
-  input: CreateSettingAllowPolicyRequest,
-) => Effect.Effect<
+export const createSettingAllowPolicy: API.OperationMethod<
+  CreateSettingAllowPolicyRequest,
   CreateSettingAllowPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1799,10 +1852,12 @@ export const PatchSettingAllowPolicyRequest = Schema.Struct({
   verifySender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    comments: "comments",
     isAcceptableSender: "is_acceptable_sender",
     isExemptRecipient: "is_exempt_recipient",
     isRegex: "is_regex",
     isTrustedSender: "is_trusted_sender",
+    pattern: "pattern",
     patternType: "pattern_type",
     verifySender: "verify_sender",
   }),
@@ -1854,23 +1909,25 @@ export const PatchSettingAllowPolicyResponse = Schema.Struct({
   isSpoof: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isAcceptableSender: "is_acceptable_sender",
     isExemptRecipient: "is_exempt_recipient",
     isRegex: "is_regex",
     isTrustedSender: "is_trusted_sender",
     lastModified: "last_modified",
+    pattern: "pattern",
     patternType: "pattern_type",
     verifySender: "verify_sender",
+    comments: "comments",
     isRecipient: "is_recipient",
     isSender: "is_sender",
     isSpoof: "is_spoof",
   }),
 ) as unknown as Schema.Schema<PatchSettingAllowPolicyResponse>;
 
-export const patchSettingAllowPolicy: (
-  input: PatchSettingAllowPolicyRequest,
-) => Effect.Effect<
+export const patchSettingAllowPolicy: API.OperationMethod<
+  PatchSettingAllowPolicyRequest,
   PatchSettingAllowPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1905,9 +1962,8 @@ export const DeleteSettingAllowPolicyResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingAllowPolicyResponse>;
 
-export const deleteSettingAllowPolicy: (
-  input: DeleteSettingAllowPolicyRequest,
-) => Effect.Effect<
+export const deleteSettingAllowPolicy: API.OperationMethod<
+  DeleteSettingAllowPolicyRequest,
   DeleteSettingAllowPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1958,16 +2014,18 @@ export const GetSettingBlockSenderResponse = Schema.Struct({
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isRegex: "is_regex",
     lastModified: "last_modified",
+    pattern: "pattern",
     patternType: "pattern_type",
+    comments: "comments",
   }),
 ) as unknown as Schema.Schema<GetSettingBlockSenderResponse>;
 
-export const getSettingBlockSender: (
-  input: GetSettingBlockSenderRequest,
-) => Effect.Effect<
+export const getSettingBlockSender: API.OperationMethod<
+  GetSettingBlockSenderRequest,
   GetSettingBlockSenderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2033,17 +2091,19 @@ export const ListSettingBlockSendersResponse = Schema.Array(
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       isRegex: "is_regex",
       lastModified: "last_modified",
+      pattern: "pattern",
       patternType: "pattern_type",
+      comments: "comments",
     }),
   ),
 ) as unknown as Schema.Schema<ListSettingBlockSendersResponse>;
 
-export const listSettingBlockSenders: (
-  input: ListSettingBlockSendersRequest,
-) => Effect.Effect<
+export const listSettingBlockSenders: API.OperationMethod<
+  ListSettingBlockSendersRequest,
   ListSettingBlockSendersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2073,7 +2133,12 @@ export const CreateSettingBlockSenderRequest = Schema.Struct({
   patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ isRegex: "is_regex", patternType: "pattern_type" }),
+  Schema.encodeKeys({
+    isRegex: "is_regex",
+    pattern: "pattern",
+    patternType: "pattern_type",
+    comments: "comments",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/settings/block_senders",
@@ -2101,16 +2166,18 @@ export const CreateSettingBlockSenderResponse = Schema.Struct({
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isRegex: "is_regex",
     lastModified: "last_modified",
+    pattern: "pattern",
     patternType: "pattern_type",
+    comments: "comments",
   }),
 ) as unknown as Schema.Schema<CreateSettingBlockSenderResponse>;
 
-export const createSettingBlockSender: (
-  input: CreateSettingBlockSenderRequest,
-) => Effect.Effect<
+export const createSettingBlockSender: API.OperationMethod<
+  CreateSettingBlockSenderRequest,
   CreateSettingBlockSenderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2150,7 +2217,12 @@ export const PatchSettingBlockSenderRequest = Schema.Struct({
     ]),
   ),
 }).pipe(
-  Schema.encodeKeys({ isRegex: "is_regex", patternType: "pattern_type" }),
+  Schema.encodeKeys({
+    comments: "comments",
+    isRegex: "is_regex",
+    pattern: "pattern",
+    patternType: "pattern_type",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/block_senders/{patternId}",
@@ -2178,16 +2250,18 @@ export const PatchSettingBlockSenderResponse = Schema.Struct({
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isRegex: "is_regex",
     lastModified: "last_modified",
+    pattern: "pattern",
     patternType: "pattern_type",
+    comments: "comments",
   }),
 ) as unknown as Schema.Schema<PatchSettingBlockSenderResponse>;
 
-export const patchSettingBlockSender: (
-  input: PatchSettingBlockSenderRequest,
-) => Effect.Effect<
+export const patchSettingBlockSender: API.OperationMethod<
+  PatchSettingBlockSenderRequest,
   PatchSettingBlockSenderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2222,9 +2296,8 @@ export const DeleteSettingBlockSenderResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingBlockSenderResponse>;
 
-export const deleteSettingBlockSender: (
-  input: DeleteSettingBlockSenderRequest,
-) => Effect.Effect<
+export const deleteSettingBlockSender: API.OperationMethod<
+  DeleteSettingBlockSenderRequest,
   DeleteSettingBlockSenderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2331,7 +2404,13 @@ export const GetSettingDomainResponse = Schema.Struct({
         statusMessage: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ statusMessage: "status_message" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorized: "authorized",
+          timestamp: "timestamp",
+          statusMessage: "status_message",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -2351,6 +2430,7 @@ export const GetSettingDomainResponse = Schema.Struct({
         totalEmailsProcessedPrevious: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          timestamp: "timestamp",
           totalEmailsProcessed: "total_emails_processed",
           totalEmailsProcessedPrevious: "total_emails_processed_previous",
         }),
@@ -2392,14 +2472,20 @@ export const GetSettingDomainResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedDeliveryModes: "allowed_delivery_modes",
     createdAt: "created_at",
+    domain: "domain",
     dropDispositions: "drop_dispositions",
     ipRestrictions: "ip_restrictions",
     lastModified: "last_modified",
     lookbackHops: "lookback_hops",
+    regions: "regions",
+    transport: "transport",
+    authorization: "authorization",
     dmarcStatus: "dmarc_status",
     emailsProcessed: "emails_processed",
+    folder: "folder",
     inboxProvider: "inbox_provider",
     integrationId: "integration_id",
     o365TenantId: "o365_tenant_id",
@@ -2409,9 +2495,8 @@ export const GetSettingDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingDomainResponse>;
 
-export const getSettingDomain: (
-  input: GetSettingDomainRequest,
-) => Effect.Effect<
+export const getSettingDomain: API.OperationMethod<
+  GetSettingDomainRequest,
   GetSettingDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2545,7 +2630,13 @@ export const ListSettingDomainsResponse = Schema.Array(
           statusMessage: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ statusMessage: "status_message" })),
+        }).pipe(
+          Schema.encodeKeys({
+            authorized: "authorized",
+            timestamp: "timestamp",
+            statusMessage: "status_message",
+          }),
+        ),
         Schema.Null,
       ]),
     ),
@@ -2565,6 +2656,7 @@ export const ListSettingDomainsResponse = Schema.Array(
           totalEmailsProcessedPrevious: Schema.Number,
         }).pipe(
           Schema.encodeKeys({
+            timestamp: "timestamp",
             totalEmailsProcessed: "total_emails_processed",
             totalEmailsProcessedPrevious: "total_emails_processed_previous",
           }),
@@ -2606,14 +2698,20 @@ export const ListSettingDomainsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedDeliveryModes: "allowed_delivery_modes",
       createdAt: "created_at",
+      domain: "domain",
       dropDispositions: "drop_dispositions",
       ipRestrictions: "ip_restrictions",
       lastModified: "last_modified",
       lookbackHops: "lookback_hops",
+      regions: "regions",
+      transport: "transport",
+      authorization: "authorization",
       dmarcStatus: "dmarc_status",
       emailsProcessed: "emails_processed",
+      folder: "folder",
       inboxProvider: "inbox_provider",
       integrationId: "integration_id",
       o365TenantId: "o365_tenant_id",
@@ -2624,9 +2722,8 @@ export const ListSettingDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingDomainsResponse>;
 
-export const listSettingDomains: (
-  input: ListSettingDomainsRequest,
-) => Effect.Effect<
+export const listSettingDomains: API.OperationMethod<
+  ListSettingDomainsRequest,
   ListSettingDomainsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2720,11 +2817,15 @@ export const PatchSettingDomainRequest = Schema.Struct({
   Schema.encodeKeys({
     ipRestrictions: "ip_restrictions",
     allowedDeliveryModes: "allowed_delivery_modes",
+    domain: "domain",
     dropDispositions: "drop_dispositions",
+    folder: "folder",
     integrationId: "integration_id",
     lookbackHops: "lookback_hops",
+    regions: "regions",
     requireTlsInbound: "require_tls_inbound",
     requireTlsOutbound: "require_tls_outbound",
+    transport: "transport",
   }),
   T.Http({
     method: "PATCH",
@@ -2809,7 +2910,13 @@ export const PatchSettingDomainResponse = Schema.Struct({
         statusMessage: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ statusMessage: "status_message" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorized: "authorized",
+          timestamp: "timestamp",
+          statusMessage: "status_message",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -2829,6 +2936,7 @@ export const PatchSettingDomainResponse = Schema.Struct({
         totalEmailsProcessedPrevious: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          timestamp: "timestamp",
           totalEmailsProcessed: "total_emails_processed",
           totalEmailsProcessedPrevious: "total_emails_processed_previous",
         }),
@@ -2870,14 +2978,20 @@ export const PatchSettingDomainResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedDeliveryModes: "allowed_delivery_modes",
     createdAt: "created_at",
+    domain: "domain",
     dropDispositions: "drop_dispositions",
     ipRestrictions: "ip_restrictions",
     lastModified: "last_modified",
     lookbackHops: "lookback_hops",
+    regions: "regions",
+    transport: "transport",
+    authorization: "authorization",
     dmarcStatus: "dmarc_status",
     emailsProcessed: "emails_processed",
+    folder: "folder",
     inboxProvider: "inbox_provider",
     integrationId: "integration_id",
     o365TenantId: "o365_tenant_id",
@@ -2887,9 +3001,8 @@ export const PatchSettingDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingDomainResponse>;
 
-export const patchSettingDomain: (
-  input: PatchSettingDomainRequest,
-) => Effect.Effect<
+export const patchSettingDomain: API.OperationMethod<
+  PatchSettingDomainRequest,
   PatchSettingDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2924,9 +3037,8 @@ export const DeleteSettingDomainResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingDomainResponse>;
 
-export const deleteSettingDomain: (
-  input: DeleteSettingDomainRequest,
-) => Effect.Effect<
+export const deleteSettingDomain: API.OperationMethod<
+  DeleteSettingDomainRequest,
   DeleteSettingDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2958,9 +3070,8 @@ export const BulkDeleteSettingDomainsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkDeleteSettingDomainsResponse>;
 
-export const bulkDeleteSettingDomains: (
-  input: BulkDeleteSettingDomainsRequest,
-) => Effect.Effect<
+export const bulkDeleteSettingDomains: API.OperationMethod<
+  BulkDeleteSettingDomainsRequest,
   BulkDeleteSettingDomainsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3021,18 +3132,22 @@ export const GetSettingImpersonationRegistryResponse = Schema.Struct({
   provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    email: "email",
     isEmailRegex: "is_email_regex",
     lastModified: "last_modified",
+    name: "name",
+    comments: "comments",
     directoryId: "directory_id",
     directoryNodeId: "directory_node_id",
     externalDirectoryNodeId: "external_directory_node_id",
+    provenance: "provenance",
   }),
 ) as unknown as Schema.Schema<GetSettingImpersonationRegistryResponse>;
 
-export const getSettingImpersonationRegistry: (
-  input: GetSettingImpersonationRegistryRequest,
-) => Effect.Effect<
+export const getSettingImpersonationRegistry: API.OperationMethod<
+  GetSettingImpersonationRegistryRequest,
   GetSettingImpersonationRegistryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3116,19 +3231,23 @@ export const ListSettingImpersonationRegistriesResponse = Schema.Array(
     provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      email: "email",
       isEmailRegex: "is_email_regex",
       lastModified: "last_modified",
+      name: "name",
+      comments: "comments",
       directoryId: "directory_id",
       directoryNodeId: "directory_node_id",
       externalDirectoryNodeId: "external_directory_node_id",
+      provenance: "provenance",
     }),
   ),
 ) as unknown as Schema.Schema<ListSettingImpersonationRegistriesResponse>;
 
-export const listSettingImpersonationRegistries: (
-  input: ListSettingImpersonationRegistriesRequest,
-) => Effect.Effect<
+export const listSettingImpersonationRegistries: API.OperationMethod<
+  ListSettingImpersonationRegistriesRequest,
   ListSettingImpersonationRegistriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3155,7 +3274,11 @@ export const CreateSettingImpersonationRegistryRequest = Schema.Struct({
   isEmailRegex: Schema.Boolean,
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ isEmailRegex: "is_email_regex" }),
+  Schema.encodeKeys({
+    email: "email",
+    isEmailRegex: "is_email_regex",
+    name: "name",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/email-security/settings/impersonation_registry",
@@ -3193,18 +3316,22 @@ export const CreateSettingImpersonationRegistryResponse = Schema.Struct({
   provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    email: "email",
     isEmailRegex: "is_email_regex",
     lastModified: "last_modified",
+    name: "name",
+    comments: "comments",
     directoryId: "directory_id",
     directoryNodeId: "directory_node_id",
     externalDirectoryNodeId: "external_directory_node_id",
+    provenance: "provenance",
   }),
 ) as unknown as Schema.Schema<CreateSettingImpersonationRegistryResponse>;
 
-export const createSettingImpersonationRegistry: (
-  input: CreateSettingImpersonationRegistryRequest,
-) => Effect.Effect<
+export const createSettingImpersonationRegistry: API.OperationMethod<
+  CreateSettingImpersonationRegistryRequest,
   CreateSettingImpersonationRegistryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3233,7 +3360,11 @@ export const PatchSettingImpersonationRegistryRequest = Schema.Struct({
   isEmailRegex: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ isEmailRegex: "is_email_regex" }),
+  Schema.encodeKeys({
+    email: "email",
+    isEmailRegex: "is_email_regex",
+    name: "name",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/email-security/settings/impersonation_registry/{displayNameId}",
@@ -3271,18 +3402,22 @@ export const PatchSettingImpersonationRegistryResponse = Schema.Struct({
   provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    email: "email",
     isEmailRegex: "is_email_regex",
     lastModified: "last_modified",
+    name: "name",
+    comments: "comments",
     directoryId: "directory_id",
     directoryNodeId: "directory_node_id",
     externalDirectoryNodeId: "external_directory_node_id",
+    provenance: "provenance",
   }),
 ) as unknown as Schema.Schema<PatchSettingImpersonationRegistryResponse>;
 
-export const patchSettingImpersonationRegistry: (
-  input: PatchSettingImpersonationRegistryRequest,
-) => Effect.Effect<
+export const patchSettingImpersonationRegistry: API.OperationMethod<
+  PatchSettingImpersonationRegistryRequest,
   PatchSettingImpersonationRegistryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3316,9 +3451,8 @@ export const DeleteSettingImpersonationRegistryResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingImpersonationRegistryResponse>;
 
-export const deleteSettingImpersonationRegistry: (
-  input: DeleteSettingImpersonationRegistryRequest,
-) => Effect.Effect<
+export const deleteSettingImpersonationRegistry: API.OperationMethod<
+  DeleteSettingImpersonationRegistryRequest,
   DeleteSettingImpersonationRegistryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3373,17 +3507,19 @@ export const GetSettingTrustedDomainResponse = Schema.Struct({
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isRecent: "is_recent",
     isRegex: "is_regex",
     isSimilarity: "is_similarity",
     lastModified: "last_modified",
+    pattern: "pattern",
+    comments: "comments",
   }),
 ) as unknown as Schema.Schema<GetSettingTrustedDomainResponse>;
 
-export const getSettingTrustedDomain: (
-  input: GetSettingTrustedDomainRequest,
-) => Effect.Effect<
+export const getSettingTrustedDomain: API.OperationMethod<
+  GetSettingTrustedDomainRequest,
   GetSettingTrustedDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3454,18 +3590,20 @@ export const ListSettingTrustedDomainsResponse = Schema.Array(
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       isRecent: "is_recent",
       isRegex: "is_regex",
       isSimilarity: "is_similarity",
       lastModified: "last_modified",
+      pattern: "pattern",
+      comments: "comments",
     }),
   ),
 ) as unknown as Schema.Schema<ListSettingTrustedDomainsResponse>;
 
-export const listSettingTrustedDomains: (
-  input: ListSettingTrustedDomainsRequest,
-) => Effect.Effect<
+export const listSettingTrustedDomains: API.OperationMethod<
+  ListSettingTrustedDomainsRequest,
   ListSettingTrustedDomainsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3502,6 +3640,8 @@ export const CreateSettingTrustedDomainRequest = Schema.Struct({
     isRecent: "is_recent",
     isRegex: "is_regex",
     isSimilarity: "is_similarity",
+    pattern: "pattern",
+    comments: "comments",
   }),
   T.Http({
     method: "POST",
@@ -3543,11 +3683,14 @@ export const CreateSettingTrustedDomainResponse = Schema.Union([
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       isRecent: "is_recent",
       isRegex: "is_regex",
       isSimilarity: "is_similarity",
       lastModified: "last_modified",
+      pattern: "pattern",
+      comments: "comments",
     }),
   ),
   Schema.Array(
@@ -3562,19 +3705,21 @@ export const CreateSettingTrustedDomainResponse = Schema.Union([
       comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         isRecent: "is_recent",
         isRegex: "is_regex",
         isSimilarity: "is_similarity",
         lastModified: "last_modified",
+        pattern: "pattern",
+        comments: "comments",
       }),
     ),
   ),
 ]) as unknown as Schema.Schema<CreateSettingTrustedDomainResponse>;
 
-export const createSettingTrustedDomain: (
-  input: CreateSettingTrustedDomainRequest,
-) => Effect.Effect<
+export const createSettingTrustedDomain: API.OperationMethod<
+  CreateSettingTrustedDomainRequest,
   CreateSettingTrustedDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3610,9 +3755,11 @@ export const PatchSettingTrustedDomainRequest = Schema.Struct({
   pattern: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    comments: "comments",
     isRecent: "is_recent",
     isRegex: "is_regex",
     isSimilarity: "is_similarity",
+    pattern: "pattern",
   }),
   T.Http({
     method: "PATCH",
@@ -3645,17 +3792,19 @@ export const PatchSettingTrustedDomainResponse = Schema.Struct({
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
     isRecent: "is_recent",
     isRegex: "is_regex",
     isSimilarity: "is_similarity",
     lastModified: "last_modified",
+    pattern: "pattern",
+    comments: "comments",
   }),
 ) as unknown as Schema.Schema<PatchSettingTrustedDomainResponse>;
 
-export const patchSettingTrustedDomain: (
-  input: PatchSettingTrustedDomainRequest,
-) => Effect.Effect<
+export const patchSettingTrustedDomain: API.OperationMethod<
+  PatchSettingTrustedDomainRequest,
   PatchSettingTrustedDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3690,9 +3839,8 @@ export const DeleteSettingTrustedDomainResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingTrustedDomainResponse>;
 
-export const deleteSettingTrustedDomain: (
-  input: DeleteSettingTrustedDomainRequest,
-) => Effect.Effect<
+export const deleteSettingTrustedDomain: API.OperationMethod<
+  DeleteSettingTrustedDomainRequest,
   DeleteSettingTrustedDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3908,16 +4056,19 @@ export const ListSubmissionsResponse = Schema.Array(
       submissionId: "submission_id",
       originalDisposition: "original_disposition",
       originalEdfHash: "original_edf_hash",
+      outcome: "outcome",
       outcomeDisposition: "outcome_disposition",
       requestedBy: "requested_by",
       requestedDisposition: "requested_disposition",
+      status: "status",
+      subject: "subject",
+      type: "type",
     }),
   ),
 ) as unknown as Schema.Schema<ListSubmissionsResponse>;
 
-export const listSubmissions: (
-  input: ListSubmissionsRequest,
-) => Effect.Effect<
+export const listSubmissions: API.OperationMethod<
+  ListSubmissionsRequest,
   ListSubmissionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

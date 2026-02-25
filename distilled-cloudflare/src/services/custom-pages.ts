@@ -80,16 +80,19 @@ export const GetCustomPageResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    description: "description",
     modifiedOn: "modified_on",
     previewTarget: "preview_target",
     requiredTokens: "required_tokens",
+    state: "state",
+    url: "url",
   }),
 ) as unknown as Schema.Schema<GetCustomPageResponse>;
 
-export const getCustomPage: (
-  input: GetCustomPageRequest,
-) => Effect.Effect<
+export const getCustomPage: API.OperationMethod<
+  GetCustomPageRequest,
   GetCustomPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -131,17 +134,20 @@ export const ListCustomPagesResponse = Schema.Array(
     url: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      description: "description",
       modifiedOn: "modified_on",
       previewTarget: "preview_target",
       requiredTokens: "required_tokens",
+      state: "state",
+      url: "url",
     }),
   ),
 ) as unknown as Schema.Schema<ListCustomPagesResponse>;
 
-export const listCustomPages: (
-  input: ListCustomPagesRequest,
-) => Effect.Effect<
+export const listCustomPages: API.OperationMethod<
+  ListCustomPagesRequest,
   ListCustomPagesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -221,16 +227,19 @@ export const PutCustomPageResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    description: "description",
     modifiedOn: "modified_on",
     previewTarget: "preview_target",
     requiredTokens: "required_tokens",
+    state: "state",
+    url: "url",
   }),
 ) as unknown as Schema.Schema<PutCustomPageResponse>;
 
-export const putCustomPage: (
-  input: PutCustomPageRequest,
-) => Effect.Effect<
+export const putCustomPage: API.OperationMethod<
+  PutCustomPageRequest,
   PutCustomPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

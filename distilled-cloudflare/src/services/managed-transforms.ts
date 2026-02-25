@@ -59,6 +59,8 @@ export const ListManagedTransformsResponse = Schema.Struct({
       conflictsWith: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        enabled: "enabled",
         hasConflict: "has_conflict",
         conflictsWith: "conflicts_with",
       }),
@@ -72,6 +74,8 @@ export const ListManagedTransformsResponse = Schema.Struct({
       conflictsWith: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        enabled: "enabled",
         hasConflict: "has_conflict",
         conflictsWith: "conflicts_with",
       }),
@@ -84,9 +88,8 @@ export const ListManagedTransformsResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListManagedTransformsResponse>;
 
-export const listManagedTransforms: (
-  input: ListManagedTransformsRequest,
-) => Effect.Effect<
+export const listManagedTransforms: API.OperationMethod<
+  ListManagedTransformsRequest,
   ListManagedTransformsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -153,6 +156,8 @@ export const PatchManagedTransformResponse = Schema.Struct({
       conflictsWith: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        enabled: "enabled",
         hasConflict: "has_conflict",
         conflictsWith: "conflicts_with",
       }),
@@ -166,6 +171,8 @@ export const PatchManagedTransformResponse = Schema.Struct({
       conflictsWith: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        enabled: "enabled",
         hasConflict: "has_conflict",
         conflictsWith: "conflicts_with",
       }),
@@ -178,9 +185,8 @@ export const PatchManagedTransformResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchManagedTransformResponse>;
 
-export const patchManagedTransform: (
-  input: PatchManagedTransformRequest,
-) => Effect.Effect<
+export const patchManagedTransform: API.OperationMethod<
+  PatchManagedTransformRequest,
   PatchManagedTransformResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -206,9 +212,8 @@ export type DeleteManagedTransformResponse = unknown;
 export const DeleteManagedTransformResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteManagedTransformResponse>;
 
-export const deleteManagedTransform: (
-  input: DeleteManagedTransformRequest,
-) => Effect.Effect<
+export const deleteManagedTransform: API.OperationMethod<
+  DeleteManagedTransformRequest,
   DeleteManagedTransformResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -49,9 +49,8 @@ export const GetHostnameAssociationResponse = Schema.Struct({
   hostnames: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
 
-export const getHostnameAssociation: (
-  input: GetHostnameAssociationRequest,
-) => Effect.Effect<
+export const getHostnameAssociation: API.OperationMethod<
+  GetHostnameAssociationRequest,
   GetHostnameAssociationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -75,7 +74,10 @@ export const PutHostnameAssociationRequest = Schema.Struct({
   hostnames: Schema.optional(Schema.Array(Schema.String)),
   mtlsCertificateId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ mtlsCertificateId: "mtls_certificate_id" }),
+  Schema.encodeKeys({
+    hostnames: "hostnames",
+    mtlsCertificateId: "mtls_certificate_id",
+  }),
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
@@ -90,9 +92,8 @@ export const PutHostnameAssociationResponse = Schema.Struct({
   hostnames: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
 
-export const putHostnameAssociation: (
-  input: PutHostnameAssociationRequest,
-) => Effect.Effect<
+export const putHostnameAssociation: API.OperationMethod<
+  PutHostnameAssociationRequest,
   PutHostnameAssociationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

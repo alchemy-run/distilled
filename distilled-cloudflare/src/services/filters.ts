@@ -56,9 +56,8 @@ export const GetFilterResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetFilterResponse>;
 
-export const getFilter: (
-  input: GetFilterRequest,
-) => Effect.Effect<
+export const getFilter: API.OperationMethod<
+  GetFilterRequest,
   GetFilterResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -112,9 +111,8 @@ export const ListFiltersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListFiltersResponse>;
 
-export const listFilters: (
-  input: ListFiltersRequest,
-) => Effect.Effect<
+export const listFilters: API.OperationMethod<
+  ListFiltersRequest,
   ListFiltersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -168,9 +166,8 @@ export const CreateFilterResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateFilterResponse>;
 
-export const createFilter: (
-  input: CreateFilterRequest,
-) => Effect.Effect<
+export const createFilter: API.OperationMethod<
+  CreateFilterRequest,
   CreateFilterResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -226,9 +223,8 @@ export const PutFilterResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutFilterResponse>;
 
-export const putFilter: (
-  input: PutFilterRequest,
-) => Effect.Effect<
+export const putFilter: API.OperationMethod<
+  PutFilterRequest,
   PutFilterResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -260,9 +256,8 @@ export const DeleteFilterResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteFilterResponse>;
 
-export const deleteFilter: (
-  input: DeleteFilterRequest,
-) => Effect.Effect<
+export const deleteFilter: API.OperationMethod<
+  DeleteFilterRequest,
   DeleteFilterResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -316,9 +311,8 @@ export const BulkUpdateFiltersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkUpdateFiltersResponse>;
 
-export const bulkUpdateFilters: (
-  input: BulkUpdateFiltersRequest,
-) => Effect.Effect<
+export const bulkUpdateFilters: API.OperationMethod<
+  BulkUpdateFiltersRequest,
   BulkUpdateFiltersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -350,9 +344,8 @@ export const BulkDeleteFiltersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
 
-export const bulkDeleteFilters: (
-  input: BulkDeleteFiltersRequest,
-) => Effect.Effect<
+export const bulkDeleteFilters: API.OperationMethod<
+  BulkDeleteFiltersRequest,
   BulkDeleteFiltersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

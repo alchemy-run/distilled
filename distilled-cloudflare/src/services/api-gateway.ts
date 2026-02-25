@@ -89,9 +89,8 @@ export const GetConfigurationResponse = Schema.Struct({
   Schema.encodeKeys({ authIdCharacteristics: "auth_id_characteristics" }),
 ) as unknown as Schema.Schema<GetConfigurationResponse>;
 
-export const getConfiguration: (
-  input: GetConfigurationRequest,
-) => Effect.Effect<
+export const getConfiguration: API.OperationMethod<
+  GetConfigurationRequest,
   GetConfigurationResponse,
   CommonErrors | InvalidObjectIdentifier | NotEntitled,
   ApiToken | HttpClient.HttpClient
@@ -157,9 +156,8 @@ export const PutConfigurationResponse = Schema.Struct({
   Schema.encodeKeys({ authIdCharacteristics: "auth_id_characteristics" }),
 ) as unknown as Schema.Schema<PutConfigurationResponse>;
 
-export const putConfiguration: (
-  input: PutConfigurationRequest,
-) => Effect.Effect<
+export const putConfiguration: API.OperationMethod<
+  PutConfigurationRequest,
   PutConfigurationResponse,
   CommonErrors | InvalidObjectIdentifier | NotEntitled,
   ApiToken | HttpClient.HttpClient
@@ -194,9 +192,8 @@ export const GetDiscoveryResponse = Schema.Struct({
   timestamp: Schema.String,
 }) as unknown as Schema.Schema<GetDiscoveryResponse>;
 
-export const getDiscovery: (
-  input: GetDiscoveryRequest,
-) => Effect.Effect<
+export const getDiscovery: API.OperationMethod<
+  GetDiscoveryRequest,
   GetDiscoveryResponse,
   CommonErrors | InvalidObjectIdentifier | NotEntitled,
   ApiToken | HttpClient.HttpClient
@@ -274,9 +271,8 @@ export type ListDiscoveryOperationsResponse = unknown;
 export const ListDiscoveryOperationsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListDiscoveryOperationsResponse>;
 
-export const listDiscoveryOperations: (
-  input: ListDiscoveryOperationsRequest,
-) => Effect.Effect<
+export const listDiscoveryOperations: API.OperationMethod<
+  ListDiscoveryOperationsRequest,
   ListDiscoveryOperationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -314,9 +310,8 @@ export const PatchDiscoveryOperationResponse = Schema.Struct({
   state: Schema.optional(Schema.Literals(["review", "saved", "ignored"])),
 }) as unknown as Schema.Schema<PatchDiscoveryOperationResponse>;
 
-export const patchDiscoveryOperation: (
-  input: PatchDiscoveryOperationRequest,
-) => Effect.Effect<
+export const patchDiscoveryOperation: API.OperationMethod<
+  PatchDiscoveryOperationRequest,
   PatchDiscoveryOperationResponse,
   CommonErrors | InvalidObjectIdentifier | NotEntitled,
   ApiToken | HttpClient.HttpClient
@@ -349,9 +344,8 @@ export const BulkPatchDiscoveryOperationsResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<BulkPatchDiscoveryOperationsResponse>;
 
-export const bulkPatchDiscoveryOperations: (
-  input: BulkPatchDiscoveryOperationsRequest,
-) => Effect.Effect<
+export const bulkPatchDiscoveryOperations: API.OperationMethod<
+  BulkPatchDiscoveryOperationsRequest,
   BulkPatchDiscoveryOperationsResponse,
   CommonErrors | InvalidObjectIdentifier | NotEntitled,
   ApiToken | HttpClient.HttpClient
@@ -394,9 +388,8 @@ export const CreateExpressionTemplateFallthroughResponse = Schema.Struct({
   title: Schema.String,
 }) as unknown as Schema.Schema<CreateExpressionTemplateFallthroughResponse>;
 
-export const createExpressionTemplateFallthrough: (
-  input: CreateExpressionTemplateFallthroughRequest,
-) => Effect.Effect<
+export const createExpressionTemplateFallthrough: API.OperationMethod<
+  CreateExpressionTemplateFallthroughRequest,
   CreateExpressionTemplateFallthroughResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -535,7 +528,11 @@ export const GetOperationResponse = Schema.Struct({
               authIdTokens: "auth_id_tokens",
               dataPoints: "data_points",
               lastUpdated: "last_updated",
+              p50: "p50",
+              p90: "p90",
+              p99: "p99",
               periodSeconds: "period_seconds",
+              requests: "requests",
               suggestedThreshold: "suggested_threshold",
             }),
           ),
@@ -562,7 +559,9 @@ export const GetOperationResponse = Schema.Struct({
           Schema.Struct({
             lastUpdated: Schema.optional(Schema.String),
             route: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+          }).pipe(
+            Schema.encodeKeys({ lastUpdated: "last_updated", route: "route" }),
+          ),
         ),
       }).pipe(Schema.encodeKeys({ apiRouting: "api_routing" })),
       Schema.Struct({
@@ -597,6 +596,7 @@ export const GetOperationResponse = Schema.Struct({
               }).pipe(
                 Schema.encodeKeys({
                   confidenceIntervals: "confidence_intervals",
+                  mean: "mean",
                 }),
               ),
             ),
@@ -621,8 +621,10 @@ export const GetOperationResponse = Schema.Struct({
                 name: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  id: "id",
                   createdAt: "created_at",
                   isLearned: "is_learned",
+                  name: "name",
                 }),
               ),
             ),
@@ -648,14 +650,17 @@ export const GetOperationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    endpoint: "endpoint",
+    host: "host",
     lastUpdated: "last_updated",
+    method: "method",
     operationId: "operation_id",
+    features: "features",
   }),
 ) as unknown as Schema.Schema<GetOperationResponse>;
 
-export const getOperation: (
-  input: GetOperationRequest,
-) => Effect.Effect<
+export const getOperation: API.OperationMethod<
+  GetOperationRequest,
   GetOperationResponse,
   CommonErrors | InvalidObjectIdentifier | OperationNotFound,
   ApiToken | HttpClient.HttpClient
@@ -803,7 +808,11 @@ export const ListOperationsResponse = Schema.Array(
                 authIdTokens: "auth_id_tokens",
                 dataPoints: "data_points",
                 lastUpdated: "last_updated",
+                p50: "p50",
+                p90: "p90",
+                p99: "p99",
                 periodSeconds: "period_seconds",
+                requests: "requests",
                 suggestedThreshold: "suggested_threshold",
               }),
             ),
@@ -830,7 +839,12 @@ export const ListOperationsResponse = Schema.Array(
             Schema.Struct({
               lastUpdated: Schema.optional(Schema.String),
               route: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+            }).pipe(
+              Schema.encodeKeys({
+                lastUpdated: "last_updated",
+                route: "route",
+              }),
+            ),
           ),
         }).pipe(Schema.encodeKeys({ apiRouting: "api_routing" })),
         Schema.Struct({
@@ -865,6 +879,7 @@ export const ListOperationsResponse = Schema.Array(
                 }).pipe(
                   Schema.encodeKeys({
                     confidenceIntervals: "confidence_intervals",
+                    mean: "mean",
                   }),
                 ),
               ),
@@ -889,8 +904,10 @@ export const ListOperationsResponse = Schema.Array(
                   name: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    id: "id",
                     createdAt: "created_at",
                     isLearned: "is_learned",
+                    name: "name",
                   }),
                 ),
               ),
@@ -916,15 +933,18 @@ export const ListOperationsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      endpoint: "endpoint",
+      host: "host",
       lastUpdated: "last_updated",
+      method: "method",
       operationId: "operation_id",
+      features: "features",
     }),
   ),
 ) as unknown as Schema.Schema<ListOperationsResponse>;
 
-export const listOperations: (
-  input: ListOperationsRequest,
-) => Effect.Effect<
+export const listOperations: API.OperationMethod<
+  ListOperationsRequest,
   ListOperationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1078,7 +1098,11 @@ export const CreateOperationResponse = Schema.Struct({
               authIdTokens: "auth_id_tokens",
               dataPoints: "data_points",
               lastUpdated: "last_updated",
+              p50: "p50",
+              p90: "p90",
+              p99: "p99",
               periodSeconds: "period_seconds",
+              requests: "requests",
               suggestedThreshold: "suggested_threshold",
             }),
           ),
@@ -1105,7 +1129,9 @@ export const CreateOperationResponse = Schema.Struct({
           Schema.Struct({
             lastUpdated: Schema.optional(Schema.String),
             route: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+          }).pipe(
+            Schema.encodeKeys({ lastUpdated: "last_updated", route: "route" }),
+          ),
         ),
       }).pipe(Schema.encodeKeys({ apiRouting: "api_routing" })),
       Schema.Struct({
@@ -1140,6 +1166,7 @@ export const CreateOperationResponse = Schema.Struct({
               }).pipe(
                 Schema.encodeKeys({
                   confidenceIntervals: "confidence_intervals",
+                  mean: "mean",
                 }),
               ),
             ),
@@ -1164,8 +1191,10 @@ export const CreateOperationResponse = Schema.Struct({
                 name: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  id: "id",
                   createdAt: "created_at",
                   isLearned: "is_learned",
+                  name: "name",
                 }),
               ),
             ),
@@ -1191,14 +1220,17 @@ export const CreateOperationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    endpoint: "endpoint",
+    host: "host",
     lastUpdated: "last_updated",
+    method: "method",
     operationId: "operation_id",
+    features: "features",
   }),
 ) as unknown as Schema.Schema<CreateOperationResponse>;
 
-export const createOperation: (
-  input: CreateOperationRequest,
-) => Effect.Effect<
+export const createOperation: API.OperationMethod<
+  CreateOperationRequest,
   CreateOperationResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1237,9 +1269,8 @@ export const DeleteOperationResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteOperationResponse>;
 
-export const deleteOperation: (
-  input: DeleteOperationRequest,
-) => Effect.Effect<
+export const deleteOperation: API.OperationMethod<
+  DeleteOperationRequest,
   DeleteOperationResponse,
   CommonErrors | InvalidObjectIdentifier | OperationNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1391,7 +1422,11 @@ export const BulkCreateOperationsResponse = Schema.Array(
                 authIdTokens: "auth_id_tokens",
                 dataPoints: "data_points",
                 lastUpdated: "last_updated",
+                p50: "p50",
+                p90: "p90",
+                p99: "p99",
                 periodSeconds: "period_seconds",
+                requests: "requests",
                 suggestedThreshold: "suggested_threshold",
               }),
             ),
@@ -1418,7 +1453,12 @@ export const BulkCreateOperationsResponse = Schema.Array(
             Schema.Struct({
               lastUpdated: Schema.optional(Schema.String),
               route: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+            }).pipe(
+              Schema.encodeKeys({
+                lastUpdated: "last_updated",
+                route: "route",
+              }),
+            ),
           ),
         }).pipe(Schema.encodeKeys({ apiRouting: "api_routing" })),
         Schema.Struct({
@@ -1453,6 +1493,7 @@ export const BulkCreateOperationsResponse = Schema.Array(
                 }).pipe(
                   Schema.encodeKeys({
                     confidenceIntervals: "confidence_intervals",
+                    mean: "mean",
                   }),
                 ),
               ),
@@ -1477,8 +1518,10 @@ export const BulkCreateOperationsResponse = Schema.Array(
                   name: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    id: "id",
                     createdAt: "created_at",
                     isLearned: "is_learned",
+                    name: "name",
                   }),
                 ),
               ),
@@ -1504,15 +1547,18 @@ export const BulkCreateOperationsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      endpoint: "endpoint",
+      host: "host",
       lastUpdated: "last_updated",
+      method: "method",
       operationId: "operation_id",
+      features: "features",
     }),
   ),
 ) as unknown as Schema.Schema<BulkCreateOperationsResponse>;
 
-export const bulkCreateOperations: (
-  input: BulkCreateOperationsRequest,
-) => Effect.Effect<
+export const bulkCreateOperations: API.OperationMethod<
+  BulkCreateOperationsRequest,
   BulkCreateOperationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1546,9 +1592,8 @@ export const BulkDeleteOperationsResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<BulkDeleteOperationsResponse>;
 
-export const bulkDeleteOperations: (
-  input: BulkDeleteOperationsRequest,
-) => Effect.Effect<
+export const bulkDeleteOperations: API.OperationMethod<
+  BulkDeleteOperationsRequest,
   BulkDeleteOperationsResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1602,9 +1647,8 @@ export const GetOperationSchemaValidationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOperationSchemaValidationResponse>;
 
-export const getOperationSchemaValidation: (
-  input: GetOperationSchemaValidationRequest,
-) => Effect.Effect<
+export const getOperationSchemaValidation: API.OperationMethod<
+  GetOperationSchemaValidationRequest,
   GetOperationSchemaValidationResponse,
   CommonErrors | InvalidObjectIdentifier | OperationNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1665,9 +1709,8 @@ export const PutOperationSchemaValidationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutOperationSchemaValidationResponse>;
 
-export const putOperationSchemaValidation: (
-  input: PutOperationSchemaValidationRequest,
-) => Effect.Effect<
+export const putOperationSchemaValidation: API.OperationMethod<
+  PutOperationSchemaValidationRequest,
   PutOperationSchemaValidationResponse,
   CommonErrors | InvalidObjectIdentifier | OperationNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1701,9 +1744,8 @@ export const PatchOperationSchemaValidationResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<PatchOperationSchemaValidationResponse>;
 
-export const patchOperationSchemaValidation: (
-  input: PatchOperationSchemaValidationRequest,
-) => Effect.Effect<
+export const patchOperationSchemaValidation: API.OperationMethod<
+  PatchOperationSchemaValidationRequest,
   PatchOperationSchemaValidationResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1748,9 +1790,8 @@ export const ListSchemasResponse = Schema.Struct({
   timestamp: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<ListSchemasResponse>;
 
-export const listSchemas: (
-  input: ListSchemasRequest,
-) => Effect.Effect<
+export const listSchemas: API.OperationMethod<
+  ListSchemasRequest,
   ListSchemasResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1783,9 +1824,8 @@ export type GetSettingSchemaValidationResponse = unknown;
 export const GetSettingSchemaValidationResponse =
   Schema.Unknown as unknown as Schema.Schema<GetSettingSchemaValidationResponse>;
 
-export const getSettingSchemaValidation: (
-  input: GetSettingSchemaValidationRequest,
-) => Effect.Effect<
+export const getSettingSchemaValidation: API.OperationMethod<
+  GetSettingSchemaValidationRequest,
   GetSettingSchemaValidationResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1830,9 +1870,8 @@ export type PutSettingSchemaValidationResponse = unknown;
 export const PutSettingSchemaValidationResponse =
   Schema.Unknown as unknown as Schema.Schema<PutSettingSchemaValidationResponse>;
 
-export const putSettingSchemaValidation: (
-  input: PutSettingSchemaValidationRequest,
-) => Effect.Effect<
+export const putSettingSchemaValidation: API.OperationMethod<
+  PutSettingSchemaValidationRequest,
   PutSettingSchemaValidationResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1884,9 +1923,8 @@ export type PatchSettingSchemaValidationResponse = unknown;
 export const PatchSettingSchemaValidationResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchSettingSchemaValidationResponse>;
 
-export const patchSettingSchemaValidation: (
-  input: PatchSettingSchemaValidationRequest,
-) => Effect.Effect<
+export const patchSettingSchemaValidation: API.OperationMethod<
+  PatchSettingSchemaValidationRequest,
   PatchSettingSchemaValidationResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -1943,14 +1981,16 @@ export const GetUserSchemaResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
+    kind: "kind",
+    name: "name",
     schemaId: "schema_id",
+    source: "source",
     validationEnabled: "validation_enabled",
   }),
 ) as unknown as Schema.Schema<GetUserSchemaResponse>;
 
-export const getUserSchema: (
-  input: GetUserSchemaRequest,
-) => Effect.Effect<
+export const getUserSchema: API.OperationMethod<
+  GetUserSchemaRequest,
   GetUserSchemaResponse,
   CommonErrors | InvalidObjectIdentifier | SchemaNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1999,15 +2039,17 @@ export const ListUserSchemasResponse = Schema.Array(
   }).pipe(
     Schema.encodeKeys({
       createdAt: "created_at",
+      kind: "kind",
+      name: "name",
       schemaId: "schema_id",
+      source: "source",
       validationEnabled: "validation_enabled",
     }),
   ),
 ) as unknown as Schema.Schema<ListUserSchemasResponse>;
 
-export const listUserSchemas: (
-  input: ListUserSchemasRequest,
-) => Effect.Effect<
+export const listUserSchemas: API.OperationMethod<
+  ListUserSchemasRequest,
   ListUserSchemasResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2037,7 +2079,12 @@ export const CreateUserSchemaRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   validationEnabled: Schema.optional(Schema.Literals([true, false])),
 }).pipe(
-  Schema.encodeKeys({ validationEnabled: "validation_enabled" }),
+  Schema.encodeKeys({
+    file: "file",
+    kind: "kind",
+    name: "name",
+    validationEnabled: "validation_enabled",
+  }),
   T.Http({
     method: "POST",
     path: "/zones/{zone_id}/api_gateway/user_schemas",
@@ -2070,7 +2117,10 @@ export const CreateUserSchemaResponse = Schema.Struct({
   }).pipe(
     Schema.encodeKeys({
       createdAt: "created_at",
+      kind: "kind",
+      name: "name",
       schemaId: "schema_id",
+      source: "source",
       validationEnabled: "validation_enabled",
     }),
   ),
@@ -2088,12 +2138,11 @@ export const CreateUserSchemaResponse = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ uploadDetails: "upload_details" }),
+  Schema.encodeKeys({ schema: "schema", uploadDetails: "upload_details" }),
 ) as unknown as Schema.Schema<CreateUserSchemaResponse>;
 
-export const createUserSchema: (
-  input: CreateUserSchemaRequest,
-) => Effect.Effect<
+export const createUserSchema: API.OperationMethod<
+  CreateUserSchemaRequest,
   CreateUserSchemaResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -2147,14 +2196,16 @@ export const PatchUserSchemaResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
+    kind: "kind",
+    name: "name",
     schemaId: "schema_id",
+    source: "source",
     validationEnabled: "validation_enabled",
   }),
 ) as unknown as Schema.Schema<PatchUserSchemaResponse>;
 
-export const patchUserSchema: (
-  input: PatchUserSchemaRequest,
-) => Effect.Effect<
+export const patchUserSchema: API.OperationMethod<
+  PatchUserSchemaRequest,
   PatchUserSchemaResponse,
   CommonErrors | InvalidObjectIdentifier | SchemaNotFound,
   ApiToken | HttpClient.HttpClient
@@ -2193,9 +2244,8 @@ export const DeleteUserSchemaResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteUserSchemaResponse>;
 
-export const deleteUserSchema: (
-  input: DeleteUserSchemaRequest,
-) => Effect.Effect<
+export const deleteUserSchema: API.OperationMethod<
+  DeleteUserSchemaRequest,
   DeleteUserSchemaResponse,
   CommonErrors | InvalidObjectIdentifier | SchemaNotFound,
   ApiToken | HttpClient.HttpClient
@@ -2237,13 +2287,17 @@ export const ListUserSchemaHostsResponse = Schema.Array(
     name: Schema.String,
     schemaId: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", schemaId: "schema_id" }),
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      hosts: "hosts",
+      name: "name",
+      schemaId: "schema_id",
+    }),
   ),
 ) as unknown as Schema.Schema<ListUserSchemaHostsResponse>;
 
-export const listUserSchemaHosts: (
-  input: ListUserSchemaHostsRequest,
-) => Effect.Effect<
+export const listUserSchemaHosts: API.OperationMethod<
+  ListUserSchemaHostsRequest,
   ListUserSchemaHostsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2412,7 +2466,11 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
                   authIdTokens: "auth_id_tokens",
                   dataPoints: "data_points",
                   lastUpdated: "last_updated",
+                  p50: "p50",
+                  p90: "p90",
+                  p99: "p99",
                   periodSeconds: "period_seconds",
+                  requests: "requests",
                   suggestedThreshold: "suggested_threshold",
                 }),
               ),
@@ -2439,7 +2497,12 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
               Schema.Struct({
                 lastUpdated: Schema.optional(Schema.String),
                 route: Schema.optional(Schema.String),
-              }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  lastUpdated: "last_updated",
+                  route: "route",
+                }),
+              ),
             ),
           }).pipe(Schema.encodeKeys({ apiRouting: "api_routing" })),
           Schema.Struct({
@@ -2474,6 +2537,7 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
                   }).pipe(
                     Schema.encodeKeys({
                       confidenceIntervals: "confidence_intervals",
+                      mean: "mean",
                     }),
                   ),
                 ),
@@ -2498,8 +2562,10 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
                     name: Schema.optional(Schema.String),
                   }).pipe(
                     Schema.encodeKeys({
+                      id: "id",
                       createdAt: "created_at",
                       isLearned: "is_learned",
+                      name: "name",
                     }),
                   ),
                 ),
@@ -2525,8 +2591,12 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        endpoint: "endpoint",
+        host: "host",
         lastUpdated: "last_updated",
+        method: "method",
         operationId: "operation_id",
+        features: "features",
       }),
     ),
     Schema.Struct({
@@ -2547,9 +2617,8 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListUserSchemaOperationsResponse>;
 
-export const listUserSchemaOperations: (
-  input: ListUserSchemaOperationsRequest,
-) => Effect.Effect<
+export const listUserSchemaOperations: API.OperationMethod<
+  ListUserSchemaOperationsRequest,
   ListUserSchemaOperationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

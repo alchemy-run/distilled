@@ -166,9 +166,8 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<UserAgentAiBotSummaryResponse>;
 
-export const userAgentAiBotSummary: (
-  input: UserAgentAiBotSummaryRequest,
-) => Effect.Effect<
+export const userAgentAiBotSummary: API.OperationMethod<
+  UserAgentAiBotSummaryRequest,
   UserAgentAiBotSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -344,9 +343,8 @@ export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<UserAgentAiTimeseriesGroupResponse>;
 
-export const userAgentAiTimeseriesGroup: (
-  input: UserAgentAiTimeseriesGroupRequest,
-) => Effect.Effect<
+export const userAgentAiTimeseriesGroup: API.OperationMethod<
+  UserAgentAiTimeseriesGroupRequest,
   UserAgentAiTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -515,9 +513,8 @@ export const TimeseriesAiBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAiBotResponse>;
 
-export const timeseriesAiBot: (
-  input: TimeseriesAiBotRequest,
-) => Effect.Effect<
+export const timeseriesAiBot: API.OperationMethod<
+  TimeseriesAiBotRequest,
   TimeseriesAiBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -675,9 +672,8 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ModelAiInferenceSummaryResponse>;
 
-export const modelAiInferenceSummary: (
-  input: ModelAiInferenceSummaryRequest,
-) => Effect.Effect<
+export const modelAiInferenceSummary: API.OperationMethod<
+  ModelAiInferenceSummaryRequest,
   ModelAiInferenceSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -831,9 +827,8 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<TaskAiInferenceSummaryResponse>;
 
-export const taskAiInferenceSummary: (
-  input: TaskAiInferenceSummaryRequest,
-) => Effect.Effect<
+export const taskAiInferenceSummary: API.OperationMethod<
+  TaskAiInferenceSummaryRequest,
   TaskAiInferenceSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1011,9 +1006,8 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ModelAiInferenceTimeseriesGroupSummaryResponse>;
 
-export const modelAiInferenceTimeseriesGroupSummary: (
-  input: ModelAiInferenceTimeseriesGroupSummaryRequest,
-) => Effect.Effect<
+export const modelAiInferenceTimeseriesGroupSummary: API.OperationMethod<
+  ModelAiInferenceTimeseriesGroupSummaryRequest,
   ModelAiInferenceTimeseriesGroupSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1184,9 +1178,8 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TaskAiInferenceTimeseriesGroupSummaryResponse>;
 
-export const taskAiInferenceTimeseriesGroupSummary: (
-  input: TaskAiInferenceTimeseriesGroupSummaryRequest,
-) => Effect.Effect<
+export const taskAiInferenceTimeseriesGroupSummary: API.OperationMethod<
+  TaskAiInferenceTimeseriesGroupSummaryRequest,
   TaskAiInferenceTimeseriesGroupSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1353,9 +1346,8 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryAiTimeseriesGroupResponse>;
 
-export const summaryAiTimeseriesGroup: (
-  input: SummaryAiTimeseriesGroupRequest,
-) => Effect.Effect<
+export const summaryAiTimeseriesGroup: API.OperationMethod<
+  SummaryAiTimeseriesGroupRequest,
   SummaryAiTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1520,9 +1512,8 @@ export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAiTimeseriesGroupResponse>;
 
-export const timeseriesAiTimeseriesGroup: (
-  input: TimeseriesAiTimeseriesGroupRequest,
-) => Effect.Effect<
+export const timeseriesAiTimeseriesGroup: API.OperationMethod<
+  TimeseriesAiTimeseriesGroupRequest,
   TimeseriesAiTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1565,9 +1556,8 @@ export const CreateAiToMarkdownResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateAiToMarkdownResponse>;
 
-export const createAiToMarkdown: (
-  input: CreateAiToMarkdownRequest,
-) => Effect.Effect<
+export const createAiToMarkdown: API.OperationMethod<
+  CreateAiToMarkdownRequest,
   CreateAiToMarkdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1657,9 +1647,8 @@ export const ListAnnotationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListAnnotationsResponse>;
 
-export const listAnnotations: (
-  input: ListAnnotationsRequest,
-) => Effect.Effect<
+export const listAnnotations: API.OperationMethod<
+  ListAnnotationsRequest,
   ListAnnotationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1749,9 +1738,8 @@ export const GetAnnotationOutageResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetAnnotationOutageResponse>;
 
-export const getAnnotationOutage: (
-  input: GetAnnotationOutageRequest,
-) => Effect.Effect<
+export const getAnnotationOutage: API.OperationMethod<
+  GetAnnotationOutageRequest,
   GetAnnotationOutageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1785,9 +1773,8 @@ export const LocationsAnnotationOutageResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsAnnotationOutageResponse>;
 
-export const locationsAnnotationOutage: (
-  input: LocationsAnnotationOutageRequest,
-) => Effect.Effect<
+export const locationsAnnotationOutage: API.OperationMethod<
+  LocationsAnnotationOutageRequest,
   LocationsAnnotationOutageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1948,9 +1935,8 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<MatchingAnswerDnsSummaryResponse>;
 
-export const matchingAnswerDnsSummary: (
-  input: MatchingAnswerDnsSummaryRequest,
-) => Effect.Effect<
+export const matchingAnswerDnsSummary: API.OperationMethod<
+  MatchingAnswerDnsSummaryRequest,
   MatchingAnswerDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2127,9 +2113,8 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupResponse>;
 
-export const matchingAnswerDnsTimeseriesGroup: (
-  input: MatchingAnswerDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const matchingAnswerDnsTimeseriesGroup: API.OperationMethod<
+  MatchingAnswerDnsTimeseriesGroupRequest,
   MatchingAnswerDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2298,9 +2283,8 @@ export const TimeseriesAs112Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAs112Response>;
 
-export const timeseriesAs112: (
-  input: TimeseriesAs112Request,
-) => Effect.Effect<
+export const timeseriesAs112: API.OperationMethod<
+  TimeseriesAs112Request,
   TimeseriesAs112Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2466,9 +2450,8 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAs112SummaryResponse>;
 
-export const dnssecAs112Summary: (
-  input: DnssecAs112SummaryRequest,
-) => Effect.Effect<
+export const dnssecAs112Summary: API.OperationMethod<
+  DnssecAs112SummaryRequest,
   DnssecAs112SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2630,9 +2613,8 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EdnsAs112SummaryResponse>;
 
-export const ednsAs112Summary: (
-  input: EdnsAs112SummaryRequest,
-) => Effect.Effect<
+export const ednsAs112Summary: API.OperationMethod<
+  EdnsAs112SummaryRequest,
   EdnsAs112SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2793,9 +2775,8 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAs112SummaryResponse>;
 
-export const protocolAs112Summary: (
-  input: ProtocolAs112SummaryRequest,
-) => Effect.Effect<
+export const protocolAs112Summary: API.OperationMethod<
+  ProtocolAs112SummaryRequest,
   ProtocolAs112SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2974,9 +2955,8 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
 
-export const dnssecAs112TimeseriesGroup: (
-  input: DnssecAs112TimeseriesGroupRequest,
-) => Effect.Effect<
+export const dnssecAs112TimeseriesGroup: API.OperationMethod<
+  DnssecAs112TimeseriesGroupRequest,
   DnssecAs112TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3151,9 +3131,8 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
 
-export const ednsAs112TimeseriesGroup: (
-  input: EdnsAs112TimeseriesGroupRequest,
-) => Effect.Effect<
+export const ednsAs112TimeseriesGroup: API.OperationMethod<
+  EdnsAs112TimeseriesGroupRequest,
   EdnsAs112TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3327,9 +3306,8 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAs112TimeseriesGroupResponse>;
 
-export const protocolAs112TimeseriesGroup: (
-  input: ProtocolAs112TimeseriesGroupRequest,
-) => Effect.Effect<
+export const protocolAs112TimeseriesGroup: API.OperationMethod<
+  ProtocolAs112TimeseriesGroupRequest,
   ProtocolAs112TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3506,9 +3484,8 @@ export const DnssecAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAs112TopResponse>;
 
-export const dnssecAs112Top: (
-  input: DnssecAs112TopRequest,
-) => Effect.Effect<
+export const dnssecAs112Top: API.OperationMethod<
+  DnssecAs112TopRequest,
   DnssecAs112TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3681,9 +3658,8 @@ export const EdnsAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EdnsAs112TopResponse>;
 
-export const ednsAs112Top: (
-  input: EdnsAs112TopRequest,
-) => Effect.Effect<
+export const ednsAs112Top: API.OperationMethod<
+  EdnsAs112TopRequest,
   EdnsAs112TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3850,9 +3826,8 @@ export const LocationsAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsAs112TopResponse>;
 
-export const locationsAs112Top: (
-  input: LocationsAs112TopRequest,
-) => Effect.Effect<
+export const locationsAs112Top: API.OperationMethod<
+  LocationsAs112TopRequest,
   LocationsAs112TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4021,9 +3996,8 @@ export const TimeseriesAttackLayer3Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAttackLayer3Response>;
 
-export const timeseriesAttackLayer3: (
-  input: TimeseriesAttackLayer3Request,
-) => Effect.Effect<
+export const timeseriesAttackLayer3: API.OperationMethod<
+  TimeseriesAttackLayer3Request,
   TimeseriesAttackLayer3Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4192,15 +4166,17 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
     uNDER_500_MBPS: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      _1_GBPS_TO_10_GBPS: "_1_GBPS_TO_10_GBPS",
+      _10_GBPS_TO_100_GBPS: "_10_GBPS_TO_100_GBPS",
+      _500_MBPS_TO_1_GBPS: "_500_MBPS_TO_1_GBPS",
       oVER_100_GBPS: "OVER_100_GBPS",
       uNDER_500_MBPS: "UNDER_500_MBPS",
     }),
   ),
 }) as unknown as Schema.Schema<BitrateAttackLayer3SummaryResponse>;
 
-export const bitrateAttackLayer3Summary: (
-  input: BitrateAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const bitrateAttackLayer3Summary: API.OperationMethod<
+  BitrateAttackLayer3SummaryRequest,
   BitrateAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4367,15 +4343,18 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
     uNDER_10_MINS: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      _1_HOUR_TO_3_HOURS: "_1_HOUR_TO_3_HOURS",
+      _10_MINS_TO_20_MINS: "_10_MINS_TO_20_MINS",
+      _20_MINS_TO_40_MINS: "_20_MINS_TO_40_MINS",
+      _40_MINS_TO_1_HOUR: "_40_MINS_TO_1_HOUR",
       oVER_3_HOURS: "OVER_3_HOURS",
       uNDER_10_MINS: "UNDER_10_MINS",
     }),
   ),
 }) as unknown as Schema.Schema<DurationAttackLayer3SummaryResponse>;
 
-export const durationAttackLayer3Summary: (
-  input: DurationAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const durationAttackLayer3Summary: API.OperationMethod<
+  DurationAttackLayer3SummaryRequest,
   DurationAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4529,9 +4508,8 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<IndustryAttackLayer3SummaryResponse>;
 
-export const industryAttackLayer3Summary: (
-  input: IndustryAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const industryAttackLayer3Summary: API.OperationMethod<
+  IndustryAttackLayer3SummaryRequest,
   IndustryAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4692,9 +4670,8 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3SummaryResponse>;
 
-export const protocolAttackLayer3Summary: (
-  input: ProtocolAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const protocolAttackLayer3Summary: API.OperationMethod<
+  ProtocolAttackLayer3SummaryRequest,
   ProtocolAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4848,9 +4825,8 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<VectorAttackLayer3SummaryResponse>;
 
-export const vectorAttackLayer3Summary: (
-  input: VectorAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const vectorAttackLayer3Summary: API.OperationMethod<
+  VectorAttackLayer3SummaryRequest,
   VectorAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5004,9 +4980,8 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<VerticalAttackLayer3SummaryResponse>;
 
-export const verticalAttackLayer3Summary: (
-  input: VerticalAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const verticalAttackLayer3Summary: API.OperationMethod<
+  VerticalAttackLayer3SummaryRequest,
   VerticalAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5193,15 +5168,18 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     uNDER_500_MBPS: Schema.Array(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      _1_GBPS_TO_10_GBPS: "_1_GBPS_TO_10_GBPS",
+      _10_GBPS_TO_100_GBPS: "_10_GBPS_TO_100_GBPS",
+      _500_MBPS_TO_1_GBPS: "_500_MBPS_TO_1_GBPS",
       oVER_100_GBPS: "OVER_100_GBPS",
+      timestamps: "timestamps",
       uNDER_500_MBPS: "UNDER_500_MBPS",
     }),
   ),
 }) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
 
-export const bitrateAttackLayer3TimeseriesGroup: (
-  input: BitrateAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const bitrateAttackLayer3TimeseriesGroup: API.OperationMethod<
+  BitrateAttackLayer3TimeseriesGroupRequest,
   BitrateAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5388,15 +5366,19 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     uNDER_10_MINS: Schema.Array(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      _1_HOUR_TO_3_HOURS: "_1_HOUR_TO_3_HOURS",
+      _10_MINS_TO_20_MINS: "_10_MINS_TO_20_MINS",
+      _20_MINS_TO_40_MINS: "_20_MINS_TO_40_MINS",
+      _40_MINS_TO_1_HOUR: "_40_MINS_TO_1_HOUR",
       oVER_3_HOURS: "OVER_3_HOURS",
+      timestamps: "timestamps",
       uNDER_10_MINS: "UNDER_10_MINS",
     }),
   ),
 }) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
 
-export const durationAttackLayer3TimeseriesGroup: (
-  input: DurationAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const durationAttackLayer3TimeseriesGroup: API.OperationMethod<
+  DurationAttackLayer3TimeseriesGroupRequest,
   DurationAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5570,9 +5552,8 @@ export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<IndustryAttackLayer3TimeseriesGroupResponse>;
 
-export const industryAttackLayer3TimeseriesGroup: (
-  input: IndustryAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const industryAttackLayer3TimeseriesGroup: API.OperationMethod<
+  IndustryAttackLayer3TimeseriesGroupRequest,
   IndustryAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5754,13 +5735,18 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     timestamps: Schema.Array(Schema.String),
     uDP: Schema.Array(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ gRE: "GRE", iCMP: "ICMP", tCP: "TCP", uDP: "UDP" }),
+    Schema.encodeKeys({
+      gRE: "GRE",
+      iCMP: "ICMP",
+      tCP: "TCP",
+      timestamps: "timestamps",
+      uDP: "UDP",
+    }),
   ),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupResponse>;
 
-export const protocolAttackLayer3TimeseriesGroup: (
-  input: ProtocolAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const protocolAttackLayer3TimeseriesGroup: API.OperationMethod<
+  ProtocolAttackLayer3TimeseriesGroupRequest,
   ProtocolAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5932,9 +5918,8 @@ export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<VectorAttackLayer3TimeseriesGroupResponse>;
 
-export const vectorAttackLayer3TimeseriesGroup: (
-  input: VectorAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const vectorAttackLayer3TimeseriesGroup: API.OperationMethod<
+  VectorAttackLayer3TimeseriesGroupRequest,
   VectorAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6108,9 +6093,8 @@ export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<VerticalAttackLayer3TimeseriesGroupResponse>;
 
-export const verticalAttackLayer3TimeseriesGroup: (
-  input: VerticalAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const verticalAttackLayer3TimeseriesGroup: API.OperationMethod<
+  VerticalAttackLayer3TimeseriesGroupRequest,
   VerticalAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6281,9 +6265,8 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AttacksAttackLayer3TopResponse>;
 
-export const attacksAttackLayer3Top: (
-  input: AttacksAttackLayer3TopRequest,
-) => Effect.Effect<
+export const attacksAttackLayer3Top: API.OperationMethod<
+  AttacksAttackLayer3TopRequest,
   AttacksAttackLayer3TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6445,9 +6428,8 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IndustryAttackLayer3TopResponse>;
 
-export const industryAttackLayer3Top: (
-  input: IndustryAttackLayer3TopRequest,
-) => Effect.Effect<
+export const industryAttackLayer3Top: API.OperationMethod<
+  IndustryAttackLayer3TopRequest,
   IndustryAttackLayer3TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6609,9 +6591,8 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<VerticalAttackLayer3TopResponse>;
 
-export const verticalAttackLayer3Top: (
-  input: VerticalAttackLayer3TopRequest,
-) => Effect.Effect<
+export const verticalAttackLayer3Top: API.OperationMethod<
+  VerticalAttackLayer3TopRequest,
   VerticalAttackLayer3TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6784,9 +6765,8 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<OriginAttackLayer3TopLocationResponse>;
 
-export const originAttackLayer3TopLocation: (
-  input: OriginAttackLayer3TopLocationRequest,
-) => Effect.Effect<
+export const originAttackLayer3TopLocation: API.OperationMethod<
+  OriginAttackLayer3TopLocationRequest,
   OriginAttackLayer3TopLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6955,9 +6935,8 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TargetAttackLayer3TopLocationResponse>;
 
-export const targetAttackLayer3TopLocation: (
-  input: TargetAttackLayer3TopLocationRequest,
-) => Effect.Effect<
+export const targetAttackLayer3TopLocation: API.OperationMethod<
+  TargetAttackLayer3TopLocationRequest,
   TargetAttackLayer3TopLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7131,9 +7110,8 @@ export const TimeseriesAttackLayer7Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAttackLayer7Response>;
 
-export const timeseriesAttackLayer7: (
-  input: TimeseriesAttackLayer7Request,
-) => Effect.Effect<
+export const timeseriesAttackLayer7: API.OperationMethod<
+  TimeseriesAttackLayer7Request,
   TimeseriesAttackLayer7Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7291,9 +7269,8 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<IndustryAttackLayer7SummaryResponse>;
 
-export const industryAttackLayer7Summary: (
-  input: IndustryAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const industryAttackLayer7Summary: API.OperationMethod<
+  IndustryAttackLayer7SummaryRequest,
   IndustryAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7447,9 +7424,8 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<VerticalAttackLayer7SummaryResponse>;
 
-export const verticalAttackLayer7Summary: (
-  input: VerticalAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const verticalAttackLayer7Summary: API.OperationMethod<
+  VerticalAttackLayer7SummaryRequest,
   VerticalAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7627,9 +7603,8 @@ export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<IndustryAttackLayer7TimeseriesGroupResponse>;
 
-export const industryAttackLayer7TimeseriesGroup: (
-  input: IndustryAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const industryAttackLayer7TimeseriesGroup: API.OperationMethod<
+  IndustryAttackLayer7TimeseriesGroupRequest,
   IndustryAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7803,9 +7778,8 @@ export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<VerticalAttackLayer7TimeseriesGroupResponse>;
 
-export const verticalAttackLayer7TimeseriesGroup: (
-  input: VerticalAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const verticalAttackLayer7TimeseriesGroup: API.OperationMethod<
+  VerticalAttackLayer7TimeseriesGroupRequest,
   VerticalAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7980,9 +7954,8 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AttacksAttackLayer7TopResponse>;
 
-export const attacksAttackLayer7Top: (
-  input: AttacksAttackLayer7TopRequest,
-) => Effect.Effect<
+export const attacksAttackLayer7Top: API.OperationMethod<
+  AttacksAttackLayer7TopRequest,
   AttacksAttackLayer7TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8144,9 +8117,8 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IndustryAttackLayer7TopResponse>;
 
-export const industryAttackLayer7Top: (
-  input: IndustryAttackLayer7TopRequest,
-) => Effect.Effect<
+export const industryAttackLayer7Top: API.OperationMethod<
+  IndustryAttackLayer7TopRequest,
   IndustryAttackLayer7TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8308,9 +8280,8 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<VerticalAttackLayer7TopResponse>;
 
-export const verticalAttackLayer7Top: (
-  input: VerticalAttackLayer7TopRequest,
-) => Effect.Effect<
+export const verticalAttackLayer7Top: API.OperationMethod<
+  VerticalAttackLayer7TopRequest,
   VerticalAttackLayer7TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8483,9 +8454,8 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<OriginAttackLayer7TopAsResponse>;
 
-export const originAttackLayer7TopAs: (
-  input: OriginAttackLayer7TopAsRequest,
-) => Effect.Effect<
+export const originAttackLayer7TopAs: API.OperationMethod<
+  OriginAttackLayer7TopAsRequest,
   OriginAttackLayer7TopAsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8658,9 +8628,8 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<OriginAttackLayer7TopLocationResponse>;
 
-export const originAttackLayer7TopLocation: (
-  input: OriginAttackLayer7TopLocationRequest,
-) => Effect.Effect<
+export const originAttackLayer7TopLocation: API.OperationMethod<
+  OriginAttackLayer7TopLocationRequest,
   OriginAttackLayer7TopLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8829,9 +8798,8 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TargetAttackLayer7TopLocationResponse>;
 
-export const targetAttackLayer7TopLocation: (
-  input: TargetAttackLayer7TopLocationRequest,
-) => Effect.Effect<
+export const targetAttackLayer7TopLocation: API.OperationMethod<
+  TargetAttackLayer7TopLocationRequest,
   TargetAttackLayer7TopLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8997,9 +8965,8 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAwareDnsSummaryResponse>;
 
-export const dnssecAwareDnsSummary: (
-  input: DnssecAwareDnsSummaryRequest,
-) => Effect.Effect<
+export const dnssecAwareDnsSummary: API.OperationMethod<
+  DnssecAwareDnsSummaryRequest,
   DnssecAwareDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9178,9 +9145,8 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
 
-export const dnssecAwareDnsTimeseriesGroup: (
-  input: DnssecAwareDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dnssecAwareDnsTimeseriesGroup: API.OperationMethod<
+  DnssecAwareDnsTimeseriesGroupRequest,
   DnssecAwareDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9316,9 +9282,8 @@ export const TimeseriesBgpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesBgpResponse>;
 
-export const timeseriesBgp: (
-  input: TimeseriesBgpRequest,
-) => Effect.Effect<
+export const timeseriesBgp: API.OperationMethod<
+  TimeseriesBgpRequest,
   TimeseriesBgpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9371,7 +9336,11 @@ export const ListBgpHijackEventsResponse = Schema.Array(
         countryCode: Schema.String,
         orgName: Schema.String,
       }).pipe(
-        Schema.encodeKeys({ countryCode: "country_code", orgName: "org_name" }),
+        Schema.encodeKeys({
+          asn: "asn",
+          countryCode: "country_code",
+          orgName: "org_name",
+        }),
       ),
     ),
     events: Schema.Array(
@@ -9401,7 +9370,9 @@ export const ListBgpHijackEventsResponse = Schema.Array(
         victimCountries: Schema.Array(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           confidenceScore: "confidence_score",
+          duration: "duration",
           eventType: "event_type",
           hijackMsgsCount: "hijack_msgs_count",
           hijackerAsn: "hijacker_asn",
@@ -9413,6 +9384,8 @@ export const ListBgpHijackEventsResponse = Schema.Array(
           onGoingCount: "on_going_count",
           peerAsns: "peer_asns",
           peerIpCount: "peer_ip_count",
+          prefixes: "prefixes",
+          tags: "tags",
           victimAsns: "victim_asns",
           victimCountries: "victim_countries",
         }),
@@ -9420,13 +9393,16 @@ export const ListBgpHijackEventsResponse = Schema.Array(
     ),
     totalMonitors: Schema.Number,
   }).pipe(
-    Schema.encodeKeys({ asnInfo: "asn_info", totalMonitors: "total_monitors" }),
+    Schema.encodeKeys({
+      asnInfo: "asn_info",
+      events: "events",
+      totalMonitors: "total_monitors",
+    }),
   ),
 ) as unknown as Schema.Schema<ListBgpHijackEventsResponse>;
 
-export const listBgpHijackEvents: (
-  input: ListBgpHijackEventsRequest,
-) => Effect.Effect<
+export const listBgpHijackEvents: API.OperationMethod<
+  ListBgpHijackEventsRequest,
   ListBgpHijackEventsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9619,7 +9595,13 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
             entriesCount: Schema.Number,
             path: Schema.String,
             timestamp: Schema.Number,
-          }).pipe(Schema.encodeKeys({ entriesCount: "entries_count" })),
+          }).pipe(
+            Schema.encodeKeys({
+              entriesCount: "entries_count",
+              path: "path",
+              timestamp: "timestamp",
+            }),
+          ),
         }),
         countryData: Schema.Struct({
           delaySecs: Schema.Number,
@@ -9633,7 +9615,12 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
         healthy: Schema.Boolean,
         nowTs: Schema.Number,
       }).pipe(
-        Schema.encodeKeys({ asnData: "asn_data", countryData: "country_data" }),
+        Schema.encodeKeys({
+          asnData: "asn_data",
+          countryData: "country_data",
+          healthy: "healthy",
+          nowTs: "nowTs",
+        }),
       ),
     ),
   }),
@@ -9644,9 +9631,8 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesBgpIpResponse>;
 
-export const timeseriesBgpIp: (
-  input: TimeseriesBgpIpRequest,
-) => Effect.Effect<
+export const timeseriesBgpIp: API.OperationMethod<
+  TimeseriesBgpIpRequest,
   TimeseriesBgpIpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9693,7 +9679,11 @@ export const ListBgpLeakEventsResponse = Schema.Array(
         countryCode: Schema.String,
         orgName: Schema.String,
       }).pipe(
-        Schema.encodeKeys({ countryCode: "country_code", orgName: "org_name" }),
+        Schema.encodeKeys({
+          asn: "asn",
+          countryCode: "country_code",
+          orgName: "org_name",
+        }),
       ),
     ),
     events: Schema.Array(
@@ -9713,7 +9703,10 @@ export const ListBgpLeakEventsResponse = Schema.Array(
         prefixCount: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          countries: "countries",
           detectedTs: "detected_ts",
+          finished: "finished",
           leakAsn: "leak_asn",
           leakCount: "leak_count",
           leakSeg: "leak_seg",
@@ -9726,12 +9719,11 @@ export const ListBgpLeakEventsResponse = Schema.Array(
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ asnInfo: "asn_info" })),
+  }).pipe(Schema.encodeKeys({ asnInfo: "asn_info", events: "events" })),
 ) as unknown as Schema.Schema<ListBgpLeakEventsResponse>;
 
-export const listBgpLeakEvents: (
-  input: ListBgpLeakEventsRequest,
-) => Effect.Effect<
+export const listBgpLeakEvents: API.OperationMethod<
+  ListBgpLeakEventsRequest,
   ListBgpLeakEventsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9789,9 +9781,8 @@ export const AsesBgpRouteResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<AsesBgpRouteResponse>;
 
-export const asesBgpRoute: (
-  input: AsesBgpRouteRequest,
-) => Effect.Effect<
+export const asesBgpRoute: API.OperationMethod<
+  AsesBgpRouteRequest,
   AsesBgpRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9836,6 +9827,7 @@ export const MoasBgpRouteResponse = Schema.Struct({
           rpkiValidation: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            origin: "origin",
             peerCount: "peer_count",
             rpkiValidation: "rpki_validation",
           }),
@@ -9846,9 +9838,8 @@ export const MoasBgpRouteResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<MoasBgpRouteResponse>;
 
-export const moasBgpRoute: (
-  input: MoasBgpRouteRequest,
-) => Effect.Effect<
+export const moasBgpRoute: API.OperationMethod<
+  MoasBgpRouteRequest,
   MoasBgpRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9894,18 +9885,19 @@ export const Pfx2asBgpRouteResponse = Schema.Struct({
       rpkiValidation: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        origin: "origin",
         peerCount: "peer_count",
+        prefix: "prefix",
         rpkiValidation: "rpki_validation",
       }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ prefixOrigins: "prefix_origins" }),
+  Schema.encodeKeys({ meta: "meta", prefixOrigins: "prefix_origins" }),
 ) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
 
-export const pfx2asBgpRoute: (
-  input: Pfx2asBgpRouteRequest,
-) => Effect.Effect<
+export const pfx2asBgpRoute: API.OperationMethod<
+  Pfx2asBgpRouteRequest,
   Pfx2asBgpRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9971,6 +9963,7 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           asName: "as_name",
+          asn: "asn",
           countryCode: "country_code",
           orgId: "org_id",
           orgName: "org_name",
@@ -9988,6 +9981,7 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
         peersV6Count: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          collector: "collector",
           latestRealtimeTs: "latest_realtime_ts",
           latestRibTs: "latest_rib_ts",
           latestUpdatesTs: "latest_updates_ts",
@@ -10008,9 +10002,12 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
         visibility: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          origin: "origin",
+          prefix: "prefix",
           rpkiValidation: "rpki_validation",
           totalPeers: "total_peers",
           totalVisible: "total_visible",
+          visibility: "visibility",
         }),
       ),
     ),
@@ -10018,6 +10015,7 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
   }).pipe(
     Schema.encodeKeys({
       asnInfo: "asn_info",
+      collectors: "collectors",
       dataTime: "data_time",
       prefixOrigins: "prefix_origins",
       queryTime: "query_time",
@@ -10030,13 +10028,20 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
       communities: Schema.Array(Schema.String),
       prefix: Schema.String,
       timestamp: Schema.String,
-    }).pipe(Schema.encodeKeys({ asPath: "as_path" })),
+    }).pipe(
+      Schema.encodeKeys({
+        asPath: "as_path",
+        collector: "collector",
+        communities: "communities",
+        prefix: "prefix",
+        timestamp: "timestamp",
+      }),
+    ),
   ),
 }) as unknown as Schema.Schema<RealtimeBgpRouteResponse>;
 
-export const realtimeBgpRoute: (
-  input: RealtimeBgpRouteRequest,
-) => Effect.Effect<
+export const realtimeBgpRoute: API.OperationMethod<
+  RealtimeBgpRouteRequest,
   RealtimeBgpRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10131,9 +10136,8 @@ export const StatsBgpRouteResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<StatsBgpRouteResponse>;
 
-export const statsBgpRoute: (
-  input: StatsBgpRouteRequest,
-) => Effect.Effect<
+export const statsBgpRoute: API.OperationMethod<
+  StatsBgpRouteRequest,
   StatsBgpRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10175,9 +10179,8 @@ export const PrefixesBgpTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PrefixesBgpTopResponse>;
 
-export const prefixesBgpTop: (
-  input: PrefixesBgpTopRequest,
-) => Effect.Effect<
+export const prefixesBgpTop: API.OperationMethod<
+  PrefixesBgpTopRequest,
   PrefixesBgpTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10216,13 +10219,14 @@ export const GetBgpTopAsResponse = Schema.Struct({
       asn: Schema.Number,
       aSName: Schema.String,
       value: Schema.String,
-    }).pipe(Schema.encodeKeys({ aSName: "ASName" })),
+    }).pipe(
+      Schema.encodeKeys({ asn: "asn", aSName: "ASName", value: "value" }),
+    ),
   ),
 }) as unknown as Schema.Schema<GetBgpTopAsResponse>;
 
-export const getBgpTopAs: (
-  input: GetBgpTopAsRequest,
-) => Effect.Effect<
+export const getBgpTopAs: API.OperationMethod<
+  GetBgpTopAsRequest,
   GetBgpTopAsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10250,7 +10254,14 @@ export const PrefixesBgpTopAsResponse = Schema.Struct({
       country: Schema.String,
       name: Schema.String,
       pfxsCount: Schema.Number,
-    }).pipe(Schema.encodeKeys({ pfxsCount: "pfxs_count" })),
+    }).pipe(
+      Schema.encodeKeys({
+        asn: "asn",
+        country: "country",
+        name: "name",
+        pfxsCount: "pfxs_count",
+      }),
+    ),
   ),
   meta: Schema.Struct({
     dataTime: Schema.String,
@@ -10265,9 +10276,8 @@ export const PrefixesBgpTopAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PrefixesBgpTopAsResponse>;
 
-export const prefixesBgpTopAs: (
-  input: PrefixesBgpTopAsRequest,
-) => Effect.Effect<
+export const prefixesBgpTopAs: API.OperationMethod<
+  PrefixesBgpTopAsRequest,
   PrefixesBgpTopAsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10319,9 +10329,8 @@ export const GetBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetBotResponse>;
 
-export const getBot: (
-  input: GetBotRequest,
-) => Effect.Effect<
+export const getBot: API.OperationMethod<
+  GetBotRequest,
   GetBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10363,9 +10372,8 @@ export const ListBotsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListBotsResponse>;
 
-export const listBots: (
-  input: ListBotsRequest,
-) => Effect.Effect<
+export const listBots: API.OperationMethod<
+  ListBotsRequest,
   ListBotsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10528,9 +10536,8 @@ export const SummaryBotResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryBotResponse>;
 
-export const summaryBot: (
-  input: SummaryBotRequest,
-) => Effect.Effect<
+export const summaryBot: API.OperationMethod<
+  SummaryBotRequest,
   SummaryBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10695,9 +10702,8 @@ export const TimeseriesBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesBotResponse>;
 
-export const timeseriesBot: (
-  input: TimeseriesBotRequest,
-) => Effect.Effect<
+export const timeseriesBot: API.OperationMethod<
+  TimeseriesBotRequest,
   TimeseriesBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10872,9 +10878,8 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryBotWebCrawlerResponse>;
 
-export const summaryBotWebCrawler: (
-  input: SummaryBotWebCrawlerRequest,
-) => Effect.Effect<
+export const summaryBotWebCrawler: API.OperationMethod<
+  SummaryBotWebCrawlerRequest,
   SummaryBotWebCrawlerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11040,9 +11045,8 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DomainCategoriesRobotsTxtTopResponse>;
 
-export const domainCategoriesRobotsTxtTop: (
-  input: DomainCategoriesRobotsTxtTopRequest,
-) => Effect.Effect<
+export const domainCategoriesRobotsTxtTop: API.OperationMethod<
+  DomainCategoriesRobotsTxtTopRequest,
   DomainCategoriesRobotsTxtTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11220,9 +11224,8 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryResponse>;
 
-export const threatCategoryEmailSecuritySummary: (
-  input: ThreatCategoryEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const threatCategoryEmailSecuritySummary: API.OperationMethod<
+  ThreatCategoryEmailSecuritySummaryRequest,
   ThreatCategoryEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11417,9 +11420,8 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
   },
 ) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
 
-export const threatCategoryEmailSecurityTimeseriesGroup: (
-  input: ThreatCategoryEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const threatCategoryEmailSecurityTimeseriesGroup: API.OperationMethod<
+  ThreatCategoryEmailSecurityTimeseriesGroupRequest,
   ThreatCategoryEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11580,9 +11582,8 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassHttpSummaryResponse>;
 
-export const botClassHttpSummary: (
-  input: BotClassHttpSummaryRequest,
-) => Effect.Effect<
+export const botClassHttpSummary: API.OperationMethod<
+  BotClassHttpSummaryRequest,
   BotClassHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11757,9 +11758,8 @@ export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassHttpTimeseriesGroupResponse>;
 
-export const botClassHttpTimeseriesGroup: (
-  input: BotClassHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const botClassHttpTimeseriesGroup: API.OperationMethod<
+  BotClassHttpTimeseriesGroupRequest,
   BotClassHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11923,9 +11923,8 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassLeakedCredentialSummaryResponse>;
 
-export const botClassLeakedCredentialSummary: (
-  input: BotClassLeakedCredentialSummaryRequest,
-) => Effect.Effect<
+export const botClassLeakedCredentialSummary: API.OperationMethod<
+  BotClassLeakedCredentialSummaryRequest,
   BotClassLeakedCredentialSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12105,9 +12104,8 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassLeakedCredentialTimeseriesGroupResponse>;
 
-export const botClassLeakedCredentialTimeseriesGroup: (
-  input: BotClassLeakedCredentialTimeseriesGroupRequest,
-) => Effect.Effect<
+export const botClassLeakedCredentialTimeseriesGroup: API.OperationMethod<
+  BotClassLeakedCredentialTimeseriesGroupRequest,
   BotClassLeakedCredentialTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12265,9 +12263,8 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ResponseCodeDnsSummaryResponse>;
 
-export const responseCodeDnsSummary: (
-  input: ResponseCodeDnsSummaryRequest,
-) => Effect.Effect<
+export const responseCodeDnsSummary: API.OperationMethod<
+  ResponseCodeDnsSummaryRequest,
   ResponseCodeDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12440,9 +12437,8 @@ export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ResponseCodeDnsTimeseriesGroupResponse>;
 
-export const responseCodeDnsTimeseriesGroup: (
-  input: ResponseCodeDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const responseCodeDnsTimeseriesGroup: API.OperationMethod<
+  ResponseCodeDnsTimeseriesGroupRequest,
   ResponseCodeDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12600,9 +12596,8 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ResponseCodesAs112SummaryResponse>;
 
-export const responseCodesAs112Summary: (
-  input: ResponseCodesAs112SummaryRequest,
-) => Effect.Effect<
+export const responseCodesAs112Summary: API.OperationMethod<
+  ResponseCodesAs112SummaryRequest,
   ResponseCodesAs112SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12778,9 +12773,8 @@ export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ResponseCodesAs112TimeseriesGroupResponse>;
 
-export const responseCodesAs112TimeseriesGroup: (
-  input: ResponseCodesAs112TimeseriesGroupRequest,
-) => Effect.Effect<
+export const responseCodesAs112TimeseriesGroup: API.OperationMethod<
+  ResponseCodesAs112TimeseriesGroupRequest,
   ResponseCodesAs112TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13003,10 +12997,12 @@ export const SummaryCtResponse = Schema.Struct({
       lte_3d: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        gt_121d: "gt_121d",
         gt_16dLte_31d: "gt_16d_lte_31d",
         gt_31dLte_91d: "gt_31d_lte_91d",
         gt_3dLte_16d: "gt_3d_lte_16d",
         gt_91dLte_121d: "gt_91d_lte_121d",
+        lte_3d: "lte_3d",
       }),
     ),
     Schema.Struct({
@@ -13040,9 +13036,8 @@ export const SummaryCtResponse = Schema.Struct({
   ]),
 }) as unknown as Schema.Schema<SummaryCtResponse>;
 
-export const summaryCt: (
-  input: SummaryCtRequest,
-) => Effect.Effect<
+export const summaryCt: API.OperationMethod<
+  SummaryCtRequest,
   SummaryCtResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13207,9 +13202,8 @@ export const TimeseriesCtResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesCtResponse>;
 
-export const timeseriesCt: (
-  input: TimeseriesCtRequest,
-) => Effect.Effect<
+export const timeseriesCt: API.OperationMethod<
+  TimeseriesCtRequest,
   TimeseriesCtResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13365,9 +13359,8 @@ export const GetCtAuthorityResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetCtAuthorityResponse>;
 
-export const getCtAuthority: (
-  input: GetCtAuthorityRequest,
-) => Effect.Effect<
+export const getCtAuthority: API.OperationMethod<
+  GetCtAuthorityRequest,
   GetCtAuthorityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13420,9 +13413,8 @@ export const ListCtAuthoritiesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListCtAuthoritiesResponse>;
 
-export const listCtAuthorities: (
-  input: ListCtAuthoritiesRequest,
-) => Effect.Effect<
+export const listCtAuthorities: API.OperationMethod<
+  ListCtAuthoritiesRequest,
   ListCtAuthoritiesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13562,9 +13554,8 @@ export const GetCtLogResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetCtLogResponse>;
 
-export const getCtLog: (
-  input: GetCtLogRequest,
-) => Effect.Effect<
+export const getCtLog: API.OperationMethod<
+  GetCtLogRequest,
   GetCtLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13623,9 +13614,8 @@ export const ListCtLogsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListCtLogsResponse>;
 
-export const listCtLogs: (
-  input: ListCtLogsRequest,
-) => Effect.Effect<
+export const listCtLogs: API.OperationMethod<
+  ListCtLogsRequest,
   ListCtLogsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13654,9 +13644,8 @@ export type GetDatasetResponse = unknown;
 export const GetDatasetResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatasetResponse>;
 
-export const getDataset: (
-  input: GetDatasetRequest,
-) => Effect.Effect<
+export const getDataset: API.OperationMethod<
+  GetDatasetRequest,
   GetDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13696,9 +13685,8 @@ export const ListDatasetsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListDatasetsResponse>;
 
-export const listDatasets: (
-  input: ListDatasetsRequest,
-) => Effect.Effect<
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
   ListDatasetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13734,9 +13722,8 @@ export const DownloadDatasetResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<DownloadDatasetResponse>;
 
-export const downloadDataset: (
-  input: DownloadDatasetRequest,
-) => Effect.Effect<
+export const downloadDataset: API.OperationMethod<
+  DownloadDatasetRequest,
   DownloadDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13905,9 +13892,8 @@ export const TimeseriesDnsResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesDnsResponse>;
 
-export const timeseriesDns: (
-  input: TimeseriesDnsRequest,
-) => Effect.Effect<
+export const timeseriesDns: API.OperationMethod<
+  TimeseriesDnsRequest,
   TimeseriesDnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14082,9 +14068,8 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecDnsSummaryResponse>;
 
-export const dnssecDnsSummary: (
-  input: DnssecDnsSummaryRequest,
-) => Effect.Effect<
+export const dnssecDnsSummary: API.OperationMethod<
+  DnssecDnsSummaryRequest,
   DnssecDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14245,9 +14230,8 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolDnsSummaryResponse>;
 
-export const protocolDnsSummary: (
-  input: ProtocolDnsSummaryRequest,
-) => Effect.Effect<
+export const protocolDnsSummary: API.OperationMethod<
+  ProtocolDnsSummaryRequest,
   ProtocolDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14435,9 +14419,8 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecDnsTimeseriesGroupResponse>;
 
-export const dnssecDnsTimeseriesGroup: (
-  input: DnssecDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dnssecDnsTimeseriesGroup: API.OperationMethod<
+  DnssecDnsTimeseriesGroupRequest,
   DnssecDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14611,9 +14594,8 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolDnsTimeseriesGroupResponse>;
 
-export const protocolDnsTimeseriesGroup: (
-  input: ProtocolDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const protocolDnsTimeseriesGroup: API.OperationMethod<
+  ProtocolDnsTimeseriesGroupRequest,
   ProtocolDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14780,9 +14762,8 @@ export const AsesDnsTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AsesDnsTopResponse>;
 
-export const asesDnsTop: (
-  input: AsesDnsTopRequest,
-) => Effect.Effect<
+export const asesDnsTop: API.OperationMethod<
+  AsesDnsTopRequest,
   AsesDnsTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14949,9 +14930,8 @@ export const LocationsDnsTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsDnsTopResponse>;
 
-export const locationsDnsTop: (
-  input: LocationsDnsTopRequest,
-) => Effect.Effect<
+export const locationsDnsTop: API.OperationMethod<
+  LocationsDnsTopRequest,
   LocationsDnsTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15112,9 +15092,8 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<DnssecE2EDnsSummaryResponse>;
 
-export const dnssecE2EDnsSummary: (
-  input: DnssecE2EDnsSummaryRequest,
-) => Effect.Effect<
+export const dnssecE2EDnsSummary: API.OperationMethod<
+  DnssecE2EDnsSummaryRequest,
   DnssecE2EDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15288,9 +15267,8 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<DnssecE2EDnsTimeseriesGroupResponse>;
 
-export const dnssecE2EDnsTimeseriesGroup: (
-  input: DnssecE2EDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dnssecE2EDnsTimeseriesGroup: API.OperationMethod<
+  DnssecE2EDnsTimeseriesGroupRequest,
   DnssecE2EDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15448,9 +15426,8 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailRoutingSummaryResponse>;
 
-export const arcEmailRoutingSummary: (
-  input: ArcEmailRoutingSummaryRequest,
-) => Effect.Effect<
+export const arcEmailRoutingSummary: API.OperationMethod<
+  ArcEmailRoutingSummaryRequest,
   ArcEmailRoutingSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15604,9 +15581,8 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailRoutingSummaryResponse>;
 
-export const dkimEmailRoutingSummary: (
-  input: DkimEmailRoutingSummaryRequest,
-) => Effect.Effect<
+export const dkimEmailRoutingSummary: API.OperationMethod<
+  DkimEmailRoutingSummaryRequest,
   DkimEmailRoutingSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15760,9 +15736,8 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailRoutingSummaryResponse>;
 
-export const dmarcEmailRoutingSummary: (
-  input: DmarcEmailRoutingSummaryRequest,
-) => Effect.Effect<
+export const dmarcEmailRoutingSummary: API.OperationMethod<
+  DmarcEmailRoutingSummaryRequest,
   DmarcEmailRoutingSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15924,9 +15899,8 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingSummaryResponse>;
 
-export const encryptedEmailRoutingSummary: (
-  input: EncryptedEmailRoutingSummaryRequest,
-) => Effect.Effect<
+export const encryptedEmailRoutingSummary: API.OperationMethod<
+  EncryptedEmailRoutingSummaryRequest,
   EncryptedEmailRoutingSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16080,9 +16054,8 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailRoutingSummaryResponse>;
 
-export const spfEmailRoutingSummary: (
-  input: SpfEmailRoutingSummaryRequest,
-) => Effect.Effect<
+export const spfEmailRoutingSummary: API.OperationMethod<
+  SpfEmailRoutingSummaryRequest,
   SpfEmailRoutingSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16253,9 +16226,8 @@ export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailRoutingTimeseriesGroupResponse>;
 
-export const arcEmailRoutingTimeseriesGroup: (
-  input: ArcEmailRoutingTimeseriesGroupRequest,
-) => Effect.Effect<
+export const arcEmailRoutingTimeseriesGroup: API.OperationMethod<
+  ArcEmailRoutingTimeseriesGroupRequest,
   ArcEmailRoutingTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16425,9 +16397,8 @@ export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailRoutingTimeseriesGroupResponse>;
 
-export const dkimEmailRoutingTimeseriesGroup: (
-  input: DkimEmailRoutingTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dkimEmailRoutingTimeseriesGroup: API.OperationMethod<
+  DkimEmailRoutingTimeseriesGroupRequest,
   DkimEmailRoutingTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16597,9 +16568,8 @@ export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailRoutingTimeseriesGroupResponse>;
 
-export const dmarcEmailRoutingTimeseriesGroup: (
-  input: DmarcEmailRoutingTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dmarcEmailRoutingTimeseriesGroup: API.OperationMethod<
+  DmarcEmailRoutingTimeseriesGroupRequest,
   DmarcEmailRoutingTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16779,9 +16749,8 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
-export const encryptedEmailRoutingTimeseriesGroup: (
-  input: EncryptedEmailRoutingTimeseriesGroupRequest,
-) => Effect.Effect<
+export const encryptedEmailRoutingTimeseriesGroup: API.OperationMethod<
+  EncryptedEmailRoutingTimeseriesGroupRequest,
   EncryptedEmailRoutingTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16948,9 +16917,8 @@ export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailRoutingTimeseriesGroupResponse>;
 
-export const spfEmailRoutingTimeseriesGroup: (
-  input: SpfEmailRoutingTimeseriesGroupRequest,
-) => Effect.Effect<
+export const spfEmailRoutingTimeseriesGroup: API.OperationMethod<
+  SpfEmailRoutingTimeseriesGroupRequest,
   SpfEmailRoutingTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17108,9 +17076,8 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailSecuritySummaryResponse>;
 
-export const arcEmailSecuritySummary: (
-  input: ArcEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const arcEmailSecuritySummary: API.OperationMethod<
+  ArcEmailSecuritySummaryRequest,
   ArcEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17264,9 +17231,8 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailSecuritySummaryResponse>;
 
-export const dkimEmailSecuritySummary: (
-  input: DkimEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const dkimEmailSecuritySummary: API.OperationMethod<
+  DkimEmailSecuritySummaryRequest,
   DkimEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17420,9 +17386,8 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailSecuritySummaryResponse>;
 
-export const dmarcEmailSecuritySummary: (
-  input: DmarcEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const dmarcEmailSecuritySummary: API.OperationMethod<
+  DmarcEmailSecuritySummaryRequest,
   DmarcEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17584,9 +17549,8 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<MaliciousEmailSecuritySummaryResponse>;
 
-export const maliciousEmailSecuritySummary: (
-  input: MaliciousEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const maliciousEmailSecuritySummary: API.OperationMethod<
+  MaliciousEmailSecuritySummaryRequest,
   MaliciousEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17743,9 +17707,8 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
 }) as unknown as Schema.Schema<SpamEmailSecuritySummaryResponse>;
 
-export const spamEmailSecuritySummary: (
-  input: SpamEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const spamEmailSecuritySummary: API.OperationMethod<
+  SpamEmailSecuritySummaryRequest,
   SpamEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17899,9 +17862,8 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailSecuritySummaryResponse>;
 
-export const spfEmailSecuritySummary: (
-  input: SpfEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const spfEmailSecuritySummary: API.OperationMethod<
+  SpfEmailSecuritySummaryRequest,
   SpfEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18058,9 +18020,8 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
 }) as unknown as Schema.Schema<SpoofEmailSecuritySummaryResponse>;
 
-export const spoofEmailSecuritySummary: (
-  input: SpoofEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const spoofEmailSecuritySummary: API.OperationMethod<
+  SpoofEmailSecuritySummaryRequest,
   SpoofEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18234,9 +18195,8 @@ export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailSecurityTimeseriesGroupResponse>;
 
-export const arcEmailSecurityTimeseriesGroup: (
-  input: ArcEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const arcEmailSecurityTimeseriesGroup: API.OperationMethod<
+  ArcEmailSecurityTimeseriesGroupRequest,
   ArcEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18406,9 +18366,8 @@ export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailSecurityTimeseriesGroupResponse>;
 
-export const dkimEmailSecurityTimeseriesGroup: (
-  input: DkimEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dkimEmailSecurityTimeseriesGroup: API.OperationMethod<
+  DkimEmailSecurityTimeseriesGroupRequest,
   DkimEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18578,9 +18537,8 @@ export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailSecurityTimeseriesGroupResponse>;
 
-export const dmarcEmailSecurityTimeseriesGroup: (
-  input: DmarcEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const dmarcEmailSecurityTimeseriesGroup: API.OperationMethod<
+  DmarcEmailSecurityTimeseriesGroupRequest,
   DmarcEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18760,9 +18718,8 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
 
-export const maliciousEmailSecurityTimeseriesGroup: (
-  input: MaliciousEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const maliciousEmailSecurityTimeseriesGroup: API.OperationMethod<
+  MaliciousEmailSecurityTimeseriesGroupRequest,
   MaliciousEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18935,9 +18892,8 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
 }) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupResponse>;
 
-export const spamEmailSecurityTimeseriesGroup: (
-  input: SpamEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const spamEmailSecurityTimeseriesGroup: API.OperationMethod<
+  SpamEmailSecurityTimeseriesGroupRequest,
   SpamEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19107,9 +19063,8 @@ export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailSecurityTimeseriesGroupResponse>;
 
-export const spfEmailSecurityTimeseriesGroup: (
-  input: SpfEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const spfEmailSecurityTimeseriesGroup: API.OperationMethod<
+  SpfEmailSecurityTimeseriesGroupRequest,
   SpfEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19282,9 +19237,8 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
 }) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupResponse>;
 
-export const spoofEmailSecurityTimeseriesGroup: (
-  input: SpoofEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const spoofEmailSecurityTimeseriesGroup: API.OperationMethod<
+  SpoofEmailSecurityTimeseriesGroupRequest,
   SpoofEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19450,9 +19404,8 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldResponse>;
 
-export const getEmailSecurityTopTld: (
-  input: GetEmailSecurityTopTldRequest,
-) => Effect.Effect<
+export const getEmailSecurityTopTld: API.OperationMethod<
+  GetEmailSecurityTopTldRequest,
   GetEmailSecurityTopTldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19627,9 +19580,8 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldMaliciousResponse>;
 
-export const getEmailSecurityTopTldMalicious: (
-  input: GetEmailSecurityTopTldMaliciousRequest,
-) => Effect.Effect<
+export const getEmailSecurityTopTldMalicious: API.OperationMethod<
+  GetEmailSecurityTopTldMaliciousRequest,
   GetEmailSecurityTopTldMaliciousResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19799,9 +19751,8 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldSpamResponse>;
 
-export const getEmailSecurityTopTldSpam: (
-  input: GetEmailSecurityTopTldSpamRequest,
-) => Effect.Effect<
+export const getEmailSecurityTopTldSpam: API.OperationMethod<
+  GetEmailSecurityTopTldSpamRequest,
   GetEmailSecurityTopTldSpamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19974,9 +19925,8 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldSpoofResponse>;
 
-export const getEmailSecurityTopTldSpoof: (
-  input: GetEmailSecurityTopTldSpoofRequest,
-) => Effect.Effect<
+export const getEmailSecurityTopTldSpoof: API.OperationMethod<
+  GetEmailSecurityTopTldSpoofRequest,
   GetEmailSecurityTopTldSpoofResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20030,9 +19980,8 @@ export const GetEntityResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetEntityResponse>;
 
-export const getEntity: (
-  input: GetEntityRequest,
-) => Effect.Effect<
+export const getEntity: API.OperationMethod<
+  GetEntityRequest,
   GetEntityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20116,9 +20065,8 @@ export const GetEntityAsnResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetEntityAsnResponse>;
 
-export const getEntityAsn: (
-  input: GetEntityAsnRequest,
-) => Effect.Effect<
+export const getEntityAsn: API.OperationMethod<
+  GetEntityAsnRequest,
   GetEntityAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20160,9 +20108,8 @@ export const ListEntityAsnsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListEntityAsnsResponse>;
 
-export const listEntityAsns: (
-  input: ListEntityAsnsRequest,
-) => Effect.Effect<
+export const listEntityAsns: API.OperationMethod<
+  ListEntityAsnsRequest,
   ListEntityAsnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20244,9 +20191,8 @@ export const IpEntityAsnResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<IpEntityAsnResponse>;
 
-export const ipEntityAsn: (
-  input: IpEntityAsnRequest,
-) => Effect.Effect<
+export const ipEntityAsn: API.OperationMethod<
+  IpEntityAsnRequest,
   IpEntityAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20302,18 +20248,20 @@ export const RelEntityAsnResponse = Schema.Struct({
       rel: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        asn1: "asn1",
         asn1Country: "asn1_country",
         asn1Name: "asn1_name",
+        asn2: "asn2",
         asn2Country: "asn2_country",
         asn2Name: "asn2_name",
+        rel: "rel",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<RelEntityAsnResponse>;
 
-export const relEntityAsn: (
-  input: RelEntityAsnRequest,
-) => Effect.Effect<
+export const relEntityAsn: API.OperationMethod<
+  RelEntityAsnRequest,
   RelEntityAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20361,9 +20309,8 @@ export const GetEntityLocationResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetEntityLocationResponse>;
 
-export const getEntityLocation: (
-  input: GetEntityLocationRequest,
-) => Effect.Effect<
+export const getEntityLocation: API.OperationMethod<
+  GetEntityLocationRequest,
   GetEntityLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20399,9 +20346,8 @@ export const ListEntityLocationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListEntityLocationsResponse>;
 
-export const listEntityLocations: (
-  input: ListEntityLocationsRequest,
-) => Effect.Effect<
+export const listEntityLocations: API.OperationMethod<
+  ListEntityLocationsRequest,
   ListEntityLocationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20577,9 +20523,8 @@ export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BrowserFamilyHttpTimeseriesGroupResponse>;
 
-export const browserFamilyHttpTimeseriesGroup: (
-  input: BrowserFamilyHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const browserFamilyHttpTimeseriesGroup: API.OperationMethod<
+  BrowserFamilyHttpTimeseriesGroupRequest,
   BrowserFamilyHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20745,9 +20690,8 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BrowserFamilyHttpTopResponse>;
 
-export const browserFamilyHttpTop: (
-  input: BrowserFamilyHttpTopRequest,
-) => Effect.Effect<
+export const browserFamilyHttpTop: API.OperationMethod<
+  BrowserFamilyHttpTopRequest,
   BrowserFamilyHttpTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20819,9 +20763,8 @@ export const GetGeolocationResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetGeolocationResponse>;
 
-export const getGeolocation: (
-  input: GetGeolocationRequest,
-) => Effect.Effect<
+export const getGeolocation: API.OperationMethod<
+  GetGeolocationRequest,
   GetGeolocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20887,9 +20830,8 @@ export const ListGeolocationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListGeolocationsResponse>;
 
-export const listGeolocations: (
-  input: ListGeolocationsRequest,
-) => Effect.Effect<
+export const listGeolocations: API.OperationMethod<
+  ListGeolocationsRequest,
   ListGeolocationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21074,9 +21016,8 @@ export const TimeseriesGroupsAiBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsAiBotResponse>;
 
-export const timeseriesGroupsAiBot: (
-  input: TimeseriesGroupsAiBotRequest,
-) => Effect.Effect<
+export const timeseriesGroupsAiBot: API.OperationMethod<
+  TimeseriesGroupsAiBotRequest,
   TimeseriesGroupsAiBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21261,9 +21202,8 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsAiTimeseriesGroupResponse>;
 
-export const timeseriesGroupsAiTimeseriesGroup: (
-  input: TimeseriesGroupsAiTimeseriesGroupRequest,
-) => Effect.Effect<
+export const timeseriesGroupsAiTimeseriesGroup: API.OperationMethod<
+  TimeseriesGroupsAiTimeseriesGroupRequest,
   TimeseriesGroupsAiTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21445,9 +21385,8 @@ export const TimeseriesGroupsBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsBotResponse>;
 
-export const timeseriesGroupsBot: (
-  input: TimeseriesGroupsBotRequest,
-) => Effect.Effect<
+export const timeseriesGroupsBot: API.OperationMethod<
+  TimeseriesGroupsBotRequest,
   TimeseriesGroupsBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21640,9 +21579,8 @@ export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsBotWebCrawlerResponse>;
 
-export const timeseriesGroupsBotWebCrawler: (
-  input: TimeseriesGroupsBotWebCrawlerRequest,
-) => Effect.Effect<
+export const timeseriesGroupsBotWebCrawler: API.OperationMethod<
+  TimeseriesGroupsBotWebCrawlerRequest,
   TimeseriesGroupsBotWebCrawlerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21880,10 +21818,12 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
       lte_3d: Schema.Array(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        gt_121d: "gt_121d",
         gt_16dLte_31d: "gt_16d_lte_31d",
         gt_31dLte_91d: "gt_31d_lte_91d",
         gt_3dLte_16d: "gt_3d_lte_16d",
         gt_91dLte_121d: "gt_91d_lte_121d",
+        lte_3d: "lte_3d",
       }),
     ),
     Schema.Struct({
@@ -21917,9 +21857,8 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
   ]),
 }) as unknown as Schema.Schema<TimeseriesGroupsCtResponse>;
 
-export const timeseriesGroupsCt: (
-  input: TimeseriesGroupsCtRequest,
-) => Effect.Effect<
+export const timeseriesGroupsCt: API.OperationMethod<
+  TimeseriesGroupsCtRequest,
   TimeseriesGroupsCtResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22099,9 +22038,8 @@ export const TimeseriesGroupsNetflowResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsNetflowResponse>;
 
-export const timeseriesGroupsNetflow: (
-  input: TimeseriesGroupsNetflowRequest,
-) => Effect.Effect<
+export const timeseriesGroupsNetflow: API.OperationMethod<
+  TimeseriesGroupsNetflowRequest,
   TimeseriesGroupsNetflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22317,9 +22255,8 @@ export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsQualityIqiResponse>;
 
-export const timeseriesGroupsQualityIqi: (
-  input: TimeseriesGroupsQualityIqiRequest,
-) => Effect.Effect<
+export const timeseriesGroupsQualityIqi: API.OperationMethod<
+  TimeseriesGroupsQualityIqiRequest,
   TimeseriesGroupsQualityIqiResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22492,9 +22429,8 @@ export const TimeseriesGroupsRankingResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsRankingResponse>;
 
-export const timeseriesGroupsRanking: (
-  input: TimeseriesGroupsRankingRequest,
-) => Effect.Effect<
+export const timeseriesGroupsRanking: API.OperationMethod<
+  TimeseriesGroupsRankingRequest,
   TimeseriesGroupsRankingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22672,9 +22608,8 @@ export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsRankingInternetServiceResponse>;
 
-export const timeseriesGroupsRankingInternetService: (
-  input: TimeseriesGroupsRankingInternetServiceRequest,
-) => Effect.Effect<
+export const timeseriesGroupsRankingInternetService: API.OperationMethod<
+  TimeseriesGroupsRankingInternetServiceRequest,
   TimeseriesGroupsRankingInternetServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22866,13 +22801,13 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
       postAck: "post_ack",
       postPsh: "post_psh",
       postSyn: "post_syn",
+      timestamps: "timestamps",
     }),
   ),
 }) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutResponse>;
 
-export const timeseriesGroupsTcpResetsTimeout: (
-  input: TimeseriesGroupsTcpResetsTimeoutRequest,
-) => Effect.Effect<
+export const timeseriesGroupsTcpResetsTimeout: API.OperationMethod<
+  TimeseriesGroupsTcpResetsTimeoutRequest,
   TimeseriesGroupsTcpResetsTimeoutResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23052,9 +22987,8 @@ export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2AiInferenceResponse>;
 
-export const timeseriesGroupsV2AiInference: (
-  input: TimeseriesGroupsV2AiInferenceRequest,
-) => Effect.Effect<
+export const timeseriesGroupsV2AiInference: API.OperationMethod<
+  TimeseriesGroupsV2AiInferenceRequest,
   TimeseriesGroupsV2AiInferenceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23244,9 +23178,8 @@ export const TimeseriesGroupsV2As112Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2As112Response>;
 
-export const timeseriesGroupsV2As112: (
-  input: TimeseriesGroupsV2As112Request,
-) => Effect.Effect<
+export const timeseriesGroupsV2As112: API.OperationMethod<
+  TimeseriesGroupsV2As112Request,
   TimeseriesGroupsV2As112Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23441,9 +23374,8 @@ export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer3Response>;
 
-export const timeseriesGroupsV2AttackLayer3: (
-  input: TimeseriesGroupsV2AttackLayer3Request,
-) => Effect.Effect<
+export const timeseriesGroupsV2AttackLayer3: API.OperationMethod<
+  TimeseriesGroupsV2AttackLayer3Request,
   TimeseriesGroupsV2AttackLayer3Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23638,9 +23570,8 @@ export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer7Response>;
 
-export const timeseriesGroupsV2AttackLayer7: (
-  input: TimeseriesGroupsV2AttackLayer7Request,
-) => Effect.Effect<
+export const timeseriesGroupsV2AttackLayer7: API.OperationMethod<
+  TimeseriesGroupsV2AttackLayer7Request,
   TimeseriesGroupsV2AttackLayer7Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23840,9 +23771,8 @@ export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2DnsResponse>;
 
-export const timeseriesGroupsV2Dns: (
-  input: TimeseriesGroupsV2DnsRequest,
-) => Effect.Effect<
+export const timeseriesGroupsV2Dns: API.OperationMethod<
+  TimeseriesGroupsV2DnsRequest,
   TimeseriesGroupsV2DnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24029,9 +23959,8 @@ export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2EmailRoutingResponse>;
 
-export const timeseriesGroupsV2EmailRouting: (
-  input: TimeseriesGroupsV2EmailRoutingRequest,
-) => Effect.Effect<
+export const timeseriesGroupsV2EmailRouting: API.OperationMethod<
+  TimeseriesGroupsV2EmailRoutingRequest,
   TimeseriesGroupsV2EmailRoutingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24230,9 +24159,8 @@ export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2EmailSecurityResponse>;
 
-export const timeseriesGroupsV2EmailSecurity: (
-  input: TimeseriesGroupsV2EmailSecurityRequest,
-) => Effect.Effect<
+export const timeseriesGroupsV2EmailSecurity: API.OperationMethod<
+  TimeseriesGroupsV2EmailSecurityRequest,
   TimeseriesGroupsV2EmailSecurityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24432,9 +24360,8 @@ export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2HttpResponse>;
 
-export const timeseriesGroupsV2Http: (
-  input: TimeseriesGroupsV2HttpRequest,
-) => Effect.Effect<
+export const timeseriesGroupsV2Http: API.OperationMethod<
+  TimeseriesGroupsV2HttpRequest,
   TimeseriesGroupsV2HttpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24616,9 +24543,8 @@ export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2LeakedCredentialResponse>;
 
-export const timeseriesGroupsV2LeakedCredential: (
-  input: TimeseriesGroupsV2LeakedCredentialRequest,
-) => Effect.Effect<
+export const timeseriesGroupsV2LeakedCredential: API.OperationMethod<
+  TimeseriesGroupsV2LeakedCredentialRequest,
   TimeseriesGroupsV2LeakedCredentialResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24779,9 +24705,8 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<CacheHitDnsSummaryResponse>;
 
-export const cacheHitDnsSummary: (
-  input: CacheHitDnsSummaryRequest,
-) => Effect.Effect<
+export const cacheHitDnsSummary: API.OperationMethod<
+  CacheHitDnsSummaryRequest,
   CacheHitDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24955,9 +24880,8 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<CacheHitDnsTimeseriesGroupResponse>;
 
-export const cacheHitDnsTimeseriesGroup: (
-  input: CacheHitDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const cacheHitDnsTimeseriesGroup: API.OperationMethod<
+  CacheHitDnsTimeseriesGroupRequest,
   CacheHitDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25126,9 +25050,8 @@ export const TimeseriesHttpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesHttpResponse>;
 
-export const timeseriesHttp: (
-  input: TimeseriesHttpRequest,
-) => Effect.Effect<
+export const timeseriesHttp: API.OperationMethod<
+  TimeseriesHttpRequest,
   TimeseriesHttpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25295,9 +25218,8 @@ export const GetHttpAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsResponse>;
 
-export const getHttpAs: (
-  input: GetHttpAsRequest,
-) => Effect.Effect<
+export const getHttpAs: API.OperationMethod<
+  GetHttpAsRequest,
   GetHttpAsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25470,9 +25392,8 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsBotClassResponse>;
 
-export const getHttpAsBotClass: (
-  input: GetHttpAsBotClassRequest,
-) => Effect.Effect<
+export const getHttpAsBotClass: API.OperationMethod<
+  GetHttpAsBotClassRequest,
   GetHttpAsBotClassResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25648,9 +25569,8 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsBrowserFamilyResponse>;
 
-export const getHttpAsBrowserFamily: (
-  input: GetHttpAsBrowserFamilyRequest,
-) => Effect.Effect<
+export const getHttpAsBrowserFamily: API.OperationMethod<
+  GetHttpAsBrowserFamilyRequest,
   GetHttpAsBrowserFamilyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25826,9 +25746,8 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsDeviceTypeResponse>;
 
-export const getHttpAsDeviceType: (
-  input: GetHttpAsDeviceTypeRequest,
-) => Effect.Effect<
+export const getHttpAsDeviceType: API.OperationMethod<
+  GetHttpAsDeviceTypeRequest,
   GetHttpAsDeviceTypeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26004,9 +25923,8 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsHttpMethodResponse>;
 
-export const getHttpAsHttpMethod: (
-  input: GetHttpAsHttpMethodRequest,
-) => Effect.Effect<
+export const getHttpAsHttpMethod: API.OperationMethod<
+  GetHttpAsHttpMethodRequest,
   GetHttpAsHttpMethodResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26182,9 +26100,8 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsHttpProtocolResponse>;
 
-export const getHttpAsHttpProtocol: (
-  input: GetHttpAsHttpProtocolRequest,
-) => Effect.Effect<
+export const getHttpAsHttpProtocol: API.OperationMethod<
+  GetHttpAsHttpProtocolRequest,
   GetHttpAsHttpProtocolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26358,9 +26275,8 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsIpVersionResponse>;
 
-export const getHttpAsIpVersion: (
-  input: GetHttpAsIpVersionRequest,
-) => Effect.Effect<
+export const getHttpAsIpVersion: API.OperationMethod<
+  GetHttpAsIpVersionRequest,
   GetHttpAsIpVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26546,9 +26462,8 @@ export const GetHttpAsOsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsOsResponse>;
 
-export const getHttpAsOs: (
-  input: GetHttpAsOsRequest,
-) => Effect.Effect<
+export const getHttpAsOs: API.OperationMethod<
+  GetHttpAsOsRequest,
   GetHttpAsOsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26728,9 +26643,8 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsTlsVersionResponse>;
 
-export const getHttpAsTlsVersion: (
-  input: GetHttpAsTlsVersionRequest,
-) => Effect.Effect<
+export const getHttpAsTlsVersion: API.OperationMethod<
+  GetHttpAsTlsVersionRequest,
   GetHttpAsTlsVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26901,9 +26815,8 @@ export const GetHttpLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationResponse>;
 
-export const getHttpLocation: (
-  input: GetHttpLocationRequest,
-) => Effect.Effect<
+export const getHttpLocation: API.OperationMethod<
+  GetHttpLocationRequest,
   GetHttpLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27083,9 +26996,8 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationBotClassResponse>;
 
-export const getHttpLocationBotClass: (
-  input: GetHttpLocationBotClassRequest,
-) => Effect.Effect<
+export const getHttpLocationBotClass: API.OperationMethod<
+  GetHttpLocationBotClassRequest,
   GetHttpLocationBotClassResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27265,9 +27177,8 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationBrowserFamilyResponse>;
 
-export const getHttpLocationBrowserFamily: (
-  input: GetHttpLocationBrowserFamilyRequest,
-) => Effect.Effect<
+export const getHttpLocationBrowserFamily: API.OperationMethod<
+  GetHttpLocationBrowserFamilyRequest,
   GetHttpLocationBrowserFamilyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27447,9 +27358,8 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationDeviceTypeResponse>;
 
-export const getHttpLocationDeviceType: (
-  input: GetHttpLocationDeviceTypeRequest,
-) => Effect.Effect<
+export const getHttpLocationDeviceType: API.OperationMethod<
+  GetHttpLocationDeviceTypeRequest,
   GetHttpLocationDeviceTypeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27629,9 +27539,8 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationHttpMethodResponse>;
 
-export const getHttpLocationHttpMethod: (
-  input: GetHttpLocationHttpMethodRequest,
-) => Effect.Effect<
+export const getHttpLocationHttpMethod: API.OperationMethod<
+  GetHttpLocationHttpMethodRequest,
   GetHttpLocationHttpMethodResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27811,9 +27720,8 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationHttpProtocolResponse>;
 
-export const getHttpLocationHttpProtocol: (
-  input: GetHttpLocationHttpProtocolRequest,
-) => Effect.Effect<
+export const getHttpLocationHttpProtocol: API.OperationMethod<
+  GetHttpLocationHttpProtocolRequest,
   GetHttpLocationHttpProtocolResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27991,9 +27899,8 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationIpVersionResponse>;
 
-export const getHttpLocationIpVersion: (
-  input: GetHttpLocationIpVersionRequest,
-) => Effect.Effect<
+export const getHttpLocationIpVersion: API.OperationMethod<
+  GetHttpLocationIpVersionRequest,
   GetHttpLocationIpVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28183,9 +28090,8 @@ export const GetHttpLocationOsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationOsResponse>;
 
-export const getHttpLocationOs: (
-  input: GetHttpLocationOsRequest,
-) => Effect.Effect<
+export const getHttpLocationOs: API.OperationMethod<
+  GetHttpLocationOsRequest,
   GetHttpLocationOsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28369,9 +28275,8 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationTlsVersionResponse>;
 
-export const getHttpLocationTlsVersion: (
-  input: GetHttpLocationTlsVersionRequest,
-) => Effect.Effect<
+export const getHttpLocationTlsVersion: API.OperationMethod<
+  GetHttpLocationTlsVersionRequest,
   GetHttpLocationTlsVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28532,9 +28437,8 @@ export const OsHttpSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ aNDROID: "ANDROID", iOS: "IOS" })),
 }) as unknown as Schema.Schema<OsHttpSummaryResponse>;
 
-export const osHttpSummary: (
-  input: OsHttpSummaryRequest,
-) => Effect.Effect<
+export const osHttpSummary: API.OperationMethod<
+  OsHttpSummaryRequest,
   OsHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28707,9 +28611,8 @@ export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BrowserHttpTimeseriesGroupResponse>;
 
-export const browserHttpTimeseriesGroup: (
-  input: BrowserHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const browserHttpTimeseriesGroup: API.OperationMethod<
+  BrowserHttpTimeseriesGroupRequest,
   BrowserHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28878,9 +28781,8 @@ export const OsHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<OsHttpTimeseriesGroupResponse>;
 
-export const osHttpTimeseriesGroup: (
-  input: OsHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const osHttpTimeseriesGroup: API.OperationMethod<
+  OsHttpTimeseriesGroupRequest,
   OsHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29046,9 +28948,8 @@ export const BrowserHttpTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BrowserHttpTopResponse>;
 
-export const browserHttpTop: (
-  input: BrowserHttpTopRequest,
-) => Effect.Effect<
+export const browserHttpTop: API.OperationMethod<
+  BrowserHttpTopRequest,
   BrowserHttpTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29212,9 +29113,8 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
 }) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryResponse>;
 
-export const compromisedLeakedCredentialSummary: (
-  input: CompromisedLeakedCredentialSummaryRequest,
-) => Effect.Effect<
+export const compromisedLeakedCredentialSummary: API.OperationMethod<
+  CompromisedLeakedCredentialSummaryRequest,
   CompromisedLeakedCredentialSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29392,13 +29292,18 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
       cLEAN: Schema.Array(Schema.String),
       cOMPROMISED: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
-    }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
+    }).pipe(
+      Schema.encodeKeys({
+        cLEAN: "CLEAN",
+        cOMPROMISED: "COMPROMISED",
+        timestamps: "timestamps",
+      }),
+    ),
   },
 ) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
 
-export const compromisedLeakedCredentialTimeseriesGroup: (
-  input: CompromisedLeakedCredentialTimeseriesGroupRequest,
-) => Effect.Effect<
+export const compromisedLeakedCredentialTimeseriesGroup: API.OperationMethod<
+  CompromisedLeakedCredentialTimeseriesGroupRequest,
   CompromisedLeakedCredentialTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29556,9 +29461,8 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<HttpMethodAttackLayer7SummaryResponse>;
 
-export const httpMethodAttackLayer7Summary: (
-  input: HttpMethodAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const httpMethodAttackLayer7Summary: API.OperationMethod<
+  HttpMethodAttackLayer7SummaryRequest,
   HttpMethodAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29736,9 +29640,8 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpMethodAttackLayer7TimeseriesGroupResponse>;
 
-export const httpMethodAttackLayer7TimeseriesGroup: (
-  input: HttpMethodAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const httpMethodAttackLayer7TimeseriesGroup: API.OperationMethod<
+  HttpMethodAttackLayer7TimeseriesGroupRequest,
   HttpMethodAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29899,9 +29802,8 @@ export const SummaryNetflowResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ hTTP: "HTTP", oTHER: "OTHER" })),
 }) as unknown as Schema.Schema<SummaryNetflowResponse>;
 
-export const summaryNetflow: (
-  input: SummaryNetflowRequest,
-) => Effect.Effect<
+export const summaryNetflow: API.OperationMethod<
+  SummaryNetflowRequest,
   SummaryNetflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30071,9 +29973,8 @@ export const TimeseriesNetflowResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesNetflowResponse>;
 
-export const timeseriesNetflow: (
-  input: TimeseriesNetflowRequest,
-) => Effect.Effect<
+export const timeseriesNetflow: API.OperationMethod<
+  TimeseriesNetflowRequest,
   TimeseriesNetflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30240,9 +30141,8 @@ export const AsesNetflowTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AsesNetflowTopResponse>;
 
-export const asesNetflowTop: (
-  input: AsesNetflowTopRequest,
-) => Effect.Effect<
+export const asesNetflowTop: API.OperationMethod<
+  AsesNetflowTopRequest,
   AsesNetflowTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30409,9 +30309,8 @@ export const LocationsNetflowTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsNetflowTopResponse>;
 
-export const locationsNetflowTop: (
-  input: LocationsNetflowTopRequest,
-) => Effect.Effect<
+export const locationsNetflowTop: API.OperationMethod<
+  LocationsNetflowTopRequest,
   LocationsNetflowTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30574,9 +30473,8 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<MitigationProductAttackLayer7SummaryResponse>;
 
-export const mitigationProductAttackLayer7Summary: (
-  input: MitigationProductAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const mitigationProductAttackLayer7Summary: API.OperationMethod<
+  MitigationProductAttackLayer7SummaryRequest,
   MitigationProductAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30754,9 +30652,8 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
     }),
   }) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupResponse>;
 
-export const mitigationProductAttackLayer7TimeseriesGroup: (
-  input: MitigationProductAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const mitigationProductAttackLayer7TimeseriesGroup: API.OperationMethod<
+  MitigationProductAttackLayer7TimeseriesGroupRequest,
   MitigationProductAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30917,9 +30814,8 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpProtocolHttpSummaryResponse>;
 
-export const httpProtocolHttpSummary: (
-  input: HttpProtocolHttpSummaryRequest,
-) => Effect.Effect<
+export const httpProtocolHttpSummary: API.OperationMethod<
+  HttpProtocolHttpSummaryRequest,
   HttpProtocolHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31097,9 +30993,8 @@ export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpProtocolHttpTimeseriesGroupResponse>;
 
-export const httpProtocolHttpTimeseriesGroup: (
-  input: HttpProtocolHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const httpProtocolHttpTimeseriesGroup: API.OperationMethod<
+  HttpProtocolHttpTimeseriesGroupRequest,
   HttpProtocolHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31290,9 +31185,8 @@ export const SummaryQualityIqiResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<SummaryQualityIqiResponse>;
 
-export const summaryQualityIqi: (
-  input: SummaryQualityIqiRequest,
-) => Effect.Effect<
+export const summaryQualityIqi: API.OperationMethod<
+  SummaryQualityIqiRequest,
   SummaryQualityIqiResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31462,9 +31356,8 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HistogramQualitySpeedResponse>;
 
-export const histogramQualitySpeed: (
-  input: HistogramQualitySpeedRequest,
-) => Effect.Effect<
+export const histogramQualitySpeed: API.OperationMethod<
+  HistogramQualitySpeedRequest,
   HistogramQualitySpeedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31634,9 +31527,8 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<SummaryQualitySpeedResponse>;
 
-export const summaryQualitySpeed: (
-  input: SummaryQualitySpeedRequest,
-) => Effect.Effect<
+export const summaryQualitySpeed: API.OperationMethod<
+  SummaryQualitySpeedRequest,
   SummaryQualitySpeedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31821,9 +31713,8 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AsesQualitySpeedTopResponse>;
 
-export const asesQualitySpeedTop: (
-  input: AsesQualitySpeedTopRequest,
-) => Effect.Effect<
+export const asesQualitySpeedTop: API.OperationMethod<
+  AsesQualitySpeedTopRequest,
   AsesQualitySpeedTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32004,9 +31895,8 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsQualitySpeedTopResponse>;
 
-export const locationsQualitySpeedTop: (
-  input: LocationsQualitySpeedTopRequest,
-) => Effect.Effect<
+export const locationsQualitySpeedTop: API.OperationMethod<
+  LocationsQualitySpeedTopRequest,
   LocationsQualitySpeedTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32172,9 +32062,8 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PostQuantumHttpSummaryResponse>;
 
-export const postQuantumHttpSummary: (
-  input: PostQuantumHttpSummaryRequest,
-) => Effect.Effect<
+export const postQuantumHttpSummary: API.OperationMethod<
+  PostQuantumHttpSummaryRequest,
   PostQuantumHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32354,13 +32243,13 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
     Schema.encodeKeys({
       nOT_SUPPORTED: "NOT_SUPPORTED",
       sUPPORTED: "SUPPORTED",
+      timestamps: "timestamps",
     }),
   ),
 }) as unknown as Schema.Schema<PostQuantumHttpTimeseriesGroupResponse>;
 
-export const postQuantumHttpTimeseriesGroup: (
-  input: PostQuantumHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const postQuantumHttpTimeseriesGroup: API.OperationMethod<
+  PostQuantumHttpTimeseriesGroupRequest,
   PostQuantumHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32538,9 +32427,8 @@ export const TopRankingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TopRankingResponse>;
 
-export const topRanking: (
-  input: TopRankingRequest,
-) => Effect.Effect<
+export const topRanking: API.OperationMethod<
+  TopRankingRequest,
   TopRankingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32598,7 +32486,14 @@ export const GetRankingDomainResponse = Schema.Struct({
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ topLocations: "top_locations" })),
+  }).pipe(
+    Schema.encodeKeys({
+      categories: "categories",
+      bucket: "bucket",
+      rank: "rank",
+      topLocations: "top_locations",
+    }),
+  ),
   meta: Schema.Struct({
     dateRange: Schema.Array(
       Schema.Struct({
@@ -32609,9 +32504,8 @@ export const GetRankingDomainResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetRankingDomainResponse>;
 
-export const getRankingDomain: (
-  input: GetRankingDomainRequest,
-) => Effect.Effect<
+export const getRankingDomain: API.OperationMethod<
+  GetRankingDomainRequest,
   GetRankingDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32646,9 +32540,8 @@ export const CategoriesRankingInternetServiceResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CategoriesRankingInternetServiceResponse>;
 
-export const categoriesRankingInternetService: (
-  input: CategoriesRankingInternetServiceRequest,
-) => Effect.Effect<
+export const categoriesRankingInternetService: API.OperationMethod<
+  CategoriesRankingInternetServiceRequest,
   CategoriesRankingInternetServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32809,9 +32702,8 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TopRankingInternetServiceResponse>;
 
-export const topRankingInternetService: (
-  input: TopRankingInternetServiceRequest,
-) => Effect.Effect<
+export const topRankingInternetService: API.OperationMethod<
+  TopRankingInternetServiceRequest,
   TopRankingInternetServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32982,9 +32874,8 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DirectiveRobotsTxtTopUserAgentResponse>;
 
-export const directiveRobotsTxtTopUserAgent: (
-  input: DirectiveRobotsTxtTopUserAgentRequest,
-) => Effect.Effect<
+export const directiveRobotsTxtTopUserAgent: API.OperationMethod<
+  DirectiveRobotsTxtTopUserAgentRequest,
   DirectiveRobotsTxtTopUserAgentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33145,9 +33036,8 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ManagedRulesAttackLayer7SummaryResponse>;
 
-export const managedRulesAttackLayer7Summary: (
-  input: ManagedRulesAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const managedRulesAttackLayer7Summary: API.OperationMethod<
+  ManagedRulesAttackLayer7SummaryRequest,
   ManagedRulesAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33325,9 +33215,8 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ManagedRulesAttackLayer7TimeseriesGroupResponse>;
 
-export const managedRulesAttackLayer7TimeseriesGroup: (
-  input: ManagedRulesAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const managedRulesAttackLayer7TimeseriesGroup: API.OperationMethod<
+  ManagedRulesAttackLayer7TimeseriesGroupRequest,
   ManagedRulesAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33441,9 +33330,8 @@ export const GlobalSearchResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GlobalSearchResponse>;
 
-export const globalSearch: (
-  input: GlobalSearchRequest,
-) => Effect.Effect<
+export const globalSearch: API.OperationMethod<
+  GlobalSearchRequest,
   GlobalSearchResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33502,6 +33390,7 @@ export const AsSetEntityAsnResponse = Schema.Struct({
         asSetUpstreamsCount: "as_set_upstreams_count",
         asnConeSize: "asn_cone_size",
         irrSources: "irr_sources",
+        name: "name",
         hierarchicalAsn: "hierarchical_asn",
         inferredAsn: "inferred_asn",
         peeringdbAsn: "peeringdb_asn",
@@ -33510,12 +33399,11 @@ export const AsSetEntityAsnResponse = Schema.Struct({
   ),
   paths: Schema.Array(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ asSets: "as_sets" }),
+  Schema.encodeKeys({ asSets: "as_sets", paths: "paths" }),
 ) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
 
-export const asSetEntityAsn: (
-  input: AsSetEntityAsnRequest,
-) => Effect.Effect<
+export const asSetEntityAsn: API.OperationMethod<
+  AsSetEntityAsnRequest,
   AsSetEntityAsnResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33693,9 +33581,8 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<SummaryTcpResetsTimeoutResponse>;
 
-export const summaryTcpResetsTimeout: (
-  input: SummaryTcpResetsTimeoutRequest,
-) => Effect.Effect<
+export const summaryTcpResetsTimeout: API.OperationMethod<
+  SummaryTcpResetsTimeoutRequest,
   SummaryTcpResetsTimeoutResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33770,9 +33657,8 @@ export const GetTrafficAnomalyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetTrafficAnomalyResponse>;
 
-export const getTrafficAnomaly: (
-  input: GetTrafficAnomalyRequest,
-) => Effect.Effect<
+export const getTrafficAnomaly: API.OperationMethod<
+  GetTrafficAnomalyRequest,
   GetTrafficAnomalyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33810,9 +33696,8 @@ export const GetTrafficAnomalyLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetTrafficAnomalyLocationResponse>;
 
-export const getTrafficAnomalyLocation: (
-  input: GetTrafficAnomalyLocationRequest,
-) => Effect.Effect<
+export const getTrafficAnomalyLocation: API.OperationMethod<
+  GetTrafficAnomalyLocationRequest,
   GetTrafficAnomalyLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33989,14 +33874,15 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
       gt_1dLte_1w: "gt_1d_lte_1w",
       gt_1hLte_1d: "gt_1h_lte_1d",
       gt_1mLte_5m: "gt_1m_lte_5m",
+      gt_1w: "gt_1w",
       gt_5mLte_15m: "gt_5m_lte_15m",
+      lte_1m: "lte_1m",
     }),
   ),
 }) as unknown as Schema.Schema<ResponseTTLDnsSummaryResponse>;
 
-export const responseTTLDnsSummary: (
-  input: ResponseTTLDnsSummaryRequest,
-) => Effect.Effect<
+export const responseTTLDnsSummary: API.OperationMethod<
+  ResponseTTLDnsSummaryRequest,
   ResponseTTLDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34186,14 +34072,15 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
       gt_1dLte_1w: "gt_1d_lte_1w",
       gt_1hLte_1d: "gt_1h_lte_1d",
       gt_1mLte_5m: "gt_1m_lte_5m",
+      gt_1w: "gt_1w",
       gt_5mLte_15m: "gt_5m_lte_15m",
+      lte_1m: "lte_1m",
     }),
   ),
 }) as unknown as Schema.Schema<ResponseTTLDnsTimeseriesGroupResponse>;
 
-export const responseTTLDnsTimeseriesGroup: (
-  input: ResponseTTLDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const responseTTLDnsTimeseriesGroup: API.OperationMethod<
+  ResponseTTLDnsTimeseriesGroupRequest,
   ResponseTTLDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34351,9 +34238,8 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<QueryTypeAs112SummaryResponse>;
 
-export const queryTypeAs112Summary: (
-  input: QueryTypeAs112SummaryRequest,
-) => Effect.Effect<
+export const queryTypeAs112Summary: API.OperationMethod<
+  QueryTypeAs112SummaryRequest,
   QueryTypeAs112SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34526,9 +34412,8 @@ export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<QueryTypeAs112TimeseriesGroupResponse>;
 
-export const queryTypeAs112TimeseriesGroup: (
-  input: QueryTypeAs112TimeseriesGroupRequest,
-) => Effect.Effect<
+export const queryTypeAs112TimeseriesGroup: API.OperationMethod<
+  QueryTypeAs112TimeseriesGroupRequest,
   QueryTypeAs112TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34686,9 +34571,8 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<QueryTypeDnsSummaryResponse>;
 
-export const queryTypeDnsSummary: (
-  input: QueryTypeDnsSummaryRequest,
-) => Effect.Effect<
+export const queryTypeDnsSummary: API.OperationMethod<
+  QueryTypeDnsSummaryRequest,
   QueryTypeDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34861,9 +34745,8 @@ export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<QueryTypeDnsTimeseriesGroupResponse>;
 
-export const queryTypeDnsTimeseriesGroup: (
-  input: QueryTypeDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const queryTypeDnsTimeseriesGroup: API.OperationMethod<
+  QueryTypeDnsTimeseriesGroupRequest,
   QueryTypeDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35025,9 +34908,8 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<DeviceTypeHttpSummaryResponse>;
 
-export const deviceTypeHttpSummary: (
-  input: DeviceTypeHttpSummaryRequest,
-) => Effect.Effect<
+export const deviceTypeHttpSummary: API.OperationMethod<
+  DeviceTypeHttpSummaryRequest,
   DeviceTypeHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35208,9 +35090,8 @@ export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<DeviceTypeHttpTimeseriesGroupResponse>;
 
-export const deviceTypeHttpTimeseriesGroup: (
-  input: DeviceTypeHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const deviceTypeHttpTimeseriesGroup: API.OperationMethod<
+  DeviceTypeHttpTimeseriesGroupRequest,
   DeviceTypeHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35377,9 +35258,8 @@ export const SummaryV2AiBotResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AiBotResponse>;
 
-export const summaryV2AiBot: (
-  input: SummaryV2AiBotRequest,
-) => Effect.Effect<
+export const summaryV2AiBot: API.OperationMethod<
+  SummaryV2AiBotRequest,
   SummaryV2AiBotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35541,9 +35421,8 @@ export const SummaryV2AiInferenceResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AiInferenceResponse>;
 
-export const summaryV2AiInference: (
-  input: SummaryV2AiInferenceRequest,
-) => Effect.Effect<
+export const summaryV2AiInference: API.OperationMethod<
+  SummaryV2AiInferenceRequest,
   SummaryV2AiInferenceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35718,9 +35597,8 @@ export const SummaryV2As112Response = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2As112Response>;
 
-export const summaryV2As112: (
-  input: SummaryV2As112Request,
-) => Effect.Effect<
+export const summaryV2As112: API.OperationMethod<
+  SummaryV2As112Request,
   SummaryV2As112Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35897,9 +35775,8 @@ export const SummaryV2AttackLayer3Response = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AttackLayer3Response>;
 
-export const summaryV2AttackLayer3: (
-  input: SummaryV2AttackLayer3Request,
-) => Effect.Effect<
+export const summaryV2AttackLayer3: API.OperationMethod<
+  SummaryV2AttackLayer3Request,
   SummaryV2AttackLayer3Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36076,9 +35953,8 @@ export const SummaryV2AttackLayer7Response = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AttackLayer7Response>;
 
-export const summaryV2AttackLayer7: (
-  input: SummaryV2AttackLayer7Request,
-) => Effect.Effect<
+export const summaryV2AttackLayer7: API.OperationMethod<
+  SummaryV2AttackLayer7Request,
   SummaryV2AttackLayer7Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36265,9 +36141,8 @@ export const SummaryV2DnsResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2DnsResponse>;
 
-export const summaryV2Dns: (
-  input: SummaryV2DnsRequest,
-) => Effect.Effect<
+export const summaryV2Dns: API.OperationMethod<
+  SummaryV2DnsRequest,
   SummaryV2DnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36436,9 +36311,8 @@ export const SummaryV2EmailRoutingResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2EmailRoutingResponse>;
 
-export const summaryV2EmailRouting: (
-  input: SummaryV2EmailRoutingRequest,
-) => Effect.Effect<
+export const summaryV2EmailRouting: API.OperationMethod<
+  SummaryV2EmailRoutingRequest,
   SummaryV2EmailRoutingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36619,9 +36493,8 @@ export const SummaryV2EmailSecurityResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2EmailSecurityResponse>;
 
-export const summaryV2EmailSecurity: (
-  input: SummaryV2EmailSecurityRequest,
-) => Effect.Effect<
+export const summaryV2EmailSecurity: API.OperationMethod<
+  SummaryV2EmailSecurityRequest,
   SummaryV2EmailSecurityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36806,9 +36679,8 @@ export const SummaryV2HttpResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2HttpResponse>;
 
-export const summaryV2Http: (
-  input: SummaryV2HttpRequest,
-) => Effect.Effect<
+export const summaryV2Http: API.OperationMethod<
+  SummaryV2HttpRequest,
   SummaryV2HttpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36975,9 +36847,8 @@ export const SummaryV2LeakedCredentialResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2LeakedCredentialResponse>;
 
-export const summaryV2LeakedCredential: (
-  input: SummaryV2LeakedCredentialRequest,
-) => Effect.Effect<
+export const summaryV2LeakedCredential: API.OperationMethod<
+  SummaryV2LeakedCredentialRequest,
   SummaryV2LeakedCredentialResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37139,9 +37010,8 @@ export const SummaryV2NetflowResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2NetflowResponse>;
 
-export const summaryV2Netflow: (
-  input: SummaryV2NetflowRequest,
-) => Effect.Effect<
+export const summaryV2Netflow: API.OperationMethod<
+  SummaryV2NetflowRequest,
   SummaryV2NetflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37314,9 +37184,8 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BotsVerifiedBotTopResponse>;
 
-export const botsVerifiedBotTop: (
-  input: BotsVerifiedBotTopRequest,
-) => Effect.Effect<
+export const botsVerifiedBotTop: API.OperationMethod<
+  BotsVerifiedBotTopRequest,
   BotsVerifiedBotTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37478,9 +37347,8 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CategoriesVerifiedBotTopResponse>;
 
-export const categoriesVerifiedBotTop: (
-  input: CategoriesVerifiedBotTopRequest,
-) => Effect.Effect<
+export const categoriesVerifiedBotTop: API.OperationMethod<
+  CategoriesVerifiedBotTopRequest,
   CategoriesVerifiedBotTopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37641,9 +37509,8 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAs112SummaryResponse>;
 
-export const ipVersionAs112Summary: (
-  input: IpVersionAs112SummaryRequest,
-) => Effect.Effect<
+export const ipVersionAs112Summary: API.OperationMethod<
+  IpVersionAs112SummaryRequest,
   IpVersionAs112SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37817,9 +37684,8 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAs112TimeseriesGroupResponse>;
 
-export const ipVersionAs112TimeseriesGroup: (
-  input: IpVersionAs112TimeseriesGroupRequest,
-) => Effect.Effect<
+export const ipVersionAs112TimeseriesGroup: API.OperationMethod<
+  IpVersionAs112TimeseriesGroupRequest,
   IpVersionAs112TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37997,9 +37863,8 @@ export const IpVersionAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IpVersionAs112TopResponse>;
 
-export const ipVersionAs112Top: (
-  input: IpVersionAs112TopRequest,
-) => Effect.Effect<
+export const ipVersionAs112Top: API.OperationMethod<
+  IpVersionAs112TopRequest,
   IpVersionAs112TopResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -38160,9 +38025,8 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3SummaryResponse>;
 
-export const ipVersionAttackLayer3Summary: (
-  input: IpVersionAttackLayer3SummaryRequest,
-) => Effect.Effect<
+export const ipVersionAttackLayer3Summary: API.OperationMethod<
+  IpVersionAttackLayer3SummaryRequest,
   IpVersionAttackLayer3SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -38339,12 +38203,13 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     iPv4: Schema.Array(Schema.String),
     iPv6: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+  }).pipe(
+    Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6", timestamps: "timestamps" }),
+  ),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupResponse>;
 
-export const ipVersionAttackLayer3TimeseriesGroup: (
-  input: IpVersionAttackLayer3TimeseriesGroupRequest,
-) => Effect.Effect<
+export const ipVersionAttackLayer3TimeseriesGroup: API.OperationMethod<
+  IpVersionAttackLayer3TimeseriesGroupRequest,
   IpVersionAttackLayer3TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -38506,9 +38371,8 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionAttackLayer7SummaryResponse>;
 
-export const httpVersionAttackLayer7Summary: (
-  input: HttpVersionAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const httpVersionAttackLayer7Summary: API.OperationMethod<
+  HttpVersionAttackLayer7SummaryRequest,
   HttpVersionAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -38665,9 +38529,8 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7SummaryResponse>;
 
-export const ipVersionAttackLayer7Summary: (
-  input: IpVersionAttackLayer7SummaryRequest,
-) => Effect.Effect<
+export const ipVersionAttackLayer7Summary: API.OperationMethod<
+  IpVersionAttackLayer7SummaryRequest,
   IpVersionAttackLayer7SummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -38853,9 +38716,8 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionAttackLayer7TimeseriesGroupResponse>;
 
-export const httpVersionAttackLayer7TimeseriesGroup: (
-  input: HttpVersionAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const httpVersionAttackLayer7TimeseriesGroup: API.OperationMethod<
+  HttpVersionAttackLayer7TimeseriesGroupRequest,
   HttpVersionAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39028,12 +38890,13 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     iPv4: Schema.Array(Schema.String),
     iPv6: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+  }).pipe(
+    Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6", timestamps: "timestamps" }),
+  ),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupResponse>;
 
-export const ipVersionAttackLayer7TimeseriesGroup: (
-  input: IpVersionAttackLayer7TimeseriesGroupRequest,
-) => Effect.Effect<
+export const ipVersionAttackLayer7TimeseriesGroup: API.OperationMethod<
+  IpVersionAttackLayer7TimeseriesGroupRequest,
   IpVersionAttackLayer7TimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39194,9 +39057,8 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionDnsSummaryResponse>;
 
-export const ipVersionDnsSummary: (
-  input: IpVersionDnsSummaryRequest,
-) => Effect.Effect<
+export const ipVersionDnsSummary: API.OperationMethod<
+  IpVersionDnsSummaryRequest,
   IpVersionDnsSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39370,9 +39232,8 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionDnsTimeseriesGroupResponse>;
 
-export const ipVersionDnsTimeseriesGroup: (
-  input: IpVersionDnsTimeseriesGroupRequest,
-) => Effect.Effect<
+export const ipVersionDnsTimeseriesGroup: API.OperationMethod<
+  IpVersionDnsTimeseriesGroupRequest,
   IpVersionDnsTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39533,9 +39394,8 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingSummaryResponse>;
 
-export const ipVersionEmailRoutingSummary: (
-  input: IpVersionEmailRoutingSummaryRequest,
-) => Effect.Effect<
+export const ipVersionEmailRoutingSummary: API.OperationMethod<
+  IpVersionEmailRoutingSummaryRequest,
   IpVersionEmailRoutingSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39714,9 +39574,8 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupResponse>;
 
-export const ipVersionEmailRoutingTimeseriesGroup: (
-  input: IpVersionEmailRoutingTimeseriesGroupRequest,
-) => Effect.Effect<
+export const ipVersionEmailRoutingTimeseriesGroup: API.OperationMethod<
+  IpVersionEmailRoutingTimeseriesGroupRequest,
   IpVersionEmailRoutingTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39884,9 +39743,8 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionEmailSecuritySummaryResponse>;
 
-export const tlsVersionEmailSecuritySummary: (
-  input: TlsVersionEmailSecuritySummaryRequest,
-) => Effect.Effect<
+export const tlsVersionEmailSecuritySummary: API.OperationMethod<
+  TlsVersionEmailSecuritySummaryRequest,
   TlsVersionEmailSecuritySummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40072,9 +39930,8 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionEmailSecurityTimeseriesGroupResponse>;
 
-export const tlsVersionEmailSecurityTimeseriesGroup: (
-  input: TlsVersionEmailSecurityTimeseriesGroupRequest,
-) => Effect.Effect<
+export const tlsVersionEmailSecurityTimeseriesGroup: API.OperationMethod<
+  TlsVersionEmailSecurityTimeseriesGroupRequest,
   TlsVersionEmailSecurityTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40236,9 +40093,8 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionHttpSummaryResponse>;
 
-export const httpVersionHttpSummary: (
-  input: HttpVersionHttpSummaryRequest,
-) => Effect.Effect<
+export const httpVersionHttpSummary: API.OperationMethod<
+  HttpVersionHttpSummaryRequest,
   HttpVersionHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40395,9 +40251,8 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionHttpSummaryResponse>;
 
-export const ipVersionHttpSummary: (
-  input: IpVersionHttpSummaryRequest,
-) => Effect.Effect<
+export const ipVersionHttpSummary: API.OperationMethod<
+  IpVersionHttpSummaryRequest,
   IpVersionHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40563,9 +40418,8 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionHttpSummaryResponse>;
 
-export const tlsVersionHttpSummary: (
-  input: TlsVersionHttpSummaryRequest,
-) => Effect.Effect<
+export const tlsVersionHttpSummary: API.OperationMethod<
+  TlsVersionHttpSummaryRequest,
   TlsVersionHttpSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40746,9 +40600,8 @@ export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionHttpTimeseriesGroupResponse>;
 
-export const httpVersionHttpTimeseriesGroup: (
-  input: HttpVersionHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const httpVersionHttpTimeseriesGroup: API.OperationMethod<
+  HttpVersionHttpTimeseriesGroupRequest,
   HttpVersionHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40916,12 +40769,13 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
     iPv4: Schema.Array(Schema.String),
     iPv6: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
+  }).pipe(
+    Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6", timestamps: "timestamps" }),
+  ),
 }) as unknown as Schema.Schema<IpVersionHttpTimeseriesGroupResponse>;
 
-export const ipVersionHttpTimeseriesGroup: (
-  input: IpVersionHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const ipVersionHttpTimeseriesGroup: API.OperationMethod<
+  IpVersionHttpTimeseriesGroupRequest,
   IpVersionHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -41102,9 +40956,8 @@ export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionHttpTimeseriesGroupResponse>;
 
-export const tlsVersionHttpTimeseriesGroup: (
-  input: TlsVersionHttpTimeseriesGroupRequest,
-) => Effect.Effect<
+export const tlsVersionHttpTimeseriesGroup: API.OperationMethod<
+  TlsVersionHttpTimeseriesGroupRequest,
   TlsVersionHttpTimeseriesGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -92,9 +92,8 @@ export type AbortAllSuperSlurperJobResponse = string;
 export const AbortAllSuperSlurperJobResponse =
   Schema.String as unknown as Schema.Schema<AbortAllSuperSlurperJobResponse>;
 
-export const abortAllSuperSlurperJob: (
-  input: AbortAllSuperSlurperJobRequest,
-) => Effect.Effect<
+export const abortAllSuperSlurperJob: API.OperationMethod<
+  AbortAllSuperSlurperJobRequest,
   AbortAllSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -180,13 +179,15 @@ export const GetBucketResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     creationDate: "creation_date",
+    jurisdiction: "jurisdiction",
+    location: "location",
+    name: "name",
     storageClass: "storage_class",
   }),
 ) as unknown as Schema.Schema<GetBucketResponse>;
 
-export const getBucket: (
-  input: GetBucketRequest,
-) => Effect.Effect<
+export const getBucket: API.OperationMethod<
+  GetBucketRequest,
   GetBucketResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -287,6 +288,9 @@ export const ListBucketsResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           creationDate: "creation_date",
+          jurisdiction: "jurisdiction",
+          location: "location",
+          name: "name",
           storageClass: "storage_class",
         }),
       ),
@@ -294,9 +298,8 @@ export const ListBucketsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListBucketsResponse>;
 
-export const listBuckets: (
-  input: ListBucketsRequest,
-) => Effect.Effect<
+export const listBuckets: API.OperationMethod<
+  ListBucketsRequest,
   ListBucketsResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -386,13 +389,15 @@ export const CreateBucketResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     creationDate: "creation_date",
+    jurisdiction: "jurisdiction",
+    location: "location",
+    name: "name",
     storageClass: "storage_class",
   }),
 ) as unknown as Schema.Schema<CreateBucketResponse>;
 
-export const createBucket: (
-  input: CreateBucketRequest,
-) => Effect.Effect<
+export const createBucket: API.OperationMethod<
+  CreateBucketRequest,
   CreateBucketResponse,
   CommonErrors | InvalidBucketName | BucketAlreadyExists | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -479,13 +484,15 @@ export const PatchBucketResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     creationDate: "creation_date",
+    jurisdiction: "jurisdiction",
+    location: "location",
+    name: "name",
     storageClass: "storage_class",
   }),
 ) as unknown as Schema.Schema<PatchBucketResponse>;
 
-export const patchBucket: (
-  input: PatchBucketRequest,
-) => Effect.Effect<
+export const patchBucket: API.OperationMethod<
+  PatchBucketRequest,
   PatchBucketResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -521,9 +528,8 @@ export type DeleteBucketResponse = unknown;
 export const DeleteBucketResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteBucketResponse>;
 
-export const deleteBucket: (
-  input: DeleteBucketRequest,
-) => Effect.Effect<
+export const deleteBucket: API.OperationMethod<
+  DeleteBucketRequest,
   DeleteBucketResponse,
   CommonErrors | NoSuchBucket | InvalidRoute | NoRoute,
   ApiToken | HttpClient.HttpClient
@@ -590,9 +596,8 @@ export const GetBucketCorsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetBucketCorsResponse>;
 
-export const getBucketCors: (
-  input: GetBucketCorsRequest,
-) => Effect.Effect<
+export const getBucketCors: API.OperationMethod<
+  GetBucketCorsRequest,
   GetBucketCorsResponse,
   CommonErrors | NoSuchBucket | InvalidRoute | NoCorsConfiguration,
   ApiToken | HttpClient.HttpClient
@@ -655,9 +660,8 @@ export type PutBucketCorsResponse = unknown;
 export const PutBucketCorsResponse =
   Schema.Unknown as unknown as Schema.Schema<PutBucketCorsResponse>;
 
-export const putBucketCors: (
-  input: PutBucketCorsRequest,
-) => Effect.Effect<
+export const putBucketCors: API.OperationMethod<
+  PutBucketCorsRequest,
   PutBucketCorsResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -693,9 +697,8 @@ export type DeleteBucketCorsResponse = unknown;
 export const DeleteBucketCorsResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteBucketCorsResponse>;
 
-export const deleteBucketCors: (
-  input: DeleteBucketCorsRequest,
-) => Effect.Effect<
+export const deleteBucketCors: API.OperationMethod<
+  DeleteBucketCorsRequest,
   DeleteBucketCorsResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -790,9 +793,8 @@ export const GetBucketDomainCustomResponse = Schema.Struct({
   zoneName: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetBucketDomainCustomResponse>;
 
-export const getBucketDomainCustom: (
-  input: GetBucketDomainCustomRequest,
-) => Effect.Effect<
+export const getBucketDomainCustom: API.OperationMethod<
+  GetBucketDomainCustomRequest,
   GetBucketDomainCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -881,9 +883,8 @@ export const ListBucketDomainCustomsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListBucketDomainCustomsResponse>;
 
-export const listBucketDomainCustoms: (
-  input: ListBucketDomainCustomsRequest,
-) => Effect.Effect<
+export const listBucketDomainCustoms: API.OperationMethod<
+  ListBucketDomainCustomsRequest,
   ListBucketDomainCustomsResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -947,9 +948,8 @@ export const CreateBucketDomainCustomResponse = Schema.Struct({
   minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
 }) as unknown as Schema.Schema<CreateBucketDomainCustomResponse>;
 
-export const createBucketDomainCustom: (
-  input: CreateBucketDomainCustomRequest,
-) => Effect.Effect<
+export const createBucketDomainCustom: API.OperationMethod<
+  CreateBucketDomainCustomRequest,
   CreateBucketDomainCustomResponse,
   CommonErrors | NoSuchBucket | InvalidBucketName,
   ApiToken | HttpClient.HttpClient
@@ -1009,9 +1009,8 @@ export const UpdateBucketDomainCustomResponse = Schema.Struct({
   minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
 }) as unknown as Schema.Schema<UpdateBucketDomainCustomResponse>;
 
-export const updateBucketDomainCustom: (
-  input: UpdateBucketDomainCustomRequest,
-) => Effect.Effect<
+export const updateBucketDomainCustom: API.OperationMethod<
+  UpdateBucketDomainCustomRequest,
   UpdateBucketDomainCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1053,9 +1052,8 @@ export const DeleteBucketDomainCustomResponse = Schema.Struct({
   domain: Schema.String,
 }) as unknown as Schema.Schema<DeleteBucketDomainCustomResponse>;
 
-export const deleteBucketDomainCustom: (
-  input: DeleteBucketDomainCustomRequest,
-) => Effect.Effect<
+export const deleteBucketDomainCustom: API.OperationMethod<
+  DeleteBucketDomainCustomRequest,
   DeleteBucketDomainCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1105,9 +1103,8 @@ export const ListBucketDomainManagedsResponse = Schema.Struct({
   enabled: Schema.Boolean,
 }) as unknown as Schema.Schema<ListBucketDomainManagedsResponse>;
 
-export const listBucketDomainManageds: (
-  input: ListBucketDomainManagedsRequest,
-) => Effect.Effect<
+export const listBucketDomainManageds: API.OperationMethod<
+  ListBucketDomainManagedsRequest,
   ListBucketDomainManagedsResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1156,9 +1153,8 @@ export const PutBucketDomainManagedResponse = Schema.Struct({
   enabled: Schema.Boolean,
 }) as unknown as Schema.Schema<PutBucketDomainManagedResponse>;
 
-export const putBucketDomainManaged: (
-  input: PutBucketDomainManagedRequest,
-) => Effect.Effect<
+export const putBucketDomainManaged: API.OperationMethod<
+  PutBucketDomainManagedRequest,
   PutBucketDomainManagedResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1241,9 +1237,8 @@ export const GetBucketEventNotificationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetBucketEventNotificationResponse>;
 
-export const getBucketEventNotification: (
-  input: GetBucketEventNotificationRequest,
-) => Effect.Effect<
+export const getBucketEventNotification: API.OperationMethod<
+  GetBucketEventNotificationRequest,
   GetBucketEventNotificationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1330,9 +1325,8 @@ export const ListBucketEventNotificationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListBucketEventNotificationsResponse>;
 
-export const listBucketEventNotifications: (
-  input: ListBucketEventNotificationsRequest,
-) => Effect.Effect<
+export const listBucketEventNotifications: API.OperationMethod<
+  ListBucketEventNotificationsRequest,
   ListBucketEventNotificationsResponse,
   | CommonErrors
   | NoSuchBucket
@@ -1408,9 +1402,8 @@ export type PutBucketEventNotificationResponse = unknown;
 export const PutBucketEventNotificationResponse =
   Schema.Unknown as unknown as Schema.Schema<PutBucketEventNotificationResponse>;
 
-export const putBucketEventNotification: (
-  input: PutBucketEventNotificationRequest,
-) => Effect.Effect<
+export const putBucketEventNotification: API.OperationMethod<
+  PutBucketEventNotificationRequest,
   PutBucketEventNotificationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1448,9 +1441,8 @@ export type DeleteBucketEventNotificationResponse = unknown;
 export const DeleteBucketEventNotificationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteBucketEventNotificationResponse>;
 
-export const deleteBucketEventNotification: (
-  input: DeleteBucketEventNotificationRequest,
-) => Effect.Effect<
+export const deleteBucketEventNotification: API.OperationMethod<
+  DeleteBucketEventNotificationRequest,
   DeleteBucketEventNotificationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1564,9 +1556,8 @@ export const GetBucketLifecycleResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetBucketLifecycleResponse>;
 
-export const getBucketLifecycle: (
-  input: GetBucketLifecycleRequest,
-) => Effect.Effect<
+export const getBucketLifecycle: API.OperationMethod<
+  GetBucketLifecycleRequest,
   GetBucketLifecycleResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1676,9 +1667,8 @@ export type PutBucketLifecycleResponse = unknown;
 export const PutBucketLifecycleResponse =
   Schema.Unknown as unknown as Schema.Schema<PutBucketLifecycleResponse>;
 
-export const putBucketLifecycle: (
-  input: PutBucketLifecycleRequest,
-) => Effect.Effect<
+export const putBucketLifecycle: API.OperationMethod<
+  PutBucketLifecycleRequest,
   PutBucketLifecycleResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1750,9 +1740,8 @@ export const GetBucketLockResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetBucketLockResponse>;
 
-export const getBucketLock: (
-  input: GetBucketLockRequest,
-) => Effect.Effect<
+export const getBucketLock: API.OperationMethod<
+  GetBucketLockRequest,
   GetBucketLockResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1820,9 +1809,8 @@ export type PutBucketLockResponse = unknown;
 export const PutBucketLockResponse =
   Schema.Unknown as unknown as Schema.Schema<PutBucketLockResponse>;
 
-export const putBucketLock: (
-  input: PutBucketLockRequest,
-) => Effect.Effect<
+export const putBucketLock: API.OperationMethod<
+  PutBucketLockRequest,
   PutBucketLockResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1915,9 +1903,8 @@ export const ListBucketMetricsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListBucketMetricsResponse>;
 
-export const listBucketMetrics: (
-  input: ListBucketMetricsRequest,
-) => Effect.Effect<
+export const listBucketMetrics: API.OperationMethod<
+  ListBucketMetricsRequest,
   ListBucketMetricsResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1991,9 +1978,8 @@ export const GetBucketSippyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetBucketSippyResponse>;
 
-export const getBucketSippy: (
-  input: GetBucketSippyRequest,
-) => Effect.Effect<
+export const getBucketSippy: API.OperationMethod<
+  GetBucketSippyRequest,
   GetBucketSippyResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -2093,9 +2079,8 @@ export const PutBucketSippyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PutBucketSippyResponse>;
 
-export const putBucketSippy: (
-  input: PutBucketSippyRequest,
-) => Effect.Effect<
+export const putBucketSippy: API.OperationMethod<
+  PutBucketSippyRequest,
   PutBucketSippyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2134,9 +2119,8 @@ export const DeleteBucketSippyResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Literal(false)),
 }) as unknown as Schema.Schema<DeleteBucketSippyResponse>;
 
-export const deleteBucketSippy: (
-  input: DeleteBucketSippyRequest,
-) => Effect.Effect<
+export const deleteBucketSippy: API.OperationMethod<
+  DeleteBucketSippyRequest,
   DeleteBucketSippyResponse,
   CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -2193,9 +2177,8 @@ export const SourceSuperSlurperConnectivityPrecheckResponse = Schema.Struct({
   connectivityStatus: Schema.optional(Schema.Literals(["success", "error"])),
 }) as unknown as Schema.Schema<SourceSuperSlurperConnectivityPrecheckResponse>;
 
-export const sourceSuperSlurperConnectivityPrecheck: (
-  input: SourceSuperSlurperConnectivityPrecheckRequest,
-) => Effect.Effect<
+export const sourceSuperSlurperConnectivityPrecheck: API.OperationMethod<
+  SourceSuperSlurperConnectivityPrecheckRequest,
   SourceSuperSlurperConnectivityPrecheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2242,9 +2225,8 @@ export const TargetSuperSlurperConnectivityPrecheckResponse = Schema.Struct({
   connectivityStatus: Schema.optional(Schema.Literals(["success", "error"])),
 }) as unknown as Schema.Schema<TargetSuperSlurperConnectivityPrecheckResponse>;
 
-export const targetSuperSlurperConnectivityPrecheck: (
-  input: TargetSuperSlurperConnectivityPrecheckRequest,
-) => Effect.Effect<
+export const targetSuperSlurperConnectivityPrecheck: API.OperationMethod<
+  TargetSuperSlurperConnectivityPrecheckRequest,
   TargetSuperSlurperConnectivityPrecheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2358,9 +2340,8 @@ export const GetSuperSlurperJobResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetSuperSlurperJobResponse>;
 
-export const getSuperSlurperJob: (
-  input: GetSuperSlurperJobRequest,
-) => Effect.Effect<
+export const getSuperSlurperJob: API.OperationMethod<
+  GetSuperSlurperJobRequest,
   GetSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2480,9 +2461,8 @@ export const ListSuperSlurperJobsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListSuperSlurperJobsResponse>;
 
-export const listSuperSlurperJobs: (
-  input: ListSuperSlurperJobsRequest,
-) => Effect.Effect<
+export const listSuperSlurperJobs: API.OperationMethod<
+  ListSuperSlurperJobsRequest,
   ListSuperSlurperJobsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2593,9 +2573,8 @@ export const CreateSuperSlurperJobResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateSuperSlurperJobResponse>;
 
-export const createSuperSlurperJob: (
-  input: CreateSuperSlurperJobRequest,
-) => Effect.Effect<
+export const createSuperSlurperJob: API.OperationMethod<
+  CreateSuperSlurperJobRequest,
   CreateSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2625,9 +2604,8 @@ export type AbortSuperSlurperJobResponse = string;
 export const AbortSuperSlurperJobResponse =
   Schema.String as unknown as Schema.Schema<AbortSuperSlurperJobResponse>;
 
-export const abortSuperSlurperJob: (
-  input: AbortSuperSlurperJobRequest,
-) => Effect.Effect<
+export const abortSuperSlurperJob: API.OperationMethod<
+  AbortSuperSlurperJobRequest,
   AbortSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2657,9 +2635,8 @@ export type PauseSuperSlurperJobResponse = string;
 export const PauseSuperSlurperJobResponse =
   Schema.String as unknown as Schema.Schema<PauseSuperSlurperJobResponse>;
 
-export const pauseSuperSlurperJob: (
-  input: PauseSuperSlurperJobRequest,
-) => Effect.Effect<
+export const pauseSuperSlurperJob: API.OperationMethod<
+  PauseSuperSlurperJobRequest,
   PauseSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2706,9 +2683,8 @@ export const ProgressSuperSlurperJobResponse = Schema.Struct({
   transferredObjects: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<ProgressSuperSlurperJobResponse>;
 
-export const progressSuperSlurperJob: (
-  input: ProgressSuperSlurperJobRequest,
-) => Effect.Effect<
+export const progressSuperSlurperJob: API.OperationMethod<
+  ProgressSuperSlurperJobRequest,
   ProgressSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2738,9 +2714,8 @@ export type ResumeSuperSlurperJobResponse = string;
 export const ResumeSuperSlurperJobResponse =
   Schema.String as unknown as Schema.Schema<ResumeSuperSlurperJobResponse>;
 
-export const resumeSuperSlurperJob: (
-  input: ResumeSuperSlurperJobRequest,
-) => Effect.Effect<
+export const resumeSuperSlurperJob: API.OperationMethod<
+  ResumeSuperSlurperJobRequest,
   ResumeSuperSlurperJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2827,9 +2802,8 @@ export const ListSuperSlurperJobLogsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListSuperSlurperJobLogsResponse>;
 
-export const listSuperSlurperJobLogs: (
-  input: ListSuperSlurperJobLogsRequest,
-) => Effect.Effect<
+export const listSuperSlurperJobLogs: API.OperationMethod<
+  ListSuperSlurperJobLogsRequest,
   ListSuperSlurperJobLogsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2899,9 +2873,8 @@ export const CreateTemporaryCredentialResponse = Schema.Struct({
   sessionToken: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTemporaryCredentialResponse>;
 
-export const createTemporaryCredential: (
-  input: CreateTemporaryCredentialRequest,
-) => Effect.Effect<
+export const createTemporaryCredential: API.OperationMethod<
+  CreateTemporaryCredentialRequest,
   CreateTemporaryCredentialResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

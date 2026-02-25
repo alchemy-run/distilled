@@ -122,15 +122,19 @@ export const GetAccessRuleResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedModes: "allowed_modes",
+    configuration: "configuration",
+    mode: "mode",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    notes: "notes",
+    scope: "scope",
   }),
 ) as unknown as Schema.Schema<GetAccessRuleResponse>;
 
-export const getAccessRule: (
-  input: GetAccessRuleRequest,
-) => Effect.Effect<
+export const getAccessRule: API.OperationMethod<
+  GetAccessRuleRequest,
   GetAccessRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -229,16 +233,20 @@ export const ListAccessRulesResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedModes: "allowed_modes",
+      configuration: "configuration",
+      mode: "mode",
       createdOn: "created_on",
       modifiedOn: "modified_on",
+      notes: "notes",
+      scope: "scope",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessRulesResponse>;
 
-export const listAccessRules: (
-  input: ListAccessRulesRequest,
-) => Effect.Effect<
+export const listAccessRules: API.OperationMethod<
+  ListAccessRulesRequest,
   ListAccessRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -398,15 +406,19 @@ export const CreateAccessRuleResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedModes: "allowed_modes",
+    configuration: "configuration",
+    mode: "mode",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    notes: "notes",
+    scope: "scope",
   }),
 ) as unknown as Schema.Schema<CreateAccessRuleResponse>;
 
-export const createAccessRule: (
-  input: CreateAccessRuleRequest,
-) => Effect.Effect<
+export const createAccessRule: API.OperationMethod<
+  CreateAccessRuleRequest,
   CreateAccessRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -568,15 +580,19 @@ export const PatchAccessRuleResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedModes: "allowed_modes",
+    configuration: "configuration",
+    mode: "mode",
     createdOn: "created_on",
     modifiedOn: "modified_on",
+    notes: "notes",
+    scope: "scope",
   }),
 ) as unknown as Schema.Schema<PatchAccessRuleResponse>;
 
-export const patchAccessRule: (
-  input: PatchAccessRuleRequest,
-) => Effect.Effect<
+export const patchAccessRule: API.OperationMethod<
+  PatchAccessRuleRequest,
   PatchAccessRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -608,9 +624,8 @@ export const DeleteAccessRuleResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAccessRuleResponse>;
 
-export const deleteAccessRule: (
-  input: DeleteAccessRuleRequest,
-) => Effect.Effect<
+export const deleteAccessRule: API.OperationMethod<
+  DeleteAccessRuleRequest,
   DeleteAccessRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -707,9 +722,8 @@ export const BulkEditRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkEditRulesResponse>;
 
-export const bulkEditRules: (
-  input: BulkEditRulesRequest,
-) => Effect.Effect<
+export const bulkEditRules: API.OperationMethod<
+  BulkEditRulesRequest,
   BulkEditRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -765,12 +779,19 @@ export const GetLockdownResponse = Schema.Struct({
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    configurations: "configurations",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    paused: "paused",
+    urls: "urls",
+  }),
 ) as unknown as Schema.Schema<GetLockdownResponse>;
 
-export const getLockdown: (
-  input: GetLockdownRequest,
-) => Effect.Effect<
+export const getLockdown: API.OperationMethod<
+  GetLockdownRequest,
   GetLockdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -842,13 +863,20 @@ export const ListLockdownsResponse = Schema.Array(
     paused: Schema.Boolean,
     urls: Schema.Array(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      configurations: "configurations",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      paused: "paused",
+      urls: "urls",
+    }),
   ),
 ) as unknown as Schema.Schema<ListLockdownsResponse>;
 
-export const listLockdowns: (
-  input: ListLockdownsRequest,
-) => Effect.Effect<
+export const listLockdowns: API.OperationMethod<
+  ListLockdownsRequest,
   ListLockdownsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -910,12 +938,19 @@ export const CreateLockdownResponse = Schema.Struct({
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    configurations: "configurations",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    paused: "paused",
+    urls: "urls",
+  }),
 ) as unknown as Schema.Schema<CreateLockdownResponse>;
 
-export const createLockdown: (
-  input: CreateLockdownRequest,
-) => Effect.Effect<
+export const createLockdown: API.OperationMethod<
+  CreateLockdownRequest,
   CreateLockdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -973,12 +1008,19 @@ export const UpdateLockdownResponse = Schema.Struct({
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    configurations: "configurations",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    paused: "paused",
+    urls: "urls",
+  }),
 ) as unknown as Schema.Schema<UpdateLockdownResponse>;
 
-export const updateLockdown: (
-  input: UpdateLockdownRequest,
-) => Effect.Effect<
+export const updateLockdown: API.OperationMethod<
+  UpdateLockdownRequest,
   UpdateLockdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1013,9 +1055,8 @@ export const DeleteLockdownResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteLockdownResponse>;
 
-export const deleteLockdown: (
-  input: DeleteLockdownRequest,
-) => Effect.Effect<
+export const deleteLockdown: API.OperationMethod<
+  DeleteLockdownRequest,
   DeleteLockdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1115,9 +1156,8 @@ export const GetRuleResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
-export const getRule: (
-  input: GetRuleRequest,
-) => Effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1219,9 +1259,8 @@ export const ListRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
-export const listRules: (
-  input: ListRulesRequest,
-) => Effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1265,7 +1304,7 @@ export const CreateRuleRequest = Schema.Struct({
       Schema.Struct({
         body: Schema.optional(Schema.String),
         contentType: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+      }).pipe(Schema.encodeKeys({ body: "body", contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -1343,9 +1382,8 @@ export const CreateRuleResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export const createRule: (
-  input: CreateRuleRequest,
-) => Effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1391,7 +1429,7 @@ export const PutRuleRequest = Schema.Struct({
       Schema.Struct({
         body: Schema.optional(Schema.String),
         contentType: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+      }).pipe(Schema.encodeKeys({ body: "body", contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -1473,9 +1511,8 @@ export const PutRuleResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutRuleResponse>;
 
-export const putRule: (
-  input: PutRuleRequest,
-) => Effect.Effect<
+export const putRule: API.OperationMethod<
+  PutRuleRequest,
   PutRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1574,9 +1611,8 @@ export const DeleteRuleResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => Effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1669,9 +1705,8 @@ export const BulkUpdateRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkUpdateRulesResponse>;
 
-export const bulkUpdateRules: (
-  input: BulkUpdateRulesRequest,
-) => Effect.Effect<
+export const bulkUpdateRules: API.OperationMethod<
+  BulkUpdateRulesRequest,
   BulkUpdateRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1761,9 +1796,8 @@ export const BulkDeleteRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkDeleteRulesResponse>;
 
-export const bulkDeleteRules: (
-  input: BulkDeleteRulesRequest,
-) => Effect.Effect<
+export const bulkDeleteRules: API.OperationMethod<
+  BulkDeleteRulesRequest,
   BulkDeleteRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1855,9 +1889,8 @@ export const EditRuleResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<EditRuleResponse>;
 
-export const editRule: (
-  input: EditRuleRequest,
-) => Effect.Effect<
+export const editRule: API.OperationMethod<
+  EditRuleRequest,
   EditRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1920,9 +1953,8 @@ export const GetUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetUaRuleResponse>;
 
-export const getUaRule: (
-  input: GetUaRuleRequest,
-) => Effect.Effect<
+export const getUaRule: API.OperationMethod<
+  GetUaRuleRequest,
   GetUaRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1982,9 +2014,8 @@ export const ListUaRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListUaRulesResponse>;
 
-export const listUaRules: (
-  input: ListUaRulesRequest,
-) => Effect.Effect<
+export const listUaRules: API.OperationMethod<
+  ListUaRulesRequest,
   ListUaRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2064,9 +2095,8 @@ export const CreateUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateUaRuleResponse>;
 
-export const createUaRule: (
-  input: CreateUaRuleRequest,
-) => Effect.Effect<
+export const createUaRule: API.OperationMethod<
+  CreateUaRuleRequest,
   CreateUaRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2148,9 +2178,8 @@ export const UpdateUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateUaRuleResponse>;
 
-export const updateUaRule: (
-  input: UpdateUaRuleRequest,
-) => Effect.Effect<
+export const updateUaRule: API.OperationMethod<
+  UpdateUaRuleRequest,
   UpdateUaRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2209,9 +2238,8 @@ export const DeleteUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteUaRuleResponse>;
 
-export const deleteUaRule: (
-  input: DeleteUaRuleRequest,
-) => Effect.Effect<
+export const deleteUaRule: API.OperationMethod<
+  DeleteUaRuleRequest,
   DeleteUaRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2324,12 +2352,20 @@ export const GetWafOverrideResponse = Schema.Struct({
   rules: Schema.optional(Schema.Unknown),
   urls: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    groups: "groups",
+    paused: "paused",
+    priority: "priority",
+    rewriteAction: "rewrite_action",
+    rules: "rules",
+    urls: "urls",
+  }),
 ) as unknown as Schema.Schema<GetWafOverrideResponse>;
 
-export const getWafOverride: (
-  input: GetWafOverrideRequest,
-) => Effect.Effect<
+export const getWafOverride: API.OperationMethod<
+  GetWafOverrideRequest,
   GetWafOverrideResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2425,12 +2461,22 @@ export const ListWafOverridesResponse = Schema.Array(
     ),
     rules: Schema.optional(Schema.Unknown),
     urls: Schema.optional(Schema.Array(Schema.String)),
-  }).pipe(Schema.encodeKeys({ rewriteAction: "rewrite_action" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      description: "description",
+      groups: "groups",
+      paused: "paused",
+      priority: "priority",
+      rewriteAction: "rewrite_action",
+      rules: "rules",
+      urls: "urls",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListWafOverridesResponse>;
 
-export const listWafOverrides: (
-  input: ListWafOverridesRequest,
-) => Effect.Effect<
+export const listWafOverrides: API.OperationMethod<
+  ListWafOverridesRequest,
   ListWafOverridesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2537,12 +2583,20 @@ export const CreateWafOverrideResponse = Schema.Struct({
   rules: Schema.optional(Schema.Unknown),
   urls: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    groups: "groups",
+    paused: "paused",
+    priority: "priority",
+    rewriteAction: "rewrite_action",
+    rules: "rules",
+    urls: "urls",
+  }),
 ) as unknown as Schema.Schema<CreateWafOverrideResponse>;
 
-export const createWafOverride: (
-  input: CreateWafOverrideRequest,
-) => Effect.Effect<
+export const createWafOverride: API.OperationMethod<
+  CreateWafOverrideRequest,
   CreateWafOverrideResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2596,7 +2650,12 @@ export const UpdateWafOverrideRequest = Schema.Struct({
   rules: Schema.Unknown,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
+  Schema.encodeKeys({
+    id: "id",
+    rewriteAction: "rewrite_action",
+    rules: "rules",
+    urls: "urls",
+  }),
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}",
@@ -2686,12 +2745,20 @@ export const UpdateWafOverrideResponse = Schema.Struct({
   rules: Schema.optional(Schema.Unknown),
   urls: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ rewriteAction: "rewrite_action" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    groups: "groups",
+    paused: "paused",
+    priority: "priority",
+    rewriteAction: "rewrite_action",
+    rules: "rules",
+    urls: "urls",
+  }),
 ) as unknown as Schema.Schema<UpdateWafOverrideResponse>;
 
-export const updateWafOverride: (
-  input: UpdateWafOverrideRequest,
-) => Effect.Effect<
+export const updateWafOverride: API.OperationMethod<
+  UpdateWafOverrideRequest,
   UpdateWafOverrideResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2726,9 +2793,8 @@ export const DeleteWafOverrideResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteWafOverrideResponse>;
 
-export const deleteWafOverride: (
-  input: DeleteWafOverrideRequest,
-) => Effect.Effect<
+export const deleteWafOverride: API.OperationMethod<
+  DeleteWafOverrideRequest,
   DeleteWafOverrideResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2779,9 +2845,8 @@ export const GetWafPackageResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetWafPackageResponse>;
 
-export const getWafPackage: (
-  input: GetWafPackageRequest,
-) => Effect.Effect<
+export const getWafPackage: API.OperationMethod<
+  GetWafPackageRequest,
   GetWafPackageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2824,9 +2889,8 @@ export const ListWafPackagesResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListWafPackagesResponse>;
 
-export const listWafPackages: (
-  input: ListWafPackagesRequest,
-) => Effect.Effect<
+export const listWafPackages: API.OperationMethod<
+  ListWafPackagesRequest,
   ListWafPackagesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2865,9 +2929,8 @@ export const GetWafPackageGroupResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<GetWafPackageGroupResponse>;
 
-export const getWafPackageGroup: (
-  input: GetWafPackageGroupRequest,
-) => Effect.Effect<
+export const getWafPackageGroup: API.OperationMethod<
+  GetWafPackageGroupRequest,
   GetWafPackageGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2942,6 +3005,10 @@ export const ListWafPackageGroupsResponse = Schema.Array(
     packageId: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      description: "description",
+      mode: "mode",
+      name: "name",
       rulesCount: "rules_count",
       allowedModes: "allowed_modes",
       modifiedRulesCount: "modified_rules_count",
@@ -2950,9 +3017,8 @@ export const ListWafPackageGroupsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWafPackageGroupsResponse>;
 
-export const listWafPackageGroups: (
-  input: ListWafPackageGroupsRequest,
-) => Effect.Effect<
+export const listWafPackageGroups: API.OperationMethod<
+  ListWafPackageGroupsRequest,
   ListWafPackageGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2990,9 +3056,8 @@ export const PatchWafPackageGroupResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<PatchWafPackageGroupResponse>;
 
-export const patchWafPackageGroup: (
-  input: PatchWafPackageGroupRequest,
-) => Effect.Effect<
+export const patchWafPackageGroup: API.OperationMethod<
+  PatchWafPackageGroupRequest,
   PatchWafPackageGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3031,9 +3096,8 @@ export const GetWafPackageRuleResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<GetWafPackageRuleResponse>;
 
-export const getWafPackageRule: (
-  input: GetWafPackageRuleRequest,
-) => Effect.Effect<
+export const getWafPackageRule: API.OperationMethod<
+  GetWafPackageRuleRequest,
   GetWafPackageRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3128,8 +3192,13 @@ export const ListWafPackageRulesResponse = Schema.Array(
       priority: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         allowedModes: "allowed_modes",
+        description: "description",
+        group: "group",
+        mode: "mode",
         packageId: "package_id",
+        priority: "priority",
       }),
     ),
     Schema.Struct({
@@ -3162,17 +3231,21 @@ export const ListWafPackageRulesResponse = Schema.Array(
       priority: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         allowedModes: "allowed_modes",
         defaultMode: "default_mode",
+        description: "description",
+        group: "group",
+        mode: "mode",
         packageId: "package_id",
+        priority: "priority",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListWafPackageRulesResponse>;
 
-export const listWafPackageRules: (
-  input: ListWafPackageRulesRequest,
-) => Effect.Effect<
+export const listWafPackageRules: API.OperationMethod<
+  ListWafPackageRulesRequest,
   ListWafPackageRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3258,8 +3331,13 @@ export const PatchWafPackageRuleResponse = Schema.Union([
     priority: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedModes: "allowed_modes",
+      description: "description",
+      group: "group",
+      mode: "mode",
       packageId: "package_id",
+      priority: "priority",
     }),
   ),
   Schema.Struct({
@@ -3281,16 +3359,20 @@ export const PatchWafPackageRuleResponse = Schema.Union([
     priority: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedModes: "allowed_modes",
       defaultMode: "default_mode",
+      description: "description",
+      group: "group",
+      mode: "mode",
       packageId: "package_id",
+      priority: "priority",
     }),
   ),
 ]) as unknown as Schema.Schema<PatchWafPackageRuleResponse>;
 
-export const patchWafPackageRule: (
-  input: PatchWafPackageRuleRequest,
-) => Effect.Effect<
+export const patchWafPackageRule: API.OperationMethod<
+  PatchWafPackageRuleRequest,
   PatchWafPackageRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
