@@ -107,6 +107,16 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                                               },
                                             ],
                                           },
+                                          "EbsCardIndex": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/Number_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
                                           "Operator": {
                                             "anyOf": [
                                               {
@@ -280,6 +290,16 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                                   "anyOf": [
                                     {
                                       "$ref": "#/definitions/Number_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                                "NestedVirtualization": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/String_",
                                     },
                                     {
                                       "$ref": "#/definitions/Undefined_",
@@ -1567,6 +1587,201 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                             },
                           ],
                         },
+                        "SecondaryInterfaces": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "Attachment": {
+                                    "anyOf": [
+                                      {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "AttachTime": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/String_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
+                                          "AttachmentId": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/String_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
+                                          "DeleteOnTermination": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/Boolean_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
+                                          "DeviceIndex": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/Number_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
+                                          "NetworkCardIndex": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/Number_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
+                                          "Status": {
+                                            "anyOf": [
+                                              {
+                                                "$ref": "#/definitions/String_",
+                                              },
+                                              {
+                                                "$ref": "#/definitions/Undefined_",
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "InterfaceType": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "MacAddress": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "OwnerId": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "PrivateIpAddresses": {
+                                    "anyOf": [
+                                      {
+                                        "items": {
+                                          "additionalProperties": false,
+                                          "properties": {
+                                            "PrivateIpAddress": {
+                                              "anyOf": [
+                                                {
+                                                  "$ref": "#/definitions/String_",
+                                                },
+                                                {
+                                                  "$ref": "#/definitions/Undefined_",
+                                                },
+                                              ],
+                                            },
+                                          },
+                                          "type": "object",
+                                        },
+                                        "type": "array",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "SecondaryInterfaceId": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "SecondaryNetworkId": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "SecondarySubnetId": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "SourceDestCheck": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/Boolean_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                  "Status": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
                         "SecurityGroups": {
                           "anyOf": [
                             {
@@ -1909,6 +2124,16 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                           },
                         ],
                       },
+                      "EbsCardIndex": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/Number_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
                       "Operator": {
                         "anyOf": [
                           {
@@ -2082,6 +2307,16 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
               "anyOf": [
                 {
                   "$ref": "#/definitions/Number_",
+                },
+                {
+                  "$ref": "#/definitions/Undefined_",
+                },
+              ],
+            },
+            "NestedVirtualization": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/String_",
                 },
                 {
                   "$ref": "#/definitions/Undefined_",
@@ -3369,6 +3604,201 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
         },
       ],
     },
+    "SecondaryInterfaces": {
+      "anyOf": [
+        {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "Attachment": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "AttachTime": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/String_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                      "AttachmentId": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/String_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                      "DeleteOnTermination": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/Boolean_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                      "DeviceIndex": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/Number_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                      "NetworkCardIndex": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/Number_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                      "Status": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/String_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                    },
+                    "type": "object",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "InterfaceType": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "MacAddress": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "OwnerId": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "PrivateIpAddresses": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "PrivateIpAddress": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                      },
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "SecondaryInterfaceId": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "SecondaryNetworkId": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "SecondarySubnetId": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "SourceDestCheck": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Boolean_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "Status": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+            },
+            "type": "object",
+          },
+          "type": "array",
+        },
+        {
+          "$ref": "#/definitions/Undefined_",
+        },
+      ],
+    },
     "SecurityGroups": {
       "anyOf": [
         {
@@ -4314,6 +4744,16 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                                     },
                                   ],
                                 },
+                                "EbsCardIndex": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/Number_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
                                 "Operator": {
                                   "anyOf": [
                                     {
@@ -4487,6 +4927,16 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                         "anyOf": [
                           {
                             "$ref": "#/definitions/Number_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
+                      "NestedVirtualization": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/String_",
                           },
                           {
                             "$ref": "#/definitions/Undefined_",
@@ -5768,6 +6218,201 @@ exports[`JSON Schema Generation > Edge Cases > Reservation - deeply nested optio
                 "anyOf": [
                   {
                     "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "SecondaryInterfaces": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "Attachment": {
+                          "anyOf": [
+                            {
+                              "additionalProperties": false,
+                              "properties": {
+                                "AttachTime": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/String_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                                "AttachmentId": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/String_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                                "DeleteOnTermination": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/Boolean_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                                "DeviceIndex": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/Number_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                                "NetworkCardIndex": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/Number_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                                "Status": {
+                                  "anyOf": [
+                                    {
+                                      "$ref": "#/definitions/String_",
+                                    },
+                                    {
+                                      "$ref": "#/definitions/Undefined_",
+                                    },
+                                  ],
+                                },
+                              },
+                              "type": "object",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "InterfaceType": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "MacAddress": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "OwnerId": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "PrivateIpAddresses": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "PrivateIpAddress": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/definitions/String_",
+                                      },
+                                      {
+                                        "$ref": "#/definitions/Undefined_",
+                                      },
+                                    ],
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "SecondaryInterfaceId": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "SecondaryNetworkId": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "SecondarySubnetId": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "SourceDestCheck": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/Boolean_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                        "Status": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                      },
+                      "type": "object",
+                    },
+                    "type": "array",
                   },
                   {
                     "$ref": "#/definitions/Undefined_",
@@ -8365,12 +9010,32 @@ exports[`JSON Schema Generation > Protocol-Specific Schemas > awsQuery (IAM, SNS
   "additionalProperties": false,
   "properties": {
     "CiphertextBlob": {
-      "$ref": "#/definitions/Blob",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Blob",
+        },
+        {
+          "$ref": "#/definitions/Undefined_",
+        },
+      ],
     },
     "DryRun": {
       "anyOf": [
         {
           "type": "boolean",
+        },
+        {
+          "$ref": "#/definitions/Undefined_",
+        },
+      ],
+    },
+    "DryRunModifiers": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/definitions/Blob",
+          },
+          "type": "array",
         },
         {
           "$ref": "#/definitions/Undefined_",
@@ -8464,9 +9129,6 @@ exports[`JSON Schema Generation > Protocol-Specific Schemas > awsQuery (IAM, SNS
       ],
     },
   },
-  "required": [
-    "CiphertextBlob",
-  ],
   "type": "object",
 }
 `;
@@ -9018,6 +9680,16 @@ exports[`JSON Schema Generation > Protocol-Specific Schemas > ec2Query (EC2) > T
                           },
                         ],
                       },
+                      "EbsCardIndex": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/definitions/Number_",
+                          },
+                          {
+                            "$ref": "#/definitions/Undefined_",
+                          },
+                        ],
+                      },
                       "Encrypted": {
                         "anyOf": [
                           {
@@ -9231,6 +9903,16 @@ exports[`JSON Schema Generation > Protocol-Specific Schemas > ec2Query (EC2) > T
               "anyOf": [
                 {
                   "$ref": "#/definitions/Number_",
+                },
+                {
+                  "$ref": "#/definitions/Undefined_",
+                },
+              ],
+            },
+            "NestedVirtualization": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/String_",
                 },
                 {
                   "$ref": "#/definitions/Undefined_",
@@ -10412,6 +11094,108 @@ exports[`JSON Schema Generation > Protocol-Specific Schemas > ec2Query (EC2) > T
       "anyOf": [
         {
           "$ref": "#/definitions/String_",
+        },
+        {
+          "$ref": "#/definitions/Undefined_",
+        },
+      ],
+    },
+    "SecondaryInterfaces": {
+      "anyOf": [
+        {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "DeleteOnTermination": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Boolean_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "DeviceIndex": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Number_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "InterfaceType": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "NetworkCardIndex": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Number_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "PrivateIpAddressCount": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Number_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "PrivateIpAddresses": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "PrivateIpAddress": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/definitions/String_",
+                            },
+                            {
+                              "$ref": "#/definitions/Undefined_",
+                            },
+                          ],
+                        },
+                      },
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+              "SecondarySubnetId": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/String_",
+                  },
+                  {
+                    "$ref": "#/definitions/Undefined_",
+                  },
+                ],
+              },
+            },
+            "type": "object",
+          },
+          "type": "array",
         },
         {
           "$ref": "#/definitions/Undefined_",
