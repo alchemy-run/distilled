@@ -45,7 +45,7 @@ import {
   untagResource,
   updateService,
 } from "../../src/services/ecs.ts";
-import { afterAll, beforeAll, test } from "../test.ts";
+import { TEST_PREFIX, afterAll, beforeAll, test } from "../test.ts";
 
 // ============================================================================
 // Retry Helpers
@@ -199,10 +199,11 @@ const cleanupTaskDefinitionByArn = (taskDefinitionArn: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withCluster = <A, E, R>(
-  clusterName: string,
+  _clusterName: string,
   testFn: (clusterArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const clusterName = `${TEST_PREFIX}-${_clusterName}`;
     // Clean up any leftover from previous runs
     yield* cleanupCluster(clusterName);
 
@@ -228,10 +229,11 @@ const withCluster = <A, E, R>(
 
 // Helper to create and cleanup a task definition
 const withTaskDefinition = <A, E, R>(
-  family: string,
+  _family: string,
   testFn: (taskDefinitionArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const family = `${TEST_PREFIX}-${_family}`;
     // Clean up any leftover from previous runs
     yield* cleanupTaskDefinitionFamily(family);
 
@@ -272,10 +274,10 @@ interface NetworkingResources {
   routeTableAssociationId: string;
 }
 
-const VPC_NAME = "distilled-ecs-test-vpc";
-const SUBNET_NAME = "distilled-ecs-test-subnet";
-const IGW_NAME = "distilled-ecs-test-igw";
-const RT_NAME = "distilled-ecs-test-rt";
+const VPC_NAME = `${TEST_PREFIX}-distilled-ecs-test-vpc`;
+const SUBNET_NAME = `${TEST_PREFIX}-distilled-ecs-test-subnet`;
+const IGW_NAME = `${TEST_PREFIX}-distilled-ecs-test-igw`;
+const RT_NAME = `${TEST_PREFIX}-distilled-ecs-test-rt`;
 
 // Module-level variable to hold networking resources
 let networking: NetworkingResources;
@@ -531,7 +533,7 @@ test(
       expect(describeResult.clusters!.length).toBeGreaterThan(0);
 
       const cluster = describeResult.clusters![0];
-      expect(cluster.clusterName).toEqual("distilled-ecs-lifecycle-cluster");
+      expect(cluster.clusterName).toEqual(`${TEST_PREFIX}-distilled-ecs-lifecycle-cluster`);
       expect(cluster.status).toEqual("ACTIVE");
 
       // List clusters and verify our cluster is in the list with retry for eventual consistency
@@ -571,7 +573,7 @@ test(
 
       expect(describeResult.clusters?.length).toBeGreaterThan(0);
       const cluster = describeResult.clusters![0];
-      expect(cluster.clusterName).toEqual("distilled-ecs-settings-cluster");
+      expect(cluster.clusterName).toEqual(`${TEST_PREFIX}-distilled-ecs-settings-cluster`);
 
       // Cluster settings should be present (may have default values)
       expect(cluster.settings).toBeDefined();
@@ -668,7 +670,7 @@ test(
       // List task definitions with retry for eventual consistency
       yield* Effect.gen(function* () {
         const listResult = yield* listTaskDefinitions({
-          familyPrefix: "distilled-ecs-taskdef-family",
+          familyPrefix: `${TEST_PREFIX}-distilled-ecs-taskdef-family`,
         });
 
         const found = listResult.taskDefinitionArns?.find(
@@ -693,7 +695,7 @@ test(
 test(
   "register task definition with multiple containers",
   Effect.gen(function* () {
-    const family = "distilled-ecs-multi-container";
+    const family = `${TEST_PREFIX}-distilled-ecs-multi-container`;
 
     // Clean up any leftover from previous runs
     yield* cleanupTaskDefinitionFamily(family);
@@ -752,8 +754,8 @@ test(
 test(
   "run task and stop task",
   Effect.gen(function* () {
-    const clusterName = "distilled-ecs-run-task-cluster";
-    const taskFamily = "distilled-ecs-run-task-family";
+    const clusterName = `${TEST_PREFIX}-distilled-ecs-run-task-cluster`;
+    const taskFamily = `${TEST_PREFIX}-distilled-ecs-run-task-family`;
 
     // Clean up any leftovers from previous runs
     yield* cleanupCluster(clusterName);

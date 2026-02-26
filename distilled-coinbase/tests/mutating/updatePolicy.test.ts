@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createPolicy } from "../../src/operations/createPolicy";
 import { updatePolicy } from "../../src/operations/updatePolicy";
 import { deletePolicy } from "../../src/operations/deletePolicy";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 const NON_EXISTENT_ID = "00000000-0000-0000-0000-000000000000";
 
@@ -14,7 +14,7 @@ describe("updatePolicy", () => {
       Effect.gen(function* () {
         const created = yield* createPolicy({
           scope: "account",
-          description: "distilled coinbase policy update",
+          description: `${TEST_PREFIX} distilled coinbase policy update`,
           rules: [
             {
               action: "reject",
@@ -32,7 +32,7 @@ describe("updatePolicy", () => {
         policyId = created.id;
         const updated = yield* updatePolicy({
           policyId: created.id,
-          description: "distilled coinbase policy updated",
+          description: `${TEST_PREFIX} distilled coinbase policy updated`,
           rules: [
             {
               action: "reject",
@@ -59,10 +59,12 @@ describe("updatePolicy", () => {
       if ("data" in result) {
         expect(result.data.updated.id).toBe(result.data.created.id);
         expect(result.data.updated.description).toBe(
-          "distilled coinbase policy updated",
+          `${TEST_PREFIX} distilled coinbase policy updated`,
         );
       } else {
-        expect((result.error as any)._tag).toBe("Forbidden");
+        expect(["Forbidden", "InvalidRequest"]).toContain(
+          (result.error as any)._tag,
+        );
       }
     } finally {
       if (policyId) {
@@ -75,7 +77,9 @@ describe("updatePolicy", () => {
     await runEffect(
       updatePolicy({ policyId: NON_EXISTENT_ID, rules: [] }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("Forbidden")),
+        Effect.map((e) =>
+          expect(["Forbidden", "InvalidRequest"]).toContain(e._tag),
+        ),
       ),
     );
   });

@@ -20,6 +20,8 @@ import { Endpoint } from "../src/endpoint.ts";
 import { Region } from "../src/region.ts";
 import * as Retry from "../src/retry.ts";
 
+export const TEST_PREFIX = process.env.USER ?? process.env.USERNAME ?? "local";
+
 type Provided =
   | Scope.Scope
   | HttpClient.HttpClient

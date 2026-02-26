@@ -29,7 +29,7 @@ import {
   deleteQueue,
   getQueueAttributes,
 } from "../../src/services/sqs.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // ============================================================================
 // Idempotent Cleanup Helpers
@@ -85,10 +85,11 @@ const cleanupQueue = (queueUrl: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withEventBus = <A, E, R>(
-  name: string,
+  _name: string,
   testFn: (eventBusArn: string, eventBusName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const name = `${TEST_PREFIX}-${_name}`;
     // Clean up any leftover from previous runs
     yield* cleanupEventBus(name);
 
@@ -101,12 +102,13 @@ const withEventBus = <A, E, R>(
 
 // Helper for rules with cleanup - cleans up before AND after
 const withRule = <A, E, R>(
-  ruleName: string,
+  _ruleName: string,
   eventBusName: string | undefined,
   eventPattern: string,
-  testFn: (ruleArn: string) => Effect.Effect<A, E, R>,
+  testFn: (ruleArn: string, ruleName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const ruleName = `${TEST_PREFIX}-${_ruleName}`;
     // Clean up any leftover from previous runs
     yield* cleanupRule(ruleName, eventBusName);
 
@@ -117,17 +119,18 @@ const withRule = <A, E, R>(
       State: "ENABLED",
     });
     const ruleArn = result.RuleArn!;
-    return yield* testFn(ruleArn).pipe(
+    return yield* testFn(ruleArn, ruleName).pipe(
       Effect.ensuring(cleanupRule(ruleName, eventBusName)),
     );
   });
 
 // Helper for SQS queue with cleanup
 const withQueue = <A, E, R>(
-  queueName: string,
+  _queueName: string,
   testFn: (queueUrl: string, queueArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const queueName = `${TEST_PREFIX}-${_queueName}`;
     // Try to create the queue, retry if recently deleted
     const createResult = yield* createQueue({ QueueName: queueName }).pipe(
       Effect.retry({
@@ -168,7 +171,7 @@ test(
 
       // List event buses and verify our bus is in the list
       const listResult = yield* listEventBuses({
-        NamePrefix: "distilled-eventbridge",
+        NamePrefix: `${TEST_PREFIX}-distilled-eventbridge`,
       });
       const foundBus = listResult.EventBuses?.find(
         (bus) => bus.Name === eventBusName,
@@ -189,27 +192,25 @@ test(
     "distilled-eventbridge-rule-lifecycle",
     undefined,
     JSON.stringify({ source: ["distilled-aws.test"] }),
-    (ruleArn) =>
+    (ruleArn, ruleName) =>
       Effect.gen(function* () {
         expect(ruleArn).toBeDefined();
 
         // Describe the rule
         const describeResult = yield* describeRule({
-          Name: "distilled-eventbridge-rule-lifecycle",
+          Name: ruleName,
         });
-        expect(describeResult.Name).toEqual(
-          "distilled-eventbridge-rule-lifecycle",
-        );
+        expect(describeResult.Name).toEqual(ruleName);
         expect(describeResult.Arn).toEqual(ruleArn);
         expect(describeResult.State).toEqual("ENABLED");
         expect(describeResult.EventPattern).toBeDefined();
 
         // List rules and verify our rule is present
         const listResult = yield* listRules({
-          NamePrefix: "distilled-eventbridge",
+          NamePrefix: `${TEST_PREFIX}-distilled-eventbridge`,
         });
         const foundRule = listResult.Rules?.find(
-          (r) => r.Name === "distilled-eventbridge-rule-lifecycle",
+          (r) => r.Name === ruleName,
         );
         expect(foundRule).toBeDefined();
         expect(foundRule?.Arn).toEqual(ruleArn);
@@ -223,10 +224,8 @@ test(
     "distilled-eventbridge-rule-toggle",
     undefined,
     JSON.stringify({ source: ["distilled-aws.test"] }),
-    (_ruleArn) =>
+    (_ruleArn, ruleName) =>
       Effect.gen(function* () {
-        const ruleName = "distilled-eventbridge-rule-toggle";
-
         // Verify initially enabled
         const initialState = yield* describeRule({ Name: ruleName });
         expect(initialState.State).toEqual("ENABLED");
@@ -257,24 +256,22 @@ test(
         "distilled-eventbridge-custom-rule",
         eventBusName,
         JSON.stringify({ source: ["distilled-aws.custom"] }),
-        (ruleArn) =>
+        (ruleArn, ruleName) =>
           Effect.gen(function* () {
             expect(ruleArn).toBeDefined();
 
             // Describe rule on custom bus
             const describeResult = yield* describeRule({
-              Name: "distilled-eventbridge-custom-rule",
+              Name: ruleName,
               EventBusName: eventBusName,
             });
-            expect(describeResult.Name).toEqual(
-              "distilled-eventbridge-custom-rule",
-            );
+            expect(describeResult.Name).toEqual(ruleName);
             expect(describeResult.EventBusName).toEqual(eventBusName);
 
             // List rules on custom bus
             const listResult = yield* listRules({ EventBusName: eventBusName });
             const foundRule = listResult.Rules?.find(
-              (r) => r.Name === "distilled-eventbridge-custom-rule",
+              (r) => r.Name === ruleName,
             );
             expect(foundRule).toBeDefined();
           }),
@@ -293,9 +290,8 @@ test(
       "distilled-eventbridge-targets",
       undefined,
       JSON.stringify({ source: ["distilled-aws.test"] }),
-      (_ruleArn) =>
+      (_ruleArn, ruleName) =>
         Effect.gen(function* () {
-          const ruleName = "distilled-eventbridge-targets";
 
           // Put targets using SQS queue
           const putResult = yield* putTargets({
@@ -568,7 +564,7 @@ test(
 test(
   "create rule with schedule expression",
   Effect.gen(function* () {
-    const ruleName = "distilled-eventbridge-scheduled";
+    const ruleName = `${TEST_PREFIX}-distilled-eventbridge-scheduled`;
 
     // Clean up any leftover from previous runs
     yield* cleanupRule(ruleName, undefined);
@@ -617,7 +613,7 @@ test(
       "distilled-eventbridge-workflow",
       (eventBusArn, eventBusName) =>
         Effect.gen(function* () {
-          const ruleName = "distilled-workflow-rule";
+          const ruleName = `${TEST_PREFIX}-distilled-workflow-rule`;
           const eventPattern = JSON.stringify({
             source: ["distilled-aws.workflow"],
             "detail-type": ["WorkflowEvent"],

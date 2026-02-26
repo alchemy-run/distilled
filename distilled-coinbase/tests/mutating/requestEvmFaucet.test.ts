@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { listEvmAccounts } from "../../src/operations/listEvmAccounts";
 import { createEvmAccount } from "../../src/operations/createEvmAccount";
 import { requestEvmFaucet } from "../../src/operations/requestEvmFaucet";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("requestEvmFaucet", () => {
   it("can request testnet ETH (or handles rate limit)", async () => {
@@ -12,7 +12,7 @@ describe("requestEvmFaucet", () => {
         const accounts = yield* listEvmAccounts({});
         if (accounts.accounts.length === 0) {
           const created = yield* createEvmAccount({
-            name: "distilled coinbase faucet test",
+            name: `${TEST_PREFIX} distilled coinbase faucet test`,
           });
           return yield* requestEvmFaucet({
             address: created.address,

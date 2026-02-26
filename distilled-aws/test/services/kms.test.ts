@@ -12,9 +12,9 @@ import {
   listKeys,
   scheduleKeyDeletion,
 } from "../../src/services/kms.ts";
-import { beforeAll, test } from "../test.ts";
+import { TEST_PREFIX, beforeAll, test } from "../test.ts";
 
-const TEST_ALIAS = "alias/distilled-aws-test";
+const TEST_ALIAS = `alias/${TEST_PREFIX}-distilled-aws-test`;
 
 const waitForKey = (keyId: string) =>
   describeKey({ KeyId: keyId }).pipe(

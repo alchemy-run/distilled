@@ -64,7 +64,7 @@ yield* R2.getBucket({
 )
 ```
 
-[Read the full documentation →](./distilled-cloudflare/README.md)
+[Read the full documentation →](./distilled-cloudflare/README.md) 
 
 ### [distilled-planetscale](./distilled-planetscale)
 

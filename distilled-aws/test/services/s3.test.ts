@@ -64,7 +64,7 @@ import {
   putPublicAccessBlock,
   uploadPart,
 } from "../../src/services/s3.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // ============================================================================
 // Idempotent Cleanup Helpers
@@ -160,7 +160,7 @@ const withBucket = <A, E, R>(
   testFn: (bucket: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
-    const bucket = `${_bucket}-${process.env.USER ?? "testing"}`;
+    const bucket = `${TEST_PREFIX}-${_bucket}`;
     // Clean up any leftover from previous runs
     yield* cleanupBucket(bucket);
 

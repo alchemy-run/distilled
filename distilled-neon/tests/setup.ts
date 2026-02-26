@@ -12,7 +12,7 @@ config();
 // Main layer providing credentials and HTTP client for all tests
 export const TestLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
 
-const TEST_PROJECT_PREFIX = "distilled-test";
+const TEST_PROJECT_PREFIX = `${process.env.USER ?? process.env.USERNAME ?? "local"}-distilled-test`;
 
 /**
  * Test project configuration
@@ -95,7 +95,7 @@ const waitForOperations = (projectId: string, prefix: string) =>
 /**
  * Setup the test project. Call this in beforeAll.
  * Creates the project if it doesn't exist and waits for it to be ready.
- * @param suffix - Optional suffix to identify the project (e.g., "branches" -> "distilled-test-branches")
+ * @param suffix - Optional suffix to identify the project (e.g., "branches" -> "{user}-distilled-test-branches")
  */
 export const setupTestProject = (suffix?: string) =>
   Effect.gen(function* () {

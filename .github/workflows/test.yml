@@ -57,6 +57,8 @@ jobs:
         working-directory: distilled-aws
       - run: bun run test
         working-directory: distilled-aws
+        env:
+          USER: ci-${{ github.event.pull_request.number }}
 
   ci-cloudflare:
     needs: detect-changes
@@ -98,6 +100,7 @@ jobs:
         env:
           COINBASE_API_KEY_ID: ${{ secrets.COINBASE_API_KEY_ID }}
           COINBASE_API_KEY_SECRET: ${{ secrets.COINBASE_API_KEY_SECRET }}
+          USER: ci-${{ github.event.pull_request.number }}
 
   ci-neon:
     needs: detect-changes
@@ -115,6 +118,7 @@ jobs:
         working-directory: distilled-neon
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          USER: ci-${{ github.event.pull_request.number }}
 
   ci-planetscale:
     needs: detect-changes
@@ -133,3 +137,4 @@ jobs:
         env:
           PLANETSCALE_API_TOKEN: ${{ secrets.PLANETSCALE_API_TOKEN }}
           PLANETSCALE_ORGANIZATION: ${{ secrets.PLANETSCALE_ORGANIZATION }}
+          USER: ci-${{ github.event.pull_request.number }}

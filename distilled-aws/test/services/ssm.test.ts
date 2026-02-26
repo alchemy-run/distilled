@@ -15,7 +15,7 @@ import {
   describeMaintenanceWindows,
   getMaintenanceWindow,
 } from "../../src/services/ssm.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 const MAINTENANCE_WINDOW_NAME = "distilled-ssm-idempotency-test";
 
@@ -47,25 +47,28 @@ const cleanupMaintenanceWindowByName = (name: string) =>
  * Helper to create a maintenance window and ensure cleanup
  */
 const withMaintenanceWindow = <A, E, R>(
-  name: string,
+  _name: string,
   use: (window: { WindowId: string }) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const windowName = `${TEST_PREFIX}-${_name}`;
     // Clean up any existing windows with this name
-    yield* cleanupMaintenanceWindowByName(name);
+    yield* cleanupMaintenanceWindowByName(windowName);
 
     // Create the maintenance window WITHOUT providing ClientToken
     // This tests that the idempotency token is auto-generated
     const result = yield* createMaintenanceWindow({
-      Name: name,
+      Name: windowName,
       Schedule: "rate(1 day)",
       Duration: 1,
       Cutoff: 0,
       AllowUnassociatedTargets: false,
     });
 
-    return yield* use({ WindowId: result.WindowId! });
-  }).pipe(Effect.ensuring(cleanupMaintenanceWindowByName(name)));
+    return yield* use({ WindowId: result.WindowId! }).pipe(
+      Effect.ensuring(cleanupMaintenanceWindowByName(windowName)),
+    );
+  });
 
 // ============================================================================
 // Idempotency Token Tests
@@ -84,7 +87,7 @@ test(
       });
 
       expect(result.WindowId).toBe(window.WindowId);
-      expect(result.Name).toBe(MAINTENANCE_WINDOW_NAME);
+      expect(result.Name).toBe(`${TEST_PREFIX}-${MAINTENANCE_WINDOW_NAME}`);
     }),
   ),
 );
@@ -92,7 +95,7 @@ test(
 test(
   "create maintenance window with explicit ClientToken",
   Effect.gen(function* () {
-    const windowName = "distilled-ssm-explicit-token-test";
+    const windowName = `${TEST_PREFIX}-distilled-ssm-explicit-token-test`;
     const explicitToken = "explicit-test-token-12345";
 
     // Clean up first
@@ -118,7 +121,7 @@ test(
 test(
   "idempotent create with same ClientToken returns same result",
   Effect.gen(function* () {
-    const windowName = "distilled-ssm-idempotent-test";
+    const windowName = `${TEST_PREFIX}-distilled-ssm-idempotent-test`;
     const clientToken = "idempotent-test-token-67890";
 
     // Clean up first
@@ -179,7 +182,7 @@ test(
 test(
   "create, get, and delete maintenance window lifecycle",
   Effect.gen(function* () {
-    const windowName = "distilled-ssm-lifecycle-test";
+    const windowName = `${TEST_PREFIX}-distilled-ssm-lifecycle-test`;
 
     // Clean up first
     yield* cleanupMaintenanceWindowByName(windowName);

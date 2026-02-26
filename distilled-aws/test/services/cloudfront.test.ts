@@ -27,7 +27,7 @@ import {
   untagResource,
   updateOriginAccessControl,
 } from "../../src/services/cloudfront.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // Skip tests in LocalStack - CloudFront not available in Community edition
 const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
@@ -77,7 +77,7 @@ const withOriginAccessControl = <A, E, R>(
     // Try to create, or find existing if already exists
     const { id, etag } = yield* createOriginAccessControl({
       OriginAccessControlConfig: {
-        Name: name,
+        Name: `${TEST_PREFIX}-${name}`,
         Description: "Test OAC for distilled-aws",
         SigningProtocol: "sigv4",
         SigningBehavior: "always",
@@ -89,7 +89,7 @@ const withOriginAccessControl = <A, E, R>(
         etag: result.ETag!,
       })),
       Effect.catchTag("OriginAccessControlAlreadyExists", () =>
-        findOriginAccessControlByName(name).pipe(
+        findOriginAccessControlByName(`${TEST_PREFIX}-${name}`).pipe(
           Effect.flatMap(
             Option.match({
               onNone: () =>
@@ -144,15 +144,16 @@ const deleteDistributionById = (id: string) =>
  * Idempotent helper for Distribution - creates or reuses existing
  */
 const withDistribution = <A, E, R>(
-  callerReference: string,
+  _callerReference: string,
   testFn: (id: string, etag: string, arn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const callerReference = `${TEST_PREFIX}-${_callerReference}`;
     // Try to create, or find existing if already exists
     const { id, etag, arn } = yield* createDistribution({
       DistributionConfig: {
         CallerReference: callerReference,
-        Comment: "distilled-aws test distribution",
+        Comment: `${TEST_PREFIX}-distilled-aws test distribution`,
         Enabled: false, // Disabled for testing
         Origins: {
           Quantity: 1,
@@ -223,7 +224,7 @@ test(
         expect(oac.OriginAccessControl?.Id).toEqual(id);
         expect(
           oac.OriginAccessControl?.OriginAccessControlConfig?.Name,
-        ).toEqual("distilled-cf-oac-lifecycle");
+        ).toEqual(`${TEST_PREFIX}-distilled-cf-oac-lifecycle`);
 
         // List origin access controls
         const listResult = yield* listOriginAccessControls({});
@@ -249,11 +250,12 @@ test(
     yield* withOriginAccessControl("distilled-cf-oac-update", (id, etag) =>
       Effect.gen(function* () {
         // Update the OAC - keep the same name to avoid conflicts with previous runs
+        const oacName = `${TEST_PREFIX}-distilled-cf-oac-update`;
         const updateResult = yield* updateOriginAccessControl({
           Id: id,
           IfMatch: etag,
           OriginAccessControlConfig: {
-            Name: "distilled-cf-oac-update", // Same name - only update description
+            Name: oacName, // Same name - only update description
             Description: "Updated description",
             SigningProtocol: "sigv4",
             SigningBehavior: "always",
@@ -263,7 +265,7 @@ test(
 
         expect(
           updateResult.OriginAccessControl?.OriginAccessControlConfig?.Name,
-        ).toEqual("distilled-cf-oac-update");
+        ).toEqual(oacName);
         expect(
           updateResult.OriginAccessControl?.OriginAccessControlConfig
             ?.Description,
@@ -302,7 +304,7 @@ test(
         const comment = dist.Distribution?.DistributionConfig?.Comment;
         expect(
           Redacted.isRedacted(comment) ? Redacted.value(comment) : comment,
-        ).toEqual("distilled-aws test distribution");
+        ).toEqual(`${TEST_PREFIX}-distilled-aws test distribution`);
 
         // Get distribution config
         const config = yield* getDistributionConfig({ Id: id });

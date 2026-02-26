@@ -21,7 +21,7 @@ import {
   startConversation,
   TextInputEvent,
 } from "../../src/services/lex-runtime-v2.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // Skip bi-directional streaming tests in LocalStack - not supported
 const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
@@ -30,7 +30,7 @@ const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
 const BOT_ID = process.env.LEX_BOT_ID;
 const BOT_ALIAS_ID = process.env.LEX_BOT_ALIAS_ID || "TSTALIASID"; // Test alias
 const LOCALE_ID = process.env.LEX_LOCALE_ID || "en_US";
-const SESSION_ID = `distilled-aws-test-${Date.now()}`;
+const SESSION_ID = `${TEST_PREFIX}-distilled-aws-test-${Date.now()}`;
 
 // ============================================================================
 // Basic RecognizeText Test (Non-streaming, works in LocalStack)

@@ -28,7 +28,7 @@ import {
   putMethod,
   putMethodResponse,
 } from "../../src/services/api-gateway.ts";
-import { afterAll, beforeAll, test } from "../test.ts";
+import { TEST_PREFIX, afterAll, beforeAll, test } from "../test.ts";
 
 // ============================================================================
 // Pagination Helpers
@@ -79,9 +79,9 @@ beforeAll(
   Effect.gen(function* () {
     // API Gateway names aren't unique - delete any existing API with the same name
     // to prevent accumulation from failed test runs
-    yield* deleteExistingApiByName("distilled-apigw-shared");
+    yield* deleteExistingApiByName(`${TEST_PREFIX}-distilled-apigw-shared`);
 
-    const api = yield* createRestApi({ name: "distilled-apigw-shared" });
+    const api = yield* createRestApi({ name: `${TEST_PREFIX}-distilled-apigw-shared` });
     sharedRestApiId = api.id!;
 
     // Get root resource
@@ -105,7 +105,7 @@ describe.sequential("API Gateway", () => {
       // Get REST API
       const api = yield* getRestApi({ restApiId: sharedRestApiId });
       expect(api.id).toBeDefined();
-      expect(api.name).toEqual("distilled-apigw-shared");
+      expect(api.name).toEqual(`${TEST_PREFIX}-distilled-apigw-shared`);
 
       // List REST APIs (with pagination)
       const foundApi = yield* findRestApiById(sharedRestApiId);
@@ -363,8 +363,9 @@ describe.sequential("API Gateway", () => {
     "create, get, list, and delete API key",
     Effect.gen(function* () {
       // Create API key
+      const apiKeyName = `${TEST_PREFIX}-distilled-apigw-apikey`;
       const apiKey = yield* createApiKey({
-        name: "distilled-apigw-apikey",
+        name: apiKeyName,
         description: "Test API key",
         enabled: true,
       });
@@ -374,7 +375,7 @@ describe.sequential("API Gateway", () => {
       return yield* Effect.gen(function* () {
         // Get API key
         const fetchedKey = yield* getApiKey({ apiKey: apiKey.id! });
-        expect(fetchedKey.name).toEqual("distilled-apigw-apikey");
+        expect(fetchedKey.name).toEqual(apiKeyName);
         expect(fetchedKey.enabled).toBe(true);
 
         // List API keys

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createWebhookSubscription } from "../../src/operations/createWebhookSubscription";
 import { updateWebhookSubscription } from "../../src/operations/updateWebhookSubscription";
 import { deleteWebhookSubscription } from "../../src/operations/deleteWebhookSubscription";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 const NON_EXISTENT_ID = "00000000-0000-0000-0000-000000000000";
 
@@ -12,14 +12,14 @@ describe("updateWebhookSubscription", () => {
     const result = await runEffect(
       Effect.gen(function* () {
         const created = yield* createWebhookSubscription({
-          description: "distilled coinbase webhook update",
+          description: `${TEST_PREFIX} distilled coinbase webhook update`,
           eventTypes: ["onramp.transaction.created"],
           isEnabled: false,
           target: { url: "https://example.com/webhook-original" },
         });
         const updated = yield* updateWebhookSubscription({
           subscriptionId: created.subscriptionId,
-          description: "distilled coinbase webhook updated",
+          description: `${TEST_PREFIX} distilled coinbase webhook updated`,
           eventTypes: [
             "onramp.transaction.created",
             "onramp.transaction.success",

@@ -12,9 +12,9 @@ import {
   scan,
   updateItem,
 } from "../../src/services/dynamodb.ts";
-import { afterAll, beforeAll, test } from "../test.ts";
+import { TEST_PREFIX, afterAll, beforeAll, test } from "../test.ts";
 
-const TEST_TABLE_NAME = "distilled-aws-test-table";
+const TEST_TABLE_NAME = `${TEST_PREFIX}-distilled-aws-test-table`;
 
 const retrySchedule = Schedule.both(
   Schedule.recurs(30),
@@ -773,6 +773,7 @@ test(
     );
 
     // Use scan.items() with filter to get our items
+    // Use ConsistentRead to ensure all recently-written items are visible
     const collectedItems = yield* scan
       .items({
         TableName: tableName,
@@ -781,6 +782,7 @@ test(
           ":prefix": { S: "pagination#scan#" },
         },
         Limit: 2,
+        ConsistentRead: true,
       })
       .pipe(Stream.runCollect);
 

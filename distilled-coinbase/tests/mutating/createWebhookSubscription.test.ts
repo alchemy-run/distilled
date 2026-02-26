@@ -2,13 +2,13 @@ import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { createWebhookSubscription } from "../../src/operations/createWebhookSubscription";
 import { deleteWebhookSubscription } from "../../src/operations/deleteWebhookSubscription";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("createWebhookSubscription", () => {
   it("can create and delete a webhook subscription", async () => {
     const result = await runEffect(
       createWebhookSubscription({
-        description: "distilled coinbase webhook test",
+        description: `${TEST_PREFIX} distilled coinbase webhook test`,
         eventTypes: ["onramp.transaction.created"],
         isEnabled: false,
         target: { url: "https://example.com/webhook" },

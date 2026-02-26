@@ -21,7 +21,7 @@ import {
   startExecution,
   stopExecution,
 } from "../../src/services/sfn.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // Simple pass state machine definition
 const PASS_STATE_MACHINE_DEFINITION = JSON.stringify({
@@ -134,10 +134,11 @@ const waitForStateMachineAvailable = (stateMachineName: string) =>
 
 // Helper for IAM role with cleanup - cleans up before AND after
 const withRole = <A, E, R>(
-  roleName: string,
+  _roleName: string,
   testFn: (roleArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const roleName = `${TEST_PREFIX}-${_roleName}`;
     // Clean up any leftover from previous runs
     yield* cleanupRole(roleName);
 
@@ -165,10 +166,11 @@ const withRole = <A, E, R>(
 
 // Helper for activity with cleanup
 const withActivity = <A, E, R>(
-  activityName: string,
+  _activityName: string,
   testFn: (activityArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const activityName = `${TEST_PREFIX}-${_activityName}`;
     // Check if activity exists and clean up
     const existing = yield* listActivities({}).pipe(
       Effect.map(
@@ -193,13 +195,14 @@ const withActivity = <A, E, R>(
 
 // Helper for state machine with cleanup - includes role creation
 const withStateMachine = <A, E, R>(
-  stateMachineName: string,
-  roleName: string,
+  _stateMachineName: string,
+  _roleName: string,
   definition: string,
   testFn: (stateMachineArn: string) => Effect.Effect<A, E, R>,
 ) =>
-  withRole(roleName, (roleArn) =>
+  withRole(_roleName, (roleArn) =>
     Effect.gen(function* () {
+      const stateMachineName = `${TEST_PREFIX}-${_stateMachineName}`;
       // Wait for any existing state machine with this name to be fully deleted
       yield* waitForStateMachineAvailable(stateMachineName);
 
@@ -238,7 +241,7 @@ test(
 
       // Describe activity
       const describeResult = yield* describeActivity({ activityArn });
-      expect(describeResult.name).toEqual("distilled-sfn-activity-lifecycle");
+      expect(describeResult.name).toEqual(`${TEST_PREFIX}-distilled-sfn-activity-lifecycle`);
       expect(describeResult.creationDate).toBeDefined();
 
       // List activities with retry for eventual consistency
@@ -278,7 +281,7 @@ test(
 
         // Describe state machine
         const describeResult = yield* describeStateMachine({ stateMachineArn });
-        expect(describeResult.name).toEqual("distilled-sfn-sm-lifecycle");
+        expect(describeResult.name).toEqual(`${TEST_PREFIX}-distilled-sfn-sm-lifecycle`);
         expect(describeResult.status).toEqual("ACTIVE");
 
         // Verify definition matches (definition is a sensitive field)

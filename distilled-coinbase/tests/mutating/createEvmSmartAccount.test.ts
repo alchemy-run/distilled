@@ -2,14 +2,14 @@ import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { createEvmAccount } from "../../src/operations/createEvmAccount";
 import { createEvmSmartAccount } from "../../src/operations/createEvmSmartAccount";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("createEvmSmartAccount", () => {
   it("can create a smart account from an existing EVM account", async () => {
     const result = await runEffect(
       Effect.gen(function* () {
         const owner = yield* createEvmAccount({
-          name: "distilled coinbase smart owner",
+          name: `${TEST_PREFIX} distilled coinbase smart owner`,
         });
         return yield* createEvmSmartAccount({ owners: [owner.address] });
       }).pipe(

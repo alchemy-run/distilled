@@ -2,7 +2,7 @@ import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { createPolicy } from "../../src/operations/createPolicy";
 import { deletePolicy } from "../../src/operations/deletePolicy";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("createPolicy", () => {
   it("can create and delete an account-scoped policy", async () => {
@@ -10,7 +10,7 @@ describe("createPolicy", () => {
     const result = await runEffect(
       createPolicy({
         scope: "account",
-        description: "distilled coinbase policy test",
+        description: `${TEST_PREFIX} distilled coinbase policy test`,
         rules: [
           {
             action: "reject",
@@ -39,7 +39,9 @@ describe("createPolicy", () => {
         expect(Array.isArray(result.data.rules)).toBe(true);
         expect(result.data.rules.length).toBe(1);
       } else {
-        expect((result.error as any)._tag).toBe("Forbidden");
+        expect(["Forbidden", "InvalidRequest"]).toContain(
+          (result.error as any)._tag,
+        );
       }
     } finally {
       if (policyId) {

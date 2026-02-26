@@ -2,12 +2,12 @@ import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { InvalidRequest } from "../../src/errors";
 import { createSolanaAccount } from "../../src/operations/createSolanaAccount";
-import { runEffect } from "../setup";
+import { TEST_PREFIX, runEffect } from "../setup";
 
 describe("createSolanaAccount", () => {
   it("can create a new Solana account", async () => {
     const result = await runEffect(
-      createSolanaAccount({ name: "distilled coinbase solana test" }).pipe(
+      createSolanaAccount({ name: `${TEST_PREFIX} distilled coinbase solana test` }).pipe(
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),
           onSuccess: (data) => Effect.succeed({ data }),

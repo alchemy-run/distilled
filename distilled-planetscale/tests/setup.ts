@@ -12,7 +12,7 @@ config();
 // Main layer providing credentials and HTTP client for all tests
 export const MainLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
 
-const TEST_DATABASE_PREFIX = "distilled-test-db";
+const TEST_DATABASE_PREFIX = `${process.env.USER ?? process.env.USERNAME ?? "local"}-distilled-test-db`;
 
 /**
  * Test database configuration
@@ -58,7 +58,7 @@ const log = (prefix: string, message: string) => {
 /**
  * Setup the test database. Call this in beforeAll.
  * Creates the database if it doesn't exist and waits for it to be ready.
- * @param suffix - Optional suffix to identify the database (e.g., "branches" -> "distilled-test-db-branches")
+ * @param suffix - Optional suffix to identify the database (e.g., "branches" -> "{user}-distilled-test-db-branches")
  */
 export const setupTestDatabase = (suffix?: string) =>
   Effect.gen(function* () {

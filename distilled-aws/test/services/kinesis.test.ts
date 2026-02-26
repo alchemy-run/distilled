@@ -14,7 +14,7 @@ import {
   registerStreamConsumer,
   subscribeToShard,
 } from "../../src/services/kinesis.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 class NotReady extends Data.TaggedError("NotReady")<{
   status: string | undefined;
@@ -109,10 +109,11 @@ const waitForConsumerActive = (consumerArn: string) =>
 
 // Helper to create a stream and ensure cleanup
 const withStream = <A, E, R>(
-  streamName: string,
+  _streamName: string,
   testFn: (streamName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const streamName = `${TEST_PREFIX}-${_streamName}`;
     // Delete existing stream if it exists (cleanup from previous runs)
     yield* deleteStream({
       StreamName: streamName,

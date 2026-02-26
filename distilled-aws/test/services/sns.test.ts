@@ -24,7 +24,7 @@ import {
   unsubscribe,
   untagResource,
 } from "../../src/services/sns.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
 // ============================================================================
 // Idempotent Cleanup Helpers
@@ -83,10 +83,11 @@ const cleanupTopicByName = (topicName: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withTopic = <A, E, R>(
-  name: string,
+  _name: string,
   testFn: (topicArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const name = `${TEST_PREFIX}-${_name}`;
     // Clean up any leftover from previous runs
     yield* cleanupTopicByName(name);
 

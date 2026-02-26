@@ -16,8 +16,10 @@ import {
   tagQueue,
   untagQueue,
 } from "../../src/services/sqs.ts";
-import { test } from "../test.ts";
+import { TEST_PREFIX, test } from "../test.ts";
 
+// ============================================================================
+// Idempotent Test Helpers
 // ============================================================================
 // Idempotent Cleanup Helpers
 // ============================================================================
@@ -52,10 +54,11 @@ const retryQueueNotExist = {
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withQueue = <A, E, R>(
-  queueName: string,
+  _queueName: string,
   testFn: (queueUrl: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const queueName = `${TEST_PREFIX}-${_queueName}`;
     // Clean up any leftover from previous runs
     yield* cleanupQueueByName(queueName);
 
@@ -77,10 +80,11 @@ const withQueue = <A, E, R>(
 
 // Helper for FIFO queues - cleans up before AND after
 const withFifoQueue = <A, E, R>(
-  queueName: string,
+  _queueName: string,
   testFn: (queueUrl: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const queueName = `${TEST_PREFIX}-${_queueName}`;
     const fifoQueueName = queueName.endsWith(".fifo")
       ? queueName
       : `${queueName}.fifo`;
@@ -123,16 +127,16 @@ test(
 
       // Get queue URL by name (retry for eventual consistency after create)
       const getUrlResult = yield* getQueueUrl({
-        QueueName: "distilled-sqs-lifecycle",
+        QueueName: `${TEST_PREFIX}-distilled-sqs-lifecycle`,
       }).pipe(Effect.retry(retryQueueNotExist));
       expect(getUrlResult.QueueUrl).toEqual(queueUrl);
 
       // List queues and verify our queue is in the list (retry for eventual consistency)
       const listResult = yield* listQueues({
-        QueueNamePrefix: "distilled-sqs-lifecycle",
+        QueueNamePrefix: `${TEST_PREFIX}-distilled-sqs-lifecycle`,
       }).pipe(Effect.retry(retryQueueNotExist));
       const foundQueue = listResult.QueueUrls?.find((url) =>
-        url.includes("distilled-sqs-lifecycle"),
+        url.includes(`${TEST_PREFIX}-distilled-sqs-lifecycle`),
       );
       expect(foundQueue).toBeDefined();
     }),
