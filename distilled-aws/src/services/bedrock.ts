@@ -156,7 +156,28 @@ export type AutomatedReasoningPolicyBuildDocumentName =
 export type AutomatedReasoningPolicyBuildDocumentDescription =
   | string
   | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyBuildResultAssetId = string;
 export type AutomatedReasoningPolicyScenarioAlternateExpression =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyBuildResultAssetName =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyBuildDocumentBlob =
+  | Uint8Array
+  | redacted.Redacted<Uint8Array>;
+export type AutomatedReasoningPolicyDocumentSha256 = string;
+export type AutomatedReasoningPolicyCoverageScore = number;
+export type AutomatedReasoningPolicyAccuracyScore = number;
+export type AutomatedReasoningPolicyDocumentId = string;
+export type AutomatedReasoningPolicyStatementId = string;
+export type AutomatedReasoningPolicyJustificationText =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyStatementText =
+  | string
+  | redacted.Redacted<string>;
+export type AutomatedReasoningPolicyLineText =
   | string
   | redacted.Redacted<string>;
 export type AutomatedReasoningLogicStatementContent =
@@ -165,9 +186,6 @@ export type AutomatedReasoningLogicStatementContent =
 export type AutomatedReasoningNaturalLanguageStatementContent =
   | string
   | redacted.Redacted<string>;
-export type AutomatedReasoningPolicyBuildDocumentBlob =
-  | Uint8Array
-  | redacted.Redacted<Uint8Array>;
 export type ModelSourceIdentifier = string;
 export type InstanceCount = number;
 export type InstanceType = string;
@@ -1420,6 +1438,7 @@ export type AutomatedReasoningPolicyBuildWorkflowType =
   | "INGEST_CONTENT"
   | "REFINE_POLICY"
   | "IMPORT_POLICY"
+  | "GENERATE_FIDELITY_REPORT"
   | (string & {});
 export const AutomatedReasoningPolicyBuildWorkflowType = S.String;
 export type AutomatedReasoningPolicyBuildDocumentContentType =
@@ -1461,12 +1480,16 @@ export type AutomatedReasoningPolicyBuildResultAssetType =
   | "POLICY_DEFINITION"
   | "GENERATED_TEST_CASES"
   | "POLICY_SCENARIOS"
+  | "FIDELITY_REPORT"
+  | "ASSET_MANIFEST"
+  | "SOURCE_DOCUMENT"
   | (string & {});
 export const AutomatedReasoningPolicyBuildResultAssetType = S.String;
 export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest {
   policyArn: string;
   buildWorkflowId: string;
   assetType: AutomatedReasoningPolicyBuildResultAssetType;
+  assetId?: string;
 }
 export const GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest =
   S.suspend(() =>
@@ -1476,6 +1499,7 @@ export const GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest =
       assetType: AutomatedReasoningPolicyBuildResultAssetType.pipe(
         T.HttpQuery("assetType"),
       ),
+      assetId: S.optional(S.String).pipe(T.HttpQuery("assetId")),
     }).pipe(
       T.all(
         T.Http({
@@ -1912,6 +1936,243 @@ export const AutomatedReasoningPolicyScenarios = S.suspend(() =>
 ).annotate({
   identifier: "AutomatedReasoningPolicyScenarios",
 }) as any as S.Schema<AutomatedReasoningPolicyScenarios>;
+export interface AutomatedReasoningPolicyBuildResultAssetManifestEntry {
+  assetType: AutomatedReasoningPolicyBuildResultAssetType;
+  assetName?: string | redacted.Redacted<string>;
+  assetId?: string;
+}
+export const AutomatedReasoningPolicyBuildResultAssetManifestEntry = S.suspend(
+  () =>
+    S.Struct({
+      assetType: AutomatedReasoningPolicyBuildResultAssetType,
+      assetName: S.optional(SensitiveString),
+      assetId: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildResultAssetManifestEntry",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildResultAssetManifestEntry>;
+export type AutomatedReasoningPolicyBuildResultAssetManifestList =
+  AutomatedReasoningPolicyBuildResultAssetManifestEntry[];
+export const AutomatedReasoningPolicyBuildResultAssetManifestList = S.Array(
+  AutomatedReasoningPolicyBuildResultAssetManifestEntry,
+);
+export interface AutomatedReasoningPolicyBuildResultAssetManifest {
+  entries: AutomatedReasoningPolicyBuildResultAssetManifestEntry[];
+}
+export const AutomatedReasoningPolicyBuildResultAssetManifest = S.suspend(() =>
+  S.Struct({ entries: AutomatedReasoningPolicyBuildResultAssetManifestList }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyBuildResultAssetManifest",
+}) as any as S.Schema<AutomatedReasoningPolicyBuildResultAssetManifest>;
+export interface AutomatedReasoningPolicySourceDocument {
+  document: Uint8Array | redacted.Redacted<Uint8Array>;
+  documentContentType: AutomatedReasoningPolicyBuildDocumentContentType;
+  documentName: string | redacted.Redacted<string>;
+  documentDescription?: string | redacted.Redacted<string>;
+  documentHash: string;
+}
+export const AutomatedReasoningPolicySourceDocument = S.suspend(() =>
+  S.Struct({
+    document: SensitiveBlob,
+    documentContentType: AutomatedReasoningPolicyBuildDocumentContentType,
+    documentName: SensitiveString,
+    documentDescription: S.optional(SensitiveString),
+    documentHash: S.String,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicySourceDocument",
+}) as any as S.Schema<AutomatedReasoningPolicySourceDocument>;
+export interface AutomatedReasoningPolicyStatementReference {
+  documentId: string;
+  statementId: string;
+}
+export const AutomatedReasoningPolicyStatementReference = S.suspend(() =>
+  S.Struct({ documentId: S.String, statementId: S.String }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyStatementReference",
+}) as any as S.Schema<AutomatedReasoningPolicyStatementReference>;
+export type AutomatedReasoningPolicyStatementReferenceList =
+  AutomatedReasoningPolicyStatementReference[];
+export const AutomatedReasoningPolicyStatementReferenceList = S.Array(
+  AutomatedReasoningPolicyStatementReference,
+);
+export type AutomatedReasoningPolicyJustificationList =
+  | string
+  | redacted.Redacted<string>[];
+export const AutomatedReasoningPolicyJustificationList =
+  S.Array(SensitiveString);
+export interface AutomatedReasoningPolicyRuleReport {
+  rule: string;
+  groundingStatements?: AutomatedReasoningPolicyStatementReference[];
+  groundingJustifications?: string | redacted.Redacted<string>[];
+  accuracyScore?: number;
+  accuracyJustification?: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningPolicyRuleReport = S.suspend(() =>
+  S.Struct({
+    rule: S.String,
+    groundingStatements: S.optional(
+      AutomatedReasoningPolicyStatementReferenceList,
+    ),
+    groundingJustifications: S.optional(
+      AutomatedReasoningPolicyJustificationList,
+    ),
+    accuracyScore: S.optional(S.Number),
+    accuracyJustification: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyRuleReport",
+}) as any as S.Schema<AutomatedReasoningPolicyRuleReport>;
+export type AutomatedReasoningPolicyRuleReportMap = {
+  [key: string]: AutomatedReasoningPolicyRuleReport | undefined;
+};
+export const AutomatedReasoningPolicyRuleReportMap = S.Record(
+  S.String,
+  AutomatedReasoningPolicyRuleReport.pipe(S.optional),
+);
+export interface AutomatedReasoningPolicyVariableReport {
+  policyVariable: string | redacted.Redacted<string>;
+  groundingStatements?: AutomatedReasoningPolicyStatementReference[];
+  groundingJustifications?: string | redacted.Redacted<string>[];
+  accuracyScore?: number;
+  accuracyJustification?: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningPolicyVariableReport = S.suspend(() =>
+  S.Struct({
+    policyVariable: SensitiveString,
+    groundingStatements: S.optional(
+      AutomatedReasoningPolicyStatementReferenceList,
+    ),
+    groundingJustifications: S.optional(
+      AutomatedReasoningPolicyJustificationList,
+    ),
+    accuracyScore: S.optional(S.Number),
+    accuracyJustification: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyVariableReport",
+}) as any as S.Schema<AutomatedReasoningPolicyVariableReport>;
+export type AutomatedReasoningPolicyVariableReportMap = {
+  [key: string]: AutomatedReasoningPolicyVariableReport | undefined;
+};
+export const AutomatedReasoningPolicyVariableReportMap = S.Record(
+  S.String,
+  AutomatedReasoningPolicyVariableReport.pipe(S.optional),
+);
+export type AutomatedReasoningPolicyLineNumberList = number[];
+export const AutomatedReasoningPolicyLineNumberList = S.Array(S.Number);
+export interface AutomatedReasoningPolicyStatementLocation {
+  lines: number[];
+}
+export const AutomatedReasoningPolicyStatementLocation = S.suspend(() =>
+  S.Struct({ lines: AutomatedReasoningPolicyLineNumberList }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyStatementLocation",
+}) as any as S.Schema<AutomatedReasoningPolicyStatementLocation>;
+export interface AutomatedReasoningPolicyAtomicStatement {
+  id: string;
+  text: string | redacted.Redacted<string>;
+  location: AutomatedReasoningPolicyStatementLocation;
+}
+export const AutomatedReasoningPolicyAtomicStatement = S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    text: SensitiveString,
+    location: AutomatedReasoningPolicyStatementLocation,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyAtomicStatement",
+}) as any as S.Schema<AutomatedReasoningPolicyAtomicStatement>;
+export type AutomatedReasoningPolicyAtomicStatementList =
+  AutomatedReasoningPolicyAtomicStatement[];
+export const AutomatedReasoningPolicyAtomicStatementList = S.Array(
+  AutomatedReasoningPolicyAtomicStatement,
+);
+export interface AutomatedReasoningPolicyAnnotatedLine {
+  lineNumber?: number;
+  lineText?: string | redacted.Redacted<string>;
+}
+export const AutomatedReasoningPolicyAnnotatedLine = S.suspend(() =>
+  S.Struct({
+    lineNumber: S.optional(S.Number),
+    lineText: S.optional(SensitiveString),
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyAnnotatedLine",
+}) as any as S.Schema<AutomatedReasoningPolicyAnnotatedLine>;
+export type AutomatedReasoningPolicyAnnotatedContent = {
+  line: AutomatedReasoningPolicyAnnotatedLine;
+};
+export const AutomatedReasoningPolicyAnnotatedContent = S.Union([
+  S.Struct({ line: AutomatedReasoningPolicyAnnotatedLine }),
+]);
+export type AutomatedReasoningPolicyAnnotatedContentList =
+  AutomatedReasoningPolicyAnnotatedContent[];
+export const AutomatedReasoningPolicyAnnotatedContentList = S.Array(
+  AutomatedReasoningPolicyAnnotatedContent,
+);
+export interface AutomatedReasoningPolicyAnnotatedChunk {
+  pageNumber?: number;
+  content: AutomatedReasoningPolicyAnnotatedContent[];
+}
+export const AutomatedReasoningPolicyAnnotatedChunk = S.suspend(() =>
+  S.Struct({
+    pageNumber: S.optional(S.Number),
+    content: AutomatedReasoningPolicyAnnotatedContentList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyAnnotatedChunk",
+}) as any as S.Schema<AutomatedReasoningPolicyAnnotatedChunk>;
+export type AutomatedReasoningPolicyAnnotatedChunkList =
+  AutomatedReasoningPolicyAnnotatedChunk[];
+export const AutomatedReasoningPolicyAnnotatedChunkList = S.Array(
+  AutomatedReasoningPolicyAnnotatedChunk,
+);
+export interface AutomatedReasoningPolicyReportSourceDocument {
+  documentName: string | redacted.Redacted<string>;
+  documentHash: string;
+  documentId: string;
+  atomicStatements: AutomatedReasoningPolicyAtomicStatement[];
+  documentContent: AutomatedReasoningPolicyAnnotatedChunk[];
+}
+export const AutomatedReasoningPolicyReportSourceDocument = S.suspend(() =>
+  S.Struct({
+    documentName: SensitiveString,
+    documentHash: S.String,
+    documentId: S.String,
+    atomicStatements: AutomatedReasoningPolicyAtomicStatementList,
+    documentContent: AutomatedReasoningPolicyAnnotatedChunkList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyReportSourceDocument",
+}) as any as S.Schema<AutomatedReasoningPolicyReportSourceDocument>;
+export type AutomatedReasoningPolicyReportSourceDocumentList =
+  AutomatedReasoningPolicyReportSourceDocument[];
+export const AutomatedReasoningPolicyReportSourceDocumentList = S.Array(
+  AutomatedReasoningPolicyReportSourceDocument,
+);
+export interface AutomatedReasoningPolicyFidelityReport {
+  coverageScore: number;
+  accuracyScore: number;
+  ruleReports: {
+    [key: string]: AutomatedReasoningPolicyRuleReport | undefined;
+  };
+  variableReports: {
+    [key: string]: AutomatedReasoningPolicyVariableReport | undefined;
+  };
+  documentSources: AutomatedReasoningPolicyReportSourceDocument[];
+}
+export const AutomatedReasoningPolicyFidelityReport = S.suspend(() =>
+  S.Struct({
+    coverageScore: S.Number,
+    accuracyScore: S.Number,
+    ruleReports: AutomatedReasoningPolicyRuleReportMap,
+    variableReports: AutomatedReasoningPolicyVariableReportMap,
+    documentSources: AutomatedReasoningPolicyReportSourceDocumentList,
+  }),
+).annotate({
+  identifier: "AutomatedReasoningPolicyFidelityReport",
+}) as any as S.Schema<AutomatedReasoningPolicyFidelityReport>;
 export type AutomatedReasoningPolicyBuildResultAssets =
   | {
       policyDefinition: AutomatedReasoningPolicyDefinition;
@@ -1919,6 +2180,9 @@ export type AutomatedReasoningPolicyBuildResultAssets =
       buildLog?: never;
       generatedTestCases?: never;
       policyScenarios?: never;
+      assetManifest?: never;
+      document?: never;
+      fidelityReport?: never;
     }
   | {
       policyDefinition?: never;
@@ -1926,6 +2190,9 @@ export type AutomatedReasoningPolicyBuildResultAssets =
       buildLog?: never;
       generatedTestCases?: never;
       policyScenarios?: never;
+      assetManifest?: never;
+      document?: never;
+      fidelityReport?: never;
     }
   | {
       policyDefinition?: never;
@@ -1933,6 +2200,9 @@ export type AutomatedReasoningPolicyBuildResultAssets =
       buildLog: AutomatedReasoningPolicyBuildLog;
       generatedTestCases?: never;
       policyScenarios?: never;
+      assetManifest?: never;
+      document?: never;
+      fidelityReport?: never;
     }
   | {
       policyDefinition?: never;
@@ -1940,6 +2210,9 @@ export type AutomatedReasoningPolicyBuildResultAssets =
       buildLog?: never;
       generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases;
       policyScenarios?: never;
+      assetManifest?: never;
+      document?: never;
+      fidelityReport?: never;
     }
   | {
       policyDefinition?: never;
@@ -1947,6 +2220,39 @@ export type AutomatedReasoningPolicyBuildResultAssets =
       buildLog?: never;
       generatedTestCases?: never;
       policyScenarios: AutomatedReasoningPolicyScenarios;
+      assetManifest?: never;
+      document?: never;
+      fidelityReport?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+      assetManifest: AutomatedReasoningPolicyBuildResultAssetManifest;
+      document?: never;
+      fidelityReport?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+      assetManifest?: never;
+      document: AutomatedReasoningPolicySourceDocument;
+      fidelityReport?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+      assetManifest?: never;
+      document?: never;
+      fidelityReport: AutomatedReasoningPolicyFidelityReport;
     };
 export const AutomatedReasoningPolicyBuildResultAssets = S.Union([
   S.Struct({ policyDefinition: AutomatedReasoningPolicyDefinition }),
@@ -1954,6 +2260,9 @@ export const AutomatedReasoningPolicyBuildResultAssets = S.Union([
   S.Struct({ buildLog: AutomatedReasoningPolicyBuildLog }),
   S.Struct({ generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases }),
   S.Struct({ policyScenarios: AutomatedReasoningPolicyScenarios }),
+  S.Struct({ assetManifest: AutomatedReasoningPolicyBuildResultAssetManifest }),
+  S.Struct({ document: AutomatedReasoningPolicySourceDocument }),
+  S.Struct({ fidelityReport: AutomatedReasoningPolicyFidelityReport }),
 ]);
 export interface GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
   policyArn: string;
@@ -2601,19 +2910,42 @@ export const AutomatedReasoningPolicyBuildWorkflowRepairContent = S.suspend(
 ).annotate({
   identifier: "AutomatedReasoningPolicyBuildWorkflowRepairContent",
 }) as any as S.Schema<AutomatedReasoningPolicyBuildWorkflowRepairContent>;
+export type AutomatedReasoningPolicyGenerateFidelityReportDocumentList =
+  AutomatedReasoningPolicyBuildWorkflowDocument[];
+export const AutomatedReasoningPolicyGenerateFidelityReportDocumentList =
+  S.Array(AutomatedReasoningPolicyBuildWorkflowDocument);
+export type AutomatedReasoningPolicyGenerateFidelityReportContent = {
+  documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
+};
+export const AutomatedReasoningPolicyGenerateFidelityReportContent = S.Union([
+  S.Struct({
+    documents: AutomatedReasoningPolicyGenerateFidelityReportDocumentList,
+  }),
+]);
 export type AutomatedReasoningPolicyWorkflowTypeContent =
   | {
       documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
       policyRepairAssets?: never;
+      generateFidelityReportContent?: never;
     }
   | {
       documents?: never;
       policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent;
+      generateFidelityReportContent?: never;
+    }
+  | {
+      documents?: never;
+      policyRepairAssets?: never;
+      generateFidelityReportContent: AutomatedReasoningPolicyGenerateFidelityReportContent;
     };
 export const AutomatedReasoningPolicyWorkflowTypeContent = S.Union([
   S.Struct({ documents: AutomatedReasoningPolicyBuildWorkflowDocumentList }),
   S.Struct({
     policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent,
+  }),
+  S.Struct({
+    generateFidelityReportContent:
+      AutomatedReasoningPolicyGenerateFidelityReportContent,
   }),
 ]);
 export interface AutomatedReasoningPolicyBuildWorkflowSource {

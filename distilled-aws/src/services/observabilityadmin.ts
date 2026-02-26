@@ -93,6 +93,7 @@ export type SourceFilterString = string;
 export type LogsFilterString = string;
 export type AccountIdentifier = string;
 export type ResourceArn = string;
+export type LogGroupNamePattern = string;
 export type TagKey = string;
 export type TagValue = string;
 export type RetentionPeriodInDays = number;
@@ -180,14 +181,24 @@ export const LogsBackupConfiguration = S.suspend(() =>
 ).annotate({
   identifier: "LogsBackupConfiguration",
 }) as any as S.Schema<LogsBackupConfiguration>;
+export interface LogGroupNameConfiguration {
+  LogGroupNamePattern: string;
+}
+export const LogGroupNameConfiguration = S.suspend(() =>
+  S.Struct({ LogGroupNamePattern: S.String }),
+).annotate({
+  identifier: "LogGroupNameConfiguration",
+}) as any as S.Schema<LogGroupNameConfiguration>;
 export interface DestinationLogsConfiguration {
   LogsEncryptionConfiguration?: LogsEncryptionConfiguration;
   BackupConfiguration?: LogsBackupConfiguration;
+  LogGroupNameConfiguration?: LogGroupNameConfiguration;
 }
 export const DestinationLogsConfiguration = S.suspend(() =>
   S.Struct({
     LogsEncryptionConfiguration: S.optional(LogsEncryptionConfiguration),
     BackupConfiguration: S.optional(LogsBackupConfiguration),
+    LogGroupNameConfiguration: S.optional(LogGroupNameConfiguration),
   }),
 ).annotate({
   identifier: "DestinationLogsConfiguration",
@@ -1089,6 +1100,7 @@ export interface TelemetryConfiguration {
   ResourceIdentifier?: string;
   ResourceTags?: { [key: string]: string | undefined };
   LastUpdateTimeStamp?: number;
+  TelemetrySourceType?: TelemetrySourceType;
 }
 export const TelemetryConfiguration = S.suspend(() =>
   S.Struct({
@@ -1098,6 +1110,7 @@ export const TelemetryConfiguration = S.suspend(() =>
     ResourceIdentifier: S.optional(S.String),
     ResourceTags: S.optional(TagMapOutput),
     LastUpdateTimeStamp: S.optional(S.Number),
+    TelemetrySourceType: S.optional(TelemetrySourceType),
   }),
 ).annotate({
   identifier: "TelemetryConfiguration",
@@ -3077,7 +3090,7 @@ export const getTelemetryPipeline: (
  *
  * ### Okta Sources (SSO, Auth0)
  *
- * **Updatable:** All Amazon Web Services Secrets Manager attributes, `domain`, `range` (SSO only), OAuth2 credentials (`client_id`, `client_secret`)
+ * **Updatable:** All Amazon Web Services Secrets Manager attributes, `domain`, `range`, OAuth2 credentials (`client_id`, `client_secret`)
  *
  * ### Palo Alto Networks
  *

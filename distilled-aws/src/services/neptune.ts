@@ -1527,6 +1527,8 @@ export interface CreateGlobalClusterMessage {
   Engine?: string;
   EngineVersion?: string;
   DeletionProtection?: boolean;
+  DatabaseName?: string;
+  Tags?: Tag[];
   StorageEncrypted?: boolean;
 }
 export const CreateGlobalClusterMessage = S.suspend(() =>
@@ -1536,6 +1538,8 @@ export const CreateGlobalClusterMessage = S.suspend(() =>
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     DeletionProtection: S.optional(S.Boolean),
+    DatabaseName: S.optional(S.String),
+    Tags: S.optional(TagList),
     StorageEncrypted: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1600,10 +1604,12 @@ export interface GlobalCluster {
   Status?: string;
   Engine?: string;
   EngineVersion?: string;
+  DatabaseName?: string;
   StorageEncrypted?: boolean;
   DeletionProtection?: boolean;
   GlobalClusterMembers?: GlobalClusterMember[];
   FailoverState?: FailoverState;
+  TagList?: Tag[];
 }
 export const GlobalCluster = S.suspend(() =>
   S.Struct({
@@ -1613,10 +1619,12 @@ export const GlobalCluster = S.suspend(() =>
     Status: S.optional(S.String),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
+    DatabaseName: S.optional(S.String),
     StorageEncrypted: S.optional(S.Boolean),
     DeletionProtection: S.optional(S.Boolean),
     GlobalClusterMembers: S.optional(GlobalClusterMemberList),
     FailoverState: S.optional(FailoverState),
+    TagList: S.optional(TagList),
   }),
 ).annotate({ identifier: "GlobalCluster" }) as any as S.Schema<GlobalCluster>;
 export interface CreateGlobalClusterResult {
@@ -6249,12 +6257,23 @@ export const modifyGlobalCluster: (
   input: ModifyGlobalClusterMessage,
 ) => effect.Effect<
   ModifyGlobalClusterResult,
-  GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
+  | GlobalClusterAlreadyExistsFault
+  | GlobalClusterNotFoundFault
+  | InvalidDBClusterStateFault
+  | InvalidDBInstanceStateFault
+  | InvalidGlobalClusterStateFault
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyGlobalClusterMessage,
   output: ModifyGlobalClusterResult,
-  errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
+  errors: [
+    GlobalClusterAlreadyExistsFault,
+    GlobalClusterNotFoundFault,
+    InvalidDBClusterStateFault,
+    InvalidDBInstanceStateFault,
+    InvalidGlobalClusterStateFault,
+  ],
 }));
 /**
  * Not supported.

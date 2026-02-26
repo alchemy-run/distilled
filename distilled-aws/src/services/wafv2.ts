@@ -163,8 +163,15 @@ export type Action = string;
 export type ResponseCode = number;
 export type SolveTimestamp = number;
 export type PopulationSize = number;
-export type OutputUrl = string;
+export type UriPathPrefixString = string;
+export type FilterString = string;
+export type PathStatisticsLimit = number;
+export type NumberOfTopTrafficBotsPerPath = number;
 export type NextMarker = string;
+export type PathString = string;
+export type RequestCount = number;
+export type PercentageValue = number;
+export type OutputUrl = string;
 export type PaginationLimit = number;
 export type APIKeyVersion = number;
 
@@ -3268,6 +3275,100 @@ export const GetSampledRequestsResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetSampledRequestsResponse",
 }) as any as S.Schema<GetSampledRequestsResponse>;
+export interface GetTopPathStatisticsByTrafficRequest {
+  WebAclArn: string;
+  Scope: Scope;
+  UriPathPrefix?: string;
+  TimeWindow: TimeWindow;
+  BotCategory?: string;
+  BotOrganization?: string;
+  BotName?: string;
+  Limit: number;
+  NumberOfTopTrafficBotsPerPath: number;
+  NextMarker?: string;
+}
+export const GetTopPathStatisticsByTrafficRequest = S.suspend(() =>
+  S.Struct({
+    WebAclArn: S.String,
+    Scope: Scope,
+    UriPathPrefix: S.optional(S.String),
+    TimeWindow: TimeWindow,
+    BotCategory: S.optional(S.String),
+    BotOrganization: S.optional(S.String),
+    BotName: S.optional(S.String),
+    Limit: S.Number,
+    NumberOfTopTrafficBotsPerPath: S.Number,
+    NextMarker: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetTopPathStatisticsByTrafficRequest",
+}) as any as S.Schema<GetTopPathStatisticsByTrafficRequest>;
+export interface FilterSource {
+  BotCategory?: string;
+  BotOrganization?: string;
+  BotName?: string;
+}
+export const FilterSource = S.suspend(() =>
+  S.Struct({
+    BotCategory: S.optional(S.String),
+    BotOrganization: S.optional(S.String),
+    BotName: S.optional(S.String),
+  }),
+).annotate({ identifier: "FilterSource" }) as any as S.Schema<FilterSource>;
+export interface BotStatistics {
+  BotName: string;
+  RequestCount: number;
+  Percentage: number;
+}
+export const BotStatistics = S.suspend(() =>
+  S.Struct({ BotName: S.String, RequestCount: S.Number, Percentage: S.Number }),
+).annotate({ identifier: "BotStatistics" }) as any as S.Schema<BotStatistics>;
+export type BotStatisticsList = BotStatistics[];
+export const BotStatisticsList = S.Array(BotStatistics);
+export interface PathStatistics {
+  Source?: FilterSource;
+  Path: string;
+  RequestCount: number;
+  Percentage: number;
+  TopBots?: BotStatistics[];
+}
+export const PathStatistics = S.suspend(() =>
+  S.Struct({
+    Source: S.optional(FilterSource),
+    Path: S.String,
+    RequestCount: S.Number,
+    Percentage: S.Number,
+    TopBots: S.optional(BotStatisticsList),
+  }),
+).annotate({ identifier: "PathStatistics" }) as any as S.Schema<PathStatistics>;
+export type PathStatisticsList = PathStatistics[];
+export const PathStatisticsList = S.Array(PathStatistics);
+export interface GetTopPathStatisticsByTrafficResponse {
+  PathStatistics: PathStatistics[];
+  TotalRequestCount: number;
+  NextMarker?: string;
+  TopCategories?: PathStatistics[];
+}
+export const GetTopPathStatisticsByTrafficResponse = S.suspend(() =>
+  S.Struct({
+    PathStatistics: PathStatisticsList,
+    TotalRequestCount: S.Number,
+    NextMarker: S.optional(S.String),
+    TopCategories: S.optional(PathStatisticsList),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetTopPathStatisticsByTrafficResponse",
+}) as any as S.Schema<GetTopPathStatisticsByTrafficResponse>;
 export interface GetWebACLRequest {
   Name?: string;
   Scope?: Scope;
@@ -5354,6 +5455,33 @@ export const getSampledRequests: (
   output: GetSampledRequestsResponse,
   errors: [
     WAFInternalErrorException,
+    WAFInvalidParameterException,
+    WAFNonexistentItemException,
+  ],
+}));
+/**
+ * Retrieves aggregated statistics about the top URI paths accessed by bot traffic for a specified web ACL and time window.
+ * You can use this operation to analyze which paths on your web application receive the most bot traffic and identify the specific bots accessing those paths.
+ * The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
+ */
+export const getTopPathStatisticsByTraffic: (
+  input: GetTopPathStatisticsByTrafficRequest,
+) => effect.Effect<
+  GetTopPathStatisticsByTrafficResponse,
+  | WAFFeatureNotIncludedInPricingPlanException
+  | WAFInternalErrorException
+  | WAFInvalidOperationException
+  | WAFInvalidParameterException
+  | WAFNonexistentItemException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTopPathStatisticsByTrafficRequest,
+  output: GetTopPathStatisticsByTrafficResponse,
+  errors: [
+    WAFFeatureNotIncludedInPricingPlanException,
+    WAFInternalErrorException,
+    WAFInvalidOperationException,
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],

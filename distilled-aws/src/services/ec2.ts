@@ -102,6 +102,7 @@ export type Ipv4PoolEc2Id = string;
 export type IpamPoolId = string;
 export type AssetId = string;
 export type AvailabilityZoneId = string;
+export type AvailabilityZoneName = string;
 export type IpamPoolAllocationId = string;
 export type ClientVpnEndpointId = string;
 export type VpcId = string;
@@ -109,7 +110,6 @@ export type SecurityGroupId = string;
 export type NetworkInterfaceId = string;
 export type NatGatewayId = string;
 export type PrivateIpAddressCount = number;
-export type AvailabilityZoneName = string;
 export type AllocationId = string;
 export type InstanceId = string;
 export type EipAllocationPublicIp = string;
@@ -30362,6 +30362,7 @@ export interface CapacityBlockExtension {
   CapacityBlockExtensionEndDate?: Date;
   UpfrontFee?: string;
   CurrencyCode?: string;
+  ZoneType?: string;
 }
 export const CapacityBlockExtension = S.suspend(() =>
   S.Struct({
@@ -30422,6 +30423,10 @@ export const CapacityBlockExtension = S.suspend(() =>
     CurrencyCode: S.optional(S.String).pipe(
       T.XmlName("currencyCode"),
       T.Ec2QueryName("CurrencyCode"),
+    ),
+    ZoneType: S.optional(S.String).pipe(
+      T.XmlName("zoneType"),
+      T.Ec2QueryName("ZoneType"),
     ),
   }),
 ).annotate({
@@ -30492,6 +30497,7 @@ export interface CapacityBlockExtensionOffering {
   UpfrontFee?: string;
   CurrencyCode?: string;
   Tenancy?: CapacityReservationTenancy;
+  ZoneType?: string;
 }
 export const CapacityBlockExtensionOffering = S.suspend(() =>
   S.Struct({
@@ -30546,6 +30552,10 @@ export const CapacityBlockExtensionOffering = S.suspend(() =>
       T.XmlName("tenancy"),
       T.Ec2QueryName("Tenancy"),
     ),
+    ZoneType: S.optional(S.String).pipe(
+      T.XmlName("zoneType"),
+      T.Ec2QueryName("ZoneType"),
+    ),
   }),
 ).annotate({
   identifier: "CapacityBlockExtensionOffering",
@@ -30588,6 +30598,7 @@ export interface DescribeCapacityBlockOfferingsRequest {
   MaxResults?: number;
   UltraserverType?: string;
   UltraserverCount?: number;
+  AllAvailabilityZones?: boolean;
 }
 export const DescribeCapacityBlockOfferingsRequest = S.suspend(() =>
   S.Struct({
@@ -30605,6 +30616,7 @@ export const DescribeCapacityBlockOfferingsRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     UltraserverType: S.optional(S.String),
     UltraserverCount: S.optional(S.Number),
+    AllAvailabilityZones: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -30633,6 +30645,7 @@ export interface CapacityBlockOffering {
   UltraserverType?: string;
   UltraserverCount?: number;
   CapacityBlockDurationMinutes?: number;
+  ZoneType?: string;
 }
 export const CapacityBlockOffering = S.suspend(() =>
   S.Struct({
@@ -30685,6 +30698,10 @@ export const CapacityBlockOffering = S.suspend(() =>
     CapacityBlockDurationMinutes: S.optional(S.Number).pipe(
       T.XmlName("capacityBlockDurationMinutes"),
       T.Ec2QueryName("CapacityBlockDurationMinutes"),
+    ),
+    ZoneType: S.optional(S.String).pipe(
+      T.XmlName("zoneType"),
+      T.Ec2QueryName("ZoneType"),
     ),
   }),
 ).annotate({
@@ -56829,6 +56846,8 @@ export const GetInstanceMetadataDefaultsRequest = S.suspend(() =>
 ).annotate({
   identifier: "GetInstanceMetadataDefaultsRequest",
 }) as any as S.Schema<GetInstanceMetadataDefaultsRequest>;
+export type HttpTokensEnforcedState = "disabled" | "enabled" | (string & {});
+export const HttpTokensEnforcedState = S.String;
 export interface InstanceMetadataDefaultsResponse {
   HttpTokens?: HttpTokensState;
   HttpPutResponseHopLimit?: number;
@@ -56836,6 +56855,7 @@ export interface InstanceMetadataDefaultsResponse {
   InstanceMetadataTags?: InstanceMetadataTagsState;
   ManagedBy?: ManagedBy;
   ManagedExceptionMessage?: string;
+  HttpTokensEnforced?: HttpTokensEnforcedState;
 }
 export const InstanceMetadataDefaultsResponse = S.suspend(() =>
   S.Struct({
@@ -56862,6 +56882,10 @@ export const InstanceMetadataDefaultsResponse = S.suspend(() =>
     ManagedExceptionMessage: S.optional(S.String).pipe(
       T.XmlName("managedExceptionMessage"),
       T.Ec2QueryName("ManagedExceptionMessage"),
+    ),
+    HttpTokensEnforced: S.optional(HttpTokensEnforcedState).pipe(
+      T.XmlName("httpTokensEnforced"),
+      T.Ec2QueryName("HttpTokensEnforced"),
     ),
   }),
 ).annotate({
@@ -62838,12 +62862,19 @@ export type DefaultInstanceMetadataTagsState =
   | "no-preference"
   | (string & {});
 export const DefaultInstanceMetadataTagsState = S.String;
+export type DefaultHttpTokensEnforcedState =
+  | "disabled"
+  | "enabled"
+  | "no-preference"
+  | (string & {});
+export const DefaultHttpTokensEnforcedState = S.String;
 export interface ModifyInstanceMetadataDefaultsRequest {
   HttpTokens?: MetadataDefaultHttpTokensState;
   HttpPutResponseHopLimit?: number;
   HttpEndpoint?: DefaultInstanceMetadataEndpointState;
   InstanceMetadataTags?: DefaultInstanceMetadataTagsState;
   DryRun?: boolean;
+  HttpTokensEnforced?: DefaultHttpTokensEnforcedState;
 }
 export const ModifyInstanceMetadataDefaultsRequest = S.suspend(() =>
   S.Struct({
@@ -62852,6 +62883,7 @@ export const ModifyInstanceMetadataDefaultsRequest = S.suspend(() =>
     HttpEndpoint: S.optional(DefaultInstanceMetadataEndpointState),
     InstanceMetadataTags: S.optional(DefaultInstanceMetadataTagsState),
     DryRun: S.optional(S.Boolean),
+    HttpTokensEnforced: S.optional(DefaultHttpTokensEnforcedState),
   }).pipe(
     T.all(
       ns,

@@ -100,9 +100,9 @@ const rules = T.EndpointResolver((p, _) => {
             {
               authSchemes: [
                 {
-                  name: "sigv4",
-                  signingName: "dynamodb",
                   signingRegion: "us-east-1",
+                  signingName: "dynamodb",
+                  name: "sigv4",
                 },
               ],
             },
@@ -4836,6 +4836,7 @@ export interface UpdateTableInput {
   GlobalTableWitnessUpdates?: GlobalTableWitnessGroupUpdate[];
   OnDemandThroughput?: OnDemandThroughput;
   WarmThroughput?: WarmThroughput;
+  GlobalTableSettingsReplicationMode?: GlobalTableSettingsReplicationMode;
 }
 export const UpdateTableInput = S.suspend(() =>
   S.Struct({
@@ -4853,6 +4854,9 @@ export const UpdateTableInput = S.suspend(() =>
     GlobalTableWitnessUpdates: S.optional(GlobalTableWitnessGroupUpdateList),
     OnDemandThroughput: S.optional(OnDemandThroughput),
     WarmThroughput: S.optional(WarmThroughput),
+    GlobalTableSettingsReplicationMode: S.optional(
+      GlobalTableSettingsReplicationMode,
+    ),
   }).pipe(
     T.all(
       ns,
@@ -6400,7 +6404,7 @@ export const listContributorInsights: {
   } as const,
 }));
 /**
- * Lists completed exports within the past 90 days.
+ * Lists completed exports within the past 90 days, in reverse alphanumeric order of `ExportArn`.
  */
 export const listExports: {
   (
@@ -6572,6 +6576,10 @@ export const listTagsOfResource: (
  * name of the attribute being used as the partition key for the table. Since every
  * record must contain that attribute, the `attribute_not_exists` function
  * will only succeed if no matching item exists.
+ *
+ * To determine whether `PutItem` overwrote an existing item, use
+ * `ReturnValues` set to `ALL_OLD`. If the response includes
+ * the `Attributes` element, an existing item was overwritten.
  *
  * For more information about `PutItem`, see Working with
  * Items in the *Amazon DynamoDB Developer Guide*.

@@ -2340,6 +2340,20 @@ export const MlflowPropertiesInput = S.suspend(() =>
 ).annotate({
   identifier: "MlflowPropertiesInput",
 }) as any as S.Schema<MlflowPropertiesInput>;
+export interface WorkflowsMwaaPropertiesInput {
+  mwaaEnvironmentName?: string;
+}
+export const WorkflowsMwaaPropertiesInput = S.suspend(() =>
+  S.Struct({ mwaaEnvironmentName: S.optional(S.String) }),
+).annotate({
+  identifier: "WorkflowsMwaaPropertiesInput",
+}) as any as S.Schema<WorkflowsMwaaPropertiesInput>;
+export interface WorkflowsServerlessPropertiesInput {}
+export const WorkflowsServerlessPropertiesInput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "WorkflowsServerlessPropertiesInput",
+}) as any as S.Schema<WorkflowsServerlessPropertiesInput>;
 export type ConnectionPropertiesInput =
   | {
       athenaProperties: AthenaPropertiesInput;
@@ -2352,6 +2366,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2364,6 +2380,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2376,6 +2394,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2388,6 +2408,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2400,6 +2422,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2412,6 +2436,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2424,6 +2450,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2436,6 +2464,8 @@ export type ConnectionPropertiesInput =
       s3Properties: S3PropertiesInput;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2448,6 +2478,8 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties: AmazonQPropertiesInput;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2460,6 +2492,36 @@ export type ConnectionPropertiesInput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties: MlflowPropertiesInput;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties: WorkflowsMwaaPropertiesInput;
+      workflowsServerlessProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties: WorkflowsServerlessPropertiesInput;
     };
 export const ConnectionPropertiesInput = S.Union([
   S.Struct({ athenaProperties: AthenaPropertiesInput }),
@@ -2472,6 +2534,10 @@ export const ConnectionPropertiesInput = S.Union([
   S.Struct({ s3Properties: S3PropertiesInput }),
   S.Struct({ amazonQProperties: AmazonQPropertiesInput }),
   S.Struct({ mlflowProperties: MlflowPropertiesInput }),
+  S.Struct({ workflowsMwaaProperties: WorkflowsMwaaPropertiesInput }),
+  S.Struct({
+    workflowsServerlessProperties: WorkflowsServerlessPropertiesInput,
+  }),
 ]);
 export type ConnectionScope = "DOMAIN" | "PROJECT" | (string & {});
 export const ConnectionScope = S.String;
@@ -2846,6 +2912,20 @@ export const MlflowPropertiesOutput = S.suspend(() =>
 ).annotate({
   identifier: "MlflowPropertiesOutput",
 }) as any as S.Schema<MlflowPropertiesOutput>;
+export interface WorkflowsMwaaPropertiesOutput {
+  mwaaEnvironmentName?: string;
+}
+export const WorkflowsMwaaPropertiesOutput = S.suspend(() =>
+  S.Struct({ mwaaEnvironmentName: S.optional(S.String) }),
+).annotate({
+  identifier: "WorkflowsMwaaPropertiesOutput",
+}) as any as S.Schema<WorkflowsMwaaPropertiesOutput>;
+export interface WorkflowsServerlessPropertiesOutput {}
+export const WorkflowsServerlessPropertiesOutput = S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "WorkflowsServerlessPropertiesOutput",
+}) as any as S.Schema<WorkflowsServerlessPropertiesOutput>;
 export type ConnectionPropertiesOutput =
   | {
       athenaProperties: AthenaPropertiesOutput;
@@ -2858,6 +2938,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2870,6 +2952,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2882,6 +2966,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2894,6 +2980,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2906,6 +2994,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2918,6 +3008,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2930,6 +3022,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2942,6 +3036,8 @@ export type ConnectionPropertiesOutput =
       s3Properties: S3PropertiesOutput;
       amazonQProperties?: never;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2954,6 +3050,8 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties: AmazonQPropertiesOutput;
       mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
     }
   | {
       athenaProperties?: never;
@@ -2966,6 +3064,36 @@ export type ConnectionPropertiesOutput =
       s3Properties?: never;
       amazonQProperties?: never;
       mlflowProperties: MlflowPropertiesOutput;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput;
+      workflowsServerlessProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+      workflowsMwaaProperties?: never;
+      workflowsServerlessProperties: WorkflowsServerlessPropertiesOutput;
     };
 export const ConnectionPropertiesOutput = S.Union([
   S.Struct({ athenaProperties: AthenaPropertiesOutput }),
@@ -2978,6 +3106,10 @@ export const ConnectionPropertiesOutput = S.Union([
   S.Struct({ s3Properties: S3PropertiesOutput }),
   S.Struct({ amazonQProperties: AmazonQPropertiesOutput }),
   S.Struct({ mlflowProperties: MlflowPropertiesOutput }),
+  S.Struct({ workflowsMwaaProperties: WorkflowsMwaaPropertiesOutput }),
+  S.Struct({
+    workflowsServerlessProperties: WorkflowsServerlessPropertiesOutput,
+  }),
 ]);
 export interface CreateConnectionOutput {
   connectionId: string;
