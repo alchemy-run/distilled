@@ -1915,9 +1915,8 @@ export class TLDRulesViolation extends S.TaggedErrorClass<TLDRulesViolation>()(
  * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
-export const acceptDomainTransferFromAnotherAwsAccount: (
-  input: AcceptDomainTransferFromAnotherAwsAccountRequest,
-) => effect.Effect<
+export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
+  AcceptDomainTransferFromAnotherAwsAccountRequest,
   AcceptDomainTransferFromAnotherAwsAccountResponse,
   | DomainLimitExceeded
   | InvalidInput
@@ -1946,9 +1945,8 @@ export const acceptDomainTransferFromAnotherAwsAccount: (
  * signing in the Route 53 developer
  * guide.
  */
-export const associateDelegationSignerToDomain: (
-  input: AssociateDelegationSignerToDomainRequest,
-) => effect.Effect<
+export const associateDelegationSignerToDomain: API.OperationMethod<
+  AssociateDelegationSignerToDomainRequest,
   AssociateDelegationSignerToDomainResponse,
   | DnssecLimitExceeded
   | DuplicateRequest
@@ -1980,9 +1978,8 @@ export const associateDelegationSignerToDomain: (
  * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
-export const cancelDomainTransferToAnotherAwsAccount: (
-  input: CancelDomainTransferToAnotherAwsAccountRequest,
-) => effect.Effect<
+export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
+  CancelDomainTransferToAnotherAwsAccountRequest,
   CancelDomainTransferToAnotherAwsAccountResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1996,9 +1993,8 @@ export const cancelDomainTransferToAnotherAwsAccount: (
  * availability status of a domain is pending, you must submit another request to determine
  * the availability of the domain name.
  */
-export const checkDomainAvailability: (
-  input: CheckDomainAvailabilityRequest,
-) => effect.Effect<
+export const checkDomainAvailability: API.OperationMethod<
+  CheckDomainAvailabilityRequest,
   CheckDomainAvailabilityResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2010,9 +2006,8 @@ export const checkDomainAvailability: (
 /**
  * Checks whether a domain name can be transferred to Amazon Route 53.
  */
-export const checkDomainTransferability: (
-  input: CheckDomainTransferabilityRequest,
-) => effect.Effect<
+export const checkDomainTransferability: API.OperationMethod<
+  CheckDomainTransferabilityRequest,
   CheckDomainTransferabilityResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2040,9 +2035,8 @@ export const checkDomainTransferability: (
  * `noreply@domainnameverification.net` or
  * `noreply@registrar.amazon.com`.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2061,9 +2055,8 @@ export const deleteDomain: (
  * All tag operations are eventually consistent; subsequent operations might not
  * immediately represent all issued operations.
  */
-export const deleteTagsForDomain: (
-  input: DeleteTagsForDomainRequest,
-) => effect.Effect<
+export const deleteTagsForDomain: API.OperationMethod<
+  DeleteTagsForDomainRequest,
   DeleteTagsForDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2076,9 +2069,8 @@ export const deleteTagsForDomain: (
  * This operation disables automatic renewal of domain registration for the specified
  * domain.
  */
-export const disableDomainAutoRenew: (
-  input: DisableDomainAutoRenewRequest,
-) => effect.Effect<
+export const disableDomainAutoRenew: API.OperationMethod<
+  DisableDomainAutoRenewRequest,
   DisableDomainAutoRenewResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2095,9 +2087,8 @@ export const disableDomainAutoRenew: (
  * can use to track the progress and completion of the action. If the request is not
  * completed successfully, the domain registrant will be notified by email.
  */
-export const disableDomainTransferLock: (
-  input: DisableDomainTransferLockRequest,
-) => effect.Effect<
+export const disableDomainTransferLock: API.OperationMethod<
+  DisableDomainTransferLockRequest,
   DisableDomainTransferLockResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2121,9 +2112,8 @@ export const disableDomainTransferLock: (
  * Deletes a delegation signer (DS) record in the registry zone for this domain
  * name.
  */
-export const disassociateDelegationSignerFromDomain: (
-  input: DisassociateDelegationSignerFromDomainRequest,
-) => effect.Effect<
+export const disassociateDelegationSignerFromDomain: API.OperationMethod<
+  DisassociateDelegationSignerFromDomainRequest,
   DisassociateDelegationSignerFromDomainResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2154,9 +2144,8 @@ export const disassociateDelegationSignerFromDomain: (
  * Guide. Route 53 requires that you renew before the end of the renewal
  * period so we can complete processing before the deadline.
  */
-export const enableDomainAutoRenew: (
-  input: EnableDomainAutoRenewRequest,
-) => effect.Effect<
+export const enableDomainAutoRenew: API.OperationMethod<
+  EnableDomainAutoRenewRequest,
   EnableDomainAutoRenewResponse,
   InvalidInput | TLDRulesViolation | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2172,9 +2161,8 @@ export const enableDomainAutoRenew: (
  * completion of the action. If the request is not completed successfully, the domain
  * registrant will be notified by email.
  */
-export const enableDomainTransferLock: (
-  input: EnableDomainTransferLockRequest,
-) => effect.Effect<
+export const enableDomainTransferLock: API.OperationMethod<
+  EnableDomainTransferLockRequest,
   EnableDomainTransferLockResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2202,9 +2190,8 @@ export const enableDomainTransferLock: (
  * If you want us to resend the email, use the
  * `ResendContactReachabilityEmail` operation.
  */
-export const getContactReachabilityStatus: (
-  input: GetContactReachabilityStatusRequest,
-) => effect.Effect<
+export const getContactReachabilityStatus: API.OperationMethod<
+  GetContactReachabilityStatusRequest,
   GetContactReachabilityStatusResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2218,9 +2205,8 @@ export const getContactReachabilityStatus: (
  * associated with the current Amazon Web Services account. Contact information for the
  * domain is also returned as part of the output.
  */
-export const getDomainDetail: (
-  input: GetDomainDetailRequest,
-) => effect.Effect<
+export const getDomainDetail: API.OperationMethod<
+  GetDomainDetailRequest,
   GetDomainDetailResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2232,9 +2218,8 @@ export const getDomainDetail: (
 /**
  * The GetDomainSuggestions operation returns a list of suggested domain names.
  */
-export const getDomainSuggestions: (
-  input: GetDomainSuggestionsRequest,
-) => effect.Effect<
+export const getDomainSuggestions: API.OperationMethod<
+  GetDomainSuggestionsRequest,
   GetDomainSuggestionsResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2247,9 +2232,8 @@ export const getDomainSuggestions: (
  * This operation returns the current status of an operation that is not
  * completed.
  */
-export const getOperationDetail: (
-  input: GetOperationDetailRequest,
-) => effect.Effect<
+export const getOperationDetail: API.OperationMethod<
+  GetOperationDetailRequest,
   GetOperationDetailResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2262,14 +2246,12 @@ export const getOperationDetail: (
  * This operation returns all the domain names registered with Amazon Route 53 for the
  * current Amazon Web Services account if no filtering conditions are used.
  */
-export const listDomains: {
-  (
-    input: ListDomainsRequest,
-  ): effect.Effect<
-    ListDomainsResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
@@ -2301,14 +2283,12 @@ export const listDomains: {
  *
  * This command runs only in the us-east-1 Region.
  */
-export const listOperations: {
-  (
-    input: ListOperationsRequest,
-  ): effect.Effect<
-    ListOperationsResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOperationsRequest,
   ) => stream.Stream<
@@ -2348,14 +2328,12 @@ export const listOperations: {
  *
  * - Domain restoration
  */
-export const listPrices: {
-  (
-    input: ListPricesRequest,
-  ): effect.Effect<
-    ListPricesResponse,
-    InvalidInput | UnsupportedTLD | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrices: API.OperationMethod<
+  ListPricesRequest,
+  ListPricesResponse,
+  InvalidInput | UnsupportedTLD | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPricesRequest,
   ) => stream.Stream<
@@ -2388,9 +2366,8 @@ export const listPrices: {
  * All tag operations are eventually consistent; subsequent operations might not
  * immediately represent all issued operations.
  */
-export const listTagsForDomain: (
-  input: ListTagsForDomainRequest,
-) => effect.Effect<
+export const listTagsForDomain: API.OperationMethod<
+  ListTagsForDomainRequest,
   ListTagsForDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2407,9 +2384,8 @@ export const listTagsForDomain: (
  * - Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means
  * that the domain is ready to be transferred to another registrar.
  */
-export const pushDomain: (
-  input: PushDomainRequest,
-) => effect.Effect<
+export const pushDomain: API.OperationMethod<
+  PushDomainRequest,
   PushDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2448,9 +2424,8 @@ export const pushDomain: (
  * - Charges your Amazon Web Services account an amount based on the top-level
  * domain. For more information, see Amazon Route 53 Pricing.
  */
-export const registerDomain: (
-  input: RegisterDomainRequest,
-) => effect.Effect<
+export const registerDomain: API.OperationMethod<
+  RegisterDomainRequest,
   RegisterDomainResponse,
   | DomainLimitExceeded
   | DuplicateRequest
@@ -2479,9 +2454,8 @@ export const registerDomain: (
  * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
-export const rejectDomainTransferFromAnotherAwsAccount: (
-  input: RejectDomainTransferFromAnotherAwsAccountRequest,
-) => effect.Effect<
+export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
+  RejectDomainTransferFromAnotherAwsAccountRequest,
   RejectDomainTransferFromAnotherAwsAccountResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2500,9 +2474,8 @@ export const rejectDomainTransferFromAnotherAwsAccount: (
  * Registration for a Domain in the Amazon Route 53 Developer
  * Guide.
  */
-export const renewDomain: (
-  input: RenewDomainRequest,
-) => effect.Effect<
+export const renewDomain: API.OperationMethod<
+  RenewDomainRequest,
   RenewDomainResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2527,9 +2500,8 @@ export const renewDomain: (
  * contact is valid, such as registering a new domain, this operation resends the
  * confirmation email to the current email address for the registrant contact.
  */
-export const resendContactReachabilityEmail: (
-  input: ResendContactReachabilityEmailRequest,
-) => effect.Effect<
+export const resendContactReachabilityEmail: API.OperationMethod<
+  ResendContactReachabilityEmailRequest,
   ResendContactReachabilityEmailResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2541,9 +2513,8 @@ export const resendContactReachabilityEmail: (
 /**
  * Resend the form of authorization email for this operation.
  */
-export const resendOperationAuthorization: (
-  input: ResendOperationAuthorizationRequest,
-) => effect.Effect<
+export const resendOperationAuthorization: API.OperationMethod<
+  ResendOperationAuthorizationRequest,
   ResendOperationAuthorizationResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2556,9 +2527,8 @@ export const resendOperationAuthorization: (
  * This operation returns the authorization code for the domain. To transfer a domain to
  * another registrar, you provide this value to the new registrar.
  */
-export const retrieveDomainAuthCode: (
-  input: RetrieveDomainAuthCodeRequest,
-) => effect.Effect<
+export const retrieveDomainAuthCode: API.OperationMethod<
+  RetrieveDomainAuthCodeRequest,
   RetrieveDomainAuthCodeResponse,
   InvalidInput | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2603,9 +2573,8 @@ export const retrieveDomainAuthCode: (
  * track the progress and completion of the action. If the transfer doesn't complete
  * successfully, the domain registrant will be notified by email.
  */
-export const transferDomain: (
-  input: TransferDomainRequest,
-) => effect.Effect<
+export const transferDomain: API.OperationMethod<
+  TransferDomainRequest,
   TransferDomainResponse,
   | DomainLimitExceeded
   | DuplicateRequest
@@ -2649,9 +2618,8 @@ export const transferDomain: (
  * Use either ListOperations or GetOperationDetail to determine whether the operation succeeded. GetOperationDetail provides additional information, for example,
  * `Domain Transfer from Aws Account 111122223333 has been cancelled`.
  */
-export const transferDomainToAnotherAwsAccount: (
-  input: TransferDomainToAnotherAwsAccountRequest,
-) => effect.Effect<
+export const transferDomainToAnotherAwsAccount: API.OperationMethod<
+  TransferDomainToAnotherAwsAccountRequest,
   TransferDomainToAnotherAwsAccountResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2678,9 +2646,8 @@ export const transferDomainToAnotherAwsAccount: (
  * track the progress and completion of the operation. If the request is not completed
  * successfully, the domain registrant will be notified by email.
  */
-export const updateDomainContact: (
-  input: UpdateDomainContactRequest,
-) => effect.Effect<
+export const updateDomainContact: API.OperationMethod<
+  UpdateDomainContactRequest,
   UpdateDomainContactResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2723,9 +2690,8 @@ export const updateDomainContact: (
  * this domain from the WHOIS database. For more information on our privacy practices,
  * see https://aws.amazon.com/privacy/.
  */
-export const updateDomainContactPrivacy: (
-  input: UpdateDomainContactPrivacyRequest,
-) => effect.Effect<
+export const updateDomainContactPrivacy: API.OperationMethod<
+  UpdateDomainContactPrivacyRequest,
   UpdateDomainContactPrivacyResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2754,9 +2720,8 @@ export const updateDomainContactPrivacy: (
  * progress and completion of the action. If the request is not completed successfully, the
  * domain registrant will be notified by email.
  */
-export const updateDomainNameservers: (
-  input: UpdateDomainNameserversRequest,
-) => effect.Effect<
+export const updateDomainNameservers: API.OperationMethod<
+  UpdateDomainNameserversRequest,
   UpdateDomainNameserversResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2782,9 +2747,8 @@ export const updateDomainNameservers: (
  * All tag operations are eventually consistent; subsequent operations might not
  * immediately represent all issued operations.
  */
-export const updateTagsForDomain: (
-  input: UpdateTagsForDomainRequest,
-) => effect.Effect<
+export const updateTagsForDomain: API.OperationMethod<
+  UpdateTagsForDomainRequest,
   UpdateTagsForDomainResponse,
   InvalidInput | OperationLimitExceeded | UnsupportedTLD | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2796,14 +2760,12 @@ export const updateTagsForDomain: (
 /**
  * Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
  */
-export const viewBilling: {
-  (
-    input: ViewBillingRequest,
-  ): effect.Effect<
-    ViewBillingResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const viewBilling: API.OperationMethod<
+  ViewBillingRequest,
+  ViewBillingResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ViewBillingRequest,
   ) => stream.Stream<

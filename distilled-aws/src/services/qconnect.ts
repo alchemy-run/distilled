@@ -7761,9 +7761,8 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7775,9 +7774,8 @@ export const listTagsForResource: (
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | TooManyTagsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7789,9 +7787,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7803,9 +7800,8 @@ export const untagResource: (
 /**
  * Creates an Amazon Q in Connect assistant.
  */
-export const createAssistant: (
-  input: CreateAssistantRequest,
-) => effect.Effect<
+export const createAssistant: API.OperationMethod<
+  CreateAssistantRequest,
   CreateAssistantResponse,
   | AccessDeniedException
   | ConflictException
@@ -7828,9 +7824,8 @@ export const createAssistant: (
 /**
  * Retrieves information about an assistant.
  */
-export const getAssistant: (
-  input: GetAssistantRequest,
-) => effect.Effect<
+export const getAssistant: API.OperationMethod<
+  GetAssistantRequest,
   GetAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7851,9 +7846,8 @@ export const getAssistant: (
 /**
  * Deletes an assistant.
  */
-export const deleteAssistant: (
-  input: DeleteAssistantRequest,
-) => effect.Effect<
+export const deleteAssistant: API.OperationMethod<
+  DeleteAssistantRequest,
   DeleteAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7874,17 +7868,15 @@ export const deleteAssistant: (
 /**
  * Lists information about assistants.
  */
-export const listAssistants: {
-  (
-    input: ListAssistantsRequest,
-  ): effect.Effect<
-    ListAssistantsResponse,
-    | AccessDeniedException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssistants: API.OperationMethod<
+  ListAssistantsRequest,
+  ListAssistantsResponse,
+  | AccessDeniedException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssistantsRequest,
   ) => stream.Stream<
@@ -7921,9 +7913,8 @@ export const listAssistants: {
  *
  * Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
-export const getRecommendations: (
-  input: GetRecommendationsRequest,
-) => effect.Effect<
+export const getRecommendations: API.OperationMethod<
+  GetRecommendationsRequest,
   GetRecommendationsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7942,9 +7933,8 @@ export const getRecommendations: (
 /**
  * Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling behavior and avoiding duplicate recommendations.
  */
-export const notifyRecommendationsReceived: (
-  input: NotifyRecommendationsReceivedRequest,
-) => effect.Effect<
+export const notifyRecommendationsReceived: API.OperationMethod<
+  NotifyRecommendationsReceivedRequest,
   NotifyRecommendationsReceivedResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7963,9 +7953,8 @@ export const notifyRecommendationsReceived: (
 /**
  * Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
  */
-export const putFeedback: (
-  input: PutFeedbackRequest,
-) => effect.Effect<
+export const putFeedback: API.OperationMethod<
+  PutFeedbackRequest,
   PutFeedbackResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -7986,18 +7975,16 @@ export const putFeedback: (
  *
  * Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
  */
-export const queryAssistant: {
-  (
-    input: QueryAssistantRequest,
-  ): effect.Effect<
-    QueryAssistantResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const queryAssistant: API.OperationMethod<
+  QueryAssistantRequest,
+  QueryAssistantResponse,
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: QueryAssistantRequest,
   ) => stream.Stream<
@@ -8039,9 +8026,8 @@ export const queryAssistant: {
 /**
  * Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
-export const removeAssistantAIAgent: (
-  input: RemoveAssistantAIAgentRequest,
-) => effect.Effect<
+export const removeAssistantAIAgent: API.OperationMethod<
+  RemoveAssistantAIAgentRequest,
   RemoveAssistantAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8062,9 +8048,8 @@ export const removeAssistantAIAgent: (
 /**
  * Retrieves content from knowledge sources based on a query.
  */
-export const retrieve: (
-  input: RetrieveRequest,
-) => effect.Effect<
+export const retrieve: API.OperationMethod<
+  RetrieveRequest,
   RetrieveResponse,
   | AccessDeniedException
   | ConflictException
@@ -8093,18 +8078,16 @@ export const retrieve: (
 /**
  * Searches for sessions.
  */
-export const searchSessions: {
-  (
-    input: SearchSessionsRequest,
-  ): effect.Effect<
-    SearchSessionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchSessions: API.OperationMethod<
+  SearchSessionsRequest,
+  SearchSessionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSessionsRequest,
   ) => stream.Stream<
@@ -8146,9 +8129,8 @@ export const searchSessions: {
 /**
  * Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
  */
-export const updateAssistantAIAgent: (
-  input: UpdateAssistantAIAgentRequest,
-) => effect.Effect<
+export const updateAssistantAIAgent: API.OperationMethod<
+  UpdateAssistantAIAgentRequest,
   UpdateAssistantAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8169,9 +8151,8 @@ export const updateAssistantAIAgent: (
 /**
  * Creates an Amazon Q in Connect AI Agent.
  */
-export const createAIAgent: (
-  input: CreateAIAgentRequest,
-) => effect.Effect<
+export const createAIAgent: API.OperationMethod<
+  CreateAIAgentRequest,
   CreateAIAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8198,9 +8179,8 @@ export const createAIAgent: (
 /**
  * Gets an Amazon Q in Connect AI Agent.
  */
-export const getAIAgent: (
-  input: GetAIAgentRequest,
-) => effect.Effect<
+export const getAIAgent: API.OperationMethod<
+  GetAIAgentRequest,
   GetAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8223,9 +8203,8 @@ export const getAIAgent: (
 /**
  * Updates an AI Agent.
  */
-export const updateAIAgent: (
-  input: UpdateAIAgentRequest,
-) => effect.Effect<
+export const updateAIAgent: API.OperationMethod<
+  UpdateAIAgentRequest,
   UpdateAIAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8250,9 +8229,8 @@ export const updateAIAgent: (
 /**
  * Deletes an Amazon Q in Connect AI Agent.
  */
-export const deleteAIAgent: (
-  input: DeleteAIAgentRequest,
-) => effect.Effect<
+export const deleteAIAgent: API.OperationMethod<
+  DeleteAIAgentRequest,
   DeleteAIAgentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8275,19 +8253,17 @@ export const deleteAIAgent: (
 /**
  * Lists AI Agents.
  */
-export const listAIAgents: {
-  (
-    input: ListAIAgentsRequest,
-  ): effect.Effect<
-    ListAIAgentsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAIAgents: API.OperationMethod<
+  ListAIAgentsRequest,
+  ListAIAgentsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAIAgentsRequest,
   ) => stream.Stream<
@@ -8332,9 +8308,8 @@ export const listAIAgents: {
 /**
  * Creates and Amazon Q in Connect AI Agent version.
  */
-export const createAIAgentVersion: (
-  input: CreateAIAgentVersionRequest,
-) => effect.Effect<
+export const createAIAgentVersion: API.OperationMethod<
+  CreateAIAgentVersionRequest,
   CreateAIAgentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8361,9 +8336,8 @@ export const createAIAgentVersion: (
 /**
  * Deletes an Amazon Q in Connect AI Agent Version.
  */
-export const deleteAIAgentVersion: (
-  input: DeleteAIAgentVersionRequest,
-) => effect.Effect<
+export const deleteAIAgentVersion: API.OperationMethod<
+  DeleteAIAgentVersionRequest,
   DeleteAIAgentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8388,19 +8362,17 @@ export const deleteAIAgentVersion: (
 /**
  * List AI Agent versions.
  */
-export const listAIAgentVersions: {
-  (
-    input: ListAIAgentVersionsRequest,
-  ): effect.Effect<
-    ListAIAgentVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAIAgentVersions: API.OperationMethod<
+  ListAIAgentVersionsRequest,
+  ListAIAgentVersionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAIAgentVersionsRequest,
   ) => stream.Stream<
@@ -8445,9 +8417,8 @@ export const listAIAgentVersions: {
 /**
  * Creates an Amazon Q in Connect AI Guardrail.
  */
-export const createAIGuardrail: (
-  input: CreateAIGuardrailRequest,
-) => effect.Effect<
+export const createAIGuardrail: API.OperationMethod<
+  CreateAIGuardrailRequest,
   CreateAIGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -8474,9 +8445,8 @@ export const createAIGuardrail: (
 /**
  * Gets the Amazon Q in Connect AI Guardrail.
  */
-export const getAIGuardrail: (
-  input: GetAIGuardrailRequest,
-) => effect.Effect<
+export const getAIGuardrail: API.OperationMethod<
+  GetAIGuardrailRequest,
   GetAIGuardrailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8499,9 +8469,8 @@ export const getAIGuardrail: (
 /**
  * Updates an AI Guardrail.
  */
-export const updateAIGuardrail: (
-  input: UpdateAIGuardrailRequest,
-) => effect.Effect<
+export const updateAIGuardrail: API.OperationMethod<
+  UpdateAIGuardrailRequest,
   UpdateAIGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -8526,9 +8495,8 @@ export const updateAIGuardrail: (
 /**
  * Deletes an Amazon Q in Connect AI Guardrail.
  */
-export const deleteAIGuardrail: (
-  input: DeleteAIGuardrailRequest,
-) => effect.Effect<
+export const deleteAIGuardrail: API.OperationMethod<
+  DeleteAIGuardrailRequest,
   DeleteAIGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -8553,19 +8521,17 @@ export const deleteAIGuardrail: (
 /**
  * Lists the AI Guardrails available on the Amazon Q in Connect assistant.
  */
-export const listAIGuardrails: {
-  (
-    input: ListAIGuardrailsRequest,
-  ): effect.Effect<
-    ListAIGuardrailsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAIGuardrails: API.OperationMethod<
+  ListAIGuardrailsRequest,
+  ListAIGuardrailsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAIGuardrailsRequest,
   ) => stream.Stream<
@@ -8610,9 +8576,8 @@ export const listAIGuardrails: {
 /**
  * Creates an Amazon Q in Connect AI Guardrail version.
  */
-export const createAIGuardrailVersion: (
-  input: CreateAIGuardrailVersionRequest,
-) => effect.Effect<
+export const createAIGuardrailVersion: API.OperationMethod<
+  CreateAIGuardrailVersionRequest,
   CreateAIGuardrailVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8639,9 +8604,8 @@ export const createAIGuardrailVersion: (
 /**
  * Delete and Amazon Q in Connect AI Guardrail version.
  */
-export const deleteAIGuardrailVersion: (
-  input: DeleteAIGuardrailVersionRequest,
-) => effect.Effect<
+export const deleteAIGuardrailVersion: API.OperationMethod<
+  DeleteAIGuardrailVersionRequest,
   DeleteAIGuardrailVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8666,19 +8630,17 @@ export const deleteAIGuardrailVersion: (
 /**
  * Lists AI Guardrail versions.
  */
-export const listAIGuardrailVersions: {
-  (
-    input: ListAIGuardrailVersionsRequest,
-  ): effect.Effect<
-    ListAIGuardrailVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAIGuardrailVersions: API.OperationMethod<
+  ListAIGuardrailVersionsRequest,
+  ListAIGuardrailVersionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAIGuardrailVersionsRequest,
   ) => stream.Stream<
@@ -8723,9 +8685,8 @@ export const listAIGuardrailVersions: {
 /**
  * Creates an Amazon Q in Connect AI Prompt.
  */
-export const createAIPrompt: (
-  input: CreateAIPromptRequest,
-) => effect.Effect<
+export const createAIPrompt: API.OperationMethod<
+  CreateAIPromptRequest,
   CreateAIPromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -8752,9 +8713,8 @@ export const createAIPrompt: (
 /**
  * Gets and Amazon Q in Connect AI Prompt.
  */
-export const getAIPrompt: (
-  input: GetAIPromptRequest,
-) => effect.Effect<
+export const getAIPrompt: API.OperationMethod<
+  GetAIPromptRequest,
   GetAIPromptResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8777,9 +8737,8 @@ export const getAIPrompt: (
 /**
  * Updates an AI Prompt.
  */
-export const updateAIPrompt: (
-  input: UpdateAIPromptRequest,
-) => effect.Effect<
+export const updateAIPrompt: API.OperationMethod<
+  UpdateAIPromptRequest,
   UpdateAIPromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -8804,9 +8763,8 @@ export const updateAIPrompt: (
 /**
  * Deletes an Amazon Q in Connect AI Prompt.
  */
-export const deleteAIPrompt: (
-  input: DeleteAIPromptRequest,
-) => effect.Effect<
+export const deleteAIPrompt: API.OperationMethod<
+  DeleteAIPromptRequest,
   DeleteAIPromptResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8829,19 +8787,17 @@ export const deleteAIPrompt: (
 /**
  * Lists the AI Prompts available on the Amazon Q in Connect assistant.
  */
-export const listAIPrompts: {
-  (
-    input: ListAIPromptsRequest,
-  ): effect.Effect<
-    ListAIPromptsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAIPrompts: API.OperationMethod<
+  ListAIPromptsRequest,
+  ListAIPromptsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAIPromptsRequest,
   ) => stream.Stream<
@@ -8886,9 +8842,8 @@ export const listAIPrompts: {
 /**
  * Creates an Amazon Q in Connect AI Prompt version.
  */
-export const createAIPromptVersion: (
-  input: CreateAIPromptVersionRequest,
-) => effect.Effect<
+export const createAIPromptVersion: API.OperationMethod<
+  CreateAIPromptVersionRequest,
   CreateAIPromptVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8915,9 +8870,8 @@ export const createAIPromptVersion: (
 /**
  * Delete and Amazon Q in Connect AI Prompt version.
  */
-export const deleteAIPromptVersion: (
-  input: DeleteAIPromptVersionRequest,
-) => effect.Effect<
+export const deleteAIPromptVersion: API.OperationMethod<
+  DeleteAIPromptVersionRequest,
   DeleteAIPromptVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8942,19 +8896,17 @@ export const deleteAIPromptVersion: (
 /**
  * Lists AI Prompt versions.
  */
-export const listAIPromptVersions: {
-  (
-    input: ListAIPromptVersionsRequest,
-  ): effect.Effect<
-    ListAIPromptVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAIPromptVersions: API.OperationMethod<
+  ListAIPromptVersionsRequest,
+  ListAIPromptVersionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAIPromptVersionsRequest,
   ) => stream.Stream<
@@ -8999,9 +8951,8 @@ export const listAIPromptVersions: {
 /**
  * Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
  */
-export const createAssistantAssociation: (
-  input: CreateAssistantAssociationRequest,
-) => effect.Effect<
+export const createAssistantAssociation: API.OperationMethod<
+  CreateAssistantAssociationRequest,
   CreateAssistantAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9024,9 +8975,8 @@ export const createAssistantAssociation: (
 /**
  * Retrieves information about an assistant association.
  */
-export const getAssistantAssociation: (
-  input: GetAssistantAssociationRequest,
-) => effect.Effect<
+export const getAssistantAssociation: API.OperationMethod<
+  GetAssistantAssociationRequest,
   GetAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9047,9 +8997,8 @@ export const getAssistantAssociation: (
 /**
  * Deletes an assistant association.
  */
-export const deleteAssistantAssociation: (
-  input: DeleteAssistantAssociationRequest,
-) => effect.Effect<
+export const deleteAssistantAssociation: API.OperationMethod<
+  DeleteAssistantAssociationRequest,
   DeleteAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9070,17 +9019,15 @@ export const deleteAssistantAssociation: (
 /**
  * Lists information about assistant associations.
  */
-export const listAssistantAssociations: {
-  (
-    input: ListAssistantAssociationsRequest,
-  ): effect.Effect<
-    ListAssistantAssociationsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssistantAssociations: API.OperationMethod<
+  ListAssistantAssociationsRequest,
+  ListAssistantAssociationsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssistantAssociationsRequest,
   ) => stream.Stream<
@@ -9119,9 +9066,8 @@ export const listAssistantAssociations: {
 /**
  * Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
-export const createSession: (
-  input: CreateSessionRequest,
-) => effect.Effect<
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
   CreateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9146,9 +9092,8 @@ export const createSession: (
 /**
  * Retrieves information for a specified session.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9169,9 +9114,8 @@ export const getSession: (
 /**
  * Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
  */
-export const updateSession: (
-  input: UpdateSessionRequest,
-) => effect.Effect<
+export const updateSession: API.OperationMethod<
+  UpdateSessionRequest,
   UpdateSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9192,9 +9136,8 @@ export const updateSession: (
 /**
  * Retrieves next message on an Amazon Q in Connect session.
  */
-export const getNextMessage: (
-  input: GetNextMessageRequest,
-) => effect.Effect<
+export const getNextMessage: API.OperationMethod<
+  GetNextMessageRequest,
   GetNextMessageResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9215,17 +9158,15 @@ export const getNextMessage: (
 /**
  * Lists messages on an Amazon Q in Connect session.
  */
-export const listMessages: {
-  (
-    input: ListMessagesRequest,
-  ): effect.Effect<
-    ListMessagesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMessages: API.OperationMethod<
+  ListMessagesRequest,
+  ListMessagesResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMessagesRequest,
   ) => stream.Stream<
@@ -9264,17 +9205,15 @@ export const listMessages: {
 /**
  * Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
  */
-export const listSpans: {
-  (
-    input: ListSpansRequest,
-  ): effect.Effect<
-    ListSpansResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpans: API.OperationMethod<
+  ListSpansRequest,
+  ListSpansResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpansRequest,
   ) => stream.Stream<
@@ -9313,9 +9252,8 @@ export const listSpans: {
 /**
  * Submits a message to the Amazon Q in Connect session.
  */
-export const sendMessage: (
-  input: SendMessageRequest,
-) => effect.Effect<
+export const sendMessage: API.OperationMethod<
+  SendMessageRequest,
   SendMessageResponse,
   | AccessDeniedException
   | ConflictException
@@ -9344,9 +9282,8 @@ export const sendMessage: (
 /**
  * Updates the data stored on an Amazon Q in Connect Session.
  */
-export const updateSessionData: (
-  input: UpdateSessionDataRequest,
-) => effect.Effect<
+export const updateSessionData: API.OperationMethod<
+  UpdateSessionDataRequest,
   UpdateSessionDataResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9379,9 +9316,8 @@ export const updateSessionData: (
  *
  * - Call CreateKnowledgeBase.
  */
-export const createKnowledgeBase: (
-  input: CreateKnowledgeBaseRequest,
-) => effect.Effect<
+export const createKnowledgeBase: API.OperationMethod<
+  CreateKnowledgeBaseRequest,
   CreateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9404,9 +9340,8 @@ export const createKnowledgeBase: (
 /**
  * Retrieves information about the knowledge base.
  */
-export const getKnowledgeBase: (
-  input: GetKnowledgeBaseRequest,
-) => effect.Effect<
+export const getKnowledgeBase: API.OperationMethod<
+  GetKnowledgeBaseRequest,
   GetKnowledgeBaseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9429,9 +9364,8 @@ export const getKnowledgeBase: (
  *
  * When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the *Amazon AppIntegrations API Reference*.
  */
-export const deleteKnowledgeBase: (
-  input: DeleteKnowledgeBaseRequest,
-) => effect.Effect<
+export const deleteKnowledgeBase: API.OperationMethod<
+  DeleteKnowledgeBaseRequest,
   DeleteKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9454,14 +9388,12 @@ export const deleteKnowledgeBase: (
 /**
  * Lists the knowledge bases.
  */
-export const listKnowledgeBases: {
-  (
-    input: ListKnowledgeBasesRequest,
-  ): effect.Effect<
-    ListKnowledgeBasesResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKnowledgeBases: API.OperationMethod<
+  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
@@ -9490,9 +9422,8 @@ export const listKnowledgeBases: {
 /**
  * Deletes the quick response import job.
  */
-export const deleteImportJob: (
-  input: DeleteImportJobRequest,
-) => effect.Effect<
+export const deleteImportJob: API.OperationMethod<
+  DeleteImportJobRequest,
   DeleteImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -9515,9 +9446,8 @@ export const deleteImportJob: (
 /**
  * Retrieves the started import job.
  */
-export const getImportJob: (
-  input: GetImportJobRequest,
-) => effect.Effect<
+export const getImportJob: API.OperationMethod<
+  GetImportJobRequest,
   GetImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9536,14 +9466,12 @@ export const getImportJob: (
 /**
  * Lists information about import jobs.
  */
-export const listImportJobs: {
-  (
-    input: ListImportJobsRequest,
-  ): effect.Effect<
-    ListImportJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImportJobs: API.OperationMethod<
+  ListImportJobsRequest,
+  ListImportJobsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
@@ -9572,9 +9500,8 @@ export const listImportJobs: {
 /**
  * Removes a URI template from a knowledge base.
  */
-export const removeKnowledgeBaseTemplateUri: (
-  input: RemoveKnowledgeBaseTemplateUriRequest,
-) => effect.Effect<
+export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
+  RemoveKnowledgeBaseTemplateUriRequest,
   RemoveKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9593,18 +9520,16 @@ export const removeKnowledgeBaseTemplateUri: (
 /**
  * Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
  */
-export const searchContent: {
-  (
-    input: SearchContentRequest,
-  ): effect.Effect<
-    SearchContentResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchContent: API.OperationMethod<
+  SearchContentRequest,
+  SearchContentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchContentRequest,
   ) => stream.Stream<
@@ -9646,19 +9571,17 @@ export const searchContent: {
 /**
  * Searches for Amazon Q in Connect message templates in the specified knowledge base.
  */
-export const searchMessageTemplates: {
-  (
-    input: SearchMessageTemplatesRequest,
-  ): effect.Effect<
-    SearchMessageTemplatesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchMessageTemplates: API.OperationMethod<
+  SearchMessageTemplatesRequest,
+  SearchMessageTemplatesResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchMessageTemplatesRequest,
   ) => stream.Stream<
@@ -9703,19 +9626,17 @@ export const searchMessageTemplates: {
 /**
  * Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
  */
-export const searchQuickResponses: {
-  (
-    input: SearchQuickResponsesRequest,
-  ): effect.Effect<
-    SearchQuickResponsesResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchQuickResponses: API.OperationMethod<
+  SearchQuickResponsesRequest,
+  SearchQuickResponsesResponse,
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchQuickResponsesRequest,
   ) => stream.Stream<
@@ -9760,9 +9681,8 @@ export const searchQuickResponses: {
 /**
  * Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
  */
-export const startContentUpload: (
-  input: StartContentUploadRequest,
-) => effect.Effect<
+export const startContentUpload: API.OperationMethod<
+  StartContentUploadRequest,
   StartContentUploadResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9785,9 +9705,8 @@ export const startContentUpload: (
  *
  * - For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
-export const startImportJob: (
-  input: StartImportJobRequest,
-) => effect.Effect<
+export const startImportJob: API.OperationMethod<
+  StartImportJobRequest,
   StartImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -9812,9 +9731,8 @@ export const startImportJob: (
 /**
  * Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in `${variable}` format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an `Id` value, and you can set the template URI to `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
-export const updateKnowledgeBaseTemplateUri: (
-  input: UpdateKnowledgeBaseTemplateUriRequest,
-) => effect.Effect<
+export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
+  UpdateKnowledgeBaseTemplateUriRequest,
   UpdateKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9833,9 +9751,8 @@ export const updateKnowledgeBaseTemplateUri: (
 /**
  * Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
  */
-export const createContent: (
-  input: CreateContentRequest,
-) => effect.Effect<
+export const createContent: API.OperationMethod<
+  CreateContentRequest,
   CreateContentResponse,
   | AccessDeniedException
   | ConflictException
@@ -9860,9 +9777,8 @@ export const createContent: (
 /**
  * Retrieves content, including a pre-signed URL to download the content.
  */
-export const getContent: (
-  input: GetContentRequest,
-) => effect.Effect<
+export const getContent: API.OperationMethod<
+  GetContentRequest,
   GetContentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -9883,9 +9799,8 @@ export const getContent: (
 /**
  * Updates information about the content.
  */
-export const updateContent: (
-  input: UpdateContentRequest,
-) => effect.Effect<
+export const updateContent: API.OperationMethod<
+  UpdateContentRequest,
   UpdateContentResponse,
   | AccessDeniedException
   | PreconditionFailedException
@@ -9908,9 +9823,8 @@ export const updateContent: (
 /**
  * Deletes the content.
  */
-export const deleteContent: (
-  input: DeleteContentRequest,
-) => effect.Effect<
+export const deleteContent: API.OperationMethod<
+  DeleteContentRequest,
   DeleteContentResponse,
   | AccessDeniedException
   | ConflictException
@@ -9933,17 +9847,15 @@ export const deleteContent: (
 /**
  * Lists the content.
  */
-export const listContents: {
-  (
-    input: ListContentsRequest,
-  ): effect.Effect<
-    ListContentsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContents: API.OperationMethod<
+  ListContentsRequest,
+  ListContentsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContentsRequest,
   ) => stream.Stream<
@@ -9982,9 +9894,8 @@ export const listContents: {
 /**
  * Retrieves summary information about the content.
  */
-export const getContentSummary: (
-  input: GetContentSummaryRequest,
-) => effect.Effect<
+export const getContentSummary: API.OperationMethod<
+  GetContentSummaryRequest,
   GetContentSummaryResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10015,9 +9926,8 @@ export const getContentSummary: (
  *
  * For more information, see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const createContentAssociation: (
-  input: CreateContentAssociationRequest,
-) => effect.Effect<
+export const createContentAssociation: API.OperationMethod<
+  CreateContentAssociationRequest,
   CreateContentAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -10046,9 +9956,8 @@ export const createContentAssociation: (
  *
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const getContentAssociation: (
-  input: GetContentAssociationRequest,
-) => effect.Effect<
+export const getContentAssociation: API.OperationMethod<
+  GetContentAssociationRequest,
   GetContentAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10071,9 +9980,8 @@ export const getContentAssociation: (
  *
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const deleteContentAssociation: (
-  input: DeleteContentAssociationRequest,
-) => effect.Effect<
+export const deleteContentAssociation: API.OperationMethod<
+  DeleteContentAssociationRequest,
   DeleteContentAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10096,18 +10004,16 @@ export const deleteContentAssociation: (
  *
  * For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the *Amazon Connect Administrator Guide*.
  */
-export const listContentAssociations: {
-  (
-    input: ListContentAssociationsRequest,
-  ): effect.Effect<
-    ListContentAssociationsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContentAssociations: API.OperationMethod<
+  ListContentAssociationsRequest,
+  ListContentAssociationsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContentAssociationsRequest,
   ) => stream.Stream<
@@ -10149,9 +10055,8 @@ export const listContentAssociations: {
 /**
  * Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the `$LATEST` qualifier to reference the created message template.
  */
-export const createMessageTemplate: (
-  input: CreateMessageTemplateRequest,
-) => effect.Effect<
+export const createMessageTemplate: API.OperationMethod<
+  CreateMessageTemplateRequest,
   CreateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -10176,9 +10081,8 @@ export const createMessageTemplate: (
 /**
  * Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, `<message-template-id>:<qualifier>`, which is either an actual version number or an Amazon Q Connect managed qualifier `$ACTIVE_VERSION` | `$LATEST`. If it is not supplied, then `$LATEST` is assumed implicitly.
  */
-export const getMessageTemplate: (
-  input: GetMessageTemplateRequest,
-) => effect.Effect<
+export const getMessageTemplate: API.OperationMethod<
+  GetMessageTemplateRequest,
   GetMessageTemplateResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10201,9 +10105,8 @@ export const getMessageTemplate: (
 /**
  * Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the `$LATEST` qualifier. Any modification will only apply to the message template that is referenced by the `$LATEST` qualifier. The fields for all available versions will remain unchanged.
  */
-export const updateMessageTemplate: (
-  input: UpdateMessageTemplateRequest,
-) => effect.Effect<
+export const updateMessageTemplate: API.OperationMethod<
+  UpdateMessageTemplateRequest,
   UpdateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -10226,9 +10129,8 @@ export const updateMessageTemplate: (
 /**
  * Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as `<message-template-id>:<versionNumber>` to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
  */
-export const deleteMessageTemplate: (
-  input: DeleteMessageTemplateRequest,
-) => effect.Effect<
+export const deleteMessageTemplate: API.OperationMethod<
+  DeleteMessageTemplateRequest,
   DeleteMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -10251,18 +10153,16 @@ export const deleteMessageTemplate: (
 /**
  * Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
  */
-export const listMessageTemplates: {
-  (
-    input: ListMessageTemplatesRequest,
-  ): effect.Effect<
-    ListMessageTemplatesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMessageTemplates: API.OperationMethod<
+  ListMessageTemplatesRequest,
+  ListMessageTemplatesResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMessageTemplatesRequest,
   ) => stream.Stream<
@@ -10304,9 +10204,8 @@ export const listMessageTemplates: {
 /**
  * Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the `$ACTIVE_VERSION` qualifier later to reference the version that is in active status.
  */
-export const activateMessageTemplate: (
-  input: ActivateMessageTemplateRequest,
-) => effect.Effect<
+export const activateMessageTemplate: API.OperationMethod<
+  ActivateMessageTemplateRequest,
   ActivateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -10329,9 +10228,8 @@ export const activateMessageTemplate: (
 /**
  * Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the `$LATEST` qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
  */
-export const createMessageTemplateAttachment: (
-  input: CreateMessageTemplateAttachmentRequest,
-) => effect.Effect<
+export const createMessageTemplateAttachment: API.OperationMethod<
+  CreateMessageTemplateAttachmentRequest,
   CreateMessageTemplateAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -10358,9 +10256,8 @@ export const createMessageTemplateAttachment: (
 /**
  * Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in `<message-template-id>:<versionNumber>` as the message template identifier. An error is displayed if the supplied `messageTemplateContentSha256` is different from the `messageTemplateContentSha256` of the message template with `$LATEST` qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
  */
-export const createMessageTemplateVersion: (
-  input: CreateMessageTemplateVersionRequest,
-) => effect.Effect<
+export const createMessageTemplateVersion: API.OperationMethod<
+  CreateMessageTemplateVersionRequest,
   CreateMessageTemplateVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -10385,9 +10282,8 @@ export const createMessageTemplateVersion: (
 /**
  * Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the `$ACTIVE_VERSION` qualifier to reference the version in active status.
  */
-export const deactivateMessageTemplate: (
-  input: DeactivateMessageTemplateRequest,
-) => effect.Effect<
+export const deactivateMessageTemplate: API.OperationMethod<
+  DeactivateMessageTemplateRequest,
   DeactivateMessageTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -10410,9 +10306,8 @@ export const deactivateMessageTemplate: (
 /**
  * Deletes the attachment file from the Amazon Q in Connect message template that is referenced by `$LATEST` qualifier. Attachments on available message template versions will remain unchanged.
  */
-export const deleteMessageTemplateAttachment: (
-  input: DeleteMessageTemplateAttachmentRequest,
-) => effect.Effect<
+export const deleteMessageTemplateAttachment: API.OperationMethod<
+  DeleteMessageTemplateAttachmentRequest,
   DeleteMessageTemplateAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -10435,18 +10330,16 @@ export const deleteMessageTemplateAttachment: (
 /**
  * Lists all the available versions for the specified Amazon Q in Connect message template.
  */
-export const listMessageTemplateVersions: {
-  (
-    input: ListMessageTemplateVersionsRequest,
-  ): effect.Effect<
-    ListMessageTemplateVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMessageTemplateVersions: API.OperationMethod<
+  ListMessageTemplateVersionsRequest,
+  ListMessageTemplateVersionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMessageTemplateVersionsRequest,
   ) => stream.Stream<
@@ -10488,9 +10381,8 @@ export const listMessageTemplateVersions: {
 /**
  * Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
  */
-export const renderMessageTemplate: (
-  input: RenderMessageTemplateRequest,
-) => effect.Effect<
+export const renderMessageTemplate: API.OperationMethod<
+  RenderMessageTemplateRequest,
   RenderMessageTemplateResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10511,9 +10403,8 @@ export const renderMessageTemplate: (
 /**
  * Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the `$LATEST` qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
  */
-export const updateMessageTemplateMetadata: (
-  input: UpdateMessageTemplateMetadataRequest,
-) => effect.Effect<
+export const updateMessageTemplateMetadata: API.OperationMethod<
+  UpdateMessageTemplateMetadataRequest,
   UpdateMessageTemplateMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -10536,9 +10427,8 @@ export const updateMessageTemplateMetadata: (
 /**
  * Creates an Amazon Q in Connect quick response.
  */
-export const createQuickResponse: (
-  input: CreateQuickResponseRequest,
-) => effect.Effect<
+export const createQuickResponse: API.OperationMethod<
+  CreateQuickResponseRequest,
   CreateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -10563,9 +10453,8 @@ export const createQuickResponse: (
 /**
  * Retrieves the quick response.
  */
-export const getQuickResponse: (
-  input: GetQuickResponseRequest,
-) => effect.Effect<
+export const getQuickResponse: API.OperationMethod<
+  GetQuickResponseRequest,
   GetQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10586,9 +10475,8 @@ export const getQuickResponse: (
 /**
  * Updates an existing Amazon Q in Connect quick response.
  */
-export const updateQuickResponse: (
-  input: UpdateQuickResponseRequest,
-) => effect.Effect<
+export const updateQuickResponse: API.OperationMethod<
+  UpdateQuickResponseRequest,
   UpdateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -10613,9 +10501,8 @@ export const updateQuickResponse: (
 /**
  * Deletes a quick response.
  */
-export const deleteQuickResponse: (
-  input: DeleteQuickResponseRequest,
-) => effect.Effect<
+export const deleteQuickResponse: API.OperationMethod<
+  DeleteQuickResponseRequest,
   DeleteQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -10636,17 +10523,15 @@ export const deleteQuickResponse: (
 /**
  * Lists information about quick response.
  */
-export const listQuickResponses: {
-  (
-    input: ListQuickResponsesRequest,
-  ): effect.Effect<
-    ListQuickResponsesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQuickResponses: API.OperationMethod<
+  ListQuickResponsesRequest,
+  ListQuickResponsesResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQuickResponsesRequest,
   ) => stream.Stream<

@@ -124,16 +124,21 @@ export const GetHostnameResponse = Schema.Struct({
     certStatus: "cert_status",
     certUpdatedAt: "cert_updated_at",
     certUploadedOn: "cert_uploaded_on",
+    certificate: "certificate",
     createdAt: "created_at",
+    enabled: "enabled",
     expiresOn: "expires_on",
+    hostname: "hostname",
+    issuer: "issuer",
     serialNumber: "serial_number",
+    signature: "signature",
+    status: "status",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<GetHostnameResponse>;
 
-export const getHostname: (
-  input: GetHostnameRequest,
-) => Effect.Effect<
+export const getHostname: API.OperationMethod<
+  GetHostnameRequest,
   GetHostnameResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -157,7 +162,13 @@ export const UpdateHostnameRequest = Schema.Struct({
       certId: Schema.optional(Schema.String),
       enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       hostname: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ certId: "cert_id" })),
+    }).pipe(
+      Schema.encodeKeys({
+        certId: "cert_id",
+        enabled: "enabled",
+        hostname: "hostname",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -183,12 +194,20 @@ export const UpdateHostnameResponse = Schema.Array(
     enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     hostname: Schema.optional(Schema.String),
     privateKey: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ certId: "cert_id", privateKey: "private_key" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certId: "cert_id",
+      certificate: "certificate",
+      enabled: "enabled",
+      hostname: "hostname",
+      privateKey: "private_key",
+    }),
+  ),
 ) as unknown as Schema.Schema<UpdateHostnameResponse>;
 
-export const updateHostname: (
-  input: UpdateHostnameRequest,
-) => Effect.Effect<
+export const updateHostname: API.OperationMethod<
+  UpdateHostnameRequest,
   UpdateHostnameResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -265,15 +284,19 @@ export const GetHostnameCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     expiresOn: "expires_on",
+    issuer: "issuer",
     serialNumber: "serial_number",
+    signature: "signature",
+    status: "status",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<GetHostnameCertificateResponse>;
 
-export const getHostnameCertificate: (
-  input: GetHostnameCertificateRequest,
-) => Effect.Effect<
+export const getHostnameCertificate: API.OperationMethod<
+  GetHostnameCertificateRequest,
   GetHostnameCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -314,12 +337,20 @@ export const ListHostnameCertificatesResponse = Schema.Array(
     enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     hostname: Schema.optional(Schema.String),
     privateKey: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ certId: "cert_id", privateKey: "private_key" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certId: "cert_id",
+      certificate: "certificate",
+      enabled: "enabled",
+      hostname: "hostname",
+      privateKey: "private_key",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListHostnameCertificatesResponse>;
 
-export const listHostnameCertificates: (
-  input: ListHostnameCertificatesRequest,
-) => Effect.Effect<
+export const listHostnameCertificates: API.OperationMethod<
+  ListHostnameCertificatesRequest,
   ListHostnameCertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -343,7 +374,7 @@ export const CreateHostnameCertificateRequest = Schema.Struct({
   certificate: Schema.String,
   privateKey: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
+  Schema.encodeKeys({ certificate: "certificate", privateKey: "private_key" }),
   T.Http({
     method: "POST",
     path: "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates",
@@ -397,15 +428,19 @@ export const CreateHostnameCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     expiresOn: "expires_on",
+    issuer: "issuer",
     serialNumber: "serial_number",
+    signature: "signature",
+    status: "status",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<CreateHostnameCertificateResponse>;
 
-export const createHostnameCertificate: (
-  input: CreateHostnameCertificateRequest,
-) => Effect.Effect<
+export const createHostnameCertificate: API.OperationMethod<
+  CreateHostnameCertificateRequest,
   CreateHostnameCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -478,15 +513,19 @@ export const DeleteHostnameCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
     expiresOn: "expires_on",
+    issuer: "issuer",
     serialNumber: "serial_number",
+    signature: "signature",
+    status: "status",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<DeleteHostnameCertificateResponse>;
 
-export const deleteHostnameCertificate: (
-  input: DeleteHostnameCertificateRequest,
-) => Effect.Effect<
+export const deleteHostnameCertificate: API.OperationMethod<
+  DeleteHostnameCertificateRequest,
   DeleteHostnameCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -533,12 +572,16 @@ export const GetOriginTlsClientAuthResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   privateKey: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
+  Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
+    enabled: "enabled",
+    privateKey: "private_key",
+  }),
 ) as unknown as Schema.Schema<GetOriginTlsClientAuthResponse>;
 
-export const getOriginTlsClientAuth: (
-  input: GetOriginTlsClientAuthRequest,
-) => Effect.Effect<
+export const getOriginTlsClientAuth: API.OperationMethod<
+  GetOriginTlsClientAuthRequest,
   GetOriginTlsClientAuthResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -572,12 +615,18 @@ export const ListOriginTlsClientAuthsResponse = Schema.Array(
     certificate: Schema.optional(Schema.String),
     enabled: Schema.optional(Schema.Boolean),
     privateKey: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ privateKey: "private_key" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certificate: "certificate",
+      enabled: "enabled",
+      privateKey: "private_key",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListOriginTlsClientAuthsResponse>;
 
-export const listOriginTlsClientAuths: (
-  input: ListOriginTlsClientAuthsRequest,
-) => Effect.Effect<
+export const listOriginTlsClientAuths: API.OperationMethod<
+  ListOriginTlsClientAuthsRequest,
   ListOriginTlsClientAuthsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -601,7 +650,7 @@ export const CreateOriginTlsClientAuthRequest = Schema.Struct({
   certificate: Schema.String,
   privateKey: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
+  Schema.encodeKeys({ certificate: "certificate", privateKey: "private_key" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/origin_tls_client_auth" }),
 ) as unknown as Schema.Schema<CreateOriginTlsClientAuthRequest>;
 
@@ -622,12 +671,16 @@ export const CreateOriginTlsClientAuthResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   privateKey: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
+  Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
+    enabled: "enabled",
+    privateKey: "private_key",
+  }),
 ) as unknown as Schema.Schema<CreateOriginTlsClientAuthResponse>;
 
-export const createOriginTlsClientAuth: (
-  input: CreateOriginTlsClientAuthRequest,
-) => Effect.Effect<
+export const createOriginTlsClientAuth: API.OperationMethod<
+  CreateOriginTlsClientAuthRequest,
   CreateOriginTlsClientAuthResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -670,12 +723,16 @@ export const DeleteOriginTlsClientAuthResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   privateKey: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ privateKey: "private_key" }),
+  Schema.encodeKeys({
+    id: "id",
+    certificate: "certificate",
+    enabled: "enabled",
+    privateKey: "private_key",
+  }),
 ) as unknown as Schema.Schema<DeleteOriginTlsClientAuthResponse>;
 
-export const deleteOriginTlsClientAuth: (
-  input: DeleteOriginTlsClientAuthRequest,
-) => Effect.Effect<
+export const deleteOriginTlsClientAuth: API.OperationMethod<
+  DeleteOriginTlsClientAuthRequest,
   DeleteOriginTlsClientAuthResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -712,9 +769,8 @@ export const GetSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
-export const getSetting: (
-  input: GetSettingRequest,
-) => Effect.Effect<
+export const getSetting: API.OperationMethod<
+  GetSettingRequest,
   GetSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -750,9 +806,8 @@ export const PutSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PutSettingResponse>;
 
-export const putSetting: (
-  input: PutSettingRequest,
-) => Effect.Effect<
+export const putSetting: API.OperationMethod<
+  PutSettingRequest,
   PutSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

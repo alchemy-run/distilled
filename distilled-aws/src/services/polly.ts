@@ -814,9 +814,8 @@ export class TextLengthExceededException extends S.TaggedErrorClass<TextLengthEx
  *
  * For more information, see Managing Lexicons.
  */
-export const deleteLexicon: (
-  input: DeleteLexiconInput,
-) => effect.Effect<
+export const deleteLexicon: API.OperationMethod<
+  DeleteLexiconInput,
   DeleteLexiconOutput,
   LexiconNotFoundException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -847,9 +846,8 @@ export const deleteLexicon: (
  * This operation requires permissions to perform the
  * `polly:DescribeVoices` action.
  */
-export const describeVoices: (
-  input: DescribeVoicesInput,
-) => effect.Effect<
+export const describeVoices: API.OperationMethod<
+  DescribeVoicesInput,
   DescribeVoicesOutput,
   InvalidNextTokenException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -862,9 +860,8 @@ export const describeVoices: (
  * Returns the content of the specified pronunciation lexicon stored
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
-export const getLexicon: (
-  input: GetLexiconInput,
-) => effect.Effect<
+export const getLexicon: API.OperationMethod<
+  GetLexiconInput,
   GetLexiconOutput,
   LexiconNotFoundException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -879,9 +876,8 @@ export const getLexicon: (
  * including the status of the task, and a link to the S3 bucket containing
  * the output of the task.
  */
-export const getSpeechSynthesisTask: (
-  input: GetSpeechSynthesisTaskInput,
-) => effect.Effect<
+export const getSpeechSynthesisTask: API.OperationMethod<
+  GetSpeechSynthesisTaskInput,
   GetSpeechSynthesisTaskOutput,
   | InvalidTaskIdException
   | ServiceFailureException
@@ -900,9 +896,8 @@ export const getSpeechSynthesisTask: (
 /**
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */
-export const listLexicons: (
-  input: ListLexiconsInput,
-) => effect.Effect<
+export const listLexicons: API.OperationMethod<
+  ListLexiconsInput,
   ListLexiconsOutput,
   InvalidNextTokenException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -916,14 +911,12 @@ export const listLexicons: (
  * creation date. This operation can filter the tasks by their status, for
  * example, allowing users to list only tasks that are completed.
  */
-export const listSpeechSynthesisTasks: {
-  (
-    input: ListSpeechSynthesisTasksInput,
-  ): effect.Effect<
-    ListSpeechSynthesisTasksOutput,
-    InvalidNextTokenException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpeechSynthesisTasks: API.OperationMethod<
+  ListSpeechSynthesisTasksInput,
+  ListSpeechSynthesisTasksOutput,
+  InvalidNextTokenException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpeechSynthesisTasksInput,
   ) => stream.Stream<
@@ -957,9 +950,8 @@ export const listSpeechSynthesisTasks: {
  *
  * For more information, see Managing Lexicons.
  */
-export const putLexicon: (
-  input: PutLexiconInput,
-) => effect.Effect<
+export const putLexicon: API.OperationMethod<
+  PutLexiconInput,
   PutLexiconOutput,
   | InvalidLexiconException
   | LexiconSizeExceededException
@@ -995,9 +987,8 @@ export const putLexicon: (
  * `SpeechSynthesisTask` object is available for 72 hours after
  * starting the asynchronous synthesis task.
  */
-export const startSpeechSynthesisTask: (
-  input: StartSpeechSynthesisTaskInput,
-) => effect.Effect<
+export const startSpeechSynthesisTask: API.OperationMethod<
+  StartSpeechSynthesisTaskInput,
   StartSpeechSynthesisTaskOutput,
   | EngineNotSupportedException
   | InvalidS3BucketException
@@ -1038,9 +1029,8 @@ export const startSpeechSynthesisTask: (
  * all by English voices) unless phoneme mapping is used. For more
  * information, see How it Works.
  */
-export const synthesizeSpeech: (
-  input: SynthesizeSpeechInput,
-) => effect.Effect<
+export const synthesizeSpeech: API.OperationMethod<
+  SynthesizeSpeechInput,
   SynthesizeSpeechOutput,
   | EngineNotSupportedException
   | InvalidSampleRateException

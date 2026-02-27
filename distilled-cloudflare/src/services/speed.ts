@@ -108,9 +108,8 @@ export const ListAvailabilitiesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListAvailabilitiesResponse>;
 
-export const listAvailabilities: (
-  input: ListAvailabilitiesRequest,
-) => Effect.Effect<
+export const listAvailabilities: API.OperationMethod<
+  ListAvailabilitiesRequest,
   ListAvailabilitiesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -151,9 +150,8 @@ export const ListPagesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPagesResponse>;
 
-export const listPages: (
-  input: ListPagesRequest,
-) => Effect.Effect<
+export const listPages: API.OperationMethod<
+  ListPagesRequest,
   ListPagesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -247,9 +245,8 @@ export type TrendPageResponse = unknown;
 export const TrendPageResponse =
   Schema.Unknown as unknown as Schema.Schema<TrendPageResponse>;
 
-export const trendPage: (
-  input: TrendPageRequest,
-) => Effect.Effect<
+export const trendPage: API.OperationMethod<
+  TrendPageRequest,
   TrendPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -307,9 +304,8 @@ export const GetPageTestResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetPageTestResponse>;
 
-export const getPageTest: (
-  input: GetPageTestRequest,
-) => Effect.Effect<
+export const getPageTest: API.OperationMethod<
+  GetPageTestRequest,
   GetPageTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -405,9 +401,8 @@ export const ListPageTestsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPageTestsResponse>;
 
-export const listPageTests: (
-  input: ListPageTestsRequest,
-) => Effect.Effect<
+export const listPageTests: API.OperationMethod<
+  ListPageTestsRequest,
   ListPageTestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -507,9 +502,8 @@ export const CreatePageTestResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreatePageTestResponse>;
 
-export const createPageTest: (
-  input: CreatePageTestRequest,
-) => Effect.Effect<
+export const createPageTest: API.OperationMethod<
+  CreatePageTestRequest,
   CreatePageTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -592,9 +586,8 @@ export const DeletePageTestResponse = Schema.Struct({
   count: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeletePageTestResponse>;
 
-export const deletePageTest: (
-  input: DeletePageTestRequest,
-) => Effect.Effect<
+export const deletePageTest: API.OperationMethod<
+  DeletePageTestRequest,
   DeletePageTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -729,9 +722,8 @@ export const GetScheduleResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetScheduleResponse>;
 
-export const getSchedule: (
-  input: GetScheduleRequest,
-) => Effect.Effect<
+export const getSchedule: API.OperationMethod<
+  GetScheduleRequest,
   GetScheduleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -868,9 +860,8 @@ export const CreateScheduleResponse = Schema.Struct({
   test: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<CreateScheduleResponse>;
 
-export const createSchedule: (
-  input: CreateScheduleRequest,
-) => Effect.Effect<
+export const createSchedule: API.OperationMethod<
+  CreateScheduleRequest,
   CreateScheduleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -953,9 +944,8 @@ export const DeleteScheduleResponse = Schema.Struct({
   count: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteScheduleResponse>;
 
-export const deleteSchedule: (
-  input: DeleteScheduleRequest,
-) => Effect.Effect<
+export const deleteSchedule: API.OperationMethod<
+  DeleteScheduleRequest,
   DeleteScheduleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

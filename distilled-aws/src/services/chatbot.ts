@@ -1650,9 +1650,8 @@ export class UpdateSlackChannelConfigurationException extends S.TaggedErrorClass
 /**
  * Links a resource (for example, a custom action) to a channel configuration.
  */
-export const associateToConfiguration: (
-  input: AssociateToConfigurationRequest,
-) => effect.Effect<
+export const associateToConfiguration: API.OperationMethod<
+  AssociateToConfigurationRequest,
   AssociateToConfigurationResult,
   | InternalServiceError
   | InvalidRequestException
@@ -1671,9 +1670,8 @@ export const associateToConfiguration: (
 /**
  * Creates an AWS Chatbot configuration for Amazon Chime.
  */
-export const createChimeWebhookConfiguration: (
-  input: CreateChimeWebhookConfigurationRequest,
-) => effect.Effect<
+export const createChimeWebhookConfiguration: API.OperationMethod<
+  CreateChimeWebhookConfigurationRequest,
   CreateChimeWebhookConfigurationResult,
   | ConflictException
   | CreateChimeWebhookConfigurationException
@@ -1696,9 +1694,8 @@ export const createChimeWebhookConfiguration: (
 /**
  * Creates an AWS Chatbot configuration for Microsoft Teams.
  */
-export const createMicrosoftTeamsChannelConfiguration: (
-  input: CreateTeamsChannelConfigurationRequest,
-) => effect.Effect<
+export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
+  CreateTeamsChannelConfigurationRequest,
   CreateTeamsChannelConfigurationResult,
   | ConflictException
   | CreateTeamsChannelConfigurationException
@@ -1721,9 +1718,8 @@ export const createMicrosoftTeamsChannelConfiguration: (
 /**
  * Creates an AWS Chatbot confugration for Slack.
  */
-export const createSlackChannelConfiguration: (
-  input: CreateSlackChannelConfigurationRequest,
-) => effect.Effect<
+export const createSlackChannelConfiguration: API.OperationMethod<
+  CreateSlackChannelConfigurationRequest,
   CreateSlackChannelConfigurationResult,
   | ConflictException
   | CreateSlackChannelConfigurationException
@@ -1746,9 +1742,8 @@ export const createSlackChannelConfiguration: (
 /**
  * Deletes a Amazon Chime webhook configuration for AWS Chatbot.
  */
-export const deleteChimeWebhookConfiguration: (
-  input: DeleteChimeWebhookConfigurationRequest,
-) => effect.Effect<
+export const deleteChimeWebhookConfiguration: API.OperationMethod<
+  DeleteChimeWebhookConfigurationRequest,
   DeleteChimeWebhookConfigurationResult,
   | DeleteChimeWebhookConfigurationException
   | InvalidParameterException
@@ -1769,9 +1764,8 @@ export const deleteChimeWebhookConfiguration: (
 /**
  * Deletes a Microsoft Teams channel configuration for AWS Chatbot
  */
-export const deleteMicrosoftTeamsChannelConfiguration: (
-  input: DeleteTeamsChannelConfigurationRequest,
-) => effect.Effect<
+export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
+  DeleteTeamsChannelConfigurationRequest,
   DeleteTeamsChannelConfigurationResult,
   | DeleteTeamsChannelConfigurationException
   | InvalidParameterException
@@ -1792,9 +1786,8 @@ export const deleteMicrosoftTeamsChannelConfiguration: (
 /**
  * Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
  */
-export const deleteMicrosoftTeamsConfiguredTeam: (
-  input: DeleteTeamsConfiguredTeamRequest,
-) => effect.Effect<
+export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
+  DeleteTeamsConfiguredTeamRequest,
   DeleteTeamsConfiguredTeamResult,
   DeleteTeamsConfiguredTeamException | InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1806,9 +1799,8 @@ export const deleteMicrosoftTeamsConfiguredTeam: (
 /**
  * Identifes a user level permission for a channel configuration.
  */
-export const deleteMicrosoftTeamsUserIdentity: (
-  input: DeleteMicrosoftTeamsUserIdentityRequest,
-) => effect.Effect<
+export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
+  DeleteMicrosoftTeamsUserIdentityRequest,
   DeleteMicrosoftTeamsUserIdentityResult,
   | DeleteMicrosoftTeamsUserIdentityException
   | InvalidParameterException
@@ -1827,9 +1819,8 @@ export const deleteMicrosoftTeamsUserIdentity: (
 /**
  * Deletes a Slack channel configuration for AWS Chatbot
  */
-export const deleteSlackChannelConfiguration: (
-  input: DeleteSlackChannelConfigurationRequest,
-) => effect.Effect<
+export const deleteSlackChannelConfiguration: API.OperationMethod<
+  DeleteSlackChannelConfigurationRequest,
   DeleteSlackChannelConfigurationResult,
   | DeleteSlackChannelConfigurationException
   | InvalidParameterException
@@ -1850,9 +1841,8 @@ export const deleteSlackChannelConfiguration: (
 /**
  * Deletes a user level permission for a Slack channel configuration.
  */
-export const deleteSlackUserIdentity: (
-  input: DeleteSlackUserIdentityRequest,
-) => effect.Effect<
+export const deleteSlackUserIdentity: API.OperationMethod<
+  DeleteSlackUserIdentityRequest,
   DeleteSlackUserIdentityResult,
   | DeleteSlackUserIdentityException
   | InvalidParameterException
@@ -1871,9 +1861,8 @@ export const deleteSlackUserIdentity: (
 /**
  * Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
  */
-export const deleteSlackWorkspaceAuthorization: (
-  input: DeleteSlackWorkspaceAuthorizationRequest,
-) => effect.Effect<
+export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
+  DeleteSlackWorkspaceAuthorizationRequest,
   DeleteSlackWorkspaceAuthorizationResult,
   | DeleteSlackWorkspaceAuthorizationFault
   | InvalidParameterException
@@ -1887,17 +1876,15 @@ export const deleteSlackWorkspaceAuthorization: (
 /**
  * Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
  */
-export const describeChimeWebhookConfigurations: {
-  (
-    input: DescribeChimeWebhookConfigurationsRequest,
-  ): effect.Effect<
-    DescribeChimeWebhookConfigurationsResult,
-    | DescribeChimeWebhookConfigurationsException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeChimeWebhookConfigurations: API.OperationMethod<
+  DescribeChimeWebhookConfigurationsRequest,
+  DescribeChimeWebhookConfigurationsResult,
+  | DescribeChimeWebhookConfigurationsException
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeChimeWebhookConfigurationsRequest,
   ) => stream.Stream<
@@ -1936,17 +1923,15 @@ export const describeChimeWebhookConfigurations: {
 /**
  * Lists Slack channel configurations optionally filtered by ChatConfigurationArn
  */
-export const describeSlackChannelConfigurations: {
-  (
-    input: DescribeSlackChannelConfigurationsRequest,
-  ): effect.Effect<
-    DescribeSlackChannelConfigurationsResult,
-    | DescribeSlackChannelConfigurationsException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSlackChannelConfigurations: API.OperationMethod<
+  DescribeSlackChannelConfigurationsRequest,
+  DescribeSlackChannelConfigurationsResult,
+  | DescribeSlackChannelConfigurationsException
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSlackChannelConfigurationsRequest,
   ) => stream.Stream<
@@ -1985,17 +1970,15 @@ export const describeSlackChannelConfigurations: {
 /**
  * Lists all Slack user identities with a mapped role.
  */
-export const describeSlackUserIdentities: {
-  (
-    input: DescribeSlackUserIdentitiesRequest,
-  ): effect.Effect<
-    DescribeSlackUserIdentitiesResult,
-    | DescribeSlackUserIdentitiesException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSlackUserIdentities: API.OperationMethod<
+  DescribeSlackUserIdentitiesRequest,
+  DescribeSlackUserIdentitiesResult,
+  | DescribeSlackUserIdentitiesException
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSlackUserIdentitiesRequest,
   ) => stream.Stream<
@@ -2034,17 +2017,15 @@ export const describeSlackUserIdentities: {
 /**
  * List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
  */
-export const describeSlackWorkspaces: {
-  (
-    input: DescribeSlackWorkspacesRequest,
-  ): effect.Effect<
-    DescribeSlackWorkspacesResult,
-    | DescribeSlackWorkspacesException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSlackWorkspaces: API.OperationMethod<
+  DescribeSlackWorkspacesRequest,
+  DescribeSlackWorkspacesResult,
+  | DescribeSlackWorkspacesException
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSlackWorkspacesRequest,
   ) => stream.Stream<
@@ -2083,9 +2064,8 @@ export const describeSlackWorkspaces: {
 /**
  * Unlink a resource, for example a custom action, from a channel configuration.
  */
-export const disassociateFromConfiguration: (
-  input: DisassociateFromConfigurationRequest,
-) => effect.Effect<
+export const disassociateFromConfiguration: API.OperationMethod<
+  DisassociateFromConfigurationRequest,
   DisassociateFromConfigurationResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2104,9 +2084,8 @@ export const disassociateFromConfiguration: (
 /**
  * Returns AWS Chatbot account preferences.
  */
-export const getAccountPreferences: (
-  input: GetAccountPreferencesRequest,
-) => effect.Effect<
+export const getAccountPreferences: API.OperationMethod<
+  GetAccountPreferencesRequest,
   GetAccountPreferencesResult,
   GetAccountPreferencesException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2118,9 +2097,8 @@ export const getAccountPreferences: (
 /**
  * Returns a Microsoft Teams channel configuration in an AWS account.
  */
-export const getMicrosoftTeamsChannelConfiguration: (
-  input: GetTeamsChannelConfigurationRequest,
-) => effect.Effect<
+export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
+  GetTeamsChannelConfigurationRequest,
   GetTeamsChannelConfigurationResult,
   | GetTeamsChannelConfigurationException
   | InvalidParameterException
@@ -2139,14 +2117,12 @@ export const getMicrosoftTeamsChannelConfiguration: (
 /**
  * Lists resources associated with a channel configuration.
  */
-export const listAssociations: {
-  (
-    input: ListAssociationsRequest,
-  ): effect.Effect<
-    ListAssociationsResult,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociations: API.OperationMethod<
+  ListAssociationsRequest,
+  ListAssociationsResult,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociationsRequest,
   ) => stream.Stream<
@@ -2175,17 +2151,15 @@ export const listAssociations: {
 /**
  * Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
  */
-export const listMicrosoftTeamsChannelConfigurations: {
-  (
-    input: ListTeamsChannelConfigurationsRequest,
-  ): effect.Effect<
-    ListTeamsChannelConfigurationsResult,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ListTeamsChannelConfigurationsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMicrosoftTeamsChannelConfigurations: API.OperationMethod<
+  ListTeamsChannelConfigurationsRequest,
+  ListTeamsChannelConfigurationsResult,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ListTeamsChannelConfigurationsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTeamsChannelConfigurationsRequest,
   ) => stream.Stream<
@@ -2224,17 +2198,15 @@ export const listMicrosoftTeamsChannelConfigurations: {
 /**
  * Lists all authorized Microsoft Teams for an AWS Account
  */
-export const listMicrosoftTeamsConfiguredTeams: {
-  (
-    input: ListMicrosoftTeamsConfiguredTeamsRequest,
-  ): effect.Effect<
-    ListMicrosoftTeamsConfiguredTeamsResult,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ListMicrosoftTeamsConfiguredTeamsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMicrosoftTeamsConfiguredTeams: API.OperationMethod<
+  ListMicrosoftTeamsConfiguredTeamsRequest,
+  ListMicrosoftTeamsConfiguredTeamsResult,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ListMicrosoftTeamsConfiguredTeamsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMicrosoftTeamsConfiguredTeamsRequest,
   ) => stream.Stream<
@@ -2273,17 +2245,15 @@ export const listMicrosoftTeamsConfiguredTeams: {
 /**
  * A list all Microsoft Teams user identities with a mapped role.
  */
-export const listMicrosoftTeamsUserIdentities: {
-  (
-    input: ListMicrosoftTeamsUserIdentitiesRequest,
-  ): effect.Effect<
-    ListMicrosoftTeamsUserIdentitiesResult,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ListMicrosoftTeamsUserIdentitiesException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMicrosoftTeamsUserIdentities: API.OperationMethod<
+  ListMicrosoftTeamsUserIdentitiesRequest,
+  ListMicrosoftTeamsUserIdentitiesResult,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ListMicrosoftTeamsUserIdentitiesException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMicrosoftTeamsUserIdentitiesRequest,
   ) => stream.Stream<
@@ -2322,9 +2292,8 @@ export const listMicrosoftTeamsUserIdentities: {
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceError
   | ResourceNotFoundException
@@ -2343,9 +2312,8 @@ export const listTagsForResource: (
 /**
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceError
   | ResourceNotFoundException
@@ -2366,9 +2334,8 @@ export const tagResource: (
 /**
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceError
   | ResourceNotFoundException
@@ -2387,9 +2354,8 @@ export const untagResource: (
 /**
  * Updates AWS Chatbot account preferences.
  */
-export const updateAccountPreferences: (
-  input: UpdateAccountPreferencesRequest,
-) => effect.Effect<
+export const updateAccountPreferences: API.OperationMethod<
+  UpdateAccountPreferencesRequest,
   UpdateAccountPreferencesResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2408,9 +2374,8 @@ export const updateAccountPreferences: (
 /**
  * Updates a Amazon Chime webhook configuration.
  */
-export const updateChimeWebhookConfiguration: (
-  input: UpdateChimeWebhookConfigurationRequest,
-) => effect.Effect<
+export const updateChimeWebhookConfiguration: API.OperationMethod<
+  UpdateChimeWebhookConfigurationRequest,
   UpdateChimeWebhookConfigurationResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2431,9 +2396,8 @@ export const updateChimeWebhookConfiguration: (
 /**
  * Updates an Microsoft Teams channel configuration.
  */
-export const updateMicrosoftTeamsChannelConfiguration: (
-  input: UpdateTeamsChannelConfigurationRequest,
-) => effect.Effect<
+export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
+  UpdateTeamsChannelConfigurationRequest,
   UpdateTeamsChannelConfigurationResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2454,9 +2418,8 @@ export const updateMicrosoftTeamsChannelConfiguration: (
 /**
  * Updates a Slack channel configuration.
  */
-export const updateSlackChannelConfiguration: (
-  input: UpdateSlackChannelConfigurationRequest,
-) => effect.Effect<
+export const updateSlackChannelConfiguration: API.OperationMethod<
+  UpdateSlackChannelConfigurationRequest,
   UpdateSlackChannelConfigurationResult,
   | InvalidParameterException
   | InvalidRequestException
@@ -2477,9 +2440,8 @@ export const updateSlackChannelConfiguration: (
 /**
  * Creates a custom action that can be invoked as an alias or as a button on a notification.
  */
-export const createCustomAction: (
-  input: CreateCustomActionRequest,
-) => effect.Effect<
+export const createCustomAction: API.OperationMethod<
+  CreateCustomActionRequest,
   CreateCustomActionResult,
   | ConflictException
   | InternalServiceError
@@ -2502,9 +2464,8 @@ export const createCustomAction: (
 /**
  * Returns a custom action.
  */
-export const getCustomAction: (
-  input: GetCustomActionRequest,
-) => effect.Effect<
+export const getCustomAction: API.OperationMethod<
+  GetCustomActionRequest,
   GetCustomActionResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2525,9 +2486,8 @@ export const getCustomAction: (
 /**
  * Updates a custom action.
  */
-export const updateCustomAction: (
-  input: UpdateCustomActionRequest,
-) => effect.Effect<
+export const updateCustomAction: API.OperationMethod<
+  UpdateCustomActionRequest,
   UpdateCustomActionResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2548,9 +2508,8 @@ export const updateCustomAction: (
 /**
  * Deletes a custom action.
  */
-export const deleteCustomAction: (
-  input: DeleteCustomActionRequest,
-) => effect.Effect<
+export const deleteCustomAction: API.OperationMethod<
+  DeleteCustomActionRequest,
   DeleteCustomActionResult,
   | InternalServiceError
   | InvalidRequestException
@@ -2571,17 +2530,15 @@ export const deleteCustomAction: (
 /**
  * Lists custom actions defined in this account.
  */
-export const listCustomActions: {
-  (
-    input: ListCustomActionsRequest,
-  ): effect.Effect<
-    ListCustomActionsResult,
-    | InternalServiceError
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomActions: API.OperationMethod<
+  ListCustomActionsRequest,
+  ListCustomActionsResult,
+  | InternalServiceError
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomActionsRequest,
   ) => stream.Stream<

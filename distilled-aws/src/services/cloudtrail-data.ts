@@ -198,9 +198,8 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
  * can add up to 100 of these events (or up to 1 MB) per `PutAuditEvents`
  * request.
  */
-export const putAuditEvents: (
-  input: PutAuditEventsRequest,
-) => effect.Effect<
+export const putAuditEvents: API.OperationMethod<
+  PutAuditEventsRequest,
   PutAuditEventsResponse,
   | ChannelInsufficientPermission
   | ChannelNotFound

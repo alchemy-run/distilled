@@ -1156,9 +1156,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
  * Getting started with
  * CodeGuru Reviewer in the *CodeGuru Reviewer User Guide.*
  */
-export const associateRepository: (
-  input: AssociateRepositoryRequest,
-) => effect.Effect<
+export const associateRepository: API.OperationMethod<
+  AssociateRepositoryRequest,
   AssociateRepositoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1184,9 +1183,8 @@ export const associateRepository: (
  * specified branch in an associated repository. `PullRequest` code reviews are
  * automatically triggered by a pull request.
  */
-export const createCodeReview: (
-  input: CreateCodeReviewRequest,
-) => effect.Effect<
+export const createCodeReview: API.OperationMethod<
+  CreateCodeReviewRequest,
   CreateCodeReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -1211,9 +1209,8 @@ export const createCodeReview: (
 /**
  * Returns the metadata associated with the code review along with its status.
  */
-export const describeCodeReview: (
-  input: DescribeCodeReviewRequest,
-) => effect.Effect<
+export const describeCodeReview: API.OperationMethod<
+  DescribeCodeReviewRequest,
   DescribeCodeReviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1236,9 +1233,8 @@ export const describeCodeReview: (
 /**
  * Describes the customer feedback for a CodeGuru Reviewer recommendation.
  */
-export const describeRecommendationFeedback: (
-  input: DescribeRecommendationFeedbackRequest,
-) => effect.Effect<
+export const describeRecommendationFeedback: API.OperationMethod<
+  DescribeRecommendationFeedbackRequest,
   DescribeRecommendationFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1262,9 +1258,8 @@ export const describeRecommendationFeedback: (
  * Returns a RepositoryAssociation object that contains information about the requested
  * repository association.
  */
-export const describeRepositoryAssociation: (
-  input: DescribeRepositoryAssociationRequest,
-) => effect.Effect<
+export const describeRepositoryAssociation: API.OperationMethod<
+  DescribeRepositoryAssociationRequest,
   DescribeRepositoryAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1287,9 +1282,8 @@ export const describeRepositoryAssociation: (
 /**
  * Removes the association between Amazon CodeGuru Reviewer and a repository.
  */
-export const disassociateRepository: (
-  input: DisassociateRepositoryRequest,
-) => effect.Effect<
+export const disassociateRepository: API.OperationMethod<
+  DisassociateRepositoryRequest,
   DisassociateRepositoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1314,18 +1308,16 @@ export const disassociateRepository: (
 /**
  * Lists all the code reviews that the customer has created in the past 90 days.
  */
-export const listCodeReviews: {
-  (
-    input: ListCodeReviewsRequest,
-  ): effect.Effect<
-    ListCodeReviewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCodeReviews: API.OperationMethod<
+  ListCodeReviewsRequest,
+  ListCodeReviewsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCodeReviewsRequest,
   ) => stream.Stream<
@@ -1367,19 +1359,17 @@ export const listCodeReviews: {
  * Returns a list of RecommendationFeedbackSummary objects that contain customer recommendation
  * feedback for all CodeGuru Reviewer users.
  */
-export const listRecommendationFeedback: {
-  (
-    input: ListRecommendationFeedbackRequest,
-  ): effect.Effect<
-    ListRecommendationFeedbackResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendationFeedback: API.OperationMethod<
+  ListRecommendationFeedbackRequest,
+  ListRecommendationFeedbackResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationFeedbackRequest,
   ) => stream.Stream<
@@ -1423,19 +1413,17 @@ export const listRecommendationFeedback: {
 /**
  * Returns the list of all recommendations for a completed code review.
  */
-export const listRecommendations: {
-  (
-    input: ListRecommendationsRequest,
-  ): effect.Effect<
-    ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendations: API.OperationMethod<
+  ListRecommendationsRequest,
+  ListRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
@@ -1480,17 +1468,15 @@ export const listRecommendations: {
  * Returns a list of RepositoryAssociationSummary objects that contain summary information about a
  * repository association. You can filter the returned list by ProviderType, Name, State, and Owner.
  */
-export const listRepositoryAssociations: {
-  (
-    input: ListRepositoryAssociationsRequest,
-  ): effect.Effect<
-    ListRepositoryAssociationsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositoryAssociations: API.OperationMethod<
+  ListRepositoryAssociationsRequest,
+  ListRepositoryAssociationsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoryAssociationsRequest,
   ) => stream.Stream<
@@ -1525,9 +1511,8 @@ export const listRepositoryAssociations: {
 /**
  * Returns the list of tags associated with an associated repository resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1547,9 +1532,8 @@ export const listTagsForResource: (
  * Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with
  * different reactions the previous feedback is overwritten.
  */
-export const putRecommendationFeedback: (
-  input: PutRecommendationFeedbackRequest,
-) => effect.Effect<
+export const putRecommendationFeedback: API.OperationMethod<
+  PutRecommendationFeedbackRequest,
   PutRecommendationFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1572,9 +1556,8 @@ export const putRecommendationFeedback: (
 /**
  * Adds one or more tags to an associated repository.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1593,9 +1576,8 @@ export const tagResource: (
 /**
  * Removes a tag from an associated repository.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException

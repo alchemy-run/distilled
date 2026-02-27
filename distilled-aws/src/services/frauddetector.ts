@@ -3845,9 +3845,8 @@ export class ResourceUnavailableException extends S.TaggedErrorClass<ResourceUna
 /**
  * Creates a batch of variables.
  */
-export const batchCreateVariable: (
-  input: BatchCreateVariableRequest,
-) => effect.Effect<
+export const batchCreateVariable: API.OperationMethod<
+  BatchCreateVariableRequest,
   BatchCreateVariableResult,
   | AccessDeniedException
   | InternalServerException
@@ -3868,9 +3867,8 @@ export const batchCreateVariable: (
 /**
  * Gets a batch of variables.
  */
-export const batchGetVariable: (
-  input: BatchGetVariableRequest,
-) => effect.Effect<
+export const batchGetVariable: API.OperationMethod<
+  BatchGetVariableRequest,
   BatchGetVariableResult,
   | AccessDeniedException
   | InternalServerException
@@ -3891,9 +3889,8 @@ export const batchGetVariable: (
 /**
  * Cancels an in-progress batch import job.
  */
-export const cancelBatchImportJob: (
-  input: CancelBatchImportJobRequest,
-) => effect.Effect<
+export const cancelBatchImportJob: API.OperationMethod<
+  CancelBatchImportJobRequest,
   CancelBatchImportJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -3916,9 +3913,8 @@ export const cancelBatchImportJob: (
 /**
  * Cancels the specified batch prediction job.
  */
-export const cancelBatchPredictionJob: (
-  input: CancelBatchPredictionJobRequest,
-) => effect.Effect<
+export const cancelBatchPredictionJob: API.OperationMethod<
+  CancelBatchPredictionJobRequest,
   CancelBatchPredictionJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -3941,9 +3937,8 @@ export const cancelBatchPredictionJob: (
 /**
  * Creates a batch import job.
  */
-export const createBatchImportJob: (
-  input: CreateBatchImportJobRequest,
-) => effect.Effect<
+export const createBatchImportJob: API.OperationMethod<
+  CreateBatchImportJobRequest,
   CreateBatchImportJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -3966,9 +3961,8 @@ export const createBatchImportJob: (
 /**
  * Creates a batch prediction job.
  */
-export const createBatchPredictionJob: (
-  input: CreateBatchPredictionJobRequest,
-) => effect.Effect<
+export const createBatchPredictionJob: API.OperationMethod<
+  CreateBatchPredictionJobRequest,
   CreateBatchPredictionJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -3991,9 +3985,8 @@ export const createBatchPredictionJob: (
 /**
  * Creates a detector version. The detector version starts in a `DRAFT` status.
  */
-export const createDetectorVersion: (
-  input: CreateDetectorVersionRequest,
-) => effect.Effect<
+export const createDetectorVersion: API.OperationMethod<
+  CreateDetectorVersionRequest,
   CreateDetectorVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -4019,9 +4012,8 @@ export const createDetectorVersion: (
  * List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector.
  * For more information, see Lists.
  */
-export const createList: (
-  input: CreateListRequest,
-) => effect.Effect<
+export const createList: API.OperationMethod<
+  CreateListRequest,
   CreateListResult,
   | AccessDeniedException
   | InternalServerException
@@ -4042,9 +4034,8 @@ export const createList: (
 /**
  * Creates a model using the specified model type.
  */
-export const createModel: (
-  input: CreateModelRequest,
-) => effect.Effect<
+export const createModel: API.OperationMethod<
+  CreateModelRequest,
   CreateModelResult,
   | AccessDeniedException
   | InternalServerException
@@ -4065,9 +4056,8 @@ export const createModel: (
 /**
  * Creates a version of the model using the specified model type and model id.
  */
-export const createModelVersion: (
-  input: CreateModelVersionRequest,
-) => effect.Effect<
+export const createModelVersion: API.OperationMethod<
+  CreateModelVersionRequest,
   CreateModelVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -4090,9 +4080,8 @@ export const createModelVersion: (
 /**
  * Creates a rule for use with the specified detector.
  */
-export const createRule: (
-  input: CreateRuleRequest,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResult,
   | AccessDeniedException
   | InternalServerException
@@ -4113,9 +4102,8 @@ export const createRule: (
 /**
  * Creates a variable.
  */
-export const createVariable: (
-  input: CreateVariableRequest,
-) => effect.Effect<
+export const createVariable: API.OperationMethod<
+  CreateVariableRequest,
   CreateVariableResult,
   | AccessDeniedException
   | InternalServerException
@@ -4136,9 +4124,8 @@ export const createVariable: (
 /**
  * Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
  */
-export const deleteBatchImportJob: (
-  input: DeleteBatchImportJobRequest,
-) => effect.Effect<
+export const deleteBatchImportJob: API.OperationMethod<
+  DeleteBatchImportJobRequest,
   DeleteBatchImportJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4159,9 +4146,8 @@ export const deleteBatchImportJob: (
 /**
  * Deletes a batch prediction job.
  */
-export const deleteBatchPredictionJob: (
-  input: DeleteBatchPredictionJobRequest,
-) => effect.Effect<
+export const deleteBatchPredictionJob: API.OperationMethod<
+  DeleteBatchPredictionJobRequest,
   DeleteBatchPredictionJobResult,
   | AccessDeniedException
   | InternalServerException
@@ -4184,9 +4170,8 @@ export const deleteBatchPredictionJob: (
  *
  * When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteDetector: (
-  input: DeleteDetectorRequest,
-) => effect.Effect<
+export const deleteDetector: API.OperationMethod<
+  DeleteDetectorRequest,
   DeleteDetectorResult,
   | AccessDeniedException
   | ConflictException
@@ -4211,9 +4196,8 @@ export const deleteDetector: (
  *
  * When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteDetectorVersion: (
-  input: DeleteDetectorVersionRequest,
-) => effect.Effect<
+export const deleteDetectorVersion: API.OperationMethod<
+  DeleteDetectorVersionRequest,
   DeleteDetectorVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4242,9 +4226,8 @@ export const deleteDetectorVersion: (
  *
  * When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteEntityType: (
-  input: DeleteEntityTypeRequest,
-) => effect.Effect<
+export const deleteEntityType: API.OperationMethod<
+  DeleteEntityTypeRequest,
   DeleteEntityTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4270,9 +4253,8 @@ export const deleteEntityType: (
  * When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
  * If `deleteAuditHistory` is `True`, event data is available through search for up to 30 seconds after the delete operation is completed.
  */
-export const deleteEvent: (
-  input: DeleteEventRequest,
-) => effect.Effect<
+export const deleteEvent: API.OperationMethod<
+  DeleteEventRequest,
   DeleteEventResult,
   | AccessDeniedException
   | InternalServerException
@@ -4293,9 +4275,8 @@ export const deleteEvent: (
 /**
  * Deletes all events of a particular event type.
  */
-export const deleteEventsByEventType: (
-  input: DeleteEventsByEventTypeRequest,
-) => effect.Effect<
+export const deleteEventsByEventType: API.OperationMethod<
+  DeleteEventsByEventTypeRequest,
   DeleteEventsByEventTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4324,9 +4305,8 @@ export const deleteEventsByEventType: (
  *
  * When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteEventType: (
-  input: DeleteEventTypeRequest,
-) => effect.Effect<
+export const deleteEventType: API.OperationMethod<
+  DeleteEventTypeRequest,
   DeleteEventTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -4351,9 +4331,8 @@ export const deleteEventType: (
  *
  * You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
  */
-export const deleteExternalModel: (
-  input: DeleteExternalModelRequest,
-) => effect.Effect<
+export const deleteExternalModel: API.OperationMethod<
+  DeleteExternalModelRequest,
   DeleteExternalModelResult,
   | AccessDeniedException
   | ConflictException
@@ -4382,9 +4361,8 @@ export const deleteExternalModel: (
  *
  * When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteLabel: (
-  input: DeleteLabelRequest,
-) => effect.Effect<
+export const deleteLabel: API.OperationMethod<
+  DeleteLabelRequest,
   DeleteLabelResult,
   | ConflictException
   | InternalServerException
@@ -4407,9 +4385,8 @@ export const deleteLabel: (
  *
  * When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
  */
-export const deleteList: (
-  input: DeleteListRequest,
-) => effect.Effect<
+export const deleteList: API.OperationMethod<
+  DeleteListRequest,
   DeleteListResult,
   | AccessDeniedException
   | ConflictException
@@ -4436,9 +4413,8 @@ export const deleteList: (
  *
  * When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteModel: (
-  input: DeleteModelRequest,
-) => effect.Effect<
+export const deleteModel: API.OperationMethod<
+  DeleteModelRequest,
   DeleteModelResult,
   | AccessDeniedException
   | ConflictException
@@ -4465,9 +4441,8 @@ export const deleteModel: (
  *
  * When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteModelVersion: (
-  input: DeleteModelVersionRequest,
-) => effect.Effect<
+export const deleteModelVersion: API.OperationMethod<
+  DeleteModelVersionRequest,
   DeleteModelVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4494,9 +4469,8 @@ export const deleteModelVersion: (
  *
  * When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteOutcome: (
-  input: DeleteOutcomeRequest,
-) => effect.Effect<
+export const deleteOutcome: API.OperationMethod<
+  DeleteOutcomeRequest,
   DeleteOutcomeResult,
   | AccessDeniedException
   | ConflictException
@@ -4521,9 +4495,8 @@ export const deleteOutcome: (
  *
  * When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResult,
   | AccessDeniedException
   | ConflictException
@@ -4552,9 +4525,8 @@ export const deleteRule: (
  *
  * When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
  */
-export const deleteVariable: (
-  input: DeleteVariableRequest,
-) => effect.Effect<
+export const deleteVariable: API.OperationMethod<
+  DeleteVariableRequest,
   DeleteVariableResult,
   | AccessDeniedException
   | ConflictException
@@ -4577,9 +4549,8 @@ export const deleteVariable: (
 /**
  * Gets all versions for a specified detector.
  */
-export const describeDetector: (
-  input: DescribeDetectorRequest,
-) => effect.Effect<
+export const describeDetector: API.OperationMethod<
+  DescribeDetectorRequest,
   DescribeDetectorResult,
   | AccessDeniedException
   | InternalServerException
@@ -4602,19 +4573,17 @@ export const describeDetector: (
 /**
  * Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
  */
-export const describeModelVersions: {
-  (
-    input: DescribeModelVersionsRequest,
-  ): effect.Effect<
-    DescribeModelVersionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeModelVersions: API.OperationMethod<
+  DescribeModelVersionsRequest,
+  DescribeModelVersionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeModelVersionsRequest,
   ) => stream.Stream<
@@ -4661,19 +4630,17 @@ export const describeModelVersions: {
  * To get the next page results, provide the pagination token from the `GetBatchImportJobsResponse` as part of your request.
  * A null pagination token fetches the records from the beginning.
  */
-export const getBatchImportJobs: {
-  (
-    input: GetBatchImportJobsRequest,
-  ): effect.Effect<
-    GetBatchImportJobsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBatchImportJobs: API.OperationMethod<
+  GetBatchImportJobsRequest,
+  GetBatchImportJobsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBatchImportJobsRequest,
   ) => stream.Stream<
@@ -4717,19 +4684,17 @@ export const getBatchImportJobs: {
 /**
  * Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
  */
-export const getBatchPredictionJobs: {
-  (
-    input: GetBatchPredictionJobsRequest,
-  ): effect.Effect<
-    GetBatchPredictionJobsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBatchPredictionJobs: API.OperationMethod<
+  GetBatchPredictionJobsRequest,
+  GetBatchPredictionJobsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBatchPredictionJobsRequest,
   ) => stream.Stream<
@@ -4773,9 +4738,8 @@ export const getBatchPredictionJobs: {
 /**
  * Retrieves the status of a `DeleteEventsByEventType` action.
  */
-export const getDeleteEventsByEventTypeStatus: (
-  input: GetDeleteEventsByEventTypeStatusRequest,
-) => effect.Effect<
+export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
+  GetDeleteEventsByEventTypeStatusRequest,
   GetDeleteEventsByEventTypeStatusResult,
   | AccessDeniedException
   | InternalServerException
@@ -4803,19 +4767,17 @@ export const getDeleteEventsByEventTypeStatus: (
  * `GetDetectorsResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getDetectors: {
-  (
-    input: GetDetectorsRequest,
-  ): effect.Effect<
-    GetDetectorsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDetectors: API.OperationMethod<
+  GetDetectorsRequest,
+  GetDetectorsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDetectorsRequest,
   ) => stream.Stream<
@@ -4859,9 +4821,8 @@ export const getDetectors: {
 /**
  * Gets a particular detector version.
  */
-export const getDetectorVersion: (
-  input: GetDetectorVersionRequest,
-) => effect.Effect<
+export const getDetectorVersion: API.OperationMethod<
+  GetDetectorVersionRequest,
   GetDetectorVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -4889,19 +4850,17 @@ export const getDetectorVersion: (
  * `GetEntityTypesResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getEntityTypes: {
-  (
-    input: GetEntityTypesRequest,
-  ): effect.Effect<
-    GetEntityTypesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getEntityTypes: API.OperationMethod<
+  GetEntityTypesRequest,
+  GetEntityTypesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEntityTypesRequest,
   ) => stream.Stream<
@@ -4945,9 +4904,8 @@ export const getEntityTypes: {
 /**
  * Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
  */
-export const getEvent: (
-  input: GetEventRequest,
-) => effect.Effect<
+export const getEvent: API.OperationMethod<
+  GetEventRequest,
   GetEventResult,
   | AccessDeniedException
   | InternalServerException
@@ -4970,9 +4928,8 @@ export const getEvent: (
 /**
  * Evaluates an event against a detector version. If a version ID is not provided, the detector’s (`ACTIVE`) version is used.
  */
-export const getEventPrediction: (
-  input: GetEventPredictionRequest,
-) => effect.Effect<
+export const getEventPrediction: API.OperationMethod<
+  GetEventPredictionRequest,
   GetEventPredictionResult,
   | AccessDeniedException
   | ConflictException
@@ -4999,9 +4956,8 @@ export const getEventPrediction: (
 /**
  * Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
  */
-export const getEventPredictionMetadata: (
-  input: GetEventPredictionMetadataRequest,
-) => effect.Effect<
+export const getEventPredictionMetadata: API.OperationMethod<
+  GetEventPredictionMetadataRequest,
   GetEventPredictionMetadataResult,
   | AccessDeniedException
   | InternalServerException
@@ -5029,19 +4985,17 @@ export const getEventPredictionMetadata: (
  * `GetEventTypesResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getEventTypes: {
-  (
-    input: GetEventTypesRequest,
-  ): effect.Effect<
-    GetEventTypesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getEventTypes: API.OperationMethod<
+  GetEventTypesRequest,
+  GetEventTypesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEventTypesRequest,
   ) => stream.Stream<
@@ -5090,19 +5044,17 @@ export const getEventTypes: {
  * results, provide the pagination token from the `GetExternalModelsResult` as part
  * of your request. A null pagination token fetches the records from the beginning.
  */
-export const getExternalModels: {
-  (
-    input: GetExternalModelsRequest,
-  ): effect.Effect<
-    GetExternalModelsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getExternalModels: API.OperationMethod<
+  GetExternalModelsRequest,
+  GetExternalModelsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetExternalModelsRequest,
   ) => stream.Stream<
@@ -5146,9 +5098,8 @@ export const getExternalModels: {
 /**
  * Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
  */
-export const getKMSEncryptionKey: (
-  input: GetKMSEncryptionKeyRequest,
-) => effect.Effect<
+export const getKMSEncryptionKey: API.OperationMethod<
+  GetKMSEncryptionKeyRequest,
   GetKMSEncryptionKeyResult,
   | AccessDeniedException
   | InternalServerException
@@ -5174,19 +5125,17 @@ export const getKMSEncryptionKey: (
  * `GetGetLabelsResponse` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getLabels: {
-  (
-    input: GetLabelsRequest,
-  ): effect.Effect<
-    GetLabelsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getLabels: API.OperationMethod<
+  GetLabelsRequest,
+  GetLabelsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLabelsRequest,
   ) => stream.Stream<
@@ -5230,19 +5179,17 @@ export const getLabels: {
 /**
  * Gets all the elements in the specified list.
  */
-export const getListElements: {
-  (
-    input: GetListElementsRequest,
-  ): effect.Effect<
-    GetListElementsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getListElements: API.OperationMethod<
+  GetListElementsRequest,
+  GetListElementsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetListElementsRequest,
   ) => stream.Stream<
@@ -5286,19 +5233,17 @@ export const getListElements: {
 /**
  * Gets the metadata of either all the lists under the account or the specified list.
  */
-export const getListsMetadata: {
-  (
-    input: GetListsMetadataRequest,
-  ): effect.Effect<
-    GetListsMetadataResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getListsMetadata: API.OperationMethod<
+  GetListsMetadataRequest,
+  GetListsMetadataResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetListsMetadataRequest,
   ) => stream.Stream<
@@ -5349,19 +5294,17 @@ export const getListsMetadata: {
  * response as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getModels: {
-  (
-    input: GetModelsRequest,
-  ): effect.Effect<
-    GetModelsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getModels: API.OperationMethod<
+  GetModelsRequest,
+  GetModelsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetModelsRequest,
   ) => stream.Stream<
@@ -5405,9 +5348,8 @@ export const getModels: {
 /**
  * Gets the details of the specified model version.
  */
-export const getModelVersion: (
-  input: GetModelVersionRequest,
-) => effect.Effect<
+export const getModelVersion: API.OperationMethod<
+  GetModelVersionRequest,
   GetModelVersionResult,
   | AccessDeniedException
   | InternalServerException
@@ -5435,19 +5377,17 @@ export const getModelVersion: (
  * `GetOutcomesResult` as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const getOutcomes: {
-  (
-    input: GetOutcomesRequest,
-  ): effect.Effect<
-    GetOutcomesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOutcomes: API.OperationMethod<
+  GetOutcomesRequest,
+  GetOutcomesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOutcomesRequest,
   ) => stream.Stream<
@@ -5493,19 +5433,17 @@ export const getOutcomes: {
  *
  * This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
  */
-export const getRules: {
-  (
-    input: GetRulesRequest,
-  ): effect.Effect<
-    GetRulesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getRules: API.OperationMethod<
+  GetRulesRequest,
+  GetRulesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetRulesRequest,
   ) => stream.Stream<
@@ -5554,19 +5492,17 @@ export const getRules: {
  * `GetVariablesResult` as part of your request. Null pagination token
  * fetches the records from the beginning.
  */
-export const getVariables: {
-  (
-    input: GetVariablesRequest,
-  ): effect.Effect<
-    GetVariablesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getVariables: API.OperationMethod<
+  GetVariablesRequest,
+  GetVariablesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetVariablesRequest,
   ) => stream.Stream<
@@ -5621,18 +5557,16 @@ export const getVariables: {
  * If you provide a `maxResults`, the value must be between 50 and 100. To get the next page results, provide
  * the `nextToken` from the response as part of your request. A null `nextToken` fetches the records from the beginning.
  */
-export const listEventPredictions: {
-  (
-    input: ListEventPredictionsRequest,
-  ): effect.Effect<
-    ListEventPredictionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventPredictions: API.OperationMethod<
+  ListEventPredictionsRequest,
+  ListEventPredictionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventPredictionsRequest,
   ) => stream.Stream<
@@ -5675,18 +5609,16 @@ export const listEventPredictions: {
  * response as part of your request. A null pagination token
  * fetches the records from the beginning.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResult,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResult,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -5727,9 +5659,8 @@ export const listTagsForResource: {
 /**
  * Creates or updates a detector.
  */
-export const putDetector: (
-  input: PutDetectorRequest,
-) => effect.Effect<
+export const putDetector: API.OperationMethod<
+  PutDetectorRequest,
   PutDetectorResult,
   | AccessDeniedException
   | ConflictException
@@ -5752,9 +5683,8 @@ export const putDetector: (
 /**
  * Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
  */
-export const putEntityType: (
-  input: PutEntityTypeRequest,
-) => effect.Effect<
+export const putEntityType: API.OperationMethod<
+  PutEntityTypeRequest,
   PutEntityTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -5777,9 +5707,8 @@ export const putEntityType: (
 /**
  * Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
  */
-export const putEventType: (
-  input: PutEventTypeRequest,
-) => effect.Effect<
+export const putEventType: API.OperationMethod<
+  PutEventTypeRequest,
   PutEventTypeResult,
   | AccessDeniedException
   | ConflictException
@@ -5802,9 +5731,8 @@ export const putEventType: (
 /**
  * Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
  */
-export const putExternalModel: (
-  input: PutExternalModelRequest,
-) => effect.Effect<
+export const putExternalModel: API.OperationMethod<
+  PutExternalModelRequest,
   PutExternalModelResult,
   | AccessDeniedException
   | ConflictException
@@ -5827,9 +5755,8 @@ export const putExternalModel: (
 /**
  * Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
  */
-export const putKMSEncryptionKey: (
-  input: PutKMSEncryptionKeyRequest,
-) => effect.Effect<
+export const putKMSEncryptionKey: API.OperationMethod<
+  PutKMSEncryptionKeyRequest,
   PutKMSEncryptionKeyResult,
   | AccessDeniedException
   | ConflictException
@@ -5854,9 +5781,8 @@ export const putKMSEncryptionKey: (
 /**
  * Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
  */
-export const putLabel: (
-  input: PutLabelRequest,
-) => effect.Effect<
+export const putLabel: API.OperationMethod<
+  PutLabelRequest,
   PutLabelResult,
   | AccessDeniedException
   | ConflictException
@@ -5879,9 +5805,8 @@ export const putLabel: (
 /**
  * Creates or updates an outcome.
  */
-export const putOutcome: (
-  input: PutOutcomeRequest,
-) => effect.Effect<
+export const putOutcome: API.OperationMethod<
+  PutOutcomeRequest,
   PutOutcomeResult,
   | AccessDeniedException
   | ConflictException
@@ -5904,9 +5829,8 @@ export const putOutcome: (
 /**
  * Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use `SendEvent` to upload a historical dataset, which you can then later use to train a model.
  */
-export const sendEvent: (
-  input: SendEventRequest,
-) => effect.Effect<
+export const sendEvent: API.OperationMethod<
+  SendEventRequest,
   SendEventResult,
   | AccessDeniedException
   | ConflictException
@@ -5931,9 +5855,8 @@ export const sendEvent: (
 /**
  * Assigns tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5954,9 +5877,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5977,9 +5899,8 @@ export const untagResource: (
 /**
  * Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a `DRAFT` detector version.
  */
-export const updateDetectorVersion: (
-  input: UpdateDetectorVersionRequest,
-) => effect.Effect<
+export const updateDetectorVersion: API.OperationMethod<
+  UpdateDetectorVersionRequest,
   UpdateDetectorVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6005,9 +5926,8 @@ export const updateDetectorVersion: (
  * Updates the detector version's description. You can update the metadata for any detector version (`DRAFT, ACTIVE,` or
  * `INACTIVE`).
  */
-export const updateDetectorVersionMetadata: (
-  input: UpdateDetectorVersionMetadataRequest,
-) => effect.Effect<
+export const updateDetectorVersionMetadata: API.OperationMethod<
+  UpdateDetectorVersionMetadataRequest,
   UpdateDetectorVersionMetadataResult,
   | AccessDeniedException
   | ConflictException
@@ -6031,9 +5951,8 @@ export const updateDetectorVersionMetadata: (
  * Updates the detector version’s status. You can perform the following promotions or
  * demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`, and `INACTIVE` to `ACTIVE`.
  */
-export const updateDetectorVersionStatus: (
-  input: UpdateDetectorVersionStatusRequest,
-) => effect.Effect<
+export const updateDetectorVersionStatus: API.OperationMethod<
+  UpdateDetectorVersionStatusRequest,
   UpdateDetectorVersionStatusResult,
   | AccessDeniedException
   | ConflictException
@@ -6058,9 +5977,8 @@ export const updateDetectorVersionStatus: (
 /**
  * Updates the specified event with a new label.
  */
-export const updateEventLabel: (
-  input: UpdateEventLabelRequest,
-) => effect.Effect<
+export const updateEventLabel: API.OperationMethod<
+  UpdateEventLabelRequest,
   UpdateEventLabelResult,
   | AccessDeniedException
   | ConflictException
@@ -6085,9 +6003,8 @@ export const updateEventLabel: (
 /**
  * Updates a list.
  */
-export const updateList: (
-  input: UpdateListRequest,
-) => effect.Effect<
+export const updateList: API.OperationMethod<
+  UpdateListRequest,
   UpdateListResult,
   | AccessDeniedException
   | ConflictException
@@ -6112,9 +6029,8 @@ export const updateList: (
 /**
  * Updates model description.
  */
-export const updateModel: (
-  input: UpdateModelRequest,
-) => effect.Effect<
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
   UpdateModelResult,
   | AccessDeniedException
   | ConflictException
@@ -6139,9 +6055,8 @@ export const updateModel: (
 /**
  * Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
  */
-export const updateModelVersion: (
-  input: UpdateModelVersionRequest,
-) => effect.Effect<
+export const updateModelVersion: API.OperationMethod<
+  UpdateModelVersionRequest,
   UpdateModelVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6174,9 +6089,8 @@ export const updateModelVersion: (
  *
  * - Change `ACTIVE` to `INACTIVE`.
  */
-export const updateModelVersionStatus: (
-  input: UpdateModelVersionStatusRequest,
-) => effect.Effect<
+export const updateModelVersionStatus: API.OperationMethod<
+  UpdateModelVersionStatusRequest,
   UpdateModelVersionStatusResult,
   | AccessDeniedException
   | ConflictException
@@ -6201,9 +6115,8 @@ export const updateModelVersionStatus: (
 /**
  * Updates a rule's metadata. The description attribute can be updated.
  */
-export const updateRuleMetadata: (
-  input: UpdateRuleMetadataRequest,
-) => effect.Effect<
+export const updateRuleMetadata: API.OperationMethod<
+  UpdateRuleMetadataRequest,
   UpdateRuleMetadataResult,
   | AccessDeniedException
   | ConflictException
@@ -6228,9 +6141,8 @@ export const updateRuleMetadata: (
 /**
  * Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
  */
-export const updateRuleVersion: (
-  input: UpdateRuleVersionRequest,
-) => effect.Effect<
+export const updateRuleVersion: API.OperationMethod<
+  UpdateRuleVersionRequest,
   UpdateRuleVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6255,9 +6167,8 @@ export const updateRuleVersion: (
 /**
  * Updates a variable.
  */
-export const updateVariable: (
-  input: UpdateVariableRequest,
-) => effect.Effect<
+export const updateVariable: API.OperationMethod<
+  UpdateVariableRequest,
   UpdateVariableResult,
   | AccessDeniedException
   | ConflictException

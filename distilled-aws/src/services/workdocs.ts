@@ -2732,9 +2732,8 @@ export class IllegalUserStateException extends S.TaggedErrorClass<IllegalUserSta
  * only when it no longer intends to upload the document version, or fails to do
  * so.
  */
-export const abortDocumentVersionUpload: (
-  input: AbortDocumentVersionUploadRequest,
-) => effect.Effect<
+export const abortDocumentVersionUpload: API.OperationMethod<
+  AbortDocumentVersionUploadRequest,
   AbortDocumentVersionUploadResponse,
   | ConcurrentModificationException
   | EntityNotExistsException
@@ -2762,9 +2761,8 @@ export const abortDocumentVersionUpload: (
  * Activates the specified user. Only active users can access Amazon
  * WorkDocs.
  */
-export const activateUser: (
-  input: ActivateUserRequest,
-) => effect.Effect<
+export const activateUser: API.OperationMethod<
+  ActivateUserRequest,
   ActivateUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2789,9 +2787,8 @@ export const activateUser: (
  * permissions are overwritten if the principals already have different
  * permissions.
  */
-export const addResourcePermissions: (
-  input: AddResourcePermissionsRequest,
-) => effect.Effect<
+export const addResourcePermissions: API.OperationMethod<
+  AddResourcePermissionsRequest,
   AddResourcePermissionsResponse,
   | FailedDependencyException
   | ProhibitedStateException
@@ -2814,9 +2811,8 @@ export const addResourcePermissions: (
 /**
  * Adds a new comment to the specified document version.
  */
-export const createComment: (
-  input: CreateCommentRequest,
-) => effect.Effect<
+export const createComment: API.OperationMethod<
+  CreateCommentRequest,
   CreateCommentResponse,
   | DocumentLockedForCommentsException
   | EntityNotExistsException
@@ -2846,9 +2842,8 @@ export const createComment: (
  * Adds one or more custom properties to the specified resource (a folder, document,
  * or version).
  */
-export const createCustomMetadata: (
-  input: CreateCustomMetadataRequest,
-) => effect.Effect<
+export const createCustomMetadata: API.OperationMethod<
+  CreateCustomMetadataRequest,
   CreateCustomMetadataResponse,
   | CustomMetadataLimitExceededException
   | EntityNotExistsException
@@ -2875,9 +2870,8 @@ export const createCustomMetadata: (
 /**
  * Creates a folder with the specified name and parent folder.
  */
-export const createFolder: (
-  input: CreateFolderRequest,
-) => effect.Effect<
+export const createFolder: API.OperationMethod<
+  CreateFolderRequest,
   CreateFolderResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -2911,9 +2905,8 @@ export const createFolder: (
  * Adds the specified list of labels to the given resource (a document or
  * folder)
  */
-export const createLabels: (
-  input: CreateLabelsRequest,
-) => effect.Effect<
+export const createLabels: API.OperationMethod<
+  CreateLabelsRequest,
   CreateLabelsResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -2942,9 +2935,8 @@ export const createLabels: (
  * For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer
  * Guide.
  */
-export const createNotificationSubscription: (
-  input: CreateNotificationSubscriptionRequest,
-) => effect.Effect<
+export const createNotificationSubscription: API.OperationMethod<
+  CreateNotificationSubscriptionRequest,
   CreateNotificationSubscriptionResponse,
   | InvalidArgumentException
   | ServiceUnavailableException
@@ -2966,9 +2958,8 @@ export const createNotificationSubscription: (
  * Creates a user in a Simple AD or Microsoft AD directory. The status of a newly
  * created user is "ACTIVE". New users can access Amazon WorkDocs.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | EntityAlreadyExistsException
   | FailedDependencyException
@@ -2992,9 +2983,8 @@ export const createUser: (
  * Deactivates the specified user, which revokes the user's access to Amazon
  * WorkDocs.
  */
-export const deactivateUser: (
-  input: DeactivateUserRequest,
-) => effect.Effect<
+export const deactivateUser: API.OperationMethod<
+  DeactivateUserRequest,
   DeactivateUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3017,9 +3007,8 @@ export const deactivateUser: (
 /**
  * Deletes the specified comment from the document version.
  */
-export const deleteComment: (
-  input: DeleteCommentRequest,
-) => effect.Effect<
+export const deleteComment: API.OperationMethod<
+  DeleteCommentRequest,
   DeleteCommentResponse,
   | DocumentLockedForCommentsException
   | EntityNotExistsException
@@ -3046,9 +3035,8 @@ export const deleteComment: (
 /**
  * Deletes custom metadata from the specified resource.
  */
-export const deleteCustomMetadata: (
-  input: DeleteCustomMetadataRequest,
-) => effect.Effect<
+export const deleteCustomMetadata: API.OperationMethod<
+  DeleteCustomMetadataRequest,
   DeleteCustomMetadataResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3073,9 +3061,8 @@ export const deleteCustomMetadata: (
 /**
  * Permanently deletes the specified document and its associated metadata.
  */
-export const deleteDocument: (
-  input: DeleteDocumentRequest,
-) => effect.Effect<
+export const deleteDocument: API.OperationMethod<
+  DeleteDocumentRequest,
   DeleteDocumentResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3106,9 +3093,8 @@ export const deleteDocument: (
 /**
  * Deletes a specific version of a document.
  */
-export const deleteDocumentVersion: (
-  input: DeleteDocumentVersionRequest,
-) => effect.Effect<
+export const deleteDocumentVersion: API.OperationMethod<
+  DeleteDocumentVersionRequest,
   DeleteDocumentVersionResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3137,9 +3123,8 @@ export const deleteDocumentVersion: (
 /**
  * Permanently deletes the specified folder and its contents.
  */
-export const deleteFolder: (
-  input: DeleteFolderRequest,
-) => effect.Effect<
+export const deleteFolder: API.OperationMethod<
+  DeleteFolderRequest,
   DeleteFolderResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -3170,9 +3155,8 @@ export const deleteFolder: (
 /**
  * Deletes the contents of the specified folder.
  */
-export const deleteFolderContents: (
-  input: DeleteFolderContentsRequest,
-) => effect.Effect<
+export const deleteFolderContents: API.OperationMethod<
+  DeleteFolderContentsRequest,
   DeleteFolderContentsResponse,
   | ConflictingOperationException
   | EntityNotExistsException
@@ -3199,9 +3183,8 @@ export const deleteFolderContents: (
 /**
  * Deletes the specified list of labels from a resource.
  */
-export const deleteLabels: (
-  input: DeleteLabelsRequest,
-) => effect.Effect<
+export const deleteLabels: API.OperationMethod<
+  DeleteLabelsRequest,
   DeleteLabelsResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3226,9 +3209,8 @@ export const deleteLabels: (
 /**
  * Deletes the specified subscription from the specified organization.
  */
-export const deleteNotificationSubscription: (
-  input: DeleteNotificationSubscriptionRequest,
-) => effect.Effect<
+export const deleteNotificationSubscription: API.OperationMethod<
+  DeleteNotificationSubscriptionRequest,
   DeleteNotificationSubscriptionResponse,
   | EntityNotExistsException
   | ProhibitedStateException
@@ -3251,9 +3233,8 @@ export const deleteNotificationSubscription: (
  *
  * Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3276,19 +3257,17 @@ export const deleteUser: (
 /**
  * Describes the user activities in a specified time period.
  */
-export const describeActivities: {
-  (
-    input: DescribeActivitiesRequest,
-  ): effect.Effect<
-    DescribeActivitiesResponse,
-    | FailedDependencyException
-    | InvalidArgumentException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeActivities: API.OperationMethod<
+  DescribeActivitiesRequest,
+  DescribeActivitiesResponse,
+  | FailedDependencyException
+  | InvalidArgumentException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeActivitiesRequest,
   ) => stream.Stream<
@@ -3333,20 +3312,18 @@ export const describeActivities: {
 /**
  * List all the comments for the specified document version.
  */
-export const describeComments: {
-  (
-    input: DescribeCommentsRequest,
-  ): effect.Effect<
-    DescribeCommentsResponse,
-    | EntityNotExistsException
-    | FailedDependencyException
-    | ProhibitedStateException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeComments: API.OperationMethod<
+  DescribeCommentsRequest,
+  DescribeCommentsResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCommentsRequest,
   ) => stream.Stream<
@@ -3396,22 +3373,20 @@ export const describeComments: {
  *
  * By default, only active versions are returned.
  */
-export const describeDocumentVersions: {
-  (
-    input: DescribeDocumentVersionsRequest,
-  ): effect.Effect<
-    DescribeDocumentVersionsResponse,
-    | EntityNotExistsException
-    | FailedDependencyException
-    | InvalidArgumentException
-    | InvalidPasswordException
-    | ProhibitedStateException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDocumentVersions: API.OperationMethod<
+  DescribeDocumentVersionsRequest,
+  DescribeDocumentVersionsResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidArgumentException
+  | InvalidPasswordException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDocumentVersionsRequest,
   ) => stream.Stream<
@@ -3471,20 +3446,18 @@ export const describeDocumentVersions: {
  * use to request the next set of results. You can also request initialized
  * documents.
  */
-export const describeFolderContents: {
-  (
-    input: DescribeFolderContentsRequest,
-  ): effect.Effect<
-    DescribeFolderContentsResponse,
-    | EntityNotExistsException
-    | FailedDependencyException
-    | InvalidArgumentException
-    | ProhibitedStateException
-    | ServiceUnavailableException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFolderContents: API.OperationMethod<
+  DescribeFolderContentsRequest,
+  DescribeFolderContentsResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidArgumentException
+  | ProhibitedStateException
+  | ServiceUnavailableException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFolderContentsRequest,
   ) => stream.Stream<
@@ -3532,18 +3505,16 @@ export const describeFolderContents: {
  * Describes the groups specified by the query. Groups are defined by the underlying
  * Active Directory.
  */
-export const describeGroups: {
-  (
-    input: DescribeGroupsRequest,
-  ): effect.Effect<
-    DescribeGroupsResponse,
-    | FailedDependencyException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGroups: API.OperationMethod<
+  DescribeGroupsRequest,
+  DescribeGroupsResponse,
+  | FailedDependencyException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGroupsRequest,
   ) => stream.Stream<
@@ -3585,17 +3556,15 @@ export const describeGroups: {
 /**
  * Lists the specified notification subscriptions.
  */
-export const describeNotificationSubscriptions: {
-  (
-    input: DescribeNotificationSubscriptionsRequest,
-  ): effect.Effect<
-    DescribeNotificationSubscriptionsResponse,
-    | EntityNotExistsException
-    | ServiceUnavailableException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeNotificationSubscriptions: API.OperationMethod<
+  DescribeNotificationSubscriptionsRequest,
+  DescribeNotificationSubscriptionsResponse,
+  | EntityNotExistsException
+  | ServiceUnavailableException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNotificationSubscriptionsRequest,
   ) => stream.Stream<
@@ -3634,19 +3603,17 @@ export const describeNotificationSubscriptions: {
 /**
  * Describes the permissions of a specified resource.
  */
-export const describeResourcePermissions: {
-  (
-    input: DescribeResourcePermissionsRequest,
-  ): effect.Effect<
-    DescribeResourcePermissionsResponse,
-    | FailedDependencyException
-    | InvalidArgumentException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeResourcePermissions: API.OperationMethod<
+  DescribeResourcePermissionsRequest,
+  DescribeResourcePermissionsResponse,
+  | FailedDependencyException
+  | InvalidArgumentException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeResourcePermissionsRequest,
   ) => stream.Stream<
@@ -3700,19 +3667,17 @@ export const describeResourcePermissions: {
  * Amazon
  * WorkDocs Developer Guide.
  */
-export const describeRootFolders: {
-  (
-    input: DescribeRootFoldersRequest,
-  ): effect.Effect<
-    DescribeRootFoldersResponse,
-    | FailedDependencyException
-    | InvalidArgumentException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRootFolders: API.OperationMethod<
+  DescribeRootFoldersRequest,
+  DescribeRootFoldersResponse,
+  | FailedDependencyException
+  | InvalidArgumentException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRootFoldersRequest,
   ) => stream.Stream<
@@ -3762,21 +3727,19 @@ export const describeRootFolders: {
  * are more results, the response includes a marker that you can use to request the next
  * set of results.
  */
-export const describeUsers: {
-  (
-    input: DescribeUsersRequest,
-  ): effect.Effect<
-    DescribeUsersResponse,
-    | EntityNotExistsException
-    | FailedDependencyException
-    | InvalidArgumentException
-    | RequestedEntityTooLargeException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUsers: API.OperationMethod<
+  DescribeUsersRequest,
+  DescribeUsersResponse,
+  | EntityNotExistsException
+  | FailedDependencyException
+  | InvalidArgumentException
+  | RequestedEntityTooLargeException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUsersRequest,
   ) => stream.Stream<
@@ -3834,9 +3797,8 @@ export const describeUsers: {
  * Amazon
  * WorkDocs Developer Guide.
  */
-export const getCurrentUser: (
-  input: GetCurrentUserRequest,
-) => effect.Effect<
+export const getCurrentUser: API.OperationMethod<
+  GetCurrentUserRequest,
   GetCurrentUserResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3859,9 +3821,8 @@ export const getCurrentUser: (
 /**
  * Retrieves details of a document.
  */
-export const getDocument: (
-  input: GetDocumentRequest,
-) => effect.Effect<
+export const getDocument: API.OperationMethod<
+  GetDocumentRequest,
   GetDocumentResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3894,9 +3855,8 @@ export const getDocument: (
  * limit the maximum number of levels. You can also request the names of the parent
  * folders.
  */
-export const getDocumentPath: (
-  input: GetDocumentPathRequest,
-) => effect.Effect<
+export const getDocumentPath: API.OperationMethod<
+  GetDocumentPathRequest,
   GetDocumentPathResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3919,9 +3879,8 @@ export const getDocumentPath: (
 /**
  * Retrieves version metadata for the specified document.
  */
-export const getDocumentVersion: (
-  input: GetDocumentVersionRequest,
-) => effect.Effect<
+export const getDocumentVersion: API.OperationMethod<
+  GetDocumentVersionRequest,
   GetDocumentVersionResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3948,9 +3907,8 @@ export const getDocumentVersion: (
 /**
  * Retrieves the metadata of the specified folder.
  */
-export const getFolder: (
-  input: GetFolderRequest,
-) => effect.Effect<
+export const getFolder: API.OperationMethod<
+  GetFolderRequest,
   GetFolderResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -3983,9 +3941,8 @@ export const getFolder: (
  * limit the maximum number of levels. You can also request the parent folder
  * names.
  */
-export const getFolderPath: (
-  input: GetFolderPathRequest,
-) => effect.Effect<
+export const getFolderPath: API.OperationMethod<
+  GetFolderPathRequest,
   GetFolderPathResponse,
   | EntityNotExistsException
   | FailedDependencyException
@@ -4009,9 +3966,8 @@ export const getFolderPath: (
  * Retrieves a collection of resources, including folders and documents. The only
  * `CollectionType` supported is `SHARED_WITH_ME`.
  */
-export const getResources: (
-  input: GetResourcesRequest,
-) => effect.Effect<
+export const getResources: API.OperationMethod<
+  GetResourcesRequest,
   GetResourcesResponse,
   | FailedDependencyException
   | InvalidArgumentException
@@ -4041,9 +3997,8 @@ export const getResources: (
  *
  * To cancel the document upload, call AbortDocumentVersionUpload.
  */
-export const initiateDocumentVersionUpload: (
-  input: InitiateDocumentVersionUploadRequest,
-) => effect.Effect<
+export const initiateDocumentVersionUpload: API.OperationMethod<
+  InitiateDocumentVersionUploadRequest,
   InitiateDocumentVersionUploadResponse,
   | DraftUploadOutOfSyncException
   | EntityAlreadyExistsException
@@ -4084,9 +4039,8 @@ export const initiateDocumentVersionUpload: (
 /**
  * Removes all the permissions from the specified resource.
  */
-export const removeAllResourcePermissions: (
-  input: RemoveAllResourcePermissionsRequest,
-) => effect.Effect<
+export const removeAllResourcePermissions: API.OperationMethod<
+  RemoveAllResourcePermissionsRequest,
   RemoveAllResourcePermissionsResponse,
   | FailedDependencyException
   | ServiceUnavailableException
@@ -4108,9 +4062,8 @@ export const removeAllResourcePermissions: (
  * Removes the permission for the specified principal from the specified
  * resource.
  */
-export const removeResourcePermission: (
-  input: RemoveResourcePermissionRequest,
-) => effect.Effect<
+export const removeResourcePermission: API.OperationMethod<
+  RemoveResourcePermissionRequest,
   RemoveResourcePermissionResponse,
   | FailedDependencyException
   | ServiceUnavailableException
@@ -4131,9 +4084,8 @@ export const removeResourcePermission: (
 /**
  * Recovers a deleted version of an Amazon WorkDocs document.
  */
-export const restoreDocumentVersions: (
-  input: RestoreDocumentVersionsRequest,
-) => effect.Effect<
+export const restoreDocumentVersions: API.OperationMethod<
+  RestoreDocumentVersionsRequest,
   RestoreDocumentVersionsResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -4162,18 +4114,16 @@ export const restoreDocumentVersions: (
 /**
  * Searches metadata and the content of folders, documents, document versions, and comments.
  */
-export const searchResources: {
-  (
-    input: SearchResourcesRequest,
-  ): effect.Effect<
-    SearchResourcesResponse,
-    | InvalidArgumentException
-    | ServiceUnavailableException
-    | UnauthorizedOperationException
-    | UnauthorizedResourceAccessException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchResources: API.OperationMethod<
+  SearchResourcesRequest,
+  SearchResourcesResponse,
+  | InvalidArgumentException
+  | ServiceUnavailableException
+  | UnauthorizedOperationException
+  | UnauthorizedResourceAccessException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchResourcesRequest,
   ) => stream.Stream<
@@ -4216,9 +4166,8 @@ export const searchResources: {
  * Updates the specified attributes of a document. The user must have access to both
  * the document and its parent folder, if applicable.
  */
-export const updateDocument: (
-  input: UpdateDocumentRequest,
-) => effect.Effect<
+export const updateDocument: API.OperationMethod<
+  UpdateDocumentRequest,
   UpdateDocumentResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -4255,9 +4204,8 @@ export const updateDocument: (
  * in a document upload, after the client uploads the document to an S3-presigned URL
  * returned by InitiateDocumentVersionUpload.
  */
-export const updateDocumentVersion: (
-  input: UpdateDocumentVersionRequest,
-) => effect.Effect<
+export const updateDocumentVersion: API.OperationMethod<
+  UpdateDocumentVersionRequest,
   UpdateDocumentVersionResponse,
   | ConcurrentModificationException
   | EntityNotExistsException
@@ -4287,9 +4235,8 @@ export const updateDocumentVersion: (
  * Updates the specified attributes of the specified folder. The user must have access
  * to both the folder and its parent folder, if applicable.
  */
-export const updateFolder: (
-  input: UpdateFolderRequest,
-) => effect.Effect<
+export const updateFolder: API.OperationMethod<
+  UpdateFolderRequest,
   UpdateFolderResponse,
   | ConcurrentModificationException
   | ConflictingOperationException
@@ -4323,9 +4270,8 @@ export const updateFolder: (
  * Updates the specified attributes of the specified user, and grants or revokes
  * administrative privileges to the Amazon WorkDocs site.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | DeactivatingLastSystemUserException
   | EntityNotExistsException

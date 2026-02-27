@@ -810,9 +810,8 @@ export class ExecuteStatementException extends S.TaggedErrorClass<ExecuteStateme
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const batchExecuteStatement: (
-  input: BatchExecuteStatementInput,
-) => effect.Effect<
+export const batchExecuteStatement: API.OperationMethod<
+  BatchExecuteStatementInput,
   BatchExecuteStatementOutput,
   | ActiveSessionsExceededException
   | ActiveStatementsExceededException
@@ -839,9 +838,8 @@ export const batchExecuteStatement: (
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const cancelStatement: (
-  input: CancelStatementRequest,
-) => effect.Effect<
+export const cancelStatement: API.OperationMethod<
+  CancelStatementRequest,
   CancelStatementResponse,
   | DatabaseConnectionException
   | InternalServerException
@@ -866,9 +864,8 @@ export const cancelStatement: (
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const describeStatement: (
-  input: DescribeStatementRequest,
-) => effect.Effect<
+export const describeStatement: API.OperationMethod<
+  DescribeStatementRequest,
   DescribeStatementResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -899,19 +896,17 @@ export const describeStatement: (
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const describeTable: {
-  (
-    input: DescribeTableRequest,
-  ): effect.Effect<
-    DescribeTableResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTable: API.OperationMethod<
+  DescribeTableRequest,
+  DescribeTableResponse,
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTableRequest,
   ) => stream.Stream<
@@ -968,9 +963,8 @@ export const describeTable: {
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const executeStatement: (
-  input: ExecuteStatementInput,
-) => effect.Effect<
+export const executeStatement: API.OperationMethod<
+  ExecuteStatementInput,
   ExecuteStatementOutput,
   | ActiveSessionsExceededException
   | ActiveStatementsExceededException
@@ -997,17 +991,15 @@ export const executeStatement: (
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const getStatementResult: {
-  (
-    input: GetStatementResultRequest,
-  ): effect.Effect<
-    GetStatementResultResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getStatementResult: API.OperationMethod<
+  GetStatementResultRequest,
+  GetStatementResultResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetStatementResultRequest,
   ) => stream.Stream<
@@ -1047,17 +1039,15 @@ export const getStatementResult: {
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const getStatementResultV2: {
-  (
-    input: GetStatementResultV2Request,
-  ): effect.Effect<
-    GetStatementResultV2Response,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getStatementResultV2: API.OperationMethod<
+  GetStatementResultV2Request,
+  GetStatementResultV2Response,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetStatementResultV2Request,
   ) => stream.Stream<
@@ -1107,19 +1097,17 @@ export const getStatementResultV2: {
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listDatabases: {
-  (
-    input: ListDatabasesRequest,
-  ): effect.Effect<
-    ListDatabasesResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatabases: API.OperationMethod<
+  ListDatabasesRequest,
+  ListDatabasesResponse,
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatabasesRequest,
   ) => stream.Stream<
@@ -1176,19 +1164,17 @@ export const listDatabases: {
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listSchemas: {
-  (
-    input: ListSchemasRequest,
-  ): effect.Effect<
-    ListSchemasResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemas: API.OperationMethod<
+  ListSchemasRequest,
+  ListSchemasResponse,
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemasRequest,
   ) => stream.Stream<
@@ -1237,17 +1223,15 @@ export const listSchemas: {
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listStatements: {
-  (
-    input: ListStatementsRequest,
-  ): effect.Effect<
-    ListStatementsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStatements: API.OperationMethod<
+  ListStatementsRequest,
+  ListStatementsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStatementsRequest,
   ) => stream.Stream<
@@ -1298,19 +1282,17 @@ export const listStatements: {
  *
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
-export const listTables: {
-  (
-    input: ListTablesRequest,
-  ): effect.Effect<
-    ListTablesResponse,
-    | DatabaseConnectionException
-    | InternalServerException
-    | QueryTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTables: API.OperationMethod<
+  ListTablesRequest,
+  ListTablesResponse,
+  | DatabaseConnectionException
+  | InternalServerException
+  | QueryTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<

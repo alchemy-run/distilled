@@ -335,9 +335,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * For more information about PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes.
  * For more information about getting action recommendations, see Getting action recommendations.
  */
-export const getActionRecommendations: (
-  input: GetActionRecommendationsRequest,
-) => effect.Effect<
+export const getActionRecommendations: API.OperationMethod<
+  GetActionRecommendationsRequest,
   GetActionRecommendationsResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -353,9 +352,8 @@ export const getActionRecommendations: (
  * The solution backing the campaign must have been created using a recipe of type
  * PERSONALIZED_RANKING.
  */
-export const getPersonalizedRanking: (
-  input: GetPersonalizedRankingRequest,
-) => effect.Effect<
+export const getPersonalizedRanking: API.OperationMethod<
+  GetPersonalizedRankingRequest,
   GetPersonalizedRankingResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -378,9 +376,8 @@ export const getPersonalizedRanking: (
  * For recommenders, the recommender's ARN is required and the required item and user input depends on the use case (domain-based recipe) backing the recommender.
  * For information on use case requirements see Choosing recommender use cases.
  */
-export const getRecommendations: (
-  input: GetRecommendationsRequest,
-) => effect.Effect<
+export const getRecommendations: API.OperationMethod<
+  GetRecommendationsRequest,
   GetRecommendationsResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

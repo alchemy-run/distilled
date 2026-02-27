@@ -122,26 +122,29 @@ export const GetEventResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<GetEventResponse>;
 
-export const getEvent: (
-  input: GetEventRequest,
-) => Effect.Effect<
+export const getEvent: API.OperationMethod<
+  GetEventRequest,
   GetEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -239,17 +242,21 @@ export const ListEventsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
       customPageHtml: "custom_page_html",
+      description: "description",
       disableSessionRenewal: "disable_session_renewal",
       eventEndTime: "event_end_time",
       eventStartTime: "event_start_time",
       modifiedOn: "modified_on",
+      name: "name",
       newUsersPerMinute: "new_users_per_minute",
       prequeueStartTime: "prequeue_start_time",
       queueingMethod: "queueing_method",
       sessionDuration: "session_duration",
       shuffleAtEventStart: "shuffle_at_event_start",
+      suspended: "suspended",
       totalActiveUsers: "total_active_users",
       turnstileAction: "turnstile_action",
       turnstileMode: "turnstile_mode",
@@ -257,9 +264,8 @@ export const ListEventsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListEventsResponse>;
 
-export const listEvents: (
-  input: ListEventsRequest,
-) => Effect.Effect<
+export const listEvents: API.OperationMethod<
+  ListEventsRequest,
   ListEventsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -352,13 +358,16 @@ export const CreateEventRequest = Schema.Struct({
   Schema.encodeKeys({
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
+    name: "name",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
@@ -451,26 +460,29 @@ export const CreateEventResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<CreateEventResponse>;
 
-export const createEvent: (
-  input: CreateEventRequest,
-) => Effect.Effect<
+export const createEvent: API.OperationMethod<
+  CreateEventRequest,
   CreateEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -565,13 +577,16 @@ export const UpdateEventRequest = Schema.Struct({
   Schema.encodeKeys({
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
+    name: "name",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
@@ -664,26 +679,29 @@ export const UpdateEventResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<UpdateEventResponse>;
 
-export const updateEvent: (
-  input: UpdateEventRequest,
-) => Effect.Effect<
+export const updateEvent: API.OperationMethod<
+  UpdateEventRequest,
   UpdateEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -778,13 +796,16 @@ export const PatchEventRequest = Schema.Struct({
   Schema.encodeKeys({
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
+    name: "name",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
@@ -877,26 +898,29 @@ export const PatchEventResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<PatchEventResponse>;
 
-export const patchEvent: (
-  input: PatchEventRequest,
-) => Effect.Effect<
+export const patchEvent: API.OperationMethod<
+  PatchEventRequest,
   PatchEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -932,9 +956,8 @@ export const DeleteEventResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteEventResponse>;
 
-export const deleteEvent: (
-  input: DeleteEventRequest,
-) => Effect.Effect<
+export const deleteEvent: API.OperationMethod<
+  DeleteEventRequest,
   DeleteEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1013,24 +1036,27 @@ export const GetEventDetailResponse = Schema.Struct({
   totalActiveUsers: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     eventEndTime: "event_end_time",
     eventStartTime: "event_start_time",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     prequeueStartTime: "prequeue_start_time",
     queueingMethod: "queueing_method",
     sessionDuration: "session_duration",
     shuffleAtEventStart: "shuffle_at_event_start",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
   }),
 ) as unknown as Schema.Schema<GetEventDetailResponse>;
 
-export const getEventDetail: (
-  input: GetEventDetailRequest,
-) => Effect.Effect<
+export const getEventDetail: API.OperationMethod<
+  GetEventDetailRequest,
   GetEventDetailResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1070,9 +1096,8 @@ export const PreviewPageResponse = Schema.Struct({
   Schema.encodeKeys({ previewUrl: "preview_url" }),
 ) as unknown as Schema.Schema<PreviewPageResponse>;
 
-export const previewPage: (
-  input: PreviewPageRequest,
-) => Effect.Effect<
+export const previewPage: API.OperationMethod<
+  PreviewPageRequest,
   PreviewPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1121,12 +1146,21 @@ export const GetRuleResponse = Schema.Array(
     expression: Schema.optional(Schema.String),
     lastUpdated: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      lastUpdated: "last_updated",
+      version: "version",
+    }),
+  ),
 ) as unknown as Schema.Schema<GetRuleResponse>;
 
-export const getRule: (
-  input: GetRuleRequest,
-) => Effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1184,12 +1218,21 @@ export const CreateRuleResponse = Schema.Array(
     expression: Schema.optional(Schema.String),
     lastUpdated: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      lastUpdated: "last_updated",
+      version: "version",
+    }),
+  ),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export const createRule: (
-  input: CreateRuleRequest,
-) => Effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1249,12 +1292,21 @@ export const UpdateRuleResponse = Schema.Array(
     expression: Schema.optional(Schema.String),
     lastUpdated: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      lastUpdated: "last_updated",
+      version: "version",
+    }),
+  ),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => Effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1301,12 +1353,21 @@ export const DeleteRuleResponse = Schema.Array(
     expression: Schema.optional(Schema.String),
     lastUpdated: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      lastUpdated: "last_updated",
+      version: "version",
+    }),
+  ),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => Effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1380,12 +1441,21 @@ export const EditRuleResponse = Schema.Array(
     expression: Schema.optional(Schema.String),
     lastUpdated: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ lastUpdated: "last_updated" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      action: "action",
+      description: "description",
+      enabled: "enabled",
+      expression: "expression",
+      lastUpdated: "last_updated",
+      version: "version",
+    }),
+  ),
 ) as unknown as Schema.Schema<EditRuleResponse>;
 
-export const editRule: (
-  input: EditRuleRequest,
-) => Effect.Effect<
+export const editRule: API.OperationMethod<
+  EditRuleRequest,
   EditRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1423,9 +1493,8 @@ export const GetSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingResponse>;
 
-export const getSetting: (
-  input: GetSettingRequest,
-) => Effect.Effect<
+export const getSetting: API.OperationMethod<
+  GetSettingRequest,
   GetSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1465,9 +1534,8 @@ export const PutSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSettingResponse>;
 
-export const putSetting: (
-  input: PutSettingRequest,
-) => Effect.Effect<
+export const putSetting: API.OperationMethod<
+  PutSettingRequest,
   PutSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1507,9 +1575,8 @@ export const PatchSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingResponse>;
 
-export const patchSetting: (
-  input: PatchSettingRequest,
-) => Effect.Effect<
+export const patchSetting: API.OperationMethod<
+  PatchSettingRequest,
   PatchSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1566,12 +1633,12 @@ export const GetStatusResponse = Schema.Struct({
     estimatedTotalActiveUsers: "estimated_total_active_users",
     eventId: "event_id",
     maxEstimatedTimeMinutes: "max_estimated_time_minutes",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<GetStatusResponse>;
 
-export const getStatus: (
-  input: GetStatusRequest,
-) => Effect.Effect<
+export const getStatus: API.OperationMethod<
+  GetStatusRequest,
   GetStatusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1797,32 +1864,37 @@ export const GetWaitingRoomResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     additionalRoutes: "additional_routes",
     cookieAttributes: "cookie_attributes",
     cookieSuffix: "cookie_suffix",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
+    host: "host",
     jsonResponseEnabled: "json_response_enabled",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     nextEventPrequeueStartTime: "next_event_prequeue_start_time",
     nextEventStartTime: "next_event_start_time",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<GetWaitingRoomResponse>;
 
-export const getWaitingRoom: (
-  input: GetWaitingRoomRequest,
-) => Effect.Effect<
+export const getWaitingRoom: API.OperationMethod<
+  GetWaitingRoomRequest,
   GetWaitingRoomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2017,23 +2089,29 @@ export const ListWaitingRoomsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       additionalRoutes: "additional_routes",
       cookieAttributes: "cookie_attributes",
       cookieSuffix: "cookie_suffix",
       createdOn: "created_on",
       customPageHtml: "custom_page_html",
       defaultTemplateLanguage: "default_template_language",
+      description: "description",
       disableSessionRenewal: "disable_session_renewal",
       enabledOriginCommands: "enabled_origin_commands",
+      host: "host",
       jsonResponseEnabled: "json_response_enabled",
       modifiedOn: "modified_on",
+      name: "name",
       newUsersPerMinute: "new_users_per_minute",
       nextEventPrequeueStartTime: "next_event_prequeue_start_time",
       nextEventStartTime: "next_event_start_time",
+      path: "path",
       queueAll: "queue_all",
       queueingMethod: "queueing_method",
       queueingStatusCode: "queueing_status_code",
       sessionDuration: "session_duration",
+      suspended: "suspended",
       totalActiveUsers: "total_active_users",
       turnstileAction: "turnstile_action",
       turnstileMode: "turnstile_mode",
@@ -2041,9 +2119,8 @@ export const ListWaitingRoomsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWaitingRoomsResponse>;
 
-export const listWaitingRooms: (
-  input: ListWaitingRoomsRequest,
-) => Effect.Effect<
+export const listWaitingRooms: API.OperationMethod<
+  ListWaitingRoomsRequest,
   ListWaitingRoomsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2236,6 +2313,8 @@ export const CreateWaitingRoomRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    host: "host",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     totalActiveUsers: "total_active_users",
     additionalRoutes: "additional_routes",
@@ -2243,13 +2322,16 @@ export const CreateWaitingRoomRequest = Schema.Struct({
     cookieSuffix: "cookie_suffix",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
     jsonResponseEnabled: "json_response_enabled",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
@@ -2452,32 +2534,37 @@ export const CreateWaitingRoomResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     additionalRoutes: "additional_routes",
     cookieAttributes: "cookie_attributes",
     cookieSuffix: "cookie_suffix",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
+    host: "host",
     jsonResponseEnabled: "json_response_enabled",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     nextEventPrequeueStartTime: "next_event_prequeue_start_time",
     nextEventStartTime: "next_event_start_time",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<CreateWaitingRoomResponse>;
 
-export const createWaitingRoom: (
-  input: CreateWaitingRoomRequest,
-) => Effect.Effect<
+export const createWaitingRoom: API.OperationMethod<
+  CreateWaitingRoomRequest,
   CreateWaitingRoomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2672,6 +2759,8 @@ export const UpdateWaitingRoomRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    host: "host",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     totalActiveUsers: "total_active_users",
     additionalRoutes: "additional_routes",
@@ -2679,13 +2768,16 @@ export const UpdateWaitingRoomRequest = Schema.Struct({
     cookieSuffix: "cookie_suffix",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
     jsonResponseEnabled: "json_response_enabled",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
@@ -2891,32 +2983,37 @@ export const UpdateWaitingRoomResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     additionalRoutes: "additional_routes",
     cookieAttributes: "cookie_attributes",
     cookieSuffix: "cookie_suffix",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
+    host: "host",
     jsonResponseEnabled: "json_response_enabled",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     nextEventPrequeueStartTime: "next_event_prequeue_start_time",
     nextEventStartTime: "next_event_start_time",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<UpdateWaitingRoomResponse>;
 
-export const updateWaitingRoom: (
-  input: UpdateWaitingRoomRequest,
-) => Effect.Effect<
+export const updateWaitingRoom: API.OperationMethod<
+  UpdateWaitingRoomRequest,
   UpdateWaitingRoomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3111,6 +3208,8 @@ export const PatchWaitingRoomRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    host: "host",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     totalActiveUsers: "total_active_users",
     additionalRoutes: "additional_routes",
@@ -3118,13 +3217,16 @@ export const PatchWaitingRoomRequest = Schema.Struct({
     cookieSuffix: "cookie_suffix",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
     jsonResponseEnabled: "json_response_enabled",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
@@ -3330,32 +3432,37 @@ export const PatchWaitingRoomResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     additionalRoutes: "additional_routes",
     cookieAttributes: "cookie_attributes",
     cookieSuffix: "cookie_suffix",
     createdOn: "created_on",
     customPageHtml: "custom_page_html",
     defaultTemplateLanguage: "default_template_language",
+    description: "description",
     disableSessionRenewal: "disable_session_renewal",
     enabledOriginCommands: "enabled_origin_commands",
+    host: "host",
     jsonResponseEnabled: "json_response_enabled",
     modifiedOn: "modified_on",
+    name: "name",
     newUsersPerMinute: "new_users_per_minute",
     nextEventPrequeueStartTime: "next_event_prequeue_start_time",
     nextEventStartTime: "next_event_start_time",
+    path: "path",
     queueAll: "queue_all",
     queueingMethod: "queueing_method",
     queueingStatusCode: "queueing_status_code",
     sessionDuration: "session_duration",
+    suspended: "suspended",
     totalActiveUsers: "total_active_users",
     turnstileAction: "turnstile_action",
     turnstileMode: "turnstile_mode",
   }),
 ) as unknown as Schema.Schema<PatchWaitingRoomResponse>;
 
-export const patchWaitingRoom: (
-  input: PatchWaitingRoomRequest,
-) => Effect.Effect<
+export const patchWaitingRoom: API.OperationMethod<
+  PatchWaitingRoomRequest,
   PatchWaitingRoomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3389,9 +3496,8 @@ export const DeleteWaitingRoomResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteWaitingRoomResponse>;
 
-export const deleteWaitingRoom: (
-  input: DeleteWaitingRoomRequest,
-) => Effect.Effect<
+export const deleteWaitingRoom: API.OperationMethod<
+  DeleteWaitingRoomRequest,
   DeleteWaitingRoomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

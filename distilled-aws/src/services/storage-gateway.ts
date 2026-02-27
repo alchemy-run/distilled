@@ -4456,9 +4456,8 @@ export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailab
  *
  * You must turn on the gateway VM before you can activate your gateway.
  */
-export const activateGateway: (
-  input: ActivateGatewayInput,
-) => effect.Effect<
+export const activateGateway: API.OperationMethod<
+  ActivateGatewayInput,
   ActivateGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4474,9 +4473,8 @@ export const activateGateway: (
  * In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to
  * add cache, and one or more disk IDs that you want to configure as cache.
  */
-export const addCache: (
-  input: AddCacheInput,
-) => effect.Effect<
+export const addCache: API.OperationMethod<
+  AddCacheInput,
   AddCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4504,9 +4502,8 @@ export const addCache: (
  * You can create a maximum of 50 tags for each resource. Virtual tapes and storage volumes
  * that are recovered to a new gateway maintain their tags.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceInput,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceInput,
   AddTagsToResourceOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4524,9 +4521,8 @@ export const addTagsToResource: (
  * add upload buffer, and one or more disk IDs that you want to configure as upload
  * buffer.
  */
-export const addUploadBuffer: (
-  input: AddUploadBufferInput,
-) => effect.Effect<
+export const addUploadBuffer: API.OperationMethod<
+  AddUploadBufferInput,
   AddUploadBufferOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4548,9 +4544,8 @@ export const addUploadBuffer: (
  * add working storage, and one or more disk IDs that you want to configure as working
  * storage.
  */
-export const addWorkingStorage: (
-  input: AddWorkingStorageInput,
-) => effect.Effect<
+export const addWorkingStorage: API.OperationMethod<
+  AddWorkingStorageInput,
   AddWorkingStorageOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4565,9 +4560,8 @@ export const addWorkingStorage: (
  * to eject the tape, the tape is archived directly into the S3 storage class (S3 Glacier or
  * S3 Glacier Deep Archive) that corresponds to the pool.
  */
-export const assignTapePool: (
-  input: AssignTapePoolInput,
-) => effect.Effect<
+export const assignTapePool: API.OperationMethod<
+  AssignTapePoolInput,
   AssignTapePoolOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4582,9 +4576,8 @@ export const assignTapePool: (
  * available for access through the gateway. This operation only supports the FSx File Gateway
  * type.
  */
-export const associateFileSystem: (
-  input: AssociateFileSystemInput,
-) => effect.Effect<
+export const associateFileSystem: API.OperationMethod<
+  AssociateFileSystemInput,
   AssociateFileSystemOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4599,9 +4592,8 @@ export const associateFileSystem: (
  * to a different gateway without creating a snapshot. It also makes it easier to move your
  * volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance.
  */
-export const attachVolume: (
-  input: AttachVolumeInput,
-) => effect.Effect<
+export const attachVolume: API.OperationMethod<
+  AttachVolumeInput,
   AttachVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4614,9 +4606,8 @@ export const attachVolume: (
  * Cancels archiving of a virtual tape to the virtual tape shelf (VTS) after the archiving
  * process is initiated. This operation is only supported in the tape gateway type.
  */
-export const cancelArchival: (
-  input: CancelArchivalInput,
-) => effect.Effect<
+export const cancelArchival: API.OperationMethod<
+  CancelArchivalInput,
   CancelArchivalOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4632,9 +4623,8 @@ export const cancelArchival: (
  * attempt to cancel is in FAILED, ERROR, or COMPLETED state, the cancel operation returns an
  * error.
  */
-export const cancelCacheReport: (
-  input: CancelCacheReportInput,
-) => effect.Effect<
+export const cancelCacheReport: API.OperationMethod<
+  CancelCacheReportInput,
   CancelCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4648,9 +4638,8 @@ export const cancelCacheReport: (
  * the retrieval process is initiated. The virtual tape is returned to the VTS. This operation
  * is only supported in the tape gateway type.
  */
-export const cancelRetrieval: (
-  input: CancelRetrievalInput,
-) => effect.Effect<
+export const cancelRetrieval: API.OperationMethod<
+  CancelRetrievalInput,
   CancelRetrievalOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4677,9 +4666,8 @@ export const cancelRetrieval: (
  * existing volume’s latest recovery point. The `VolumeSizeInBytes` value must be
  * equal to or larger than the size of the copied volume, in bytes.
  */
-export const createCachediSCSIVolume: (
-  input: CreateCachediSCSIVolumeInput,
-) => effect.Effect<
+export const createCachediSCSIVolume: API.OperationMethod<
+  CreateCachediSCSIVolumeInput,
   CreateCachediSCSIVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4705,9 +4693,8 @@ export const createCachediSCSIVolume: (
  * S3 File Gateways do not support creating hard or symbolic links on a file
  * share.
  */
-export const createNFSFileShare: (
-  input: CreateNFSFileShareInput,
-) => effect.Effect<
+export const createNFSFileShare: API.OperationMethod<
+  CreateNFSFileShareInput,
   CreateNFSFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4733,9 +4720,8 @@ export const createNFSFileShare: (
  * File gateways don't support creating hard or symbolic links on a file
  * share.
  */
-export const createSMBFileShare: (
-  input: CreateSMBFileShareInput,
-) => effect.Effect<
+export const createSMBFileShare: API.OperationMethod<
+  CreateSMBFileShareInput,
   CreateSMBFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4770,9 +4756,8 @@ export const createSMBFileShare: (
  * Volume and snapshot IDs are changing to a longer length ID format. For more
  * information, see the important note on the Welcome page.
  */
-export const createSnapshot: (
-  input: CreateSnapshotInput,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotInput,
   CreateSnapshotOutput,
   | InternalServerError
   | InvalidGatewayRequestException
@@ -4809,9 +4794,8 @@ export const createSnapshot: (
  * or DeleteSnapshot in the Amazon Elastic Compute Cloud API
  * Reference.
  */
-export const createSnapshotFromVolumeRecoveryPoint: (
-  input: CreateSnapshotFromVolumeRecoveryPointInput,
-) => effect.Effect<
+export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
+  CreateSnapshotFromVolumeRecoveryPointInput,
   CreateSnapshotFromVolumeRecoveryPointOutput,
   | InternalServerError
   | InvalidGatewayRequestException
@@ -4841,9 +4825,8 @@ export const createSnapshotFromVolumeRecoveryPoint: (
  * information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target
  * ARN that initiators can use to connect to the volume target.
  */
-export const createStorediSCSIVolume: (
-  input: CreateStorediSCSIVolumeInput,
-) => effect.Effect<
+export const createStorediSCSIVolume: API.OperationMethod<
+  CreateStorediSCSIVolumeInput,
   CreateStorediSCSIVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4856,9 +4839,8 @@ export const createStorediSCSIVolume: (
  * Creates a new custom tape pool. You can use custom tape pool to enable tape retention
  * lock on tapes that are archived in the custom pool.
  */
-export const createTapePool: (
-  input: CreateTapePoolInput,
-) => effect.Effect<
+export const createTapePool: API.OperationMethod<
+  CreateTapePoolInput,
   CreateTapePoolOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4874,9 +4856,8 @@ export const createTapePool: (
  * Cache storage must be allocated to the gateway before you can create virtual tapes.
  * Use the AddCache operation to add cache storage to a gateway.
  */
-export const createTapes: (
-  input: CreateTapesInput,
-) => effect.Effect<
+export const createTapes: API.OperationMethod<
+  CreateTapesInput,
   CreateTapesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4894,9 +4875,8 @@ export const createTapes: (
  * Cache storage must be allocated to the gateway before you can create a virtual tape.
  * Use the AddCache operation to add cache storage to a gateway.
  */
-export const createTapeWithBarcode: (
-  input: CreateTapeWithBarcodeInput,
-) => effect.Effect<
+export const createTapeWithBarcode: API.OperationMethod<
+  CreateTapeWithBarcodeInput,
   CreateTapeWithBarcodeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4910,9 +4890,8 @@ export const createTapeWithBarcode: (
  * virtual tapes must be created manually. Use the Amazon Resource Name (ARN) of the gateway
  * in your request to remove the policy.
  */
-export const deleteAutomaticTapeCreationPolicy: (
-  input: DeleteAutomaticTapeCreationPolicyInput,
-) => effect.Effect<
+export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
+  DeleteAutomaticTapeCreationPolicyInput,
   DeleteAutomaticTapeCreationPolicyOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4928,9 +4907,8 @@ export const deleteAutomaticTapeCreationPolicy: (
  * Amazon Resource Name (ARN) of the gateway in your request. This operation is supported only
  * for the stored volume, cached volume, and tape gateway types.
  */
-export const deleteBandwidthRateLimit: (
-  input: DeleteBandwidthRateLimitInput,
-) => effect.Effect<
+export const deleteBandwidthRateLimit: API.OperationMethod<
+  DeleteBandwidthRateLimitInput,
   DeleteBandwidthRateLimitOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4946,9 +4924,8 @@ export const deleteBandwidthRateLimit: (
  *
  * `DeleteCacheReport` does not delete the report object from your Amazon S3 bucket.
  */
-export const deleteCacheReport: (
-  input: DeleteCacheReportInput,
-) => effect.Effect<
+export const deleteCacheReport: API.OperationMethod<
+  DeleteCacheReportInput,
   DeleteCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4962,9 +4939,8 @@ export const deleteCacheReport: (
  * iSCSI target and initiator pair. This operation is supported in volume and tape gateway
  * types.
  */
-export const deleteChapCredentials: (
-  input: DeleteChapCredentialsInput,
-) => effect.Effect<
+export const deleteChapCredentials: API.OperationMethod<
+  DeleteChapCredentialsInput,
   DeleteChapCredentialsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4977,9 +4953,8 @@ export const deleteChapCredentials: (
  * Deletes a file share from an S3 File Gateway. This operation is only supported for S3
  * File Gateways.
  */
-export const deleteFileShare: (
-  input: DeleteFileShareInput,
-) => effect.Effect<
+export const deleteFileShare: API.OperationMethod<
+  DeleteFileShareInput,
   DeleteFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5006,9 +4981,8 @@ export const deleteFileShare: (
  * Storage Gateway detail
  * page.
  */
-export const deleteGateway: (
-  input: DeleteGatewayInput,
-) => effect.Effect<
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayInput,
   DeleteGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5031,9 +5005,8 @@ export const deleteGateway: (
  * go to DescribeSnapshots
  * in the *Amazon Elastic Compute Cloud API Reference*.
  */
-export const deleteSnapshotSchedule: (
-  input: DeleteSnapshotScheduleInput,
-) => effect.Effect<
+export const deleteSnapshotSchedule: API.OperationMethod<
+  DeleteSnapshotScheduleInput,
   DeleteSnapshotScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5046,9 +5019,8 @@ export const deleteSnapshotSchedule: (
  * Deletes the specified virtual tape. This operation is only supported in the tape gateway
  * type.
  */
-export const deleteTape: (
-  input: DeleteTapeInput,
-) => effect.Effect<
+export const deleteTape: API.OperationMethod<
+  DeleteTapeInput,
   DeleteTapeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5061,9 +5033,8 @@ export const deleteTape: (
  * Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is
  * only supported in the tape gateway type.
  */
-export const deleteTapeArchive: (
-  input: DeleteTapeArchiveInput,
-) => effect.Effect<
+export const deleteTapeArchive: API.OperationMethod<
+  DeleteTapeArchiveInput,
   DeleteTapeArchiveOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5077,9 +5048,8 @@ export const deleteTapeArchive: (
  * in the pool and if there are no automatic tape creation policies that reference the custom
  * tape pool.
  */
-export const deleteTapePool: (
-  input: DeleteTapePoolInput,
-) => effect.Effect<
+export const deleteTapePool: API.OperationMethod<
+  DeleteTapePoolInput,
   DeleteTapePoolOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5103,9 +5073,8 @@ export const deleteTapePool: (
  * In the request, you must provide the Amazon Resource Name (ARN) of the storage volume
  * you want to delete.
  */
-export const deleteVolume: (
-  input: DeleteVolumeInput,
-) => effect.Effect<
+export const deleteVolume: API.OperationMethod<
+  DeleteVolumeInput,
   DeleteVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5119,9 +5088,8 @@ export const deleteVolume: (
  * performed on the host in a cluster. If a test isn't performed, the status and start
  * time in the response would be null.
  */
-export const describeAvailabilityMonitorTest: (
-  input: DescribeAvailabilityMonitorTestInput,
-) => effect.Effect<
+export const describeAvailabilityMonitorTest: API.OperationMethod<
+  DescribeAvailabilityMonitorTestInput,
   DescribeAvailabilityMonitorTestOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5141,9 +5109,8 @@ export const describeAvailabilityMonitorTest: (
  * response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of
  * the gateway in your request.
  */
-export const describeBandwidthRateLimit: (
-  input: DescribeBandwidthRateLimitInput,
-) => effect.Effect<
+export const describeBandwidthRateLimit: API.OperationMethod<
+  DescribeBandwidthRateLimitInput,
   DescribeBandwidthRateLimitOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5171,9 +5138,8 @@ export const describeBandwidthRateLimit: (
  * returns an empty response. To specify which gateway to describe, use the Amazon Resource
  * Name (ARN) of the gateway in your request.
  */
-export const describeBandwidthRateLimitSchedule: (
-  input: DescribeBandwidthRateLimitScheduleInput,
-) => effect.Effect<
+export const describeBandwidthRateLimitSchedule: API.OperationMethod<
+  DescribeBandwidthRateLimitScheduleInput,
   DescribeBandwidthRateLimitScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5189,9 +5155,8 @@ export const describeBandwidthRateLimitSchedule: (
  * The response includes disk IDs that are configured as cache, and it includes the amount
  * of cache allocated and used.
  */
-export const describeCache: (
-  input: DescribeCacheInput,
-) => effect.Effect<
+export const describeCache: API.OperationMethod<
+  DescribeCacheInput,
   DescribeCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5208,9 +5173,8 @@ export const describeCache: (
  * Storage Gateway returns volume information sorted by volume Amazon Resource Name
  * (ARN).
  */
-export const describeCachediSCSIVolumes: (
-  input: DescribeCachediSCSIVolumesInput,
-) => effect.Effect<
+export const describeCachediSCSIVolumes: API.OperationMethod<
+  DescribeCachediSCSIVolumesInput,
   DescribeCachediSCSIVolumesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5223,9 +5187,8 @@ export const describeCachediSCSIVolumes: (
  * Returns information about the specified cache report, including completion status and
  * generation progress.
  */
-export const describeCacheReport: (
-  input: DescribeCacheReportInput,
-) => effect.Effect<
+export const describeCacheReport: API.OperationMethod<
+  DescribeCacheReportInput,
   DescribeCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5239,9 +5202,8 @@ export const describeCacheReport: (
  * information for a specified iSCSI target, one for each target-initiator pair. This
  * operation is supported in the volume and tape gateway types.
  */
-export const describeChapCredentials: (
-  input: DescribeChapCredentialsInput,
-) => effect.Effect<
+export const describeChapCredentials: API.OperationMethod<
+  DescribeChapCredentialsInput,
   DescribeChapCredentialsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5254,9 +5216,8 @@ export const describeChapCredentials: (
  * Gets the file system association information. This operation is only supported for FSx
  * File Gateways.
  */
-export const describeFileSystemAssociations: (
-  input: DescribeFileSystemAssociationsInput,
-) => effect.Effect<
+export const describeFileSystemAssociations: API.OperationMethod<
+  DescribeFileSystemAssociationsInput,
   DescribeFileSystemAssociationsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5270,9 +5231,8 @@ export const describeFileSystemAssociations: (
  * status, and software version. To specify which gateway to describe, use the Amazon Resource
  * Name (ARN) of the gateway in your request.
  */
-export const describeGatewayInformation: (
-  input: DescribeGatewayInformationInput,
-) => effect.Effect<
+export const describeGatewayInformation: API.OperationMethod<
+  DescribeGatewayInformationInput,
   DescribeGatewayInformationOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5286,9 +5246,8 @@ export const describeGatewayInformation: (
  * monthly or weekly cadence, specific day and time to begin maintenance, and which types of
  * updates to apply. Time values returned are for the gateway's time zone.
  */
-export const describeMaintenanceStartTime: (
-  input: DescribeMaintenanceStartTimeInput,
-) => effect.Effect<
+export const describeMaintenanceStartTime: API.OperationMethod<
+  DescribeMaintenanceStartTimeInput,
   DescribeMaintenanceStartTimeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5301,9 +5260,8 @@ export const describeMaintenanceStartTime: (
  * Gets a description for one or more Network File System (NFS) file shares from an S3 File
  * Gateway. This operation is only supported for S3 File Gateways.
  */
-export const describeNFSFileShares: (
-  input: DescribeNFSFileSharesInput,
-) => effect.Effect<
+export const describeNFSFileShares: API.OperationMethod<
+  DescribeNFSFileSharesInput,
   DescribeNFSFileSharesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5316,9 +5274,8 @@ export const describeNFSFileShares: (
  * Gets a description for one or more Server Message Block (SMB) file shares from a S3 File
  * Gateway. This operation is only supported for S3 File Gateways.
  */
-export const describeSMBFileShares: (
-  input: DescribeSMBFileSharesInput,
-) => effect.Effect<
+export const describeSMBFileShares: API.OperationMethod<
+  DescribeSMBFileSharesInput,
   DescribeSMBFileSharesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5331,9 +5288,8 @@ export const describeSMBFileShares: (
  * Gets a description of a Server Message Block (SMB) file share settings from a file
  * gateway. This operation is only supported for file gateways.
  */
-export const describeSMBSettings: (
-  input: DescribeSMBSettingsInput,
-) => effect.Effect<
+export const describeSMBSettings: API.OperationMethod<
+  DescribeSMBSettingsInput,
   DescribeSMBSettingsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5348,9 +5304,8 @@ export const describeSMBSettings: (
  * volume. This operation is only supported in the cached volume and stored volume
  * types.
  */
-export const describeSnapshotSchedule: (
-  input: DescribeSnapshotScheduleInput,
-) => effect.Effect<
+export const describeSnapshotSchedule: API.OperationMethod<
+  DescribeSnapshotScheduleInput,
   DescribeSnapshotScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5364,9 +5319,8 @@ export const describeSnapshotSchedule: (
  * gateway volumes in the request must be from one gateway. In the response, Storage Gateway returns volume information sorted by volume ARNs. This operation is only
  * supported in stored volume gateway type.
  */
-export const describeStorediSCSIVolumes: (
-  input: DescribeStorediSCSIVolumesInput,
-) => effect.Effect<
+export const describeStorediSCSIVolumes: API.OperationMethod<
+  DescribeStorediSCSIVolumesInput,
   DescribeStorediSCSIVolumesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5382,14 +5336,12 @@ export const describeStorediSCSIVolumes: (
  * If a specific `TapeARN` is not specified, Storage Gateway returns a
  * description of all virtual tapes found in the VTS associated with your account.
  */
-export const describeTapeArchives: {
-  (
-    input: DescribeTapeArchivesInput,
-  ): effect.Effect<
-    DescribeTapeArchivesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTapeArchives: API.OperationMethod<
+  DescribeTapeArchivesInput,
+  DescribeTapeArchivesOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTapeArchivesInput,
   ) => stream.Stream<
@@ -5424,14 +5376,12 @@ export const describeTapeArchives: {
  * points can be recovered to a new gateway. This operation is only supported in the tape
  * gateway type.
  */
-export const describeTapeRecoveryPoints: {
-  (
-    input: DescribeTapeRecoveryPointsInput,
-  ): effect.Effect<
-    DescribeTapeRecoveryPointsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTapeRecoveryPoints: API.OperationMethod<
+  DescribeTapeRecoveryPointsInput,
+  DescribeTapeRecoveryPointsOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTapeRecoveryPointsInput,
   ) => stream.Stream<
@@ -5470,14 +5420,12 @@ export const describeTapeRecoveryPoints: {
  * `Marker` value in your subsequent request to retrieve the next set of
  * tapes.
  */
-export const describeTapes: {
-  (
-    input: DescribeTapesInput,
-  ): effect.Effect<
-    DescribeTapesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTapes: API.OperationMethod<
+  DescribeTapesInput,
+  DescribeTapesOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTapesInput,
   ) => stream.Stream<
@@ -5510,9 +5458,8 @@ export const describeTapes: {
  * The response includes disk IDs that are configured as upload buffer space, and it
  * includes the amount of upload buffer space allocated and used.
  */
-export const describeUploadBuffer: (
-  input: DescribeUploadBufferInput,
-) => effect.Effect<
+export const describeUploadBuffer: API.OperationMethod<
+  DescribeUploadBufferInput,
   DescribeUploadBufferOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5527,14 +5474,12 @@ export const describeUploadBuffer: (
  *
  * This operation is only supported in the tape gateway type.
  */
-export const describeVTLDevices: {
-  (
-    input: DescribeVTLDevicesInput,
-  ): effect.Effect<
-    DescribeVTLDevicesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeVTLDevices: API.OperationMethod<
+  DescribeVTLDevicesInput,
+  DescribeVTLDevicesOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVTLDevicesInput,
   ) => stream.Stream<
@@ -5571,9 +5516,8 @@ export const describeVTLDevices: {
  * The response includes disk IDs that are configured as working storage, and it includes
  * the amount of working storage allocated and used.
  */
-export const describeWorkingStorage: (
-  input: DescribeWorkingStorageInput,
-) => effect.Effect<
+export const describeWorkingStorage: API.OperationMethod<
+  DescribeWorkingStorageInput,
   DescribeWorkingStorageOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5589,9 +5533,8 @@ export const describeWorkingStorage: (
  * move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2
  * instance. This operation is only supported in the volume gateway type.
  */
-export const detachVolume: (
-  input: DetachVolumeInput,
-) => effect.Effect<
+export const detachVolume: API.OperationMethod<
+  DetachVolumeInput,
   DetachVolumeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5609,9 +5552,8 @@ export const detachVolume: (
  *
  * After a gateway is disabled, it cannot be enabled.
  */
-export const disableGateway: (
-  input: DisableGatewayInput,
-) => effect.Effect<
+export const disableGateway: API.OperationMethod<
+  DisableGatewayInput,
   DisableGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5625,9 +5567,8 @@ export const disableGateway: (
  * disassociation process finishes, the gateway can no longer access the Amazon FSx
  * file system. This operation is only supported in the FSx File Gateway type.
  */
-export const disassociateFileSystem: (
-  input: DisassociateFileSystemInput,
-) => effect.Effect<
+export const disassociateFileSystem: API.OperationMethod<
+  DisassociateFileSystemInput,
   DisassociateFileSystemOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5650,9 +5591,8 @@ export const disassociateFileSystem: (
  * upload have been exhausted, and if your business need outweighs the potential data
  * loss.
  */
-export const evictFilesFailingUpload: (
-  input: EvictFilesFailingUploadInput,
-) => effect.Effect<
+export const evictFilesFailingUpload: API.OperationMethod<
+  EvictFilesFailingUploadInput,
   EvictFilesFailingUploadOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5674,9 +5614,8 @@ export const evictFilesFailingUpload: (
  * To create the gateway's computer account in an organizational unit other than the
  * default, you must specify the organizational unit when joining the domain.
  */
-export const joinDomain: (
-  input: JoinDomainInput,
-) => effect.Effect<
+export const joinDomain: API.OperationMethod<
+  JoinDomainInput,
   JoinDomainOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5691,9 +5630,8 @@ export const joinDomain: (
  *
  * This operation is only supported for tape gateways.
  */
-export const listAutomaticTapeCreationPolicies: (
-  input: ListAutomaticTapeCreationPoliciesInput,
-) => effect.Effect<
+export const listAutomaticTapeCreationPolicies: API.OperationMethod<
+  ListAutomaticTapeCreationPoliciesInput,
   ListAutomaticTapeCreationPoliciesOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5708,14 +5646,12 @@ export const listAutomaticTapeCreationPolicies: (
  * `DescribeCacheReport` action, such as report name, status, completion
  * progress, start time, end time, filters, and tags.
  */
-export const listCacheReports: {
-  (
-    input: ListCacheReportsInput,
-  ): effect.Effect<
-    ListCacheReportsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCacheReports: API.OperationMethod<
+  ListCacheReportsInput,
+  ListCacheReportsOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCacheReportsInput,
   ) => stream.Stream<
@@ -5745,14 +5681,12 @@ export const listCacheReports: {
  * shares that belong to the calling Amazon Web Services account. This operation is only
  * supported for S3 File Gateways.
  */
-export const listFileShares: {
-  (
-    input: ListFileSharesInput,
-  ): effect.Effect<
-    ListFileSharesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFileShares: API.OperationMethod<
+  ListFileSharesInput,
+  ListFileSharesOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFileSharesInput,
   ) => stream.Stream<
@@ -5783,14 +5717,12 @@ export const listFileShares: {
  * summary of a file system association. This operation is only supported for FSx File
  * Gateways.
  */
-export const listFileSystemAssociations: {
-  (
-    input: ListFileSystemAssociationsInput,
-  ): effect.Effect<
-    ListFileSystemAssociationsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFileSystemAssociations: API.OperationMethod<
+  ListFileSystemAssociationsInput,
+  ListFileSystemAssociationsOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFileSystemAssociationsInput,
   ) => stream.Stream<
@@ -5829,14 +5761,12 @@ export const listFileSystemAssociations: {
  * only a truncated list of your gateways), the response contains a marker that you can
  * specify in your next request to fetch the next page of gateways.
  */
-export const listGateways: {
-  (
-    input: ListGatewaysInput,
-  ): effect.Effect<
-    ListGatewaysOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGateways: API.OperationMethod<
+  ListGatewaysInput,
+  ListGatewaysOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewaysInput,
   ) => stream.Stream<
@@ -5873,9 +5803,8 @@ export const listGateways: {
  * (the disk node is occupied by a disk that has incorrect metadata or the disk content is
  * corrupted).
  */
-export const listLocalDisks: (
-  input: ListLocalDisksInput,
-) => effect.Effect<
+export const listLocalDisks: API.OperationMethod<
+  ListLocalDisksInput,
   ListLocalDisksOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5888,14 +5817,12 @@ export const listLocalDisks: (
  * Lists the tags that have been added to the specified resource. This operation is
  * supported in storage gateways of all types.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceInput,
-  ): effect.Effect<
-    ListTagsForResourceOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
@@ -5932,14 +5859,12 @@ export const listTagsForResource: {
  * `Marker` element that you can use in your subsequent request to retrieve the
  * next set of tape pools.
  */
-export const listTapePools: {
-  (
-    input: ListTapePoolsInput,
-  ): effect.Effect<
-    ListTapePoolsOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTapePools: API.OperationMethod<
+  ListTapePoolsInput,
+  ListTapePoolsOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTapePoolsInput,
   ) => stream.Stream<
@@ -5978,14 +5903,12 @@ export const listTapePools: {
  * subsequent request to retrieve the next set of tapes. This operation is only supported in
  * the tape gateway type.
  */
-export const listTapes: {
-  (
-    input: ListTapesInput,
-  ): effect.Effect<
-    ListTapesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTapes: API.OperationMethod<
+  ListTapesInput,
+  ListTapesOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTapesInput,
   ) => stream.Stream<
@@ -6016,9 +5939,8 @@ export const listTapes: {
  * determine whether a volume is being used or not. This operation is only supported in the
  * cached volume and stored volume gateway types.
  */
-export const listVolumeInitiators: (
-  input: ListVolumeInitiatorsInput,
-) => effect.Effect<
+export const listVolumeInitiators: API.OperationMethod<
+  ListVolumeInitiatorsInput,
   ListVolumeInitiatorsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6036,9 +5958,8 @@ export const listVolumeInitiators: (
  * clone a new cached volume from a source volume. To create a snapshot from a volume recovery
  * point use the CreateSnapshotFromVolumeRecoveryPoint operation.
  */
-export const listVolumeRecoveryPoints: (
-  input: ListVolumeRecoveryPointsInput,
-) => effect.Effect<
+export const listVolumeRecoveryPoints: API.OperationMethod<
+  ListVolumeRecoveryPointsInput,
   ListVolumeRecoveryPointsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6059,14 +5980,12 @@ export const listVolumeRecoveryPoints: (
  * subsequent request to retrieve the next set of volumes. This operation is only supported in
  * the cached volume and stored volume gateway types.
  */
-export const listVolumes: {
-  (
-    input: ListVolumesInput,
-  ): effect.Effect<
-    ListVolumesOutput,
-    InternalServerError | InvalidGatewayRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVolumes: API.OperationMethod<
+  ListVolumesInput,
+  ListVolumesOutput,
+  InternalServerError | InvalidGatewayRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVolumesInput,
   ) => stream.Stream<
@@ -6107,9 +6026,8 @@ export const listVolumes: {
  * file upload notification in the Amazon S3 File Gateway User
  * Guide.
  */
-export const notifyWhenUploaded: (
-  input: NotifyWhenUploadedInput,
-) => effect.Effect<
+export const notifyWhenUploaded: API.OperationMethod<
+  NotifyWhenUploadedInput,
   NotifyWhenUploadedOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6158,9 +6076,8 @@ export const notifyWhenUploaded: (
  * notified about file operations in the Amazon S3 File Gateway User
  * Guide.
  */
-export const refreshCache: (
-  input: RefreshCacheInput,
-) => effect.Effect<
+export const refreshCache: API.OperationMethod<
+  RefreshCacheInput,
   RefreshCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6173,9 +6090,8 @@ export const refreshCache: (
  * Removes one or more tags from the specified resource. This operation is supported in
  * storage gateways of all types.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceInput,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceInput,
   RemoveTagsFromResourceOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6197,9 +6113,8 @@ export const removeTagsFromResource: (
  * be no configured cache disks left in the gateway, so you must configure at least one new
  * cache disk for your gateway to function properly.
  */
-export const resetCache: (
-  input: ResetCacheInput,
-) => effect.Effect<
+export const resetCache: API.OperationMethod<
+  ResetCacheInput,
   ResetCacheOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6218,9 +6133,8 @@ export const resetCache: (
  * another gateway. You must archive the tape again before you can retrieve it to another
  * gateway. This operation is only supported in the tape gateway type.
  */
-export const retrieveTapeArchive: (
-  input: RetrieveTapeArchiveInput,
-) => effect.Effect<
+export const retrieveTapeArchive: API.OperationMethod<
+  RetrieveTapeArchiveInput,
   RetrieveTapeArchiveOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6241,9 +6155,8 @@ export const retrieveTapeArchive: (
  * read-only. The virtual tape can be retrieved to only a tape gateway. There is no charge
  * for retrieving recovery points.
  */
-export const retrieveTapeRecoveryPoint: (
-  input: RetrieveTapeRecoveryPointInput,
-) => effect.Effect<
+export const retrieveTapeRecoveryPoint: API.OperationMethod<
+  RetrieveTapeRecoveryPointInput,
   RetrieveTapeRecoveryPointOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6258,9 +6171,8 @@ export const retrieveTapeRecoveryPoint: (
  * set a new password. You don't need to know the default password to set a new
  * password.
  */
-export const setLocalConsolePassword: (
-  input: SetLocalConsolePasswordInput,
-) => effect.Effect<
+export const setLocalConsolePassword: API.OperationMethod<
+  SetLocalConsolePasswordInput,
   SetLocalConsolePasswordOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6274,9 +6186,8 @@ export const setLocalConsolePassword: (
  * user is the user when the authentication method for the file share is set to
  * `GuestAccess`. This operation only supported for S3 File Gateways
  */
-export const setSMBGuestPassword: (
-  input: SetSMBGuestPasswordInput,
-) => effect.Effect<
+export const setSMBGuestPassword: API.OperationMethod<
+  SetSMBGuestPasswordInput,
   SetSMBGuestPasswordOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6310,9 +6221,8 @@ export const setSMBGuestPassword: (
  * If do not intend to use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay software charges associated with the
  * gateway.
  */
-export const shutdownGateway: (
-  input: ShutdownGatewayInput,
-) => effect.Effect<
+export const shutdownGateway: API.OperationMethod<
+  ShutdownGatewayInput,
   ShutdownGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6330,9 +6240,8 @@ export const shutdownGateway: (
  *
  * Starting this test will cause your gateway to go offline for a brief period.
  */
-export const startAvailabilityMonitorTest: (
-  input: StartAvailabilityMonitorTestInput,
-) => effect.Effect<
+export const startAvailabilityMonitorTest: API.OperationMethod<
+  StartAvailabilityMonitorTestInput,
   StartAvailabilityMonitorTestOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6371,9 +6280,8 @@ export const startAvailabilityMonitorTest: (
  * - You must specify at least one value for `InclusionFilters` or
  * `ExclusionFilters` in the request.
  */
-export const startCacheReport: (
-  input: StartCacheReportInput,
-) => effect.Effect<
+export const startCacheReport: API.OperationMethod<
+  StartCacheReportInput,
   StartCacheReportOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6395,9 +6303,8 @@ export const startCacheReport: (
  * To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in
  * your request.
  */
-export const startGateway: (
-  input: StartGatewayInput,
-) => effect.Effect<
+export const startGateway: API.OperationMethod<
+  StartGatewayInput,
   StartGatewayOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6415,9 +6322,8 @@ export const startGateway: (
  *
  * A gateway can have only one automatic tape creation policy.
  */
-export const updateAutomaticTapeCreationPolicy: (
-  input: UpdateAutomaticTapeCreationPolicyInput,
-) => effect.Effect<
+export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
+  UpdateAutomaticTapeCreationPolicyInput,
   UpdateAutomaticTapeCreationPolicyOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6440,9 +6346,8 @@ export const updateAutomaticTapeCreationPolicy: (
  * To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in
  * your request.
  */
-export const updateBandwidthRateLimit: (
-  input: UpdateBandwidthRateLimitInput,
-) => effect.Effect<
+export const updateBandwidthRateLimit: API.OperationMethod<
+  UpdateBandwidthRateLimitInput,
   UpdateBandwidthRateLimitOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6459,9 +6364,8 @@ export const updateBandwidthRateLimit: (
  * bandwidth rate limits for upload only. FSx file gateways do not support bandwidth rate
  * limits.
  */
-export const updateBandwidthRateLimitSchedule: (
-  input: UpdateBandwidthRateLimitScheduleInput,
-) => effect.Effect<
+export const updateBandwidthRateLimitSchedule: API.OperationMethod<
+  UpdateBandwidthRateLimitScheduleInput,
   UpdateBandwidthRateLimitScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6479,9 +6383,8 @@ export const updateBandwidthRateLimitSchedule: (
  * When you update CHAP credentials, all existing connections on the target are closed
  * and initiators must reconnect with the new credentials.
  */
-export const updateChapCredentials: (
-  input: UpdateChapCredentialsInput,
-) => effect.Effect<
+export const updateChapCredentials: API.OperationMethod<
+  UpdateChapCredentialsInput,
   UpdateChapCredentialsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6494,9 +6397,8 @@ export const updateChapCredentials: (
  * Updates a file system association. This operation is only supported in the FSx File
  * Gateways.
  */
-export const updateFileSystemAssociation: (
-  input: UpdateFileSystemAssociationInput,
-) => effect.Effect<
+export const updateFileSystemAssociation: API.OperationMethod<
+  UpdateFileSystemAssociationInput,
   UpdateFileSystemAssociationOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6514,9 +6416,8 @@ export const updateFileSystemAssociation: (
  * gateway ID rather than the gateway name. However, changing the name of the gateway has
  * no effect on the gateway's ARN.
  */
-export const updateGatewayInformation: (
-  input: UpdateGatewayInformationInput,
-) => effect.Effect<
+export const updateGatewayInformation: API.OperationMethod<
+  UpdateGatewayInformationInput,
   UpdateGatewayInformationOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6539,9 +6440,8 @@ export const updateGatewayInformation: (
  * timeouts. For more information about increasing iSCSI Initiator timeouts for Windows and
  * Linux, see Customizing your Windows iSCSI settings and Customizing your Linux iSCSI settings, respectively.
  */
-export const updateGatewaySoftwareNow: (
-  input: UpdateGatewaySoftwareNowInput,
-) => effect.Effect<
+export const updateGatewaySoftwareNow: API.OperationMethod<
+  UpdateGatewaySoftwareNowInput,
   UpdateGatewaySoftwareNowOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6568,9 +6468,8 @@ export const updateGatewaySoftwareNow: (
  * where the brief disruptions caused by updating the gateway could critically impact your
  * deployment.
  */
-export const updateMaintenanceStartTime: (
-  input: UpdateMaintenanceStartTimeInput,
-) => effect.Effect<
+export const updateMaintenanceStartTime: API.OperationMethod<
+  UpdateMaintenanceStartTimeInput,
   UpdateMaintenanceStartTimeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6598,9 +6497,8 @@ export const updateMaintenanceStartTime: (
  *
  * - Write status of your file share
  */
-export const updateNFSFileShare: (
-  input: UpdateNFSFileShareInput,
-) => effect.Effect<
+export const updateNFSFileShare: API.OperationMethod<
+  UpdateNFSFileShareInput,
   UpdateNFSFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6627,9 +6525,8 @@ export const updateNFSFileShare: (
  * File gateways don't support creating hard or symbolic links on a file
  * share.
  */
-export const updateSMBFileShare: (
-  input: UpdateSMBFileShareInput,
-) => effect.Effect<
+export const updateSMBFileShare: API.OperationMethod<
+  UpdateSMBFileShareInput,
   UpdateSMBFileShareOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6642,9 +6539,8 @@ export const updateSMBFileShare: (
  * Controls whether the shares on an S3 File Gateway are visible in a net view or browse
  * list. The operation is only supported for S3 File Gateways.
  */
-export const updateSMBFileShareVisibility: (
-  input: UpdateSMBFileShareVisibilityInput,
-) => effect.Effect<
+export const updateSMBFileShareVisibility: API.OperationMethod<
+  UpdateSMBFileShareVisibilityInput,
   UpdateSMBFileShareVisibilityOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6657,9 +6553,8 @@ export const updateSMBFileShareVisibility: (
  * Updates the list of Active Directory users and groups that have special permissions for
  * SMB file shares on the gateway.
  */
-export const updateSMBLocalGroups: (
-  input: UpdateSMBLocalGroupsInput,
-) => effect.Effect<
+export const updateSMBLocalGroups: API.OperationMethod<
+  UpdateSMBLocalGroupsInput,
   UpdateSMBLocalGroupsOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6678,9 +6573,8 @@ export const updateSMBLocalGroups: (
  *
  * A higher security strategy level can affect performance of the gateway.
  */
-export const updateSMBSecurityStrategy: (
-  input: UpdateSMBSecurityStrategyInput,
-) => effect.Effect<
+export const updateSMBSecurityStrategy: API.OperationMethod<
+  UpdateSMBSecurityStrategyInput,
   UpdateSMBSecurityStrategyOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6701,9 +6595,8 @@ export const updateSMBSecurityStrategy: (
  * update, and the schedule information, including when you want the snapshot to begin on a
  * day and the frequency (in hours) of snapshots.
  */
-export const updateSnapshotSchedule: (
-  input: UpdateSnapshotScheduleInput,
-) => effect.Effect<
+export const updateSnapshotSchedule: API.OperationMethod<
+  UpdateSnapshotScheduleInput,
   UpdateSnapshotScheduleOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6718,9 +6611,8 @@ export const updateSnapshotSchedule: (
  * a different type of medium changer after a tape gateway is activated. This operation is
  * only supported in the tape gateway type.
  */
-export const updateVTLDeviceType: (
-  input: UpdateVTLDeviceTypeInput,
-) => effect.Effect<
+export const updateVTLDeviceType: API.OperationMethod<
+  UpdateVTLDeviceTypeInput,
   UpdateVTLDeviceTypeOutput,
   InternalServerError | InvalidGatewayRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -6226,9 +6226,8 @@ export class EnableSoftwareTokenMFAException extends S.TaggedErrorClass<EnableSo
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const addCustomAttributes: (
-  input: AddCustomAttributesRequest,
-) => effect.Effect<
+export const addCustomAttributes: API.OperationMethod<
+  AddCustomAttributesRequest,
   AddCustomAttributesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6265,9 +6264,8 @@ export const addCustomAttributes: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminAddUserToGroup: (
-  input: AdminAddUserToGroupRequest,
-) => effect.Effect<
+export const adminAddUserToGroup: API.OperationMethod<
+  AdminAddUserToGroupRequest,
   AdminAddUserToGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6310,9 +6308,8 @@ export const adminAddUserToGroup: (
  * `AllowAdminCreateUserOnly` to `true` in a
  * `CreateUserPool` or `UpdateUserPool` request.
  */
-export const adminConfirmSignUp: (
-  input: AdminConfirmSignUpRequest,
-) => effect.Effect<
+export const adminConfirmSignUp: API.OperationMethod<
+  AdminConfirmSignUpRequest,
   AdminConfirmSignUpResponse,
   | InternalErrorException
   | InvalidLambdaResponseException
@@ -6392,9 +6389,8 @@ export const adminConfirmSignUp: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminCreateUser: (
-  input: AdminCreateUserRequest,
-) => effect.Effect<
+export const adminCreateUser: API.OperationMethod<
+  AdminCreateUserRequest,
   AdminCreateUserResponse,
   | CodeDeliveryFailureException
   | InternalErrorException
@@ -6449,9 +6445,8 @@ export const adminCreateUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDeleteUser: (
-  input: AdminDeleteUserRequest,
-) => effect.Effect<
+export const adminDeleteUser: API.OperationMethod<
+  AdminDeleteUserRequest,
   AdminDeleteUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6488,9 +6483,8 @@ export const adminDeleteUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDeleteUserAttributes: (
-  input: AdminDeleteUserAttributesRequest,
-) => effect.Effect<
+export const adminDeleteUserAttributes: API.OperationMethod<
+  AdminDeleteUserAttributesRequest,
   AdminDeleteUserAttributesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6551,9 +6545,8 @@ export const adminDeleteUserAttributes: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDisableProviderForUser: (
-  input: AdminDisableProviderForUserRequest,
-) => effect.Effect<
+export const adminDisableProviderForUser: API.OperationMethod<
+  AdminDisableProviderForUserRequest,
   AdminDisableProviderForUserResponse,
   | AliasExistsException
   | InternalErrorException
@@ -6592,9 +6585,8 @@ export const adminDisableProviderForUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminDisableUser: (
-  input: AdminDisableUserRequest,
-) => effect.Effect<
+export const adminDisableUser: API.OperationMethod<
+  AdminDisableUserRequest,
   AdminDisableUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6630,9 +6622,8 @@ export const adminDisableUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminEnableUser: (
-  input: AdminEnableUserRequest,
-) => effect.Effect<
+export const adminEnableUser: API.OperationMethod<
+  AdminEnableUserRequest,
   AdminEnableUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6669,9 +6660,8 @@ export const adminEnableUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminForgetDevice: (
-  input: AdminForgetDeviceRequest,
-) => effect.Effect<
+export const adminForgetDevice: API.OperationMethod<
+  AdminForgetDeviceRequest,
   AdminForgetDeviceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6709,9 +6699,8 @@ export const adminForgetDevice: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminGetDevice: (
-  input: AdminGetDeviceRequest,
-) => effect.Effect<
+export const adminGetDevice: API.OperationMethod<
+  AdminGetDeviceRequest,
   AdminGetDeviceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6750,9 +6739,8 @@ export const adminGetDevice: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminGetUser: (
-  input: AdminGetUserRequest,
-) => effect.Effect<
+export const adminGetUser: API.OperationMethod<
+  AdminGetUserRequest,
   AdminGetUserResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6808,9 +6796,8 @@ export const adminGetUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminInitiateAuth: (
-  input: AdminInitiateAuthRequest,
-) => effect.Effect<
+export const adminInitiateAuth: API.OperationMethod<
+  AdminInitiateAuthRequest,
   AdminInitiateAuthResponse,
   | InternalErrorException
   | InvalidEmailRoleAccessPolicyException
@@ -6881,9 +6868,8 @@ export const adminInitiateAuth: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminLinkProviderForUser: (
-  input: AdminLinkProviderForUserRequest,
-) => effect.Effect<
+export const adminLinkProviderForUser: API.OperationMethod<
+  AdminLinkProviderForUserRequest,
   AdminLinkProviderForUserResponse,
   | AliasExistsException
   | InternalErrorException
@@ -6925,9 +6911,8 @@ export const adminLinkProviderForUser: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminListDevices: (
-  input: AdminListDevicesRequest,
-) => effect.Effect<
+export const adminListDevices: API.OperationMethod<
+  AdminListDevicesRequest,
   AdminListDevicesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -6964,20 +6949,18 @@ export const adminListDevices: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminListGroupsForUser: {
-  (
-    input: AdminListGroupsForUserRequest,
-  ): effect.Effect<
-    AdminListGroupsForUserResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UserNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const adminListGroupsForUser: API.OperationMethod<
+  AdminListGroupsForUserRequest,
+  AdminListGroupsForUserResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: AdminListGroupsForUserRequest,
   ) => stream.Stream<
@@ -7036,21 +7019,19 @@ export const adminListGroupsForUser: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminListUserAuthEvents: {
-  (
-    input: AdminListUserAuthEventsRequest,
-  ): effect.Effect<
-    AdminListUserAuthEventsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UserNotFoundException
-    | UserPoolAddOnNotEnabledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const adminListUserAuthEvents: API.OperationMethod<
+  AdminListUserAuthEventsRequest,
+  AdminListUserAuthEventsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UserNotFoundException
+  | UserPoolAddOnNotEnabledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: AdminListUserAuthEventsRequest,
   ) => stream.Stream<
@@ -7113,9 +7094,8 @@ export const adminListUserAuthEvents: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminRemoveUserFromGroup: (
-  input: AdminRemoveUserFromGroupRequest,
-) => effect.Effect<
+export const adminRemoveUserFromGroup: API.OperationMethod<
+  AdminRemoveUserFromGroupRequest,
   AdminRemoveUserFromGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7175,9 +7155,8 @@ export const adminRemoveUserFromGroup: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminResetUserPassword: (
-  input: AdminResetUserPasswordRequest,
-) => effect.Effect<
+export const adminResetUserPassword: API.OperationMethod<
+  AdminResetUserPasswordRequest,
   AdminResetUserPasswordResponse,
   | InternalErrorException
   | InvalidEmailRoleAccessPolicyException
@@ -7250,9 +7229,8 @@ export const adminResetUserPassword: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminRespondToAuthChallenge: (
-  input: AdminRespondToAuthChallengeRequest,
-) => effect.Effect<
+export const adminRespondToAuthChallenge: API.OperationMethod<
+  AdminRespondToAuthChallengeRequest,
   AdminRespondToAuthChallengeResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -7323,9 +7301,8 @@ export const adminRespondToAuthChallenge: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminSetUserMFAPreference: (
-  input: AdminSetUserMFAPreferenceRequest,
-) => effect.Effect<
+export const adminSetUserMFAPreference: API.OperationMethod<
+  AdminSetUserMFAPreferenceRequest,
   AdminSetUserMFAPreferenceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7390,9 +7367,8 @@ export const adminSetUserMFAPreference: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminSetUserPassword: (
-  input: AdminSetUserPasswordRequest,
-) => effect.Effect<
+export const adminSetUserPassword: API.OperationMethod<
+  AdminSetUserPasswordRequest,
   AdminSetUserPasswordResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7433,9 +7409,8 @@ export const adminSetUserPassword: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminSetUserSettings: (
-  input: AdminSetUserSettingsRequest,
-) => effect.Effect<
+export const adminSetUserSettings: API.OperationMethod<
+  AdminSetUserSettingsRequest,
   AdminSetUserSettingsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7478,9 +7453,8 @@ export const adminSetUserSettings: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUpdateAuthEventFeedback: (
-  input: AdminUpdateAuthEventFeedbackRequest,
-) => effect.Effect<
+export const adminUpdateAuthEventFeedback: API.OperationMethod<
+  AdminUpdateAuthEventFeedbackRequest,
   AdminUpdateAuthEventFeedbackResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7522,9 +7496,8 @@ export const adminUpdateAuthEventFeedback: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUpdateDeviceStatus: (
-  input: AdminUpdateDeviceStatusRequest,
-) => effect.Effect<
+export const adminUpdateDeviceStatus: API.OperationMethod<
+  AdminUpdateDeviceStatusRequest,
   AdminUpdateDeviceStatusResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7587,9 +7560,8 @@ export const adminUpdateDeviceStatus: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const adminUpdateUserAttributes: (
-  input: AdminUpdateUserAttributesRequest,
-) => effect.Effect<
+export const adminUpdateUserAttributes: API.OperationMethod<
+  AdminUpdateUserAttributesRequest,
   AdminUpdateUserAttributesResponse,
   | AliasExistsException
   | InternalErrorException
@@ -7661,9 +7633,8 @@ export const adminUpdateUserAttributes: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const adminUserGlobalSignOut: (
-  input: AdminUserGlobalSignOutRequest,
-) => effect.Effect<
+export const adminUserGlobalSignOut: API.OperationMethod<
+  AdminUserGlobalSignOutRequest,
   AdminUserGlobalSignOutResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -7699,9 +7670,8 @@ export const adminUserGlobalSignOut: (
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const associateSoftwareToken: (
-  input: AssociateSoftwareTokenRequest,
-) => effect.Effect<
+export const associateSoftwareToken: API.OperationMethod<
+  AssociateSoftwareTokenRequest,
   AssociateSoftwareTokenResponse,
   | ConcurrentModificationException
   | ForbiddenException
@@ -7735,9 +7705,8 @@ export const associateSoftwareToken: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const changePassword: (
-  input: ChangePasswordRequest,
-) => effect.Effect<
+export const changePassword: API.OperationMethod<
+  ChangePasswordRequest,
   ChangePasswordResponse,
   | ForbiddenException
   | InternalErrorException
@@ -7777,9 +7746,8 @@ export const changePassword: (
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const completeWebAuthnRegistration: (
-  input: CompleteWebAuthnRegistrationRequest,
-) => effect.Effect<
+export const completeWebAuthnRegistration: API.OperationMethod<
+  CompleteWebAuthnRegistrationRequest,
   CompleteWebAuthnRegistrationResponse,
   | ForbiddenException
   | InternalErrorException
@@ -7826,9 +7794,8 @@ export const completeWebAuthnRegistration: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const confirmDevice: (
-  input: ConfirmDeviceRequest,
-) => effect.Effect<
+export const confirmDevice: API.OperationMethod<
+  ConfirmDeviceRequest,
   ConfirmDeviceResponse,
   | DeviceKeyExistsException
   | ForbiddenException
@@ -7875,9 +7842,8 @@ export const confirmDevice: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const confirmForgotPassword: (
-  input: ConfirmForgotPasswordRequest,
-) => effect.Effect<
+export const confirmForgotPassword: API.OperationMethod<
+  ConfirmForgotPasswordRequest,
   ConfirmForgotPasswordResponse,
   | CodeMismatchException
   | ExpiredCodeException
@@ -7938,9 +7904,8 @@ export const confirmForgotPassword: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const confirmSignUp: (
-  input: ConfirmSignUpRequest,
-) => effect.Effect<
+export const confirmSignUp: API.OperationMethod<
+  ConfirmSignUpRequest,
   ConfirmSignUpResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -7994,9 +7959,8 @@ export const confirmSignUp: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   | GroupExistsException
   | InternalErrorException
@@ -8035,9 +7999,8 @@ export const createGroup: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createIdentityProvider: (
-  input: CreateIdentityProviderRequest,
-) => effect.Effect<
+export const createIdentityProvider: API.OperationMethod<
+  CreateIdentityProviderRequest,
   CreateIdentityProviderResponse,
   | DuplicateProviderException
   | InternalErrorException
@@ -8089,9 +8052,8 @@ export const createIdentityProvider: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createManagedLoginBranding: (
-  input: CreateManagedLoginBrandingRequest,
-) => effect.Effect<
+export const createManagedLoginBranding: API.OperationMethod<
+  CreateManagedLoginBrandingRequest,
   CreateManagedLoginBrandingResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8132,9 +8094,8 @@ export const createManagedLoginBranding: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createResourceServer: (
-  input: CreateResourceServerRequest,
-) => effect.Effect<
+export const createResourceServer: API.OperationMethod<
+  CreateResourceServerRequest,
   CreateResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8182,9 +8143,8 @@ export const createResourceServer: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createTerms: (
-  input: CreateTermsRequest,
-) => effect.Effect<
+export const createTerms: API.OperationMethod<
+  CreateTermsRequest,
   CreateTermsResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8224,9 +8184,8 @@ export const createTerms: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserImportJob: (
-  input: CreateUserImportJobRequest,
-) => effect.Effect<
+export const createUserImportJob: API.OperationMethod<
+  CreateUserImportJobRequest,
   CreateUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8283,9 +8242,8 @@ export const createUserImportJob: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserPool: (
-  input: CreateUserPoolRequest,
-) => effect.Effect<
+export const createUserPool: API.OperationMethod<
+  CreateUserPoolRequest,
   CreateUserPoolResponse,
   | FeatureUnavailableInTierException
   | InternalErrorException
@@ -8337,9 +8295,8 @@ export const createUserPool: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserPoolClient: (
-  input: CreateUserPoolClientRequest,
-) => effect.Effect<
+export const createUserPoolClient: API.OperationMethod<
+  CreateUserPoolClientRequest,
   CreateUserPoolClientResponse,
   | FeatureUnavailableInTierException
   | InternalErrorException
@@ -8391,9 +8348,8 @@ export const createUserPoolClient: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const createUserPoolDomain: (
-  input: CreateUserPoolDomainRequest,
-) => effect.Effect<
+export const createUserPoolDomain: API.OperationMethod<
+  CreateUserPoolDomainRequest,
   CreateUserPoolDomainResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -8434,9 +8390,8 @@ export const createUserPoolDomain: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8471,9 +8426,8 @@ export const deleteGroup: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteIdentityProvider: (
-  input: DeleteIdentityProviderRequest,
-) => effect.Effect<
+export const deleteIdentityProvider: API.OperationMethod<
+  DeleteIdentityProviderRequest,
   DeleteIdentityProviderResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8513,9 +8467,8 @@ export const deleteIdentityProvider: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteManagedLoginBranding: (
-  input: DeleteManagedLoginBrandingRequest,
-) => effect.Effect<
+export const deleteManagedLoginBranding: API.OperationMethod<
+  DeleteManagedLoginBrandingRequest,
   DeleteManagedLoginBrandingResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8554,9 +8507,8 @@ export const deleteManagedLoginBranding: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteResourceServer: (
-  input: DeleteResourceServerRequest,
-) => effect.Effect<
+export const deleteResourceServer: API.OperationMethod<
+  DeleteResourceServerRequest,
   DeleteResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8589,9 +8541,8 @@ export const deleteResourceServer: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const deleteTerms: (
-  input: DeleteTermsRequest,
-) => effect.Effect<
+export const deleteTerms: API.OperationMethod<
+  DeleteTermsRequest,
   DeleteTermsResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8624,9 +8575,8 @@ export const deleteTerms: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | ForbiddenException
   | InternalErrorException
@@ -8666,9 +8616,8 @@ export const deleteUser: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const deleteUserAttributes: (
-  input: DeleteUserAttributesRequest,
-) => effect.Effect<
+export const deleteUserAttributes: API.OperationMethod<
+  DeleteUserAttributesRequest,
   DeleteUserAttributesResponse,
   | ForbiddenException
   | InternalErrorException
@@ -8709,9 +8658,8 @@ export const deleteUserAttributes: (
  * the case of large user pools, the cleanup process might take significant additional time
  * before all user data is permanently deleted.
  */
-export const deleteUserPool: (
-  input: DeleteUserPoolRequest,
-) => effect.Effect<
+export const deleteUserPool: API.OperationMethod<
+  DeleteUserPoolRequest,
   DeleteUserPoolResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8737,9 +8685,8 @@ export const deleteUserPool: (
  * Deletes a user pool app client. After you delete an app client, users can no longer
  * sign in to the associated application.
  */
-export const deleteUserPoolClient: (
-  input: DeleteUserPoolClientRequest,
-) => effect.Effect<
+export const deleteUserPoolClient: API.OperationMethod<
+  DeleteUserPoolClientRequest,
   DeleteUserPoolClientResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8766,9 +8713,8 @@ export const deleteUserPoolClient: (
  * delete a user pool domain, your managed login pages and authorization server are no
  * longer available.
  */
-export const deleteUserPoolDomain: (
-  input: DeleteUserPoolDomainRequest,
-) => effect.Effect<
+export const deleteUserPoolDomain: API.OperationMethod<
+  DeleteUserPoolDomainRequest,
   DeleteUserPoolDomainResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -8799,9 +8745,8 @@ export const deleteUserPoolDomain: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const deleteWebAuthnCredential: (
-  input: DeleteWebAuthnCredentialRequest,
-) => effect.Effect<
+export const deleteWebAuthnCredential: API.OperationMethod<
+  DeleteWebAuthnCredentialRequest,
   DeleteWebAuthnCredentialResponse,
   | ForbiddenException
   | InternalErrorException
@@ -8829,9 +8774,8 @@ export const deleteWebAuthnCredential: (
  * Given a user pool ID and identity provider (IdP) name, returns details about the
  * IdP.
  */
-export const describeIdentityProvider: (
-  input: DescribeIdentityProviderRequest,
-) => effect.Effect<
+export const describeIdentityProvider: API.OperationMethod<
+  DescribeIdentityProviderRequest,
   DescribeIdentityProviderResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8855,9 +8799,8 @@ export const describeIdentityProvider: (
  * Given the ID of a managed login branding style, returns detailed information about the
  * style.
  */
-export const describeManagedLoginBranding: (
-  input: DescribeManagedLoginBrandingRequest,
-) => effect.Effect<
+export const describeManagedLoginBranding: API.OperationMethod<
+  DescribeManagedLoginBrandingRequest,
   DescribeManagedLoginBrandingResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8881,9 +8824,8 @@ export const describeManagedLoginBranding: (
  * Given the ID of a user pool app client, returns detailed information about the style
  * assigned to the app client.
  */
-export const describeManagedLoginBrandingByClient: (
-  input: DescribeManagedLoginBrandingByClientRequest,
-) => effect.Effect<
+export const describeManagedLoginBrandingByClient: API.OperationMethod<
+  DescribeManagedLoginBrandingByClientRequest,
   DescribeManagedLoginBrandingByClientResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8906,9 +8848,8 @@ export const describeManagedLoginBrandingByClient: (
 /**
  * Describes a resource server. For more information about resource servers, see Access control with resource servers.
  */
-export const describeResourceServer: (
-  input: DescribeResourceServerRequest,
-) => effect.Effect<
+export const describeResourceServer: API.OperationMethod<
+  DescribeResourceServerRequest,
   DescribeResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8934,9 +8875,8 @@ export const describeResourceServer: (
  * compromised credentials, and IP-address allow- and denylists. For more information about
  * threat protection, see Threat protection.
  */
-export const describeRiskConfiguration: (
-  input: DescribeRiskConfigurationRequest,
-) => effect.Effect<
+export const describeRiskConfiguration: API.OperationMethod<
+  DescribeRiskConfigurationRequest,
   DescribeRiskConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8971,9 +8911,8 @@ export const describeRiskConfiguration: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeTerms: (
-  input: DescribeTermsRequest,
-) => effect.Effect<
+export const describeTerms: API.OperationMethod<
+  DescribeTermsRequest,
   DescribeTermsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -8996,9 +8935,8 @@ export const describeTerms: (
 /**
  * Describes a user import job. For more information about user CSV import, see Importing users from a CSV file.
  */
-export const describeUserImportJob: (
-  input: DescribeUserImportJobRequest,
-) => effect.Effect<
+export const describeUserImportJob: API.OperationMethod<
+  DescribeUserImportJobRequest,
   DescribeUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9033,9 +8971,8 @@ export const describeUserImportJob: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeUserPool: (
-  input: DescribeUserPoolRequest,
-) => effect.Effect<
+export const describeUserPool: API.OperationMethod<
+  DescribeUserPoolRequest,
   DescribeUserPoolResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9072,9 +9009,8 @@ export const describeUserPool: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeUserPoolClient: (
-  input: DescribeUserPoolClientRequest,
-) => effect.Effect<
+export const describeUserPoolClient: API.OperationMethod<
+  DescribeUserPoolClientRequest,
   DescribeUserPoolClientResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9108,9 +9044,8 @@ export const describeUserPoolClient: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const describeUserPoolDomain: (
-  input: DescribeUserPoolDomainRequest,
-) => effect.Effect<
+export const describeUserPoolDomain: API.OperationMethod<
+  DescribeUserPoolDomainRequest,
   DescribeUserPoolDomainResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9139,9 +9074,8 @@ export const describeUserPoolDomain: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const forgetDevice: (
-  input: ForgetDeviceRequest,
-) => effect.Effect<
+export const forgetDevice: API.OperationMethod<
+  ForgetDeviceRequest,
   ForgetDeviceResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9207,9 +9141,8 @@ export const forgetDevice: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const forgotPassword: (
-  input: ForgotPasswordRequest,
-) => effect.Effect<
+export const forgotPassword: API.OperationMethod<
+  ForgotPasswordRequest,
   ForgotPasswordResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -9267,9 +9200,8 @@ export const forgotPassword: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getCSVHeader: (
-  input: GetCSVHeaderRequest,
-) => effect.Effect<
+export const getCSVHeader: API.OperationMethod<
+  GetCSVHeaderRequest,
   GetCSVHeaderResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9300,9 +9232,8 @@ export const getCSVHeader: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const getDevice: (
-  input: GetDeviceRequest,
-) => effect.Effect<
+export const getDevice: API.OperationMethod<
+  GetDeviceRequest,
   GetDeviceResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9348,9 +9279,8 @@ export const getDevice: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getGroup: (
-  input: GetGroupRequest,
-) => effect.Effect<
+export const getGroup: API.OperationMethod<
+  GetGroupRequest,
   GetGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9375,9 +9305,8 @@ export const getGroup: (
  * `examplecorp`, returns information about the user pool configuration for
  * that IdP. For more information about IdPs, see Third-party IdP sign-in.
  */
-export const getIdentityProviderByIdentifier: (
-  input: GetIdentityProviderByIdentifierRequest,
-) => effect.Effect<
+export const getIdentityProviderByIdentifier: API.OperationMethod<
+  GetIdentityProviderByIdentifierRequest,
   GetIdentityProviderByIdentifierResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9411,9 +9340,8 @@ export const getIdentityProviderByIdentifier: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getLogDeliveryConfiguration: (
-  input: GetLogDeliveryConfigurationRequest,
-) => effect.Effect<
+export const getLogDeliveryConfiguration: API.OperationMethod<
+  GetLogDeliveryConfigurationRequest,
   GetLogDeliveryConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9453,9 +9381,8 @@ export const getLogDeliveryConfiguration: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getSigningCertificate: (
-  input: GetSigningCertificateRequest,
-) => effect.Effect<
+export const getSigningCertificate: API.OperationMethod<
+  GetSigningCertificateRequest,
   GetSigningCertificateResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9478,9 +9405,8 @@ export const getSigningCertificate: (
  * rotation is enabled. If refresh token rotation is disabled, issues new ID and access
  * tokens only.
  */
-export const getTokensFromRefreshToken: (
-  input: GetTokensFromRefreshTokenRequest,
-) => effect.Effect<
+export const getTokensFromRefreshToken: API.OperationMethod<
+  GetTokensFromRefreshTokenRequest,
   GetTokensFromRefreshTokenResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9519,9 +9445,8 @@ export const getTokensFromRefreshToken: (
  * an empty object if you haven't applied hosted UI branding to either the client or
  * the user pool. For more information, see Hosted UI (classic) branding.
  */
-export const getUICustomization: (
-  input: GetUICustomizationRequest,
-) => effect.Effect<
+export const getUICustomization: API.OperationMethod<
+  GetUICustomizationRequest,
   GetUICustomizationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9551,9 +9476,8 @@ export const getUICustomization: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const getUser: (
-  input: GetUserRequest,
-) => effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9609,9 +9533,8 @@ export const getUser: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const getUserAttributeVerificationCode: (
-  input: GetUserAttributeVerificationCodeRequest,
-) => effect.Effect<
+export const getUserAttributeVerificationCode: API.OperationMethod<
+  GetUserAttributeVerificationCodeRequest,
   GetUserAttributeVerificationCodeResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -9671,9 +9594,8 @@ export const getUserAttributeVerificationCode: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const getUserAuthFactors: (
-  input: GetUserAuthFactorsRequest,
-) => effect.Effect<
+export const getUserAuthFactors: API.OperationMethod<
+  GetUserAuthFactorsRequest,
   GetUserAuthFactorsResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9726,9 +9648,8 @@ export const getUserAuthFactors: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const getUserPoolMfaConfig: (
-  input: GetUserPoolMfaConfigRequest,
-) => effect.Effect<
+export const getUserPoolMfaConfig: API.OperationMethod<
+  GetUserPoolMfaConfigRequest,
   GetUserPoolMfaConfigResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -9781,9 +9702,8 @@ export const getUserPoolMfaConfig: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const globalSignOut: (
-  input: GlobalSignOutRequest,
-) => effect.Effect<
+export const globalSignOut: API.OperationMethod<
+  GlobalSignOutRequest,
   GlobalSignOutResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9838,9 +9758,8 @@ export const globalSignOut: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const initiateAuth: (
-  input: InitiateAuthRequest,
-) => effect.Effect<
+export const initiateAuth: API.OperationMethod<
+  InitiateAuthRequest,
   InitiateAuthResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9895,9 +9814,8 @@ export const initiateAuth: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const listDevices: (
-  input: ListDevicesRequest,
-) => effect.Effect<
+export const listDevices: API.OperationMethod<
+  ListDevicesRequest,
   ListDevicesResponse,
   | ForbiddenException
   | InternalErrorException
@@ -9940,19 +9858,17 @@ export const listDevices: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -10008,19 +9924,17 @@ export const listGroups: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listIdentityProviders: {
-  (
-    input: ListIdentityProvidersRequest,
-  ): effect.Effect<
-    ListIdentityProvidersResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdentityProviders: API.OperationMethod<
+  ListIdentityProvidersRequest,
+  ListIdentityProvidersResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentityProvidersRequest,
   ) => stream.Stream<
@@ -10076,19 +9990,17 @@ export const listIdentityProviders: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listResourceServers: {
-  (
-    input: ListResourceServersRequest,
-  ): effect.Effect<
-    ListResourceServersResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceServers: API.OperationMethod<
+  ListResourceServersRequest,
+  ListResourceServersResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceServersRequest,
   ) => stream.Stream<
@@ -10135,9 +10047,8 @@ export const listResourceServers: {
  * Tagging
  * resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -10170,9 +10081,8 @@ export const listTagsForResource: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listTerms: (
-  input: ListTermsRequest,
-) => effect.Effect<
+export const listTerms: API.OperationMethod<
+  ListTermsRequest,
   ListTermsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -10207,9 +10117,8 @@ export const listTerms: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUserImportJobs: (
-  input: ListUserImportJobsRequest,
-) => effect.Effect<
+export const listUserImportJobs: API.OperationMethod<
+  ListUserImportJobsRequest,
   ListUserImportJobsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -10243,19 +10152,17 @@ export const listUserImportJobs: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUserPoolClients: {
-  (
-    input: ListUserPoolClientsRequest,
-  ): effect.Effect<
-    ListUserPoolClientsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserPoolClients: API.OperationMethod<
+  ListUserPoolClientsRequest,
+  ListUserPoolClientsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserPoolClientsRequest,
   ) => stream.Stream<
@@ -10310,18 +10217,16 @@ export const listUserPoolClients: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUserPools: {
-  (
-    input: ListUserPoolsRequest,
-  ): effect.Effect<
-    ListUserPoolsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserPools: API.OperationMethod<
+  ListUserPoolsRequest,
+  ListUserPoolsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserPoolsRequest,
   ) => stream.Stream<
@@ -10374,19 +10279,17 @@ export const listUserPools: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -10442,19 +10345,17 @@ export const listUsers: {
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const listUsersInGroup: {
-  (
-    input: ListUsersInGroupRequest,
-  ): effect.Effect<
-    ListUsersInGroupResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsersInGroup: API.OperationMethod<
+  ListUsersInGroupRequest,
+  ListUsersInGroupResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersInGroupRequest,
   ) => stream.Stream<
@@ -10507,9 +10408,8 @@ export const listUsersInGroup: {
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const listWebAuthnCredentials: (
-  input: ListWebAuthnCredentialsRequest,
-) => effect.Effect<
+export const listWebAuthnCredentials: API.OperationMethod<
+  ListWebAuthnCredentialsRequest,
   ListWebAuthnCredentialsResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10560,9 +10460,8 @@ export const listWebAuthnCredentials: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const resendConfirmationCode: (
-  input: ResendConfirmationCodeRequest,
-) => effect.Effect<
+export const resendConfirmationCode: API.OperationMethod<
+  ResendConfirmationCodeRequest,
   ResendConfirmationCodeResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -10634,9 +10533,8 @@ export const resendConfirmationCode: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const respondToAuthChallenge: (
-  input: RespondToAuthChallengeRequest,
-) => effect.Effect<
+export const respondToAuthChallenge: API.OperationMethod<
+  RespondToAuthChallengeRequest,
   RespondToAuthChallengeResponse,
   | AliasExistsException
   | CodeMismatchException
@@ -10702,9 +10600,8 @@ export const respondToAuthChallenge: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const revokeToken: (
-  input: RevokeTokenRequest,
-) => effect.Effect<
+export const revokeToken: API.OperationMethod<
+  RevokeTokenRequest,
   RevokeTokenResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10734,9 +10631,8 @@ export const revokeToken: (
  * more information, see Exporting user
  * pool logs.
  */
-export const setLogDeliveryConfiguration: (
-  input: SetLogDeliveryConfigurationRequest,
-) => effect.Effect<
+export const setLogDeliveryConfiguration: API.OperationMethod<
+  SetLogDeliveryConfigurationRequest,
   SetLogDeliveryConfigurationResponse,
   | FeatureUnavailableInTierException
   | InternalErrorException
@@ -10779,9 +10675,8 @@ export const setLogDeliveryConfiguration: (
  * request. To activate this setting, your user pool must be on the
  * Plus tier.
  */
-export const setRiskConfiguration: (
-  input: SetRiskConfigurationRequest,
-) => effect.Effect<
+export const setRiskConfiguration: API.OperationMethod<
+  SetRiskConfigurationRequest,
   SetRiskConfigurationResponse,
   | CodeDeliveryFailureException
   | InternalErrorException
@@ -10826,9 +10721,8 @@ export const setRiskConfiguration: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const setUICustomization: (
-  input: SetUICustomizationRequest,
-) => effect.Effect<
+export const setUICustomization: API.OperationMethod<
+  SetUICustomizationRequest,
   SetUICustomizationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -10866,9 +10760,8 @@ export const setUICustomization: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const setUserMFAPreference: (
-  input: SetUserMFAPreferenceRequest,
-) => effect.Effect<
+export const setUserMFAPreference: API.OperationMethod<
+  SetUserMFAPreferenceRequest,
   SetUserMFAPreferenceResponse,
   | ForbiddenException
   | InternalErrorException
@@ -10915,9 +10808,8 @@ export const setUserMFAPreference: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const setUserPoolMfaConfig: (
-  input: SetUserPoolMfaConfigRequest,
-) => effect.Effect<
+export const setUserPoolMfaConfig: API.OperationMethod<
+  SetUserPoolMfaConfigRequest,
   SetUserPoolMfaConfigResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -10957,9 +10849,8 @@ export const setUserPoolMfaConfig: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const setUserSettings: (
-  input: SetUserSettingsRequest,
-) => effect.Effect<
+export const setUserSettings: API.OperationMethod<
+  SetUserSettingsRequest,
   SetUserSettingsResponse,
   | ForbiddenException
   | InternalErrorException
@@ -11017,9 +10908,8 @@ export const setUserSettings: (
  * the response, the user is successfully created and is in an `UNCONFIRMED`
  * state.
  */
-export const signUp: (
-  input: SignUpRequest,
-) => effect.Effect<
+export const signUp: API.OperationMethod<
+  SignUpRequest,
   SignUpResponse,
   | CodeDeliveryFailureException
   | ForbiddenException
@@ -11066,9 +10956,8 @@ export const signUp: (
  * usernames and attributes. For more information about importing users from a CSV file,
  * see Importing users from a CSV file.
  */
-export const startUserImportJob: (
-  input: StartUserImportJobRequest,
-) => effect.Effect<
+export const startUserImportJob: API.OperationMethod<
+  StartUserImportJobRequest,
   StartUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11098,9 +10987,8 @@ export const startUserImportJob: (
  *
  * Authorize this action with a signed-in user's access token. It must include the scope `aws.cognito.signin.user.admin`.
  */
-export const startWebAuthnRegistration: (
-  input: StartWebAuthnRegistrationRequest,
-) => effect.Effect<
+export const startWebAuthnRegistration: API.OperationMethod<
+  StartWebAuthnRegistrationRequest,
   StartWebAuthnRegistrationResponse,
   | ForbiddenException
   | InternalErrorException
@@ -11131,9 +11019,8 @@ export const startWebAuthnRegistration: (
  * file that contains their usernames and attributes. For more information about importing
  * users from a CSV file, see Importing users from a CSV file.
  */
-export const stopUserImportJob: (
-  input: StopUserImportJobRequest,
-) => effect.Effect<
+export const stopUserImportJob: API.OperationMethod<
+  StopUserImportJobRequest,
   StopUserImportJobResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11174,9 +11061,8 @@ export const stopUserImportJob: (
  * You can use this action up to 5 times per second, per account. A user pool can have as
  * many as 50 tags.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11199,9 +11085,8 @@ export const tagResource: (
 /**
  * Given tag IDs that you previously assigned to a user pool, removes them.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11242,9 +11127,8 @@ export const untagResource: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const updateAuthEventFeedback: (
-  input: UpdateAuthEventFeedbackRequest,
-) => effect.Effect<
+export const updateAuthEventFeedback: API.OperationMethod<
+  UpdateAuthEventFeedbackRequest,
   UpdateAuthEventFeedbackResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11283,9 +11167,8 @@ export const updateAuthEventFeedback: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const updateDeviceStatus: (
-  input: UpdateDeviceStatusRequest,
-) => effect.Effect<
+export const updateDeviceStatus: API.OperationMethod<
+  UpdateDeviceStatusRequest,
   UpdateDeviceStatusResponse,
   | ForbiddenException
   | InternalErrorException
@@ -11329,9 +11212,8 @@ export const updateDeviceStatus: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11367,9 +11249,8 @@ export const updateGroup: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateIdentityProvider: (
-  input: UpdateIdentityProviderRequest,
-) => effect.Effect<
+export const updateIdentityProvider: API.OperationMethod<
+  UpdateIdentityProviderRequest,
   UpdateIdentityProviderResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -11416,9 +11297,8 @@ export const updateIdentityProvider: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateManagedLoginBranding: (
-  input: UpdateManagedLoginBrandingRequest,
-) => effect.Effect<
+export const updateManagedLoginBranding: API.OperationMethod<
+  UpdateManagedLoginBrandingRequest,
   UpdateManagedLoginBrandingResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -11457,9 +11337,8 @@ export const updateManagedLoginBranding: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateResourceServer: (
-  input: UpdateResourceServerRequest,
-) => effect.Effect<
+export const updateResourceServer: API.OperationMethod<
+  UpdateResourceServerRequest,
   UpdateResourceServerResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -11505,9 +11384,8 @@ export const updateResourceServer: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateTerms: (
-  input: UpdateTermsRequest,
-) => effect.Effect<
+export const updateTerms: API.OperationMethod<
+  UpdateTermsRequest,
   UpdateTermsResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -11562,9 +11440,8 @@ export const updateTerms: (
  * of the sandbox and into production. For more information, see SMS message settings for Amazon Cognito user pools in the Amazon Cognito
  * Developer Guide.
  */
-export const updateUserAttributes: (
-  input: UpdateUserAttributesRequest,
-) => effect.Effect<
+export const updateUserAttributes: API.OperationMethod<
+  UpdateUserAttributesRequest,
   UpdateUserAttributesResponse,
   | AliasExistsException
   | CodeDeliveryFailureException
@@ -11646,9 +11523,8 @@ export const updateUserAttributes: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserPool: (
-  input: UpdateUserPoolRequest,
-) => effect.Effect<
+export const updateUserPool: API.OperationMethod<
+  UpdateUserPoolRequest,
   UpdateUserPoolResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -11706,9 +11582,8 @@ export const updateUserPool: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserPoolClient: (
-  input: UpdateUserPoolClientRequest,
-) => effect.Effect<
+export const updateUserPoolClient: API.OperationMethod<
+  UpdateUserPoolClientRequest,
   UpdateUserPoolClientResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -11770,9 +11645,8 @@ export const updateUserPoolClient: (
  *
  * - Using the Amazon Cognito user pools API and user pool endpoints
  */
-export const updateUserPoolDomain: (
-  input: UpdateUserPoolDomainRequest,
-) => effect.Effect<
+export const updateUserPoolDomain: API.OperationMethod<
+  UpdateUserPoolDomainRequest,
   UpdateUserPoolDomainResponse,
   | ConcurrentModificationException
   | FeatureUnavailableInTierException
@@ -11807,9 +11681,8 @@ export const updateUserPoolDomain: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const verifySoftwareToken: (
-  input: VerifySoftwareTokenRequest,
-) => effect.Effect<
+export const verifySoftwareToken: API.OperationMethod<
+  VerifySoftwareTokenRequest,
   VerifySoftwareTokenResponse,
   | CodeMismatchException
   | EnableSoftwareTokenMFAException
@@ -11861,9 +11734,8 @@ export const verifySoftwareToken: (
  * grant IAM permissions in policies. For more information about authorization models in
  * Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
  */
-export const verifyUserAttribute: (
-  input: VerifyUserAttributeRequest,
-) => effect.Effect<
+export const verifyUserAttribute: API.OperationMethod<
+  VerifyUserAttributeRequest,
   VerifyUserAttributeResponse,
   | AliasExistsException
   | CodeMismatchException

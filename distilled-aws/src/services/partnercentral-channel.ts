@@ -1441,9 +1441,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists tags associated with a specific resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1466,9 +1465,8 @@ export const listTagsForResource: (
 /**
  * Adds or updates tags for a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1493,9 +1491,8 @@ export const tagResource: (
 /**
  * Removes tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1520,9 +1517,8 @@ export const untagResource: (
 /**
  * Creates a new channel handshake request to establish a partnership with another AWS account.
  */
-export const createChannelHandshake: (
-  input: CreateChannelHandshakeRequest,
-) => effect.Effect<
+export const createChannelHandshake: API.OperationMethod<
+  CreateChannelHandshakeRequest,
   CreateChannelHandshakeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1549,19 +1545,17 @@ export const createChannelHandshake: (
 /**
  * Lists channel handshakes based on specified criteria.
  */
-export const listChannelHandshakes: {
-  (
-    input: ListChannelHandshakesRequest,
-  ): effect.Effect<
-    ListChannelHandshakesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelHandshakes: API.OperationMethod<
+  ListChannelHandshakesRequest,
+  ListChannelHandshakesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelHandshakesRequest,
   ) => stream.Stream<
@@ -1606,9 +1600,8 @@ export const listChannelHandshakes: {
 /**
  * Accepts a pending channel handshake request from another AWS account.
  */
-export const acceptChannelHandshake: (
-  input: AcceptChannelHandshakeRequest,
-) => effect.Effect<
+export const acceptChannelHandshake: API.OperationMethod<
+  AcceptChannelHandshakeRequest,
   AcceptChannelHandshakeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1631,9 +1624,8 @@ export const acceptChannelHandshake: (
 /**
  * Cancels a pending channel handshake request.
  */
-export const cancelChannelHandshake: (
-  input: CancelChannelHandshakeRequest,
-) => effect.Effect<
+export const cancelChannelHandshake: API.OperationMethod<
+  CancelChannelHandshakeRequest,
   CancelChannelHandshakeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1656,9 +1648,8 @@ export const cancelChannelHandshake: (
 /**
  * Rejects a pending channel handshake request.
  */
-export const rejectChannelHandshake: (
-  input: RejectChannelHandshakeRequest,
-) => effect.Effect<
+export const rejectChannelHandshake: API.OperationMethod<
+  RejectChannelHandshakeRequest,
   RejectChannelHandshakeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1681,9 +1672,8 @@ export const rejectChannelHandshake: (
 /**
  * Creates a new program management account for managing partner relationships.
  */
-export const createProgramManagementAccount: (
-  input: CreateProgramManagementAccountRequest,
-) => effect.Effect<
+export const createProgramManagementAccount: API.OperationMethod<
+  CreateProgramManagementAccountRequest,
   CreateProgramManagementAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1710,9 +1700,8 @@ export const createProgramManagementAccount: (
 /**
  * Updates the properties of a program management account.
  */
-export const updateProgramManagementAccount: (
-  input: UpdateProgramManagementAccountRequest,
-) => effect.Effect<
+export const updateProgramManagementAccount: API.OperationMethod<
+  UpdateProgramManagementAccountRequest,
   UpdateProgramManagementAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1737,9 +1726,8 @@ export const updateProgramManagementAccount: (
 /**
  * Deletes a program management account.
  */
-export const deleteProgramManagementAccount: (
-  input: DeleteProgramManagementAccountRequest,
-) => effect.Effect<
+export const deleteProgramManagementAccount: API.OperationMethod<
+  DeleteProgramManagementAccountRequest,
   DeleteProgramManagementAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -1764,19 +1752,17 @@ export const deleteProgramManagementAccount: (
 /**
  * Lists program management accounts based on specified criteria.
  */
-export const listProgramManagementAccounts: {
-  (
-    input: ListProgramManagementAccountsRequest,
-  ): effect.Effect<
-    ListProgramManagementAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProgramManagementAccounts: API.OperationMethod<
+  ListProgramManagementAccountsRequest,
+  ListProgramManagementAccountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProgramManagementAccountsRequest,
   ) => stream.Stream<
@@ -1821,9 +1807,8 @@ export const listProgramManagementAccounts: {
 /**
  * Creates a new partner relationship between accounts.
  */
-export const createRelationship: (
-  input: CreateRelationshipRequest,
-) => effect.Effect<
+export const createRelationship: API.OperationMethod<
+  CreateRelationshipRequest,
   CreateRelationshipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1850,9 +1835,8 @@ export const createRelationship: (
 /**
  * Retrieves details of a specific partner relationship.
  */
-export const getRelationship: (
-  input: GetRelationshipRequest,
-) => effect.Effect<
+export const getRelationship: API.OperationMethod<
+  GetRelationshipRequest,
   GetRelationshipResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1875,9 +1859,8 @@ export const getRelationship: (
 /**
  * Updates the properties of a partner relationship.
  */
-export const updateRelationship: (
-  input: UpdateRelationshipRequest,
-) => effect.Effect<
+export const updateRelationship: API.OperationMethod<
+  UpdateRelationshipRequest,
   UpdateRelationshipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1902,9 +1885,8 @@ export const updateRelationship: (
 /**
  * Deletes a partner relationship.
  */
-export const deleteRelationship: (
-  input: DeleteRelationshipRequest,
-) => effect.Effect<
+export const deleteRelationship: API.OperationMethod<
+  DeleteRelationshipRequest,
   DeleteRelationshipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1929,19 +1911,17 @@ export const deleteRelationship: (
 /**
  * Lists partner relationships based on specified criteria.
  */
-export const listRelationships: {
-  (
-    input: ListRelationshipsRequest,
-  ): effect.Effect<
-    ListRelationshipsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRelationships: API.OperationMethod<
+  ListRelationshipsRequest,
+  ListRelationshipsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRelationshipsRequest,
   ) => stream.Stream<

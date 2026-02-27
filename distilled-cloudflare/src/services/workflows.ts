@@ -203,9 +203,8 @@ export const GetInstanceResponse = Schema.Struct({
   versionId: Schema.String,
 }) as unknown as Schema.Schema<GetInstanceResponse>;
 
-export const getInstance: (
-  input: GetInstanceRequest,
-) => Effect.Effect<
+export const getInstance: API.OperationMethod<
+  GetInstanceRequest,
   GetInstanceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -307,19 +306,20 @@ export const ListInstancesResponse = Schema.Array(
     workflowId: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
       endedOn: "ended_on",
       modifiedOn: "modified_on",
       startedOn: "started_on",
+      status: "status",
       versionId: "version_id",
       workflowId: "workflow_id",
     }),
   ),
 ) as unknown as Schema.Schema<ListInstancesResponse>;
 
-export const listInstances: (
-  input: ListInstancesRequest,
-) => Effect.Effect<
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
   ListInstancesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -368,6 +368,7 @@ export const CreateInstanceRequest = Schema.Struct({
   Schema.encodeKeys({
     instanceId: "instance_id",
     instanceRetention: "instance_retention",
+    params: "params",
   }),
   T.Http({
     method: "POST",
@@ -405,12 +406,16 @@ export const CreateInstanceResponse = Schema.Struct({
   versionId: Schema.String,
   workflowId: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ versionId: "version_id", workflowId: "workflow_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    status: "status",
+    versionId: "version_id",
+    workflowId: "workflow_id",
+  }),
 ) as unknown as Schema.Schema<CreateInstanceResponse>;
 
-export const createInstance: (
-  input: CreateInstanceRequest,
-) => Effect.Effect<
+export const createInstance: API.OperationMethod<
+  CreateInstanceRequest,
   CreateInstanceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -462,6 +467,7 @@ export const BulkInstanceRequest = Schema.Struct({
         Schema.encodeKeys({
           instanceId: "instance_id",
           instanceRetention: "instance_retention",
+          params: "params",
         }),
       ),
     ),
@@ -504,13 +510,17 @@ export const BulkInstanceResponse = Schema.Array(
     versionId: Schema.String,
     workflowId: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ versionId: "version_id", workflowId: "workflow_id" }),
+    Schema.encodeKeys({
+      id: "id",
+      status: "status",
+      versionId: "version_id",
+      workflowId: "workflow_id",
+    }),
   ),
 ) as unknown as Schema.Schema<BulkInstanceResponse>;
 
-export const bulkInstance: (
-  input: BulkInstanceRequest,
-) => Effect.Effect<
+export const bulkInstance: API.OperationMethod<
+  BulkInstanceRequest,
   BulkInstanceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -552,9 +562,8 @@ export type CreateInstanceEventResponse = unknown;
 export const CreateInstanceEventResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateInstanceEventResponse>;
 
-export const createInstanceEvent: (
-  input: CreateInstanceEventRequest,
-) => Effect.Effect<
+export const createInstanceEvent: API.OperationMethod<
+  CreateInstanceEventRequest,
   CreateInstanceEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -617,9 +626,8 @@ export const PatchInstanceStatusResponse = Schema.Struct({
   timestamp: Schema.String,
 }) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
 
-export const patchInstanceStatus: (
-  input: PatchInstanceStatusRequest,
-) => Effect.Effect<
+export const patchInstanceStatus: API.OperationMethod<
+  PatchInstanceStatusRequest,
   PatchInstanceStatusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -666,6 +674,7 @@ export const GetVersionResponse = Schema.Struct({
   workflowId: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     className: "class_name",
     createdOn: "created_on",
     modifiedOn: "modified_on",
@@ -673,9 +682,8 @@ export const GetVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetVersionResponse>;
 
-export const getVersion: (
-  input: GetVersionRequest,
-) => Effect.Effect<
+export const getVersion: API.OperationMethod<
+  GetVersionRequest,
   GetVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -718,6 +726,7 @@ export const ListVersionsResponse = Schema.Array(
     workflowId: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       className: "class_name",
       createdOn: "created_on",
       modifiedOn: "modified_on",
@@ -726,9 +735,8 @@ export const ListVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListVersionsResponse>;
 
-export const listVersions: (
-  input: ListVersionsRequest,
-) => Effect.Effect<
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
   ListVersionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -797,17 +805,19 @@ export const GetWorkflowResponse = Schema.Struct({
   triggeredOn: Schema.Union([Schema.String, Schema.Null]),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     className: "class_name",
     createdOn: "created_on",
+    instances: "instances",
     modifiedOn: "modified_on",
+    name: "name",
     scriptName: "script_name",
     triggeredOn: "triggered_on",
   }),
 ) as unknown as Schema.Schema<GetWorkflowResponse>;
 
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => Effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -872,18 +882,20 @@ export const ListWorkflowsResponse = Schema.Array(
     triggeredOn: Schema.Union([Schema.String, Schema.Null]),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       className: "class_name",
       createdOn: "created_on",
+      instances: "instances",
       modifiedOn: "modified_on",
+      name: "name",
       scriptName: "script_name",
       triggeredOn: "triggered_on",
     }),
   ),
 ) as unknown as Schema.Schema<ListWorkflowsResponse>;
 
-export const listWorkflows: (
-  input: ListWorkflowsRequest,
-) => Effect.Effect<
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
   ListWorkflowsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -942,10 +954,12 @@ export const PutWorkflowResponse = Schema.Struct({
   versionId: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     className: "class_name",
     createdOn: "created_on",
     isDeleted: "is_deleted",
     modifiedOn: "modified_on",
+    name: "name",
     scriptName: "script_name",
     terminatorRunning: "terminator_running",
     triggeredOn: "triggered_on",
@@ -953,9 +967,8 @@ export const PutWorkflowResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutWorkflowResponse>;
 
-export const putWorkflow: (
-  input: PutWorkflowRequest,
-) => Effect.Effect<
+export const putWorkflow: API.OperationMethod<
+  PutWorkflowRequest,
   PutWorkflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -990,9 +1003,8 @@ export const DeleteWorkflowResponse = Schema.Struct({
   success: Schema.Union([Schema.Boolean, Schema.Null]),
 }) as unknown as Schema.Schema<DeleteWorkflowResponse>;
 
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => Effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteWorkflowRequest,
   DeleteWorkflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

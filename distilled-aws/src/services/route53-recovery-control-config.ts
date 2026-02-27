@@ -1244,9 +1244,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1273,9 +1272,8 @@ export const createCluster: (
 /**
  * Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
  */
-export const createControlPanel: (
-  input: CreateControlPanelRequest,
-) => effect.Effect<
+export const createControlPanel: API.OperationMethod<
+  CreateControlPanelRequest,
   CreateControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1306,9 +1304,8 @@ export const createControlPanel: (
  *
  * To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
-export const createRoutingControl: (
-  input: CreateRoutingControlRequest,
-) => effect.Effect<
+export const createRoutingControl: API.OperationMethod<
+  CreateRoutingControlRequest,
   CreateRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1343,9 +1340,8 @@ export const createRoutingControl: (
  *
  * For more information, see Safety rules in the Amazon Route 53 Application Recovery Controller Developer Guide.
  */
-export const createSafetyRule: (
-  input: CreateSafetyRuleRequest,
-) => effect.Effect<
+export const createSafetyRule: API.OperationMethod<
+  CreateSafetyRuleRequest,
   CreateSafetyRuleResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1357,9 +1353,8 @@ export const createSafetyRule: (
 /**
  * Delete a cluster.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1384,9 +1379,8 @@ export const deleteCluster: (
 /**
  * Deletes a control panel.
  */
-export const deleteControlPanel: (
-  input: DeleteControlPanelRequest,
-) => effect.Effect<
+export const deleteControlPanel: API.OperationMethod<
+  DeleteControlPanelRequest,
   DeleteControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1411,9 +1405,8 @@ export const deleteControlPanel: (
 /**
  * Deletes a routing control.
  */
-export const deleteRoutingControl: (
-  input: DeleteRoutingControlRequest,
-) => effect.Effect<
+export const deleteRoutingControl: API.OperationMethod<
+  DeleteRoutingControlRequest,
   DeleteRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1439,9 +1432,8 @@ export const deleteRoutingControl: (
  * Deletes a safety rule.
  * />
  */
-export const deleteSafetyRule: (
-  input: DeleteSafetyRuleRequest,
-) => effect.Effect<
+export const deleteSafetyRule: API.OperationMethod<
+  DeleteSafetyRuleRequest,
   DeleteSafetyRuleResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1460,9 +1452,8 @@ export const deleteSafetyRule: (
 /**
  * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
  */
-export const describeCluster: (
-  input: DescribeClusterRequest,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
   DescribeClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1487,9 +1478,8 @@ export const describeCluster: (
 /**
  * Displays details about a control panel.
  */
-export const describeControlPanel: (
-  input: DescribeControlPanelRequest,
-) => effect.Effect<
+export const describeControlPanel: API.OperationMethod<
+  DescribeControlPanelRequest,
   DescribeControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1516,9 +1506,8 @@ export const describeControlPanel: (
  *
  * To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
-export const describeRoutingControl: (
-  input: DescribeRoutingControlRequest,
-) => effect.Effect<
+export const describeRoutingControl: API.OperationMethod<
+  DescribeRoutingControlRequest,
   DescribeRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1543,9 +1532,8 @@ export const describeRoutingControl: (
 /**
  * Returns information about a safety rule.
  */
-export const describeSafetyRule: (
-  input: DescribeSafetyRuleRequest,
-) => effect.Effect<
+export const describeSafetyRule: API.OperationMethod<
+  DescribeSafetyRuleRequest,
   DescribeSafetyRuleResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1557,9 +1545,8 @@ export const describeSafetyRule: (
 /**
  * Get information about the resource policy for a cluster.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1571,17 +1558,15 @@ export const getResourcePolicy: (
 /**
  * Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
  */
-export const listAssociatedRoute53HealthChecks: {
-  (
-    input: ListAssociatedRoute53HealthChecksRequest,
-  ): effect.Effect<
-    ListAssociatedRoute53HealthChecksResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedRoute53HealthChecks: API.OperationMethod<
+  ListAssociatedRoute53HealthChecksRequest,
+  ListAssociatedRoute53HealthChecksResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedRoute53HealthChecksRequest,
   ) => stream.Stream<
@@ -1620,19 +1605,17 @@ export const listAssociatedRoute53HealthChecks: {
 /**
  * Returns an array of all the clusters in an account.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -1677,19 +1660,17 @@ export const listClusters: {
 /**
  * Returns an array of control panels in an account or in a cluster.
  */
-export const listControlPanels: {
-  (
-    input: ListControlPanelsRequest,
-  ): effect.Effect<
-    ListControlPanelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listControlPanels: API.OperationMethod<
+  ListControlPanelsRequest,
+  ListControlPanelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlPanelsRequest,
   ) => stream.Stream<
@@ -1734,19 +1715,17 @@ export const listControlPanels: {
 /**
  * Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
  */
-export const listRoutingControls: {
-  (
-    input: ListRoutingControlsRequest,
-  ): effect.Effect<
-    ListRoutingControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoutingControls: API.OperationMethod<
+  ListRoutingControlsRequest,
+  ListRoutingControlsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutingControlsRequest,
   ) => stream.Stream<
@@ -1791,19 +1770,17 @@ export const listRoutingControls: {
 /**
  * List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
  */
-export const listSafetyRules: {
-  (
-    input: ListSafetyRulesRequest,
-  ): effect.Effect<
-    ListSafetyRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSafetyRules: API.OperationMethod<
+  ListSafetyRulesRequest,
+  ListSafetyRulesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSafetyRulesRequest,
   ) => stream.Stream<
@@ -1848,9 +1825,8 @@ export const listSafetyRules: {
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1869,9 +1845,8 @@ export const listTagsForResource: (
 /**
  * Adds a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1890,9 +1865,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1911,9 +1885,8 @@ export const untagResource: (
 /**
  * Updates an existing cluster. You can only update the network type of a cluster.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1938,9 +1911,8 @@ export const updateCluster: (
 /**
  * Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
  */
-export const updateControlPanel: (
-  input: UpdateControlPanelRequest,
-) => effect.Effect<
+export const updateControlPanel: API.OperationMethod<
+  UpdateControlPanelRequest,
   UpdateControlPanelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1965,9 +1937,8 @@ export const updateControlPanel: (
 /**
  * Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
-export const updateRoutingControl: (
-  input: UpdateRoutingControlRequest,
-) => effect.Effect<
+export const updateRoutingControl: API.OperationMethod<
+  UpdateRoutingControlRequest,
   UpdateRoutingControlResponse,
   | AccessDeniedException
   | ConflictException
@@ -1992,9 +1963,8 @@ export const updateRoutingControl: (
 /**
  * Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
  */
-export const updateSafetyRule: (
-  input: UpdateSafetyRuleRequest,
-) => effect.Effect<
+export const updateSafetyRule: API.OperationMethod<
+  UpdateSafetyRuleRequest,
   UpdateSafetyRuleResponse,
   | InternalServerException
   | ResourceNotFoundException

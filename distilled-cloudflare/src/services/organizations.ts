@@ -78,7 +78,7 @@ export const GetOrganizationResponse = Schema.Struct({
       ),
     ),
     managedBy: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ managedBy: "managed_by" })),
+  }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
   name: Schema.String,
   parent: Schema.optional(
     Schema.Struct({
@@ -104,12 +104,18 @@ export const GetOrganizationResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ createTime: "create_time" }),
+  Schema.encodeKeys({
+    id: "id",
+    createTime: "create_time",
+    meta: "meta",
+    name: "name",
+    parent: "parent",
+    profile: "profile",
+  }),
 ) as unknown as Schema.Schema<GetOrganizationResponse>;
 
-export const getOrganization: (
-  input: GetOrganizationRequest,
-) => Effect.Effect<
+export const getOrganization: API.OperationMethod<
+  GetOrganizationRequest,
   GetOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -172,7 +178,7 @@ export const ListOrganizationsResponse = Schema.Array(
         ),
       ),
       managedBy: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ managedBy: "managed_by" })),
+    }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
     name: Schema.String,
     parent: Schema.optional(
       Schema.Struct({
@@ -197,12 +203,20 @@ export const ListOrganizationsResponse = Schema.Array(
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ createTime: "create_time" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createTime: "create_time",
+      meta: "meta",
+      name: "name",
+      parent: "parent",
+      profile: "profile",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
-export const listOrganizations: (
-  input: ListOrganizationsRequest,
-) => Effect.Effect<
+export const listOrganizations: API.OperationMethod<
+  ListOrganizationsRequest,
   ListOrganizationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -298,7 +312,7 @@ export const CreateOrganizationResponse = Schema.Struct({
       ),
     ),
     managedBy: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ managedBy: "managed_by" })),
+  }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
   name: Schema.String,
   parent: Schema.optional(
     Schema.Struct({
@@ -324,12 +338,18 @@ export const CreateOrganizationResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ createTime: "create_time" }),
+  Schema.encodeKeys({
+    id: "id",
+    createTime: "create_time",
+    meta: "meta",
+    name: "name",
+    parent: "parent",
+    profile: "profile",
+  }),
 ) as unknown as Schema.Schema<CreateOrganizationResponse>;
 
-export const createOrganization: (
-  input: CreateOrganizationRequest,
-) => Effect.Effect<
+export const createOrganization: API.OperationMethod<
+  CreateOrganizationRequest,
   CreateOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -427,7 +447,7 @@ export const UpdateOrganizationResponse = Schema.Struct({
       ),
     ),
     managedBy: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ managedBy: "managed_by" })),
+  }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
   name: Schema.String,
   parent: Schema.optional(
     Schema.Struct({
@@ -453,12 +473,18 @@ export const UpdateOrganizationResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ createTime: "create_time" }),
+  Schema.encodeKeys({
+    id: "id",
+    createTime: "create_time",
+    meta: "meta",
+    name: "name",
+    parent: "parent",
+    profile: "profile",
+  }),
 ) as unknown as Schema.Schema<UpdateOrganizationResponse>;
 
-export const updateOrganization: (
-  input: UpdateOrganizationRequest,
-) => Effect.Effect<
+export const updateOrganization: API.OperationMethod<
+  UpdateOrganizationRequest,
   UpdateOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -486,9 +512,8 @@ export const DeleteOrganizationResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteOrganizationResponse>;
 
-export const deleteOrganization: (
-  input: DeleteOrganizationRequest,
-) => Effect.Effect<
+export const deleteOrganization: API.OperationMethod<
+  DeleteOrganizationRequest,
   DeleteOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -536,9 +561,8 @@ export const GetOrganizationProfileResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOrganizationProfileResponse>;
 
-export const getOrganizationProfile: (
-  input: GetOrganizationProfileRequest,
-) => Effect.Effect<
+export const getOrganizationProfile: API.OperationMethod<
+  GetOrganizationProfileRequest,
   GetOrganizationProfileResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -580,9 +604,8 @@ export type PutOrganizationProfileResponse = unknown;
 export const PutOrganizationProfileResponse =
   Schema.Unknown as unknown as Schema.Schema<PutOrganizationProfileResponse>;
 
-export const putOrganizationProfile: (
-  input: PutOrganizationProfileRequest,
-) => Effect.Effect<
+export const putOrganizationProfile: API.OperationMethod<
+  PutOrganizationProfileRequest,
   PutOrganizationProfileResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

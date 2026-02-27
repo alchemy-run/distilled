@@ -1541,9 +1541,8 @@ export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTok
  * as they provide more flexible and powerful filtering capabilities. The Request Syntax
  * section shows the `FilterExpression`/`Metrics` syntax.
  */
-export const createBudget: (
-  input: CreateBudgetRequest,
-) => effect.Effect<
+export const createBudget: API.OperationMethod<
+  CreateBudgetRequest,
   CreateBudgetResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -1574,9 +1573,8 @@ export const createBudget: (
 /**
  * Creates a budget action.
  */
-export const createBudgetAction: (
-  input: CreateBudgetActionRequest,
-) => effect.Effect<
+export const createBudgetAction: API.OperationMethod<
+  CreateBudgetActionRequest,
   CreateBudgetActionResponse,
   | AccessDeniedException
   | CreationLimitExceededException
@@ -1605,9 +1603,8 @@ export const createBudgetAction: (
 /**
  * Creates a notification. You must create the budget before you create the associated notification.
  */
-export const createNotification: (
-  input: CreateNotificationRequest,
-) => effect.Effect<
+export const createNotification: API.OperationMethod<
+  CreateNotificationRequest,
   CreateNotificationResponse,
   | AccessDeniedException
   | CreationLimitExceededException
@@ -1634,9 +1631,8 @@ export const createNotification: (
 /**
  * Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
  */
-export const createSubscriber: (
-  input: CreateSubscriberRequest,
-) => effect.Effect<
+export const createSubscriber: API.OperationMethod<
+  CreateSubscriberRequest,
   CreateSubscriberResponse,
   | AccessDeniedException
   | CreationLimitExceededException
@@ -1665,9 +1661,8 @@ export const createSubscriber: (
  *
  * Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
  */
-export const deleteBudget: (
-  input: DeleteBudgetRequest,
-) => effect.Effect<
+export const deleteBudget: API.OperationMethod<
+  DeleteBudgetRequest,
   DeleteBudgetResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1690,9 +1685,8 @@ export const deleteBudget: (
 /**
  * Deletes a budget action.
  */
-export const deleteBudgetAction: (
-  input: DeleteBudgetActionRequest,
-) => effect.Effect<
+export const deleteBudgetAction: API.OperationMethod<
+  DeleteBudgetActionRequest,
   DeleteBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1719,9 +1713,8 @@ export const deleteBudgetAction: (
  *
  * Deleting a notification also deletes the subscribers that are associated with the notification.
  */
-export const deleteNotification: (
-  input: DeleteNotificationRequest,
-) => effect.Effect<
+export const deleteNotification: API.OperationMethod<
+  DeleteNotificationRequest,
   DeleteNotificationResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1746,9 +1739,8 @@ export const deleteNotification: (
  *
  * Deleting the last subscriber to a notification also deletes the notification.
  */
-export const deleteSubscriber: (
-  input: DeleteSubscriberRequest,
-) => effect.Effect<
+export const deleteSubscriber: API.OperationMethod<
+  DeleteSubscriberRequest,
   DeleteSubscriberResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1774,9 +1766,8 @@ export const deleteSubscriber: (
  * The Request Syntax section shows the `BudgetLimit` syntax. For
  * `PlannedBudgetLimits`, see the Examples section.
  */
-export const describeBudget: (
-  input: DescribeBudgetRequest,
-) => effect.Effect<
+export const describeBudget: API.OperationMethod<
+  DescribeBudgetRequest,
   DescribeBudgetResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1799,9 +1790,8 @@ export const describeBudget: (
 /**
  * Describes a budget action detail.
  */
-export const describeBudgetAction: (
-  input: DescribeBudgetActionRequest,
-) => effect.Effect<
+export const describeBudgetAction: API.OperationMethod<
+  DescribeBudgetActionRequest,
   DescribeBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -1824,20 +1814,18 @@ export const describeBudgetAction: (
 /**
  * Describes a budget action history detail.
  */
-export const describeBudgetActionHistories: {
-  (
-    input: DescribeBudgetActionHistoriesRequest,
-  ): effect.Effect<
-    DescribeBudgetActionHistoriesResponse,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBudgetActionHistories: API.OperationMethod<
+  DescribeBudgetActionHistoriesRequest,
+  DescribeBudgetActionHistoriesResponse,
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBudgetActionHistoriesRequest,
   ) => stream.Stream<
@@ -1885,19 +1873,17 @@ export const describeBudgetActionHistories: {
 /**
  * Describes all of the budget actions for an account.
  */
-export const describeBudgetActionsForAccount: {
-  (
-    input: DescribeBudgetActionsForAccountRequest,
-  ): effect.Effect<
-    DescribeBudgetActionsForAccountResponse,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBudgetActionsForAccount: API.OperationMethod<
+  DescribeBudgetActionsForAccountRequest,
+  DescribeBudgetActionsForAccountResponse,
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBudgetActionsForAccountRequest,
   ) => stream.Stream<
@@ -1942,20 +1928,18 @@ export const describeBudgetActionsForAccount: {
 /**
  * Describes all of the budget actions for a budget.
  */
-export const describeBudgetActionsForBudget: {
-  (
-    input: DescribeBudgetActionsForBudgetRequest,
-  ): effect.Effect<
-    DescribeBudgetActionsForBudgetResponse,
-    | AccessDeniedException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBudgetActionsForBudget: API.OperationMethod<
+  DescribeBudgetActionsForBudgetRequest,
+  DescribeBudgetActionsForBudgetResponse,
+  | AccessDeniedException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBudgetActionsForBudgetRequest,
   ) => stream.Stream<
@@ -2003,21 +1987,19 @@ export const describeBudgetActionsForBudget: {
 /**
  * Lists the budget names and notifications that are associated with an account.
  */
-export const describeBudgetNotificationsForAccount: {
-  (
-    input: DescribeBudgetNotificationsForAccountRequest,
-  ): effect.Effect<
-    DescribeBudgetNotificationsForAccountResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBudgetNotificationsForAccount: API.OperationMethod<
+  DescribeBudgetNotificationsForAccountRequest,
+  DescribeBudgetNotificationsForAccountResponse,
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBudgetNotificationsForAccountRequest,
   ) => stream.Stream<
@@ -2068,22 +2050,20 @@ export const describeBudgetNotificationsForAccount: {
 /**
  * Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't available for `ANNUAL` budgets.
  */
-export const describeBudgetPerformanceHistory: {
-  (
-    input: DescribeBudgetPerformanceHistoryRequest,
-  ): effect.Effect<
-    DescribeBudgetPerformanceHistoryResponse,
-    | AccessDeniedException
-    | BillingViewHealthStatusException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBudgetPerformanceHistory: API.OperationMethod<
+  DescribeBudgetPerformanceHistoryRequest,
+  DescribeBudgetPerformanceHistoryResponse,
+  | AccessDeniedException
+  | BillingViewHealthStatusException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBudgetPerformanceHistoryRequest,
   ) => stream.Stream<
@@ -2139,21 +2119,19 @@ export const describeBudgetPerformanceHistory: {
  * The Request Syntax section shows the `BudgetLimit` syntax. For
  * `PlannedBudgetLimits`, see the Examples section.
  */
-export const describeBudgets: {
-  (
-    input: DescribeBudgetsRequest,
-  ): effect.Effect<
-    DescribeBudgetsResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBudgets: API.OperationMethod<
+  DescribeBudgetsRequest,
+  DescribeBudgetsResponse,
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBudgetsRequest,
   ) => stream.Stream<
@@ -2204,21 +2182,19 @@ export const describeBudgets: {
 /**
  * Lists the notifications that are associated with a budget.
  */
-export const describeNotificationsForBudget: {
-  (
-    input: DescribeNotificationsForBudgetRequest,
-  ): effect.Effect<
-    DescribeNotificationsForBudgetResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNotificationsForBudget: API.OperationMethod<
+  DescribeNotificationsForBudgetRequest,
+  DescribeNotificationsForBudgetResponse,
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNotificationsForBudgetRequest,
   ) => stream.Stream<
@@ -2269,21 +2245,19 @@ export const describeNotificationsForBudget: {
 /**
  * Lists the subscribers that are associated with a notification.
  */
-export const describeSubscribersForNotification: {
-  (
-    input: DescribeSubscribersForNotificationRequest,
-  ): effect.Effect<
-    DescribeSubscribersForNotificationResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSubscribersForNotification: API.OperationMethod<
+  DescribeSubscribersForNotificationRequest,
+  DescribeSubscribersForNotificationResponse,
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSubscribersForNotificationRequest,
   ) => stream.Stream<
@@ -2334,9 +2308,8 @@ export const describeSubscribersForNotification: {
 /**
  * Executes a budget action.
  */
-export const executeBudgetAction: (
-  input: ExecuteBudgetActionRequest,
-) => effect.Effect<
+export const executeBudgetAction: API.OperationMethod<
+  ExecuteBudgetActionRequest,
   ExecuteBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2361,9 +2334,8 @@ export const executeBudgetAction: (
 /**
  * Lists tags associated with a budget or budget action resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2386,9 +2358,8 @@ export const listTagsForResource: (
 /**
  * Creates tags for a budget or budget action resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2413,9 +2384,8 @@ export const tagResource: (
 /**
  * Deletes tags associated with a budget or budget action resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2450,9 +2420,8 @@ export const untagResource: (
  * as they provide more flexible and powerful filtering capabilities. The Request Syntax
  * section shows the `FilterExpression`/`Metrics` syntax.
  */
-export const updateBudget: (
-  input: UpdateBudgetRequest,
-) => effect.Effect<
+export const updateBudget: API.OperationMethod<
+  UpdateBudgetRequest,
   UpdateBudgetResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -2479,9 +2448,8 @@ export const updateBudget: (
 /**
  * Updates a budget action.
  */
-export const updateBudgetAction: (
-  input: UpdateBudgetActionRequest,
-) => effect.Effect<
+export const updateBudgetAction: API.OperationMethod<
+  UpdateBudgetActionRequest,
   UpdateBudgetActionResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -2506,9 +2474,8 @@ export const updateBudgetAction: (
 /**
  * Updates a notification.
  */
-export const updateNotification: (
-  input: UpdateNotificationRequest,
-) => effect.Effect<
+export const updateNotification: API.OperationMethod<
+  UpdateNotificationRequest,
   UpdateNotificationResponse,
   | AccessDeniedException
   | DuplicateRecordException
@@ -2533,9 +2500,8 @@ export const updateNotification: (
 /**
  * Updates a subscriber.
  */
-export const updateSubscriber: (
-  input: UpdateSubscriberRequest,
-) => effect.Effect<
+export const updateSubscriber: API.OperationMethod<
+  UpdateSubscriberRequest,
   UpdateSubscriberResponse,
   | AccessDeniedException
   | DuplicateRecordException

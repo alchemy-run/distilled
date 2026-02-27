@@ -4089,9 +4089,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
  */
-export const createEngagementContext: (
-  input: CreateEngagementContextRequest,
-) => effect.Effect<
+export const createEngagementContext: API.OperationMethod<
+  CreateEngagementContextRequest,
   CreateEngagementContextResponse,
   | AccessDeniedException
   | ConflictException
@@ -4118,9 +4117,8 @@ export const createEngagementContext: (
 /**
  * Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
  */
-export const getSellingSystemSettings: (
-  input: GetSellingSystemSettingsRequest,
-) => effect.Effect<
+export const getSellingSystemSettings: API.OperationMethod<
+  GetSellingSystemSettingsRequest,
   GetSellingSystemSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4143,9 +4141,8 @@ export const getSellingSystemSettings: (
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4168,9 +4165,8 @@ export const listTagsForResource: (
 /**
  * Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
  */
-export const putSellingSystemSettings: (
-  input: PutSellingSystemSettingsRequest,
-) => effect.Effect<
+export const putSellingSystemSettings: API.OperationMethod<
+  PutSellingSystemSettingsRequest,
   PutSellingSystemSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4193,9 +4189,8 @@ export const putSellingSystemSettings: (
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4220,9 +4215,8 @@ export const tagResource: (
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4247,9 +4241,8 @@ export const untagResource: (
 /**
  * Updates the context information for an existing engagement with new or modified data.
  */
-export const updateEngagementContext: (
-  input: UpdateEngagementContextRequest,
-) => effect.Effect<
+export const updateEngagementContext: API.OperationMethod<
+  UpdateEngagementContextRequest,
   UpdateEngagementContextResponse,
   | AccessDeniedException
   | ConflictException
@@ -4276,9 +4269,8 @@ export const updateEngagementContext: (
 /**
  * The `CreateEngagement` action allows you to create an `Engagement`, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created `Engagement`.
  */
-export const createEngagement: (
-  input: CreateEngagementRequest,
-) => effect.Effect<
+export const createEngagement: API.OperationMethod<
+  CreateEngagementRequest,
   CreateEngagementResponse,
   | AccessDeniedException
   | ConflictException
@@ -4305,9 +4297,8 @@ export const createEngagement: (
 /**
  * Use this action to retrieve the engagement record for a given `EngagementIdentifier`.
  */
-export const getEngagement: (
-  input: GetEngagementRequest,
-) => effect.Effect<
+export const getEngagement: API.OperationMethod<
+  GetEngagementRequest,
   GetEngagementResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4330,19 +4321,17 @@ export const getEngagement: (
 /**
  * This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
  */
-export const listEngagements: {
-  (
-    input: ListEngagementsRequest,
-  ): effect.Effect<
-    ListEngagementsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagements: API.OperationMethod<
+  ListEngagementsRequest,
+  ListEngagementsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementsRequest,
   ) => stream.Stream<
@@ -4387,19 +4376,17 @@ export const listEngagements: {
 /**
  * Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The `ListEngagementMembers` operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
  */
-export const listEngagementMembers: {
-  (
-    input: ListEngagementMembersRequest,
-  ): effect.Effect<
-    ListEngagementMembersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagementMembers: API.OperationMethod<
+  ListEngagementMembersRequest,
+  ListEngagementMembersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementMembersRequest,
   ) => stream.Stream<
@@ -4444,9 +4431,8 @@ export const listEngagementMembers: {
 /**
  * This action starts the engagement by accepting an `EngagementInvitation`. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner’s account from the AWS opportunity, and copying details for tracking. When completed, an `Opportunity Created` event is generated, indicating that the opportunity has been successfully created in the partner's account.
  */
-export const startEngagementByAcceptingInvitationTask: (
-  input: StartEngagementByAcceptingInvitationTaskRequest,
-) => effect.Effect<
+export const startEngagementByAcceptingInvitationTask: API.OperationMethod<
+  StartEngagementByAcceptingInvitationTaskRequest,
   StartEngagementByAcceptingInvitationTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -4473,19 +4459,17 @@ export const startEngagementByAcceptingInvitationTask: (
 /**
  * Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
  */
-export const listEngagementByAcceptingInvitationTasks: {
-  (
-    input: ListEngagementByAcceptingInvitationTasksRequest,
-  ): effect.Effect<
-    ListEngagementByAcceptingInvitationTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagementByAcceptingInvitationTasks: API.OperationMethod<
+  ListEngagementByAcceptingInvitationTasksRequest,
+  ListEngagementByAcceptingInvitationTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementByAcceptingInvitationTasksRequest,
   ) => stream.Stream<
@@ -4530,9 +4514,8 @@ export const listEngagementByAcceptingInvitationTasks: {
 /**
  * Similar to `StartEngagementByAcceptingInvitationTask`, this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including `GetOpportunity`, `CreateEngagement` (if it doesn't exist), `CreateResourceSnapshot`, `CreateResourceSnapshotJob`, `CreateEngagementInvitation` (if not already invited/accepted), and `SubmitOpportunity`.
  */
-export const startEngagementFromOpportunityTask: (
-  input: StartEngagementFromOpportunityTaskRequest,
-) => effect.Effect<
+export const startEngagementFromOpportunityTask: API.OperationMethod<
+  StartEngagementFromOpportunityTaskRequest,
   StartEngagementFromOpportunityTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -4559,19 +4542,17 @@ export const startEngagementFromOpportunityTask: (
 /**
  * Lists all in-progress, completed, or failed `EngagementFromOpportunity` tasks that were initiated by the caller's account.
  */
-export const listEngagementFromOpportunityTasks: {
-  (
-    input: ListEngagementFromOpportunityTasksRequest,
-  ): effect.Effect<
-    ListEngagementFromOpportunityTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagementFromOpportunityTasks: API.OperationMethod<
+  ListEngagementFromOpportunityTasksRequest,
+  ListEngagementFromOpportunityTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementFromOpportunityTasksRequest,
   ) => stream.Stream<
@@ -4616,9 +4597,8 @@ export const listEngagementFromOpportunityTasks: {
 /**
  * This action creates an invitation from a sender to a single receiver to join an engagement.
  */
-export const createEngagementInvitation: (
-  input: CreateEngagementInvitationRequest,
-) => effect.Effect<
+export const createEngagementInvitation: API.OperationMethod<
+  CreateEngagementInvitationRequest,
   CreateEngagementInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4645,9 +4625,8 @@ export const createEngagementInvitation: (
 /**
  * Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s `Payload.Project.Title` with opportunity `Project.Title`.
  */
-export const getEngagementInvitation: (
-  input: GetEngagementInvitationRequest,
-) => effect.Effect<
+export const getEngagementInvitation: API.OperationMethod<
+  GetEngagementInvitationRequest,
   GetEngagementInvitationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4670,19 +4649,17 @@ export const getEngagementInvitation: (
 /**
  * Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
  */
-export const listEngagementInvitations: {
-  (
-    input: ListEngagementInvitationsRequest,
-  ): effect.Effect<
-    ListEngagementInvitationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagementInvitations: API.OperationMethod<
+  ListEngagementInvitationsRequest,
+  ListEngagementInvitationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementInvitationsRequest,
   ) => stream.Stream<
@@ -4727,9 +4704,8 @@ export const listEngagementInvitations: {
 /**
  * Use the `AcceptEngagementInvitation` action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
  */
-export const acceptEngagementInvitation: (
-  input: AcceptEngagementInvitationRequest,
-) => effect.Effect<
+export const acceptEngagementInvitation: API.OperationMethod<
+  AcceptEngagementInvitationRequest,
   AcceptEngagementInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4754,9 +4730,8 @@ export const acceptEngagementInvitation: (
 /**
  * This action rejects an `EngagementInvitation` that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
  */
-export const rejectEngagementInvitation: (
-  input: RejectEngagementInvitationRequest,
-) => effect.Effect<
+export const rejectEngagementInvitation: API.OperationMethod<
+  RejectEngagementInvitationRequest,
   RejectEngagementInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4793,9 +4768,8 @@ export const rejectEngagementInvitation: (
  *
  * There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
  */
-export const createOpportunity: (
-  input: CreateOpportunityRequest,
-) => effect.Effect<
+export const createOpportunity: API.OperationMethod<
+  CreateOpportunityRequest,
   CreateOpportunityResponse,
   | AccessDeniedException
   | ConflictException
@@ -4822,9 +4796,8 @@ export const createOpportunity: (
  *
  * Use the `ListOpportunities` action or the event notification (from Amazon EventBridge) to obtain this identifier.
  */
-export const getOpportunity: (
-  input: GetOpportunityRequest,
-) => effect.Effect<
+export const getOpportunity: API.OperationMethod<
+  GetOpportunityRequest,
   GetOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4849,9 +4822,8 @@ export const getOpportunity: (
  *
  * When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to `null`. The best practice is to always perform a `GetOpportunity` to retrieve the latest values, then send the complete payload with the updated values to be changed.
  */
-export const updateOpportunity: (
-  input: UpdateOpportunityRequest,
-) => effect.Effect<
+export const updateOpportunity: API.OperationMethod<
+  UpdateOpportunityRequest,
   UpdateOpportunityResponse,
   | AccessDeniedException
   | ConflictException
@@ -4886,19 +4858,17 @@ export const updateOpportunity: (
  *
  * - Amazon Web Services only returns opportunities created or updated on or after that date and time. Use `NextToken` to iterate over all pages.
  */
-export const listOpportunities: {
-  (
-    input: ListOpportunitiesRequest,
-  ): effect.Effect<
-    ListOpportunitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOpportunities: API.OperationMethod<
+  ListOpportunitiesRequest,
+  ListOpportunitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpportunitiesRequest,
   ) => stream.Stream<
@@ -4945,9 +4915,8 @@ export const listOpportunities: {
  *
  * This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
  */
-export const assignOpportunity: (
-  input: AssignOpportunityRequest,
-) => effect.Effect<
+export const assignOpportunity: API.OperationMethod<
+  AssignOpportunityRequest,
   AssignOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4984,9 +4953,8 @@ export const assignOpportunity: (
  *
  * - Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the `ListEntities` operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
  */
-export const associateOpportunity: (
-  input: AssociateOpportunityRequest,
-) => effect.Effect<
+export const associateOpportunity: API.OperationMethod<
+  AssociateOpportunityRequest,
   AssociateOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5011,9 +4979,8 @@ export const associateOpportunity: (
  *
  * Use this operation to update the associations of an `Opportunity` due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
  */
-export const disassociateOpportunity: (
-  input: DisassociateOpportunityRequest,
-) => effect.Effect<
+export const disassociateOpportunity: API.OperationMethod<
+  DisassociateOpportunityRequest,
   DisassociateOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5036,9 +5003,8 @@ export const disassociateOpportunity: (
 /**
  * Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
  */
-export const getAwsOpportunitySummary: (
-  input: GetAwsOpportunitySummaryRequest,
-) => effect.Effect<
+export const getAwsOpportunitySummary: API.OperationMethod<
+  GetAwsOpportunitySummaryRequest,
   GetAwsOpportunitySummaryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5061,9 +5027,8 @@ export const getAwsOpportunitySummary: (
 /**
  * Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has ` LifeCycle.ReviewStatus ` as either `Approved` or `Action Required`.
  */
-export const submitOpportunity: (
-  input: SubmitOpportunityRequest,
-) => effect.Effect<
+export const submitOpportunity: API.OperationMethod<
+  SubmitOpportunityRequest,
   SubmitOpportunityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5086,9 +5051,8 @@ export const submitOpportunity: (
 /**
  * This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
  */
-export const startOpportunityFromEngagementTask: (
-  input: StartOpportunityFromEngagementTaskRequest,
-) => effect.Effect<
+export const startOpportunityFromEngagementTask: API.OperationMethod<
+  StartOpportunityFromEngagementTaskRequest,
   StartOpportunityFromEngagementTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -5115,19 +5079,17 @@ export const startOpportunityFromEngagementTask: (
 /**
  * Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
  */
-export const listOpportunityFromEngagementTasks: {
-  (
-    input: ListOpportunityFromEngagementTasksRequest,
-  ): effect.Effect<
-    ListOpportunityFromEngagementTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOpportunityFromEngagementTasks: API.OperationMethod<
+  ListOpportunityFromEngagementTasksRequest,
+  ListOpportunityFromEngagementTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpportunityFromEngagementTasksRequest,
   ) => stream.Stream<
@@ -5172,9 +5134,8 @@ export const listOpportunityFromEngagementTasks: {
 /**
  * This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
  */
-export const createResourceSnapshot: (
-  input: CreateResourceSnapshotRequest,
-) => effect.Effect<
+export const createResourceSnapshot: API.OperationMethod<
+  CreateResourceSnapshotRequest,
   CreateResourceSnapshotResponse,
   | AccessDeniedException
   | ConflictException
@@ -5201,9 +5162,8 @@ export const createResourceSnapshot: (
 /**
  * Use this action to retrieve a specific snapshot record.
  */
-export const getResourceSnapshot: (
-  input: GetResourceSnapshotRequest,
-) => effect.Effect<
+export const getResourceSnapshot: API.OperationMethod<
+  GetResourceSnapshotRequest,
   GetResourceSnapshotResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5226,19 +5186,17 @@ export const getResourceSnapshot: (
 /**
  * Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
  */
-export const listEngagementResourceAssociations: {
-  (
-    input: ListEngagementResourceAssociationsRequest,
-  ): effect.Effect<
-    ListEngagementResourceAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagementResourceAssociations: API.OperationMethod<
+  ListEngagementResourceAssociationsRequest,
+  ListEngagementResourceAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementResourceAssociationsRequest,
   ) => stream.Stream<
@@ -5293,19 +5251,17 @@ export const listEngagementResourceAssociations: {
  *
  * - Filtering snapshots by resource owner.
  */
-export const listResourceSnapshots: {
-  (
-    input: ListResourceSnapshotsRequest,
-  ): effect.Effect<
-    ListResourceSnapshotsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceSnapshots: API.OperationMethod<
+  ListResourceSnapshotsRequest,
+  ListResourceSnapshotsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceSnapshotsRequest,
   ) => stream.Stream<
@@ -5350,9 +5306,8 @@ export const listResourceSnapshots: {
 /**
  * Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
  */
-export const createResourceSnapshotJob: (
-  input: CreateResourceSnapshotJobRequest,
-) => effect.Effect<
+export const createResourceSnapshotJob: API.OperationMethod<
+  CreateResourceSnapshotJobRequest,
   CreateResourceSnapshotJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5379,9 +5334,8 @@ export const createResourceSnapshotJob: (
 /**
  * Use this action to retrieves information about a specific resource snapshot job.
  */
-export const getResourceSnapshotJob: (
-  input: GetResourceSnapshotJobRequest,
-) => effect.Effect<
+export const getResourceSnapshotJob: API.OperationMethod<
+  GetResourceSnapshotJobRequest,
   GetResourceSnapshotJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5404,9 +5358,8 @@ export const getResourceSnapshotJob: (
 /**
  * Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
  */
-export const deleteResourceSnapshotJob: (
-  input: DeleteResourceSnapshotJobRequest,
-) => effect.Effect<
+export const deleteResourceSnapshotJob: API.OperationMethod<
+  DeleteResourceSnapshotJobRequest,
   DeleteResourceSnapshotJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5431,19 +5384,17 @@ export const deleteResourceSnapshotJob: (
 /**
  * Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
  */
-export const listResourceSnapshotJobs: {
-  (
-    input: ListResourceSnapshotJobsRequest,
-  ): effect.Effect<
-    ListResourceSnapshotJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceSnapshotJobs: API.OperationMethod<
+  ListResourceSnapshotJobsRequest,
+  ListResourceSnapshotJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceSnapshotJobsRequest,
   ) => stream.Stream<
@@ -5488,9 +5439,8 @@ export const listResourceSnapshotJobs: {
 /**
  * Starts a resource snapshot job that has been previously created.
  */
-export const startResourceSnapshotJob: (
-  input: StartResourceSnapshotJobRequest,
-) => effect.Effect<
+export const startResourceSnapshotJob: API.OperationMethod<
+  StartResourceSnapshotJobRequest,
   StartResourceSnapshotJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5513,9 +5463,8 @@ export const startResourceSnapshotJob: (
 /**
  * Stops a resource snapshot job. The job must be started prior to being stopped.
  */
-export const stopResourceSnapshotJob: (
-  input: StopResourceSnapshotJobRequest,
-) => effect.Effect<
+export const stopResourceSnapshotJob: API.OperationMethod<
+  StopResourceSnapshotJobRequest,
   StopResourceSnapshotJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5538,19 +5487,17 @@ export const stopResourceSnapshotJob: (
 /**
  * Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
  */
-export const listSolutions: {
-  (
-    input: ListSolutionsRequest,
-  ): effect.Effect<
-    ListSolutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolutions: API.OperationMethod<
+  ListSolutionsRequest,
+  ListSolutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolutionsRequest,
   ) => stream.Stream<

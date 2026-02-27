@@ -1617,9 +1617,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Removes permissions associated with the target database.
  */
-export const deleteResourcePermission: (
-  input: DeleteResourcePermissionInput,
-) => effect.Effect<
+export const deleteResourcePermission: API.OperationMethod<
+  DeleteResourcePermissionInput,
   DeleteResourcePermissionOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1638,9 +1637,8 @@ export const deleteResourcePermission: (
 /**
  * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
  */
-export const deregisterApplication: (
-  input: DeregisterApplicationInput,
-) => effect.Effect<
+export const deregisterApplication: API.OperationMethod<
+  DeregisterApplicationInput,
   DeregisterApplicationOutput,
   | InternalServerException
   | UnauthorizedException
@@ -1655,9 +1653,8 @@ export const deregisterApplication: (
 /**
  * Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
  */
-export const getApplication: (
-  input: GetApplicationInput,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationInput,
   GetApplicationOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1669,9 +1666,8 @@ export const getApplication: (
 /**
  * Gets the component of an application registered with AWS Systems Manager for SAP.
  */
-export const getComponent: (
-  input: GetComponentInput,
-) => effect.Effect<
+export const getComponent: API.OperationMethod<
+  GetComponentInput,
   GetComponentOutput,
   | InternalServerException
   | UnauthorizedException
@@ -1686,9 +1682,8 @@ export const getComponent: (
 /**
  * Gets the details of a configuration check operation by specifying the operation ID.
  */
-export const getConfigurationCheckOperation: (
-  input: GetConfigurationCheckOperationInput,
-) => effect.Effect<
+export const getConfigurationCheckOperation: API.OperationMethod<
+  GetConfigurationCheckOperationInput,
   GetConfigurationCheckOperationOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1700,9 +1695,8 @@ export const getConfigurationCheckOperation: (
 /**
  * Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
  */
-export const getDatabase: (
-  input: GetDatabaseInput,
-) => effect.Effect<
+export const getDatabase: API.OperationMethod<
+  GetDatabaseInput,
   GetDatabaseOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1714,9 +1708,8 @@ export const getDatabase: (
 /**
  * Gets the details of an operation by specifying the operation ID.
  */
-export const getOperation: (
-  input: GetOperationInput,
-) => effect.Effect<
+export const getOperation: API.OperationMethod<
+  GetOperationInput,
   GetOperationOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1728,9 +1721,8 @@ export const getOperation: (
 /**
  * Gets permissions associated with the target database.
  */
-export const getResourcePermission: (
-  input: GetResourcePermissionInput,
-) => effect.Effect<
+export const getResourcePermission: API.OperationMethod<
+  GetResourcePermissionInput,
   GetResourcePermissionOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1749,17 +1741,15 @@ export const getResourcePermission: (
 /**
  * Lists all the applications registered with AWS Systems Manager for SAP.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsInput,
-  ): effect.Effect<
-    ListApplicationsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsInput,
+  ListApplicationsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsInput,
   ) => stream.Stream<
@@ -1798,18 +1788,16 @@ export const listApplications: {
 /**
  * Lists all the components registered with AWS Systems Manager for SAP.
  */
-export const listComponents: {
-  (
-    input: ListComponentsInput,
-  ): effect.Effect<
-    ListComponentsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsInput,
+  ListComponentsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsInput,
   ) => stream.Stream<
@@ -1851,14 +1839,12 @@ export const listComponents: {
 /**
  * Lists all configuration check types supported by AWS Systems Manager for SAP.
  */
-export const listConfigurationCheckDefinitions: {
-  (
-    input: ListConfigurationCheckDefinitionsInput,
-  ): effect.Effect<
-    ListConfigurationCheckDefinitionsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationCheckDefinitions: API.OperationMethod<
+  ListConfigurationCheckDefinitionsInput,
+  ListConfigurationCheckDefinitionsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationCheckDefinitionsInput,
   ) => stream.Stream<
@@ -1887,17 +1873,15 @@ export const listConfigurationCheckDefinitions: {
 /**
  * Lists the configuration check operations performed by AWS Systems Manager for SAP.
  */
-export const listConfigurationCheckOperations: {
-  (
-    input: ListConfigurationCheckOperationsInput,
-  ): effect.Effect<
-    ListConfigurationCheckOperationsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationCheckOperations: API.OperationMethod<
+  ListConfigurationCheckOperationsInput,
+  ListConfigurationCheckOperationsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationCheckOperationsInput,
   ) => stream.Stream<
@@ -1936,17 +1920,15 @@ export const listConfigurationCheckOperations: {
 /**
  * Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
  */
-export const listDatabases: {
-  (
-    input: ListDatabasesInput,
-  ): effect.Effect<
-    ListDatabasesOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatabases: API.OperationMethod<
+  ListDatabasesInput,
+  ListDatabasesOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatabasesInput,
   ) => stream.Stream<
@@ -1987,14 +1969,12 @@ export const listDatabases: {
  *
  * Available parameters include `OperationID`, as well as optional parameters `MaxResults`, `NextToken`, and `Filters`.
  */
-export const listOperationEvents: {
-  (
-    input: ListOperationEventsInput,
-  ): effect.Effect<
-    ListOperationEventsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOperationEvents: API.OperationMethod<
+  ListOperationEventsInput,
+  ListOperationEventsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOperationEventsInput,
   ) => stream.Stream<
@@ -2023,14 +2003,12 @@ export const listOperationEvents: {
 /**
  * Lists the operations performed by AWS Systems Manager for SAP.
  */
-export const listOperations: {
-  (
-    input: ListOperationsInput,
-  ): effect.Effect<
-    ListOperationsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOperations: API.OperationMethod<
+  ListOperationsInput,
+  ListOperationsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOperationsInput,
   ) => stream.Stream<
@@ -2059,14 +2037,12 @@ export const listOperations: {
 /**
  * Lists the sub-check results of a specified configuration check operation.
  */
-export const listSubCheckResults: {
-  (
-    input: ListSubCheckResultsInput,
-  ): effect.Effect<
-    ListSubCheckResultsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubCheckResults: API.OperationMethod<
+  ListSubCheckResultsInput,
+  ListSubCheckResultsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubCheckResultsInput,
   ) => stream.Stream<
@@ -2095,14 +2071,12 @@ export const listSubCheckResults: {
 /**
  * Lists the rules of a specified sub-check belonging to a configuration check operation.
  */
-export const listSubCheckRuleResults: {
-  (
-    input: ListSubCheckRuleResultsInput,
-  ): effect.Effect<
-    ListSubCheckRuleResultsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubCheckRuleResults: API.OperationMethod<
+  ListSubCheckRuleResultsInput,
+  ListSubCheckRuleResultsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubCheckRuleResultsInput,
   ) => stream.Stream<
@@ -2131,9 +2105,8 @@ export const listSubCheckRuleResults: {
 /**
  * Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2148,9 +2121,8 @@ export const listTagsForResource: (
 /**
  * Adds permissions to the target database.
  */
-export const putResourcePermission: (
-  input: PutResourcePermissionInput,
-) => effect.Effect<
+export const putResourcePermission: API.OperationMethod<
+  PutResourcePermissionInput,
   PutResourcePermissionOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2175,9 +2147,8 @@ export const putResourcePermission: (
  *
  * Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
  */
-export const registerApplication: (
-  input: RegisterApplicationInput,
-) => effect.Effect<
+export const registerApplication: API.OperationMethod<
+  RegisterApplicationInput,
   RegisterApplicationOutput,
   | ConflictException
   | InternalServerException
@@ -2200,9 +2171,8 @@ export const registerApplication: (
  *
  * Parameter `ApplicationId` is required.
  */
-export const startApplication: (
-  input: StartApplicationInput,
-) => effect.Effect<
+export const startApplication: API.OperationMethod<
+  StartApplicationInput,
   StartApplicationOutput,
   | ConflictException
   | InternalServerException
@@ -2223,9 +2193,8 @@ export const startApplication: (
 /**
  * Refreshes a registered application.
  */
-export const startApplicationRefresh: (
-  input: StartApplicationRefreshInput,
-) => effect.Effect<
+export const startApplicationRefresh: API.OperationMethod<
+  StartApplicationRefreshInput,
   StartApplicationRefreshOutput,
   | ConflictException
   | InternalServerException
@@ -2248,9 +2217,8 @@ export const startApplicationRefresh: (
 /**
  * Initiates configuration check operations against a specified application.
  */
-export const startConfigurationChecks: (
-  input: StartConfigurationChecksInput,
-) => effect.Effect<
+export const startConfigurationChecks: API.OperationMethod<
+  StartConfigurationChecksInput,
   StartConfigurationChecksOutput,
   | ConflictException
   | InternalServerException
@@ -2273,9 +2241,8 @@ export const startConfigurationChecks: (
  *
  * Parameter `ApplicationId` is required. Parameters `StopConnectedEntity` and `IncludeEc2InstanceShutdown` are optional.
  */
-export const stopApplication: (
-  input: StopApplicationInput,
-) => effect.Effect<
+export const stopApplication: API.OperationMethod<
+  StopApplicationInput,
   StopApplicationOutput,
   | ConflictException
   | InternalServerException
@@ -2296,9 +2263,8 @@ export const stopApplication: (
 /**
  * Creates tag for a resource by specifying the ARN.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2313,9 +2279,8 @@ export const tagResource: (
 /**
  * Delete the tags for a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2330,9 +2295,8 @@ export const untagResource: (
 /**
  * Updates the settings of an application registered with AWS Systems Manager for SAP.
  */
-export const updateApplicationSettings: (
-  input: UpdateApplicationSettingsInput,
-) => effect.Effect<
+export const updateApplicationSettings: API.OperationMethod<
+  UpdateApplicationSettingsInput,
   UpdateApplicationSettingsOutput,
   | ConflictException
   | InternalServerException

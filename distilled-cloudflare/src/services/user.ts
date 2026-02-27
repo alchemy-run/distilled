@@ -33,9 +33,8 @@ export type ListAuditLogsResponse = unknown;
 export const ListAuditLogsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
 
-export const listAuditLogs: (
-  input: ListAuditLogsRequest,
-) => Effect.Effect<
+export const listAuditLogs: API.OperationMethod<
+  ListAuditLogsRequest,
   ListAuditLogsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -78,12 +77,22 @@ export const ListBillingHistoriesResponse = Schema.Array(
     zone: Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
-  }).pipe(Schema.encodeKeys({ occurredAt: "occurred_at" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      action: "action",
+      amount: "amount",
+      currency: "currency",
+      description: "description",
+      occurredAt: "occurred_at",
+      type: "type",
+      zone: "zone",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListBillingHistoriesResponse>;
 
-export const listBillingHistories: (
-  input: ListBillingHistoriesRequest,
-) => Effect.Effect<
+export const listBillingHistories: API.OperationMethod<
+  ListBillingHistoriesRequest,
   ListBillingHistoriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -188,10 +197,17 @@ export const GetBillingProfileResponse = Schema.Struct({
   zipcode: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountType: "account_type",
+    address: "address",
+    address2: "address2",
+    balance: "balance",
     cardExpiryMonth: "card_expiry_month",
     cardExpiryYear: "card_expiry_year",
     cardNumber: "card_number",
+    city: "city",
+    company: "company",
+    country: "country",
     createdOn: "created_on",
     deviceData: "device_data",
     editedOn: "edited_on",
@@ -213,15 +229,18 @@ export const GetBillingProfileResponse = Schema.Struct({
     paymentState: "payment_state",
     paymentZipcode: "payment_zipcode",
     primaryEmail: "primary_email",
+    state: "state",
     taxIdType: "tax_id_type",
+    telephone: "telephone",
     useLegacy: "use_legacy",
     validationCode: "validation_code",
+    vat: "vat",
+    zipcode: "zipcode",
   }),
 ) as unknown as Schema.Schema<GetBillingProfileResponse>;
 
-export const getBillingProfile: (
-  input: GetBillingProfileRequest,
-) => Effect.Effect<
+export const getBillingProfile: API.OperationMethod<
+  GetBillingProfileRequest,
   GetBillingProfileResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -287,18 +306,20 @@ export const GetInviteResponse = Schema.Struct({
   Schema.encodeKeys({
     invitedMemberId: "invited_member_id",
     organizationId: "organization_id",
+    id: "id",
     expiresOn: "expires_on",
     invitedBy: "invited_by",
     invitedMemberEmail: "invited_member_email",
     invitedOn: "invited_on",
     organizationIsEnforcingTwofactor: "organization_is_enforcing_twofactor",
     organizationName: "organization_name",
+    roles: "roles",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<GetInviteResponse>;
 
-export const getInvite: (
-  input: GetInviteRequest,
-) => Effect.Effect<
+export const getInvite: API.OperationMethod<
+  GetInviteRequest,
   GetInviteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -347,19 +368,21 @@ export const ListInvitesResponse = Schema.Array(
     Schema.encodeKeys({
       invitedMemberId: "invited_member_id",
       organizationId: "organization_id",
+      id: "id",
       expiresOn: "expires_on",
       invitedBy: "invited_by",
       invitedMemberEmail: "invited_member_email",
       invitedOn: "invited_on",
       organizationIsEnforcingTwofactor: "organization_is_enforcing_twofactor",
       organizationName: "organization_name",
+      roles: "roles",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<ListInvitesResponse>;
 
-export const listInvites: (
-  input: ListInvitesRequest,
-) => Effect.Effect<
+export const listInvites: API.OperationMethod<
+  ListInvitesRequest,
   ListInvitesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -424,18 +447,20 @@ export const PatchInviteResponse = Schema.Struct({
   Schema.encodeKeys({
     invitedMemberId: "invited_member_id",
     organizationId: "organization_id",
+    id: "id",
     expiresOn: "expires_on",
     invitedBy: "invited_by",
     invitedMemberEmail: "invited_member_email",
     invitedOn: "invited_on",
     organizationIsEnforcingTwofactor: "organization_is_enforcing_twofactor",
     organizationName: "organization_name",
+    roles: "roles",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<PatchInviteResponse>;
 
-export const patchInvite: (
-  input: PatchInviteRequest,
-) => Effect.Effect<
+export const patchInvite: API.OperationMethod<
+  PatchInviteRequest,
   PatchInviteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -464,9 +489,8 @@ export type GetOrganizationResponse = unknown;
 export const GetOrganizationResponse =
   Schema.Unknown as unknown as Schema.Schema<GetOrganizationResponse>;
 
-export const getOrganization: (
-  input: GetOrganizationRequest,
-) => Effect.Effect<
+export const getOrganization: API.OperationMethod<
+  GetOrganizationRequest,
   GetOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -500,9 +524,8 @@ export const ListOrganizationsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
-export const listOrganizations: (
-  input: ListOrganizationsRequest,
-) => Effect.Effect<
+export const listOrganizations: API.OperationMethod<
+  ListOrganizationsRequest,
   ListOrganizationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -531,9 +554,8 @@ export const DeleteOrganizationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteOrganizationResponse>;
 
-export const deleteOrganization: (
-  input: DeleteOrganizationRequest,
-) => Effect.Effect<
+export const deleteOrganization: API.OperationMethod<
+  DeleteOrganizationRequest,
   DeleteOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -558,9 +580,8 @@ export type GetSubscriptionResponse = unknown;
 export const GetSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
 
-export const getSubscription: (
-  input: GetSubscriptionRequest,
-) => Effect.Effect<
+export const getSubscription: API.OperationMethod<
+  GetSubscriptionRequest,
   GetSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -585,7 +606,7 @@ export const PutSubscriptionRequest = Schema.Struct({
   ),
   ratePlan: Schema.optional(Schema.Unknown),
 }).pipe(
-  Schema.encodeKeys({ ratePlan: "rate_plan" }),
+  Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
   T.Http({ method: "PUT", path: "/user/subscriptions/{identifier}" }),
 ) as unknown as Schema.Schema<PutSubscriptionRequest>;
 
@@ -596,9 +617,8 @@ export const PutSubscriptionResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<PutSubscriptionResponse>;
 
-export const putSubscription: (
-  input: PutSubscriptionRequest,
-) => Effect.Effect<
+export const putSubscription: API.OperationMethod<
+  PutSubscriptionRequest,
   PutSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -629,9 +649,8 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   Schema.encodeKeys({ subscriptionId: "subscription_id" }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
-export const deleteSubscription: (
-  input: DeleteSubscriptionRequest,
-) => Effect.Effect<
+export const deleteSubscription: API.OperationMethod<
+  DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -660,9 +679,8 @@ export type GetTokenResponse = unknown;
 export const GetTokenResponse =
   Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
 
-export const getToken: (
-  input: GetTokenRequest,
-) => Effect.Effect<
+export const getToken: API.OperationMethod<
+  GetTokenRequest,
   GetTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -683,9 +701,8 @@ export type ListTokensResponse = unknown;
 export const ListTokensResponse =
   Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
 
-export const listTokens: (
-  input: ListTokensRequest,
-) => Effect.Effect<
+export const listTokens: API.OperationMethod<
+  ListTokensRequest,
   ListTokensResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -716,14 +733,20 @@ export const CreateTokenRequest = Schema.Struct({
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
           notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+        }).pipe(Schema.encodeKeys({ in: "in", notIn: "not_in" })),
       ),
     }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
   expiresOn: Schema.optional(Schema.String),
   notBefore: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
+  Schema.encodeKeys({
+    name: "name",
+    policies: "policies",
+    condition: "condition",
+    expiresOn: "expires_on",
+    notBefore: "not_before",
+  }),
   T.Http({ method: "POST", path: "/user/tokens" }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
@@ -759,7 +782,7 @@ export const CreateTokenResponse = Schema.Struct({
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
           notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+        }).pipe(Schema.encodeKeys({ in: "in", notIn: "not_in" })),
       ),
     }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
@@ -774,17 +797,22 @@ export const CreateTokenResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    condition: "condition",
     expiresOn: "expires_on",
     issuedOn: "issued_on",
     lastUsedOn: "last_used_on",
     modifiedOn: "modified_on",
+    name: "name",
     notBefore: "not_before",
+    policies: "policies",
+    status: "status",
+    value: "value",
   }),
 ) as unknown as Schema.Schema<CreateTokenResponse>;
 
-export const createToken: (
-  input: CreateTokenRequest,
-) => Effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -819,7 +847,7 @@ export const UpdateTokenRequest = Schema.Struct({
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
           notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+        }).pipe(Schema.encodeKeys({ in: "in", notIn: "not_in" })),
       ),
     }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
@@ -827,7 +855,14 @@ export const UpdateTokenRequest = Schema.Struct({
   notBefore: Schema.optional(Schema.String),
   status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
 }).pipe(
-  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
+  Schema.encodeKeys({
+    name: "name",
+    policies: "policies",
+    condition: "condition",
+    expiresOn: "expires_on",
+    notBefore: "not_before",
+    status: "status",
+  }),
   T.Http({ method: "PUT", path: "/user/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<UpdateTokenRequest>;
 
@@ -836,9 +871,8 @@ export type UpdateTokenResponse = unknown;
 export const UpdateTokenResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
 
-export const updateToken: (
-  input: UpdateTokenRequest,
-) => Effect.Effect<
+export const updateToken: API.OperationMethod<
+  UpdateTokenRequest,
   UpdateTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -867,9 +901,8 @@ export const DeleteTokenResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteTokenResponse>;
 
-export const deleteToken: (
-  input: DeleteTokenRequest,
-) => Effect.Effect<
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
   DeleteTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -902,12 +935,16 @@ export const VerifyTokenResponse = Schema.Struct({
   expiresOn: Schema.optional(Schema.String),
   notBefore: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
+  Schema.encodeKeys({
+    id: "id",
+    status: "status",
+    expiresOn: "expires_on",
+    notBefore: "not_before",
+  }),
 ) as unknown as Schema.Schema<VerifyTokenResponse>;
 
-export const verifyToken: (
-  input: VerifyTokenRequest,
-) => Effect.Effect<
+export const verifyToken: API.OperationMethod<
+  VerifyTokenRequest,
   VerifyTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -955,9 +992,8 @@ export const ListTokenPermissionGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
 
-export const listTokenPermissionGroups: (
-  input: ListTokenPermissionGroupsRequest,
-) => Effect.Effect<
+export const listTokenPermissionGroups: API.OperationMethod<
+  ListTokenPermissionGroupsRequest,
   ListTokenPermissionGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -986,9 +1022,8 @@ export type PutTokenValueResponse = unknown;
 export const PutTokenValueResponse =
   Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
 
-export const putTokenValue: (
-  input: PutTokenValueRequest,
-) => Effect.Effect<
+export const putTokenValue: API.OperationMethod<
+  PutTokenValueRequest,
   PutTokenValueResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1055,19 +1090,25 @@ export const GetUserResponse = Schema.Struct({
   zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    betas: "betas",
+    country: "country",
     firstName: "first_name",
     hasBusinessZones: "has_business_zones",
     hasEnterpriseZones: "has_enterprise_zones",
     hasProZones: "has_pro_zones",
     lastName: "last_name",
+    organizations: "organizations",
+    suspended: "suspended",
+    telephone: "telephone",
     twoFactorAuthenticationEnabled: "two_factor_authentication_enabled",
     twoFactorAuthenticationLocked: "two_factor_authentication_locked",
+    zipcode: "zipcode",
   }),
 ) as unknown as Schema.Schema<GetUserResponse>;
 
-export const getUser: (
-  input: GetUserRequest,
-) => Effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1097,7 +1138,13 @@ export const PatchUserRequest = Schema.Struct({
   telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ firstName: "first_name", lastName: "last_name" }),
+  Schema.encodeKeys({
+    country: "country",
+    firstName: "first_name",
+    lastName: "last_name",
+    telephone: "telephone",
+    zipcode: "zipcode",
+  }),
   T.Http({ method: "PATCH", path: "/user" }),
 ) as unknown as Schema.Schema<PatchUserRequest>;
 
@@ -1148,19 +1195,25 @@ export const PatchUserResponse = Schema.Struct({
   zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    betas: "betas",
+    country: "country",
     firstName: "first_name",
     hasBusinessZones: "has_business_zones",
     hasEnterpriseZones: "has_enterprise_zones",
     hasProZones: "has_pro_zones",
     lastName: "last_name",
+    organizations: "organizations",
+    suspended: "suspended",
+    telephone: "telephone",
     twoFactorAuthenticationEnabled: "two_factor_authentication_enabled",
     twoFactorAuthenticationLocked: "two_factor_authentication_locked",
+    zipcode: "zipcode",
   }),
 ) as unknown as Schema.Schema<PatchUserResponse>;
 
-export const patchUser: (
-  input: PatchUserRequest,
-) => Effect.Effect<
+export const patchUser: API.OperationMethod<
+  PatchUserRequest,
   PatchUserResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -16,6 +16,8 @@ import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 
+import { pipeArguments } from "effect/Pipeable";
+import { SingleShotGen } from "effect/Utils";
 import { ApiToken } from "../auth.ts";
 import {
   CloudflareHttpError,
@@ -68,6 +70,13 @@ export interface Operation<
   errors: Schema.Top[];
   pagination?: T.PaginationTrait;
 }
+
+export type OperationMethod<I, A, E, R> = Effect.Effect<
+  (input: I) => Effect.Effect<A, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Effect.Effect<A, E, R>);
 
 /**
  * Create an Effect-returning API function from an operation definition.
@@ -261,12 +270,22 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
       return yield* operation;
     });
 
-  return Object.assign(fn, {
-    input: op.input,
-    output: op.output,
-    errors: op.errors,
-    pagination: op.pagination,
-  });
+  const Proto = {
+    [Symbol.iterator]() {
+      return new SingleShotGen(this);
+    },
+    pipe() {
+      return pipeArguments(this.asEffect(), arguments);
+    },
+    asEffect() {
+      return Effect.map(
+        Effect.services(),
+        (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
+      );
+    },
+  };
+
+  return Object.assign(fn, Proto);
 };
 
 /**

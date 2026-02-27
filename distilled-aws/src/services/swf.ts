@@ -3308,9 +3308,8 @@ export class WorkflowExecutionAlreadyStartedFault extends S.TaggedErrorClass<Wor
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countClosedWorkflowExecutions: (
-  input: CountClosedWorkflowExecutionsInput,
-) => effect.Effect<
+export const countClosedWorkflowExecutions: API.OperationMethod<
+  CountClosedWorkflowExecutionsInput,
   WorkflowExecutionCount,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3355,9 +3354,8 @@ export const countClosedWorkflowExecutions: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countOpenWorkflowExecutions: (
-  input: CountOpenWorkflowExecutionsInput,
-) => effect.Effect<
+export const countOpenWorkflowExecutions: API.OperationMethod<
+  CountOpenWorkflowExecutionsInput,
   WorkflowExecutionCount,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3392,9 +3390,8 @@ export const countOpenWorkflowExecutions: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countPendingActivityTasks: (
-  input: CountPendingActivityTasksInput,
-) => effect.Effect<
+export const countPendingActivityTasks: API.OperationMethod<
+  CountPendingActivityTasksInput,
   PendingTaskCount,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3429,9 +3426,8 @@ export const countPendingActivityTasks: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const countPendingDecisionTasks: (
-  input: CountPendingDecisionTasksInput,
-) => effect.Effect<
+export const countPendingDecisionTasks: API.OperationMethod<
+  CountPendingDecisionTasksInput,
   PendingTaskCount,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3472,9 +3468,8 @@ export const countPendingDecisionTasks: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deleteActivityType: (
-  input: DeleteActivityTypeInput,
-) => effect.Effect<
+export const deleteActivityType: API.OperationMethod<
+  DeleteActivityTypeInput,
   DeleteActivityTypeResponse,
   | OperationNotPermittedFault
   | TypeNotDeprecatedFault
@@ -3523,9 +3518,8 @@ export const deleteActivityType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deleteWorkflowType: (
-  input: DeleteWorkflowTypeInput,
-) => effect.Effect<
+export const deleteWorkflowType: API.OperationMethod<
+  DeleteWorkflowTypeInput,
   DeleteWorkflowTypeResponse,
   | OperationNotPermittedFault
   | TypeNotDeprecatedFault
@@ -3572,9 +3566,8 @@ export const deleteWorkflowType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deprecateActivityType: (
-  input: DeprecateActivityTypeInput,
-) => effect.Effect<
+export const deprecateActivityType: API.OperationMethod<
+  DeprecateActivityTypeInput,
   DeprecateActivityTypeResponse,
   | OperationNotPermittedFault
   | TypeDeprecatedFault
@@ -3619,9 +3612,8 @@ export const deprecateActivityType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deprecateDomain: (
-  input: DeprecateDomainInput,
-) => effect.Effect<
+export const deprecateDomain: API.OperationMethod<
+  DeprecateDomainInput,
   DeprecateDomainResponse,
   | DomainDeprecatedFault
   | OperationNotPermittedFault
@@ -3672,9 +3664,8 @@ export const deprecateDomain: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const deprecateWorkflowType: (
-  input: DeprecateWorkflowTypeInput,
-) => effect.Effect<
+export const deprecateWorkflowType: API.OperationMethod<
+  DeprecateWorkflowTypeInput,
   DeprecateWorkflowTypeResponse,
   | OperationNotPermittedFault
   | TypeDeprecatedFault
@@ -3721,9 +3712,8 @@ export const deprecateWorkflowType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeActivityType: (
-  input: DescribeActivityTypeInput,
-) => effect.Effect<
+export const describeActivityType: API.OperationMethod<
+  DescribeActivityTypeInput,
   ActivityTypeDetail,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3755,9 +3745,8 @@ export const describeActivityType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeDomain: (
-  input: DescribeDomainInput,
-) => effect.Effect<
+export const describeDomain: API.OperationMethod<
+  DescribeDomainInput,
   DomainDetail,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3792,9 +3781,8 @@ export const describeDomain: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeWorkflowExecution: (
-  input: DescribeWorkflowExecutionInput,
-) => effect.Effect<
+export const describeWorkflowExecution: API.OperationMethod<
+  DescribeWorkflowExecutionInput,
   WorkflowExecutionDetail,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3834,9 +3822,8 @@ export const describeWorkflowExecution: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const describeWorkflowType: (
-  input: DescribeWorkflowTypeInput,
-) => effect.Effect<
+export const describeWorkflowType: API.OperationMethod<
+  DescribeWorkflowTypeInput,
   WorkflowTypeDetail,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3872,14 +3859,12 @@ export const describeWorkflowType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const getWorkflowExecutionHistory: {
-  (
-    input: GetWorkflowExecutionHistoryInput,
-  ): effect.Effect<
-    History,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getWorkflowExecutionHistory: API.OperationMethod<
+  GetWorkflowExecutionHistoryInput,
+  History,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetWorkflowExecutionHistoryInput,
   ) => stream.Stream<
@@ -3931,14 +3916,12 @@ export const getWorkflowExecutionHistory: {
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listActivityTypes: {
-  (
-    input: ListActivityTypesInput,
-  ): effect.Effect<
-    ActivityTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActivityTypes: API.OperationMethod<
+  ListActivityTypesInput,
+  ActivityTypeInfos,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActivityTypesInput,
   ) => stream.Stream<
@@ -4001,14 +3984,12 @@ export const listActivityTypes: {
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listClosedWorkflowExecutions: {
-  (
-    input: ListClosedWorkflowExecutionsInput,
-  ): effect.Effect<
-    WorkflowExecutionInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClosedWorkflowExecutions: API.OperationMethod<
+  ListClosedWorkflowExecutionsInput,
+  WorkflowExecutionInfos,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClosedWorkflowExecutionsInput,
   ) => stream.Stream<
@@ -4063,14 +4044,12 @@ export const listClosedWorkflowExecutions: {
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listDomains: {
-  (
-    input: ListDomainsInput,
-  ): effect.Effect<
-    DomainInfos,
-    OperationNotPermittedFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsInput,
+  DomainInfos,
+  OperationNotPermittedFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsInput,
   ) => stream.Stream<
@@ -4133,14 +4112,12 @@ export const listDomains: {
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listOpenWorkflowExecutions: {
-  (
-    input: ListOpenWorkflowExecutionsInput,
-  ): effect.Effect<
-    WorkflowExecutionInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOpenWorkflowExecutions: API.OperationMethod<
+  ListOpenWorkflowExecutionsInput,
+  WorkflowExecutionInfos,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpenWorkflowExecutionsInput,
   ) => stream.Stream<
@@ -4169,9 +4146,8 @@ export const listOpenWorkflowExecutions: {
 /**
  * List tags for a given domain.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | LimitExceededFault
   | OperationNotPermittedFault
@@ -4210,14 +4186,12 @@ export const listTagsForResource: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const listWorkflowTypes: {
-  (
-    input: ListWorkflowTypesInput,
-  ): effect.Effect<
-    WorkflowTypeInfos,
-    OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowTypes: API.OperationMethod<
+  ListWorkflowTypesInput,
+  WorkflowTypeInfos,
+  OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowTypesInput,
   ) => stream.Stream<
@@ -4276,9 +4250,8 @@ export const listWorkflowTypes: {
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const pollForActivityTask: (
-  input: PollForActivityTaskInput,
-) => effect.Effect<
+export const pollForActivityTask: API.OperationMethod<
+  PollForActivityTaskInput,
   ActivityTask,
   | LimitExceededFault
   | OperationNotPermittedFault
@@ -4339,17 +4312,15 @@ export const pollForActivityTask: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const pollForDecisionTask: {
-  (
-    input: PollForDecisionTaskInput,
-  ): effect.Effect<
-    DecisionTask,
-    | LimitExceededFault
-    | OperationNotPermittedFault
-    | UnknownResourceFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const pollForDecisionTask: API.OperationMethod<
+  PollForDecisionTaskInput,
+  DecisionTask,
+  | LimitExceededFault
+  | OperationNotPermittedFault
+  | UnknownResourceFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: PollForDecisionTaskInput,
   ) => stream.Stream<
@@ -4430,9 +4401,8 @@ export const pollForDecisionTask: {
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const recordActivityTaskHeartbeat: (
-  input: RecordActivityTaskHeartbeatInput,
-) => effect.Effect<
+export const recordActivityTaskHeartbeat: API.OperationMethod<
+  RecordActivityTaskHeartbeatInput,
   ActivityTaskStatus,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4477,9 +4447,8 @@ export const recordActivityTaskHeartbeat: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerActivityType: (
-  input: RegisterActivityTypeInput,
-) => effect.Effect<
+export const registerActivityType: API.OperationMethod<
+  RegisterActivityTypeInput,
   RegisterActivityTypeResponse,
   | LimitExceededFault
   | OperationNotPermittedFault
@@ -4519,9 +4488,8 @@ export const registerActivityType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerDomain: (
-  input: RegisterDomainInput,
-) => effect.Effect<
+export const registerDomain: API.OperationMethod<
+  RegisterDomainInput,
   RegisterDomainResponse,
   | DomainAlreadyExistsFault
   | LimitExceededFault
@@ -4577,9 +4545,8 @@ export const registerDomain: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const registerWorkflowType: (
-  input: RegisterWorkflowTypeInput,
-) => effect.Effect<
+export const registerWorkflowType: API.OperationMethod<
+  RegisterWorkflowTypeInput,
   RegisterWorkflowTypeResponse,
   | LimitExceededFault
   | OperationNotPermittedFault
@@ -4630,9 +4597,8 @@ export const registerWorkflowType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const requestCancelWorkflowExecution: (
-  input: RequestCancelWorkflowExecutionInput,
-) => effect.Effect<
+export const requestCancelWorkflowExecution: API.OperationMethod<
+  RequestCancelWorkflowExecutionInput,
   RequestCancelWorkflowExecutionResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4678,9 +4644,8 @@ export const requestCancelWorkflowExecution: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const respondActivityTaskCanceled: (
-  input: RespondActivityTaskCanceledInput,
-) => effect.Effect<
+export const respondActivityTaskCanceled: API.OperationMethod<
+  RespondActivityTaskCanceledInput,
   RespondActivityTaskCanceledResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4724,9 +4689,8 @@ export const respondActivityTaskCanceled: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const respondActivityTaskCompleted: (
-  input: RespondActivityTaskCompletedInput,
-) => effect.Effect<
+export const respondActivityTaskCompleted: API.OperationMethod<
+  RespondActivityTaskCompletedInput,
   RespondActivityTaskCompletedResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4765,9 +4729,8 @@ export const respondActivityTaskCompleted: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const respondActivityTaskFailed: (
-  input: RespondActivityTaskFailedInput,
-) => effect.Effect<
+export const respondActivityTaskFailed: API.OperationMethod<
+  RespondActivityTaskFailedInput,
   RespondActivityTaskFailedResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4796,9 +4759,8 @@ export const respondActivityTaskFailed: (
  * IAM to Manage Access to Amazon SWF Workflows in the
  * *Amazon SWF Developer Guide*.
  */
-export const respondDecisionTaskCompleted: (
-  input: RespondDecisionTaskCompletedInput,
-) => effect.Effect<
+export const respondDecisionTaskCompleted: API.OperationMethod<
+  RespondDecisionTaskCompletedInput,
   RespondDecisionTaskCompletedResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4839,9 +4801,8 @@ export const respondDecisionTaskCompleted: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const signalWorkflowExecution: (
-  input: SignalWorkflowExecutionInput,
-) => effect.Effect<
+export const signalWorkflowExecution: API.OperationMethod<
+  SignalWorkflowExecutionInput,
   SignalWorkflowExecutionResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4895,9 +4856,8 @@ export const signalWorkflowExecution: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const startWorkflowExecution: (
-  input: StartWorkflowExecutionInput,
-) => effect.Effect<
+export const startWorkflowExecution: API.OperationMethod<
+  StartWorkflowExecutionInput,
   Run,
   | DefaultUndefinedFault
   | LimitExceededFault
@@ -4924,9 +4884,8 @@ export const startWorkflowExecution: (
  *
  * Amazon SWF supports a maximum of 50 tags per resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | LimitExceededFault
   | OperationNotPermittedFault
@@ -4979,9 +4938,8 @@ export const tagResource: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const terminateWorkflowExecution: (
-  input: TerminateWorkflowExecutionInput,
-) => effect.Effect<
+export const terminateWorkflowExecution: API.OperationMethod<
+  TerminateWorkflowExecutionInput,
   TerminateWorkflowExecutionResponse,
   OperationNotPermittedFault | UnknownResourceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5023,9 +4981,8 @@ export const terminateWorkflowExecution: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const undeprecateActivityType: (
-  input: UndeprecateActivityTypeInput,
-) => effect.Effect<
+export const undeprecateActivityType: API.OperationMethod<
+  UndeprecateActivityTypeInput,
   UndeprecateActivityTypeResponse,
   | OperationNotPermittedFault
   | TypeAlreadyExistsFault
@@ -5067,9 +5024,8 @@ export const undeprecateActivityType: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const undeprecateDomain: (
-  input: UndeprecateDomainInput,
-) => effect.Effect<
+export const undeprecateDomain: API.OperationMethod<
+  UndeprecateDomainInput,
   UndeprecateDomainResponse,
   | DomainAlreadyExistsFault
   | OperationNotPermittedFault
@@ -5118,9 +5074,8 @@ export const undeprecateDomain: (
  * For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
  * Workflows in the *Amazon SWF Developer Guide*.
  */
-export const undeprecateWorkflowType: (
-  input: UndeprecateWorkflowTypeInput,
-) => effect.Effect<
+export const undeprecateWorkflowType: API.OperationMethod<
+  UndeprecateWorkflowTypeInput,
   UndeprecateWorkflowTypeResponse,
   | OperationNotPermittedFault
   | TypeAlreadyExistsFault
@@ -5139,9 +5094,8 @@ export const undeprecateWorkflowType: (
 /**
  * Remove a tag from a Amazon SWF domain.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | LimitExceededFault
   | OperationNotPermittedFault

@@ -62,7 +62,13 @@ export const GetCniResponse = Schema.Struct({
     conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  }).pipe(
+    Schema.encodeKeys({
+      conduitName: "conduit_name",
+      description: "description",
+      mtu: "mtu",
+    }),
+  ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
@@ -78,12 +84,19 @@ export const GetCniResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+  Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    custIp: "cust_ip",
+    interconnect: "interconnect",
+    magic: "magic",
+    p2pIp: "p2p_ip",
+    bgp: "bgp",
+  }),
 ) as unknown as Schema.Schema<GetCniResponse>;
 
-export const getCni: (
-  input: GetCniRequest,
-) => Effect.Effect<
+export const getCni: API.OperationMethod<
+  GetCniRequest,
   GetCniResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -152,7 +165,13 @@ export const ListCnisResponse = Schema.Struct({
         conduitName: Schema.String,
         description: Schema.String,
         mtu: Schema.Number,
-      }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+      }).pipe(
+        Schema.encodeKeys({
+          conduitName: "conduit_name",
+          description: "description",
+          mtu: "mtu",
+        }),
+      ),
       p2pIp: Schema.String,
       bgp: Schema.optional(
         Schema.Struct({
@@ -167,14 +186,23 @@ export const ListCnisResponse = Schema.Struct({
           }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" })),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        account: "account",
+        custIp: "cust_ip",
+        interconnect: "interconnect",
+        magic: "magic",
+        p2pIp: "p2p_ip",
+        bgp: "bgp",
+      }),
+    ),
   ),
   next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListCnisResponse>;
 
-export const listCnis: (
-  input: ListCnisRequest,
-) => Effect.Effect<
+export const listCnis: API.OperationMethod<
+  ListCnisRequest,
   ListCnisResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -209,7 +237,13 @@ export const CreateCniRequest = Schema.Struct({
     conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  }).pipe(
+    Schema.encodeKeys({
+      conduitName: "conduit_name",
+      description: "description",
+      mtu: "mtu",
+    }),
+  ),
   bgp: Schema.optional(
     Schema.Struct({
       customerAsn: Schema.Number,
@@ -254,7 +288,13 @@ export const CreateCniResponse = Schema.Struct({
     conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  }).pipe(
+    Schema.encodeKeys({
+      conduitName: "conduit_name",
+      description: "description",
+      mtu: "mtu",
+    }),
+  ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
@@ -270,12 +310,19 @@ export const CreateCniResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+  Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    custIp: "cust_ip",
+    interconnect: "interconnect",
+    magic: "magic",
+    p2pIp: "p2p_ip",
+    bgp: "bgp",
+  }),
 ) as unknown as Schema.Schema<CreateCniResponse>;
 
-export const createCni: (
-  input: CreateCniRequest,
-) => Effect.Effect<
+export const createCni: API.OperationMethod<
+  CreateCniRequest,
   CreateCniResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -320,7 +367,13 @@ export const UpdateCniRequest = Schema.Struct({
     conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  }).pipe(
+    Schema.encodeKeys({
+      conduitName: "conduit_name",
+      description: "description",
+      mtu: "mtu",
+    }),
+  ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
@@ -336,7 +389,15 @@ export const UpdateCniRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+  Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    custIp: "cust_ip",
+    interconnect: "interconnect",
+    magic: "magic",
+    p2pIp: "p2p_ip",
+    bgp: "bgp",
+  }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/cni/cnis/{cni}" }),
 ) as unknown as Schema.Schema<UpdateCniRequest>;
 
@@ -367,7 +428,13 @@ export const UpdateCniResponse = Schema.Struct({
     conduitName: Schema.String,
     description: Schema.String,
     mtu: Schema.Number,
-  }).pipe(Schema.encodeKeys({ conduitName: "conduit_name" })),
+  }).pipe(
+    Schema.encodeKeys({
+      conduitName: "conduit_name",
+      description: "description",
+      mtu: "mtu",
+    }),
+  ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
     Schema.Struct({
@@ -383,12 +450,19 @@ export const UpdateCniResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ custIp: "cust_ip", p2pIp: "p2p_ip" }),
+  Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    custIp: "cust_ip",
+    interconnect: "interconnect",
+    magic: "magic",
+    p2pIp: "p2p_ip",
+    bgp: "bgp",
+  }),
 ) as unknown as Schema.Schema<UpdateCniResponse>;
 
-export const updateCni: (
-  input: UpdateCniRequest,
-) => Effect.Effect<
+export const updateCni: API.OperationMethod<
+  UpdateCniRequest,
   UpdateCniResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -416,9 +490,8 @@ export type DeleteCniResponse = unknown;
 export const DeleteCniResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteCniResponse>;
 
-export const deleteCni: (
-  input: DeleteCniRequest,
-) => Effect.Effect<
+export const deleteCni: API.OperationMethod<
+  DeleteCniRequest,
   DeleteCniResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -493,7 +566,18 @@ export const GetInterconnectResponse = Schema.Union([
     speed: Schema.String,
     type: Schema.String,
     owner: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ slotId: "slot_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      account: "account",
+      facility: "facility",
+      name: "name",
+      site: "site",
+      slotId: "slot_id",
+      speed: "speed",
+      type: "type",
+      owner: "owner",
+    }),
+  ),
   Schema.Struct({
     account: Schema.String,
     name: Schema.String,
@@ -519,9 +603,8 @@ export const GetInterconnectResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetInterconnectResponse>;
 
-export const getInterconnect: (
-  input: GetInterconnectRequest,
-) => Effect.Effect<
+export const getInterconnect: API.OperationMethod<
+  GetInterconnectRequest,
   GetInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -613,7 +696,18 @@ export const ListInterconnectsResponse = Schema.Struct({
         speed: Schema.String,
         type: Schema.String,
         owner: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ slotId: "slot_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          account: "account",
+          facility: "facility",
+          name: "name",
+          site: "site",
+          slotId: "slot_id",
+          speed: "speed",
+          type: "type",
+          owner: "owner",
+        }),
+      ),
       Schema.Struct({
         account: Schema.String,
         name: Schema.String,
@@ -642,9 +736,8 @@ export const ListInterconnectsResponse = Schema.Struct({
   next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListInterconnectsResponse>;
 
-export const listInterconnects: (
-  input: ListInterconnectsRequest,
-) => Effect.Effect<
+export const listInterconnects: API.OperationMethod<
+  ListInterconnectsRequest,
   ListInterconnectsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -674,7 +767,12 @@ export const CreateInterconnectRequest = Schema.Struct({
   type: Schema.String,
   speed: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ slotId: "slot_id" }),
+  Schema.encodeKeys({
+    account: "account",
+    slotId: "slot_id",
+    type: "type",
+    speed: "speed",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/cni/interconnects" }),
 ) as unknown as Schema.Schema<CreateInterconnectRequest>;
 
@@ -723,7 +821,18 @@ export const CreateInterconnectResponse = Schema.Union([
     speed: Schema.String,
     type: Schema.String,
     owner: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ slotId: "slot_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      account: "account",
+      facility: "facility",
+      name: "name",
+      site: "site",
+      slotId: "slot_id",
+      speed: "speed",
+      type: "type",
+      owner: "owner",
+    }),
+  ),
   Schema.Struct({
     account: Schema.String,
     name: Schema.String,
@@ -749,9 +858,8 @@ export const CreateInterconnectResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<CreateInterconnectResponse>;
 
-export const createInterconnect: (
-  input: CreateInterconnectRequest,
-) => Effect.Effect<
+export const createInterconnect: API.OperationMethod<
+  CreateInterconnectRequest,
   CreateInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -782,9 +890,8 @@ export type DeleteInterconnectResponse = unknown;
 export const DeleteInterconnectResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteInterconnectResponse>;
 
-export const deleteInterconnect: (
-  input: DeleteInterconnectRequest,
-) => Effect.Effect<
+export const deleteInterconnect: API.OperationMethod<
+  DeleteInterconnectRequest,
   DeleteInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -833,9 +940,8 @@ export const StatusInterconnectResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<StatusInterconnectResponse>;
 
-export const statusInterconnect: (
-  input: StatusInterconnectRequest,
-) => Effect.Effect<
+export const statusInterconnect: API.OperationMethod<
+  StatusInterconnectRequest,
   StatusInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -866,9 +972,8 @@ export type LoaInterconnectResponse = unknown;
 export const LoaInterconnectResponse =
   Schema.Unknown as unknown as Schema.Schema<LoaInterconnectResponse>;
 
-export const loaInterconnect: (
-  input: LoaInterconnectRequest,
-) => Effect.Effect<
+export const loaInterconnect: API.OperationMethod<
+  LoaInterconnectRequest,
   LoaInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -903,9 +1008,8 @@ export const GetSettingResponse = Schema.Struct({
   Schema.encodeKeys({ defaultAsn: "default_asn" }),
 ) as unknown as Schema.Schema<GetSettingResponse>;
 
-export const getSetting: (
-  input: GetSettingRequest,
-) => Effect.Effect<
+export const getSetting: API.OperationMethod<
+  GetSettingRequest,
   GetSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -940,9 +1044,8 @@ export const PutSettingResponse = Schema.Struct({
   Schema.encodeKeys({ defaultAsn: "default_asn" }),
 ) as unknown as Schema.Schema<PutSettingResponse>;
 
-export const putSetting: (
-  input: PutSettingRequest,
-) => Effect.Effect<
+export const putSetting: API.OperationMethod<
+  PutSettingRequest,
   PutSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -993,9 +1096,8 @@ export const GetSlotResponse = Schema.Struct({
   account: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSlotResponse>;
 
-export const getSlot: (
-  input: GetSlotRequest,
-) => Effect.Effect<
+export const getSlot: API.OperationMethod<
+  GetSlotRequest,
   GetSlotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1075,9 +1177,8 @@ export const ListSlotsResponse = Schema.Struct({
   next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<ListSlotsResponse>;
 
-export const listSlots: (
-  input: ListSlotsRequest,
-) => Effect.Effect<
+export const listSlots: API.OperationMethod<
+  ListSlotsRequest,
   ListSlotsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -932,9 +932,8 @@ export class TaskNotFoundException extends S.TaggedErrorClass<TaskNotFoundExcept
  *
  * {}
  */
-export const activatePipeline: (
-  input: ActivatePipelineInput,
-) => effect.Effect<
+export const activatePipeline: API.OperationMethod<
+  ActivatePipelineInput,
   ActivatePipelineOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -955,9 +954,8 @@ export const activatePipeline: (
 /**
  * Adds or modifies tags for the specified pipeline.
  */
-export const addTags: (
-  input: AddTagsInput,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsInput,
   AddTagsOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -998,9 +996,8 @@ export const addTags: (
  *
  * {"pipelineId": "df-06372391ZG65EXAMPLE"}
  */
-export const createPipeline: (
-  input: CreatePipelineInput,
-) => effect.Effect<
+export const createPipeline: API.OperationMethod<
+  CreatePipelineInput,
   CreatePipelineOutput,
   InternalServiceError | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1016,9 +1013,8 @@ export const createPipeline: (
  * To resume a deactivated pipeline, use ActivatePipeline. By default, the pipeline resumes from the last completed execution.
  * Optionally, you can specify the date and time to resume the pipeline.
  */
-export const deactivatePipeline: (
-  input: DeactivatePipelineInput,
-) => effect.Effect<
+export const deactivatePipeline: API.OperationMethod<
+  DeactivatePipelineInput,
   DeactivatePipelineOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1061,9 +1057,8 @@ export const deactivatePipeline: (
  *
  * Unexpected response: 200, OK, undefined
  */
-export const deletePipeline: (
-  input: DeletePipelineInput,
-) => effect.Effect<
+export const deletePipeline: API.OperationMethod<
+  DeletePipelineInput,
   DeletePipelineResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1130,18 +1125,16 @@ export const deletePipeline: (
  * ]
  * }
  */
-export const describeObjects: {
-  (
-    input: DescribeObjectsInput,
-  ): effect.Effect<
-    DescribeObjectsOutput,
-    | InternalServiceError
-    | InvalidRequestException
-    | PipelineDeletedException
-    | PipelineNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeObjects: API.OperationMethod<
+  DescribeObjectsInput,
+  DescribeObjectsOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeObjectsInput,
   ) => stream.Stream<
@@ -1235,9 +1228,8 @@ export const describeObjects: {
  * ]
  * }
  */
-export const describePipelines: (
-  input: DescribePipelinesInput,
-) => effect.Effect<
+export const describePipelines: API.OperationMethod<
+  DescribePipelinesInput,
   DescribePipelinesOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1278,9 +1270,8 @@ export const describePipelines: (
  *
  * {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
  */
-export const evaluateExpression: (
-  input: EvaluateExpressionInput,
-) => effect.Effect<
+export const evaluateExpression: API.OperationMethod<
+  EvaluateExpressionInput,
   EvaluateExpressionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1357,9 +1348,8 @@ export const evaluateExpression: (
  * ]
  * }
  */
-export const getPipelineDefinition: (
-  input: GetPipelineDefinitionInput,
-) => effect.Effect<
+export const getPipelineDefinition: API.OperationMethod<
+  GetPipelineDefinitionInput,
   GetPipelineDefinitionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1405,14 +1395,12 @@ export const getPipelineDefinition: (
  * ]
  * }
  */
-export const listPipelines: {
-  (
-    input: ListPipelinesInput,
-  ): effect.Effect<
-    ListPipelinesOutput,
-    InternalServiceError | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelines: API.OperationMethod<
+  ListPipelinesInput,
+  ListPipelinesOutput,
+  InternalServiceError | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelinesInput,
   ) => stream.Stream<
@@ -1508,9 +1496,8 @@ export const listPipelines: {
  * "taskId": "2xaM4wRs5zOsIH+g9U3oVHfAgAlbSqU6XduncB0HhZ3xMnmvfePZPn4dIbYXHyWyRK+cU15MqDHwdrvftx/4wv+sNS4w34vJfv7QA9aOoOazW28l1GYSb2ZRR0N0paiQp+d1MhSKo10hOTWOsVK5S5Lnx9Qm6omFgXHyIvZRIvTlrQMpr1xuUrflyGOfbFOGpOLpvPE172MYdqpZKnbSS4TcuqgQKSWV2833fEubI57DPOP7ghWa2TcYeSIv4pdLYG53fTuwfbnbdc98g2LNUQzSVhSnt7BoqyNwht2aQ6b/UHg9A80+KVpuXuqmz3m1MXwHFgxjdmuesXNOrrlGpeLCcRWD+aGo0RN1NqhQRzNAig8V4GlaPTQzMsRCljKqvrIyAoP3Tt2XEGsHkkQo12rEX8Z90957XX2qKRwhruwYzqGkSLWjINoLdAxUJdpRXRc5DJTrBd3D5mdzn7kY1l7NEh4kFHJDt3Cx4Z3Mk8MYCACyCk/CEyy9DwuPi66cLz0NBcgbCM5LKjTBOwo1m+am+pvM1kSposE9FPP1+RFGb8k6jQBTJx3TRz1yKilnGXQTZ5xvdOFpJrklIT0OXP1MG3+auM9FlJA+1dX90QoNJE5z7axmK//MOGXUdkqFe2kiDkorqjxwDvc0Js9pVKfKvAmW8YqUbmI9l0ERpWCXXnLVHNmPWz3jaPY+OBAmuJWDmxB/Z8p94aEDg4BVXQ7LvsKQ3DLYhaB7yJ390CJT+i0mm+EBqY60V6YikPSWDFrYQ/NPi2b1DgE19mX8zHqw8qprIl4yh1Ckx2Iige4En/N5ktOoIxnASxAw/TzcE2skxdw5KlHDF+UTj71m16CR/dIaKlXijlfNlNzUBo/bNSadCQn3G5NoO501wPKI:XO50TgDNyo8EXAMPLE/g==:1"}
  * }
  */
-export const pollForTask: (
-  input: PollForTaskInput,
-) => effect.Effect<
+export const pollForTask: API.OperationMethod<
+  PollForTaskInput,
   PollForTaskOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1668,9 +1655,8 @@ export const pollForTask: (
  * {"__type": "com.amazon.setl.webservice#InvalidRequestException",
  * "message": "Pipeline definition has errors: Could not save the pipeline definition due to FATAL errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call Validate to validate your pipeline"}
  */
-export const putPipelineDefinition: (
-  input: PutPipelineDefinitionInput,
-) => effect.Effect<
+export const putPipelineDefinition: API.OperationMethod<
+  PutPipelineDefinitionInput,
   PutPipelineDefinitionOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1719,18 +1705,16 @@ export const putPipelineDefinition: (
  * ["@SayHello_1_2012-09-25T17:00:00"]
  * }
  */
-export const queryObjects: {
-  (
-    input: QueryObjectsInput,
-  ): effect.Effect<
-    QueryObjectsOutput,
-    | InternalServiceError
-    | InvalidRequestException
-    | PipelineDeletedException
-    | PipelineNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const queryObjects: API.OperationMethod<
+  QueryObjectsInput,
+  QueryObjectsOutput,
+  | InternalServiceError
+  | InvalidRequestException
+  | PipelineDeletedException
+  | PipelineNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: QueryObjectsInput,
   ) => stream.Stream<
@@ -1772,9 +1756,8 @@ export const queryObjects: {
 /**
  * Removes existing tags from the specified pipeline.
  */
-export const removeTags: (
-  input: RemoveTagsInput,
-) => effect.Effect<
+export const removeTags: API.OperationMethod<
+  RemoveTagsInput,
   RemoveTagsOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1824,9 +1807,8 @@ export const removeTags: (
  *
  * {"canceled": false}
  */
-export const reportTaskProgress: (
-  input: ReportTaskProgressInput,
-) => effect.Effect<
+export const reportTaskProgress: API.OperationMethod<
+  ReportTaskProgressInput,
   ReportTaskProgressOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -1871,9 +1853,8 @@ export const reportTaskProgress: (
  *
  * {"terminate": false}
  */
-export const reportTaskRunnerHeartbeat: (
-  input: ReportTaskRunnerHeartbeatInput,
-) => effect.Effect<
+export const reportTaskRunnerHeartbeat: API.OperationMethod<
+  ReportTaskRunnerHeartbeatInput,
   ReportTaskRunnerHeartbeatOutput,
   InternalServiceError | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1907,9 +1888,8 @@ export const reportTaskRunnerHeartbeat: (
  *
  * Unexpected response: 200, OK, undefined
  */
-export const setStatus: (
-  input: SetStatusInput,
-) => effect.Effect<
+export const setStatus: API.OperationMethod<
+  SetStatusInput,
   SetStatusResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1950,9 +1930,8 @@ export const setStatus: (
  *
  * {}
  */
-export const setTaskStatus: (
-  input: SetTaskStatusInput,
-) => effect.Effect<
+export const setTaskStatus: API.OperationMethod<
+  SetTaskStatusInput,
   SetTaskStatusOutput,
   | InternalServiceError
   | InvalidRequestException
@@ -2106,9 +2085,8 @@ export const setTaskStatus: (
  * ]
  * }
  */
-export const validatePipelineDefinition: (
-  input: ValidatePipelineDefinitionInput,
-) => effect.Effect<
+export const validatePipelineDefinition: API.OperationMethod<
+  ValidatePipelineDefinitionInput,
   ValidatePipelineDefinitionOutput,
   | InternalServiceError
   | InvalidRequestException

@@ -2534,9 +2534,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * Lists the tags assigned to a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2550,9 +2549,8 @@ export const listTagsForResource: (
  *
  * Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2564,9 +2562,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2578,9 +2575,8 @@ export const untagResource: (
 /**
  * Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
  */
-export const createChannelGroup: (
-  input: CreateChannelGroupRequest,
-) => effect.Effect<
+export const createChannelGroup: API.OperationMethod<
+  CreateChannelGroupRequest,
   CreateChannelGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2607,9 +2603,8 @@ export const createChannelGroup: (
 /**
  * Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
  */
-export const getChannelGroup: (
-  input: GetChannelGroupRequest,
-) => effect.Effect<
+export const getChannelGroup: API.OperationMethod<
+  GetChannelGroupRequest,
   GetChannelGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2634,9 +2629,8 @@ export const getChannelGroup: (
  *
  * Any edits you make that impact the video output may not be reflected for a few minutes.
  */
-export const updateChannelGroup: (
-  input: UpdateChannelGroupRequest,
-) => effect.Effect<
+export const updateChannelGroup: API.OperationMethod<
+  UpdateChannelGroupRequest,
   UpdateChannelGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2661,9 +2655,8 @@ export const updateChannelGroup: (
 /**
  * Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
  */
-export const deleteChannelGroup: (
-  input: DeleteChannelGroupRequest,
-) => effect.Effect<
+export const deleteChannelGroup: API.OperationMethod<
+  DeleteChannelGroupRequest,
   DeleteChannelGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2686,18 +2679,16 @@ export const deleteChannelGroup: (
 /**
  * Retrieves all channel groups that are configured in Elemental MediaPackage.
  */
-export const listChannelGroups: {
-  (
-    input: ListChannelGroupsRequest,
-  ): effect.Effect<
-    ListChannelGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelGroups: API.OperationMethod<
+  ListChannelGroupsRequest,
+  ListChannelGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelGroupsRequest,
   ) => stream.Stream<
@@ -2739,9 +2730,8 @@ export const listChannelGroups: {
 /**
  * Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
  */
-export const createChannel: (
-  input: CreateChannelRequest,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
   CreateChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2768,9 +2758,8 @@ export const createChannel: (
 /**
  * Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
  */
-export const getChannel: (
-  input: GetChannelRequest,
-) => effect.Effect<
+export const getChannel: API.OperationMethod<
+  GetChannelRequest,
   GetChannelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2795,9 +2784,8 @@ export const getChannel: (
  *
  * Any edits you make that impact the video output may not be reflected for a few minutes.
  */
-export const updateChannel: (
-  input: UpdateChannelRequest,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
   UpdateChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2822,9 +2810,8 @@ export const updateChannel: (
 /**
  * Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
  */
-export const deleteChannel: (
-  input: DeleteChannelRequest,
-) => effect.Effect<
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
   DeleteChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2847,19 +2834,17 @@ export const deleteChannel: (
 /**
  * Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -2906,9 +2891,8 @@ export const listChannels: {
  *
  * Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
  */
-export const resetChannelState: (
-  input: ResetChannelStateRequest,
-) => effect.Effect<
+export const resetChannelState: API.OperationMethod<
+  ResetChannelStateRequest,
   ResetChannelStateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2933,9 +2917,8 @@ export const resetChannelState: (
 /**
  * Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
  */
-export const putChannelPolicy: (
-  input: PutChannelPolicyRequest,
-) => effect.Effect<
+export const putChannelPolicy: API.OperationMethod<
+  PutChannelPolicyRequest,
   PutChannelPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2960,9 +2943,8 @@ export const putChannelPolicy: (
 /**
  * Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
  */
-export const getChannelPolicy: (
-  input: GetChannelPolicyRequest,
-) => effect.Effect<
+export const getChannelPolicy: API.OperationMethod<
+  GetChannelPolicyRequest,
   GetChannelPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2985,9 +2967,8 @@ export const getChannelPolicy: (
 /**
  * Delete a channel policy.
  */
-export const deleteChannelPolicy: (
-  input: DeleteChannelPolicyRequest,
-) => effect.Effect<
+export const deleteChannelPolicy: API.OperationMethod<
+  DeleteChannelPolicyRequest,
   DeleteChannelPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3010,9 +2991,8 @@ export const deleteChannelPolicy: (
 /**
  * The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
  */
-export const createOriginEndpoint: (
-  input: CreateOriginEndpointRequest,
-) => effect.Effect<
+export const createOriginEndpoint: API.OperationMethod<
+  CreateOriginEndpointRequest,
   CreateOriginEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -3039,9 +3019,8 @@ export const createOriginEndpoint: (
 /**
  * Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
  */
-export const getOriginEndpoint: (
-  input: GetOriginEndpointRequest,
-) => effect.Effect<
+export const getOriginEndpoint: API.OperationMethod<
+  GetOriginEndpointRequest,
   GetOriginEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3066,9 +3045,8 @@ export const getOriginEndpoint: (
  *
  * Any edits you make that impact the video output may not be reflected for a few minutes.
  */
-export const updateOriginEndpoint: (
-  input: UpdateOriginEndpointRequest,
-) => effect.Effect<
+export const updateOriginEndpoint: API.OperationMethod<
+  UpdateOriginEndpointRequest,
   UpdateOriginEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -3095,9 +3073,8 @@ export const updateOriginEndpoint: (
 /**
  * Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
  */
-export const deleteOriginEndpoint: (
-  input: DeleteOriginEndpointRequest,
-) => effect.Effect<
+export const deleteOriginEndpoint: API.OperationMethod<
+  DeleteOriginEndpointRequest,
   DeleteOriginEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3118,19 +3095,17 @@ export const deleteOriginEndpoint: (
 /**
  * Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
  */
-export const listOriginEndpoints: {
-  (
-    input: ListOriginEndpointsRequest,
-  ): effect.Effect<
-    ListOriginEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOriginEndpoints: API.OperationMethod<
+  ListOriginEndpointsRequest,
+  ListOriginEndpointsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOriginEndpointsRequest,
   ) => stream.Stream<
@@ -3177,9 +3152,8 @@ export const listOriginEndpoints: {
  *
  * MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoint.
  */
-export const resetOriginEndpointState: (
-  input: ResetOriginEndpointStateRequest,
-) => effect.Effect<
+export const resetOriginEndpointState: API.OperationMethod<
+  ResetOriginEndpointStateRequest,
   ResetOriginEndpointStateResponse,
   | AccessDeniedException
   | ConflictException
@@ -3204,9 +3178,8 @@ export const resetOriginEndpointState: (
 /**
  * Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
  */
-export const putOriginEndpointPolicy: (
-  input: PutOriginEndpointPolicyRequest,
-) => effect.Effect<
+export const putOriginEndpointPolicy: API.OperationMethod<
+  PutOriginEndpointPolicyRequest,
   PutOriginEndpointPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3231,9 +3204,8 @@ export const putOriginEndpointPolicy: (
 /**
  * Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
  */
-export const getOriginEndpointPolicy: (
-  input: GetOriginEndpointPolicyRequest,
-) => effect.Effect<
+export const getOriginEndpointPolicy: API.OperationMethod<
+  GetOriginEndpointPolicyRequest,
   GetOriginEndpointPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3256,9 +3228,8 @@ export const getOriginEndpointPolicy: (
 /**
  * Delete an origin endpoint policy.
  */
-export const deleteOriginEndpointPolicy: (
-  input: DeleteOriginEndpointPolicyRequest,
-) => effect.Effect<
+export const deleteOriginEndpointPolicy: API.OperationMethod<
+  DeleteOriginEndpointPolicyRequest,
   DeleteOriginEndpointPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3281,9 +3252,8 @@ export const deleteOriginEndpointPolicy: (
 /**
  * Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
  */
-export const createHarvestJob: (
-  input: CreateHarvestJobRequest,
-) => effect.Effect<
+export const createHarvestJob: API.OperationMethod<
+  CreateHarvestJobRequest,
   CreateHarvestJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3310,9 +3280,8 @@ export const createHarvestJob: (
 /**
  * Retrieves the details of a specific harvest job.
  */
-export const getHarvestJob: (
-  input: GetHarvestJobRequest,
-) => effect.Effect<
+export const getHarvestJob: API.OperationMethod<
+  GetHarvestJobRequest,
   GetHarvestJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3335,9 +3304,8 @@ export const getHarvestJob: (
 /**
  * Cancels an in-progress harvest job.
  */
-export const cancelHarvestJob: (
-  input: CancelHarvestJobRequest,
-) => effect.Effect<
+export const cancelHarvestJob: API.OperationMethod<
+  CancelHarvestJobRequest,
   CancelHarvestJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3362,19 +3330,17 @@ export const cancelHarvestJob: (
 /**
  * Retrieves a list of harvest jobs that match the specified criteria.
  */
-export const listHarvestJobs: {
-  (
-    input: ListHarvestJobsRequest,
-  ): effect.Effect<
-    ListHarvestJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHarvestJobs: API.OperationMethod<
+  ListHarvestJobsRequest,
+  ListHarvestJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHarvestJobsRequest,
   ) => stream.Stream<

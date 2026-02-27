@@ -5129,9 +5129,8 @@ export class WorkspacesDefaultRoleNotFoundException extends S.TaggedErrorClass<W
  *
  * There's currently no unlinking capability after you accept the account linking invitation.
  */
-export const acceptAccountLinkInvitation: (
-  input: AcceptAccountLinkInvitationRequest,
-) => effect.Effect<
+export const acceptAccountLinkInvitation: API.OperationMethod<
+  AcceptAccountLinkInvitationRequest,
   AcceptAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -5160,9 +5159,8 @@ export const acceptAccountLinkInvitation: (
  * DescribeConnectionAliases to make sure that the current state of the
  * connection alias is `CREATED`.
  */
-export const associateConnectionAlias: (
-  input: AssociateConnectionAliasRequest,
-) => effect.Effect<
+export const associateConnectionAlias: API.OperationMethod<
+  AssociateConnectionAliasRequest,
   AssociateConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5187,9 +5185,8 @@ export const associateConnectionAlias: (
 /**
  * Associates the specified IP access control group with the specified directory.
  */
-export const associateIpGroups: (
-  input: AssociateIpGroupsRequest,
-) => effect.Effect<
+export const associateIpGroups: API.OperationMethod<
+  AssociateIpGroupsRequest,
   AssociateIpGroupsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5214,9 +5211,8 @@ export const associateIpGroups: (
 /**
  * Associates the specified application to the specified WorkSpace.
  */
-export const associateWorkspaceApplication: (
-  input: AssociateWorkspaceApplicationRequest,
-) => effect.Effect<
+export const associateWorkspaceApplication: API.OperationMethod<
+  AssociateWorkspaceApplicationRequest,
   AssociateWorkspaceApplicationResult,
   | AccessDeniedException
   | ApplicationNotSupportedException
@@ -5252,9 +5248,8 @@ export const associateWorkspaceApplication: (
  * This action gives users permission to access their WorkSpaces from the CIDR address
  * ranges specified in the rules.
  */
-export const authorizeIpRules: (
-  input: AuthorizeIpRulesRequest,
-) => effect.Effect<
+export const authorizeIpRules: API.OperationMethod<
+  AuthorizeIpRulesRequest,
   AuthorizeIpRulesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5287,9 +5282,8 @@ export const authorizeIpRules: (
  * correct Amazon Web Services account. To determine if an image has been shared and to see
  * the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
  */
-export const copyWorkspaceImage: (
-  input: CopyWorkspaceImageRequest,
-) => effect.Effect<
+export const copyWorkspaceImage: API.OperationMethod<
+  CopyWorkspaceImageRequest,
   CopyWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5316,9 +5310,8 @@ export const copyWorkspaceImage: (
 /**
  * Creates the account link invitation.
  */
-export const createAccountLinkInvitation: (
-  input: CreateAccountLinkInvitationRequest,
-) => effect.Effect<
+export const createAccountLinkInvitation: API.OperationMethod<
+  CreateAccountLinkInvitationRequest,
   CreateAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -5342,9 +5335,8 @@ export const createAccountLinkInvitation: (
  *
  * This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
  */
-export const createConnectClientAddIn: (
-  input: CreateConnectClientAddInRequest,
-) => effect.Effect<
+export const createConnectClientAddIn: API.OperationMethod<
+  CreateConnectClientAddInRequest,
   CreateConnectClientAddInResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5369,9 +5361,8 @@ export const createConnectClientAddIn: (
  * information, see Cross-Region
  * Redirection for Amazon WorkSpaces.
  */
-export const createConnectionAlias: (
-  input: CreateConnectionAliasRequest,
-) => effect.Effect<
+export const createConnectionAlias: API.OperationMethod<
+  CreateConnectionAliasRequest,
   CreateConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5406,9 +5397,8 @@ export const createConnectionAlias: (
  * default group includes a default rule that allows users to access their WorkSpaces from
  * anywhere. You cannot modify the default IP access control group for your directory.
  */
-export const createIpGroup: (
-  input: CreateIpGroupRequest,
-) => effect.Effect<
+export const createIpGroup: API.OperationMethod<
+  CreateIpGroupRequest,
   CreateIpGroupResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5431,9 +5421,8 @@ export const createIpGroup: (
 /**
  * Creates a standby WorkSpace in a secondary Region.
  */
-export const createStandbyWorkspaces: (
-  input: CreateStandbyWorkspacesRequest,
-) => effect.Effect<
+export const createStandbyWorkspaces: API.OperationMethod<
+  CreateStandbyWorkspacesRequest,
   CreateStandbyWorkspacesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5456,9 +5445,8 @@ export const createStandbyWorkspaces: (
 /**
  * Creates the specified tags for the specified WorkSpaces resource.
  */
-export const createTags: (
-  input: CreateTagsRequest,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsRequest,
   CreateTagsResult,
   | InvalidParameterValuesException
   | ResourceLimitExceededException
@@ -5492,9 +5480,8 @@ export const createTags: (
  * - The source WorkSpace image is not deleted. You can delete the source image
  * after you've verified your new updated image and created a new bundle.
  */
-export const createUpdatedWorkspaceImage: (
-  input: CreateUpdatedWorkspaceImageRequest,
-) => effect.Effect<
+export const createUpdatedWorkspaceImage: API.OperationMethod<
+  CreateUpdatedWorkspaceImageRequest,
   CreateUpdatedWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5523,9 +5510,8 @@ export const createUpdatedWorkspaceImage: (
  *
  * Create a Custom WorkSpaces Image and Bundle.
  */
-export const createWorkspaceBundle: (
-  input: CreateWorkspaceBundleRequest,
-) => effect.Effect<
+export const createWorkspaceBundle: API.OperationMethod<
+  CreateWorkspaceBundleRequest,
   CreateWorkspaceBundleResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5550,9 +5536,8 @@ export const createWorkspaceBundle: (
 /**
  * Creates a new WorkSpace image from an existing WorkSpace.
  */
-export const createWorkspaceImage: (
-  input: CreateWorkspaceImageRequest,
-) => effect.Effect<
+export const createWorkspaceImage: API.OperationMethod<
+  CreateWorkspaceImageRequest,
   CreateWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5597,9 +5582,8 @@ export const createWorkspaceImage: (
  *
  * Can I switch between hourly and monthly billing?
  */
-export const createWorkspaces: (
-  input: CreateWorkspacesRequest,
-) => effect.Effect<
+export const createWorkspaces: API.OperationMethod<
+  CreateWorkspacesRequest,
   CreateWorkspacesResult,
   | InvalidParameterValuesException
   | ResourceLimitExceededException
@@ -5613,9 +5597,8 @@ export const createWorkspaces: (
 /**
  * Creates a pool of WorkSpaces.
  */
-export const createWorkspacesPool: (
-  input: CreateWorkspacesPoolRequest,
-) => effect.Effect<
+export const createWorkspacesPool: API.OperationMethod<
+  CreateWorkspacesPoolRequest,
   CreateWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5640,9 +5623,8 @@ export const createWorkspacesPool: (
 /**
  * Deletes the account link invitation.
  */
-export const deleteAccountLinkInvitation: (
-  input: DeleteAccountLinkInvitationRequest,
-) => effect.Effect<
+export const deleteAccountLinkInvitation: API.OperationMethod<
+  DeleteAccountLinkInvitationRequest,
   DeleteAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -5671,9 +5653,8 @@ export const deleteAccountLinkInvitation: (
  * After you delete your customized client branding, your login portal reverts to the
  * default client branding.
  */
-export const deleteClientBranding: (
-  input: DeleteClientBrandingRequest,
-) => effect.Effect<
+export const deleteClientBranding: API.OperationMethod<
+  DeleteClientBrandingRequest,
   DeleteClientBrandingResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5693,9 +5674,8 @@ export const deleteClientBranding: (
  * Deletes a client-add-in for Amazon Connect that is configured within a
  * directory.
  */
-export const deleteConnectClientAddIn: (
-  input: DeleteConnectClientAddInRequest,
-) => effect.Effect<
+export const deleteConnectClientAddIn: API.OperationMethod<
+  DeleteConnectClientAddInRequest,
   DeleteConnectClientAddInResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5726,9 +5706,8 @@ export const deleteConnectClientAddIn: (
  * delete a connection alias only after it is no longer shared with any accounts or
  * associated with any directories.
  */
-export const deleteConnectionAlias: (
-  input: DeleteConnectionAliasRequest,
-) => effect.Effect<
+export const deleteConnectionAlias: API.OperationMethod<
+  DeleteConnectionAliasRequest,
   DeleteConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5755,9 +5734,8 @@ export const deleteConnectionAlias: (
  *
  * You cannot delete an IP access control group that is associated with a directory.
  */
-export const deleteIpGroup: (
-  input: DeleteIpGroupRequest,
-) => effect.Effect<
+export const deleteIpGroup: API.OperationMethod<
+  DeleteIpGroupRequest,
   DeleteIpGroupResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5778,9 +5756,8 @@ export const deleteIpGroup: (
 /**
  * Deletes the specified tags from the specified WorkSpaces resource.
  */
-export const deleteTags: (
-  input: DeleteTagsRequest,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsRequest,
   DeleteTagsResult,
   InvalidParameterValuesException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5794,9 +5771,8 @@ export const deleteTags: (
  *
  * Delete a Custom WorkSpaces Bundle or Image.
  */
-export const deleteWorkspaceBundle: (
-  input: DeleteWorkspaceBundleRequest,
-) => effect.Effect<
+export const deleteWorkspaceBundle: API.OperationMethod<
+  DeleteWorkspaceBundleRequest,
   DeleteWorkspaceBundleResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5819,9 +5795,8 @@ export const deleteWorkspaceBundle: (
  * any bundles that are associated with the image and unshare the image if it is shared with
  * other accounts.
  */
-export const deleteWorkspaceImage: (
-  input: DeleteWorkspaceImageRequest,
-) => effect.Effect<
+export const deleteWorkspaceImage: API.OperationMethod<
+  DeleteWorkspaceImageRequest,
   DeleteWorkspaceImageResult,
   | AccessDeniedException
   | InvalidResourceStateException
@@ -5840,9 +5815,8 @@ export const deleteWorkspaceImage: (
 /**
  * Deploys associated applications to the specified WorkSpace
  */
-export const deployWorkspaceApplications: (
-  input: DeployWorkspaceApplicationsRequest,
-) => effect.Effect<
+export const deployWorkspaceApplications: API.OperationMethod<
+  DeployWorkspaceApplicationsRequest,
   DeployWorkspaceApplicationsResult,
   | AccessDeniedException
   | IncompatibleApplicationsException
@@ -5880,9 +5854,8 @@ export const deployWorkspaceApplications: (
  * directory, you can always create a new one when you want to start using WorkSpaces
  * again.
  */
-export const deregisterWorkspaceDirectory: (
-  input: DeregisterWorkspaceDirectoryRequest,
-) => effect.Effect<
+export const deregisterWorkspaceDirectory: API.OperationMethod<
+  DeregisterWorkspaceDirectoryRequest,
   DeregisterWorkspaceDirectoryResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -5906,9 +5879,8 @@ export const deregisterWorkspaceDirectory: (
  * Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for
  * the specified account.
  */
-export const describeAccount: (
-  input: DescribeAccountRequest,
-) => effect.Effect<
+export const describeAccount: API.OperationMethod<
+  DescribeAccountRequest,
   DescribeAccountResult,
   AccessDeniedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5921,9 +5893,8 @@ export const describeAccount: (
  * Retrieves a list that describes modifications to the configuration of Bring Your Own
  * License (BYOL) for the specified account.
  */
-export const describeAccountModifications: (
-  input: DescribeAccountModificationsRequest,
-) => effect.Effect<
+export const describeAccountModifications: API.OperationMethod<
+  DescribeAccountModificationsRequest,
   DescribeAccountModificationsResult,
   AccessDeniedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5935,18 +5906,16 @@ export const describeAccountModifications: (
 /**
  * Describes the associations between the application and the specified associated resources.
  */
-export const describeApplicationAssociations: {
-  (
-    input: DescribeApplicationAssociationsRequest,
-  ): effect.Effect<
-    DescribeApplicationAssociationsResult,
-    | AccessDeniedException
-    | InvalidParameterValuesException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeApplicationAssociations: API.OperationMethod<
+  DescribeApplicationAssociationsRequest,
+  DescribeApplicationAssociationsResult,
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeApplicationAssociationsRequest,
   ) => stream.Stream<
@@ -5987,18 +5956,16 @@ export const describeApplicationAssociations: {
 /**
  * Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
  */
-export const describeApplications: {
-  (
-    input: DescribeApplicationsRequest,
-  ): effect.Effect<
-    DescribeApplicationsResult,
-    | AccessDeniedException
-    | InvalidParameterValuesException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeApplications: API.OperationMethod<
+  DescribeApplicationsRequest,
+  DescribeApplicationsResult,
+  | AccessDeniedException
+  | InvalidParameterValuesException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeApplicationsRequest,
   ) => stream.Stream<
@@ -6039,9 +6006,8 @@ export const describeApplications: {
 /**
  * Describes the associations between the applications and the specified bundle.
  */
-export const describeBundleAssociations: (
-  input: DescribeBundleAssociationsRequest,
-) => effect.Effect<
+export const describeBundleAssociations: API.OperationMethod<
+  DescribeBundleAssociationsRequest,
   DescribeBundleAssociationsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6068,9 +6034,8 @@ export const describeBundleAssociations: (
  * Only device types that have branding information configured will be shown in the
  * response.
  */
-export const describeClientBranding: (
-  input: DescribeClientBrandingRequest,
-) => effect.Effect<
+export const describeClientBranding: API.OperationMethod<
+  DescribeClientBrandingRequest,
   DescribeClientBrandingResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6089,9 +6054,8 @@ export const describeClientBranding: (
 /**
  * Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
  */
-export const describeClientProperties: (
-  input: DescribeClientPropertiesRequest,
-) => effect.Effect<
+export const describeClientProperties: API.OperationMethod<
+  DescribeClientPropertiesRequest,
   DescribeClientPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6110,9 +6074,8 @@ export const describeClientProperties: (
 /**
  * Retrieves a list of Amazon Connect client add-ins that have been created.
  */
-export const describeConnectClientAddIns: (
-  input: DescribeConnectClientAddInsRequest,
-) => effect.Effect<
+export const describeConnectClientAddIns: API.OperationMethod<
+  DescribeConnectClientAddInsRequest,
   DescribeConnectClientAddInsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6133,9 +6096,8 @@ export const describeConnectClientAddIns: (
  * redirection. For more information, see Cross-Region
  * Redirection for Amazon WorkSpaces.
  */
-export const describeConnectionAliases: (
-  input: DescribeConnectionAliasesRequest,
-) => effect.Effect<
+export const describeConnectionAliases: API.OperationMethod<
+  DescribeConnectionAliasesRequest,
   DescribeConnectionAliasesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6157,9 +6119,8 @@ export const describeConnectionAliases: (
  * Cross-Region
  * Redirection for Amazon WorkSpaces.
  */
-export const describeConnectionAliasPermissions: (
-  input: DescribeConnectionAliasPermissionsRequest,
-) => effect.Effect<
+export const describeConnectionAliasPermissions: API.OperationMethod<
+  DescribeConnectionAliasPermissionsRequest,
   DescribeConnectionAliasPermissionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6180,9 +6141,8 @@ export const describeConnectionAliasPermissions: (
 /**
  * Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
  */
-export const describeCustomWorkspaceImageImport: (
-  input: DescribeCustomWorkspaceImageImportRequest,
-) => effect.Effect<
+export const describeCustomWorkspaceImageImport: API.OperationMethod<
+  DescribeCustomWorkspaceImageImportRequest,
   DescribeCustomWorkspaceImageImportResult,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6194,9 +6154,8 @@ export const describeCustomWorkspaceImageImport: (
 /**
  * Describes the associations between the applications and the specified image.
  */
-export const describeImageAssociations: (
-  input: DescribeImageAssociationsRequest,
-) => effect.Effect<
+export const describeImageAssociations: API.OperationMethod<
+  DescribeImageAssociationsRequest,
   DescribeImageAssociationsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6217,9 +6176,8 @@ export const describeImageAssociations: (
 /**
  * Describes one or more of your IP access control groups.
  */
-export const describeIpGroups: (
-  input: DescribeIpGroupsRequest,
-) => effect.Effect<
+export const describeIpGroups: API.OperationMethod<
+  DescribeIpGroupsRequest,
   DescribeIpGroupsResult,
   AccessDeniedException | InvalidParameterValuesException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6231,9 +6189,8 @@ export const describeIpGroups: (
 /**
  * Describes the specified tags for the specified WorkSpaces resource.
  */
-export const describeTags: (
-  input: DescribeTagsRequest,
-) => effect.Effect<
+export const describeTags: API.OperationMethod<
+  DescribeTagsRequest,
   DescribeTagsResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6245,9 +6202,8 @@ export const describeTags: (
 /**
  * Describes the associations betweens applications and the specified WorkSpace.
  */
-export const describeWorkspaceAssociations: (
-  input: DescribeWorkspaceAssociationsRequest,
-) => effect.Effect<
+export const describeWorkspaceAssociations: API.OperationMethod<
+  DescribeWorkspaceAssociationsRequest,
   DescribeWorkspaceAssociationsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6270,14 +6226,12 @@ export const describeWorkspaceAssociations: (
  *
  * You can filter the results using either bundle ID or owner, but not both.
  */
-export const describeWorkspaceBundles: {
-  (
-    input: DescribeWorkspaceBundlesRequest,
-  ): effect.Effect<
-    DescribeWorkspaceBundlesResult,
-    InvalidParameterValuesException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeWorkspaceBundles: API.OperationMethod<
+  DescribeWorkspaceBundlesRequest,
+  DescribeWorkspaceBundlesResult,
+  InvalidParameterValuesException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeWorkspaceBundlesRequest,
   ) => stream.Stream<
@@ -6305,14 +6259,12 @@ export const describeWorkspaceBundles: {
 /**
  * Describes the available directories that are registered with Amazon WorkSpaces.
  */
-export const describeWorkspaceDirectories: {
-  (
-    input: DescribeWorkspaceDirectoriesRequest,
-  ): effect.Effect<
-    DescribeWorkspaceDirectoriesResult,
-    InvalidParameterValuesException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeWorkspaceDirectories: API.OperationMethod<
+  DescribeWorkspaceDirectoriesRequest,
+  DescribeWorkspaceDirectoriesResult,
+  InvalidParameterValuesException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeWorkspaceDirectoriesRequest,
   ) => stream.Stream<
@@ -6340,9 +6292,8 @@ export const describeWorkspaceDirectories: {
 /**
  * Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image.
  */
-export const describeWorkspaceImagePermissions: (
-  input: DescribeWorkspaceImagePermissionsRequest,
-) => effect.Effect<
+export const describeWorkspaceImagePermissions: API.OperationMethod<
+  DescribeWorkspaceImagePermissionsRequest,
   DescribeWorkspaceImagePermissionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6362,9 +6313,8 @@ export const describeWorkspaceImagePermissions: (
  * Retrieves a list that describes one or more specified images, if the image identifiers
  * are provided. Otherwise, all images in the account are described.
  */
-export const describeWorkspaceImages: (
-  input: DescribeWorkspaceImagesRequest,
-) => effect.Effect<
+export const describeWorkspaceImages: API.OperationMethod<
+  DescribeWorkspaceImagesRequest,
   DescribeWorkspaceImagesResult,
   AccessDeniedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6379,16 +6329,12 @@ export const describeWorkspaceImages: (
  * You can filter the results by using the bundle identifier, directory identifier, or
  * owner, but you can specify only one filter at a time.
  */
-export const describeWorkspaces: {
-  (
-    input: DescribeWorkspacesRequest,
-  ): effect.Effect<
-    DescribeWorkspacesResult,
-    | InvalidParameterValuesException
-    | ResourceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeWorkspaces: API.OperationMethod<
+  DescribeWorkspacesRequest,
+  DescribeWorkspacesResult,
+  InvalidParameterValuesException | ResourceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeWorkspacesRequest,
   ) => stream.Stream<
@@ -6421,9 +6367,8 @@ export const describeWorkspaces: {
 /**
  * Describes the connection status of the specified WorkSpaces.
  */
-export const describeWorkspacesConnectionStatus: (
-  input: DescribeWorkspacesConnectionStatusRequest,
-) => effect.Effect<
+export const describeWorkspacesConnectionStatus: API.OperationMethod<
+  DescribeWorkspacesConnectionStatusRequest,
   DescribeWorkspacesConnectionStatusResult,
   InvalidParameterValuesException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6435,9 +6380,8 @@ export const describeWorkspacesConnectionStatus: (
 /**
  * Describes the snapshots for the specified WorkSpace.
  */
-export const describeWorkspaceSnapshots: (
-  input: DescribeWorkspaceSnapshotsRequest,
-) => effect.Effect<
+export const describeWorkspaceSnapshots: API.OperationMethod<
+  DescribeWorkspaceSnapshotsRequest,
   DescribeWorkspaceSnapshotsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6456,9 +6400,8 @@ export const describeWorkspaceSnapshots: (
 /**
  * Describes the specified WorkSpaces Pools.
  */
-export const describeWorkspacesPools: (
-  input: DescribeWorkspacesPoolsRequest,
-) => effect.Effect<
+export const describeWorkspacesPools: API.OperationMethod<
+  DescribeWorkspacesPoolsRequest,
   DescribeWorkspacesPoolsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6477,9 +6420,8 @@ export const describeWorkspacesPools: (
 /**
  * Retrieves a list that describes the streaming sessions for a specified pool.
  */
-export const describeWorkspacesPoolSessions: (
-  input: DescribeWorkspacesPoolSessionsRequest,
-) => effect.Effect<
+export const describeWorkspacesPoolSessions: API.OperationMethod<
+  DescribeWorkspacesPoolSessionsRequest,
   DescribeWorkspacesPoolSessionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6505,9 +6447,8 @@ export const describeWorkspacesPoolSessions: (
  * DescribeConnectionAliases to make sure that the current state of the
  * connection alias is `CREATED`.
  */
-export const disassociateConnectionAlias: (
-  input: DisassociateConnectionAliasRequest,
-) => effect.Effect<
+export const disassociateConnectionAlias: API.OperationMethod<
+  DisassociateConnectionAliasRequest,
   DisassociateConnectionAliasResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6530,9 +6471,8 @@ export const disassociateConnectionAlias: (
 /**
  * Disassociates the specified IP access control group from the specified directory.
  */
-export const disassociateIpGroups: (
-  input: DisassociateIpGroupsRequest,
-) => effect.Effect<
+export const disassociateIpGroups: API.OperationMethod<
+  DisassociateIpGroupsRequest,
   DisassociateIpGroupsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6555,9 +6495,8 @@ export const disassociateIpGroups: (
 /**
  * Disassociates the specified application from a WorkSpace.
  */
-export const disassociateWorkspaceApplication: (
-  input: DisassociateWorkspaceApplicationRequest,
-) => effect.Effect<
+export const disassociateWorkspaceApplication: API.OperationMethod<
+  DisassociateWorkspaceApplicationRequest,
   DisassociateWorkspaceApplicationResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6580,9 +6519,8 @@ export const disassociateWorkspaceApplication: (
 /**
  * Retrieves account link information.
  */
-export const getAccountLink: (
-  input: GetAccountLinkRequest,
-) => effect.Effect<
+export const getAccountLink: API.OperationMethod<
+  GetAccountLinkRequest,
   GetAccountLinkResult,
   | AccessDeniedException
   | InternalServerException
@@ -6623,9 +6561,8 @@ export const getAccountLink: (
  * - Imported data can take up to a minute to appear in the WorkSpaces
  * client.
  */
-export const importClientBranding: (
-  input: ImportClientBrandingRequest,
-) => effect.Effect<
+export const importClientBranding: API.OperationMethod<
+  ImportClientBrandingRequest,
   ImportClientBrandingResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6650,9 +6587,8 @@ export const importClientBranding: (
  * creating BYOL images, see Bring Your Own Windows
  * Desktop Licenses.
  */
-export const importCustomWorkspaceImage: (
-  input: ImportCustomWorkspaceImageRequest,
-) => effect.Effect<
+export const importCustomWorkspaceImage: API.OperationMethod<
+  ImportCustomWorkspaceImageRequest,
   ImportCustomWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6681,9 +6617,8 @@ export const importCustomWorkspaceImage: (
  * creating BYOL images, see Bring Your Own Windows
  * Desktop Licenses.
  */
-export const importWorkspaceImage: (
-  input: ImportWorkspaceImageRequest,
-) => effect.Effect<
+export const importWorkspaceImage: API.OperationMethod<
+  ImportWorkspaceImageRequest,
   ImportWorkspaceImageResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6708,17 +6643,15 @@ export const importWorkspaceImage: (
 /**
  * Lists all account links.
  */
-export const listAccountLinks: {
-  (
-    input: ListAccountLinksRequest,
-  ): effect.Effect<
-    ListAccountLinksResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAccountLinks: API.OperationMethod<
+  ListAccountLinksRequest,
+  ListAccountLinksResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountLinksRequest,
   ) => stream.Stream<
@@ -6762,9 +6695,8 @@ export const listAccountLinks: {
  * network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces
  * clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
  */
-export const listAvailableManagementCidrRanges: (
-  input: ListAvailableManagementCidrRangesRequest,
-) => effect.Effect<
+export const listAvailableManagementCidrRanges: API.OperationMethod<
+  ListAvailableManagementCidrRangesRequest,
   ListAvailableManagementCidrRangesResult,
   AccessDeniedException | InvalidParameterValuesException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6788,9 +6720,8 @@ export const listAvailableManagementCidrRanges: (
  * practices, see Migrate a
  * WorkSpace.
  */
-export const migrateWorkspace: (
-  input: MigrateWorkspaceRequest,
-) => effect.Effect<
+export const migrateWorkspace: API.OperationMethod<
+  MigrateWorkspaceRequest,
   MigrateWorkspaceResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6816,9 +6747,8 @@ export const migrateWorkspace: (
  * Modifies the configuration of Bring Your Own License (BYOL) for the specified
  * account.
  */
-export const modifyAccount: (
-  input: ModifyAccountRequest,
-) => effect.Effect<
+export const modifyAccount: API.OperationMethod<
+  ModifyAccountRequest,
   ModifyAccountResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6842,9 +6772,8 @@ export const modifyAccount: (
  * Modifies the properties of the certificate-based authentication you want
  * to use with your WorkSpaces.
  */
-export const modifyCertificateBasedAuthProperties: (
-  input: ModifyCertificateBasedAuthPropertiesRequest,
-) => effect.Effect<
+export const modifyCertificateBasedAuthProperties: API.OperationMethod<
+  ModifyCertificateBasedAuthPropertiesRequest,
   ModifyCertificateBasedAuthPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6865,9 +6794,8 @@ export const modifyCertificateBasedAuthProperties: (
 /**
  * Modifies the properties of the specified Amazon WorkSpaces clients.
  */
-export const modifyClientProperties: (
-  input: ModifyClientPropertiesRequest,
-) => effect.Effect<
+export const modifyClientProperties: API.OperationMethod<
+  ModifyClientPropertiesRequest,
   ModifyClientPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6889,9 +6817,8 @@ export const modifyClientProperties: (
  * Modifies the endpoint encryption mode that allows you to configure the specified
  * directory between Standard TLS and FIPS 140-2 validated mode.
  */
-export const modifyEndpointEncryptionMode: (
-  input: ModifyEndpointEncryptionModeRequest,
-) => effect.Effect<
+export const modifyEndpointEncryptionMode: API.OperationMethod<
+  ModifyEndpointEncryptionModeRequest,
   ModifyEndpointEncryptionModeResponse,
   | AccessDeniedException
   | OperationNotSupportedException
@@ -6912,9 +6839,8 @@ export const modifyEndpointEncryptionMode: (
  * user access URL, and relay state parameter name that are used for configuring federation with an
  * SAML 2.0 identity provider.
  */
-export const modifySamlProperties: (
-  input: ModifySamlPropertiesRequest,
-) => effect.Effect<
+export const modifySamlProperties: API.OperationMethod<
+  ModifySamlPropertiesRequest,
   ModifySamlPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6936,9 +6862,8 @@ export const modifySamlProperties: (
  * Modifies the self-service WorkSpace management capabilities for your users. For more
  * information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
  */
-export const modifySelfservicePermissions: (
-  input: ModifySelfservicePermissionsRequest,
-) => effect.Effect<
+export const modifySelfservicePermissions: API.OperationMethod<
+  ModifySelfservicePermissionsRequest,
   ModifySelfservicePermissionsResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6959,9 +6884,8 @@ export const modifySelfservicePermissions: (
 /**
  * Modifies the specified streaming properties.
  */
-export const modifyStreamingProperties: (
-  input: ModifyStreamingPropertiesRequest,
-) => effect.Effect<
+export const modifyStreamingProperties: API.OperationMethod<
+  ModifyStreamingPropertiesRequest,
   ModifyStreamingPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -6984,9 +6908,8 @@ export const modifyStreamingProperties: (
  * For more information, see
  * Control Device Access.
  */
-export const modifyWorkspaceAccessProperties: (
-  input: ModifyWorkspaceAccessPropertiesRequest,
-) => effect.Effect<
+export const modifyWorkspaceAccessProperties: API.OperationMethod<
+  ModifyWorkspaceAccessPropertiesRequest,
   ModifyWorkspaceAccessPropertiesResult,
   | AccessDeniedException
   | InvalidParameterCombinationException
@@ -7009,9 +6932,8 @@ export const modifyWorkspaceAccessProperties: (
 /**
  * Modify the default properties used to create WorkSpaces.
  */
-export const modifyWorkspaceCreationProperties: (
-  input: ModifyWorkspaceCreationPropertiesRequest,
-) => effect.Effect<
+export const modifyWorkspaceCreationProperties: API.OperationMethod<
+  ModifyWorkspaceCreationPropertiesRequest,
   ModifyWorkspaceCreationPropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7038,9 +6960,8 @@ export const modifyWorkspaceCreationProperties: (
  * information, see Amazon WorkSpaces
  * Core.
  */
-export const modifyWorkspaceProperties: (
-  input: ModifyWorkspacePropertiesRequest,
-) => effect.Effect<
+export const modifyWorkspaceProperties: API.OperationMethod<
+  ModifyWorkspacePropertiesRequest,
   ModifyWorkspacePropertiesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7073,9 +6994,8 @@ export const modifyWorkspaceProperties: (
  * stopped. Users cannot log into a WorkSpace in the `ADMIN_MAINTENANCE`
  * state.
  */
-export const modifyWorkspaceState: (
-  input: ModifyWorkspaceStateRequest,
-) => effect.Effect<
+export const modifyWorkspaceState: API.OperationMethod<
+  ModifyWorkspaceStateRequest,
   ModifyWorkspaceStateResult,
   | InvalidParameterValuesException
   | InvalidResourceStateException
@@ -7102,9 +7022,8 @@ export const modifyWorkspaceState: (
  *
  * This operation is asynchronous and returns before the WorkSpaces have rebooted.
  */
-export const rebootWorkspaces: (
-  input: RebootWorkspacesRequest,
-) => effect.Effect<
+export const rebootWorkspaces: API.OperationMethod<
+  RebootWorkspacesRequest,
   RebootWorkspacesResult,
   OperationNotSupportedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7127,9 +7046,8 @@ export const rebootWorkspaces: (
  * This operation is asynchronous and returns before the WorkSpaces have been completely
  * rebuilt.
  */
-export const rebuildWorkspaces: (
-  input: RebuildWorkspacesRequest,
-) => effect.Effect<
+export const rebuildWorkspaces: API.OperationMethod<
+  RebuildWorkspacesRequest,
   RebuildWorkspacesResult,
   OperationNotSupportedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7145,9 +7063,8 @@ export const rebuildWorkspaces: (
  * a directory. For more information, see
  * Creating the workspaces_DefaultRole Role.
  */
-export const registerWorkspaceDirectory: (
-  input: RegisterWorkspaceDirectoryRequest,
-) => effect.Effect<
+export const registerWorkspaceDirectory: API.OperationMethod<
+  RegisterWorkspaceDirectoryRequest,
   RegisterWorkspaceDirectoryResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7178,9 +7095,8 @@ export const registerWorkspaceDirectory: (
 /**
  * Rejects the account link invitation.
  */
-export const rejectAccountLinkInvitation: (
-  input: RejectAccountLinkInvitationRequest,
-) => effect.Effect<
+export const rejectAccountLinkInvitation: API.OperationMethod<
+  RejectAccountLinkInvitationRequest,
   RejectAccountLinkInvitationResult,
   | AccessDeniedException
   | ConflictException
@@ -7213,9 +7129,8 @@ export const rejectAccountLinkInvitation: (
  * This operation is asynchronous and returns before the WorkSpace is completely
  * restored.
  */
-export const restoreWorkspace: (
-  input: RestoreWorkspaceRequest,
-) => effect.Effect<
+export const restoreWorkspace: API.OperationMethod<
+  RestoreWorkspaceRequest,
   RestoreWorkspaceResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7236,9 +7151,8 @@ export const restoreWorkspace: (
 /**
  * Removes one or more rules from the specified IP access control group.
  */
-export const revokeIpRules: (
-  input: RevokeIpRulesRequest,
-) => effect.Effect<
+export const revokeIpRules: API.OperationMethod<
+  RevokeIpRulesRequest,
   RevokeIpRulesResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7262,9 +7176,8 @@ export const revokeIpRules: (
  * You cannot start a WorkSpace unless it has a running mode of `AutoStop` or
  * `Manual` and a state of `STOPPED`.
  */
-export const startWorkspaces: (
-  input: StartWorkspacesRequest,
-) => effect.Effect<
+export const startWorkspaces: API.OperationMethod<
+  StartWorkspacesRequest,
   StartWorkspacesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7279,9 +7192,8 @@ export const startWorkspaces: (
  * You cannot start a pool unless it has a running mode of
  * `AutoStop` and a state of `STOPPED`.
  */
-export const startWorkspacesPool: (
-  input: StartWorkspacesPoolRequest,
-) => effect.Effect<
+export const startWorkspacesPool: API.OperationMethod<
+  StartWorkspacesPoolRequest,
   StartWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7312,9 +7224,8 @@ export const startWorkspacesPool: (
  * `Manual` and a state of `AVAILABLE`, `IMPAIRED`,
  * `UNHEALTHY`, or `ERROR`.
  */
-export const stopWorkspaces: (
-  input: StopWorkspacesRequest,
-) => effect.Effect<
+export const stopWorkspaces: API.OperationMethod<
+  StopWorkspacesRequest,
   StopWorkspacesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7329,9 +7240,8 @@ export const stopWorkspaces: (
  * You cannot stop a WorkSpace pool unless it has a running mode of `AutoStop`
  * and a state of `AVAILABLE`, `IMPAIRED`, `UNHEALTHY`, or `ERROR`.
  */
-export const stopWorkspacesPool: (
-  input: StopWorkspacesPoolRequest,
-) => effect.Effect<
+export const stopWorkspacesPool: API.OperationMethod<
+  StopWorkspacesPoolRequest,
   StopWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7379,9 +7289,8 @@ export const stopWorkspacesPool: (
  * directory, you can always create a new one when you want to start using WorkSpaces
  * again.
  */
-export const terminateWorkspaces: (
-  input: TerminateWorkspacesRequest,
-) => effect.Effect<
+export const terminateWorkspaces: API.OperationMethod<
+  TerminateWorkspacesRequest,
   TerminateWorkspacesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7393,9 +7302,8 @@ export const terminateWorkspaces: (
 /**
  * Terminates the specified pool.
  */
-export const terminateWorkspacesPool: (
-  input: TerminateWorkspacesPoolRequest,
-) => effect.Effect<
+export const terminateWorkspacesPool: API.OperationMethod<
+  TerminateWorkspacesPoolRequest,
   TerminateWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7418,9 +7326,8 @@ export const terminateWorkspacesPool: (
 /**
  * Terminates the pool session.
  */
-export const terminateWorkspacesPoolSession: (
-  input: TerminateWorkspacesPoolSessionRequest,
-) => effect.Effect<
+export const terminateWorkspacesPoolSession: API.OperationMethod<
+  TerminateWorkspacesPoolSessionRequest,
   TerminateWorkspacesPoolSessionResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7444,9 +7351,8 @@ export const terminateWorkspacesPoolSession: (
  * Updates a Amazon Connect client add-in. Use this action to update the name and
  * endpoint URL of a Amazon Connect client add-in.
  */
-export const updateConnectClientAddIn: (
-  input: UpdateConnectClientAddInRequest,
-) => effect.Effect<
+export const updateConnectClientAddIn: API.OperationMethod<
+  UpdateConnectClientAddInRequest,
   UpdateConnectClientAddInResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7480,9 +7386,8 @@ export const updateConnectClientAddIn: (
  * has been shared with. You can delete a connection alias only after it is no longer
  * shared with any accounts or associated with any directories.
  */
-export const updateConnectionAliasPermission: (
-  input: UpdateConnectionAliasPermissionRequest,
-) => effect.Effect<
+export const updateConnectionAliasPermission: API.OperationMethod<
+  UpdateConnectionAliasPermissionRequest,
   UpdateConnectionAliasPermissionResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7510,9 +7415,8 @@ export const updateConnectionAliasPermission: (
  * Replaces the current rules of the specified IP access control group with the specified
  * rules.
  */
-export const updateRulesOfIpGroup: (
-  input: UpdateRulesOfIpGroupRequest,
-) => effect.Effect<
+export const updateRulesOfIpGroup: API.OperationMethod<
+  UpdateRulesOfIpGroupRequest,
   UpdateRulesOfIpGroupResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7541,9 +7445,8 @@ export const updateRulesOfIpGroup: (
  * based on. To update existing WorkSpaces that are based on a bundle that you've updated, you
  * must either rebuild the WorkSpaces or delete and recreate them.
  */
-export const updateWorkspaceBundle: (
-  input: UpdateWorkspaceBundleRequest,
-) => effect.Effect<
+export const updateWorkspaceBundle: API.OperationMethod<
+  UpdateWorkspaceBundleRequest,
   UpdateWorkspaceBundleResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7586,9 +7489,8 @@ export const updateWorkspaceBundle: (
  * isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images
  * across accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
  */
-export const updateWorkspaceImagePermission: (
-  input: UpdateWorkspaceImagePermissionRequest,
-) => effect.Effect<
+export const updateWorkspaceImagePermission: API.OperationMethod<
+  UpdateWorkspaceImagePermissionRequest,
   UpdateWorkspaceImagePermissionResult,
   | AccessDeniedException
   | InvalidParameterValuesException
@@ -7611,9 +7513,8 @@ export const updateWorkspaceImagePermission: (
 /**
  * Updates the specified pool.
  */
-export const updateWorkspacesPool: (
-  input: UpdateWorkspacesPoolRequest,
-) => effect.Effect<
+export const updateWorkspacesPool: API.OperationMethod<
+  UpdateWorkspacesPoolRequest,
   UpdateWorkspacesPoolResult,
   | AccessDeniedException
   | InvalidParameterValuesException

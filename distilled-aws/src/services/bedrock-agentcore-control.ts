@@ -6859,9 +6859,8 @@ export class ThrottledException extends S.TaggedErrorClass<ThrottledException>()
  *
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6886,9 +6885,8 @@ export const deleteResourcePolicy: (
  *
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6911,9 +6909,8 @@ export const getResourcePolicy: (
 /**
  * Retrieves information about a token vault.
  */
-export const getTokenVault: (
-  input: GetTokenVaultRequest,
-) => effect.Effect<
+export const getTokenVault: API.OperationMethod<
+  GetTokenVaultRequest,
   GetTokenVaultResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6940,9 +6937,8 @@ export const getTokenVault: (
  *
  * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6967,9 +6963,8 @@ export const listTagsForResource: (
  *
  * This feature is currently available only for AgentCore Runtime and Gateway.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6992,9 +6987,8 @@ export const putResourcePolicy: (
 /**
  * Sets the customer master key (CMK) for a token vault.
  */
-export const setTokenVaultCMK: (
-  input: SetTokenVaultCMKRequest,
-) => effect.Effect<
+export const setTokenVaultCMK: API.OperationMethod<
+  SetTokenVaultCMKRequest,
   SetTokenVaultCMKResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -7023,9 +7017,8 @@ export const setTokenVaultCMK: (
  *
  * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7052,9 +7045,8 @@ export const tagResource: (
  *
  * This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7077,9 +7069,8 @@ export const untagResource: (
 /**
  * Creates an AgentCore Runtime endpoint.
  */
-export const createAgentRuntimeEndpoint: (
-  input: CreateAgentRuntimeEndpointRequest,
-) => effect.Effect<
+export const createAgentRuntimeEndpoint: API.OperationMethod<
+  CreateAgentRuntimeEndpointRequest,
   CreateAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -7106,9 +7097,8 @@ export const createAgentRuntimeEndpoint: (
 /**
  * Gets information about an Amazon Secure AgentEndpoint.
  */
-export const getAgentRuntimeEndpoint: (
-  input: GetAgentRuntimeEndpointRequest,
-) => effect.Effect<
+export const getAgentRuntimeEndpoint: API.OperationMethod<
+  GetAgentRuntimeEndpointRequest,
   GetAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7131,9 +7121,8 @@ export const getAgentRuntimeEndpoint: (
 /**
  * Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
  */
-export const updateAgentRuntimeEndpoint: (
-  input: UpdateAgentRuntimeEndpointRequest,
-) => effect.Effect<
+export const updateAgentRuntimeEndpoint: API.OperationMethod<
+  UpdateAgentRuntimeEndpointRequest,
   UpdateAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -7160,9 +7149,8 @@ export const updateAgentRuntimeEndpoint: (
 /**
  * Deletes an AAgentCore Runtime endpoint.
  */
-export const deleteAgentRuntimeEndpoint: (
-  input: DeleteAgentRuntimeEndpointRequest,
-) => effect.Effect<
+export const deleteAgentRuntimeEndpoint: API.OperationMethod<
+  DeleteAgentRuntimeEndpointRequest,
   DeleteAgentRuntimeEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -7185,18 +7173,16 @@ export const deleteAgentRuntimeEndpoint: (
 /**
  * Lists all endpoints for a specific Amazon Secure Agent.
  */
-export const listAgentRuntimeEndpoints: {
-  (
-    input: ListAgentRuntimeEndpointsRequest,
-  ): effect.Effect<
-    ListAgentRuntimeEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentRuntimeEndpoints: API.OperationMethod<
+  ListAgentRuntimeEndpointsRequest,
+  ListAgentRuntimeEndpointsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentRuntimeEndpointsRequest,
   ) => stream.Stream<
@@ -7238,9 +7224,8 @@ export const listAgentRuntimeEndpoints: {
 /**
  * Creates an Amazon Bedrock AgentCore Runtime.
  */
-export const createAgentRuntime: (
-  input: CreateAgentRuntimeRequest,
-) => effect.Effect<
+export const createAgentRuntime: API.OperationMethod<
+  CreateAgentRuntimeRequest,
   CreateAgentRuntimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -7265,9 +7250,8 @@ export const createAgentRuntime: (
 /**
  * Gets an Amazon Bedrock AgentCore Runtime.
  */
-export const getAgentRuntime: (
-  input: GetAgentRuntimeRequest,
-) => effect.Effect<
+export const getAgentRuntime: API.OperationMethod<
+  GetAgentRuntimeRequest,
   GetAgentRuntimeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7290,9 +7274,8 @@ export const getAgentRuntime: (
 /**
  * Updates an existing Amazon Secure Agent.
  */
-export const updateAgentRuntime: (
-  input: UpdateAgentRuntimeRequest,
-) => effect.Effect<
+export const updateAgentRuntime: API.OperationMethod<
+  UpdateAgentRuntimeRequest,
   UpdateAgentRuntimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -7319,9 +7302,8 @@ export const updateAgentRuntime: (
 /**
  * Deletes an Amazon Bedrock AgentCore Runtime.
  */
-export const deleteAgentRuntime: (
-  input: DeleteAgentRuntimeRequest,
-) => effect.Effect<
+export const deleteAgentRuntime: API.OperationMethod<
+  DeleteAgentRuntimeRequest,
   DeleteAgentRuntimeResponse,
   | AccessDeniedException
   | ConflictException
@@ -7344,18 +7326,16 @@ export const deleteAgentRuntime: (
 /**
  * Lists all Amazon Secure Agents in your account.
  */
-export const listAgentRuntimes: {
-  (
-    input: ListAgentRuntimesRequest,
-  ): effect.Effect<
-    ListAgentRuntimesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentRuntimes: API.OperationMethod<
+  ListAgentRuntimesRequest,
+  ListAgentRuntimesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentRuntimesRequest,
   ) => stream.Stream<
@@ -7397,19 +7377,17 @@ export const listAgentRuntimes: {
 /**
  * Lists all versions of a specific Amazon Secure Agent.
  */
-export const listAgentRuntimeVersions: {
-  (
-    input: ListAgentRuntimeVersionsRequest,
-  ): effect.Effect<
-    ListAgentRuntimeVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentRuntimeVersions: API.OperationMethod<
+  ListAgentRuntimeVersionsRequest,
+  ListAgentRuntimeVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentRuntimeVersionsRequest,
   ) => stream.Stream<
@@ -7454,9 +7432,8 @@ export const listAgentRuntimeVersions: {
 /**
  * Creates a new API key credential provider.
  */
-export const createApiKeyCredentialProvider: (
-  input: CreateApiKeyCredentialProviderRequest,
-) => effect.Effect<
+export const createApiKeyCredentialProvider: API.OperationMethod<
+  CreateApiKeyCredentialProviderRequest,
   CreateApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -7491,9 +7468,8 @@ export const createApiKeyCredentialProvider: (
 /**
  * Retrieves information about an API key credential provider.
  */
-export const getApiKeyCredentialProvider: (
-  input: GetApiKeyCredentialProviderRequest,
-) => effect.Effect<
+export const getApiKeyCredentialProvider: API.OperationMethod<
+  GetApiKeyCredentialProviderRequest,
   GetApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | DecryptionFailure
@@ -7520,9 +7496,8 @@ export const getApiKeyCredentialProvider: (
 /**
  * Updates an existing API key credential provider.
  */
-export const updateApiKeyCredentialProvider: (
-  input: UpdateApiKeyCredentialProviderRequest,
-) => effect.Effect<
+export const updateApiKeyCredentialProvider: API.OperationMethod<
+  UpdateApiKeyCredentialProviderRequest,
   UpdateApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -7555,9 +7530,8 @@ export const updateApiKeyCredentialProvider: (
 /**
  * Deletes an API key credential provider.
  */
-export const deleteApiKeyCredentialProvider: (
-  input: DeleteApiKeyCredentialProviderRequest,
-) => effect.Effect<
+export const deleteApiKeyCredentialProvider: API.OperationMethod<
+  DeleteApiKeyCredentialProviderRequest,
   DeleteApiKeyCredentialProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7582,20 +7556,18 @@ export const deleteApiKeyCredentialProvider: (
 /**
  * Lists all API key credential providers in your account.
  */
-export const listApiKeyCredentialProviders: {
-  (
-    input: ListApiKeyCredentialProvidersRequest,
-  ): effect.Effect<
-    ListApiKeyCredentialProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApiKeyCredentialProviders: API.OperationMethod<
+  ListApiKeyCredentialProvidersRequest,
+  ListApiKeyCredentialProvidersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApiKeyCredentialProvidersRequest,
   ) => stream.Stream<
@@ -7643,9 +7615,8 @@ export const listApiKeyCredentialProviders: {
 /**
  * Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
  */
-export const createBrowserProfile: (
-  input: CreateBrowserProfileRequest,
-) => effect.Effect<
+export const createBrowserProfile: API.OperationMethod<
+  CreateBrowserProfileRequest,
   CreateBrowserProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -7670,9 +7641,8 @@ export const createBrowserProfile: (
 /**
  * Gets information about a browser profile.
  */
-export const getBrowserProfile: (
-  input: GetBrowserProfileRequest,
-) => effect.Effect<
+export const getBrowserProfile: API.OperationMethod<
+  GetBrowserProfileRequest,
   GetBrowserProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7695,9 +7665,8 @@ export const getBrowserProfile: (
 /**
  * Deletes a browser profile.
  */
-export const deleteBrowserProfile: (
-  input: DeleteBrowserProfileRequest,
-) => effect.Effect<
+export const deleteBrowserProfile: API.OperationMethod<
+  DeleteBrowserProfileRequest,
   DeleteBrowserProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -7722,18 +7691,16 @@ export const deleteBrowserProfile: (
 /**
  * Lists all browser profiles in your account.
  */
-export const listBrowserProfiles: {
-  (
-    input: ListBrowserProfilesRequest,
-  ): effect.Effect<
-    ListBrowserProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBrowserProfiles: API.OperationMethod<
+  ListBrowserProfilesRequest,
+  ListBrowserProfilesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBrowserProfilesRequest,
   ) => stream.Stream<
@@ -7775,9 +7742,8 @@ export const listBrowserProfiles: {
 /**
  * Creates a custom browser.
  */
-export const createBrowser: (
-  input: CreateBrowserRequest,
-) => effect.Effect<
+export const createBrowser: API.OperationMethod<
+  CreateBrowserRequest,
   CreateBrowserResponse,
   | AccessDeniedException
   | ConflictException
@@ -7802,9 +7768,8 @@ export const createBrowser: (
 /**
  * Gets information about a custom browser.
  */
-export const getBrowser: (
-  input: GetBrowserRequest,
-) => effect.Effect<
+export const getBrowser: API.OperationMethod<
+  GetBrowserRequest,
   GetBrowserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7827,9 +7792,8 @@ export const getBrowser: (
 /**
  * Deletes a custom browser.
  */
-export const deleteBrowser: (
-  input: DeleteBrowserRequest,
-) => effect.Effect<
+export const deleteBrowser: API.OperationMethod<
+  DeleteBrowserRequest,
   DeleteBrowserResponse,
   | AccessDeniedException
   | ConflictException
@@ -7856,18 +7820,16 @@ export const deleteBrowser: (
 /**
  * Lists all custom browsers in your account.
  */
-export const listBrowsers: {
-  (
-    input: ListBrowsersRequest,
-  ): effect.Effect<
-    ListBrowsersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBrowsers: API.OperationMethod<
+  ListBrowsersRequest,
+  ListBrowsersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBrowsersRequest,
   ) => stream.Stream<
@@ -7909,9 +7871,8 @@ export const listBrowsers: {
 /**
  * Creates a custom code interpreter.
  */
-export const createCodeInterpreter: (
-  input: CreateCodeInterpreterRequest,
-) => effect.Effect<
+export const createCodeInterpreter: API.OperationMethod<
+  CreateCodeInterpreterRequest,
   CreateCodeInterpreterResponse,
   | AccessDeniedException
   | ConflictException
@@ -7936,9 +7897,8 @@ export const createCodeInterpreter: (
 /**
  * Gets information about a custom code interpreter.
  */
-export const getCodeInterpreter: (
-  input: GetCodeInterpreterRequest,
-) => effect.Effect<
+export const getCodeInterpreter: API.OperationMethod<
+  GetCodeInterpreterRequest,
   GetCodeInterpreterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7961,9 +7921,8 @@ export const getCodeInterpreter: (
 /**
  * Deletes a custom code interpreter.
  */
-export const deleteCodeInterpreter: (
-  input: DeleteCodeInterpreterRequest,
-) => effect.Effect<
+export const deleteCodeInterpreter: API.OperationMethod<
+  DeleteCodeInterpreterRequest,
   DeleteCodeInterpreterResponse,
   | AccessDeniedException
   | ConflictException
@@ -7990,18 +7949,16 @@ export const deleteCodeInterpreter: (
 /**
  * Lists all custom code interpreters in your account.
  */
-export const listCodeInterpreters: {
-  (
-    input: ListCodeInterpretersRequest,
-  ): effect.Effect<
-    ListCodeInterpretersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCodeInterpreters: API.OperationMethod<
+  ListCodeInterpretersRequest,
+  ListCodeInterpretersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCodeInterpretersRequest,
   ) => stream.Stream<
@@ -8043,9 +8000,8 @@ export const listCodeInterpreters: {
 /**
  * Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
  */
-export const createEvaluator: (
-  input: CreateEvaluatorRequest,
-) => effect.Effect<
+export const createEvaluator: API.OperationMethod<
+  CreateEvaluatorRequest,
   CreateEvaluatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8070,9 +8026,8 @@ export const createEvaluator: (
 /**
  * Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
  */
-export const getEvaluator: (
-  input: GetEvaluatorRequest,
-) => effect.Effect<
+export const getEvaluator: API.OperationMethod<
+  GetEvaluatorRequest,
   GetEvaluatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8095,9 +8050,8 @@ export const getEvaluator: (
 /**
  * Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
  */
-export const updateEvaluator: (
-  input: UpdateEvaluatorRequest,
-) => effect.Effect<
+export const updateEvaluator: API.OperationMethod<
+  UpdateEvaluatorRequest,
   UpdateEvaluatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8124,9 +8078,8 @@ export const updateEvaluator: (
 /**
  * Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
  */
-export const deleteEvaluator: (
-  input: DeleteEvaluatorRequest,
-) => effect.Effect<
+export const deleteEvaluator: API.OperationMethod<
+  DeleteEvaluatorRequest,
   DeleteEvaluatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8151,18 +8104,16 @@ export const deleteEvaluator: (
 /**
  * Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
  */
-export const listEvaluators: {
-  (
-    input: ListEvaluatorsRequest,
-  ): effect.Effect<
-    ListEvaluatorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEvaluators: API.OperationMethod<
+  ListEvaluatorsRequest,
+  ListEvaluatorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEvaluatorsRequest,
   ) => stream.Stream<
@@ -8206,9 +8157,8 @@ export const listEvaluators: {
  *
  * If you specify `CUSTOM_JWT` as the `authorizerType`, you must provide an `authorizerConfiguration`.
  */
-export const createGateway: (
-  input: CreateGatewayRequest,
-) => effect.Effect<
+export const createGateway: API.OperationMethod<
+  CreateGatewayRequest,
   CreateGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -8233,9 +8183,8 @@ export const createGateway: (
 /**
  * Deletes a gateway.
  */
-export const deleteGateway: (
-  input: DeleteGatewayRequest,
-) => effect.Effect<
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayRequest,
   DeleteGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -8260,9 +8209,8 @@ export const deleteGateway: (
 /**
  * Retrieves information about a specific Gateway.
  */
-export const getGateway: (
-  input: GetGatewayRequest,
-) => effect.Effect<
+export const getGateway: API.OperationMethod<
+  GetGatewayRequest,
   GetGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8285,18 +8233,16 @@ export const getGateway: (
 /**
  * Lists all gateways in the account.
  */
-export const listGateways: {
-  (
-    input: ListGatewaysRequest,
-  ): effect.Effect<
-    ListGatewaysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGateways: API.OperationMethod<
+  ListGatewaysRequest,
+  ListGatewaysResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
@@ -8338,9 +8284,8 @@ export const listGateways: {
 /**
  * Updates an existing gateway.
  */
-export const updateGateway: (
-  input: UpdateGatewayRequest,
-) => effect.Effect<
+export const updateGateway: API.OperationMethod<
+  UpdateGatewayRequest,
   UpdateGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -8367,9 +8312,8 @@ export const updateGateway: (
 /**
  * Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
  */
-export const createGatewayTarget: (
-  input: CreateGatewayTargetRequest,
-) => effect.Effect<
+export const createGatewayTarget: API.OperationMethod<
+  CreateGatewayTargetRequest,
   CreateGatewayTargetResponse,
   | AccessDeniedException
   | ConflictException
@@ -8396,9 +8340,8 @@ export const createGatewayTarget: (
 /**
  * Deletes a gateway target.
  */
-export const deleteGatewayTarget: (
-  input: DeleteGatewayTargetRequest,
-) => effect.Effect<
+export const deleteGatewayTarget: API.OperationMethod<
+  DeleteGatewayTargetRequest,
   DeleteGatewayTargetResponse,
   | AccessDeniedException
   | ConflictException
@@ -8423,9 +8366,8 @@ export const deleteGatewayTarget: (
 /**
  * Retrieves information about a specific gateway target.
  */
-export const getGatewayTarget: (
-  input: GetGatewayTargetRequest,
-) => effect.Effect<
+export const getGatewayTarget: API.OperationMethod<
+  GetGatewayTargetRequest,
   GetGatewayTargetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8448,18 +8390,16 @@ export const getGatewayTarget: (
 /**
  * Lists all targets for a specific gateway.
  */
-export const listGatewayTargets: {
-  (
-    input: ListGatewayTargetsRequest,
-  ): effect.Effect<
-    ListGatewayTargetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGatewayTargets: API.OperationMethod<
+  ListGatewayTargetsRequest,
+  ListGatewayTargetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewayTargetsRequest,
   ) => stream.Stream<
@@ -8501,9 +8441,8 @@ export const listGatewayTargets: {
 /**
  * The gateway targets.
  */
-export const synchronizeGatewayTargets: (
-  input: SynchronizeGatewayTargetsRequest,
-) => effect.Effect<
+export const synchronizeGatewayTargets: API.OperationMethod<
+  SynchronizeGatewayTargetsRequest,
   SynchronizeGatewayTargetsResponse,
   | AccessDeniedException
   | ConflictException
@@ -8530,9 +8469,8 @@ export const synchronizeGatewayTargets: (
 /**
  * Updates an existing gateway target.
  */
-export const updateGatewayTarget: (
-  input: UpdateGatewayTargetRequest,
-) => effect.Effect<
+export const updateGatewayTarget: API.OperationMethod<
+  UpdateGatewayTargetRequest,
   UpdateGatewayTargetResponse,
   | AccessDeniedException
   | ConflictException
@@ -8559,9 +8497,8 @@ export const updateGatewayTarget: (
 /**
  * Creates a new Amazon Bedrock AgentCore Memory resource.
  */
-export const createMemory: (
-  input: CreateMemoryInput,
-) => effect.Effect<
+export const createMemory: API.OperationMethod<
+  CreateMemoryInput,
   CreateMemoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -8588,9 +8525,8 @@ export const createMemory: (
 /**
  * Retrieve an existing Amazon Bedrock AgentCore Memory resource.
  */
-export const getMemory: (
-  input: GetMemoryInput,
-) => effect.Effect<
+export const getMemory: API.OperationMethod<
+  GetMemoryInput,
   GetMemoryOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -8613,9 +8549,8 @@ export const getMemory: (
 /**
  * Update an Amazon Bedrock AgentCore Memory resource memory.
  */
-export const updateMemory: (
-  input: UpdateMemoryInput,
-) => effect.Effect<
+export const updateMemory: API.OperationMethod<
+  UpdateMemoryInput,
   UpdateMemoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -8642,9 +8577,8 @@ export const updateMemory: (
 /**
  * Deletes an Amazon Bedrock AgentCore Memory resource.
  */
-export const deleteMemory: (
-  input: DeleteMemoryInput,
-) => effect.Effect<
+export const deleteMemory: API.OperationMethod<
+  DeleteMemoryInput,
   DeleteMemoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -8669,19 +8603,17 @@ export const deleteMemory: (
 /**
  * Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
  */
-export const listMemories: {
-  (
-    input: ListMemoriesInput,
-  ): effect.Effect<
-    ListMemoriesOutput,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ServiceException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMemories: API.OperationMethod<
+  ListMemoriesInput,
+  ListMemoriesOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMemoriesInput,
   ) => stream.Stream<
@@ -8726,9 +8658,8 @@ export const listMemories: {
 /**
  * Creates a new OAuth2 credential provider.
  */
-export const createOauth2CredentialProvider: (
-  input: CreateOauth2CredentialProviderRequest,
-) => effect.Effect<
+export const createOauth2CredentialProvider: API.OperationMethod<
+  CreateOauth2CredentialProviderRequest,
   CreateOauth2CredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -8763,9 +8694,8 @@ export const createOauth2CredentialProvider: (
 /**
  * Retrieves information about an OAuth2 credential provider.
  */
-export const getOauth2CredentialProvider: (
-  input: GetOauth2CredentialProviderRequest,
-) => effect.Effect<
+export const getOauth2CredentialProvider: API.OperationMethod<
+  GetOauth2CredentialProviderRequest,
   GetOauth2CredentialProviderResponse,
   | AccessDeniedException
   | DecryptionFailure
@@ -8792,9 +8722,8 @@ export const getOauth2CredentialProvider: (
 /**
  * Updates an existing OAuth2 credential provider.
  */
-export const updateOauth2CredentialProvider: (
-  input: UpdateOauth2CredentialProviderRequest,
-) => effect.Effect<
+export const updateOauth2CredentialProvider: API.OperationMethod<
+  UpdateOauth2CredentialProviderRequest,
   UpdateOauth2CredentialProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -8827,9 +8756,8 @@ export const updateOauth2CredentialProvider: (
 /**
  * Deletes an OAuth2 credential provider.
  */
-export const deleteOauth2CredentialProvider: (
-  input: DeleteOauth2CredentialProviderRequest,
-) => effect.Effect<
+export const deleteOauth2CredentialProvider: API.OperationMethod<
+  DeleteOauth2CredentialProviderRequest,
   DeleteOauth2CredentialProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8854,20 +8782,18 @@ export const deleteOauth2CredentialProvider: (
 /**
  * Lists all OAuth2 credential providers in your account.
  */
-export const listOauth2CredentialProviders: {
-  (
-    input: ListOauth2CredentialProvidersRequest,
-  ): effect.Effect<
-    ListOauth2CredentialProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOauth2CredentialProviders: API.OperationMethod<
+  ListOauth2CredentialProvidersRequest,
+  ListOauth2CredentialProvidersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOauth2CredentialProvidersRequest,
   ) => stream.Stream<
@@ -8915,9 +8841,8 @@ export const listOauth2CredentialProviders: {
 /**
  * Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
  */
-export const createOnlineEvaluationConfig: (
-  input: CreateOnlineEvaluationConfigRequest,
-) => effect.Effect<
+export const createOnlineEvaluationConfig: API.OperationMethod<
+  CreateOnlineEvaluationConfigRequest,
   CreateOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -8942,9 +8867,8 @@ export const createOnlineEvaluationConfig: (
 /**
  * Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status.
  */
-export const getOnlineEvaluationConfig: (
-  input: GetOnlineEvaluationConfigRequest,
-) => effect.Effect<
+export const getOnlineEvaluationConfig: API.OperationMethod<
+  GetOnlineEvaluationConfigRequest,
   GetOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8967,9 +8891,8 @@ export const getOnlineEvaluationConfig: (
 /**
  * Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
  */
-export const updateOnlineEvaluationConfig: (
-  input: UpdateOnlineEvaluationConfigRequest,
-) => effect.Effect<
+export const updateOnlineEvaluationConfig: API.OperationMethod<
+  UpdateOnlineEvaluationConfigRequest,
   UpdateOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -8996,9 +8919,8 @@ export const updateOnlineEvaluationConfig: (
 /**
  * Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
  */
-export const deleteOnlineEvaluationConfig: (
-  input: DeleteOnlineEvaluationConfigRequest,
-) => effect.Effect<
+export const deleteOnlineEvaluationConfig: API.OperationMethod<
+  DeleteOnlineEvaluationConfigRequest,
   DeleteOnlineEvaluationConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -9023,18 +8945,16 @@ export const deleteOnlineEvaluationConfig: (
 /**
  * Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings.
  */
-export const listOnlineEvaluationConfigs: {
-  (
-    input: ListOnlineEvaluationConfigsRequest,
-  ): effect.Effect<
-    ListOnlineEvaluationConfigsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOnlineEvaluationConfigs: API.OperationMethod<
+  ListOnlineEvaluationConfigsRequest,
+  ListOnlineEvaluationConfigsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOnlineEvaluationConfigsRequest,
   ) => stream.Stream<
@@ -9076,9 +8996,8 @@ export const listOnlineEvaluationConfigs: {
 /**
  * Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the `status` field to track completion.
  */
-export const createPolicyEngine: (
-  input: CreatePolicyEngineRequest,
-) => effect.Effect<
+export const createPolicyEngine: API.OperationMethod<
+  CreatePolicyEngineRequest,
   CreatePolicyEngineResponse,
   | AccessDeniedException
   | ConflictException
@@ -9103,9 +9022,8 @@ export const createPolicyEngine: (
 /**
  * Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings.
  */
-export const getPolicyEngine: (
-  input: GetPolicyEngineRequest,
-) => effect.Effect<
+export const getPolicyEngine: API.OperationMethod<
+  GetPolicyEngineRequest,
   GetPolicyEngineResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9128,9 +9046,8 @@ export const getPolicyEngine: (
 /**
  * Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
  */
-export const updatePolicyEngine: (
-  input: UpdatePolicyEngineRequest,
-) => effect.Effect<
+export const updatePolicyEngine: API.OperationMethod<
+  UpdatePolicyEngineRequest,
   UpdatePolicyEngineResponse,
   | AccessDeniedException
   | ConflictException
@@ -9155,9 +9072,8 @@ export const updatePolicyEngine: (
 /**
  * Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the `GetPolicyEngine` operation to poll the `status` field to track completion.
  */
-export const deletePolicyEngine: (
-  input: DeletePolicyEngineRequest,
-) => effect.Effect<
+export const deletePolicyEngine: API.OperationMethod<
+  DeletePolicyEngineRequest,
   DeletePolicyEngineResponse,
   | AccessDeniedException
   | ConflictException
@@ -9182,18 +9098,16 @@ export const deletePolicyEngine: (
 /**
  * Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
  */
-export const listPolicyEngines: {
-  (
-    input: ListPolicyEnginesRequest,
-  ): effect.Effect<
-    ListPolicyEnginesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyEngines: API.OperationMethod<
+  ListPolicyEnginesRequest,
+  ListPolicyEnginesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyEnginesRequest,
   ) => stream.Stream<
@@ -9235,9 +9149,8 @@ export const listPolicyEngines: {
 /**
  * Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
  */
-export const startPolicyGeneration: (
-  input: StartPolicyGenerationRequest,
-) => effect.Effect<
+export const startPolicyGeneration: API.OperationMethod<
+  StartPolicyGenerationRequest,
   StartPolicyGenerationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9264,9 +9177,8 @@ export const startPolicyGeneration: (
 /**
  * Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
  */
-export const getPolicyGeneration: (
-  input: GetPolicyGenerationRequest,
-) => effect.Effect<
+export const getPolicyGeneration: API.OperationMethod<
+  GetPolicyGenerationRequest,
   GetPolicyGenerationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9289,19 +9201,17 @@ export const getPolicyGeneration: (
 /**
  * Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
  */
-export const listPolicyGenerations: {
-  (
-    input: ListPolicyGenerationsRequest,
-  ): effect.Effect<
-    ListPolicyGenerationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyGenerations: API.OperationMethod<
+  ListPolicyGenerationsRequest,
+  ListPolicyGenerationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyGenerationsRequest,
   ) => stream.Stream<
@@ -9346,19 +9256,17 @@ export const listPolicyGenerations: {
 /**
  * Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
  */
-export const listPolicyGenerationAssets: {
-  (
-    input: ListPolicyGenerationAssetsRequest,
-  ): effect.Effect<
-    ListPolicyGenerationAssetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyGenerationAssets: API.OperationMethod<
+  ListPolicyGenerationAssetsRequest,
+  ListPolicyGenerationAssetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyGenerationAssetsRequest,
   ) => stream.Stream<
@@ -9403,9 +9311,8 @@ export const listPolicyGenerationAssets: {
 /**
  * Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the `status` field to track completion.
  */
-export const createPolicy: (
-  input: CreatePolicyRequest,
-) => effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
   CreatePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -9432,9 +9339,8 @@ export const createPolicy: (
 /**
  * Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9457,9 +9363,8 @@ export const getPolicy: (
 /**
  * Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
  */
-export const updatePolicy: (
-  input: UpdatePolicyRequest,
-) => effect.Effect<
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
   UpdatePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -9484,9 +9389,8 @@ export const updatePolicy: (
 /**
  * Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the `GetPolicy` operation to poll the `status` field to track completion.
  */
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -9511,19 +9415,17 @@ export const deletePolicy: (
 /**
  * Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesRequest,
-  ): effect.Effect<
-    ListPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  ListPoliciesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
@@ -9568,9 +9470,8 @@ export const listPolicies: {
 /**
  * Creates a new workload identity.
  */
-export const createWorkloadIdentity: (
-  input: CreateWorkloadIdentityRequest,
-) => effect.Effect<
+export const createWorkloadIdentity: API.OperationMethod<
+  CreateWorkloadIdentityRequest,
   CreateWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9595,9 +9496,8 @@ export const createWorkloadIdentity: (
 /**
  * Retrieves information about a workload identity.
  */
-export const getWorkloadIdentity: (
-  input: GetWorkloadIdentityRequest,
-) => effect.Effect<
+export const getWorkloadIdentity: API.OperationMethod<
+  GetWorkloadIdentityRequest,
   GetWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9622,9 +9522,8 @@ export const getWorkloadIdentity: (
 /**
  * Updates an existing workload identity.
  */
-export const updateWorkloadIdentity: (
-  input: UpdateWorkloadIdentityRequest,
-) => effect.Effect<
+export const updateWorkloadIdentity: API.OperationMethod<
+  UpdateWorkloadIdentityRequest,
   UpdateWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9649,9 +9548,8 @@ export const updateWorkloadIdentity: (
 /**
  * Deletes a workload identity.
  */
-export const deleteWorkloadIdentity: (
-  input: DeleteWorkloadIdentityRequest,
-) => effect.Effect<
+export const deleteWorkloadIdentity: API.OperationMethod<
+  DeleteWorkloadIdentityRequest,
   DeleteWorkloadIdentityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9676,20 +9574,18 @@ export const deleteWorkloadIdentity: (
 /**
  * Lists all workload identities in your account.
  */
-export const listWorkloadIdentities: {
-  (
-    input: ListWorkloadIdentitiesRequest,
-  ): effect.Effect<
-    ListWorkloadIdentitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloadIdentities: API.OperationMethod<
+  ListWorkloadIdentitiesRequest,
+  ListWorkloadIdentitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadIdentitiesRequest,
   ) => stream.Stream<

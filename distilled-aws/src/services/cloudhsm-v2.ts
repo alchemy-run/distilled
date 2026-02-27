@@ -781,9 +781,8 @@ export class CloudHsmResourceLimitExceededException extends S.TaggedErrorClass<C
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
-export const copyBackupToRegion: (
-  input: CopyBackupToRegionRequest,
-) => effect.Effect<
+export const copyBackupToRegion: API.OperationMethod<
+  CopyBackupToRegionRequest,
   CopyBackupToRegionResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -811,9 +810,8 @@ export const copyBackupToRegion: (
  * **Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup
  * ARN in the value of the SourceBackupId parameter.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -841,9 +839,8 @@ export const createCluster: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
  */
-export const createHsm: (
-  input: CreateHsmRequest,
-) => effect.Effect<
+export const createHsm: API.OperationMethod<
+  CreateHsmRequest,
   CreateHsmResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -870,9 +867,8 @@ export const createHsm: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
-export const deleteBackup: (
-  input: DeleteBackupRequest,
-) => effect.Effect<
+export const deleteBackup: API.OperationMethod<
+  DeleteBackupRequest,
   DeleteBackupResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -898,9 +894,8 @@ export const deleteBackup: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -929,9 +924,8 @@ export const deleteCluster: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
  */
-export const deleteHsm: (
-  input: DeleteHsmRequest,
-) => effect.Effect<
+export const deleteHsm: API.OperationMethod<
+  DeleteHsmRequest,
   DeleteHsmResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -958,9 +952,8 @@ export const deleteHsm: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -991,20 +984,18 @@ export const deleteResourcePolicy: (
  *
  * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
  */
-export const describeBackups: {
-  (
-    input: DescribeBackupsRequest,
-  ): effect.Effect<
-    DescribeBackupsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBackups: API.OperationMethod<
+  DescribeBackupsRequest,
+  DescribeBackupsResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBackupsRequest,
   ) => stream.Stream<
@@ -1059,19 +1050,17 @@ export const describeBackups: {
  *
  * **Cross-account use:** No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
  */
-export const describeClusters: {
-  (
-    input: DescribeClustersRequest,
-  ): effect.Effect<
-    DescribeClustersResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClusters: API.OperationMethod<
+  DescribeClustersRequest,
+  DescribeClustersResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClustersRequest,
   ) => stream.Stream<
@@ -1117,9 +1106,8 @@ export const describeClusters: {
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1147,9 +1135,8 @@ export const getResourcePolicy: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
-export const initializeCluster: (
-  input: InitializeClusterRequest,
-) => effect.Effect<
+export const initializeCluster: API.OperationMethod<
+  InitializeClusterRequest,
   InitializeClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1180,20 +1167,18 @@ export const initializeCluster: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
-export const listTags: {
-  (
-    input: ListTagsRequest,
-  ): effect.Effect<
-    ListTagsResponse,
-    | CloudHsmAccessDeniedException
-    | CloudHsmInternalFailureException
-    | CloudHsmInvalidRequestException
-    | CloudHsmResourceNotFoundException
-    | CloudHsmServiceException
-    | CloudHsmTagException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
+  ListTagsResponse,
+  | CloudHsmAccessDeniedException
+  | CloudHsmInternalFailureException
+  | CloudHsmInvalidRequestException
+  | CloudHsmResourceNotFoundException
+  | CloudHsmServiceException
+  | CloudHsmTagException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsRequest,
   ) => stream.Stream<
@@ -1242,9 +1227,8 @@ export const listTags: {
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
-export const modifyBackupAttributes: (
-  input: ModifyBackupAttributesRequest,
-) => effect.Effect<
+export const modifyBackupAttributes: API.OperationMethod<
+  ModifyBackupAttributesRequest,
   ModifyBackupAttributesResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1269,9 +1253,8 @@ export const modifyBackupAttributes: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
-export const modifyCluster: (
-  input: ModifyClusterRequest,
-) => effect.Effect<
+export const modifyCluster: API.OperationMethod<
+  ModifyClusterRequest,
   ModifyClusterResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1310,9 +1293,8 @@ export const modifyCluster: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1339,9 +1321,8 @@ export const putResourcePolicy: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
-export const restoreBackup: (
-  input: RestoreBackupRequest,
-) => effect.Effect<
+export const restoreBackup: API.OperationMethod<
+  RestoreBackupRequest,
   RestoreBackupResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1366,9 +1347,8 @@ export const restoreBackup: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException
@@ -1397,9 +1377,8 @@ export const tagResource: (
  *
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | CloudHsmAccessDeniedException
   | CloudHsmInternalFailureException

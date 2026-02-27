@@ -1554,9 +1554,8 @@ export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequests
  *
  * The member account status in the graph must be `INVITED`.
  */
-export const acceptInvitation: (
-  input: AcceptInvitationRequest,
-) => effect.Effect<
+export const acceptInvitation: API.OperationMethod<
+  AcceptInvitationRequest,
   AcceptInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1579,9 +1578,8 @@ export const acceptInvitation: (
 /**
  * Gets data source package information for the behavior graph.
  */
-export const batchGetGraphMemberDatasources: (
-  input: BatchGetGraphMemberDatasourcesRequest,
-) => effect.Effect<
+export const batchGetGraphMemberDatasources: API.OperationMethod<
+  BatchGetGraphMemberDatasourcesRequest,
   BatchGetGraphMemberDatasourcesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1602,9 +1600,8 @@ export const batchGetGraphMemberDatasources: (
 /**
  * Gets information on the data source package history for an account.
  */
-export const batchGetMembershipDatasources: (
-  input: BatchGetMembershipDatasourcesRequest,
-) => effect.Effect<
+export const batchGetMembershipDatasources: API.OperationMethod<
+  BatchGetMembershipDatasourcesRequest,
   BatchGetMembershipDatasourcesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1636,9 +1633,8 @@ export const batchGetMembershipDatasources: (
  * If the same account calls `CreateGraph` with the same administrator account, it
  * always returns the same behavior graph ARN. It does not create a new behavior graph.
  */
-export const createGraph: (
-  input: CreateGraphRequest,
-) => effect.Effect<
+export const createGraph: API.OperationMethod<
+  CreateGraphRequest,
   CreateGraphResponse,
   | AccessDeniedException
   | ConflictException
@@ -1689,9 +1685,8 @@ export const createGraph: (
  * includes accounts that were already invited to be member accounts in the behavior
  * graph.
  */
-export const createMembers: (
-  input: CreateMembersRequest,
-) => effect.Effect<
+export const createMembers: API.OperationMethod<
+  CreateMembersRequest,
   CreateMembersResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1718,9 +1713,8 @@ export const createMembers: (
  * `DeleteGraph` can only be called by the administrator account for a behavior
  * graph.
  */
-export const deleteGraph: (
-  input: DeleteGraphRequest,
-) => effect.Effect<
+export const deleteGraph: API.OperationMethod<
+  DeleteGraphRequest,
   DeleteGraphResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1756,9 +1750,8 @@ export const deleteGraph: (
  * account from the behavior graph. To disable a behavior graph, the administrator account
  * uses the `DeleteGraph` API method.
  */
-export const deleteMembers: (
-  input: DeleteMembersRequest,
-) => effect.Effect<
+export const deleteMembers: API.OperationMethod<
+  DeleteMembersRequest,
   DeleteMembersResponse,
   | AccessDeniedException
   | ConflictException
@@ -1785,9 +1778,8 @@ export const deleteMembers: (
  *
  * Can only be called by the Detective administrator account for the organization.
  */
-export const describeOrganizationConfiguration: (
-  input: DescribeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const describeOrganizationConfiguration: API.OperationMethod<
+  DescribeOrganizationConfigurationRequest,
   DescribeOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1816,9 +1808,8 @@ export const describeOrganizationConfiguration: (
  *
  * To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
  */
-export const disableOrganizationAdminAccount: (
-  input: DisableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const disableOrganizationAdminAccount: API.OperationMethod<
+  DisableOrganizationAdminAccountRequest,
   DisableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1845,9 +1836,8 @@ export const disableOrganizationAdminAccount: (
  * administrator account determines which organization accounts to enable or disable as member
  * accounts.
  */
-export const disassociateMembership: (
-  input: DisassociateMembershipRequest,
-) => effect.Effect<
+export const disassociateMembership: API.OperationMethod<
+  DisassociateMembershipRequest,
   DisassociateMembershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -1885,9 +1875,8 @@ export const disassociateMembership: (
  * make that account the delegated administrator account for Detective. The
  * organization management account cannot be the delegated administrator account.
  */
-export const enableOrganizationAdminAccount: (
-  input: EnableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const enableOrganizationAdminAccount: API.OperationMethod<
+  EnableOrganizationAdminAccountRequest,
   EnableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1908,9 +1897,8 @@ export const enableOrganizationAdminAccount: (
 /**
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `GetInvestigation` returns the investigation results of an investigation for a behavior graph.
  */
-export const getInvestigation: (
-  input: GetInvestigationRequest,
-) => effect.Effect<
+export const getInvestigation: API.OperationMethod<
+  GetInvestigationRequest,
   GetInvestigationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1934,9 +1922,8 @@ export const getInvestigation: (
  * Returns the membership details for specified member accounts for a behavior
  * graph.
  */
-export const getMembers: (
-  input: GetMembersRequest,
-) => effect.Effect<
+export const getMembers: API.OperationMethod<
+  GetMembersRequest,
   GetMembersResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1957,18 +1944,16 @@ export const getMembers: (
 /**
  * Lists data source packages in the behavior graph.
  */
-export const listDatasourcePackages: {
-  (
-    input: ListDatasourcePackagesRequest,
-  ): effect.Effect<
-    ListDatasourcePackagesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasourcePackages: API.OperationMethod<
+  ListDatasourcePackagesRequest,
+  ListDatasourcePackagesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasourcePackagesRequest,
   ) => stream.Stream<
@@ -2013,17 +1998,15 @@ export const listDatasourcePackages: {
  * Because an account can currently only be the administrator of one behavior graph within
  * a Region, the results always contain a single behavior graph.
  */
-export const listGraphs: {
-  (
-    input: ListGraphsRequest,
-  ): effect.Effect<
-    ListGraphsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGraphs: API.OperationMethod<
+  ListGraphsRequest,
+  ListGraphsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGraphsRequest,
   ) => stream.Stream<
@@ -2057,9 +2040,8 @@ export const listGraphs: {
 /**
  * Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
  */
-export const listIndicators: (
-  input: ListIndicatorsRequest,
-) => effect.Effect<
+export const listIndicators: API.OperationMethod<
+  ListIndicatorsRequest,
   ListIndicatorsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2087,9 +2069,8 @@ export const listIndicators: (
  * `ListInvestigations` lists all active Detective
  * investigations.
  */
-export const listInvestigations: (
-  input: ListInvestigationsRequest,
-) => effect.Effect<
+export const listInvestigations: API.OperationMethod<
+  ListInvestigationsRequest,
   ListInvestigationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2119,17 +2100,15 @@ export const listInvestigations: (
  * invitation. The results also do not include behavior graphs that the member account
  * resigned from or was removed from.
  */
-export const listInvitations: {
-  (
-    input: ListInvitationsRequest,
-  ): effect.Effect<
-    ListInvitationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvitations: API.OperationMethod<
+  ListInvitationsRequest,
+  ListInvitationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvitationsRequest,
   ) => stream.Stream<
@@ -2170,18 +2149,16 @@ export const listInvitations: {
  * that the Detective administrator account has not enabled as member
  * accounts.
  */
-export const listMembers: {
-  (
-    input: ListMembersRequest,
-  ): effect.Effect<
-    ListMembersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersRequest,
+  ListMembersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
@@ -2223,18 +2200,16 @@ export const listMembers: {
  * Returns information about the Detective administrator account for an
  * organization. Can only be called by the organization management account.
  */
-export const listOrganizationAdminAccounts: {
-  (
-    input: ListOrganizationAdminAccountsRequest,
-  ): effect.Effect<
-    ListOrganizationAdminAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizationAdminAccounts: API.OperationMethod<
+  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationAdminAccountsRequest,
   ) => stream.Stream<
@@ -2275,9 +2250,8 @@ export const listOrganizationAdminAccounts: {
 /**
  * Returns the tag values that are assigned to a behavior graph.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2304,9 +2278,8 @@ export const listTagsForResource: (
  * organization behavior graph. In the organization behavior graph, organization accounts do
  * not receive an invitation.
  */
-export const rejectInvitation: (
-  input: RejectInvitationRequest,
-) => effect.Effect<
+export const rejectInvitation: API.OperationMethod<
+  RejectInvitationRequest,
   RejectInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2329,9 +2302,8 @@ export const rejectInvitation: (
 /**
  * Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. `StartInvestigation` initiates an investigation on an entity in a behavior graph.
  */
-export const startInvestigation: (
-  input: StartInvestigationRequest,
-) => effect.Effect<
+export const startInvestigation: API.OperationMethod<
+  StartInvestigationRequest,
   StartInvestigationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2363,9 +2335,8 @@ export const startInvestigation: (
  * - If Detective cannot enable the member account, the status remains
  * `ACCEPTED_BUT_DISABLED`.
  */
-export const startMonitoringMember: (
-  input: StartMonitoringMemberRequest,
-) => effect.Effect<
+export const startMonitoringMember: API.OperationMethod<
+  StartMonitoringMemberRequest,
   StartMonitoringMemberResponse,
   | AccessDeniedException
   | ConflictException
@@ -2390,9 +2361,8 @@ export const startMonitoringMember: (
 /**
  * Applies tag values to a behavior graph.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2413,9 +2383,8 @@ export const tagResource: (
 /**
  * Removes tags from a behavior graph.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2436,9 +2405,8 @@ export const untagResource: (
 /**
  * Starts a data source package for the Detective behavior graph.
  */
-export const updateDatasourcePackages: (
-  input: UpdateDatasourcePackagesRequest,
-) => effect.Effect<
+export const updateDatasourcePackages: API.OperationMethod<
+  UpdateDatasourcePackagesRequest,
   UpdateDatasourcePackagesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2461,9 +2429,8 @@ export const updateDatasourcePackages: (
 /**
  * Updates the state of an investigation.
  */
-export const updateInvestigationState: (
-  input: UpdateInvestigationStateRequest,
-) => effect.Effect<
+export const updateInvestigationState: API.OperationMethod<
+  UpdateInvestigationStateRequest,
   UpdateInvestigationStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2488,9 +2455,8 @@ export const updateInvestigationState: (
  * Can only be called by the Detective administrator account for the
  * organization.
  */
-export const updateOrganizationConfiguration: (
-  input: UpdateOrganizationConfigurationRequest,
-) => effect.Effect<
+export const updateOrganizationConfiguration: API.OperationMethod<
+  UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException

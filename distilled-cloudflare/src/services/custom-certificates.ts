@@ -94,19 +94,25 @@ export const GetCustomCertificateResponse = Schema.Struct({
   policy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bundleMethod: "bundle_method",
     expiresOn: "expires_on",
+    hosts: "hosts",
+    issuer: "issuer",
     modifiedOn: "modified_on",
+    priority: "priority",
+    signature: "signature",
+    status: "status",
     uploadedOn: "uploaded_on",
     zoneId: "zone_id",
     geoRestrictions: "geo_restrictions",
     keylessServer: "keyless_server",
+    policy: "policy",
   }),
 ) as unknown as Schema.Schema<GetCustomCertificateResponse>;
 
-export const getCustomCertificate: (
-  input: GetCustomCertificateRequest,
-) => Effect.Effect<
+export const getCustomCertificate: API.OperationMethod<
+  GetCustomCertificateRequest,
   GetCustomCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -190,20 +196,26 @@ export const ListCustomCertificatesResponse = Schema.Array(
     policy: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       bundleMethod: "bundle_method",
       expiresOn: "expires_on",
+      hosts: "hosts",
+      issuer: "issuer",
       modifiedOn: "modified_on",
+      priority: "priority",
+      signature: "signature",
+      status: "status",
       uploadedOn: "uploaded_on",
       zoneId: "zone_id",
       geoRestrictions: "geo_restrictions",
       keylessServer: "keyless_server",
+      policy: "policy",
     }),
   ),
 ) as unknown as Schema.Schema<ListCustomCertificatesResponse>;
 
-export const listCustomCertificates: (
-  input: ListCustomCertificatesRequest,
-) => Effect.Effect<
+export const listCustomCertificates: API.OperationMethod<
+  ListCustomCertificatesRequest,
   ListCustomCertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -246,9 +258,12 @@ export const CreateCustomCertificateRequest = Schema.Struct({
   type: Schema.optional(Schema.Literals(["legacy_custom", "sni_custom"])),
 }).pipe(
   Schema.encodeKeys({
+    certificate: "certificate",
     privateKey: "private_key",
     bundleMethod: "bundle_method",
     geoRestrictions: "geo_restrictions",
+    policy: "policy",
+    type: "type",
   }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/custom_certificates" }),
 ) as unknown as Schema.Schema<CreateCustomCertificateRequest>;
@@ -309,19 +324,25 @@ export const CreateCustomCertificateResponse = Schema.Struct({
   policy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bundleMethod: "bundle_method",
     expiresOn: "expires_on",
+    hosts: "hosts",
+    issuer: "issuer",
     modifiedOn: "modified_on",
+    priority: "priority",
+    signature: "signature",
+    status: "status",
     uploadedOn: "uploaded_on",
     zoneId: "zone_id",
     geoRestrictions: "geo_restrictions",
     keylessServer: "keyless_server",
+    policy: "policy",
   }),
 ) as unknown as Schema.Schema<CreateCustomCertificateResponse>;
 
-export const createCustomCertificate: (
-  input: CreateCustomCertificateRequest,
-) => Effect.Effect<
+export const createCustomCertificate: API.OperationMethod<
+  CreateCustomCertificateRequest,
   CreateCustomCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -364,7 +385,9 @@ export const PatchCustomCertificateRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     bundleMethod: "bundle_method",
+    certificate: "certificate",
     geoRestrictions: "geo_restrictions",
+    policy: "policy",
     privateKey: "private_key",
   }),
   T.Http({
@@ -429,19 +452,25 @@ export const PatchCustomCertificateResponse = Schema.Struct({
   policy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bundleMethod: "bundle_method",
     expiresOn: "expires_on",
+    hosts: "hosts",
+    issuer: "issuer",
     modifiedOn: "modified_on",
+    priority: "priority",
+    signature: "signature",
+    status: "status",
     uploadedOn: "uploaded_on",
     zoneId: "zone_id",
     geoRestrictions: "geo_restrictions",
     keylessServer: "keyless_server",
+    policy: "policy",
   }),
 ) as unknown as Schema.Schema<PatchCustomCertificateResponse>;
 
-export const patchCustomCertificate: (
-  input: PatchCustomCertificateRequest,
-) => Effect.Effect<
+export const patchCustomCertificate: API.OperationMethod<
+  PatchCustomCertificateRequest,
   PatchCustomCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -476,9 +505,8 @@ export const DeleteCustomCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteCustomCertificateResponse>;
 
-export const deleteCustomCertificate: (
-  input: DeleteCustomCertificateRequest,
-) => Effect.Effect<
+export const deleteCustomCertificate: API.OperationMethod<
+  DeleteCustomCertificateRequest,
   DeleteCustomCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -519,9 +547,8 @@ export type UpdatePrioritizeResponse = unknown;
 export const UpdatePrioritizeResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdatePrioritizeResponse>;
 
-export const updatePrioritize: (
-  input: UpdatePrioritizeRequest,
-) => Effect.Effect<
+export const updatePrioritize: API.OperationMethod<
+  UpdatePrioritizeRequest,
   UpdatePrioritizeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

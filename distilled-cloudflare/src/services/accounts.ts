@@ -86,7 +86,7 @@ export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(MethodNotAllowed, [{ code: 7001 }, { code: 10000 }]);
+T.applyErrorMatchers(MethodNotAllowed, [{ code: 10000 }, { code: 7001 }]);
 
 export class MissingAuthenticationToken extends Schema.TaggedErrorClass<MissingAuthenticationToken>()(
   "MissingAuthenticationToken",
@@ -188,9 +188,8 @@ export const GetAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccountResponse>;
 
-export const getAccount: (
-  input: GetAccountRequest,
-) => Effect.Effect<
+export const getAccount: API.OperationMethod<
+  GetAccountRequest,
   GetAccountResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -212,7 +211,10 @@ export type ListAccountsResponse = {
   type: "standard" | "enterprise";
   createdOn?: string;
   managedBy?: { parentOrgId?: string; parentOrgName?: string };
-  settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
+  settings?: {
+    abuseContactEmail?: string | null;
+    enforceTwofactor?: boolean | null;
+  };
 }[];
 
 export const ListAccountsResponse = Schema.Array(
@@ -234,8 +236,12 @@ export const ListAccountsResponse = Schema.Array(
     ),
     settings: Schema.optional(
       Schema.Struct({
-        abuseContactEmail: Schema.optional(Schema.String),
-        enforceTwofactor: Schema.optional(Schema.Boolean),
+        abuseContactEmail: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        enforceTwofactor: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           abuseContactEmail: "abuse_contact_email",
@@ -255,9 +261,8 @@ export const ListAccountsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListAccountsResponse>;
 
-export const listAccounts: (
-  input: ListAccountsRequest,
-) => Effect.Effect<
+export const listAccounts: API.OperationMethod<
+  ListAccountsRequest,
   ListAccountsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -339,9 +344,8 @@ export const CreateAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateAccountResponse>;
 
-export const createAccount: (
-  input: CreateAccountRequest,
-) => Effect.Effect<
+export const createAccount: API.OperationMethod<
+  CreateAccountRequest,
   CreateAccountResponse,
   CommonErrors | AccountCreationForbidden | MissingName,
   ApiToken | HttpClient.HttpClient
@@ -453,9 +457,8 @@ export const UpdateAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateAccountResponse>;
 
-export const updateAccount: (
-  input: UpdateAccountRequest,
-) => Effect.Effect<
+export const updateAccount: API.OperationMethod<
+  UpdateAccountRequest,
   UpdateAccountResponse,
   | CommonErrors
   | InvalidAccountName
@@ -496,9 +499,8 @@ export const DeleteAccountResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAccountResponse>;
 
-export const deleteAccount: (
-  input: DeleteAccountRequest,
-) => Effect.Effect<
+export const deleteAccount: API.OperationMethod<
+  DeleteAccountRequest,
   DeleteAccountResponse,
   CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
@@ -833,9 +835,8 @@ export const ListLogAuditsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListLogAuditsResponse>;
 
-export const listLogAudits: (
-  input: ListLogAuditsRequest,
-) => Effect.Effect<
+export const listLogAudits: API.OperationMethod<
+  ListLogAuditsRequest,
   ListLogAuditsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -867,9 +868,8 @@ export type GetMemberResponse = unknown;
 export const GetMemberResponse =
   Schema.Unknown as unknown as Schema.Schema<GetMemberResponse>;
 
-export const getMember: (
-  input: GetMemberRequest,
-) => Effect.Effect<
+export const getMember: API.OperationMethod<
+  GetMemberRequest,
   GetMemberResponse,
   CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -915,9 +915,8 @@ export type ListMembersResponse = unknown;
 export const ListMembersResponse =
   Schema.Unknown as unknown as Schema.Schema<ListMembersResponse>;
 
-export const listMembers: (
-  input: ListMembersRequest,
-) => Effect.Effect<
+export const listMembers: API.OperationMethod<
+  ListMembersRequest,
   ListMembersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -952,9 +951,8 @@ export type CreateMemberResponse = unknown;
 export const CreateMemberResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateMemberResponse>;
 
-export const createMember: (
-  input: CreateMemberRequest,
-) => Effect.Effect<
+export const createMember: API.OperationMethod<
+  CreateMemberRequest,
   CreateMemberResponse,
   CommonErrors | InvalidRoute | ValidationError,
   ApiToken | HttpClient.HttpClient
@@ -985,9 +983,8 @@ export type UpdateMemberResponse = unknown;
 export const UpdateMemberResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateMemberResponse>;
 
-export const updateMember: (
-  input: UpdateMemberRequest,
-) => Effect.Effect<
+export const updateMember: API.OperationMethod<
+  UpdateMemberRequest,
   UpdateMemberResponse,
   CommonErrors | MemberNotFound | InvalidRoute | BadRequest | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
@@ -1022,9 +1019,8 @@ export const DeleteMemberResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteMemberResponse>;
 
-export const deleteMember: (
-  input: DeleteMemberRequest,
-) => Effect.Effect<
+export const deleteMember: API.OperationMethod<
+  DeleteMemberRequest,
   DeleteMemberResponse,
   CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1056,9 +1052,8 @@ export type GetRoleResponse = unknown;
 export const GetRoleResponse =
   Schema.Unknown as unknown as Schema.Schema<GetRoleResponse>;
 
-export const getRole: (
-  input: GetRoleRequest,
-) => Effect.Effect<
+export const getRole: API.OperationMethod<
+  GetRoleRequest,
   GetRoleResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1084,9 +1079,8 @@ export type ListRolesResponse = unknown;
 export const ListRolesResponse =
   Schema.Unknown as unknown as Schema.Schema<ListRolesResponse>;
 
-export const listRoles: (
-  input: ListRolesRequest,
-) => Effect.Effect<
+export const listRoles: API.OperationMethod<
+  ListRolesRequest,
   ListRolesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1116,9 +1110,8 @@ export type GetSubscriptionResponse = unknown;
 export const GetSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
 
-export const getSubscription: (
-  input: GetSubscriptionRequest,
-) => Effect.Effect<
+export const getSubscription: API.OperationMethod<
+  GetSubscriptionRequest,
   GetSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1153,9 +1146,8 @@ export type CreateSubscriptionResponse = unknown;
 export const CreateSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
-export const createSubscription: (
-  input: CreateSubscriptionRequest,
-) => Effect.Effect<
+export const createSubscription: API.OperationMethod<
+  CreateSubscriptionRequest,
   CreateSubscriptionResponse,
   CommonErrors | JsonDecodeFailure | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1197,9 +1189,8 @@ export type UpdateSubscriptionResponse = unknown;
 export const UpdateSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
-export const updateSubscription: (
-  input: UpdateSubscriptionRequest,
-) => Effect.Effect<
+export const updateSubscription: API.OperationMethod<
+  UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
   CommonErrors | JsonDecodeFailure | InvalidRoute | EndpointNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1238,9 +1229,8 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   Schema.encodeKeys({ subscriptionId: "subscription_id" }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
-export const deleteSubscription: (
-  input: DeleteSubscriptionRequest,
-) => Effect.Effect<
+export const deleteSubscription: API.OperationMethod<
+  DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
   CommonErrors | InvalidRoute | EndpointNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1272,9 +1262,8 @@ export type GetTokenResponse = unknown;
 export const GetTokenResponse =
   Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
 
-export const getToken: (
-  input: GetTokenRequest,
-) => Effect.Effect<
+export const getToken: API.OperationMethod<
+  GetTokenRequest,
   GetTokenResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1305,9 +1294,8 @@ export type ListTokensResponse = unknown;
 export const ListTokensResponse =
   Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
 
-export const listTokens: (
-  input: ListTokensRequest,
-) => Effect.Effect<
+export const listTokens: API.OperationMethod<
+  ListTokensRequest,
   ListTokensResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1420,9 +1408,8 @@ export const CreateTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateTokenResponse>;
 
-export const createToken: (
-  input: CreateTokenRequest,
-) => Effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   CommonErrors | InvalidRoute | InvalidTokenName,
   ApiToken | HttpClient.HttpClient
@@ -1485,9 +1472,8 @@ export type UpdateTokenResponse = unknown;
 export const UpdateTokenResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
 
-export const updateToken: (
-  input: UpdateTokenRequest,
-) => Effect.Effect<
+export const updateToken: API.OperationMethod<
+  UpdateTokenRequest,
   UpdateTokenResponse,
   CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
@@ -1519,9 +1505,8 @@ export const DeleteTokenResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteTokenResponse>;
 
-export const deleteToken: (
-  input: DeleteTokenRequest,
-) => Effect.Effect<
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
   DeleteTokenResponse,
   CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
@@ -1567,9 +1552,8 @@ export const VerifyTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<VerifyTokenResponse>;
 
-export const verifyToken: (
-  input: VerifyTokenRequest,
-) => Effect.Effect<
+export const verifyToken: API.OperationMethod<
+  VerifyTokenRequest,
   VerifyTokenResponse,
   CommonErrors | MissingAuthenticationToken | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1631,9 +1615,8 @@ export const GetTokenPermissionGroupResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetTokenPermissionGroupResponse>;
 
-export const getTokenPermissionGroup: (
-  input: GetTokenPermissionGroupRequest,
-) => Effect.Effect<
+export const getTokenPermissionGroup: API.OperationMethod<
+  GetTokenPermissionGroupRequest,
   GetTokenPermissionGroupResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
@@ -1691,9 +1674,8 @@ export const ListTokenPermissionGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
 
-export const listTokenPermissionGroups: (
-  input: ListTokenPermissionGroupsRequest,
-) => Effect.Effect<
+export const listTokenPermissionGroups: API.OperationMethod<
+  ListTokenPermissionGroupsRequest,
   ListTokenPermissionGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1731,9 +1713,8 @@ export type PutTokenValueResponse = unknown;
 export const PutTokenValueResponse =
   Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
 
-export const putTokenValue: (
-  input: PutTokenValueRequest,
-) => Effect.Effect<
+export const putTokenValue: API.OperationMethod<
+  PutTokenValueRequest,
   PutTokenValueResponse,
   CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient

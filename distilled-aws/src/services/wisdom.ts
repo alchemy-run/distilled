@@ -2441,9 +2441,8 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2455,9 +2454,8 @@ export const listTagsForResource: (
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | TooManyTagsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2469,9 +2467,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2483,9 +2480,8 @@ export const untagResource: (
 /**
  * Creates an Amazon Connect Wisdom assistant.
  */
-export const createAssistant: (
-  input: CreateAssistantRequest,
-) => effect.Effect<
+export const createAssistant: API.OperationMethod<
+  CreateAssistantRequest,
   CreateAssistantResponse,
   | AccessDeniedException
   | ConflictException
@@ -2506,9 +2502,8 @@ export const createAssistant: (
 /**
  * Retrieves information about an assistant.
  */
-export const getAssistant: (
-  input: GetAssistantRequest,
-) => effect.Effect<
+export const getAssistant: API.OperationMethod<
+  GetAssistantRequest,
   GetAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2527,9 +2522,8 @@ export const getAssistant: (
 /**
  * Deletes an assistant.
  */
-export const deleteAssistant: (
-  input: DeleteAssistantRequest,
-) => effect.Effect<
+export const deleteAssistant: API.OperationMethod<
+  DeleteAssistantRequest,
   DeleteAssistantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2548,14 +2542,12 @@ export const deleteAssistant: (
 /**
  * Lists information about assistants.
  */
-export const listAssistants: {
-  (
-    input: ListAssistantsRequest,
-  ): effect.Effect<
-    ListAssistantsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssistants: API.OperationMethod<
+  ListAssistantsRequest,
+  ListAssistantsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssistantsRequest,
   ) => stream.Stream<
@@ -2587,9 +2579,8 @@ export const listAssistants: {
  * `waitTimeSeconds` parameter. Short poll is the default behavior and only returns
  * recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
  */
-export const getRecommendations: (
-  input: GetRecommendationsRequest,
-) => effect.Effect<
+export const getRecommendations: API.OperationMethod<
+  GetRecommendationsRequest,
   GetRecommendationsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2610,9 +2601,8 @@ export const getRecommendations: (
  * available recommendations. You can use this API in conjunction with GetRecommendations and a `waitTimeSeconds` input for long-polling
  * behavior and avoiding duplicate recommendations.
  */
-export const notifyRecommendationsReceived: (
-  input: NotifyRecommendationsReceivedRequest,
-) => effect.Effect<
+export const notifyRecommendationsReceived: API.OperationMethod<
+  NotifyRecommendationsReceivedRequest,
   NotifyRecommendationsReceivedResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2632,18 +2622,16 @@ export const notifyRecommendationsReceived: (
  * Performs a manual search against the specified assistant. To retrieve recommendations for
  * an assistant, use GetRecommendations.
  */
-export const queryAssistant: {
-  (
-    input: QueryAssistantRequest,
-  ): effect.Effect<
-    QueryAssistantResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const queryAssistant: API.OperationMethod<
+  QueryAssistantRequest,
+  QueryAssistantResponse,
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: QueryAssistantRequest,
   ) => stream.Stream<
@@ -2685,17 +2673,15 @@ export const queryAssistant: {
 /**
  * Searches for sessions.
  */
-export const searchSessions: {
-  (
-    input: SearchSessionsRequest,
-  ): effect.Effect<
-    SearchSessionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchSessions: API.OperationMethod<
+  SearchSessionsRequest,
+  SearchSessionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSessionsRequest,
   ) => stream.Stream<
@@ -2736,9 +2722,8 @@ export const searchSessions: {
  * only supported association is with a knowledge base. An assistant can have only a single
  * association.
  */
-export const createAssistantAssociation: (
-  input: CreateAssistantAssociationRequest,
-) => effect.Effect<
+export const createAssistantAssociation: API.OperationMethod<
+  CreateAssistantAssociationRequest,
   CreateAssistantAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2761,9 +2746,8 @@ export const createAssistantAssociation: (
 /**
  * Retrieves information about an assistant association.
  */
-export const getAssistantAssociation: (
-  input: GetAssistantAssociationRequest,
-) => effect.Effect<
+export const getAssistantAssociation: API.OperationMethod<
+  GetAssistantAssociationRequest,
   GetAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2782,9 +2766,8 @@ export const getAssistantAssociation: (
 /**
  * Deletes an assistant association.
  */
-export const deleteAssistantAssociation: (
-  input: DeleteAssistantAssociationRequest,
-) => effect.Effect<
+export const deleteAssistantAssociation: API.OperationMethod<
+  DeleteAssistantAssociationRequest,
   DeleteAssistantAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2803,17 +2786,15 @@ export const deleteAssistantAssociation: (
 /**
  * Lists information about assistant associations.
  */
-export const listAssistantAssociations: {
-  (
-    input: ListAssistantAssociationsRequest,
-  ): effect.Effect<
-    ListAssistantAssociationsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssistantAssociations: API.OperationMethod<
+  ListAssistantAssociationsRequest,
+  ListAssistantAssociationsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssistantAssociationsRequest,
   ) => stream.Stream<
@@ -2854,9 +2835,8 @@ export const listAssistantAssociations: {
  * recommendations. Amazon Connect creates a new Wisdom session for each contact on which
  * Wisdom is enabled.
  */
-export const createSession: (
-  input: CreateSessionRequest,
-) => effect.Effect<
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
   CreateSessionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2871,9 +2851,8 @@ export const createSession: (
 /**
  * Retrieves information for a specified session.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2909,9 +2888,8 @@ export const getSession: (
  *
  * - Call CreateKnowledgeBase.
  */
-export const createKnowledgeBase: (
-  input: CreateKnowledgeBaseRequest,
-) => effect.Effect<
+export const createKnowledgeBase: API.OperationMethod<
+  CreateKnowledgeBaseRequest,
   CreateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -2932,9 +2910,8 @@ export const createKnowledgeBase: (
 /**
  * Retrieves information about the knowledge base.
  */
-export const getKnowledgeBase: (
-  input: GetKnowledgeBaseRequest,
-) => effect.Effect<
+export const getKnowledgeBase: API.OperationMethod<
+  GetKnowledgeBaseRequest,
   GetKnowledgeBaseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2960,9 +2937,8 @@ export const getKnowledgeBase: (
  * DeleteDataIntegration and CreateDataIntegration in the Amazon AppIntegrations API
  * Reference.
  */
-export const deleteKnowledgeBase: (
-  input: DeleteKnowledgeBaseRequest,
-) => effect.Effect<
+export const deleteKnowledgeBase: API.OperationMethod<
+  DeleteKnowledgeBaseRequest,
   DeleteKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -2983,14 +2959,12 @@ export const deleteKnowledgeBase: (
 /**
  * Lists the knowledge bases.
  */
-export const listKnowledgeBases: {
-  (
-    input: ListKnowledgeBasesRequest,
-  ): effect.Effect<
-    ListKnowledgeBasesResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKnowledgeBases: API.OperationMethod<
+  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
@@ -3019,9 +2993,8 @@ export const listKnowledgeBases: {
 /**
  * Deletes the quick response import job.
  */
-export const deleteImportJob: (
-  input: DeleteImportJobRequest,
-) => effect.Effect<
+export const deleteImportJob: API.OperationMethod<
+  DeleteImportJobRequest,
   DeleteImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3042,9 +3015,8 @@ export const deleteImportJob: (
 /**
  * Retrieves the started import job.
  */
-export const getImportJob: (
-  input: GetImportJobRequest,
-) => effect.Effect<
+export const getImportJob: API.OperationMethod<
+  GetImportJobRequest,
   GetImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3063,14 +3035,12 @@ export const getImportJob: (
 /**
  * Lists information about import jobs.
  */
-export const listImportJobs: {
-  (
-    input: ListImportJobsRequest,
-  ): effect.Effect<
-    ListImportJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImportJobs: API.OperationMethod<
+  ListImportJobsRequest,
+  ListImportJobsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
@@ -3099,9 +3069,8 @@ export const listImportJobs: {
 /**
  * Removes a URI template from a knowledge base.
  */
-export const removeKnowledgeBaseTemplateUri: (
-  input: RemoveKnowledgeBaseTemplateUriRequest,
-) => effect.Effect<
+export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
+  RemoveKnowledgeBaseTemplateUriRequest,
   RemoveKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3121,17 +3090,15 @@ export const removeKnowledgeBaseTemplateUri: (
  * Searches for content in a specified knowledge base. Can be used to get a specific content
  * resource by its name.
  */
-export const searchContent: {
-  (
-    input: SearchContentRequest,
-  ): effect.Effect<
-    SearchContentResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchContent: API.OperationMethod<
+  SearchContentRequest,
+  SearchContentResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchContentRequest,
   ) => stream.Stream<
@@ -3170,18 +3137,16 @@ export const searchContent: {
 /**
  * Searches existing Wisdom quick responses in a Wisdom knowledge base.
  */
-export const searchQuickResponses: {
-  (
-    input: SearchQuickResponsesRequest,
-  ): effect.Effect<
-    SearchQuickResponsesResponse,
-    | AccessDeniedException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchQuickResponses: API.OperationMethod<
+  SearchQuickResponsesRequest,
+  SearchQuickResponsesResponse,
+  | AccessDeniedException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchQuickResponsesRequest,
   ) => stream.Stream<
@@ -3226,9 +3191,8 @@ export const searchQuickResponses: {
  * use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a
  * knowledge base of type CUSTOM.
  */
-export const startContentUpload: (
-  input: StartContentUploadRequest,
-) => effect.Effect<
+export const startContentUpload: API.OperationMethod<
+  StartContentUploadRequest,
   StartContentUploadResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3250,9 +3214,8 @@ export const startContentUpload: (
  *
  * - For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
  */
-export const startImportJob: (
-  input: StartImportJobRequest,
-) => effect.Effect<
+export const startImportJob: API.OperationMethod<
+  StartImportJobRequest,
   StartImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3279,9 +3242,8 @@ export const startImportJob: (
  * article, it has an `Id` value, and you can set the template URI to
  * `https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*\/view`.
  */
-export const updateKnowledgeBaseTemplateUri: (
-  input: UpdateKnowledgeBaseTemplateUriRequest,
-) => effect.Effect<
+export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
+  UpdateKnowledgeBaseTemplateUriRequest,
   UpdateKnowledgeBaseTemplateUriResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3301,9 +3263,8 @@ export const updateKnowledgeBaseTemplateUri: (
  * Creates Wisdom content. Before to calling this API, use StartContentUpload to
  * upload an asset.
  */
-export const createContent: (
-  input: CreateContentRequest,
-) => effect.Effect<
+export const createContent: API.OperationMethod<
+  CreateContentRequest,
   CreateContentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3326,9 +3287,8 @@ export const createContent: (
 /**
  * Retrieves content, including a pre-signed URL to download the content.
  */
-export const getContent: (
-  input: GetContentRequest,
-) => effect.Effect<
+export const getContent: API.OperationMethod<
+  GetContentRequest,
   GetContentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3347,9 +3307,8 @@ export const getContent: (
 /**
  * Updates information about the content.
  */
-export const updateContent: (
-  input: UpdateContentRequest,
-) => effect.Effect<
+export const updateContent: API.OperationMethod<
+  UpdateContentRequest,
   UpdateContentResponse,
   | AccessDeniedException
   | PreconditionFailedException
@@ -3370,9 +3329,8 @@ export const updateContent: (
 /**
  * Deletes the content.
  */
-export const deleteContent: (
-  input: DeleteContentRequest,
-) => effect.Effect<
+export const deleteContent: API.OperationMethod<
+  DeleteContentRequest,
   DeleteContentResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3391,17 +3349,15 @@ export const deleteContent: (
 /**
  * Lists the content.
  */
-export const listContents: {
-  (
-    input: ListContentsRequest,
-  ): effect.Effect<
-    ListContentsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContents: API.OperationMethod<
+  ListContentsRequest,
+  ListContentsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContentsRequest,
   ) => stream.Stream<
@@ -3440,9 +3396,8 @@ export const listContents: {
 /**
  * Retrieves summary information about the content.
  */
-export const getContentSummary: (
-  input: GetContentSummaryRequest,
-) => effect.Effect<
+export const getContentSummary: API.OperationMethod<
+  GetContentSummaryRequest,
   GetContentSummaryResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3461,9 +3416,8 @@ export const getContentSummary: (
 /**
  * Creates a Wisdom quick response.
  */
-export const createQuickResponse: (
-  input: CreateQuickResponseRequest,
-) => effect.Effect<
+export const createQuickResponse: API.OperationMethod<
+  CreateQuickResponseRequest,
   CreateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3486,9 +3440,8 @@ export const createQuickResponse: (
 /**
  * Retrieves the quick response.
  */
-export const getQuickResponse: (
-  input: GetQuickResponseRequest,
-) => effect.Effect<
+export const getQuickResponse: API.OperationMethod<
+  GetQuickResponseRequest,
   GetQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3507,9 +3460,8 @@ export const getQuickResponse: (
 /**
  * Updates an existing Wisdom quick response.
  */
-export const updateQuickResponse: (
-  input: UpdateQuickResponseRequest,
-) => effect.Effect<
+export const updateQuickResponse: API.OperationMethod<
+  UpdateQuickResponseRequest,
   UpdateQuickResponseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3532,9 +3484,8 @@ export const updateQuickResponse: (
 /**
  * Deletes a quick response.
  */
-export const deleteQuickResponse: (
-  input: DeleteQuickResponseRequest,
-) => effect.Effect<
+export const deleteQuickResponse: API.OperationMethod<
+  DeleteQuickResponseRequest,
   DeleteQuickResponseResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3553,17 +3504,15 @@ export const deleteQuickResponse: (
 /**
  * Lists information about quick response.
  */
-export const listQuickResponses: {
-  (
-    input: ListQuickResponsesRequest,
-  ): effect.Effect<
-    ListQuickResponsesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQuickResponses: API.OperationMethod<
+  ListQuickResponsesRequest,
+  ListQuickResponsesResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQuickResponsesRequest,
   ) => stream.Stream<

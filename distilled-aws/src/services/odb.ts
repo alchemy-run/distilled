@@ -2978,9 +2978,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Registers the Amazon Web Services Marketplace token for your Amazon Web Services account to activate your Oracle Database@Amazon Web Services subscription.
  */
-export const acceptMarketplaceRegistration: (
-  input: AcceptMarketplaceRegistrationInput,
-) => effect.Effect<
+export const acceptMarketplaceRegistration: API.OperationMethod<
+  AcceptMarketplaceRegistrationInput,
   AcceptMarketplaceRegistrationOutput,
   | AccessDeniedException
   | ConflictException
@@ -3003,9 +3002,8 @@ export const acceptMarketplaceRegistration: (
 /**
  * Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
  */
-export const associateIamRoleToResource: (
-  input: AssociateIamRoleToResourceInput,
-) => effect.Effect<
+export const associateIamRoleToResource: API.OperationMethod<
+  AssociateIamRoleToResourceInput,
   AssociateIamRoleToResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -3030,9 +3028,8 @@ export const associateIamRoleToResource: (
 /**
  * Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
  */
-export const disassociateIamRoleFromResource: (
-  input: DisassociateIamRoleFromResourceInput,
-) => effect.Effect<
+export const disassociateIamRoleFromResource: API.OperationMethod<
+  DisassociateIamRoleFromResourceInput,
   DisassociateIamRoleFromResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -3057,9 +3054,8 @@ export const disassociateIamRoleFromResource: (
 /**
  * Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
  */
-export const getOciOnboardingStatus: (
-  input: GetOciOnboardingStatusInput,
-) => effect.Effect<
+export const getOciOnboardingStatus: API.OperationMethod<
+  GetOciOnboardingStatusInput,
   GetOciOnboardingStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3080,9 +3076,8 @@ export const getOciOnboardingStatus: (
 /**
  * Initializes the ODB service for the first time in an account.
  */
-export const initializeService: (
-  input: InitializeServiceInput,
-) => effect.Effect<
+export const initializeService: API.OperationMethod<
+  InitializeServiceInput,
   InitializeServiceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3103,18 +3098,16 @@ export const initializeService: (
 /**
  * Returns information about the shapes that are available for an Exadata infrastructure.
  */
-export const listDbSystemShapes: {
-  (
-    input: ListDbSystemShapesInput,
-  ): effect.Effect<
-    ListDbSystemShapesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbSystemShapes: API.OperationMethod<
+  ListDbSystemShapesInput,
+  ListDbSystemShapesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbSystemShapesInput,
   ) => stream.Stream<
@@ -3156,18 +3149,16 @@ export const listDbSystemShapes: {
 /**
  * Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
  */
-export const listGiVersions: {
-  (
-    input: ListGiVersionsInput,
-  ): effect.Effect<
-    ListGiVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGiVersions: API.OperationMethod<
+  ListGiVersionsInput,
+  ListGiVersionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGiVersionsInput,
   ) => stream.Stream<
@@ -3209,19 +3200,17 @@ export const listGiVersions: {
 /**
  * Returns information about the system versions that are available for a VM cluster for the specified `giVersion` and `shape`.
  */
-export const listSystemVersions: {
-  (
-    input: ListSystemVersionsInput,
-  ): effect.Effect<
-    ListSystemVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSystemVersions: API.OperationMethod<
+  ListSystemVersionsInput,
+  ListSystemVersionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSystemVersionsInput,
   ) => stream.Stream<
@@ -3266,9 +3255,8 @@ export const listSystemVersions: {
 /**
  * Returns information about the tags applied to this resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3280,9 +3268,8 @@ export const listTagsForResource: (
 /**
  * Applies tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3294,9 +3281,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3308,9 +3294,8 @@ export const untagResource: (
 /**
  * Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
  */
-export const createCloudAutonomousVmCluster: (
-  input: CreateCloudAutonomousVmClusterInput,
-) => effect.Effect<
+export const createCloudAutonomousVmCluster: API.OperationMethod<
+  CreateCloudAutonomousVmClusterInput,
   CreateCloudAutonomousVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -3337,9 +3322,8 @@ export const createCloudAutonomousVmCluster: (
 /**
  * Gets information about a specific Autonomous VM cluster.
  */
-export const getCloudAutonomousVmCluster: (
-  input: GetCloudAutonomousVmClusterInput,
-) => effect.Effect<
+export const getCloudAutonomousVmCluster: API.OperationMethod<
+  GetCloudAutonomousVmClusterInput,
   GetCloudAutonomousVmClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3362,9 +3346,8 @@ export const getCloudAutonomousVmCluster: (
 /**
  * Deletes an Autonomous VM cluster.
  */
-export const deleteCloudAutonomousVmCluster: (
-  input: DeleteCloudAutonomousVmClusterInput,
-) => effect.Effect<
+export const deleteCloudAutonomousVmCluster: API.OperationMethod<
+  DeleteCloudAutonomousVmClusterInput,
   DeleteCloudAutonomousVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -3387,19 +3370,17 @@ export const deleteCloudAutonomousVmCluster: (
 /**
  * Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure.
  */
-export const listCloudAutonomousVmClusters: {
-  (
-    input: ListCloudAutonomousVmClustersInput,
-  ): effect.Effect<
-    ListCloudAutonomousVmClustersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudAutonomousVmClusters: API.OperationMethod<
+  ListCloudAutonomousVmClustersInput,
+  ListCloudAutonomousVmClustersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudAutonomousVmClustersInput,
   ) => stream.Stream<
@@ -3444,19 +3425,17 @@ export const listCloudAutonomousVmClusters: {
 /**
  * Lists all Autonomous VMs in an Autonomous VM cluster.
  */
-export const listAutonomousVirtualMachines: {
-  (
-    input: ListAutonomousVirtualMachinesInput,
-  ): effect.Effect<
-    ListAutonomousVirtualMachinesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutonomousVirtualMachines: API.OperationMethod<
+  ListAutonomousVirtualMachinesInput,
+  ListAutonomousVirtualMachinesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutonomousVirtualMachinesInput,
   ) => stream.Stream<
@@ -3501,9 +3480,8 @@ export const listAutonomousVirtualMachines: {
 /**
  * Creates an Exadata infrastructure.
  */
-export const createCloudExadataInfrastructure: (
-  input: CreateCloudExadataInfrastructureInput,
-) => effect.Effect<
+export const createCloudExadataInfrastructure: API.OperationMethod<
+  CreateCloudExadataInfrastructureInput,
   CreateCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | ConflictException
@@ -3528,9 +3506,8 @@ export const createCloudExadataInfrastructure: (
 /**
  * Returns information about the specified Exadata infrastructure.
  */
-export const getCloudExadataInfrastructure: (
-  input: GetCloudExadataInfrastructureInput,
-) => effect.Effect<
+export const getCloudExadataInfrastructure: API.OperationMethod<
+  GetCloudExadataInfrastructureInput,
   GetCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3553,9 +3530,8 @@ export const getCloudExadataInfrastructure: (
 /**
  * Updates the properties of an Exadata infrastructure resource.
  */
-export const updateCloudExadataInfrastructure: (
-  input: UpdateCloudExadataInfrastructureInput,
-) => effect.Effect<
+export const updateCloudExadataInfrastructure: API.OperationMethod<
+  UpdateCloudExadataInfrastructureInput,
   UpdateCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | ConflictException
@@ -3580,9 +3556,8 @@ export const updateCloudExadataInfrastructure: (
 /**
  * Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure.
  */
-export const deleteCloudExadataInfrastructure: (
-  input: DeleteCloudExadataInfrastructureInput,
-) => effect.Effect<
+export const deleteCloudExadataInfrastructure: API.OperationMethod<
+  DeleteCloudExadataInfrastructureInput,
   DeleteCloudExadataInfrastructureOutput,
   | AccessDeniedException
   | ConflictException
@@ -3607,18 +3582,16 @@ export const deleteCloudExadataInfrastructure: (
 /**
  * Returns information about the Exadata infrastructures owned by your Amazon Web Services account.
  */
-export const listCloudExadataInfrastructures: {
-  (
-    input: ListCloudExadataInfrastructuresInput,
-  ): effect.Effect<
-    ListCloudExadataInfrastructuresOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudExadataInfrastructures: API.OperationMethod<
+  ListCloudExadataInfrastructuresInput,
+  ListCloudExadataInfrastructuresOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudExadataInfrastructuresInput,
   ) => stream.Stream<
@@ -3660,9 +3633,8 @@ export const listCloudExadataInfrastructures: {
 /**
  * Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure.
  */
-export const getCloudExadataInfrastructureUnallocatedResources: (
-  input: GetCloudExadataInfrastructureUnallocatedResourcesInput,
-) => effect.Effect<
+export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMethod<
+  GetCloudExadataInfrastructureUnallocatedResourcesInput,
   GetCloudExadataInfrastructureUnallocatedResourcesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3685,9 +3657,8 @@ export const getCloudExadataInfrastructureUnallocatedResources: (
 /**
  * Returns information about the specified database server.
  */
-export const getDbServer: (
-  input: GetDbServerInput,
-) => effect.Effect<
+export const getDbServer: API.OperationMethod<
+  GetDbServerInput,
   GetDbServerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3710,19 +3681,17 @@ export const getDbServer: (
 /**
  * Returns information about the database servers that belong to the specified Exadata infrastructure.
  */
-export const listDbServers: {
-  (
-    input: ListDbServersInput,
-  ): effect.Effect<
-    ListDbServersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbServers: API.OperationMethod<
+  ListDbServersInput,
+  ListDbServersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbServersInput,
   ) => stream.Stream<
@@ -3767,9 +3736,8 @@ export const listDbServers: {
 /**
  * Creates a VM cluster on the specified Exadata infrastructure.
  */
-export const createCloudVmCluster: (
-  input: CreateCloudVmClusterInput,
-) => effect.Effect<
+export const createCloudVmCluster: API.OperationMethod<
+  CreateCloudVmClusterInput,
   CreateCloudVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -3796,9 +3764,8 @@ export const createCloudVmCluster: (
 /**
  * Returns information about the specified VM cluster.
  */
-export const getCloudVmCluster: (
-  input: GetCloudVmClusterInput,
-) => effect.Effect<
+export const getCloudVmCluster: API.OperationMethod<
+  GetCloudVmClusterInput,
   GetCloudVmClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3821,9 +3788,8 @@ export const getCloudVmCluster: (
 /**
  * Deletes the specified VM cluster.
  */
-export const deleteCloudVmCluster: (
-  input: DeleteCloudVmClusterInput,
-) => effect.Effect<
+export const deleteCloudVmCluster: API.OperationMethod<
+  DeleteCloudVmClusterInput,
   DeleteCloudVmClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -3846,19 +3812,17 @@ export const deleteCloudVmCluster: (
 /**
  * Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure.
  */
-export const listCloudVmClusters: {
-  (
-    input: ListCloudVmClustersInput,
-  ): effect.Effect<
-    ListCloudVmClustersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudVmClusters: API.OperationMethod<
+  ListCloudVmClustersInput,
+  ListCloudVmClustersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudVmClustersInput,
   ) => stream.Stream<
@@ -3903,9 +3867,8 @@ export const listCloudVmClusters: {
 /**
  * Returns information about the specified DB node.
  */
-export const getDbNode: (
-  input: GetDbNodeInput,
-) => effect.Effect<
+export const getDbNode: API.OperationMethod<
+  GetDbNodeInput,
   GetDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3928,19 +3891,17 @@ export const getDbNode: (
 /**
  * Returns information about the DB nodes for the specified VM cluster.
  */
-export const listDbNodes: {
-  (
-    input: ListDbNodesInput,
-  ): effect.Effect<
-    ListDbNodesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbNodes: API.OperationMethod<
+  ListDbNodesInput,
+  ListDbNodesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbNodesInput,
   ) => stream.Stream<
@@ -3985,9 +3946,8 @@ export const listDbNodes: {
 /**
  * Reboots the specified DB node in a VM cluster.
  */
-export const rebootDbNode: (
-  input: RebootDbNodeInput,
-) => effect.Effect<
+export const rebootDbNode: API.OperationMethod<
+  RebootDbNodeInput,
   RebootDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4010,9 +3970,8 @@ export const rebootDbNode: (
 /**
  * Starts the specified DB node in a VM cluster.
  */
-export const startDbNode: (
-  input: StartDbNodeInput,
-) => effect.Effect<
+export const startDbNode: API.OperationMethod<
+  StartDbNodeInput,
   StartDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4035,9 +3994,8 @@ export const startDbNode: (
 /**
  * Stops the specified DB node in a VM cluster.
  */
-export const stopDbNode: (
-  input: StopDbNodeInput,
-) => effect.Effect<
+export const stopDbNode: API.OperationMethod<
+  StopDbNodeInput,
   StopDbNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4060,9 +4018,8 @@ export const stopDbNode: (
 /**
  * Creates an ODB network.
  */
-export const createOdbNetwork: (
-  input: CreateOdbNetworkInput,
-) => effect.Effect<
+export const createOdbNetwork: API.OperationMethod<
+  CreateOdbNetworkInput,
   CreateOdbNetworkOutput,
   | AccessDeniedException
   | ConflictException
@@ -4087,9 +4044,8 @@ export const createOdbNetwork: (
 /**
  * Returns information about the specified ODB network.
  */
-export const getOdbNetwork: (
-  input: GetOdbNetworkInput,
-) => effect.Effect<
+export const getOdbNetwork: API.OperationMethod<
+  GetOdbNetworkInput,
   GetOdbNetworkOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4112,9 +4068,8 @@ export const getOdbNetwork: (
 /**
  * Updates properties of a specified ODB network.
  */
-export const updateOdbNetwork: (
-  input: UpdateOdbNetworkInput,
-) => effect.Effect<
+export const updateOdbNetwork: API.OperationMethod<
+  UpdateOdbNetworkInput,
   UpdateOdbNetworkOutput,
   | AccessDeniedException
   | ConflictException
@@ -4139,9 +4094,8 @@ export const updateOdbNetwork: (
 /**
  * Deletes the specified ODB network.
  */
-export const deleteOdbNetwork: (
-  input: DeleteOdbNetworkInput,
-) => effect.Effect<
+export const deleteOdbNetwork: API.OperationMethod<
+  DeleteOdbNetworkInput,
   DeleteOdbNetworkOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4164,18 +4118,16 @@ export const deleteOdbNetwork: (
 /**
  * Returns information about the ODB networks owned by your Amazon Web Services account.
  */
-export const listOdbNetworks: {
-  (
-    input: ListOdbNetworksInput,
-  ): effect.Effect<
-    ListOdbNetworksOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOdbNetworks: API.OperationMethod<
+  ListOdbNetworksInput,
+  ListOdbNetworksOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOdbNetworksInput,
   ) => stream.Stream<
@@ -4219,9 +4171,8 @@ export const listOdbNetworks: {
  *
  * A peering connection enables private connectivity between the networks for application-tier communication.
  */
-export const createOdbPeeringConnection: (
-  input: CreateOdbPeeringConnectionInput,
-) => effect.Effect<
+export const createOdbPeeringConnection: API.OperationMethod<
+  CreateOdbPeeringConnectionInput,
   CreateOdbPeeringConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4246,9 +4197,8 @@ export const createOdbPeeringConnection: (
 /**
  * Retrieves information about an ODB peering connection.
  */
-export const getOdbPeeringConnection: (
-  input: GetOdbPeeringConnectionInput,
-) => effect.Effect<
+export const getOdbPeeringConnection: API.OperationMethod<
+  GetOdbPeeringConnectionInput,
   GetOdbPeeringConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4271,9 +4221,8 @@ export const getOdbPeeringConnection: (
 /**
  * Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection.
  */
-export const updateOdbPeeringConnection: (
-  input: UpdateOdbPeeringConnectionInput,
-) => effect.Effect<
+export const updateOdbPeeringConnection: API.OperationMethod<
+  UpdateOdbPeeringConnectionInput,
   UpdateOdbPeeringConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4300,9 +4249,8 @@ export const updateOdbPeeringConnection: (
  *
  * When you delete an ODB peering connection, the underlying VPC peering connection is also deleted.
  */
-export const deleteOdbPeeringConnection: (
-  input: DeleteOdbPeeringConnectionInput,
-) => effect.Effect<
+export const deleteOdbPeeringConnection: API.OperationMethod<
+  DeleteOdbPeeringConnectionInput,
   DeleteOdbPeeringConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4325,19 +4273,17 @@ export const deleteOdbPeeringConnection: (
 /**
  * Lists all ODB peering connections or those associated with a specific ODB network.
  */
-export const listOdbPeeringConnections: {
-  (
-    input: ListOdbPeeringConnectionsInput,
-  ): effect.Effect<
-    ListOdbPeeringConnectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOdbPeeringConnections: API.OperationMethod<
+  ListOdbPeeringConnectionsInput,
+  ListOdbPeeringConnectionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOdbPeeringConnectionsInput,
   ) => stream.Stream<

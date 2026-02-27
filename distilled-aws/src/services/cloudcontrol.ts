@@ -558,9 +558,8 @@ export class UnsupportedActionException extends S.TaggedErrorClass<UnsupportedAc
  * Only resource operations requests with a status of `PENDING` or
  * `IN_PROGRESS` can be canceled.
  */
-export const cancelResourceRequest: (
-  input: CancelResourceRequestInput,
-) => effect.Effect<
+export const cancelResourceRequest: API.OperationMethod<
+  CancelResourceRequestInput,
   CancelResourceRequestOutput,
   | ConcurrentModificationException
   | RequestTokenNotFoundException
@@ -579,9 +578,8 @@ export const cancelResourceRequest: (
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` type returned by `CreateResource`.
  */
-export const createResource: (
-  input: CreateResourceInput,
-) => effect.Effect<
+export const createResource: API.OperationMethod<
+  CreateResourceInput,
   CreateResourceOutput,
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -637,9 +635,8 @@ export const createResource: (
  * request by calling GetResourceRequestStatus using the `RequestToken` of the
  * `ProgressEvent` returned by `DeleteResource`.
  */
-export const deleteResource: (
-  input: DeleteResourceInput,
-) => effect.Effect<
+export const deleteResource: API.OperationMethod<
+  DeleteResourceInput,
   DeleteResourceOutput,
   | AlreadyExistsException
   | ClientTokenConflictException
@@ -694,9 +691,8 @@ export const deleteResource: (
  * You can use this action to return information about an existing resource in your account
  * and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const getResource: (
-  input: GetResourceInput,
-) => effect.Effect<
+export const getResource: API.OperationMethod<
+  GetResourceInput,
   GetResourceOutput,
   | AlreadyExistsException
   | GeneralServiceException
@@ -745,9 +741,8 @@ export const getResource: (
  * Tracking the progress of resource operation requests in the
  * *Amazon Web Services Cloud Control API User Guide*.
  */
-export const getResourceRequestStatus: (
-  input: GetResourceRequestStatusInput,
-) => effect.Effect<
+export const getResourceRequestStatus: API.OperationMethod<
+  GetResourceRequestStatusInput,
   GetResourceRequestStatusOutput,
   RequestTokenNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -763,14 +758,12 @@ export const getResourceRequestStatus: (
  *
  * Resource operation requests expire after 7 days.
  */
-export const listResourceRequests: {
-  (
-    input: ListResourceRequestsInput,
-  ): effect.Effect<
-    ListResourceRequestsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceRequests: API.OperationMethod<
+  ListResourceRequestsInput,
+  ListResourceRequestsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceRequestsInput,
   ) => stream.Stream<
@@ -802,31 +795,29 @@ export const listResourceRequests: {
  * You can use this action to return information about existing resources in your account and
  * Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
  */
-export const listResources: {
-  (
-    input: ListResourcesInput,
-  ): effect.Effect<
-    ListResourcesOutput,
-    | AlreadyExistsException
-    | GeneralServiceException
-    | HandlerFailureException
-    | HandlerInternalFailureException
-    | InvalidCredentialsException
-    | InvalidRequestException
-    | NetworkFailureException
-    | NotStabilizedException
-    | NotUpdatableException
-    | PrivateTypeException
-    | ResourceConflictException
-    | ResourceNotFoundException
-    | ServiceInternalErrorException
-    | ServiceLimitExceededException
-    | ThrottlingException
-    | TypeNotFoundException
-    | UnsupportedActionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResources: API.OperationMethod<
+  ListResourcesInput,
+  ListResourcesOutput,
+  | AlreadyExistsException
+  | GeneralServiceException
+  | HandlerFailureException
+  | HandlerInternalFailureException
+  | InvalidCredentialsException
+  | InvalidRequestException
+  | NetworkFailureException
+  | NotStabilizedException
+  | NotUpdatableException
+  | PrivateTypeException
+  | ResourceConflictException
+  | ResourceNotFoundException
+  | ServiceInternalErrorException
+  | ServiceLimitExceededException
+  | ThrottlingException
+  | TypeNotFoundException
+  | UnsupportedActionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesInput,
   ) => stream.Stream<
@@ -922,9 +913,8 @@ export const listResources: {
  * For more information about the properties of a specific resource, refer to the related
  * topic for the resource in the Resource and property types reference in the *CloudFormation Users Guide*.
  */
-export const updateResource: (
-  input: UpdateResourceInput,
-) => effect.Effect<
+export const updateResource: API.OperationMethod<
+  UpdateResourceInput,
   UpdateResourceOutput,
   | AlreadyExistsException
   | ClientTokenConflictException

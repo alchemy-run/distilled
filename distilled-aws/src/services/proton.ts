@@ -3607,9 +3607,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * Proton components in the
  * *Proton User Guide*.
  */
-export const cancelComponentDeployment: (
-  input: CancelComponentDeploymentInput,
-) => effect.Effect<
+export const cancelComponentDeployment: API.OperationMethod<
+  CancelComponentDeploymentInput,
   CancelComponentDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -3645,9 +3644,8 @@ export const cancelComponentDeployment: (
  * - If the current UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting deployment state is
  * `SUCCEEDED` and the cancellation attempt has no effect.
  */
-export const cancelEnvironmentDeployment: (
-  input: CancelEnvironmentDeploymentInput,
-) => effect.Effect<
+export const cancelEnvironmentDeployment: API.OperationMethod<
+  CancelEnvironmentDeploymentInput,
   CancelEnvironmentDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -3686,9 +3684,8 @@ export const cancelEnvironmentDeployment: (
  * cancellation attempt starts, the resulting deployment state is `SUCCEEDED` and
  * the cancellation attempt has no effect.
  */
-export const cancelServiceInstanceDeployment: (
-  input: CancelServiceInstanceDeploymentInput,
-) => effect.Effect<
+export const cancelServiceInstanceDeployment: API.OperationMethod<
+  CancelServiceInstanceDeploymentInput,
   CancelServiceInstanceDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -3727,9 +3724,8 @@ export const cancelServiceInstanceDeployment: (
  * cancellation attempt starts, the resulting deployment state is `SUCCEEDED` and
  * the cancellation attempt has no effect.
  */
-export const cancelServicePipelineDeployment: (
-  input: CancelServicePipelineDeploymentInput,
-) => effect.Effect<
+export const cancelServicePipelineDeployment: API.OperationMethod<
+  CancelServicePipelineDeploymentInput,
   CancelServicePipelineDeploymentOutput,
   | AccessDeniedException
   | ConflictException
@@ -3761,9 +3757,8 @@ export const cancelServicePipelineDeployment: (
  * For more information about ABAC, see ABAC in the Proton User
  * Guide.
  */
-export const getRepositorySyncStatus: (
-  input: GetRepositorySyncStatusInput,
-) => effect.Effect<
+export const getRepositorySyncStatus: API.OperationMethod<
+  GetRepositorySyncStatusInput,
   GetRepositorySyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3799,9 +3794,8 @@ export const getRepositorySyncStatus: (
  * For more information, see Proton dashboard in the
  * *Proton User Guide*.
  */
-export const getResourcesSummary: (
-  input: GetResourcesSummaryInput,
-) => effect.Effect<
+export const getResourcesSummary: API.OperationMethod<
+  GetResourcesSummaryInput,
   GetResourcesSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3822,9 +3816,8 @@ export const getResourcesSummary: (
 /**
  * Get the status of the synced service instance.
  */
-export const getServiceInstanceSyncStatus: (
-  input: GetServiceInstanceSyncStatusInput,
-) => effect.Effect<
+export const getServiceInstanceSyncStatus: API.OperationMethod<
+  GetServiceInstanceSyncStatusInput,
   GetServiceInstanceSyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3847,9 +3840,8 @@ export const getServiceInstanceSyncStatus: (
 /**
  * Get the status of a template sync.
  */
-export const getTemplateSyncStatus: (
-  input: GetTemplateSyncStatusInput,
-) => effect.Effect<
+export const getTemplateSyncStatus: API.OperationMethod<
+  GetTemplateSyncStatusInput,
   GetTemplateSyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3872,18 +3864,16 @@ export const getTemplateSyncStatus: (
 /**
  * List repository sync definitions with detail data.
  */
-export const listRepositorySyncDefinitions: {
-  (
-    input: ListRepositorySyncDefinitionsInput,
-  ): effect.Effect<
-    ListRepositorySyncDefinitionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositorySyncDefinitions: API.OperationMethod<
+  ListRepositorySyncDefinitionsInput,
+  ListRepositorySyncDefinitionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositorySyncDefinitionsInput,
   ) => stream.Stream<
@@ -3925,19 +3915,17 @@ export const listRepositorySyncDefinitions: {
  * List tags for a resource. For more information, see Proton
  * resources and tagging in the *Proton User Guide*.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceInput,
-  ): effect.Effect<
-    ListTagsForResourceOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
@@ -3984,9 +3972,8 @@ export const listTagsForResource: {
  *
  * For more information, see Self-managed provisioning in the *Proton User Guide*.
  */
-export const notifyResourceDeploymentStatusChange: (
-  input: NotifyResourceDeploymentStatusChangeInput,
-) => effect.Effect<
+export const notifyResourceDeploymentStatusChange: API.OperationMethod<
+  NotifyResourceDeploymentStatusChangeInput,
   NotifyResourceDeploymentStatusChangeOutput,
   | AccessDeniedException
   | ConflictException
@@ -4016,9 +4003,8 @@ export const notifyResourceDeploymentStatusChange: (
  * For more information, see Proton resources and tagging in
  * the *Proton User Guide*.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -4046,9 +4032,8 @@ export const tagResource: (
  * For more information, see Proton resources and tagging in
  * the *Proton User Guide*.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -4073,9 +4058,8 @@ export const untagResource: (
 /**
  * Get detail data for Proton account-wide settings.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsInput,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsInput,
   GetAccountSettingsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4098,9 +4082,8 @@ export const getAccountSettings: (
 /**
  * Update Proton settings that are used for multiple services in the Amazon Web Services account.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsInput,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsInput,
   UpdateAccountSettingsOutput,
   | AccessDeniedException
   | ConflictException
@@ -4127,19 +4110,17 @@ export const updateAccountSettings: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const listComponentOutputs: {
-  (
-    input: ListComponentOutputsInput,
-  ): effect.Effect<
-    ListComponentOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponentOutputs: API.OperationMethod<
+  ListComponentOutputsInput,
+  ListComponentOutputsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentOutputsInput,
   ) => stream.Stream<
@@ -4187,19 +4168,17 @@ export const listComponentOutputs: {
  * Proton components in the
  * *Proton User Guide*.
  */
-export const listComponentProvisionedResources: {
-  (
-    input: ListComponentProvisionedResourcesInput,
-  ): effect.Effect<
-    ListComponentProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponentProvisionedResources: API.OperationMethod<
+  ListComponentProvisionedResourcesInput,
+  ListComponentProvisionedResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentProvisionedResourcesInput,
   ) => stream.Stream<
@@ -4247,9 +4226,8 @@ export const listComponentProvisionedResources: {
  * Proton components in the
  * *Proton User Guide*.
  */
-export const createComponent: (
-  input: CreateComponentInput,
-) => effect.Effect<
+export const createComponent: API.OperationMethod<
+  CreateComponentInput,
   CreateComponentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4280,9 +4258,8 @@ export const createComponent: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const getComponent: (
-  input: GetComponentInput,
-) => effect.Effect<
+export const getComponent: API.OperationMethod<
+  GetComponentInput,
   GetComponentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4314,9 +4291,8 @@ export const getComponent: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const updateComponent: (
-  input: UpdateComponentInput,
-) => effect.Effect<
+export const updateComponent: API.OperationMethod<
+  UpdateComponentInput,
   UpdateComponentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4347,9 +4323,8 @@ export const updateComponent: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const deleteComponent: (
-  input: DeleteComponentInput,
-) => effect.Effect<
+export const deleteComponent: API.OperationMethod<
+  DeleteComponentInput,
   DeleteComponentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4378,18 +4353,16 @@ export const deleteComponent: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const listComponents: {
-  (
-    input: ListComponentsInput,
-  ): effect.Effect<
-    ListComponentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsInput,
+  ListComponentsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsInput,
   ) => stream.Stream<
@@ -4431,9 +4404,8 @@ export const listComponents: {
 /**
  * Get detailed data for a deployment.
  */
-export const getDeployment: (
-  input: GetDeploymentInput,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentInput,
   GetDeploymentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4456,9 +4428,8 @@ export const getDeployment: (
 /**
  * Delete the deployment.
  */
-export const deleteDeployment: (
-  input: DeleteDeploymentInput,
-) => effect.Effect<
+export const deleteDeployment: API.OperationMethod<
+  DeleteDeploymentInput,
   DeleteDeploymentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4481,19 +4452,17 @@ export const deleteDeployment: (
 /**
  * List deployments. You can filter the result list by environment, service, or a single service instance.
  */
-export const listDeployments: {
-  (
-    input: ListDeploymentsInput,
-  ): effect.Effect<
-    ListDeploymentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsInput,
+  ListDeploymentsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
@@ -4543,9 +4512,8 @@ export const listDeployments: {
  * account that maintains authorization and permissions. For more information, see Environment account connections in the Proton User
  * guide.
  */
-export const createEnvironmentAccountConnection: (
-  input: CreateEnvironmentAccountConnectionInput,
-) => effect.Effect<
+export const createEnvironmentAccountConnection: API.OperationMethod<
+  CreateEnvironmentAccountConnectionInput,
   CreateEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4573,9 +4541,8 @@ export const createEnvironmentAccountConnection: (
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const getEnvironmentAccountConnection: (
-  input: GetEnvironmentAccountConnectionInput,
-) => effect.Effect<
+export const getEnvironmentAccountConnection: API.OperationMethod<
+  GetEnvironmentAccountConnectionInput,
   GetEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4601,9 +4568,8 @@ export const getEnvironmentAccountConnection: (
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const updateEnvironmentAccountConnection: (
-  input: UpdateEnvironmentAccountConnectionInput,
-) => effect.Effect<
+export const updateEnvironmentAccountConnection: API.OperationMethod<
+  UpdateEnvironmentAccountConnectionInput,
   UpdateEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4635,9 +4601,8 @@ export const updateEnvironmentAccountConnection: (
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const deleteEnvironmentAccountConnection: (
-  input: DeleteEnvironmentAccountConnectionInput,
-) => effect.Effect<
+export const deleteEnvironmentAccountConnection: API.OperationMethod<
+  DeleteEnvironmentAccountConnectionInput,
   DeleteEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4665,18 +4630,16 @@ export const deleteEnvironmentAccountConnection: (
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const listEnvironmentAccountConnections: {
-  (
-    input: ListEnvironmentAccountConnectionsInput,
-  ): effect.Effect<
-    ListEnvironmentAccountConnectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentAccountConnections: API.OperationMethod<
+  ListEnvironmentAccountConnectionsInput,
+  ListEnvironmentAccountConnectionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentAccountConnectionsInput,
   ) => stream.Stream<
@@ -4722,9 +4685,8 @@ export const listEnvironmentAccountConnections: {
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const acceptEnvironmentAccountConnection: (
-  input: AcceptEnvironmentAccountConnectionInput,
-) => effect.Effect<
+export const acceptEnvironmentAccountConnection: API.OperationMethod<
+  AcceptEnvironmentAccountConnectionInput,
   AcceptEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4757,9 +4719,8 @@ export const acceptEnvironmentAccountConnection: (
  * For more information, see Environment account
  * connections in the *Proton User guide*.
  */
-export const rejectEnvironmentAccountConnection: (
-  input: RejectEnvironmentAccountConnectionInput,
-) => effect.Effect<
+export const rejectEnvironmentAccountConnection: API.OperationMethod<
+  RejectEnvironmentAccountConnectionInput,
   RejectEnvironmentAccountConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4784,19 +4745,17 @@ export const rejectEnvironmentAccountConnection: (
 /**
  * List the infrastructure as code outputs for your environment.
  */
-export const listEnvironmentOutputs: {
-  (
-    input: ListEnvironmentOutputsInput,
-  ): effect.Effect<
-    ListEnvironmentOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentOutputs: API.OperationMethod<
+  ListEnvironmentOutputsInput,
+  ListEnvironmentOutputsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentOutputsInput,
   ) => stream.Stream<
@@ -4840,19 +4799,17 @@ export const listEnvironmentOutputs: {
 /**
  * List the provisioned resources for your environment.
  */
-export const listEnvironmentProvisionedResources: {
-  (
-    input: ListEnvironmentProvisionedResourcesInput,
-  ): effect.Effect<
-    ListEnvironmentProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentProvisionedResources: API.OperationMethod<
+  ListEnvironmentProvisionedResourcesInput,
+  ListEnvironmentProvisionedResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentProvisionedResourcesInput,
   ) => stream.Stream<
@@ -4907,9 +4864,8 @@ export const listEnvironmentProvisionedResources: {
  * For more information, see Environments and Provisioning methods in the Proton User
  * Guide.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentInput,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentInput,
   CreateEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -4936,9 +4892,8 @@ export const createEnvironment: (
 /**
  * Get detailed data for an environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentInput,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentInput,
   GetEnvironmentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5003,9 +4958,8 @@ export const getEnvironment: (
  * In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template,
  * by default. You can also specify a different major version that's higher than the major version in use and a minor version.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentInput,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentInput,
   UpdateEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -5030,9 +4984,8 @@ export const updateEnvironment: (
 /**
  * Delete an environment.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentInput,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentInput,
   DeleteEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -5057,19 +5010,17 @@ export const deleteEnvironment: (
 /**
  * List environments with detail data summaries.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsInput,
-  ): effect.Effect<
-    ListEnvironmentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsInput,
+  ListEnvironmentsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
@@ -5125,9 +5076,8 @@ export const listEnvironments: {
  * `CUSTOMER_MANAGED`. For more information, see Register
  * and publish an environment template in the *Proton User Guide*.
  */
-export const createEnvironmentTemplate: (
-  input: CreateEnvironmentTemplateInput,
-) => effect.Effect<
+export const createEnvironmentTemplate: API.OperationMethod<
+  CreateEnvironmentTemplateInput,
   CreateEnvironmentTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -5152,9 +5102,8 @@ export const createEnvironmentTemplate: (
 /**
  * Get detailed data for an environment template.
  */
-export const getEnvironmentTemplate: (
-  input: GetEnvironmentTemplateInput,
-) => effect.Effect<
+export const getEnvironmentTemplate: API.OperationMethod<
+  GetEnvironmentTemplateInput,
   GetEnvironmentTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5177,9 +5126,8 @@ export const getEnvironmentTemplate: (
 /**
  * Update an environment template.
  */
-export const updateEnvironmentTemplate: (
-  input: UpdateEnvironmentTemplateInput,
-) => effect.Effect<
+export const updateEnvironmentTemplate: API.OperationMethod<
+  UpdateEnvironmentTemplateInput,
   UpdateEnvironmentTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -5204,9 +5152,8 @@ export const updateEnvironmentTemplate: (
 /**
  * If no other major or minor versions of an environment template exist, delete the environment template.
  */
-export const deleteEnvironmentTemplate: (
-  input: DeleteEnvironmentTemplateInput,
-) => effect.Effect<
+export const deleteEnvironmentTemplate: API.OperationMethod<
+  DeleteEnvironmentTemplateInput,
   DeleteEnvironmentTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -5231,18 +5178,16 @@ export const deleteEnvironmentTemplate: (
 /**
  * List environment templates.
  */
-export const listEnvironmentTemplates: {
-  (
-    input: ListEnvironmentTemplatesInput,
-  ): effect.Effect<
-    ListEnvironmentTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentTemplates: API.OperationMethod<
+  ListEnvironmentTemplatesInput,
+  ListEnvironmentTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentTemplatesInput,
   ) => stream.Stream<
@@ -5286,9 +5231,8 @@ export const listEnvironmentTemplates: {
  * *isn't* backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major
  * version.
  */
-export const createEnvironmentTemplateVersion: (
-  input: CreateEnvironmentTemplateVersionInput,
-) => effect.Effect<
+export const createEnvironmentTemplateVersion: API.OperationMethod<
+  CreateEnvironmentTemplateVersionInput,
   CreateEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -5315,9 +5259,8 @@ export const createEnvironmentTemplateVersion: (
 /**
  * Get detailed data for a major or minor version of an environment template.
  */
-export const getEnvironmentTemplateVersion: (
-  input: GetEnvironmentTemplateVersionInput,
-) => effect.Effect<
+export const getEnvironmentTemplateVersion: API.OperationMethod<
+  GetEnvironmentTemplateVersionInput,
   GetEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5340,9 +5283,8 @@ export const getEnvironmentTemplateVersion: (
 /**
  * Update a major or minor version of an environment template.
  */
-export const updateEnvironmentTemplateVersion: (
-  input: UpdateEnvironmentTemplateVersionInput,
-) => effect.Effect<
+export const updateEnvironmentTemplateVersion: API.OperationMethod<
+  UpdateEnvironmentTemplateVersionInput,
   UpdateEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -5373,9 +5315,8 @@ export const updateEnvironmentTemplateVersion: (
  * `Recommended` minor version of the environment template if no other minor versions of the environment template exist. A minor version of an
  * environment template is a version that's backward compatible.
  */
-export const deleteEnvironmentTemplateVersion: (
-  input: DeleteEnvironmentTemplateVersionInput,
-) => effect.Effect<
+export const deleteEnvironmentTemplateVersion: API.OperationMethod<
+  DeleteEnvironmentTemplateVersionInput,
   DeleteEnvironmentTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -5400,19 +5341,17 @@ export const deleteEnvironmentTemplateVersion: (
 /**
  * List major or minor versions of an environment template with detail data.
  */
-export const listEnvironmentTemplateVersions: {
-  (
-    input: ListEnvironmentTemplateVersionsInput,
-  ): effect.Effect<
-    ListEnvironmentTemplateVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentTemplateVersions: API.OperationMethod<
+  ListEnvironmentTemplateVersionsInput,
+  ListEnvironmentTemplateVersionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentTemplateVersionsInput,
   ) => stream.Stream<
@@ -5463,9 +5402,8 @@ export const listEnvironmentTemplateVersions: {
  * Template sync configurations in the Proton
  * User Guide.
  */
-export const createRepository: (
-  input: CreateRepositoryInput,
-) => effect.Effect<
+export const createRepository: API.OperationMethod<
+  CreateRepositoryInput,
   CreateRepositoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -5490,9 +5428,8 @@ export const createRepository: (
 /**
  * Get detail data for a linked repository.
  */
-export const getRepository: (
-  input: GetRepositoryInput,
-) => effect.Effect<
+export const getRepository: API.OperationMethod<
+  GetRepositoryInput,
   GetRepositoryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5515,9 +5452,8 @@ export const getRepository: (
 /**
  * De-register and unlink your repository.
  */
-export const deleteRepository: (
-  input: DeleteRepositoryInput,
-) => effect.Effect<
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryInput,
   DeleteRepositoryOutput,
   | AccessDeniedException
   | ConflictException
@@ -5542,19 +5478,17 @@ export const deleteRepository: (
 /**
  * List linked repositories with detail data.
  */
-export const listRepositories: {
-  (
-    input: ListRepositoriesInput,
-  ): effect.Effect<
-    ListRepositoriesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositories: API.OperationMethod<
+  ListRepositoriesInput,
+  ListRepositoriesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoriesInput,
   ) => stream.Stream<
@@ -5599,19 +5533,17 @@ export const listRepositories: {
 /**
  * Get a list service of instance Infrastructure as Code (IaC) outputs.
  */
-export const listServiceInstanceOutputs: {
-  (
-    input: ListServiceInstanceOutputsInput,
-  ): effect.Effect<
-    ListServiceInstanceOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceInstanceOutputs: API.OperationMethod<
+  ListServiceInstanceOutputsInput,
+  ListServiceInstanceOutputsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceInstanceOutputsInput,
   ) => stream.Stream<
@@ -5655,19 +5587,17 @@ export const listServiceInstanceOutputs: {
 /**
  * List provisioned resources for a service instance with details.
  */
-export const listServiceInstanceProvisionedResources: {
-  (
-    input: ListServiceInstanceProvisionedResourcesInput,
-  ): effect.Effect<
-    ListServiceInstanceProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceInstanceProvisionedResources: API.OperationMethod<
+  ListServiceInstanceProvisionedResourcesInput,
+  ListServiceInstanceProvisionedResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceInstanceProvisionedResourcesInput,
   ) => stream.Stream<
@@ -5711,9 +5641,8 @@ export const listServiceInstanceProvisionedResources: {
 /**
  * Create a service instance.
  */
-export const createServiceInstance: (
-  input: CreateServiceInstanceInput,
-) => effect.Effect<
+export const createServiceInstance: API.OperationMethod<
+  CreateServiceInstanceInput,
   CreateServiceInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -5739,9 +5668,8 @@ export const createServiceInstance: (
  * Get detailed data for a service instance. A service instance is an instantiation of
  * service template and it runs in a specific environment.
  */
-export const getServiceInstance: (
-  input: GetServiceInstanceInput,
-) => effect.Effect<
+export const getServiceInstance: API.OperationMethod<
+  GetServiceInstanceInput,
   GetServiceInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5774,9 +5702,8 @@ export const getServiceInstance: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const updateServiceInstance: (
-  input: UpdateServiceInstanceInput,
-) => effect.Effect<
+export const updateServiceInstance: API.OperationMethod<
+  UpdateServiceInstanceInput,
   UpdateServiceInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -5802,19 +5729,17 @@ export const updateServiceInstance: (
  * List service instances with summary data. This action lists service instances of all
  * services in the Amazon Web Services account.
  */
-export const listServiceInstances: {
-  (
-    input: ListServiceInstancesInput,
-  ): effect.Effect<
-    ListServiceInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceInstances: API.OperationMethod<
+  ListServiceInstancesInput,
+  ListServiceInstancesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceInstancesInput,
   ) => stream.Stream<
@@ -5859,19 +5784,17 @@ export const listServiceInstances: {
 /**
  * Get a list of service pipeline Infrastructure as Code (IaC) outputs.
  */
-export const listServicePipelineOutputs: {
-  (
-    input: ListServicePipelineOutputsInput,
-  ): effect.Effect<
-    ListServicePipelineOutputsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServicePipelineOutputs: API.OperationMethod<
+  ListServicePipelineOutputsInput,
+  ListServicePipelineOutputsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicePipelineOutputsInput,
   ) => stream.Stream<
@@ -5915,19 +5838,17 @@ export const listServicePipelineOutputs: {
 /**
  * List provisioned resources for a service and pipeline with details.
  */
-export const listServicePipelineProvisionedResources: {
-  (
-    input: ListServicePipelineProvisionedResourcesInput,
-  ): effect.Effect<
-    ListServicePipelineProvisionedResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServicePipelineProvisionedResources: API.OperationMethod<
+  ListServicePipelineProvisionedResourcesInput,
+  ListServicePipelineProvisionedResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicePipelineProvisionedResourcesInput,
   ) => stream.Stream<
@@ -5998,9 +5919,8 @@ export const listServicePipelineProvisionedResources: {
  * specify a different major version that's higher than the major version in use and a
  * minor version.
  */
-export const updateServicePipeline: (
-  input: UpdateServicePipelineInput,
-) => effect.Effect<
+export const updateServicePipeline: API.OperationMethod<
+  UpdateServicePipelineInput,
   UpdateServicePipelineOutput,
   | AccessDeniedException
   | ConflictException
@@ -6028,9 +5948,8 @@ export const updateServicePipeline: (
  * Services
  * in the *Proton User Guide*.
  */
-export const createService: (
-  input: CreateServiceInput,
-) => effect.Effect<
+export const createService: API.OperationMethod<
+  CreateServiceInput,
   CreateServiceOutput,
   | AccessDeniedException
   | ConflictException
@@ -6057,9 +5976,8 @@ export const createService: (
 /**
  * Get detailed data for a service.
  */
-export const getService: (
-  input: GetServiceInput,
-) => effect.Effect<
+export const getService: API.OperationMethod<
+  GetServiceInput,
   GetServiceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6096,9 +6014,8 @@ export const getService: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const updateService: (
-  input: UpdateServiceInput,
-) => effect.Effect<
+export const updateService: API.OperationMethod<
+  UpdateServiceInput,
   UpdateServiceOutput,
   | AccessDeniedException
   | ConflictException
@@ -6132,9 +6049,8 @@ export const updateService: (
  * Proton components in the
  * *Proton User Guide*.
  */
-export const deleteService: (
-  input: DeleteServiceInput,
-) => effect.Effect<
+export const deleteService: API.OperationMethod<
+  DeleteServiceInput,
   DeleteServiceOutput,
   | AccessDeniedException
   | ConflictException
@@ -6159,18 +6075,16 @@ export const deleteService: (
 /**
  * List services with summaries of detail data.
  */
-export const listServices: {
-  (
-    input: ListServicesInput,
-  ): effect.Effect<
-    ListServicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesInput,
+  ListServicesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesInput,
   ) => stream.Stream<
@@ -6212,9 +6126,8 @@ export const listServices: {
 /**
  * Get detailed data for the service sync blocker summary.
  */
-export const getServiceSyncBlockerSummary: (
-  input: GetServiceSyncBlockerSummaryInput,
-) => effect.Effect<
+export const getServiceSyncBlockerSummary: API.OperationMethod<
+  GetServiceSyncBlockerSummaryInput,
   GetServiceSyncBlockerSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6237,9 +6150,8 @@ export const getServiceSyncBlockerSummary: (
 /**
  * Update the service sync blocker by resolving it.
  */
-export const updateServiceSyncBlocker: (
-  input: UpdateServiceSyncBlockerInput,
-) => effect.Effect<
+export const updateServiceSyncBlocker: API.OperationMethod<
+  UpdateServiceSyncBlockerInput,
   UpdateServiceSyncBlockerOutput,
   | AccessDeniedException
   | ConflictException
@@ -6264,9 +6176,8 @@ export const updateServiceSyncBlocker: (
 /**
  * Create the Proton Ops configuration file.
  */
-export const createServiceSyncConfig: (
-  input: CreateServiceSyncConfigInput,
-) => effect.Effect<
+export const createServiceSyncConfig: API.OperationMethod<
+  CreateServiceSyncConfigInput,
   CreateServiceSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -6291,9 +6202,8 @@ export const createServiceSyncConfig: (
 /**
  * Get detailed information for the service sync configuration.
  */
-export const getServiceSyncConfig: (
-  input: GetServiceSyncConfigInput,
-) => effect.Effect<
+export const getServiceSyncConfig: API.OperationMethod<
+  GetServiceSyncConfigInput,
   GetServiceSyncConfigOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6316,9 +6226,8 @@ export const getServiceSyncConfig: (
 /**
  * Update the Proton Ops config file.
  */
-export const updateServiceSyncConfig: (
-  input: UpdateServiceSyncConfigInput,
-) => effect.Effect<
+export const updateServiceSyncConfig: API.OperationMethod<
+  UpdateServiceSyncConfigInput,
   UpdateServiceSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -6343,9 +6252,8 @@ export const updateServiceSyncConfig: (
 /**
  * Delete the Proton Ops file.
  */
-export const deleteServiceSyncConfig: (
-  input: DeleteServiceSyncConfigInput,
-) => effect.Effect<
+export const deleteServiceSyncConfig: API.OperationMethod<
+  DeleteServiceSyncConfigInput,
   DeleteServiceSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -6375,9 +6283,8 @@ export const deleteServiceSyncConfig: (
  * then deploys and manages the infrastructure defined by the selected service template. For more
  * information, see Proton templates in the *Proton User Guide*.
  */
-export const createServiceTemplate: (
-  input: CreateServiceTemplateInput,
-) => effect.Effect<
+export const createServiceTemplate: API.OperationMethod<
+  CreateServiceTemplateInput,
   CreateServiceTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6402,9 +6309,8 @@ export const createServiceTemplate: (
 /**
  * Get detailed data for a service template.
  */
-export const getServiceTemplate: (
-  input: GetServiceTemplateInput,
-) => effect.Effect<
+export const getServiceTemplate: API.OperationMethod<
+  GetServiceTemplateInput,
   GetServiceTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6427,9 +6333,8 @@ export const getServiceTemplate: (
 /**
  * Update a service template.
  */
-export const updateServiceTemplate: (
-  input: UpdateServiceTemplateInput,
-) => effect.Effect<
+export const updateServiceTemplate: API.OperationMethod<
+  UpdateServiceTemplateInput,
   UpdateServiceTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6455,9 +6360,8 @@ export const updateServiceTemplate: (
  * If no other major or minor versions of the service template exist, delete the service
  * template.
  */
-export const deleteServiceTemplate: (
-  input: DeleteServiceTemplateInput,
-) => effect.Effect<
+export const deleteServiceTemplate: API.OperationMethod<
+  DeleteServiceTemplateInput,
   DeleteServiceTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6482,18 +6386,16 @@ export const deleteServiceTemplate: (
 /**
  * List service templates with detail data.
  */
-export const listServiceTemplates: {
-  (
-    input: ListServiceTemplatesInput,
-  ): effect.Effect<
-    ListServiceTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceTemplates: API.OperationMethod<
+  ListServiceTemplatesInput,
+  ListServiceTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceTemplatesInput,
   ) => stream.Stream<
@@ -6537,9 +6439,8 @@ export const listServiceTemplates: {
  * template is a version that *isn't* backward compatible. A minor version of
  * a service template is a version that's backward compatible within its major version.
  */
-export const createServiceTemplateVersion: (
-  input: CreateServiceTemplateVersionInput,
-) => effect.Effect<
+export const createServiceTemplateVersion: API.OperationMethod<
+  CreateServiceTemplateVersionInput,
   CreateServiceTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -6566,9 +6467,8 @@ export const createServiceTemplateVersion: (
 /**
  * Get detailed data for a major or minor version of a service template.
  */
-export const getServiceTemplateVersion: (
-  input: GetServiceTemplateVersionInput,
-) => effect.Effect<
+export const getServiceTemplateVersion: API.OperationMethod<
+  GetServiceTemplateVersionInput,
   GetServiceTemplateVersionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6591,9 +6491,8 @@ export const getServiceTemplateVersion: (
 /**
  * Update a major or minor version of a service template.
  */
-export const updateServiceTemplateVersion: (
-  input: UpdateServiceTemplateVersionInput,
-) => effect.Effect<
+export const updateServiceTemplateVersion: API.OperationMethod<
+  UpdateServiceTemplateVersionInput,
   UpdateServiceTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -6627,9 +6526,8 @@ export const updateServiceTemplateVersion: (
  * minor versions of the service template exist. A minor version of a service template is a
  * version that's backwards compatible.
  */
-export const deleteServiceTemplateVersion: (
-  input: DeleteServiceTemplateVersionInput,
-) => effect.Effect<
+export const deleteServiceTemplateVersion: API.OperationMethod<
+  DeleteServiceTemplateVersionInput,
   DeleteServiceTemplateVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -6654,19 +6552,17 @@ export const deleteServiceTemplateVersion: (
 /**
  * List major or minor versions of a service template with detail data.
  */
-export const listServiceTemplateVersions: {
-  (
-    input: ListServiceTemplateVersionsInput,
-  ): effect.Effect<
-    ListServiceTemplateVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceTemplateVersions: API.OperationMethod<
+  ListServiceTemplateVersionsInput,
+  ListServiceTemplateVersionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceTemplateVersionsInput,
   ) => stream.Stream<
@@ -6716,9 +6612,8 @@ export const listServiceTemplateVersions: {
  * bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see Template sync configurations in the Proton
  * User Guide.
  */
-export const createTemplateSyncConfig: (
-  input: CreateTemplateSyncConfigInput,
-) => effect.Effect<
+export const createTemplateSyncConfig: API.OperationMethod<
+  CreateTemplateSyncConfigInput,
   CreateTemplateSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -6743,9 +6638,8 @@ export const createTemplateSyncConfig: (
 /**
  * Get detail data for a template sync configuration.
  */
-export const getTemplateSyncConfig: (
-  input: GetTemplateSyncConfigInput,
-) => effect.Effect<
+export const getTemplateSyncConfig: API.OperationMethod<
+  GetTemplateSyncConfigInput,
   GetTemplateSyncConfigOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6770,9 +6664,8 @@ export const getTemplateSyncConfig: (
  * (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For
  * more information, see CreateRepository.
  */
-export const updateTemplateSyncConfig: (
-  input: UpdateTemplateSyncConfigInput,
-) => effect.Effect<
+export const updateTemplateSyncConfig: API.OperationMethod<
+  UpdateTemplateSyncConfigInput,
   UpdateTemplateSyncConfigOutput,
   | AccessDeniedException
   | ConflictException
@@ -6797,9 +6690,8 @@ export const updateTemplateSyncConfig: (
 /**
  * Delete a template sync configuration.
  */
-export const deleteTemplateSyncConfig: (
-  input: DeleteTemplateSyncConfigInput,
-) => effect.Effect<
+export const deleteTemplateSyncConfig: API.OperationMethod<
+  DeleteTemplateSyncConfigInput,
   DeleteTemplateSyncConfigOutput,
   | AccessDeniedException
   | ConflictException

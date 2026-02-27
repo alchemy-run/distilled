@@ -237,9 +237,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
-export const getConnectionRecordingPreferences: (
-  input: GetConnectionRecordingPreferencesRequest,
-) => effect.Effect<
+export const getConnectionRecordingPreferences: API.OperationMethod<
+  GetConnectionRecordingPreferencesRequest,
   GetConnectionRecordingPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -266,9 +265,8 @@ export const getConnectionRecordingPreferences: (
 /**
  * Deletes the preferences for recording RDP connections.
  */
-export const deleteConnectionRecordingPreferences: (
-  input: DeleteConnectionRecordingPreferencesRequest,
-) => effect.Effect<
+export const deleteConnectionRecordingPreferences: API.OperationMethod<
+  DeleteConnectionRecordingPreferencesRequest,
   DeleteConnectionRecordingPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -295,9 +293,8 @@ export const deleteConnectionRecordingPreferences: (
 /**
  * Updates the preferences for recording RDP connections.
  */
-export const updateConnectionRecordingPreferences: (
-  input: UpdateConnectionRecordingPreferencesRequest,
-) => effect.Effect<
+export const updateConnectionRecordingPreferences: API.OperationMethod<
+  UpdateConnectionRecordingPreferencesRequest,
   UpdateConnectionRecordingPreferencesResponse,
   | AccessDeniedException
   | ConflictException

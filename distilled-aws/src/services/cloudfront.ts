@@ -10370,9 +10370,8 @@ export class TrustedKeyGroupDoesNotExist extends S.TaggedErrorClass<TrustedKeyGr
  *
  * For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
-export const associateAlias: (
-  input: AssociateAliasRequest,
-) => effect.Effect<
+export const associateAlias: API.OperationMethod<
+  AssociateAliasRequest,
   AssociateAliasResponse,
   | AccessDenied
   | IllegalUpdate
@@ -10395,9 +10394,8 @@ export const associateAlias: (
 /**
  * Associates the WAF web ACL with a distribution tenant.
  */
-export const associateDistributionTenantWebACL: (
-  input: AssociateDistributionTenantWebACLRequest,
-) => effect.Effect<
+export const associateDistributionTenantWebACL: API.OperationMethod<
+  AssociateDistributionTenantWebACLRequest,
   AssociateDistributionTenantWebACLResult,
   | AccessDenied
   | EntityLimitExceeded
@@ -10422,9 +10420,8 @@ export const associateDistributionTenantWebACL: (
 /**
  * Associates the WAF web ACL with a distribution.
  */
-export const associateDistributionWebACL: (
-  input: AssociateDistributionWebACLRequest,
-) => effect.Effect<
+export const associateDistributionWebACL: API.OperationMethod<
+  AssociateDistributionWebACLRequest,
   AssociateDistributionWebACLResult,
   | AccessDenied
   | EntityLimitExceeded
@@ -10449,9 +10446,8 @@ export const associateDistributionWebACL: (
 /**
  * Creates an Anycast static IP list.
  */
-export const createAnycastIpList: (
-  input: CreateAnycastIpListRequest,
-) => effect.Effect<
+export const createAnycastIpList: API.OperationMethod<
+  CreateAnycastIpListRequest,
   CreateAnycastIpListResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -10488,9 +10484,8 @@ export const createAnycastIpList: (
  *
  * For more information about cache policies, see Controlling the cache key in the *Amazon CloudFront Developer Guide*.
  */
-export const createCachePolicy: (
-  input: CreateCachePolicyRequest,
-) => effect.Effect<
+export const createCachePolicy: API.OperationMethod<
+  CreateCachePolicyRequest,
   CreateCachePolicyResult,
   | AccessDenied
   | CachePolicyAlreadyExists
@@ -10519,9 +10514,8 @@ export const createCachePolicy: (
 /**
  * Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the *Amazon CloudFront Developer Guide*.
  */
-export const createCloudFrontOriginAccessIdentity: (
-  input: CreateCloudFrontOriginAccessIdentityRequest,
-) => effect.Effect<
+export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
+  CreateCloudFrontOriginAccessIdentityRequest,
   CreateCloudFrontOriginAccessIdentityResult,
   | CloudFrontOriginAccessIdentityAlreadyExists
   | InconsistentQuantities
@@ -10544,9 +10538,8 @@ export const createCloudFrontOriginAccessIdentity: (
 /**
  * Creates a connection function.
  */
-export const createConnectionFunction: (
-  input: CreateConnectionFunctionRequest,
-) => effect.Effect<
+export const createConnectionFunction: API.OperationMethod<
+  CreateConnectionFunctionRequest,
   CreateConnectionFunctionResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -10573,9 +10566,8 @@ export const createConnectionFunction: (
 /**
  * Creates a connection group.
  */
-export const createConnectionGroup: (
-  input: CreateConnectionGroupRequest,
-) => effect.Effect<
+export const createConnectionGroup: API.OperationMethod<
+  CreateConnectionGroupRequest,
   CreateConnectionGroupResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -10604,9 +10596,8 @@ export const createConnectionGroup: (
  *
  * After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
  */
-export const createContinuousDeploymentPolicy: (
-  input: CreateContinuousDeploymentPolicyRequest,
-) => effect.Effect<
+export const createContinuousDeploymentPolicy: API.OperationMethod<
+  CreateContinuousDeploymentPolicyRequest,
   CreateContinuousDeploymentPolicyResult,
   | AccessDenied
   | ContinuousDeploymentPolicyAlreadyExists
@@ -10631,9 +10622,8 @@ export const createContinuousDeploymentPolicy: (
 /**
  * Creates a distribution tenant.
  */
-export const createDistributionTenant: (
-  input: CreateDistributionTenantRequest,
-) => effect.Effect<
+export const createDistributionTenant: API.OperationMethod<
+  CreateDistributionTenantRequest,
   CreateDistributionTenantResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -10662,9 +10652,8 @@ export const createDistributionTenant: (
 /**
  * Create a new field-level encryption configuration.
  */
-export const createFieldLevelEncryptionConfig: (
-  input: CreateFieldLevelEncryptionConfigRequest,
-) => effect.Effect<
+export const createFieldLevelEncryptionConfig: API.OperationMethod<
+  CreateFieldLevelEncryptionConfigRequest,
   CreateFieldLevelEncryptionConfigResult,
   | FieldLevelEncryptionConfigAlreadyExists
   | InconsistentQuantities
@@ -10693,9 +10682,8 @@ export const createFieldLevelEncryptionConfig: (
 /**
  * Create a field-level encryption profile.
  */
-export const createFieldLevelEncryptionProfile: (
-  input: CreateFieldLevelEncryptionProfileRequest,
-) => effect.Effect<
+export const createFieldLevelEncryptionProfile: API.OperationMethod<
+  CreateFieldLevelEncryptionProfileRequest,
   CreateFieldLevelEncryptionProfileResult,
   | FieldLevelEncryptionProfileAlreadyExists
   | FieldLevelEncryptionProfileSizeExceeded
@@ -10730,9 +10718,8 @@ export const createFieldLevelEncryptionProfile: (
  *
  * When you're ready to use your function with a CloudFront distribution, use `PublishFunction` to copy the function from the `DEVELOPMENT` stage to `LIVE`. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
  */
-export const createFunction: (
-  input: CreateFunctionRequest,
-) => effect.Effect<
+export const createFunction: API.OperationMethod<
+  CreateFunctionRequest,
   CreateFunctionResult,
   | FunctionAlreadyExists
   | FunctionSizeLimitExceeded
@@ -10755,9 +10742,8 @@ export const createFunction: (
 /**
  * Create a new invalidation. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
-export const createInvalidation: (
-  input: CreateInvalidationRequest,
-) => effect.Effect<
+export const createInvalidation: API.OperationMethod<
+  CreateInvalidationRequest,
   CreateInvalidationResult,
   | AccessDenied
   | BatchTooLarge
@@ -10784,9 +10770,8 @@ export const createInvalidation: (
 /**
  * Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the *Amazon CloudFront Developer Guide*.
  */
-export const createInvalidationForDistributionTenant: (
-  input: CreateInvalidationForDistributionTenantRequest,
-) => effect.Effect<
+export const createInvalidationForDistributionTenant: API.OperationMethod<
+  CreateInvalidationForDistributionTenantRequest,
   CreateInvalidationForDistributionTenantResult,
   | AccessDenied
   | BatchTooLarge
@@ -10815,9 +10800,8 @@ export const createInvalidationForDistributionTenant: (
  *
  * To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the *Amazon CloudFront Developer Guide*.
  */
-export const createKeyGroup: (
-  input: CreateKeyGroupRequest,
-) => effect.Effect<
+export const createKeyGroup: API.OperationMethod<
+  CreateKeyGroupRequest,
   CreateKeyGroupResult,
   | InvalidArgument
   | KeyGroupAlreadyExists
@@ -10838,9 +10822,8 @@ export const createKeyGroup: (
 /**
  * Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid `ImportSource` that you own.
  */
-export const createKeyValueStore: (
-  input: CreateKeyValueStoreRequest,
-) => effect.Effect<
+export const createKeyValueStore: API.OperationMethod<
+  CreateKeyValueStoreRequest,
   CreateKeyValueStoreResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -10867,9 +10850,8 @@ export const createKeyValueStore: (
  *
  * For more information, see Viewing additional CloudFront distribution metrics in the *Amazon CloudFront Developer Guide*.
  */
-export const createMonitoringSubscription: (
-  input: CreateMonitoringSubscriptionRequest,
-) => effect.Effect<
+export const createMonitoringSubscription: API.OperationMethod<
+  CreateMonitoringSubscriptionRequest,
   CreateMonitoringSubscriptionResult,
   | AccessDenied
   | MonitoringSubscriptionAlreadyExists
@@ -10894,9 +10876,8 @@ export const createMonitoringSubscription: (
  *
  * For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the *Amazon CloudFront Developer Guide*.
  */
-export const createOriginAccessControl: (
-  input: CreateOriginAccessControlRequest,
-) => effect.Effect<
+export const createOriginAccessControl: API.OperationMethod<
+  CreateOriginAccessControlRequest,
   CreateOriginAccessControlResult,
   | InvalidArgument
   | OriginAccessControlAlreadyExists
@@ -10927,9 +10908,8 @@ export const createOriginAccessControl: (
  *
  * For more information about origin request policies, see Controlling origin requests in the *Amazon CloudFront Developer Guide*.
  */
-export const createOriginRequestPolicy: (
-  input: CreateOriginRequestPolicyRequest,
-) => effect.Effect<
+export const createOriginRequestPolicy: API.OperationMethod<
+  CreateOriginRequestPolicyRequest,
   CreateOriginRequestPolicyResult,
   | AccessDenied
   | InconsistentQuantities
@@ -10958,9 +10938,8 @@ export const createOriginRequestPolicy: (
 /**
  * Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
  */
-export const createPublicKey: (
-  input: CreatePublicKeyRequest,
-) => effect.Effect<
+export const createPublicKey: API.OperationMethod<
+  CreatePublicKeyRequest,
   CreatePublicKeyResult,
   InvalidArgument | PublicKeyAlreadyExists | TooManyPublicKeys | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10976,9 +10955,8 @@ export const createPublicKey: (
  *
  * For more information about real-time log configurations, see Real-time logs in the *Amazon CloudFront Developer Guide*.
  */
-export const createRealtimeLogConfig: (
-  input: CreateRealtimeLogConfigRequest,
-) => effect.Effect<
+export const createRealtimeLogConfig: API.OperationMethod<
+  CreateRealtimeLogConfigRequest,
   CreateRealtimeLogConfigResult,
   | AccessDenied
   | InvalidArgument
@@ -11005,9 +10983,8 @@ export const createRealtimeLogConfig: (
  *
  * For more information, see Adding or removing HTTP headers in CloudFront responses in the *Amazon CloudFront Developer Guide*.
  */
-export const createResponseHeadersPolicy: (
-  input: CreateResponseHeadersPolicyRequest,
-) => effect.Effect<
+export const createResponseHeadersPolicy: API.OperationMethod<
+  CreateResponseHeadersPolicyRequest,
   CreateResponseHeadersPolicyResult,
   | AccessDenied
   | InconsistentQuantities
@@ -11036,9 +11013,8 @@ export const createResponseHeadersPolicy: (
 /**
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
-export const createStreamingDistribution: (
-  input: CreateStreamingDistributionRequest,
-) => effect.Effect<
+export const createStreamingDistribution: API.OperationMethod<
+  CreateStreamingDistributionRequest,
   CreateStreamingDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -11077,9 +11053,8 @@ export const createStreamingDistribution: (
 /**
  * This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion forum.
  */
-export const createStreamingDistributionWithTags: (
-  input: CreateStreamingDistributionWithTagsRequest,
-) => effect.Effect<
+export const createStreamingDistributionWithTags: API.OperationMethod<
+  CreateStreamingDistributionWithTagsRequest,
   CreateStreamingDistributionWithTagsResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -11120,9 +11095,8 @@ export const createStreamingDistributionWithTags: (
 /**
  * Creates a trust store.
  */
-export const createTrustStore: (
-  input: CreateTrustStoreRequest,
-) => effect.Effect<
+export const createTrustStore: API.OperationMethod<
+  CreateTrustStoreRequest,
   CreateTrustStoreResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -11147,9 +11121,8 @@ export const createTrustStore: (
 /**
  * Create an Amazon CloudFront VPC origin.
  */
-export const createVpcOrigin: (
-  input: CreateVpcOriginRequest,
-) => effect.Effect<
+export const createVpcOrigin: API.OperationMethod<
+  CreateVpcOriginRequest,
   CreateVpcOriginResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -11176,9 +11149,8 @@ export const createVpcOrigin: (
 /**
  * Deletes an Anycast static IP list.
  */
-export const deleteAnycastIpList: (
-  input: DeleteAnycastIpListRequest,
-) => effect.Effect<
+export const deleteAnycastIpList: API.OperationMethod<
+  DeleteAnycastIpListRequest,
   DeleteAnycastIpListResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -11211,9 +11183,8 @@ export const deleteAnycastIpList: (
  *
  * To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use `ListCachePolicies` or `GetCachePolicy`.
  */
-export const deleteCachePolicy: (
-  input: DeleteCachePolicyRequest,
-) => effect.Effect<
+export const deleteCachePolicy: API.OperationMethod<
+  DeleteCachePolicyRequest,
   DeleteCachePolicyResponse,
   | AccessDenied
   | CachePolicyInUse
@@ -11238,9 +11209,8 @@ export const deleteCachePolicy: (
 /**
  * Delete an origin access identity.
  */
-export const deleteCloudFrontOriginAccessIdentity: (
-  input: DeleteCloudFrontOriginAccessIdentityRequest,
-) => effect.Effect<
+export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
+  DeleteCloudFrontOriginAccessIdentityRequest,
   DeleteCloudFrontOriginAccessIdentityResponse,
   | AccessDenied
   | CloudFrontOriginAccessIdentityInUse
@@ -11263,9 +11233,8 @@ export const deleteCloudFrontOriginAccessIdentity: (
 /**
  * Deletes a connection function.
  */
-export const deleteConnectionFunction: (
-  input: DeleteConnectionFunctionRequest,
-) => effect.Effect<
+export const deleteConnectionFunction: API.OperationMethod<
+  DeleteConnectionFunctionRequest,
   DeleteConnectionFunctionResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -11292,9 +11261,8 @@ export const deleteConnectionFunction: (
 /**
  * Deletes a connection group.
  */
-export const deleteConnectionGroup: (
-  input: DeleteConnectionGroupRequest,
-) => effect.Effect<
+export const deleteConnectionGroup: API.OperationMethod<
+  DeleteConnectionGroupRequest,
   DeleteConnectionGroupResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -11321,9 +11289,8 @@ export const deleteConnectionGroup: (
  *
  * You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
  */
-export const deleteContinuousDeploymentPolicy: (
-  input: DeleteContinuousDeploymentPolicyRequest,
-) => effect.Effect<
+export const deleteContinuousDeploymentPolicy: API.OperationMethod<
+  DeleteContinuousDeploymentPolicyRequest,
   DeleteContinuousDeploymentPolicyResponse,
   | AccessDenied
   | ContinuousDeploymentPolicyInUse
@@ -11350,9 +11317,8 @@ export const deleteContinuousDeploymentPolicy: (
  *
  * Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
  */
-export const deleteDistribution: (
-  input: DeleteDistributionRequest,
-) => effect.Effect<
+export const deleteDistribution: API.OperationMethod<
+  DeleteDistributionRequest,
   DeleteDistributionResponse,
   | AccessDenied
   | DistributionNotDisabled
@@ -11379,9 +11345,8 @@ export const deleteDistribution: (
  *
  * To delete a distribution tenant, you must first disable the distribution tenant by using the `UpdateDistributionTenant` API operation.
  */
-export const deleteDistributionTenant: (
-  input: DeleteDistributionTenantRequest,
-) => effect.Effect<
+export const deleteDistributionTenant: API.OperationMethod<
+  DeleteDistributionTenantRequest,
   DeleteDistributionTenantResponse,
   | AccessDenied
   | EntityNotFound
@@ -11404,9 +11369,8 @@ export const deleteDistributionTenant: (
 /**
  * Remove a field-level encryption configuration.
  */
-export const deleteFieldLevelEncryptionConfig: (
-  input: DeleteFieldLevelEncryptionConfigRequest,
-) => effect.Effect<
+export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
+  DeleteFieldLevelEncryptionConfigRequest,
   DeleteFieldLevelEncryptionConfigResponse,
   | AccessDenied
   | FieldLevelEncryptionConfigInUse
@@ -11429,9 +11393,8 @@ export const deleteFieldLevelEncryptionConfig: (
 /**
  * Remove a field-level encryption profile.
  */
-export const deleteFieldLevelEncryptionProfile: (
-  input: DeleteFieldLevelEncryptionProfileRequest,
-) => effect.Effect<
+export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
+  DeleteFieldLevelEncryptionProfileRequest,
   DeleteFieldLevelEncryptionProfileResponse,
   | AccessDenied
   | FieldLevelEncryptionProfileInUse
@@ -11458,9 +11421,8 @@ export const deleteFieldLevelEncryptionProfile: (
  *
  * To delete a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const deleteFunction: (
-  input: DeleteFunctionRequest,
-) => effect.Effect<
+export const deleteFunction: API.OperationMethod<
+  DeleteFunctionRequest,
   DeleteFunctionResponse,
   | FunctionInUse
   | InvalidIfMatchVersion
@@ -11487,9 +11449,8 @@ export const deleteFunction: (
  *
  * To delete a key group, you must provide the key group's identifier and version. To get these values, use `ListKeyGroups` followed by `GetKeyGroup` or `GetKeyGroupConfig`.
  */
-export const deleteKeyGroup: (
-  input: DeleteKeyGroupRequest,
-) => effect.Effect<
+export const deleteKeyGroup: API.OperationMethod<
+  DeleteKeyGroupRequest,
   DeleteKeyGroupResponse,
   | InvalidIfMatchVersion
   | NoSuchResource
@@ -11510,9 +11471,8 @@ export const deleteKeyGroup: (
 /**
  * Specifies the key value store to delete.
  */
-export const deleteKeyValueStore: (
-  input: DeleteKeyValueStoreRequest,
-) => effect.Effect<
+export const deleteKeyValueStore: API.OperationMethod<
+  DeleteKeyValueStoreRequest,
   DeleteKeyValueStoreResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -11537,9 +11497,8 @@ export const deleteKeyValueStore: (
 /**
  * Disables additional CloudWatch metrics for the specified CloudFront distribution.
  */
-export const deleteMonitoringSubscription: (
-  input: DeleteMonitoringSubscriptionRequest,
-) => effect.Effect<
+export const deleteMonitoringSubscription: API.OperationMethod<
+  DeleteMonitoringSubscriptionRequest,
   DeleteMonitoringSubscriptionResult,
   | AccessDenied
   | NoSuchDistribution
@@ -11562,9 +11521,8 @@ export const deleteMonitoringSubscription: (
  *
  * You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
  */
-export const deleteOriginAccessControl: (
-  input: DeleteOriginAccessControlRequest,
-) => effect.Effect<
+export const deleteOriginAccessControl: API.OperationMethod<
+  DeleteOriginAccessControlRequest,
   DeleteOriginAccessControlResponse,
   | AccessDenied
   | InvalidIfMatchVersion
@@ -11591,9 +11549,8 @@ export const deleteOriginAccessControl: (
  *
  * To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use `ListOriginRequestPolicies` or `GetOriginRequestPolicy`.
  */
-export const deleteOriginRequestPolicy: (
-  input: DeleteOriginRequestPolicyRequest,
-) => effect.Effect<
+export const deleteOriginRequestPolicy: API.OperationMethod<
+  DeleteOriginRequestPolicyRequest,
   DeleteOriginRequestPolicyResponse,
   | AccessDenied
   | IllegalDelete
@@ -11618,9 +11575,8 @@ export const deleteOriginRequestPolicy: (
 /**
  * Remove a public key you previously added to CloudFront.
  */
-export const deletePublicKey: (
-  input: DeletePublicKeyRequest,
-) => effect.Effect<
+export const deletePublicKey: API.OperationMethod<
+  DeletePublicKeyRequest,
   DeletePublicKeyResponse,
   | AccessDenied
   | InvalidIfMatchVersion
@@ -11647,9 +11603,8 @@ export const deletePublicKey: (
  *
  * To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
  */
-export const deleteRealtimeLogConfig: (
-  input: DeleteRealtimeLogConfigRequest,
-) => effect.Effect<
+export const deleteRealtimeLogConfig: API.OperationMethod<
+  DeleteRealtimeLogConfigRequest,
   DeleteRealtimeLogConfigResponse,
   | AccessDenied
   | InvalidArgument
@@ -11670,9 +11625,8 @@ export const deleteRealtimeLogConfig: (
 /**
  * Deletes the resource policy attached to the CloudFront resource.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDenied
   | EntityNotFound
@@ -11701,9 +11655,8 @@ export const deleteResourcePolicy: (
  *
  * To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use `ListResponseHeadersPolicies` or `GetResponseHeadersPolicy`.
  */
-export const deleteResponseHeadersPolicy: (
-  input: DeleteResponseHeadersPolicyRequest,
-) => effect.Effect<
+export const deleteResponseHeadersPolicy: API.OperationMethod<
+  DeleteResponseHeadersPolicyRequest,
   DeleteResponseHeadersPolicyResponse,
   | AccessDenied
   | IllegalDelete
@@ -11748,9 +11701,8 @@ export const deleteResponseHeadersPolicy: (
  *
  * For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const deleteStreamingDistribution: (
-  input: DeleteStreamingDistributionRequest,
-) => effect.Effect<
+export const deleteStreamingDistribution: API.OperationMethod<
+  DeleteStreamingDistributionRequest,
   DeleteStreamingDistributionResponse,
   | AccessDenied
   | InvalidIfMatchVersion
@@ -11773,9 +11725,8 @@ export const deleteStreamingDistribution: (
 /**
  * Deletes a trust store.
  */
-export const deleteTrustStore: (
-  input: DeleteTrustStoreRequest,
-) => effect.Effect<
+export const deleteTrustStore: API.OperationMethod<
+  DeleteTrustStoreRequest,
   DeleteTrustStoreResponse,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -11800,9 +11751,8 @@ export const deleteTrustStore: (
 /**
  * Delete an Amazon CloudFront VPC origin.
  */
-export const deleteVpcOrigin: (
-  input: DeleteVpcOriginRequest,
-) => effect.Effect<
+export const deleteVpcOrigin: API.OperationMethod<
+  DeleteVpcOriginRequest,
   DeleteVpcOriginResult,
   | AccessDenied
   | CannotDeleteEntityWhileInUse
@@ -11831,9 +11781,8 @@ export const deleteVpcOrigin: (
 /**
  * Describes a connection function.
  */
-export const describeConnectionFunction: (
-  input: DescribeConnectionFunctionRequest,
-) => effect.Effect<
+export const describeConnectionFunction: API.OperationMethod<
+  DescribeConnectionFunctionRequest,
   DescribeConnectionFunctionResult,
   | AccessDenied
   | EntityNotFound
@@ -11851,9 +11800,8 @@ export const describeConnectionFunction: (
  *
  * To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
-export const describeFunction: (
-  input: DescribeFunctionRequest,
-) => effect.Effect<
+export const describeFunction: API.OperationMethod<
+  DescribeFunctionRequest,
   DescribeFunctionResult,
   NoSuchFunctionExists | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11865,9 +11813,8 @@ export const describeFunction: (
 /**
  * Specifies the key value store and its configuration.
  */
-export const describeKeyValueStore: (
-  input: DescribeKeyValueStoreRequest,
-) => effect.Effect<
+export const describeKeyValueStore: API.OperationMethod<
+  DescribeKeyValueStoreRequest,
   DescribeKeyValueStoreResult,
   | AccessDenied
   | EntityNotFound
@@ -11883,9 +11830,8 @@ export const describeKeyValueStore: (
 /**
  * Disassociates a distribution tenant from the WAF web ACL.
  */
-export const disassociateDistributionTenantWebACL: (
-  input: DisassociateDistributionTenantWebACLRequest,
-) => effect.Effect<
+export const disassociateDistributionTenantWebACL: API.OperationMethod<
+  DisassociateDistributionTenantWebACLRequest,
   DisassociateDistributionTenantWebACLResult,
   | AccessDenied
   | EntityNotFound
@@ -11908,9 +11854,8 @@ export const disassociateDistributionTenantWebACL: (
 /**
  * Disassociates a distribution from the WAF web ACL.
  */
-export const disassociateDistributionWebACL: (
-  input: DisassociateDistributionWebACLRequest,
-) => effect.Effect<
+export const disassociateDistributionWebACL: API.OperationMethod<
+  DisassociateDistributionWebACLRequest,
   DisassociateDistributionWebACLResult,
   | AccessDenied
   | EntityNotFound
@@ -11933,9 +11878,8 @@ export const disassociateDistributionWebACL: (
 /**
  * Gets an Anycast static IP list.
  */
-export const getAnycastIpList: (
-  input: GetAnycastIpListRequest,
-) => effect.Effect<
+export const getAnycastIpList: API.OperationMethod<
+  GetAnycastIpListRequest,
   GetAnycastIpListResult,
   | AccessDenied
   | EntityNotFound
@@ -11957,9 +11901,8 @@ export const getAnycastIpList: (
  *
  * To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
-export const getCachePolicy: (
-  input: GetCachePolicyRequest,
-) => effect.Effect<
+export const getCachePolicy: API.OperationMethod<
+  GetCachePolicyRequest,
   GetCachePolicyResult,
   AccessDenied | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11973,9 +11916,8 @@ export const getCachePolicy: (
  *
  * To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the cache policy is not attached to a cache behavior, you can get the identifier using `ListCachePolicies`.
  */
-export const getCachePolicyConfig: (
-  input: GetCachePolicyConfigRequest,
-) => effect.Effect<
+export const getCachePolicyConfig: API.OperationMethod<
+  GetCachePolicyConfigRequest,
   GetCachePolicyConfigResult,
   AccessDenied | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11987,9 +11929,8 @@ export const getCachePolicyConfig: (
 /**
  * Get the information about an origin access identity.
  */
-export const getCloudFrontOriginAccessIdentity: (
-  input: GetCloudFrontOriginAccessIdentityRequest,
-) => effect.Effect<
+export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
+  GetCloudFrontOriginAccessIdentityRequest,
   GetCloudFrontOriginAccessIdentityResult,
   AccessDenied | NoSuchCloudFrontOriginAccessIdentity | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12001,9 +11942,8 @@ export const getCloudFrontOriginAccessIdentity: (
 /**
  * Get the configuration information about an origin access identity.
  */
-export const getCloudFrontOriginAccessIdentityConfig: (
-  input: GetCloudFrontOriginAccessIdentityConfigRequest,
-) => effect.Effect<
+export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
+  GetCloudFrontOriginAccessIdentityConfigRequest,
   GetCloudFrontOriginAccessIdentityConfigResult,
   AccessDenied | NoSuchCloudFrontOriginAccessIdentity | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12015,9 +11955,8 @@ export const getCloudFrontOriginAccessIdentityConfig: (
 /**
  * Gets a connection function.
  */
-export const getConnectionFunction: (
-  input: GetConnectionFunctionRequest,
-) => effect.Effect<
+export const getConnectionFunction: API.OperationMethod<
+  GetConnectionFunctionRequest,
   GetConnectionFunctionResult,
   AccessDenied | EntityNotFound | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12029,9 +11968,8 @@ export const getConnectionFunction: (
 /**
  * Gets information about a connection group.
  */
-export const getConnectionGroup: (
-  input: GetConnectionGroupRequest,
-) => effect.Effect<
+export const getConnectionGroup: API.OperationMethod<
+  GetConnectionGroupRequest,
   GetConnectionGroupResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12043,9 +11981,8 @@ export const getConnectionGroup: (
 /**
  * Gets information about a connection group by using the endpoint that you specify.
  */
-export const getConnectionGroupByRoutingEndpoint: (
-  input: GetConnectionGroupByRoutingEndpointRequest,
-) => effect.Effect<
+export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
+  GetConnectionGroupByRoutingEndpointRequest,
   GetConnectionGroupByRoutingEndpointResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12057,9 +11994,8 @@ export const getConnectionGroupByRoutingEndpoint: (
 /**
  * Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
  */
-export const getContinuousDeploymentPolicy: (
-  input: GetContinuousDeploymentPolicyRequest,
-) => effect.Effect<
+export const getContinuousDeploymentPolicy: API.OperationMethod<
+  GetContinuousDeploymentPolicyRequest,
   GetContinuousDeploymentPolicyResult,
   AccessDenied | NoSuchContinuousDeploymentPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12071,9 +12007,8 @@ export const getContinuousDeploymentPolicy: (
 /**
  * Gets configuration information about a continuous deployment policy.
  */
-export const getContinuousDeploymentPolicyConfig: (
-  input: GetContinuousDeploymentPolicyConfigRequest,
-) => effect.Effect<
+export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
+  GetContinuousDeploymentPolicyConfigRequest,
   GetContinuousDeploymentPolicyConfigResult,
   AccessDenied | NoSuchContinuousDeploymentPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12085,9 +12020,8 @@ export const getContinuousDeploymentPolicyConfig: (
 /**
  * Get the information about a distribution.
  */
-export const getDistribution: (
-  input: GetDistributionRequest,
-) => effect.Effect<
+export const getDistribution: API.OperationMethod<
+  GetDistributionRequest,
   GetDistributionResult,
   AccessDenied | NoSuchDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12099,9 +12033,8 @@ export const getDistribution: (
 /**
  * Get the configuration information about a distribution.
  */
-export const getDistributionConfig: (
-  input: GetDistributionConfigRequest,
-) => effect.Effect<
+export const getDistributionConfig: API.OperationMethod<
+  GetDistributionConfigRequest,
   GetDistributionConfigResult,
   AccessDenied | NoSuchDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12113,9 +12046,8 @@ export const getDistributionConfig: (
 /**
  * Gets information about a distribution tenant.
  */
-export const getDistributionTenant: (
-  input: GetDistributionTenantRequest,
-) => effect.Effect<
+export const getDistributionTenant: API.OperationMethod<
+  GetDistributionTenantRequest,
   GetDistributionTenantResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12127,9 +12059,8 @@ export const getDistributionTenant: (
 /**
  * Gets information about a distribution tenant by the associated domain.
  */
-export const getDistributionTenantByDomain: (
-  input: GetDistributionTenantByDomainRequest,
-) => effect.Effect<
+export const getDistributionTenantByDomain: API.OperationMethod<
+  GetDistributionTenantByDomainRequest,
   GetDistributionTenantByDomainResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12141,9 +12072,8 @@ export const getDistributionTenantByDomain: (
 /**
  * Get the field-level encryption configuration information.
  */
-export const getFieldLevelEncryption: (
-  input: GetFieldLevelEncryptionRequest,
-) => effect.Effect<
+export const getFieldLevelEncryption: API.OperationMethod<
+  GetFieldLevelEncryptionRequest,
   GetFieldLevelEncryptionResult,
   AccessDenied | NoSuchFieldLevelEncryptionConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12155,9 +12085,8 @@ export const getFieldLevelEncryption: (
 /**
  * Get the field-level encryption configuration information.
  */
-export const getFieldLevelEncryptionConfig: (
-  input: GetFieldLevelEncryptionConfigRequest,
-) => effect.Effect<
+export const getFieldLevelEncryptionConfig: API.OperationMethod<
+  GetFieldLevelEncryptionConfigRequest,
   GetFieldLevelEncryptionConfigResult,
   AccessDenied | NoSuchFieldLevelEncryptionConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12169,9 +12098,8 @@ export const getFieldLevelEncryptionConfig: (
 /**
  * Get the field-level encryption profile information.
  */
-export const getFieldLevelEncryptionProfile: (
-  input: GetFieldLevelEncryptionProfileRequest,
-) => effect.Effect<
+export const getFieldLevelEncryptionProfile: API.OperationMethod<
+  GetFieldLevelEncryptionProfileRequest,
   GetFieldLevelEncryptionProfileResult,
   AccessDenied | NoSuchFieldLevelEncryptionProfile | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12183,9 +12111,8 @@ export const getFieldLevelEncryptionProfile: (
 /**
  * Get the field-level encryption profile configuration information.
  */
-export const getFieldLevelEncryptionProfileConfig: (
-  input: GetFieldLevelEncryptionProfileConfigRequest,
-) => effect.Effect<
+export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
+  GetFieldLevelEncryptionProfileConfigRequest,
   GetFieldLevelEncryptionProfileConfigResult,
   AccessDenied | NoSuchFieldLevelEncryptionProfile | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12199,9 +12126,8 @@ export const getFieldLevelEncryptionProfileConfig: (
  *
  * To get a function's code, you must provide the function's name and stage. To get these values, you can use `ListFunctions`.
  */
-export const getFunction: (
-  input: GetFunctionRequest,
-) => effect.Effect<
+export const getFunction: API.OperationMethod<
+  GetFunctionRequest,
   GetFunctionResult,
   NoSuchFunctionExists | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12213,9 +12139,8 @@ export const getFunction: (
 /**
  * Get the information about an invalidation.
  */
-export const getInvalidation: (
-  input: GetInvalidationRequest,
-) => effect.Effect<
+export const getInvalidation: API.OperationMethod<
+  GetInvalidationRequest,
   GetInvalidationResult,
   AccessDenied | NoSuchDistribution | NoSuchInvalidation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12227,9 +12152,8 @@ export const getInvalidation: (
 /**
  * Gets information about a specific invalidation for a distribution tenant.
  */
-export const getInvalidationForDistributionTenant: (
-  input: GetInvalidationForDistributionTenantRequest,
-) => effect.Effect<
+export const getInvalidationForDistributionTenant: API.OperationMethod<
+  GetInvalidationForDistributionTenantRequest,
   GetInvalidationForDistributionTenantResult,
   AccessDenied | EntityNotFound | NoSuchInvalidation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12243,9 +12167,8 @@ export const getInvalidationForDistributionTenant: (
  *
  * To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
-export const getKeyGroup: (
-  input: GetKeyGroupRequest,
-) => effect.Effect<
+export const getKeyGroup: API.OperationMethod<
+  GetKeyGroupRequest,
   GetKeyGroupResult,
   NoSuchResource | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12259,9 +12182,8 @@ export const getKeyGroup: (
  *
  * To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using `ListDistributions` or `GetDistribution`. If the key group is not referenced in a cache behavior, you can get the identifier using `ListKeyGroups`.
  */
-export const getKeyGroupConfig: (
-  input: GetKeyGroupConfigRequest,
-) => effect.Effect<
+export const getKeyGroupConfig: API.OperationMethod<
+  GetKeyGroupConfigRequest,
   GetKeyGroupConfigResult,
   NoSuchResource | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12273,9 +12195,8 @@ export const getKeyGroupConfig: (
 /**
  * Gets details about the CloudFront managed ACM certificate.
  */
-export const getManagedCertificateDetails: (
-  input: GetManagedCertificateDetailsRequest,
-) => effect.Effect<
+export const getManagedCertificateDetails: API.OperationMethod<
+  GetManagedCertificateDetailsRequest,
   GetManagedCertificateDetailsResult,
   AccessDenied | EntityNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12287,9 +12208,8 @@ export const getManagedCertificateDetails: (
 /**
  * Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
  */
-export const getMonitoringSubscription: (
-  input: GetMonitoringSubscriptionRequest,
-) => effect.Effect<
+export const getMonitoringSubscription: API.OperationMethod<
+  GetMonitoringSubscriptionRequest,
   GetMonitoringSubscriptionResult,
   | AccessDenied
   | NoSuchDistribution
@@ -12310,9 +12230,8 @@ export const getMonitoringSubscription: (
 /**
  * Gets a CloudFront origin access control, including its unique identifier.
  */
-export const getOriginAccessControl: (
-  input: GetOriginAccessControlRequest,
-) => effect.Effect<
+export const getOriginAccessControl: API.OperationMethod<
+  GetOriginAccessControlRequest,
   GetOriginAccessControlResult,
   AccessDenied | NoSuchOriginAccessControl | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12324,9 +12243,8 @@ export const getOriginAccessControl: (
 /**
  * Gets a CloudFront origin access control configuration.
  */
-export const getOriginAccessControlConfig: (
-  input: GetOriginAccessControlConfigRequest,
-) => effect.Effect<
+export const getOriginAccessControlConfig: API.OperationMethod<
+  GetOriginAccessControlConfigRequest,
   GetOriginAccessControlConfigResult,
   AccessDenied | NoSuchOriginAccessControl | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12344,9 +12262,8 @@ export const getOriginAccessControlConfig: (
  *
  * To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
-export const getOriginRequestPolicy: (
-  input: GetOriginRequestPolicyRequest,
-) => effect.Effect<
+export const getOriginRequestPolicy: API.OperationMethod<
+  GetOriginRequestPolicyRequest,
   GetOriginRequestPolicyResult,
   AccessDenied | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12360,9 +12277,8 @@ export const getOriginRequestPolicy: (
  *
  * To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the origin request policy is not attached to a cache behavior, you can get the identifier using `ListOriginRequestPolicies`.
  */
-export const getOriginRequestPolicyConfig: (
-  input: GetOriginRequestPolicyConfigRequest,
-) => effect.Effect<
+export const getOriginRequestPolicyConfig: API.OperationMethod<
+  GetOriginRequestPolicyConfigRequest,
   GetOriginRequestPolicyConfigResult,
   AccessDenied | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12374,9 +12290,8 @@ export const getOriginRequestPolicyConfig: (
 /**
  * Gets a public key.
  */
-export const getPublicKey: (
-  input: GetPublicKeyRequest,
-) => effect.Effect<
+export const getPublicKey: API.OperationMethod<
+  GetPublicKeyRequest,
   GetPublicKeyResult,
   AccessDenied | NoSuchPublicKey | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12388,9 +12303,8 @@ export const getPublicKey: (
 /**
  * Gets a public key configuration.
  */
-export const getPublicKeyConfig: (
-  input: GetPublicKeyConfigRequest,
-) => effect.Effect<
+export const getPublicKeyConfig: API.OperationMethod<
+  GetPublicKeyConfigRequest,
   GetPublicKeyConfigResult,
   AccessDenied | NoSuchPublicKey | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12404,9 +12318,8 @@ export const getPublicKeyConfig: (
  *
  * To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
  */
-export const getRealtimeLogConfig: (
-  input: GetRealtimeLogConfigRequest,
-) => effect.Effect<
+export const getRealtimeLogConfig: API.OperationMethod<
+  GetRealtimeLogConfigRequest,
   GetRealtimeLogConfigResult,
   AccessDenied | InvalidArgument | NoSuchRealtimeLogConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12418,9 +12331,8 @@ export const getRealtimeLogConfig: (
 /**
  * Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResult,
   | AccessDenied
   | EntityNotFound
@@ -12438,9 +12350,8 @@ export const getResourcePolicy: (
  *
  * To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
-export const getResponseHeadersPolicy: (
-  input: GetResponseHeadersPolicyRequest,
-) => effect.Effect<
+export const getResponseHeadersPolicy: API.OperationMethod<
+  GetResponseHeadersPolicyRequest,
   GetResponseHeadersPolicyResult,
   AccessDenied | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12454,9 +12365,8 @@ export const getResponseHeadersPolicy: (
  *
  * To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using `ListDistributions` or `GetDistribution`. If the response headers policy is not attached to a cache behavior, you can get the identifier using `ListResponseHeadersPolicies`.
  */
-export const getResponseHeadersPolicyConfig: (
-  input: GetResponseHeadersPolicyConfigRequest,
-) => effect.Effect<
+export const getResponseHeadersPolicyConfig: API.OperationMethod<
+  GetResponseHeadersPolicyConfigRequest,
   GetResponseHeadersPolicyConfigResult,
   AccessDenied | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12468,9 +12378,8 @@ export const getResponseHeadersPolicyConfig: (
 /**
  * Gets information about a specified RTMP distribution, including the distribution configuration.
  */
-export const getStreamingDistribution: (
-  input: GetStreamingDistributionRequest,
-) => effect.Effect<
+export const getStreamingDistribution: API.OperationMethod<
+  GetStreamingDistributionRequest,
   GetStreamingDistributionResult,
   AccessDenied | NoSuchStreamingDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12482,9 +12391,8 @@ export const getStreamingDistribution: (
 /**
  * Get the configuration information about a streaming distribution.
  */
-export const getStreamingDistributionConfig: (
-  input: GetStreamingDistributionConfigRequest,
-) => effect.Effect<
+export const getStreamingDistributionConfig: API.OperationMethod<
+  GetStreamingDistributionConfigRequest,
   GetStreamingDistributionConfigResult,
   AccessDenied | NoSuchStreamingDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12496,9 +12404,8 @@ export const getStreamingDistributionConfig: (
 /**
  * Gets a trust store.
  */
-export const getTrustStore: (
-  input: GetTrustStoreRequest,
-) => effect.Effect<
+export const getTrustStore: API.OperationMethod<
+  GetTrustStoreRequest,
   GetTrustStoreResult,
   AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12510,9 +12417,8 @@ export const getTrustStore: (
 /**
  * Get the details of an Amazon CloudFront VPC origin.
  */
-export const getVpcOrigin: (
-  input: GetVpcOriginRequest,
-) => effect.Effect<
+export const getVpcOrigin: API.OperationMethod<
+  GetVpcOriginRequest,
   GetVpcOriginResult,
   | AccessDenied
   | EntityNotFound
@@ -12528,9 +12434,8 @@ export const getVpcOrigin: (
 /**
  * Lists your Anycast static IP lists.
  */
-export const listAnycastIpLists: (
-  input: ListAnycastIpListsRequest,
-) => effect.Effect<
+export const listAnycastIpLists: API.OperationMethod<
+  ListAnycastIpListsRequest,
   ListAnycastIpListsResult,
   | AccessDenied
   | EntityNotFound
@@ -12550,9 +12455,8 @@ export const listAnycastIpLists: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listCachePolicies: (
-  input: ListCachePoliciesRequest,
-) => effect.Effect<
+export const listCachePolicies: API.OperationMethod<
+  ListCachePoliciesRequest,
   ListCachePoliciesResult,
   AccessDenied | InvalidArgument | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12564,14 +12468,12 @@ export const listCachePolicies: (
 /**
  * Lists origin access identities.
  */
-export const listCloudFrontOriginAccessIdentities: {
-  (
-    input: ListCloudFrontOriginAccessIdentitiesRequest,
-  ): effect.Effect<
-    ListCloudFrontOriginAccessIdentitiesResult,
-    InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudFrontOriginAccessIdentities: API.OperationMethod<
+  ListCloudFrontOriginAccessIdentitiesRequest,
+  ListCloudFrontOriginAccessIdentitiesResult,
+  InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudFrontOriginAccessIdentitiesRequest,
   ) => stream.Stream<
@@ -12610,9 +12512,8 @@ export const listCloudFrontOriginAccessIdentities: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listConflictingAliases: (
-  input: ListConflictingAliasesRequest,
-) => effect.Effect<
+export const listConflictingAliases: API.OperationMethod<
+  ListConflictingAliasesRequest,
   ListConflictingAliasesResult,
   InvalidArgument | NoSuchDistribution | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12624,14 +12525,12 @@ export const listConflictingAliases: (
 /**
  * Lists connection functions.
  */
-export const listConnectionFunctions: {
-  (
-    input: ListConnectionFunctionsRequest,
-  ): effect.Effect<
-    ListConnectionFunctionsResult,
-    AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectionFunctions: API.OperationMethod<
+  ListConnectionFunctionsRequest,
+  ListConnectionFunctionsResult,
+  AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionFunctionsRequest,
   ) => stream.Stream<
@@ -12660,14 +12559,12 @@ export const listConnectionFunctions: {
 /**
  * Lists the connection groups in your Amazon Web Services account.
  */
-export const listConnectionGroups: {
-  (
-    input: ListConnectionGroupsRequest,
-  ): effect.Effect<
-    ListConnectionGroupsResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectionGroups: API.OperationMethod<
+  ListConnectionGroupsRequest,
+  ListConnectionGroupsResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionGroupsRequest,
   ) => stream.Stream<
@@ -12698,9 +12595,8 @@ export const listConnectionGroups: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listContinuousDeploymentPolicies: (
-  input: ListContinuousDeploymentPoliciesRequest,
-) => effect.Effect<
+export const listContinuousDeploymentPolicies: API.OperationMethod<
+  ListContinuousDeploymentPoliciesRequest,
   ListContinuousDeploymentPoliciesResult,
   | AccessDenied
   | InvalidArgument
@@ -12715,14 +12611,12 @@ export const listContinuousDeploymentPolicies: (
 /**
  * List CloudFront distributions.
  */
-export const listDistributions: {
-  (
-    input: ListDistributionsRequest,
-  ): effect.Effect<
-    ListDistributionsResult,
-    InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributions: API.OperationMethod<
+  ListDistributionsRequest,
+  ListDistributionsResult,
+  InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionsRequest,
   ) => stream.Stream<
@@ -12751,9 +12645,8 @@ export const listDistributions: {
 /**
  * Lists the distributions in your account that are associated with the specified `AnycastIpListId`.
  */
-export const listDistributionsByAnycastIpListId: (
-  input: ListDistributionsByAnycastIpListIdRequest,
-) => effect.Effect<
+export const listDistributionsByAnycastIpListId: API.OperationMethod<
+  ListDistributionsByAnycastIpListIdRequest,
   ListDistributionsByAnycastIpListIdResult,
   | AccessDenied
   | EntityNotFound
@@ -12771,9 +12664,8 @@ export const listDistributionsByAnycastIpListId: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByCachePolicyId: (
-  input: ListDistributionsByCachePolicyIdRequest,
-) => effect.Effect<
+export const listDistributionsByCachePolicyId: API.OperationMethod<
+  ListDistributionsByCachePolicyIdRequest,
   ListDistributionsByCachePolicyIdResult,
   AccessDenied | InvalidArgument | NoSuchCachePolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12785,14 +12677,12 @@ export const listDistributionsByCachePolicyId: (
 /**
  * Lists distributions by connection function.
  */
-export const listDistributionsByConnectionFunction: {
-  (
-    input: ListDistributionsByConnectionFunctionRequest,
-  ): effect.Effect<
-    ListDistributionsByConnectionFunctionResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributionsByConnectionFunction: API.OperationMethod<
+  ListDistributionsByConnectionFunctionRequest,
+  ListDistributionsByConnectionFunctionResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionsByConnectionFunctionRequest,
   ) => stream.Stream<
@@ -12821,14 +12711,12 @@ export const listDistributionsByConnectionFunction: {
 /**
  * Lists the distributions by the connection mode that you specify.
  */
-export const listDistributionsByConnectionMode: {
-  (
-    input: ListDistributionsByConnectionModeRequest,
-  ): effect.Effect<
-    ListDistributionsByConnectionModeResult,
-    AccessDenied | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributionsByConnectionMode: API.OperationMethod<
+  ListDistributionsByConnectionModeRequest,
+  ListDistributionsByConnectionModeResult,
+  AccessDenied | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionsByConnectionModeRequest,
   ) => stream.Stream<
@@ -12859,9 +12747,8 @@ export const listDistributionsByConnectionMode: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByKeyGroup: (
-  input: ListDistributionsByKeyGroupRequest,
-) => effect.Effect<
+export const listDistributionsByKeyGroup: API.OperationMethod<
+  ListDistributionsByKeyGroupRequest,
   ListDistributionsByKeyGroupResult,
   InvalidArgument | NoSuchResource | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12875,9 +12762,8 @@ export const listDistributionsByKeyGroup: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByOriginRequestPolicyId: (
-  input: ListDistributionsByOriginRequestPolicyIdRequest,
-) => effect.Effect<
+export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
+  ListDistributionsByOriginRequestPolicyIdRequest,
   ListDistributionsByOriginRequestPolicyIdResult,
   AccessDenied | InvalidArgument | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12889,9 +12775,8 @@ export const listDistributionsByOriginRequestPolicyId: (
 /**
  * Lists the CloudFront distributions that are associated with the specified resource that you own.
  */
-export const listDistributionsByOwnedResource: (
-  input: ListDistributionsByOwnedResourceRequest,
-) => effect.Effect<
+export const listDistributionsByOwnedResource: API.OperationMethod<
+  ListDistributionsByOwnedResourceRequest,
   ListDistributionsByOwnedResourceResult,
   | AccessDenied
   | EntityNotFound
@@ -12911,9 +12796,8 @@ export const listDistributionsByOwnedResource: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByRealtimeLogConfig: (
-  input: ListDistributionsByRealtimeLogConfigRequest,
-) => effect.Effect<
+export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
+  ListDistributionsByRealtimeLogConfigRequest,
   ListDistributionsByRealtimeLogConfigResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12927,9 +12811,8 @@ export const listDistributionsByRealtimeLogConfig: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDistributionsByResponseHeadersPolicyId: (
-  input: ListDistributionsByResponseHeadersPolicyIdRequest,
-) => effect.Effect<
+export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
+  ListDistributionsByResponseHeadersPolicyIdRequest,
   ListDistributionsByResponseHeadersPolicyIdResult,
   AccessDenied | InvalidArgument | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12941,14 +12824,12 @@ export const listDistributionsByResponseHeadersPolicyId: (
 /**
  * Lists distributions by trust store.
  */
-export const listDistributionsByTrustStore: {
-  (
-    input: ListDistributionsByTrustStoreRequest,
-  ): effect.Effect<
-    ListDistributionsByTrustStoreResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributionsByTrustStore: API.OperationMethod<
+  ListDistributionsByTrustStoreRequest,
+  ListDistributionsByTrustStoreResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionsByTrustStoreRequest,
   ) => stream.Stream<
@@ -12977,9 +12858,8 @@ export const listDistributionsByTrustStore: {
 /**
  * List CloudFront distributions by their VPC origin ID.
  */
-export const listDistributionsByVpcOriginId: (
-  input: ListDistributionsByVpcOriginIdRequest,
-) => effect.Effect<
+export const listDistributionsByVpcOriginId: API.OperationMethod<
+  ListDistributionsByVpcOriginIdRequest,
   ListDistributionsByVpcOriginIdResult,
   | AccessDenied
   | EntityNotFound
@@ -12995,9 +12875,8 @@ export const listDistributionsByVpcOriginId: (
 /**
  * List the distributions that are associated with a specified WAF web ACL.
  */
-export const listDistributionsByWebACLId: (
-  input: ListDistributionsByWebACLIdRequest,
-) => effect.Effect<
+export const listDistributionsByWebACLId: API.OperationMethod<
+  ListDistributionsByWebACLIdRequest,
   ListDistributionsByWebACLIdResult,
   InvalidArgument | InvalidWebACLId | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13009,14 +12888,12 @@ export const listDistributionsByWebACLId: (
 /**
  * Lists the distribution tenants in your Amazon Web Services account.
  */
-export const listDistributionTenants: {
-  (
-    input: ListDistributionTenantsRequest,
-  ): effect.Effect<
-    ListDistributionTenantsResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributionTenants: API.OperationMethod<
+  ListDistributionTenantsRequest,
+  ListDistributionTenantsResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionTenantsRequest,
   ) => stream.Stream<
@@ -13047,14 +12924,12 @@ export const listDistributionTenants: {
  *
  * You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not both in the same request.
  */
-export const listDistributionTenantsByCustomization: {
-  (
-    input: ListDistributionTenantsByCustomizationRequest,
-  ): effect.Effect<
-    ListDistributionTenantsByCustomizationResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributionTenantsByCustomization: API.OperationMethod<
+  ListDistributionTenantsByCustomizationRequest,
+  ListDistributionTenantsByCustomizationResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionTenantsByCustomizationRequest,
   ) => stream.Stream<
@@ -13099,14 +12974,12 @@ export const listDistributionTenantsByCustomization: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listDomainConflicts: {
-  (
-    input: ListDomainConflictsRequest,
-  ): effect.Effect<
-    ListDomainConflictsResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainConflicts: API.OperationMethod<
+  ListDomainConflictsRequest,
+  ListDomainConflictsResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainConflictsRequest,
   ) => stream.Stream<
@@ -13135,9 +13008,8 @@ export const listDomainConflicts: {
 /**
  * List all field-level encryption configurations that have been created in CloudFront for this account.
  */
-export const listFieldLevelEncryptionConfigs: (
-  input: ListFieldLevelEncryptionConfigsRequest,
-) => effect.Effect<
+export const listFieldLevelEncryptionConfigs: API.OperationMethod<
+  ListFieldLevelEncryptionConfigsRequest,
   ListFieldLevelEncryptionConfigsResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13149,9 +13021,8 @@ export const listFieldLevelEncryptionConfigs: (
 /**
  * Request a list of field-level encryption profiles that have been created in CloudFront for this account.
  */
-export const listFieldLevelEncryptionProfiles: (
-  input: ListFieldLevelEncryptionProfilesRequest,
-) => effect.Effect<
+export const listFieldLevelEncryptionProfiles: API.OperationMethod<
+  ListFieldLevelEncryptionProfilesRequest,
   ListFieldLevelEncryptionProfilesResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13167,9 +13038,8 @@ export const listFieldLevelEncryptionProfiles: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listFunctions: (
-  input: ListFunctionsRequest,
-) => effect.Effect<
+export const listFunctions: API.OperationMethod<
+  ListFunctionsRequest,
   ListFunctionsResult,
   InvalidArgument | UnsupportedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13181,14 +13051,12 @@ export const listFunctions: (
 /**
  * Lists invalidation batches.
  */
-export const listInvalidations: {
-  (
-    input: ListInvalidationsRequest,
-  ): effect.Effect<
-    ListInvalidationsResult,
-    AccessDenied | InvalidArgument | NoSuchDistribution | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvalidations: API.OperationMethod<
+  ListInvalidationsRequest,
+  ListInvalidationsResult,
+  AccessDenied | InvalidArgument | NoSuchDistribution | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvalidationsRequest,
   ) => stream.Stream<
@@ -13217,14 +13085,12 @@ export const listInvalidations: {
 /**
  * Lists the invalidations for a distribution tenant.
  */
-export const listInvalidationsForDistributionTenant: {
-  (
-    input: ListInvalidationsForDistributionTenantRequest,
-  ): effect.Effect<
-    ListInvalidationsForDistributionTenantResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvalidationsForDistributionTenant: API.OperationMethod<
+  ListInvalidationsForDistributionTenantRequest,
+  ListInvalidationsForDistributionTenantResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvalidationsForDistributionTenantRequest,
   ) => stream.Stream<
@@ -13255,9 +13121,8 @@ export const listInvalidationsForDistributionTenant: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listKeyGroups: (
-  input: ListKeyGroupsRequest,
-) => effect.Effect<
+export const listKeyGroups: API.OperationMethod<
+  ListKeyGroupsRequest,
   ListKeyGroupsResult,
   InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13269,14 +13134,12 @@ export const listKeyGroups: (
 /**
  * Specifies the key value stores to list.
  */
-export const listKeyValueStores: {
-  (
-    input: ListKeyValueStoresRequest,
-  ): effect.Effect<
-    ListKeyValueStoresResult,
-    AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeyValueStores: API.OperationMethod<
+  ListKeyValueStoresRequest,
+  ListKeyValueStoresResult,
+  AccessDenied | InvalidArgument | UnsupportedOperation | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeyValueStoresRequest,
   ) => stream.Stream<
@@ -13309,14 +13172,12 @@ export const listKeyValueStores: {
  *
  * If you're not using origin access controls for your Amazon Web Services account, the `ListOriginAccessControls` operation doesn't return the `Items` element in the response.
  */
-export const listOriginAccessControls: {
-  (
-    input: ListOriginAccessControlsRequest,
-  ): effect.Effect<
-    ListOriginAccessControlsResult,
-    InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOriginAccessControls: API.OperationMethod<
+  ListOriginAccessControlsRequest,
+  ListOriginAccessControlsResult,
+  InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOriginAccessControlsRequest,
   ) => stream.Stream<
@@ -13349,9 +13210,8 @@ export const listOriginAccessControls: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listOriginRequestPolicies: (
-  input: ListOriginRequestPoliciesRequest,
-) => effect.Effect<
+export const listOriginRequestPolicies: API.OperationMethod<
+  ListOriginRequestPoliciesRequest,
   ListOriginRequestPoliciesResult,
   AccessDenied | InvalidArgument | NoSuchOriginRequestPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13363,14 +13223,12 @@ export const listOriginRequestPolicies: (
 /**
  * List all public keys that have been added to CloudFront for this account.
  */
-export const listPublicKeys: {
-  (
-    input: ListPublicKeysRequest,
-  ): effect.Effect<
-    ListPublicKeysResult,
-    InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPublicKeys: API.OperationMethod<
+  ListPublicKeysRequest,
+  ListPublicKeysResult,
+  InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPublicKeysRequest,
   ) => stream.Stream<
@@ -13401,9 +13259,8 @@ export const listPublicKeys: {
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listRealtimeLogConfigs: (
-  input: ListRealtimeLogConfigsRequest,
-) => effect.Effect<
+export const listRealtimeLogConfigs: API.OperationMethod<
+  ListRealtimeLogConfigsRequest,
   ListRealtimeLogConfigsResult,
   AccessDenied | InvalidArgument | NoSuchRealtimeLogConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13419,9 +13276,8 @@ export const listRealtimeLogConfigs: (
  *
  * You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the `NextMarker` value from the current response as the `Marker` value in the subsequent request.
  */
-export const listResponseHeadersPolicies: (
-  input: ListResponseHeadersPoliciesRequest,
-) => effect.Effect<
+export const listResponseHeadersPolicies: API.OperationMethod<
+  ListResponseHeadersPoliciesRequest,
   ListResponseHeadersPoliciesResult,
   AccessDenied | InvalidArgument | NoSuchResponseHeadersPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13433,14 +13289,12 @@ export const listResponseHeadersPolicies: (
 /**
  * List streaming distributions.
  */
-export const listStreamingDistributions: {
-  (
-    input: ListStreamingDistributionsRequest,
-  ): effect.Effect<
-    ListStreamingDistributionsResult,
-    InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreamingDistributions: API.OperationMethod<
+  ListStreamingDistributionsRequest,
+  ListStreamingDistributionsResult,
+  InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamingDistributionsRequest,
   ) => stream.Stream<
@@ -13469,9 +13323,8 @@ export const listStreamingDistributions: {
 /**
  * List tags for a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   | AccessDenied
   | InvalidArgument
@@ -13487,14 +13340,12 @@ export const listTagsForResource: (
 /**
  * Lists trust stores.
  */
-export const listTrustStores: {
-  (
-    input: ListTrustStoresRequest,
-  ): effect.Effect<
-    ListTrustStoresResult,
-    AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrustStores: API.OperationMethod<
+  ListTrustStoresRequest,
+  ListTrustStoresResult,
+  AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrustStoresRequest,
   ) => stream.Stream<
@@ -13523,9 +13374,8 @@ export const listTrustStores: {
 /**
  * List the CloudFront VPC origins in your account.
  */
-export const listVpcOrigins: (
-  input: ListVpcOriginsRequest,
-) => effect.Effect<
+export const listVpcOrigins: API.OperationMethod<
+  ListVpcOriginsRequest,
   ListVpcOriginsResult,
   | AccessDenied
   | EntityNotFound
@@ -13541,9 +13391,8 @@ export const listVpcOrigins: (
 /**
  * Publishes a connection function.
  */
-export const publishConnectionFunction: (
-  input: PublishConnectionFunctionRequest,
-) => effect.Effect<
+export const publishConnectionFunction: API.OperationMethod<
+  PublishConnectionFunctionRequest,
   PublishConnectionFunctionResult,
   | AccessDenied
   | EntityNotFound
@@ -13572,9 +13421,8 @@ export const publishConnectionFunction: (
  *
  * To publish a function, you must provide the function's name and version (`ETag` value). To get these values, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const publishFunction: (
-  input: PublishFunctionRequest,
-) => effect.Effect<
+export const publishFunction: API.OperationMethod<
+  PublishFunctionRequest,
   PublishFunctionResult,
   | InvalidArgument
   | InvalidIfMatchVersion
@@ -13597,9 +13445,8 @@ export const publishFunction: (
 /**
  * Creates a resource control policy for a given CloudFront resource.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResult,
   | AccessDenied
   | EntityNotFound
@@ -13624,9 +13471,8 @@ export const putResourcePolicy: (
 /**
  * Add tags to a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDenied
   | InvalidArgument
@@ -13642,9 +13488,8 @@ export const tagResource: (
 /**
  * Tests a connection function.
  */
-export const testConnectionFunction: (
-  input: TestConnectionFunctionRequest,
-) => effect.Effect<
+export const testConnectionFunction: API.OperationMethod<
+  TestConnectionFunctionRequest,
   TestConnectionFunctionResult,
   | EntityNotFound
   | InvalidArgument
@@ -13673,9 +13518,8 @@ export const testConnectionFunction: (
  *
  * To test a function, you provide the function's name and version (`ETag` value) along with the event object. To get the function's name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const testFunction: (
-  input: TestFunctionRequest,
-) => effect.Effect<
+export const testFunction: API.OperationMethod<
+  TestFunctionRequest,
   TestFunctionResult,
   | InvalidArgument
   | InvalidIfMatchVersion
@@ -13698,9 +13542,8 @@ export const testFunction: (
 /**
  * Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the *Amazon CloudFront Developer Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDenied
   | InvalidArgument
@@ -13716,9 +13559,8 @@ export const untagResource: (
 /**
  * Updates an Anycast static IP list.
  */
-export const updateAnycastIpList: (
-  input: UpdateAnycastIpListRequest,
-) => effect.Effect<
+export const updateAnycastIpList: API.OperationMethod<
+  UpdateAnycastIpListRequest,
   UpdateAnycastIpListResult,
   | AccessDenied
   | EntityNotFound
@@ -13753,9 +13595,8 @@ export const updateAnycastIpList: (
  *
  * If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin headers.
  */
-export const updateCachePolicy: (
-  input: UpdateCachePolicyRequest,
-) => effect.Effect<
+export const updateCachePolicy: API.OperationMethod<
+  UpdateCachePolicyRequest,
   UpdateCachePolicyResult,
   | AccessDenied
   | CachePolicyAlreadyExists
@@ -13790,9 +13631,8 @@ export const updateCachePolicy: (
 /**
  * Update an origin access identity.
  */
-export const updateCloudFrontOriginAccessIdentity: (
-  input: UpdateCloudFrontOriginAccessIdentityRequest,
-) => effect.Effect<
+export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
+  UpdateCloudFrontOriginAccessIdentityRequest,
   UpdateCloudFrontOriginAccessIdentityResult,
   | AccessDenied
   | IllegalUpdate
@@ -13821,9 +13661,8 @@ export const updateCloudFrontOriginAccessIdentity: (
 /**
  * Updates a connection function.
  */
-export const updateConnectionFunction: (
-  input: UpdateConnectionFunctionRequest,
-) => effect.Effect<
+export const updateConnectionFunction: API.OperationMethod<
+  UpdateConnectionFunctionRequest,
   UpdateConnectionFunctionResult,
   | AccessDenied
   | EntityNotFound
@@ -13850,9 +13689,8 @@ export const updateConnectionFunction: (
 /**
  * Updates a connection group.
  */
-export const updateConnectionGroup: (
-  input: UpdateConnectionGroupRequest,
-) => effect.Effect<
+export const updateConnectionGroup: API.OperationMethod<
+  UpdateConnectionGroupRequest,
   UpdateConnectionGroupResult,
   | AccessDenied
   | EntityAlreadyExists
@@ -13889,9 +13727,8 @@ export const updateConnectionGroup: (
  *
  * - Use `UpdateContinuousDeploymentPolicy`, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
  */
-export const updateContinuousDeploymentPolicy: (
-  input: UpdateContinuousDeploymentPolicyRequest,
-) => effect.Effect<
+export const updateContinuousDeploymentPolicy: API.OperationMethod<
+  UpdateContinuousDeploymentPolicyRequest,
   UpdateContinuousDeploymentPolicyResult,
   | AccessDenied
   | InconsistentQuantities
@@ -13918,9 +13755,8 @@ export const updateContinuousDeploymentPolicy: (
 /**
  * Updates a distribution tenant.
  */
-export const updateDistributionTenant: (
-  input: UpdateDistributionTenantRequest,
-) => effect.Effect<
+export const updateDistributionTenant: API.OperationMethod<
+  UpdateDistributionTenantRequest,
   UpdateDistributionTenantResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -13957,9 +13793,8 @@ export const updateDistributionTenant: (
  *
  * To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different standard distribution or distribution tenant in the *Amazon CloudFront Developer Guide*.
  */
-export const updateDomainAssociation: (
-  input: UpdateDomainAssociationRequest,
-) => effect.Effect<
+export const updateDomainAssociation: API.OperationMethod<
+  UpdateDomainAssociationRequest,
   UpdateDomainAssociationResult,
   | AccessDenied
   | EntityNotFound
@@ -13984,9 +13819,8 @@ export const updateDomainAssociation: (
 /**
  * Update a field-level encryption configuration.
  */
-export const updateFieldLevelEncryptionConfig: (
-  input: UpdateFieldLevelEncryptionConfigRequest,
-) => effect.Effect<
+export const updateFieldLevelEncryptionConfig: API.OperationMethod<
+  UpdateFieldLevelEncryptionConfigRequest,
   UpdateFieldLevelEncryptionConfigResult,
   | AccessDenied
   | IllegalUpdate
@@ -14021,9 +13855,8 @@ export const updateFieldLevelEncryptionConfig: (
 /**
  * Update a field-level encryption profile.
  */
-export const updateFieldLevelEncryptionProfile: (
-  input: UpdateFieldLevelEncryptionProfileRequest,
-) => effect.Effect<
+export const updateFieldLevelEncryptionProfile: API.OperationMethod<
+  UpdateFieldLevelEncryptionProfileRequest,
   UpdateFieldLevelEncryptionProfileResult,
   | AccessDenied
   | FieldLevelEncryptionProfileAlreadyExists
@@ -14064,9 +13897,8 @@ export const updateFieldLevelEncryptionProfile: (
  *
  * To update a function, you provide the function's name and version (`ETag` value) along with the updated function code. To get the name and version, you can use `ListFunctions` and `DescribeFunction`.
  */
-export const updateFunction: (
-  input: UpdateFunctionRequest,
-) => effect.Effect<
+export const updateFunction: API.OperationMethod<
+  UpdateFunctionRequest,
   UpdateFunctionResult,
   | FunctionSizeLimitExceeded
   | InvalidArgument
@@ -14099,9 +13931,8 @@ export const updateFunction: (
  *
  * - Call `UpdateKeyGroup` with the entire key group object, including the fields that you modified and those that you didn't.
  */
-export const updateKeyGroup: (
-  input: UpdateKeyGroupRequest,
-) => effect.Effect<
+export const updateKeyGroup: API.OperationMethod<
+  UpdateKeyGroupRequest,
   UpdateKeyGroupResult,
   | InvalidArgument
   | InvalidIfMatchVersion
@@ -14126,9 +13957,8 @@ export const updateKeyGroup: (
 /**
  * Specifies the key value store to update.
  */
-export const updateKeyValueStore: (
-  input: UpdateKeyValueStoreRequest,
-) => effect.Effect<
+export const updateKeyValueStore: API.OperationMethod<
+  UpdateKeyValueStoreRequest,
   UpdateKeyValueStoreResult,
   | AccessDenied
   | EntityNotFound
@@ -14153,9 +13983,8 @@ export const updateKeyValueStore: (
 /**
  * Updates a CloudFront origin access control.
  */
-export const updateOriginAccessControl: (
-  input: UpdateOriginAccessControlRequest,
-) => effect.Effect<
+export const updateOriginAccessControl: API.OperationMethod<
+  UpdateOriginAccessControlRequest,
   UpdateOriginAccessControlResult,
   | AccessDenied
   | IllegalUpdate
@@ -14190,9 +14019,8 @@ export const updateOriginAccessControl: (
  *
  * - Call `UpdateOriginRequestPolicy` by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
  */
-export const updateOriginRequestPolicy: (
-  input: UpdateOriginRequestPolicyRequest,
-) => effect.Effect<
+export const updateOriginRequestPolicy: API.OperationMethod<
+  UpdateOriginRequestPolicyRequest,
   UpdateOriginRequestPolicyResult,
   | AccessDenied
   | IllegalUpdate
@@ -14227,9 +14055,8 @@ export const updateOriginRequestPolicy: (
 /**
  * Update public key information. Note that the only value you can change is the comment.
  */
-export const updatePublicKey: (
-  input: UpdatePublicKeyRequest,
-) => effect.Effect<
+export const updatePublicKey: API.OperationMethod<
+  UpdatePublicKeyRequest,
   UpdatePublicKeyResult,
   | AccessDenied
   | CannotChangeImmutablePublicKeyFields
@@ -14266,9 +14093,8 @@ export const updatePublicKey: (
  *
  * You cannot update a real-time log configuration's `Name` or `ARN`.
  */
-export const updateRealtimeLogConfig: (
-  input: UpdateRealtimeLogConfigRequest,
-) => effect.Effect<
+export const updateRealtimeLogConfig: API.OperationMethod<
+  UpdateRealtimeLogConfigRequest,
   UpdateRealtimeLogConfigResult,
   AccessDenied | InvalidArgument | NoSuchRealtimeLogConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14288,9 +14114,8 @@ export const updateRealtimeLogConfig: (
  *
  * - Call `UpdateResponseHeadersPolicy`, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
  */
-export const updateResponseHeadersPolicy: (
-  input: UpdateResponseHeadersPolicyRequest,
-) => effect.Effect<
+export const updateResponseHeadersPolicy: API.OperationMethod<
+  UpdateResponseHeadersPolicyRequest,
   UpdateResponseHeadersPolicyResult,
   | AccessDenied
   | IllegalUpdate
@@ -14325,9 +14150,8 @@ export const updateResponseHeadersPolicy: (
 /**
  * Update a streaming distribution.
  */
-export const updateStreamingDistribution: (
-  input: UpdateStreamingDistributionRequest,
-) => effect.Effect<
+export const updateStreamingDistribution: API.OperationMethod<
+  UpdateStreamingDistributionRequest,
   UpdateStreamingDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14368,9 +14192,8 @@ export const updateStreamingDistribution: (
 /**
  * Updates a trust store.
  */
-export const updateTrustStore: (
-  input: UpdateTrustStoreRequest,
-) => effect.Effect<
+export const updateTrustStore: API.OperationMethod<
+  UpdateTrustStoreRequest,
   UpdateTrustStoreResult,
   | AccessDenied
   | EntityNotFound
@@ -14393,9 +14216,8 @@ export const updateTrustStore: (
 /**
  * Update an Amazon CloudFront VPC origin in your account.
  */
-export const updateVpcOrigin: (
-  input: UpdateVpcOriginRequest,
-) => effect.Effect<
+export const updateVpcOrigin: API.OperationMethod<
+  UpdateVpcOriginRequest,
   UpdateVpcOriginResult,
   | AccessDenied
   | CannotUpdateEntityWhileInUse
@@ -14430,9 +14252,8 @@ export const updateVpcOrigin: (
 /**
  * Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
  */
-export const verifyDnsConfiguration: (
-  input: VerifyDnsConfigurationRequest,
-) => effect.Effect<
+export const verifyDnsConfiguration: API.OperationMethod<
+  VerifyDnsConfigurationRequest,
   VerifyDnsConfigurationResult,
   AccessDenied | EntityNotFound | InvalidArgument | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14448,9 +14269,8 @@ export const verifyDnsConfiguration: (
  *
  * - TagResource
  */
-export const createDistributionWithTags: (
-  input: CreateDistributionWithTagsRequest,
-) => effect.Effect<
+export const createDistributionWithTags: API.OperationMethod<
+  CreateDistributionWithTagsRequest,
   CreateDistributionWithTagsResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14611,9 +14431,8 @@ export const createDistributionWithTags: (
  *
  * - Submit an `UpdateDistribution` request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an `UpdateDistribution` request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
  */
-export const updateDistribution: (
-  input: UpdateDistributionRequest,
-) => effect.Effect<
+export const updateDistribution: API.OperationMethod<
+  UpdateDistributionRequest,
   UpdateDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14768,9 +14587,8 @@ export const updateDistribution: (
  *
  * - UpdateDistribution
  */
-export const updateDistributionWithStagingConfig: (
-  input: UpdateDistributionWithStagingConfigRequest,
-) => effect.Effect<
+export const updateDistributionWithStagingConfig: API.OperationMethod<
+  UpdateDistributionWithStagingConfigRequest,
   UpdateDistributionWithStagingConfigResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -14919,9 +14737,8 @@ export const updateDistributionWithStagingConfig: (
  *
  * - CopyDistribution
  */
-export const copyDistribution: (
-  input: CopyDistributionRequest,
-) => effect.Effect<
+export const copyDistribution: API.OperationMethod<
+  CopyDistributionRequest,
   CopyDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists
@@ -15062,9 +14879,8 @@ export const copyDistribution: (
 /**
  * Creates a CloudFront distribution.
  */
-export const createDistribution: (
-  input: CreateDistributionRequest,
-) => effect.Effect<
+export const createDistribution: API.OperationMethod<
+  CreateDistributionRequest,
   CreateDistributionResult,
   | AccessDenied
   | CNAMEAlreadyExists

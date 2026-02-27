@@ -2619,9 +2619,8 @@ export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequests
 /**
  * This operation clones an existing backend.
  */
-export const cloneBackend: (
-  input: CloneBackendRequest,
-) => effect.Effect<
+export const cloneBackend: API.OperationMethod<
+  CloneBackendRequest,
   CloneBackendResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2642,9 +2641,8 @@ export const cloneBackend: (
 /**
  * This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
  */
-export const createBackend: (
-  input: CreateBackendRequest,
-) => effect.Effect<
+export const createBackend: API.OperationMethod<
+  CreateBackendRequest,
   CreateBackendResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2665,9 +2663,8 @@ export const createBackend: (
 /**
  * Creates a new backend API resource.
  */
-export const createBackendAPI: (
-  input: CreateBackendAPIRequest,
-) => effect.Effect<
+export const createBackendAPI: API.OperationMethod<
+  CreateBackendAPIRequest,
   CreateBackendAPIResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2688,9 +2685,8 @@ export const createBackendAPI: (
 /**
  * Creates a new backend authentication resource.
  */
-export const createBackendAuth: (
-  input: CreateBackendAuthRequest,
-) => effect.Effect<
+export const createBackendAuth: API.OperationMethod<
+  CreateBackendAuthRequest,
   CreateBackendAuthResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2711,9 +2707,8 @@ export const createBackendAuth: (
 /**
  * Creates a config object for a backend.
  */
-export const createBackendConfig: (
-  input: CreateBackendConfigRequest,
-) => effect.Effect<
+export const createBackendConfig: API.OperationMethod<
+  CreateBackendConfigRequest,
   CreateBackendConfigResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2734,9 +2729,8 @@ export const createBackendConfig: (
 /**
  * Creates a backend storage resource.
  */
-export const createBackendStorage: (
-  input: CreateBackendStorageRequest,
-) => effect.Effect<
+export const createBackendStorage: API.OperationMethod<
+  CreateBackendStorageRequest,
   CreateBackendStorageResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2757,9 +2751,8 @@ export const createBackendStorage: (
 /**
  * Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
  */
-export const createToken: (
-  input: CreateTokenRequest,
-) => effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2780,9 +2773,8 @@ export const createToken: (
 /**
  * Removes an existing environment from your Amplify project.
  */
-export const deleteBackend: (
-  input: DeleteBackendRequest,
-) => effect.Effect<
+export const deleteBackend: API.OperationMethod<
+  DeleteBackendRequest,
   DeleteBackendResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2803,9 +2795,8 @@ export const deleteBackend: (
 /**
  * Deletes an existing backend API resource.
  */
-export const deleteBackendAPI: (
-  input: DeleteBackendAPIRequest,
-) => effect.Effect<
+export const deleteBackendAPI: API.OperationMethod<
+  DeleteBackendAPIRequest,
   DeleteBackendAPIResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2826,9 +2817,8 @@ export const deleteBackendAPI: (
 /**
  * Deletes an existing backend authentication resource.
  */
-export const deleteBackendAuth: (
-  input: DeleteBackendAuthRequest,
-) => effect.Effect<
+export const deleteBackendAuth: API.OperationMethod<
+  DeleteBackendAuthRequest,
   DeleteBackendAuthResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2849,9 +2839,8 @@ export const deleteBackendAuth: (
 /**
  * Removes the specified backend storage resource.
  */
-export const deleteBackendStorage: (
-  input: DeleteBackendStorageRequest,
-) => effect.Effect<
+export const deleteBackendStorage: API.OperationMethod<
+  DeleteBackendStorageRequest,
   DeleteBackendStorageResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2872,9 +2861,8 @@ export const deleteBackendStorage: (
 /**
  * Deletes the challenge token based on the given appId and sessionId.
  */
-export const deleteToken: (
-  input: DeleteTokenRequest,
-) => effect.Effect<
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
   DeleteTokenResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2895,9 +2883,8 @@ export const deleteToken: (
 /**
  * Generates a model schema for an existing backend API resource.
  */
-export const generateBackendAPIModels: (
-  input: GenerateBackendAPIModelsRequest,
-) => effect.Effect<
+export const generateBackendAPIModels: API.OperationMethod<
+  GenerateBackendAPIModelsRequest,
   GenerateBackendAPIModelsResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2918,9 +2905,8 @@ export const generateBackendAPIModels: (
 /**
  * Provides project-level details for your Amplify UI project.
  */
-export const getBackend: (
-  input: GetBackendRequest,
-) => effect.Effect<
+export const getBackend: API.OperationMethod<
+  GetBackendRequest,
   GetBackendResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2941,9 +2927,8 @@ export const getBackend: (
 /**
  * Gets the details for a backend API.
  */
-export const getBackendAPI: (
-  input: GetBackendAPIRequest,
-) => effect.Effect<
+export const getBackendAPI: API.OperationMethod<
+  GetBackendAPIRequest,
   GetBackendAPIResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2964,9 +2949,8 @@ export const getBackendAPI: (
 /**
  * Gets a model introspection schema for an existing backend API resource.
  */
-export const getBackendAPIModels: (
-  input: GetBackendAPIModelsRequest,
-) => effect.Effect<
+export const getBackendAPIModels: API.OperationMethod<
+  GetBackendAPIModelsRequest,
   GetBackendAPIModelsResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -2987,9 +2971,8 @@ export const getBackendAPIModels: (
 /**
  * Gets a backend auth details.
  */
-export const getBackendAuth: (
-  input: GetBackendAuthRequest,
-) => effect.Effect<
+export const getBackendAuth: API.OperationMethod<
+  GetBackendAuthRequest,
   GetBackendAuthResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3010,9 +2993,8 @@ export const getBackendAuth: (
 /**
  * Returns information about a specific job.
  */
-export const getBackendJob: (
-  input: GetBackendJobRequest,
-) => effect.Effect<
+export const getBackendJob: API.OperationMethod<
+  GetBackendJobRequest,
   GetBackendJobResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3033,9 +3015,8 @@ export const getBackendJob: (
 /**
  * Gets details for a backend storage resource.
  */
-export const getBackendStorage: (
-  input: GetBackendStorageRequest,
-) => effect.Effect<
+export const getBackendStorage: API.OperationMethod<
+  GetBackendStorageRequest,
   GetBackendStorageResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3056,9 +3037,8 @@ export const getBackendStorage: (
 /**
  * Gets the challenge token based on the given appId and sessionId.
  */
-export const getToken: (
-  input: GetTokenRequest,
-) => effect.Effect<
+export const getToken: API.OperationMethod<
+  GetTokenRequest,
   GetTokenResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3079,9 +3059,8 @@ export const getToken: (
 /**
  * Imports an existing backend authentication resource.
  */
-export const importBackendAuth: (
-  input: ImportBackendAuthRequest,
-) => effect.Effect<
+export const importBackendAuth: API.OperationMethod<
+  ImportBackendAuthRequest,
   ImportBackendAuthResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3102,9 +3081,8 @@ export const importBackendAuth: (
 /**
  * Imports an existing backend storage resource.
  */
-export const importBackendStorage: (
-  input: ImportBackendStorageRequest,
-) => effect.Effect<
+export const importBackendStorage: API.OperationMethod<
+  ImportBackendStorageRequest,
   ImportBackendStorageResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3125,9 +3103,8 @@ export const importBackendStorage: (
 /**
  * Lists the jobs for the backend of an Amplify app.
  */
-export const listBackendJobs: (
-  input: ListBackendJobsRequest,
-) => effect.Effect<
+export const listBackendJobs: API.OperationMethod<
+  ListBackendJobsRequest,
   ListBackendJobsResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3148,9 +3125,8 @@ export const listBackendJobs: (
 /**
  * The list of S3 buckets in your account.
  */
-export const listS3Buckets: (
-  input: ListS3BucketsRequest,
-) => effect.Effect<
+export const listS3Buckets: API.OperationMethod<
+  ListS3BucketsRequest,
   ListS3BucketsResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3171,9 +3147,8 @@ export const listS3Buckets: (
 /**
  * Removes all backend environments from your Amplify project.
  */
-export const removeAllBackends: (
-  input: RemoveAllBackendsRequest,
-) => effect.Effect<
+export const removeAllBackends: API.OperationMethod<
+  RemoveAllBackendsRequest,
   RemoveAllBackendsResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3194,9 +3169,8 @@ export const removeAllBackends: (
 /**
  * Removes the AWS resources required to access the Amplify Admin UI.
  */
-export const removeBackendConfig: (
-  input: RemoveBackendConfigRequest,
-) => effect.Effect<
+export const removeBackendConfig: API.OperationMethod<
+  RemoveBackendConfigRequest,
   RemoveBackendConfigResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3217,9 +3191,8 @@ export const removeBackendConfig: (
 /**
  * Updates an existing backend API resource.
  */
-export const updateBackendAPI: (
-  input: UpdateBackendAPIRequest,
-) => effect.Effect<
+export const updateBackendAPI: API.OperationMethod<
+  UpdateBackendAPIRequest,
   UpdateBackendAPIResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3240,9 +3213,8 @@ export const updateBackendAPI: (
 /**
  * Updates an existing backend authentication resource.
  */
-export const updateBackendAuth: (
-  input: UpdateBackendAuthRequest,
-) => effect.Effect<
+export const updateBackendAuth: API.OperationMethod<
+  UpdateBackendAuthRequest,
   UpdateBackendAuthResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3263,9 +3235,8 @@ export const updateBackendAuth: (
 /**
  * Updates the AWS resources required to access the Amplify Admin UI.
  */
-export const updateBackendConfig: (
-  input: UpdateBackendConfigRequest,
-) => effect.Effect<
+export const updateBackendConfig: API.OperationMethod<
+  UpdateBackendConfigRequest,
   UpdateBackendConfigResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3286,9 +3257,8 @@ export const updateBackendConfig: (
 /**
  * Updates a specific job.
  */
-export const updateBackendJob: (
-  input: UpdateBackendJobRequest,
-) => effect.Effect<
+export const updateBackendJob: API.OperationMethod<
+  UpdateBackendJobRequest,
   UpdateBackendJobResponse,
   | BadRequestException
   | GatewayTimeoutException
@@ -3309,9 +3279,8 @@ export const updateBackendJob: (
 /**
  * Updates an existing backend storage resource.
  */
-export const updateBackendStorage: (
-  input: UpdateBackendStorageRequest,
-) => effect.Effect<
+export const updateBackendStorage: API.OperationMethod<
+  UpdateBackendStorageRequest,
   UpdateBackendStorageResponse,
   | BadRequestException
   | GatewayTimeoutException

@@ -2919,9 +2919,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 /**
  * Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.
  */
-export const acceptDirectConnectGatewayAssociationProposal: (
-  input: AcceptDirectConnectGatewayAssociationProposalRequest,
-) => effect.Effect<
+export const acceptDirectConnectGatewayAssociationProposal: API.OperationMethod<
+  AcceptDirectConnectGatewayAssociationProposalRequest,
   AcceptDirectConnectGatewayAssociationProposalResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2939,9 +2938,8 @@ export const acceptDirectConnectGatewayAssociationProposal: (
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const allocateConnectionOnInterconnect: (
-  input: AllocateConnectionOnInterconnectRequest,
-) => effect.Effect<
+export const allocateConnectionOnInterconnect: API.OperationMethod<
+  AllocateConnectionOnInterconnectRequest,
   Connection,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2958,9 +2956,8 @@ export const allocateConnectionOnInterconnect: (
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const allocateHostedConnection: (
-  input: AllocateHostedConnectionRequest,
-) => effect.Effect<
+export const allocateHostedConnection: API.OperationMethod<
+  AllocateHostedConnectionRequest,
   Connection,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -2984,9 +2981,8 @@ export const allocateHostedConnection: (
  * Virtual interfaces created using this action must be confirmed by the owner using ConfirmPrivateVirtualInterface.
  * Until then, the virtual interface is in the `Confirming` state and is not available to handle traffic.
  */
-export const allocatePrivateVirtualInterface: (
-  input: AllocatePrivateVirtualInterfaceRequest,
-) => effect.Effect<
+export const allocatePrivateVirtualInterface: API.OperationMethod<
+  AllocatePrivateVirtualInterfaceRequest,
   VirtualInterface,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3015,9 +3011,8 @@ export const allocatePrivateVirtualInterface: (
  * When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from
  * the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
  */
-export const allocatePublicVirtualInterface: (
-  input: AllocatePublicVirtualInterfaceRequest,
-) => effect.Effect<
+export const allocatePublicVirtualInterface: API.OperationMethod<
+  AllocatePublicVirtualInterfaceRequest,
   VirtualInterface,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3042,9 +3037,8 @@ export const allocatePublicVirtualInterface: (
  *
  * After you create a transit virtual interface, it must be confirmed by the owner using ConfirmTransitVirtualInterface. Until this step has been completed, the transit virtual interface is in the `requested` state and is not available to handle traffic.
  */
-export const allocateTransitVirtualInterface: (
-  input: AllocateTransitVirtualInterfaceRequest,
-) => effect.Effect<
+export const allocateTransitVirtualInterface: API.OperationMethod<
+  AllocateTransitVirtualInterfaceRequest,
   AllocateTransitVirtualInterfaceResult,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3080,9 +3074,8 @@ export const allocateTransitVirtualInterface: (
  * LAG. If the interconnect was originally associated with a different LAG, the hosted
  * connections remain associated with the original LAG.
  */
-export const associateConnectionWithLag: (
-  input: AssociateConnectionWithLagRequest,
-) => effect.Effect<
+export const associateConnectionWithLag: API.OperationMethod<
+  AssociateConnectionWithLagRequest,
   Connection,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3100,9 +3093,8 @@ export const associateConnectionWithLag: (
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const associateHostedConnection: (
-  input: AssociateHostedConnectionRequest,
-) => effect.Effect<
+export const associateHostedConnection: API.OperationMethod<
+  AssociateHostedConnectionRequest,
   Connection,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3118,9 +3110,8 @@ export const associateHostedConnection: (
  *
  * For information about MAC Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations in the *Direct Connect User Guide*.
  */
-export const associateMacSecKey: (
-  input: AssociateMacSecKeyRequest,
-) => effect.Effect<
+export const associateMacSecKey: API.OperationMethod<
+  AssociateMacSecKeyRequest,
   AssociateMacSecKeyResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3143,9 +3134,8 @@ export const associateMacSecKey: (
  * interface is currently associated. Additionally, the requester must own the connection
  * or LAG for the association.
  */
-export const associateVirtualInterface: (
-  input: AssociateVirtualInterfaceRequest,
-) => effect.Effect<
+export const associateVirtualInterface: API.OperationMethod<
+  AssociateVirtualInterfaceRequest,
   VirtualInterface,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3160,9 +3150,8 @@ export const associateVirtualInterface: (
  * Upon creation, the hosted connection is initially in the `Ordering` state, and
  * remains in this state until the owner confirms creation of the hosted connection.
  */
-export const confirmConnection: (
-  input: ConfirmConnectionRequest,
-) => effect.Effect<
+export const confirmConnection: API.OperationMethod<
+  ConfirmConnectionRequest,
   ConfirmConnectionResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3174,9 +3163,8 @@ export const confirmConnection: (
 /**
  * The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
  */
-export const confirmCustomerAgreement: (
-  input: ConfirmCustomerAgreementRequest,
-) => effect.Effect<
+export const confirmCustomerAgreement: API.OperationMethod<
+  ConfirmCustomerAgreementRequest,
   ConfirmCustomerAgreementResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3192,9 +3180,8 @@ export const confirmCustomerAgreement: (
  * created and attached to the specified virtual private gateway or Direct Connect gateway, and is
  * made available to handle traffic.
  */
-export const confirmPrivateVirtualInterface: (
-  input: ConfirmPrivateVirtualInterfaceRequest,
-) => effect.Effect<
+export const confirmPrivateVirtualInterface: API.OperationMethod<
+  ConfirmPrivateVirtualInterfaceRequest,
   ConfirmPrivateVirtualInterfaceResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3209,9 +3196,8 @@ export const confirmPrivateVirtualInterface: (
  * After the virtual interface owner makes this call, the specified virtual interface is
  * created and made available to handle traffic.
  */
-export const confirmPublicVirtualInterface: (
-  input: ConfirmPublicVirtualInterfaceRequest,
-) => effect.Effect<
+export const confirmPublicVirtualInterface: API.OperationMethod<
+  ConfirmPublicVirtualInterfaceRequest,
   ConfirmPublicVirtualInterfaceResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3225,9 +3211,8 @@ export const confirmPublicVirtualInterface: (
  *
  * After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
  */
-export const confirmTransitVirtualInterface: (
-  input: ConfirmTransitVirtualInterfaceRequest,
-) => effect.Effect<
+export const confirmTransitVirtualInterface: API.OperationMethod<
+  ConfirmTransitVirtualInterfaceRequest,
   ConfirmTransitVirtualInterfaceResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3257,9 +3242,8 @@ export const confirmTransitVirtualInterface: (
  *
  * For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
  */
-export const createBGPPeer: (
-  input: CreateBGPPeerRequest,
-) => effect.Effect<
+export const createBGPPeer: API.OperationMethod<
+  CreateBGPPeerRequest,
   CreateBGPPeerResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3281,9 +3265,8 @@ export const createBGPPeer: (
  * same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint,
  * the request fails and no connection is created.
  */
-export const createConnection: (
-  input: CreateConnectionRequest,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionRequest,
   Connection,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3309,9 +3292,8 @@ export const createConnection: (
  * connect to a VPC in any Region, regardless of the Region in which the virtual interfaces
  * are located, and pass traffic between them.
  */
-export const createDirectConnectGateway: (
-  input: CreateDirectConnectGatewayRequest,
-) => effect.Effect<
+export const createDirectConnectGateway: API.OperationMethod<
+  CreateDirectConnectGatewayRequest,
   CreateDirectConnectGatewayResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3324,9 +3306,8 @@ export const createDirectConnectGateway: (
  * Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual
  * private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
  */
-export const createDirectConnectGatewayAssociation: (
-  input: CreateDirectConnectGatewayAssociationRequest,
-) => effect.Effect<
+export const createDirectConnectGatewayAssociation: API.OperationMethod<
+  CreateDirectConnectGatewayAssociationRequest,
   CreateDirectConnectGatewayAssociationResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3340,9 +3321,8 @@ export const createDirectConnectGatewayAssociation: (
  *
  * You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
  */
-export const createDirectConnectGatewayAssociationProposal: (
-  input: CreateDirectConnectGatewayAssociationProposalRequest,
-) => effect.Effect<
+export const createDirectConnectGatewayAssociationProposal: API.OperationMethod<
+  CreateDirectConnectGatewayAssociationProposalRequest,
   CreateDirectConnectGatewayAssociationProposalResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3371,9 +3351,8 @@ export const createDirectConnectGatewayAssociationProposal: (
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const createInterconnect: (
-  input: CreateInterconnectRequest,
-) => effect.Effect<
+export const createInterconnect: API.OperationMethod<
+  CreateInterconnectRequest,
   Interconnect,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3416,9 +3395,8 @@ export const createInterconnect: (
  * automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual
  * interfaces cannot be directly configured.
  */
-export const createLag: (
-  input: CreateLagRequest,
-) => effect.Effect<
+export const createLag: API.OperationMethod<
+  CreateLagRequest,
   Lag,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3450,9 +3428,8 @@ export const createLag: (
  * frames, call DescribeConnections. To check whether your virtual
  * interface supports jumbo frames, call DescribeVirtualInterfaces.
  */
-export const createPrivateVirtualInterface: (
-  input: CreatePrivateVirtualInterfaceRequest,
-) => effect.Effect<
+export const createPrivateVirtualInterface: API.OperationMethod<
+  CreatePrivateVirtualInterfaceRequest,
   VirtualInterface,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3477,9 +3454,8 @@ export const createPrivateVirtualInterface: (
  * When creating an IPv6 public virtual interface (`addressFamily` is `ipv6`), leave the `customer`
  * and `amazon` address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
  */
-export const createPublicVirtualInterface: (
-  input: CreatePublicVirtualInterfaceRequest,
-) => effect.Effect<
+export const createPublicVirtualInterface: API.OperationMethod<
+  CreatePublicVirtualInterfaceRequest,
   VirtualInterface,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3509,9 +3485,8 @@ export const createPublicVirtualInterface: (
  * to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo
  * frames, call DescribeVirtualInterfaces.
  */
-export const createTransitVirtualInterface: (
-  input: CreateTransitVirtualInterfaceRequest,
-) => effect.Effect<
+export const createTransitVirtualInterface: API.OperationMethod<
+  CreateTransitVirtualInterfaceRequest,
   CreateTransitVirtualInterfaceResult,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -3534,9 +3509,8 @@ export const createTransitVirtualInterface: (
  *
  * You cannot delete the last BGP peer from a virtual interface.
  */
-export const deleteBGPPeer: (
-  input: DeleteBGPPeerRequest,
-) => effect.Effect<
+export const deleteBGPPeer: API.OperationMethod<
+  DeleteBGPPeerRequest,
   DeleteBGPPeerResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3552,9 +3526,8 @@ export const deleteBGPPeer: (
  * If you are partnering with any third parties to connect with the Direct Connect location,
  * you must cancel your service with them separately.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   Connection,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3568,9 +3541,8 @@ export const deleteConnection: (
  * attached to the Direct Connect gateway and disassociate all virtual private gateways associated
  * with the Direct Connect gateway.
  */
-export const deleteDirectConnectGateway: (
-  input: DeleteDirectConnectGatewayRequest,
-) => effect.Effect<
+export const deleteDirectConnectGateway: API.OperationMethod<
+  DeleteDirectConnectGatewayRequest,
   DeleteDirectConnectGatewayResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3584,9 +3556,8 @@ export const deleteDirectConnectGateway: (
  *
  * We recommend that you specify the `associationID` to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the `virtualGatewayId` and `directConnectGatewayId` to delete an association.
  */
-export const deleteDirectConnectGatewayAssociation: (
-  input: DeleteDirectConnectGatewayAssociationRequest,
-) => effect.Effect<
+export const deleteDirectConnectGatewayAssociation: API.OperationMethod<
+  DeleteDirectConnectGatewayAssociationRequest,
   DeleteDirectConnectGatewayAssociationResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3598,9 +3569,8 @@ export const deleteDirectConnectGatewayAssociation: (
 /**
  * Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway.
  */
-export const deleteDirectConnectGatewayAssociationProposal: (
-  input: DeleteDirectConnectGatewayAssociationProposalRequest,
-) => effect.Effect<
+export const deleteDirectConnectGatewayAssociationProposal: API.OperationMethod<
+  DeleteDirectConnectGatewayAssociationProposalRequest,
   DeleteDirectConnectGatewayAssociationProposalResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3615,9 +3585,8 @@ export const deleteDirectConnectGatewayAssociationProposal: (
  * Intended for use
  * by Direct Connect Partners only.
  */
-export const deleteInterconnect: (
-  input: DeleteInterconnectRequest,
-) => effect.Effect<
+export const deleteInterconnect: API.OperationMethod<
+  DeleteInterconnectRequest,
   DeleteInterconnectResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3630,9 +3599,8 @@ export const deleteInterconnect: (
  * Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active
  * virtual interfaces or hosted connections.
  */
-export const deleteLag: (
-  input: DeleteLagRequest,
-) => effect.Effect<
+export const deleteLag: API.OperationMethod<
+  DeleteLagRequest,
   Lag,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3644,9 +3612,8 @@ export const deleteLag: (
 /**
  * Deletes a virtual interface.
  */
-export const deleteVirtualInterface: (
-  input: DeleteVirtualInterfaceRequest,
-) => effect.Effect<
+export const deleteVirtualInterface: API.OperationMethod<
+  DeleteVirtualInterfaceRequest,
   DeleteVirtualInterfaceResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3665,9 +3632,8 @@ export const deleteVirtualInterface: (
  * see Requesting Cross Connects
  * at Direct Connect Locations in the *Direct Connect User Guide*.
  */
-export const describeConnectionLoa: (
-  input: DescribeConnectionLoaRequest,
-) => effect.Effect<
+export const describeConnectionLoa: API.OperationMethod<
+  DescribeConnectionLoaRequest,
   DescribeConnectionLoaResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3679,9 +3645,8 @@ export const describeConnectionLoa: (
 /**
  * Displays the specified connection or all connections in this Region.
  */
-export const describeConnections: (
-  input: DescribeConnectionsRequest,
-) => effect.Effect<
+export const describeConnections: API.OperationMethod<
+  DescribeConnectionsRequest,
   Connections,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3697,9 +3662,8 @@ export const describeConnections: (
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const describeConnectionsOnInterconnect: (
-  input: DescribeConnectionsOnInterconnectRequest,
-) => effect.Effect<
+export const describeConnectionsOnInterconnect: API.OperationMethod<
+  DescribeConnectionsOnInterconnectRequest,
   Connections,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3711,9 +3675,8 @@ export const describeConnectionsOnInterconnect: (
 /**
  * Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
  */
-export const describeCustomerMetadata: (
-  input: DescribeCustomerMetadataRequest,
-) => effect.Effect<
+export const describeCustomerMetadata: API.OperationMethod<
+  DescribeCustomerMetadataRequest,
   DescribeCustomerMetadataResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3725,9 +3688,8 @@ export const describeCustomerMetadata: (
 /**
  * Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
  */
-export const describeDirectConnectGatewayAssociationProposals: (
-  input: DescribeDirectConnectGatewayAssociationProposalsRequest,
-) => effect.Effect<
+export const describeDirectConnectGatewayAssociationProposals: API.OperationMethod<
+  DescribeDirectConnectGatewayAssociationProposalsRequest,
   DescribeDirectConnectGatewayAssociationProposalsResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3767,9 +3729,8 @@ export const describeDirectConnectGatewayAssociationProposals: (
  *
  * The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
  */
-export const describeDirectConnectGatewayAssociations: (
-  input: DescribeDirectConnectGatewayAssociationsRequest,
-) => effect.Effect<
+export const describeDirectConnectGatewayAssociations: API.OperationMethod<
+  DescribeDirectConnectGatewayAssociationsRequest,
   DescribeDirectConnectGatewayAssociationsResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3785,9 +3746,8 @@ export const describeDirectConnectGatewayAssociations: (
  * response contains all Direct Connect gateways attached to the virtual interface. If you specify both,
  * the response contains the attachment between the Direct Connect gateway and the virtual interface.
  */
-export const describeDirectConnectGatewayAttachments: (
-  input: DescribeDirectConnectGatewayAttachmentsRequest,
-) => effect.Effect<
+export const describeDirectConnectGatewayAttachments: API.OperationMethod<
+  DescribeDirectConnectGatewayAttachmentsRequest,
   DescribeDirectConnectGatewayAttachmentsResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3799,9 +3759,8 @@ export const describeDirectConnectGatewayAttachments: (
 /**
  * Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted Direct Connect gateways are not returned.
  */
-export const describeDirectConnectGateways: (
-  input: DescribeDirectConnectGatewaysRequest,
-) => effect.Effect<
+export const describeDirectConnectGateways: API.OperationMethod<
+  DescribeDirectConnectGatewaysRequest,
   DescribeDirectConnectGatewaysResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3816,9 +3775,8 @@ export const describeDirectConnectGateways: (
  *
  * Intended for use by Direct Connect Partners only.
  */
-export const describeHostedConnections: (
-  input: DescribeHostedConnectionsRequest,
-) => effect.Effect<
+export const describeHostedConnections: API.OperationMethod<
+  DescribeHostedConnectionsRequest,
   Connections,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3836,9 +3794,8 @@ export const describeHostedConnections: (
  * For more information, see Requesting Cross Connects at Direct Connect Locations
  * in the *Direct Connect User Guide*.
  */
-export const describeInterconnectLoa: (
-  input: DescribeInterconnectLoaRequest,
-) => effect.Effect<
+export const describeInterconnectLoa: API.OperationMethod<
+  DescribeInterconnectLoaRequest,
   DescribeInterconnectLoaResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3850,9 +3807,8 @@ export const describeInterconnectLoa: (
 /**
  * Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
  */
-export const describeInterconnects: (
-  input: DescribeInterconnectsRequest,
-) => effect.Effect<
+export const describeInterconnects: API.OperationMethod<
+  DescribeInterconnectsRequest,
   Interconnects,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3864,9 +3820,8 @@ export const describeInterconnects: (
 /**
  * Describes all your link aggregation groups (LAG) or the specified LAG.
  */
-export const describeLags: (
-  input: DescribeLagsRequest,
-) => effect.Effect<
+export const describeLags: API.OperationMethod<
+  DescribeLagsRequest,
   Lags,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3882,9 +3837,8 @@ export const describeLags: (
  * your cross connect to Amazon Web Services at the colocation facility. For more information, see Requesting Cross Connects at Direct Connect Locations
  * in the *Direct Connect User Guide*.
  */
-export const describeLoa: (
-  input: DescribeLoaRequest,
-) => effect.Effect<
+export const describeLoa: API.OperationMethod<
+  DescribeLoaRequest,
   Loa,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3897,9 +3851,8 @@ export const describeLoa: (
  * Lists the Direct Connect locations in the current Amazon Web Services Region. These are the locations that can be selected when calling
  * CreateConnection or CreateInterconnect.
  */
-export const describeLocations: (
-  input: DescribeLocationsRequest,
-) => effect.Effect<
+export const describeLocations: API.OperationMethod<
+  DescribeLocationsRequest,
   Locations,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3911,9 +3864,8 @@ export const describeLocations: (
 /**
  * Details about the router.
  */
-export const describeRouterConfiguration: (
-  input: DescribeRouterConfigurationRequest,
-) => effect.Effect<
+export const describeRouterConfiguration: API.OperationMethod<
+  DescribeRouterConfigurationRequest,
   DescribeRouterConfigurationResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3925,9 +3877,8 @@ export const describeRouterConfiguration: (
 /**
  * Describes the tags associated with the specified Direct Connect resources.
  */
-export const describeTags: (
-  input: DescribeTagsRequest,
-) => effect.Effect<
+export const describeTags: API.OperationMethod<
+  DescribeTagsRequest,
   DescribeTagsResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3943,9 +3894,8 @@ export const describeTags: (
  *
  * You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
  */
-export const describeVirtualGateways: (
-  input: DescribeVirtualGatewaysRequest,
-) => effect.Effect<
+export const describeVirtualGateways: API.OperationMethod<
+  DescribeVirtualGatewaysRequest,
   VirtualGateways,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3966,9 +3916,8 @@ export const describeVirtualGateways: (
  *
  * - If you're using `asnLong`, the response returns a value of `0` (zero) for the `asn` attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
  */
-export const describeVirtualInterfaces: (
-  input: DescribeVirtualInterfacesRequest,
-) => effect.Effect<
+export const describeVirtualInterfaces: API.OperationMethod<
+  DescribeVirtualInterfacesRequest,
   VirtualInterfaces,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3990,9 +3939,8 @@ export const describeVirtualInterfaces: (
  * member of the LAG. If all connections are disassociated, the LAG continues to exist as
  * an empty LAG with no physical connections.
  */
-export const disassociateConnectionFromLag: (
-  input: DisassociateConnectionFromLagRequest,
-) => effect.Effect<
+export const disassociateConnectionFromLag: API.OperationMethod<
+  DisassociateConnectionFromLagRequest,
   Connection,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4004,9 +3952,8 @@ export const disassociateConnectionFromLag: (
 /**
  * Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
  */
-export const disassociateMacSecKey: (
-  input: DisassociateMacSecKeyRequest,
-) => effect.Effect<
+export const disassociateMacSecKey: API.OperationMethod<
+  DisassociateMacSecKeyRequest,
   DisassociateMacSecKeyResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4018,9 +3965,8 @@ export const disassociateMacSecKey: (
 /**
  * Lists the virtual interface failover test history.
  */
-export const listVirtualInterfaceTestHistory: (
-  input: ListVirtualInterfaceTestHistoryRequest,
-) => effect.Effect<
+export const listVirtualInterfaceTestHistory: API.OperationMethod<
+  ListVirtualInterfaceTestHistoryRequest,
   ListVirtualInterfaceTestHistoryResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4038,9 +3984,8 @@ export const listVirtualInterfaceTestHistory: (
  *
  * If you need to stop the test before the test interval completes, use StopBgpFailoverTest.
  */
-export const startBgpFailoverTest: (
-  input: StartBgpFailoverTestRequest,
-) => effect.Effect<
+export const startBgpFailoverTest: API.OperationMethod<
+  StartBgpFailoverTestRequest,
   StartBgpFailoverTestResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4052,9 +3997,8 @@ export const startBgpFailoverTest: (
 /**
  * Stops the virtual interface failover test.
  */
-export const stopBgpFailoverTest: (
-  input: StopBgpFailoverTestRequest,
-) => effect.Effect<
+export const stopBgpFailoverTest: API.OperationMethod<
+  StopBgpFailoverTestRequest,
   StopBgpFailoverTestResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4068,9 +4012,8 @@ export const stopBgpFailoverTest: (
  *
  * Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | DirectConnectClientException
   | DirectConnectServerException
@@ -4091,9 +4034,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified Direct Connect resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4111,9 +4053,8 @@ export const untagResource: (
  *
  * - The connection's MAC Security (MACsec) encryption mode.
  */
-export const updateConnection: (
-  input: UpdateConnectionRequest,
-) => effect.Effect<
+export const updateConnection: API.OperationMethod<
+  UpdateConnectionRequest,
   Connection,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4125,9 +4066,8 @@ export const updateConnection: (
 /**
  * Updates the name of a current Direct Connect gateway.
  */
-export const updateDirectConnectGateway: (
-  input: UpdateDirectConnectGatewayRequest,
-) => effect.Effect<
+export const updateDirectConnectGateway: API.OperationMethod<
+  UpdateDirectConnectGatewayRequest,
   UpdateDirectConnectGatewayResponse,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4141,9 +4081,8 @@ export const updateDirectConnectGateway: (
  *
  * Add or remove prefixes from the association.
  */
-export const updateDirectConnectGatewayAssociation: (
-  input: UpdateDirectConnectGatewayAssociationRequest,
-) => effect.Effect<
+export const updateDirectConnectGatewayAssociation: API.OperationMethod<
+  UpdateDirectConnectGatewayAssociationRequest,
   UpdateDirectConnectGatewayAssociationResult,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4172,9 +4111,8 @@ export const updateDirectConnectGatewayAssociation: (
  * that the new value does not cause the LAG to fall below the threshold and become
  * non-operational.
  */
-export const updateLag: (
-  input: UpdateLagRequest,
-) => effect.Effect<
+export const updateLag: API.OperationMethod<
+  UpdateLagRequest,
   Lag,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4193,9 +4131,8 @@ export const updateLag: (
  * frames, call DescribeConnections. To check whether your virtual
  * interface supports jumbo frames, call DescribeVirtualInterfaces.
  */
-export const updateVirtualInterfaceAttributes: (
-  input: UpdateVirtualInterfaceAttributesRequest,
-) => effect.Effect<
+export const updateVirtualInterfaceAttributes: API.OperationMethod<
+  UpdateVirtualInterfaceAttributesRequest,
   VirtualInterface,
   DirectConnectClientException | DirectConnectServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

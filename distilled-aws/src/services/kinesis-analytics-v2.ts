@@ -3208,9 +3208,8 @@ export class UnableToDetectSchemaException extends S.TaggedErrorClass<UnableToDe
 /**
  * Adds an Amazon CloudWatch log stream to monitor application configuration errors.
  */
-export const addApplicationCloudWatchLoggingOption: (
-  input: AddApplicationCloudWatchLoggingOptionRequest,
-) => effect.Effect<
+export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
+  AddApplicationCloudWatchLoggingOptionRequest,
   AddApplicationCloudWatchLoggingOptionResponse,
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -3243,9 +3242,8 @@ export const addApplicationCloudWatchLoggingOption: (
  * results in a new version of the application. You can use the DescribeApplication operation
  * to find the current application version.
  */
-export const addApplicationInput: (
-  input: AddApplicationInputRequest,
-) => effect.Effect<
+export const addApplicationInput: API.OperationMethod<
+  AddApplicationInputRequest,
   AddApplicationInputResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -3272,9 +3270,8 @@ export const addApplicationInput: (
  * on the input stream before the
  * application's SQL code executes. Currently, the only input processor available is Amazon Lambda.
  */
-export const addApplicationInputProcessingConfiguration: (
-  input: AddApplicationInputProcessingConfigurationRequest,
-) => effect.Effect<
+export const addApplicationInputProcessingConfiguration: API.OperationMethod<
+  AddApplicationInputProcessingConfigurationRequest,
   AddApplicationInputProcessingConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3312,9 +3309,8 @@ export const addApplicationInputProcessingConfiguration: (
  * operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application
  * version.
  */
-export const addApplicationOutput: (
-  input: AddApplicationOutputRequest,
-) => effect.Effect<
+export const addApplicationOutput: API.OperationMethod<
+  AddApplicationOutputRequest,
   AddApplicationOutputResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3343,9 +3339,8 @@ export const addApplicationOutput: (
  * necessary mapping information that describes how data in an Amazon S3 object maps to columns
  * in the resulting in-application table.
  */
-export const addApplicationReferenceDataSource: (
-  input: AddApplicationReferenceDataSourceRequest,
-) => effect.Effect<
+export const addApplicationReferenceDataSource: API.OperationMethod<
+  AddApplicationReferenceDataSourceRequest,
   AddApplicationReferenceDataSourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3376,9 +3371,8 @@ export const addApplicationReferenceDataSource: (
  * - When a VPC is added to a Managed Service for Apache Flink application, the application can no longer be accessed from the
  * Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
  */
-export const addApplicationVpcConfiguration: (
-  input: AddApplicationVpcConfigurationRequest,
-) => effect.Effect<
+export const addApplicationVpcConfiguration: API.OperationMethod<
+  AddApplicationVpcConfigurationRequest,
   AddApplicationVpcConfigurationResponse,
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -3403,9 +3397,8 @@ export const addApplicationVpcConfiguration: (
  * Managed Service for Apache Flink application, see Creating an
  * Application.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -3447,9 +3440,8 @@ export const createApplication: (
  * to be valid.
  * If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error.
  */
-export const createApplicationPresignedUrl: (
-  input: CreateApplicationPresignedUrlRequest,
-) => effect.Effect<
+export const createApplicationPresignedUrl: API.OperationMethod<
+  CreateApplicationPresignedUrlRequest,
   CreateApplicationPresignedUrlResponse,
   | InvalidArgumentException
   | ResourceInUseException
@@ -3468,9 +3460,8 @@ export const createApplicationPresignedUrl: (
 /**
  * Creates a snapshot of the application's state data.
  */
-export const createApplicationSnapshot: (
-  input: CreateApplicationSnapshotRequest,
-) => effect.Effect<
+export const createApplicationSnapshot: API.OperationMethod<
+  CreateApplicationSnapshotRequest,
   CreateApplicationSnapshotResponse,
   | InvalidApplicationConfigurationException
   | InvalidArgumentException
@@ -3497,9 +3488,8 @@ export const createApplicationSnapshot: (
 /**
  * Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -3524,9 +3514,8 @@ export const deleteApplication: (
 /**
  * Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
  */
-export const deleteApplicationCloudWatchLoggingOption: (
-  input: DeleteApplicationCloudWatchLoggingOptionRequest,
-) => effect.Effect<
+export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
+  DeleteApplicationCloudWatchLoggingOptionRequest,
   DeleteApplicationCloudWatchLoggingOptionResponse,
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -3551,9 +3540,8 @@ export const deleteApplicationCloudWatchLoggingOption: (
 /**
  * Deletes an InputProcessingConfiguration from an input.
  */
-export const deleteApplicationInputProcessingConfiguration: (
-  input: DeleteApplicationInputProcessingConfigurationRequest,
-) => effect.Effect<
+export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
+  DeleteApplicationInputProcessingConfigurationRequest,
   DeleteApplicationInputProcessingConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3578,9 +3566,8 @@ export const deleteApplicationInputProcessingConfiguration: (
  * Kinesis Data Analytics will no longer write data from
  * the corresponding in-application stream to the external output destination.
  */
-export const deleteApplicationOutput: (
-  input: DeleteApplicationOutputRequest,
-) => effect.Effect<
+export const deleteApplicationOutput: API.OperationMethod<
+  DeleteApplicationOutputRequest,
   DeleteApplicationOutputResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3606,9 +3593,8 @@ export const deleteApplicationOutput: (
  * If the application is running, Kinesis Data Analytics immediately removes the in-application table
  * that you created using the AddApplicationReferenceDataSource operation.
  */
-export const deleteApplicationReferenceDataSource: (
-  input: DeleteApplicationReferenceDataSourceRequest,
-) => effect.Effect<
+export const deleteApplicationReferenceDataSource: API.OperationMethod<
+  DeleteApplicationReferenceDataSourceRequest,
   DeleteApplicationReferenceDataSourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3631,9 +3617,8 @@ export const deleteApplicationReferenceDataSource: (
 /**
  * Deletes a snapshot of application state.
  */
-export const deleteApplicationSnapshot: (
-  input: DeleteApplicationSnapshotRequest,
-) => effect.Effect<
+export const deleteApplicationSnapshot: API.OperationMethod<
+  DeleteApplicationSnapshotRequest,
   DeleteApplicationSnapshotResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -3658,9 +3643,8 @@ export const deleteApplicationSnapshot: (
 /**
  * Removes a VPC configuration from a Managed Service for Apache Flink application.
  */
-export const deleteApplicationVpcConfiguration: (
-  input: DeleteApplicationVpcConfigurationRequest,
-) => effect.Effect<
+export const deleteApplicationVpcConfiguration: API.OperationMethod<
+  DeleteApplicationVpcConfigurationRequest,
   DeleteApplicationVpcConfigurationResponse,
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -3686,9 +3670,8 @@ export const deleteApplicationVpcConfiguration: (
  * If you want to retrieve a list of all applications in your account,
  * use the ListApplications operation.
  */
-export const describeApplication: (
-  input: DescribeApplicationRequest,
-) => effect.Effect<
+export const describeApplication: API.OperationMethod<
+  DescribeApplicationRequest,
   DescribeApplicationResponse,
   | InvalidArgumentException
   | InvalidRequestException
@@ -3709,9 +3692,8 @@ export const describeApplication: (
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const describeApplicationOperation: (
-  input: DescribeApplicationOperationRequest,
-) => effect.Effect<
+export const describeApplicationOperation: API.OperationMethod<
+  DescribeApplicationOperationRequest,
   DescribeApplicationOperationResponse,
   | InvalidArgumentException
   | ResourceNotFoundException
@@ -3730,9 +3712,8 @@ export const describeApplicationOperation: (
 /**
  * Returns information about a snapshot of application state data.
  */
-export const describeApplicationSnapshot: (
-  input: DescribeApplicationSnapshotRequest,
-) => effect.Effect<
+export const describeApplicationSnapshot: API.OperationMethod<
+  DescribeApplicationSnapshotRequest,
   DescribeApplicationSnapshotResponse,
   | InvalidArgumentException
   | ResourceNotFoundException
@@ -3753,9 +3734,8 @@ export const describeApplicationSnapshot: (
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const describeApplicationVersion: (
-  input: DescribeApplicationVersionRequest,
-) => effect.Effect<
+export const describeApplicationVersion: API.OperationMethod<
+  DescribeApplicationVersionRequest,
   DescribeApplicationVersionResponse,
   | InvalidArgumentException
   | ResourceNotFoundException
@@ -3781,9 +3761,8 @@ export const describeApplicationVersion: (
  * When you create an application using the Kinesis Data Analytics console, the console uses this
  * operation to infer a schema and show it in the console user interface.
  */
-export const discoverInputSchema: (
-  input: DiscoverInputSchemaRequest,
-) => effect.Effect<
+export const discoverInputSchema: API.OperationMethod<
+  DiscoverInputSchemaRequest,
   DiscoverInputSchemaResponse,
   | InvalidArgumentException
   | InvalidRequestException
@@ -3813,17 +3792,15 @@ export const discoverInputSchema: (
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const listApplicationOperations: {
-  (
-    input: ListApplicationOperationsRequest,
-  ): effect.Effect<
-    ListApplicationOperationsResponse,
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationOperations: API.OperationMethod<
+  ListApplicationOperationsRequest,
+  ListApplicationOperationsResponse,
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationOperationsRequest,
   ) => stream.Stream<
@@ -3867,14 +3844,12 @@ export const listApplicationOperations: {
  * If you want detailed information about a specific application, use
  * DescribeApplication.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -3903,14 +3878,12 @@ export const listApplications: {
 /**
  * Lists information about the current application snapshots.
  */
-export const listApplicationSnapshots: {
-  (
-    input: ListApplicationSnapshotsRequest,
-  ): effect.Effect<
-    ListApplicationSnapshotsResponse,
-    InvalidArgumentException | UnsupportedOperationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationSnapshots: API.OperationMethod<
+  ListApplicationSnapshotsRequest,
+  ListApplicationSnapshotsResponse,
+  InvalidArgumentException | UnsupportedOperationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationSnapshotsRequest,
   ) => stream.Stream<
@@ -3944,17 +3917,15 @@ export const listApplicationSnapshots: {
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const listApplicationVersions: {
-  (
-    input: ListApplicationVersionsRequest,
-  ): effect.Effect<
-    ListApplicationVersionsResponse,
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationVersions: API.OperationMethod<
+  ListApplicationVersionsRequest,
+  ListApplicationVersionsResponse,
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
@@ -3994,9 +3965,8 @@ export const listApplicationVersions: {
  * Retrieves the list of key-value tags assigned to the application. For more information, see
  * Using Tagging.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -4022,9 +3992,8 @@ export const listTagsForResource: (
  * When you rollback an application, it loads state data from the last successful snapshot.
  * If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
  */
-export const rollbackApplication: (
-  input: RollbackApplicationRequest,
-) => effect.Effect<
+export const rollbackApplication: API.OperationMethod<
+  RollbackApplicationRequest,
   RollbackApplicationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -4050,9 +4019,8 @@ export const rollbackApplication: (
  * Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to
  * start your application.
  */
-export const startApplication: (
-  input: StartApplicationRequest,
-) => effect.Effect<
+export const startApplication: API.OperationMethod<
+  StartApplicationRequest,
   StartApplicationResponse,
   | InvalidApplicationConfigurationException
   | InvalidArgumentException
@@ -4082,9 +4050,8 @@ export const startApplication: (
  * Managed Service for Apache Flink takes a snapshot when the application is stopped, unless `Force` is set
  * to `true`.
  */
-export const stopApplication: (
-  input: StopApplicationRequest,
-) => effect.Effect<
+export const stopApplication: API.OperationMethod<
+  StopApplicationRequest,
   StopApplicationResponse,
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -4111,9 +4078,8 @@ export const stopApplication: (
  * tags includes system tags. The maximum number of user-defined application tags is 50.
  * For more information, see Using Tagging.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -4137,9 +4103,8 @@ export const tagResource: (
  * Removes one or more tags from a Managed Service for Apache Flink application. For more information, see
  * Using Tagging.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -4166,9 +4131,8 @@ export const untagResource: (
  * Managed Service for Apache Flink updates the `ApplicationVersionId` each time you update
  * your application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -4214,9 +4178,8 @@ export const updateApplication: (
  *
  * This operation is supported only for Managed Service for Apache Flink.
  */
-export const updateApplicationMaintenanceConfiguration: (
-  input: UpdateApplicationMaintenanceConfigurationRequest,
-) => effect.Effect<
+export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
+  UpdateApplicationMaintenanceConfigurationRequest,
   UpdateApplicationMaintenanceConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException

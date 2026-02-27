@@ -1473,9 +1473,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * A list of tags applied to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1487,9 +1486,8 @@ export const listTagsForResource: (
 /**
  * Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1501,9 +1499,8 @@ export const tagResource: (
 /**
  * Removes the tag from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1515,9 +1512,8 @@ export const untagResource: (
 /**
  * Creates a new Timestream for InfluxDB cluster.
  */
-export const createDbCluster: (
-  input: CreateDbClusterInput,
-) => effect.Effect<
+export const createDbCluster: API.OperationMethod<
+  CreateDbClusterInput,
   CreateDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1544,9 +1540,8 @@ export const createDbCluster: (
 /**
  * Retrieves information about a Timestream for InfluxDB cluster.
  */
-export const getDbCluster: (
-  input: GetDbClusterInput,
-) => effect.Effect<
+export const getDbCluster: API.OperationMethod<
+  GetDbClusterInput,
   GetDbClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1569,9 +1564,8 @@ export const getDbCluster: (
 /**
  * Updates a Timestream for InfluxDB cluster.
  */
-export const updateDbCluster: (
-  input: UpdateDbClusterInput,
-) => effect.Effect<
+export const updateDbCluster: API.OperationMethod<
+  UpdateDbClusterInput,
   UpdateDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1596,9 +1590,8 @@ export const updateDbCluster: (
 /**
  * Deletes a Timestream for InfluxDB cluster.
  */
-export const deleteDbCluster: (
-  input: DeleteDbClusterInput,
-) => effect.Effect<
+export const deleteDbCluster: API.OperationMethod<
+  DeleteDbClusterInput,
   DeleteDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1623,19 +1616,17 @@ export const deleteDbCluster: (
 /**
  * Returns a list of Timestream for InfluxDB DB clusters.
  */
-export const listDbClusters: {
-  (
-    input: ListDbClustersInput,
-  ): effect.Effect<
-    ListDbClustersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbClusters: API.OperationMethod<
+  ListDbClustersInput,
+  ListDbClustersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbClustersInput,
   ) => stream.Stream<
@@ -1680,19 +1671,17 @@ export const listDbClusters: {
 /**
  * Returns a list of Timestream for InfluxDB clusters.
  */
-export const listDbInstancesForCluster: {
-  (
-    input: ListDbInstancesForClusterInput,
-  ): effect.Effect<
-    ListDbInstancesForClusterOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbInstancesForCluster: API.OperationMethod<
+  ListDbInstancesForClusterInput,
+  ListDbInstancesForClusterOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbInstancesForClusterInput,
   ) => stream.Stream<
@@ -1737,9 +1726,8 @@ export const listDbInstancesForCluster: {
 /**
  * Reboots a Timestream for InfluxDB cluster.
  */
-export const rebootDbCluster: (
-  input: RebootDbClusterInput,
-) => effect.Effect<
+export const rebootDbCluster: API.OperationMethod<
+  RebootDbClusterInput,
   RebootDbClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1764,9 +1752,8 @@ export const rebootDbCluster: (
 /**
  * Creates a new Timestream for InfluxDB DB instance.
  */
-export const createDbInstance: (
-  input: CreateDbInstanceInput,
-) => effect.Effect<
+export const createDbInstance: API.OperationMethod<
+  CreateDbInstanceInput,
   CreateDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1793,9 +1780,8 @@ export const createDbInstance: (
 /**
  * Returns a Timestream for InfluxDB DB instance.
  */
-export const getDbInstance: (
-  input: GetDbInstanceInput,
-) => effect.Effect<
+export const getDbInstance: API.OperationMethod<
+  GetDbInstanceInput,
   GetDbInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1818,9 +1804,8 @@ export const getDbInstance: (
 /**
  * Updates a Timestream for InfluxDB DB instance.
  */
-export const updateDbInstance: (
-  input: UpdateDbInstanceInput,
-) => effect.Effect<
+export const updateDbInstance: API.OperationMethod<
+  UpdateDbInstanceInput,
   UpdateDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1845,9 +1830,8 @@ export const updateDbInstance: (
 /**
  * Deletes a Timestream for InfluxDB DB instance.
  */
-export const deleteDbInstance: (
-  input: DeleteDbInstanceInput,
-) => effect.Effect<
+export const deleteDbInstance: API.OperationMethod<
+  DeleteDbInstanceInput,
   DeleteDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1872,19 +1856,17 @@ export const deleteDbInstance: (
 /**
  * Returns a list of Timestream for InfluxDB DB instances.
  */
-export const listDbInstances: {
-  (
-    input: ListDbInstancesInput,
-  ): effect.Effect<
-    ListDbInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbInstances: API.OperationMethod<
+  ListDbInstancesInput,
+  ListDbInstancesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbInstancesInput,
   ) => stream.Stream<
@@ -1929,9 +1911,8 @@ export const listDbInstances: {
 /**
  * Reboots a Timestream for InfluxDB instance.
  */
-export const rebootDbInstance: (
-  input: RebootDbInstanceInput,
-) => effect.Effect<
+export const rebootDbInstance: API.OperationMethod<
+  RebootDbInstanceInput,
   RebootDbInstanceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1956,9 +1937,8 @@ export const rebootDbInstance: (
 /**
  * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
  */
-export const createDbParameterGroup: (
-  input: CreateDbParameterGroupInput,
-) => effect.Effect<
+export const createDbParameterGroup: API.OperationMethod<
+  CreateDbParameterGroupInput,
   CreateDbParameterGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -1985,9 +1965,8 @@ export const createDbParameterGroup: (
 /**
  * Returns a Timestream for InfluxDB DB parameter group.
  */
-export const getDbParameterGroup: (
-  input: GetDbParameterGroupInput,
-) => effect.Effect<
+export const getDbParameterGroup: API.OperationMethod<
+  GetDbParameterGroupInput,
   GetDbParameterGroupOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2010,19 +1989,17 @@ export const getDbParameterGroup: (
 /**
  * Returns a list of Timestream for InfluxDB DB parameter groups.
  */
-export const listDbParameterGroups: {
-  (
-    input: ListDbParameterGroupsInput,
-  ): effect.Effect<
-    ListDbParameterGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDbParameterGroups: API.OperationMethod<
+  ListDbParameterGroupsInput,
+  ListDbParameterGroupsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDbParameterGroupsInput,
   ) => stream.Stream<

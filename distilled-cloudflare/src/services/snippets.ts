@@ -43,9 +43,8 @@ export type GetContentResponse = unknown;
 export const GetContentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetContentResponse>;
 
-export const getContent: (
-  input: GetContentRequest,
-) => Effect.Effect<
+export const getContent: API.OperationMethod<
+  GetContentRequest,
   GetContentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -89,15 +88,18 @@ export const ListRulesResponse = Schema.Array(
     enabled: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      expression: "expression",
       lastUpdated: "last_updated",
       snippetName: "snippet_name",
+      description: "description",
+      enabled: "enabled",
     }),
   ),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
-export const listRules: (
-  input: ListRulesRequest,
-) => Effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -127,7 +129,14 @@ export const UpdateRuleRequest = Schema.Struct({
       snippetName: Schema.String,
       description: Schema.optional(Schema.String),
       enabled: Schema.optional(Schema.Boolean),
-    }).pipe(Schema.encodeKeys({ snippetName: "snippet_name" })),
+    }).pipe(
+      Schema.encodeKeys({
+        expression: "expression",
+        snippetName: "snippet_name",
+        description: "description",
+        enabled: "enabled",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/snippets/snippet_rules" }),
@@ -152,15 +161,18 @@ export const UpdateRuleResponse = Schema.Array(
     enabled: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      expression: "expression",
       lastUpdated: "last_updated",
       snippetName: "snippet_name",
+      description: "description",
+      enabled: "enabled",
     }),
   ),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => Effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -200,15 +212,18 @@ export const DeleteRuleResponse = Schema.Array(
     enabled: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      expression: "expression",
       lastUpdated: "last_updated",
       snippetName: "snippet_name",
+      description: "description",
+      enabled: "enabled",
     }),
   ),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => Effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -256,9 +271,8 @@ export const GetSnippetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSnippetResponse>;
 
-export const getSnippet: (
-  input: GetSnippetRequest,
-) => Effect.Effect<
+export const getSnippet: API.OperationMethod<
+  GetSnippetRequest,
   GetSnippetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -299,9 +313,8 @@ export const ListSnippetsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSnippetsResponse>;
 
-export const listSnippets: (
-  input: ListSnippetsRequest,
-) => Effect.Effect<
+export const listSnippets: API.OperationMethod<
+  ListSnippetsRequest,
   ListSnippetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -350,9 +363,8 @@ export const PutSnippetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSnippetResponse>;
 
-export const putSnippet: (
-  input: PutSnippetRequest,
-) => Effect.Effect<
+export const putSnippet: API.OperationMethod<
+  PutSnippetRequest,
   PutSnippetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -382,9 +394,8 @@ export const DeleteSnippetResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<DeleteSnippetResponse>;
 
-export const deleteSnippet: (
-  input: DeleteSnippetRequest,
-) => Effect.Effect<
+export const deleteSnippet: API.OperationMethod<
+  DeleteSnippetRequest,
   DeleteSnippetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

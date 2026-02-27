@@ -161,9 +161,8 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
  *
  * - It has a session lifetime of one hour. The 5-minute validity period runs separately from the session lifetime.
  */
-export const getBuyerDashboard: (
-  input: GetBuyerDashboardInput,
-) => effect.Effect<
+export const getBuyerDashboard: API.OperationMethod<
+  GetBuyerDashboardInput,
   GetBuyerDashboardOutput,
   | AccessDeniedException
   | BadRequestException

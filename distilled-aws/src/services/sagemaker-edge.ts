@@ -348,9 +348,8 @@ export class InternalServiceException extends S.TaggedErrorClass<InternalService
 /**
  * Use to get the active deployments from a device.
  */
-export const getDeployments: (
-  input: GetDeploymentsRequest,
-) => effect.Effect<
+export const getDeployments: API.OperationMethod<
+  GetDeploymentsRequest,
   GetDeploymentsResult,
   InternalServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -362,9 +361,8 @@ export const getDeployments: (
 /**
  * Use to check if a device is registered with SageMaker Edge Manager.
  */
-export const getDeviceRegistration: (
-  input: GetDeviceRegistrationRequest,
-) => effect.Effect<
+export const getDeviceRegistration: API.OperationMethod<
+  GetDeviceRegistrationRequest,
   GetDeviceRegistrationResult,
   InternalServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -376,9 +374,8 @@ export const getDeviceRegistration: (
 /**
  * Use to get the current status of devices registered on SageMaker Edge Manager.
  */
-export const sendHeartbeat: (
-  input: SendHeartbeatRequest,
-) => effect.Effect<
+export const sendHeartbeat: API.OperationMethod<
+  SendHeartbeatRequest,
   SendHeartbeatResponse,
   InternalServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

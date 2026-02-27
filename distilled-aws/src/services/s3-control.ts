@@ -7467,9 +7467,8 @@ export class JobStatusException extends S.TaggedErrorClass<JobStatusException>()
  *
  * You must also have the following permissions: `sso:CreateApplication`, `sso:PutApplicationGrant`, and `sso:PutApplicationAuthenticationMethod`.
  */
-export const associateAccessGrantsIdentityCenter: (
-  input: AssociateAccessGrantsIdentityCenterRequest,
-) => effect.Effect<
+export const associateAccessGrantsIdentityCenter: API.OperationMethod<
+  AssociateAccessGrantsIdentityCenterRequest,
   AssociateAccessGrantsIdentityCenterResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7493,9 +7492,8 @@ export const associateAccessGrantsIdentityCenter: (
  *
  * For directory groups - `identitystore:DescribeGroup`
  */
-export const createAccessGrant: (
-  input: CreateAccessGrantRequest,
-) => effect.Effect<
+export const createAccessGrant: API.OperationMethod<
+  CreateAccessGrantRequest,
   CreateAccessGrantResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7515,9 +7513,8 @@ export const createAccessGrant: (
  *
  * To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the `sso:DescribeInstance`, `sso:CreateApplication`, `sso:PutApplicationGrant`, and `sso:PutApplicationAuthenticationMethod` permissions.
  */
-export const createAccessGrantsInstance: (
-  input: CreateAccessGrantsInstanceRequest,
-) => effect.Effect<
+export const createAccessGrantsInstance: API.OperationMethod<
+  CreateAccessGrantsInstanceRequest,
   CreateAccessGrantsInstanceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7545,9 +7542,8 @@ export const createAccessGrantsInstance: (
  *
  * You must also have the following permission for the specified IAM role: `iam:PassRole`
  */
-export const createAccessGrantsLocation: (
-  input: CreateAccessGrantsLocationRequest,
-) => effect.Effect<
+export const createAccessGrantsLocation: API.OperationMethod<
+  CreateAccessGrantsLocationRequest,
   CreateAccessGrantsLocationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7584,9 +7580,8 @@ export const createAccessGrantsLocation: (
  *
  * - ListAccessPointsForDirectoryBuckets
  */
-export const createAccessPoint: (
-  input: CreateAccessPointRequest,
-) => effect.Effect<
+export const createAccessPoint: API.OperationMethod<
+  CreateAccessPointRequest,
   CreateAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7610,9 +7605,8 @@ export const createAccessPoint: (
  *
  * - ListAccessPointsForObjectLambda
  */
-export const createAccessPointForObjectLambda: (
-  input: CreateAccessPointForObjectLambdaRequest,
-) => effect.Effect<
+export const createAccessPointForObjectLambda: API.OperationMethod<
+  CreateAccessPointForObjectLambdaRequest,
   CreateAccessPointForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7660,9 +7654,8 @@ export const createAccessPointForObjectLambda: (
  *
  * - PutAccessPointPolicy
  */
-export const createBucket: (
-  input: CreateBucketRequest,
-) => effect.Effect<
+export const createBucket: API.OperationMethod<
+  CreateBucketRequest,
   CreateBucketResult,
   BucketAlreadyExists | BucketAlreadyOwnedByYou | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7695,9 +7688,8 @@ export const createBucket: (
  *
  * - JobOperation
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResult,
   | BadRequestException
   | IdempotencyException
@@ -7740,9 +7732,8 @@ export const createJob: (
  *
  * - ListMultiRegionAccessPoints
  */
-export const createMultiRegionAccessPoint: (
-  input: CreateMultiRegionAccessPointRequest,
-) => effect.Effect<
+export const createMultiRegionAccessPoint: API.OperationMethod<
+  CreateMultiRegionAccessPointRequest,
   CreateMultiRegionAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7768,9 +7759,8 @@ export const createMultiRegionAccessPoint: (
  * For information about Storage Lens groups errors, see List of Amazon S3 Storage
  * Lens error codes.
  */
-export const createStorageLensGroup: (
-  input: CreateStorageLensGroupRequest,
-) => effect.Effect<
+export const createStorageLensGroup: API.OperationMethod<
+  CreateStorageLensGroupRequest,
   CreateStorageLensGroupResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7786,9 +7776,8 @@ export const createStorageLensGroup: (
  *
  * You must have the `s3:DeleteAccessGrant` permission to use this operation.
  */
-export const deleteAccessGrant: (
-  input: DeleteAccessGrantRequest,
-) => effect.Effect<
+export const deleteAccessGrant: API.OperationMethod<
+  DeleteAccessGrantRequest,
   DeleteAccessGrantResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7804,9 +7793,8 @@ export const deleteAccessGrant: (
  *
  * You must have the `s3:DeleteAccessGrantsInstance` permission to use this operation.
  */
-export const deleteAccessGrantsInstance: (
-  input: DeleteAccessGrantsInstanceRequest,
-) => effect.Effect<
+export const deleteAccessGrantsInstance: API.OperationMethod<
+  DeleteAccessGrantsInstanceRequest,
   DeleteAccessGrantsInstanceResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7822,9 +7810,8 @@ export const deleteAccessGrantsInstance: (
  *
  * You must have the `s3:DeleteAccessGrantsInstanceResourcePolicy` permission to use this operation.
  */
-export const deleteAccessGrantsInstanceResourcePolicy: (
-  input: DeleteAccessGrantsInstanceResourcePolicyRequest,
-) => effect.Effect<
+export const deleteAccessGrantsInstanceResourcePolicy: API.OperationMethod<
+  DeleteAccessGrantsInstanceResourcePolicyRequest,
   DeleteAccessGrantsInstanceResourcePolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7840,9 +7827,8 @@ export const deleteAccessGrantsInstanceResourcePolicy: (
  *
  * You must have the `s3:DeleteAccessGrantsLocation` permission to use this operation.
  */
-export const deleteAccessGrantsLocation: (
-  input: DeleteAccessGrantsLocationRequest,
-) => effect.Effect<
+export const deleteAccessGrantsLocation: API.OperationMethod<
+  DeleteAccessGrantsLocationRequest,
   DeleteAccessGrantsLocationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7864,9 +7850,8 @@ export const deleteAccessGrantsLocation: (
  *
  * - ListAccessPoints
  */
-export const deleteAccessPoint: (
-  input: DeleteAccessPointRequest,
-) => effect.Effect<
+export const deleteAccessPoint: API.OperationMethod<
+  DeleteAccessPointRequest,
   DeleteAccessPointResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7889,9 +7874,8 @@ export const deleteAccessPoint: (
  *
  * - ListAccessPointsForObjectLambda
  */
-export const deleteAccessPointForObjectLambda: (
-  input: DeleteAccessPointForObjectLambdaRequest,
-) => effect.Effect<
+export const deleteAccessPointForObjectLambda: API.OperationMethod<
+  DeleteAccessPointForObjectLambdaRequest,
   DeleteAccessPointForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7911,9 +7895,8 @@ export const deleteAccessPointForObjectLambda: (
  *
  * - GetAccessPointPolicy
  */
-export const deleteAccessPointPolicy: (
-  input: DeleteAccessPointPolicyRequest,
-) => effect.Effect<
+export const deleteAccessPointPolicy: API.OperationMethod<
+  DeleteAccessPointPolicyRequest,
   DeleteAccessPointPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7934,9 +7917,8 @@ export const deleteAccessPointPolicy: (
  *
  * - PutAccessPointPolicyForObjectLambda
  */
-export const deleteAccessPointPolicyForObjectLambda: (
-  input: DeleteAccessPointPolicyForObjectLambdaRequest,
-) => effect.Effect<
+export const deleteAccessPointPolicyForObjectLambda: API.OperationMethod<
+  DeleteAccessPointPolicyForObjectLambdaRequest,
   DeleteAccessPointPolicyForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7955,9 +7937,8 @@ export const deleteAccessPointPolicyForObjectLambda: (
  *
  * For information about REST API errors, see REST error responses.
  */
-export const deleteAccessPointScope: (
-  input: DeleteAccessPointScopeRequest,
-) => effect.Effect<
+export const deleteAccessPointScope: API.OperationMethod<
+  DeleteAccessPointScopeRequest,
   DeleteAccessPointScopeResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -7984,9 +7965,8 @@ export const deleteAccessPointScope: (
  *
  * - DeleteObject
  */
-export const deleteBucket: (
-  input: DeleteBucketRequest,
-) => effect.Effect<
+export const deleteBucket: API.OperationMethod<
+  DeleteBucketRequest,
   DeleteBucketResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8021,9 +8001,8 @@ export const deleteBucket: (
  *
  * - GetBucketLifecycleConfiguration
  */
-export const deleteBucketLifecycleConfiguration: (
-  input: DeleteBucketLifecycleConfigurationRequest,
-) => effect.Effect<
+export const deleteBucketLifecycleConfiguration: API.OperationMethod<
+  DeleteBucketLifecycleConfigurationRequest,
   DeleteBucketLifecycleConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8064,9 +8043,8 @@ export const deleteBucketLifecycleConfiguration: (
  *
  * - PutBucketPolicy
  */
-export const deleteBucketPolicy: (
-  input: DeleteBucketPolicyRequest,
-) => effect.Effect<
+export const deleteBucketPolicy: API.OperationMethod<
+  DeleteBucketPolicyRequest,
   DeleteBucketPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8106,9 +8084,8 @@ export const deleteBucketPolicy: (
  *
  * - GetBucketReplication
  */
-export const deleteBucketReplication: (
-  input: DeleteBucketReplicationRequest,
-) => effect.Effect<
+export const deleteBucketReplication: API.OperationMethod<
+  DeleteBucketReplicationRequest,
   DeleteBucketReplicationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8136,9 +8113,8 @@ export const deleteBucketReplication: (
  *
  * - PutBucketTagging
  */
-export const deleteBucketTagging: (
-  input: DeleteBucketTaggingRequest,
-) => effect.Effect<
+export const deleteBucketTagging: API.OperationMethod<
+  DeleteBucketTaggingRequest,
   DeleteBucketTaggingResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8166,9 +8142,8 @@ export const deleteBucketTagging: (
  *
  * - PutJobTagging
  */
-export const deleteJobTagging: (
-  input: DeleteJobTaggingRequest,
-) => effect.Effect<
+export const deleteJobTagging: API.OperationMethod<
+  DeleteJobTaggingRequest,
   DeleteJobTaggingResult,
   | InternalServiceException
   | NotFoundException
@@ -8209,9 +8184,8 @@ export const deleteJobTagging: (
  *
  * - ListMultiRegionAccessPoints
  */
-export const deleteMultiRegionAccessPoint: (
-  input: DeleteMultiRegionAccessPointRequest,
-) => effect.Effect<
+export const deleteMultiRegionAccessPoint: API.OperationMethod<
+  DeleteMultiRegionAccessPointRequest,
   DeleteMultiRegionAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8237,9 +8211,8 @@ export const deleteMultiRegionAccessPoint: (
  *
  * - PutPublicAccessBlock
  */
-export const deletePublicAccessBlock: (
-  input: DeletePublicAccessBlockRequest,
-) => effect.Effect<
+export const deletePublicAccessBlock: API.OperationMethod<
+  DeletePublicAccessBlockRequest,
   DeletePublicAccessBlockResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8260,9 +8233,8 @@ export const deletePublicAccessBlock: (
  * Setting permissions to
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
-export const deleteStorageLensConfiguration: (
-  input: DeleteStorageLensConfigurationRequest,
-) => effect.Effect<
+export const deleteStorageLensConfiguration: API.OperationMethod<
+  DeleteStorageLensConfigurationRequest,
   DeleteStorageLensConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8284,9 +8256,8 @@ export const deleteStorageLensConfiguration: (
  * see Setting permissions to
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
-export const deleteStorageLensConfigurationTagging: (
-  input: DeleteStorageLensConfigurationTaggingRequest,
-) => effect.Effect<
+export const deleteStorageLensConfigurationTagging: API.OperationMethod<
+  DeleteStorageLensConfigurationTaggingRequest,
   DeleteStorageLensConfigurationTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8305,9 +8276,8 @@ export const deleteStorageLensConfigurationTagging: (
  * For information about Storage Lens groups errors, see List of Amazon S3 Storage
  * Lens error codes.
  */
-export const deleteStorageLensGroup: (
-  input: DeleteStorageLensGroupRequest,
-) => effect.Effect<
+export const deleteStorageLensGroup: API.OperationMethod<
+  DeleteStorageLensGroupRequest,
   DeleteStorageLensGroupResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8334,9 +8304,8 @@ export const deleteStorageLensGroup: (
  *
  * - UpdateJobStatus
  */
-export const describeJob: (
-  input: DescribeJobRequest,
-) => effect.Effect<
+export const describeJob: API.OperationMethod<
+  DescribeJobRequest,
   DescribeJobResult,
   | BadRequestException
   | InternalServiceException
@@ -8370,9 +8339,8 @@ export const describeJob: (
  *
  * - ListMultiRegionAccessPoints
  */
-export const describeMultiRegionAccessPointOperation: (
-  input: DescribeMultiRegionAccessPointOperationRequest,
-) => effect.Effect<
+export const describeMultiRegionAccessPointOperation: API.OperationMethod<
+  DescribeMultiRegionAccessPointOperationRequest,
   DescribeMultiRegionAccessPointOperationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8392,9 +8360,8 @@ export const describeMultiRegionAccessPointOperation: (
  *
  * You must have the `sso:DeleteApplication` permission to use this operation.
  */
-export const dissociateAccessGrantsIdentityCenter: (
-  input: DissociateAccessGrantsIdentityCenterRequest,
-) => effect.Effect<
+export const dissociateAccessGrantsIdentityCenter: API.OperationMethod<
+  DissociateAccessGrantsIdentityCenterRequest,
   DissociateAccessGrantsIdentityCenterResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8410,9 +8377,8 @@ export const dissociateAccessGrantsIdentityCenter: (
  *
  * You must have the `s3:GetAccessGrant` permission to use this operation.
  */
-export const getAccessGrant: (
-  input: GetAccessGrantRequest,
-) => effect.Effect<
+export const getAccessGrant: API.OperationMethod<
+  GetAccessGrantRequest,
   GetAccessGrantResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8430,9 +8396,8 @@ export const getAccessGrant: (
  *
  * `GetAccessGrantsInstance` is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
  */
-export const getAccessGrantsInstance: (
-  input: GetAccessGrantsInstanceRequest,
-) => effect.Effect<
+export const getAccessGrantsInstance: API.OperationMethod<
+  GetAccessGrantsInstanceRequest,
   GetAccessGrantsInstanceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8452,9 +8417,8 @@ export const getAccessGrantsInstance: (
  *
  * The prefix owner account must grant you the following permissions to their S3 Access Grants instance: `s3:GetAccessGrantsInstanceForPrefix`.
  */
-export const getAccessGrantsInstanceForPrefix: (
-  input: GetAccessGrantsInstanceForPrefixRequest,
-) => effect.Effect<
+export const getAccessGrantsInstanceForPrefix: API.OperationMethod<
+  GetAccessGrantsInstanceForPrefixRequest,
   GetAccessGrantsInstanceForPrefixResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8470,9 +8434,8 @@ export const getAccessGrantsInstanceForPrefix: (
  *
  * You must have the `s3:GetAccessGrantsInstanceResourcePolicy` permission to use this operation.
  */
-export const getAccessGrantsInstanceResourcePolicy: (
-  input: GetAccessGrantsInstanceResourcePolicyRequest,
-) => effect.Effect<
+export const getAccessGrantsInstanceResourcePolicy: API.OperationMethod<
+  GetAccessGrantsInstanceResourcePolicyRequest,
   GetAccessGrantsInstanceResourcePolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8488,9 +8451,8 @@ export const getAccessGrantsInstanceResourcePolicy: (
  *
  * You must have the `s3:GetAccessGrantsLocation` permission to use this operation.
  */
-export const getAccessGrantsLocation: (
-  input: GetAccessGrantsLocationRequest,
-) => effect.Effect<
+export const getAccessGrantsLocation: API.OperationMethod<
+  GetAccessGrantsLocationRequest,
   GetAccessGrantsLocationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8512,9 +8474,8 @@ export const getAccessGrantsLocation: (
  *
  * - ListAccessPoints
  */
-export const getAccessPoint: (
-  input: GetAccessPointRequest,
-) => effect.Effect<
+export const getAccessPoint: API.OperationMethod<
+  GetAccessPointRequest,
   GetAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8533,9 +8494,8 @@ export const getAccessPoint: (
  *
  * - PutAccessPointConfigurationForObjectLambda
  */
-export const getAccessPointConfigurationForObjectLambda: (
-  input: GetAccessPointConfigurationForObjectLambdaRequest,
-) => effect.Effect<
+export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
+  GetAccessPointConfigurationForObjectLambdaRequest,
   GetAccessPointConfigurationForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8557,9 +8517,8 @@ export const getAccessPointConfigurationForObjectLambda: (
  *
  * - ListAccessPointsForObjectLambda
  */
-export const getAccessPointForObjectLambda: (
-  input: GetAccessPointForObjectLambdaRequest,
-) => effect.Effect<
+export const getAccessPointForObjectLambda: API.OperationMethod<
+  GetAccessPointForObjectLambdaRequest,
   GetAccessPointForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8577,9 +8536,8 @@ export const getAccessPointForObjectLambda: (
  *
  * - DeleteAccessPointPolicy
  */
-export const getAccessPointPolicy: (
-  input: GetAccessPointPolicyRequest,
-) => effect.Effect<
+export const getAccessPointPolicy: API.OperationMethod<
+  GetAccessPointPolicyRequest,
   GetAccessPointPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8600,9 +8558,8 @@ export const getAccessPointPolicy: (
  *
  * - PutAccessPointPolicyForObjectLambda
  */
-export const getAccessPointPolicyForObjectLambda: (
-  input: GetAccessPointPolicyForObjectLambdaRequest,
-) => effect.Effect<
+export const getAccessPointPolicyForObjectLambda: API.OperationMethod<
+  GetAccessPointPolicyForObjectLambdaRequest,
   GetAccessPointPolicyForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8618,9 +8575,8 @@ export const getAccessPointPolicyForObjectLambda: (
  * For more information about public access through access points, see Managing Data Access with Amazon S3
  * access points in the *Amazon S3 User Guide*.
  */
-export const getAccessPointPolicyStatus: (
-  input: GetAccessPointPolicyStatusRequest,
-) => effect.Effect<
+export const getAccessPointPolicyStatus: API.OperationMethod<
+  GetAccessPointPolicyStatusRequest,
   GetAccessPointPolicyStatusResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8634,9 +8590,8 @@ export const getAccessPointPolicyStatus: (
  *
  * Returns the status of the resource policy associated with an Object Lambda Access Point.
  */
-export const getAccessPointPolicyStatusForObjectLambda: (
-  input: GetAccessPointPolicyStatusForObjectLambdaRequest,
-) => effect.Effect<
+export const getAccessPointPolicyStatusForObjectLambda: API.OperationMethod<
+  GetAccessPointPolicyStatusForObjectLambdaRequest,
   GetAccessPointPolicyStatusForObjectLambdaResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8653,9 +8608,8 @@ export const getAccessPointPolicyStatusForObjectLambda: (
  *
  * For information about REST API errors, see REST error responses.
  */
-export const getAccessPointScope: (
-  input: GetAccessPointScopeRequest,
-) => effect.Effect<
+export const getAccessPointScope: API.OperationMethod<
+  GetAccessPointScopeRequest,
   GetAccessPointScopeResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8688,9 +8642,8 @@ export const getAccessPointScope: (
  *
  * - DeleteBucket
  */
-export const getBucket: (
-  input: GetBucketRequest,
-) => effect.Effect<
+export const getBucket: API.OperationMethod<
+  GetBucketRequest,
   GetBucketResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8733,9 +8686,8 @@ export const getBucket: (
  *
  * - DeleteBucketLifecycleConfiguration
  */
-export const getBucketLifecycleConfiguration: (
-  input: GetBucketLifecycleConfigurationRequest,
-) => effect.Effect<
+export const getBucketLifecycleConfiguration: API.OperationMethod<
+  GetBucketLifecycleConfigurationRequest,
   GetBucketLifecycleConfigurationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8779,9 +8731,8 @@ export const getBucketLifecycleConfiguration: (
  *
  * - DeleteBucketPolicy
  */
-export const getBucketPolicy: (
-  input: GetBucketPolicyRequest,
-) => effect.Effect<
+export const getBucketPolicy: API.OperationMethod<
+  GetBucketPolicyRequest,
   GetBucketPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8829,9 +8780,8 @@ export const getBucketPolicy: (
  *
  * - DeleteBucketReplication
  */
-export const getBucketReplication: (
-  input: GetBucketReplicationRequest,
-) => effect.Effect<
+export const getBucketReplication: API.OperationMethod<
+  GetBucketReplicationRequest,
   GetBucketReplicationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8866,9 +8816,8 @@ export const getBucketReplication: (
  *
  * - DeleteBucketTagging
  */
-export const getBucketTagging: (
-  input: GetBucketTaggingRequest,
-) => effect.Effect<
+export const getBucketTagging: API.OperationMethod<
+  GetBucketTaggingRequest,
   GetBucketTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8909,9 +8858,8 @@ export const getBucketTagging: (
  *
  * - GetBucketLifecycleConfiguration
  */
-export const getBucketVersioning: (
-  input: GetBucketVersioningRequest,
-) => effect.Effect<
+export const getBucketVersioning: API.OperationMethod<
+  GetBucketVersioningRequest,
   GetBucketVersioningResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8931,9 +8879,8 @@ export const getBucketVersioning: (
  *
  * The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: `sts:AssumeRole`, for directory users or groups `sts:SetContext`, and for IAM users or roles `sts:SetSourceIdentity`.
  */
-export const getDataAccess: (
-  input: GetDataAccessRequest,
-) => effect.Effect<
+export const getDataAccess: API.OperationMethod<
+  GetDataAccessRequest,
   GetDataAccessResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -8961,9 +8908,8 @@ export const getDataAccess: (
  *
  * - DeleteJobTagging
  */
-export const getJobTagging: (
-  input: GetJobTaggingRequest,
-) => effect.Effect<
+export const getJobTagging: API.OperationMethod<
+  GetJobTaggingRequest,
   GetJobTaggingResult,
   | InternalServiceException
   | NotFoundException
@@ -8998,9 +8944,8 @@ export const getJobTagging: (
  *
  * - ListMultiRegionAccessPoints
  */
-export const getMultiRegionAccessPoint: (
-  input: GetMultiRegionAccessPointRequest,
-) => effect.Effect<
+export const getMultiRegionAccessPoint: API.OperationMethod<
+  GetMultiRegionAccessPointRequest,
   GetMultiRegionAccessPointResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9025,9 +8970,8 @@ export const getMultiRegionAccessPoint: (
  *
  * - PutMultiRegionAccessPointPolicy
  */
-export const getMultiRegionAccessPointPolicy: (
-  input: GetMultiRegionAccessPointPolicyRequest,
-) => effect.Effect<
+export const getMultiRegionAccessPointPolicy: API.OperationMethod<
+  GetMultiRegionAccessPointPolicyRequest,
   GetMultiRegionAccessPointPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9053,9 +8997,8 @@ export const getMultiRegionAccessPointPolicy: (
  *
  * - PutMultiRegionAccessPointPolicy
  */
-export const getMultiRegionAccessPointPolicyStatus: (
-  input: GetMultiRegionAccessPointPolicyStatusRequest,
-) => effect.Effect<
+export const getMultiRegionAccessPointPolicyStatus: API.OperationMethod<
+  GetMultiRegionAccessPointPolicyStatusRequest,
   GetMultiRegionAccessPointPolicyStatusResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9083,9 +9026,8 @@ export const getMultiRegionAccessPointPolicyStatus: (
  *
  * - `eu-west-1`
  */
-export const getMultiRegionAccessPointRoutes: (
-  input: GetMultiRegionAccessPointRoutesRequest,
-) => effect.Effect<
+export const getMultiRegionAccessPointRoutes: API.OperationMethod<
+  GetMultiRegionAccessPointRoutesRequest,
   GetMultiRegionAccessPointRoutesResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9108,9 +9050,8 @@ export const getMultiRegionAccessPointRoutes: (
  *
  * - PutPublicAccessBlock
  */
-export const getPublicAccessBlock: (
-  input: GetPublicAccessBlockRequest,
-) => effect.Effect<
+export const getPublicAccessBlock: API.OperationMethod<
+  GetPublicAccessBlockRequest,
   GetPublicAccessBlockOutput,
   NoSuchPublicAccessBlockConfiguration | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9130,9 +9071,8 @@ export const getPublicAccessBlock: (
  * `s3:GetStorageLensConfiguration` action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
  * *Amazon S3 User Guide*.
  */
-export const getStorageLensConfiguration: (
-  input: GetStorageLensConfigurationRequest,
-) => effect.Effect<
+export const getStorageLensConfiguration: API.OperationMethod<
+  GetStorageLensConfigurationRequest,
   GetStorageLensConfigurationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9154,9 +9094,8 @@ export const getStorageLensConfiguration: (
  * Setting permissions to
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
-export const getStorageLensConfigurationTagging: (
-  input: GetStorageLensConfigurationTaggingRequest,
-) => effect.Effect<
+export const getStorageLensConfigurationTagging: API.OperationMethod<
+  GetStorageLensConfigurationTaggingRequest,
   GetStorageLensConfigurationTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9175,9 +9114,8 @@ export const getStorageLensConfigurationTagging: (
  * For information about Storage Lens groups errors, see List of Amazon S3 Storage
  * Lens error codes.
  */
-export const getStorageLensGroup: (
-  input: GetStorageLensGroupRequest,
-) => effect.Effect<
+export const getStorageLensGroup: API.OperationMethod<
+  GetStorageLensGroupRequest,
   GetStorageLensGroupResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9193,14 +9131,12 @@ export const getStorageLensGroup: (
  *
  * You must have the `s3:ListAccessGrants` permission to use this operation.
  */
-export const listAccessGrants: {
-  (
-    input: ListAccessGrantsRequest,
-  ): effect.Effect<
-    ListAccessGrantsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessGrants: API.OperationMethod<
+  ListAccessGrantsRequest,
+  ListAccessGrantsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessGrantsRequest,
   ) => stream.Stream<
@@ -9232,14 +9168,12 @@ export const listAccessGrants: {
  *
  * You must have the `s3:ListAccessGrantsInstances` permission to use this operation.
  */
-export const listAccessGrantsInstances: {
-  (
-    input: ListAccessGrantsInstancesRequest,
-  ): effect.Effect<
-    ListAccessGrantsInstancesResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessGrantsInstances: API.OperationMethod<
+  ListAccessGrantsInstancesRequest,
+  ListAccessGrantsInstancesResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessGrantsInstancesRequest,
   ) => stream.Stream<
@@ -9271,14 +9205,12 @@ export const listAccessGrantsInstances: {
  *
  * You must have the `s3:ListAccessGrantsLocations` permission to use this operation.
  */
-export const listAccessGrantsLocations: {
-  (
-    input: ListAccessGrantsLocationsRequest,
-  ): effect.Effect<
-    ListAccessGrantsLocationsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessGrantsLocations: API.OperationMethod<
+  ListAccessGrantsLocationsRequest,
+  ListAccessGrantsLocationsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessGrantsLocationsRequest,
   ) => stream.Stream<
@@ -9324,14 +9256,12 @@ export const listAccessGrantsLocations: {
  *
  * - GetAccessPoint
  */
-export const listAccessPoints: {
-  (
-    input: ListAccessPointsRequest,
-  ): effect.Effect<
-    ListAccessPointsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessPoints: API.OperationMethod<
+  ListAccessPointsRequest,
+  ListAccessPointsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPointsRequest,
   ) => stream.Stream<
@@ -9366,14 +9296,12 @@ export const listAccessPoints: {
  *
  * For information about REST API errors, see REST error responses.
  */
-export const listAccessPointsForDirectoryBuckets: {
-  (
-    input: ListAccessPointsForDirectoryBucketsRequest,
-  ): effect.Effect<
-    ListAccessPointsForDirectoryBucketsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessPointsForDirectoryBuckets: API.OperationMethod<
+  ListAccessPointsForDirectoryBucketsRequest,
+  ListAccessPointsForDirectoryBucketsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPointsForDirectoryBucketsRequest,
   ) => stream.Stream<
@@ -9415,14 +9343,12 @@ export const listAccessPointsForDirectoryBuckets: {
  *
  * - GetAccessPointForObjectLambda
  */
-export const listAccessPointsForObjectLambda: {
-  (
-    input: ListAccessPointsForObjectLambdaRequest,
-  ): effect.Effect<
-    ListAccessPointsForObjectLambdaResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessPointsForObjectLambda: API.OperationMethod<
+  ListAccessPointsForObjectLambdaRequest,
+  ListAccessPointsForObjectLambdaResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPointsForObjectLambdaRequest,
   ) => stream.Stream<
@@ -9455,14 +9381,12 @@ export const listAccessPointsForObjectLambda: {
  *
  * You must have the `s3:ListCallerAccessGrants` permission to use this operation.
  */
-export const listCallerAccessGrants: {
-  (
-    input: ListCallerAccessGrantsRequest,
-  ): effect.Effect<
-    ListCallerAccessGrantsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listCallerAccessGrants: API.OperationMethod<
+  ListCallerAccessGrantsRequest,
+  ListCallerAccessGrantsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCallerAccessGrantsRequest,
   ) => stream.Stream<
@@ -9508,17 +9432,15 @@ export const listCallerAccessGrants: {
  *
  * - UpdateJobStatus
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResult,
-    | InternalServiceException
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResult,
+  | InternalServiceException
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -9574,14 +9496,12 @@ export const listJobs: {
  *
  * - GetMultiRegionAccessPoint
  */
-export const listMultiRegionAccessPoints: {
-  (
-    input: ListMultiRegionAccessPointsRequest,
-  ): effect.Effect<
-    ListMultiRegionAccessPointsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listMultiRegionAccessPoints: API.OperationMethod<
+  ListMultiRegionAccessPointsRequest,
+  ListMultiRegionAccessPointsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultiRegionAccessPointsRequest,
   ) => stream.Stream<
@@ -9616,14 +9536,12 @@ export const listMultiRegionAccessPoints: {
  * For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
  * endpoint hostname prefix and `x-amz-outpost-id` in your request, see the Examples section.
  */
-export const listRegionalBuckets: {
-  (
-    input: ListRegionalBucketsRequest,
-  ): effect.Effect<
-    ListRegionalBucketsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listRegionalBuckets: API.OperationMethod<
+  ListRegionalBucketsRequest,
+  ListRegionalBucketsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegionalBucketsRequest,
   ) => stream.Stream<
@@ -9661,14 +9579,12 @@ export const listRegionalBuckets: {
  * Setting permissions to
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
-export const listStorageLensConfigurations: {
-  (
-    input: ListStorageLensConfigurationsRequest,
-  ): effect.Effect<
-    ListStorageLensConfigurationsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listStorageLensConfigurations: API.OperationMethod<
+  ListStorageLensConfigurationsRequest,
+  ListStorageLensConfigurationsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStorageLensConfigurationsRequest,
   ) => stream.Stream<
@@ -9699,14 +9615,12 @@ export const listStorageLensConfigurations: {
  * For information about Storage Lens groups errors, see List of Amazon S3 Storage
  * Lens error codes.
  */
-export const listStorageLensGroups: {
-  (
-    input: ListStorageLensGroupsRequest,
-  ): effect.Effect<
-    ListStorageLensGroupsResult,
-    CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listStorageLensGroups: API.OperationMethod<
+  ListStorageLensGroupsRequest,
+  ListStorageLensGroupsResult,
+  CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStorageLensGroupsRequest,
   ) => stream.Stream<
@@ -9758,9 +9672,8 @@ export const listStorageLensGroups: {
  *
  * For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9776,9 +9689,8 @@ export const listTagsForResource: (
  *
  * You must have the `s3:PutAccessGrantsInstanceResourcePolicy` permission to use this operation.
  */
-export const putAccessGrantsInstanceResourcePolicy: (
-  input: PutAccessGrantsInstanceResourcePolicyRequest,
-) => effect.Effect<
+export const putAccessGrantsInstanceResourcePolicy: API.OperationMethod<
+  PutAccessGrantsInstanceResourcePolicyRequest,
   PutAccessGrantsInstanceResourcePolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9797,9 +9709,8 @@ export const putAccessGrantsInstanceResourcePolicy: (
  *
  * - GetAccessPointConfigurationForObjectLambda
  */
-export const putAccessPointConfigurationForObjectLambda: (
-  input: PutAccessPointConfigurationForObjectLambdaRequest,
-) => effect.Effect<
+export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
+  PutAccessPointConfigurationForObjectLambdaRequest,
   PutAccessPointConfigurationForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9821,9 +9732,8 @@ export const putAccessPointConfigurationForObjectLambda: (
  *
  * - DeleteAccessPointPolicy
  */
-export const putAccessPointPolicy: (
-  input: PutAccessPointPolicyRequest,
-) => effect.Effect<
+export const putAccessPointPolicy: API.OperationMethod<
+  PutAccessPointPolicyRequest,
   PutAccessPointPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9844,9 +9754,8 @@ export const putAccessPointPolicy: (
  *
  * - GetAccessPointPolicyForObjectLambda
  */
-export const putAccessPointPolicyForObjectLambda: (
-  input: PutAccessPointPolicyForObjectLambdaRequest,
-) => effect.Effect<
+export const putAccessPointPolicyForObjectLambda: API.OperationMethod<
+  PutAccessPointPolicyForObjectLambdaRequest,
   PutAccessPointPolicyForObjectLambdaResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9865,9 +9774,8 @@ export const putAccessPointPolicyForObjectLambda: (
  *
  * For information about REST API errors, see REST error responses.
  */
-export const putAccessPointScope: (
-  input: PutAccessPointScopeRequest,
-) => effect.Effect<
+export const putAccessPointScope: API.OperationMethod<
+  PutAccessPointScopeRequest,
   PutAccessPointScopeResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9894,9 +9802,8 @@ export const putAccessPointScope: (
  *
  * - DeleteBucketLifecycleConfiguration
  */
-export const putBucketLifecycleConfiguration: (
-  input: PutBucketLifecycleConfigurationRequest,
-) => effect.Effect<
+export const putBucketLifecycleConfiguration: API.OperationMethod<
+  PutBucketLifecycleConfigurationRequest,
   PutBucketLifecycleConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -9938,9 +9845,8 @@ export const putBucketLifecycleConfiguration: (
  *
  * - DeleteBucketPolicy
  */
-export const putBucketPolicy: (
-  input: PutBucketPolicyRequest,
-) => effect.Effect<
+export const putBucketPolicy: API.OperationMethod<
+  PutBucketPolicyRequest,
   PutBucketPolicyResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10024,9 +9930,8 @@ export const putBucketPolicy: (
  *
  * - DeleteBucketReplication
  */
-export const putBucketReplication: (
-  input: PutBucketReplicationRequest,
-) => effect.Effect<
+export const putBucketReplication: API.OperationMethod<
+  PutBucketReplicationRequest,
   PutBucketReplicationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10092,9 +9997,8 @@ export const putBucketReplication: (
  *
  * - DeleteBucketTagging
  */
-export const putBucketTagging: (
-  input: PutBucketTaggingRequest,
-) => effect.Effect<
+export const putBucketTagging: API.OperationMethod<
+  PutBucketTaggingRequest,
   PutBucketTaggingResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10155,9 +10059,8 @@ export const putBucketTagging: (
  *
  * - GetBucketLifecycleConfiguration
  */
-export const putBucketVersioning: (
-  input: PutBucketVersioningRequest,
-) => effect.Effect<
+export const putBucketVersioning: API.OperationMethod<
+  PutBucketVersioningRequest,
   PutBucketVersioningResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10212,9 +10115,8 @@ export const putBucketVersioning: (
  *
  * - DeleteJobTagging
  */
-export const putJobTagging: (
-  input: PutJobTaggingRequest,
-) => effect.Effect<
+export const putJobTagging: API.OperationMethod<
+  PutJobTaggingRequest,
   PutJobTaggingResult,
   | InternalServiceException
   | NotFoundException
@@ -10250,9 +10152,8 @@ export const putJobTagging: (
  *
  * - GetMultiRegionAccessPointPolicyStatus
  */
-export const putMultiRegionAccessPointPolicy: (
-  input: PutMultiRegionAccessPointPolicyRequest,
-) => effect.Effect<
+export const putMultiRegionAccessPointPolicy: API.OperationMethod<
+  PutMultiRegionAccessPointPolicyRequest,
   PutMultiRegionAccessPointPolicyResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10279,9 +10180,8 @@ export const putMultiRegionAccessPointPolicy: (
  *
  * - DeletePublicAccessBlock
  */
-export const putPublicAccessBlock: (
-  input: PutPublicAccessBlockRequest,
-) => effect.Effect<
+export const putPublicAccessBlock: API.OperationMethod<
+  PutPublicAccessBlockRequest,
   PutPublicAccessBlockResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10300,9 +10200,8 @@ export const putPublicAccessBlock: (
  * `s3:PutStorageLensConfiguration` action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
  * *Amazon S3 User Guide*.
  */
-export const putStorageLensConfiguration: (
-  input: PutStorageLensConfigurationRequest,
-) => effect.Effect<
+export const putStorageLensConfiguration: API.OperationMethod<
+  PutStorageLensConfigurationRequest,
   PutStorageLensConfigurationResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10323,9 +10222,8 @@ export const putStorageLensConfiguration: (
  * Setting permissions to
  * use Amazon S3 Storage Lens in the *Amazon S3 User Guide*.
  */
-export const putStorageLensConfigurationTagging: (
-  input: PutStorageLensConfigurationTaggingRequest,
-) => effect.Effect<
+export const putStorageLensConfigurationTagging: API.OperationMethod<
+  PutStorageLensConfigurationTaggingRequest,
   PutStorageLensConfigurationTaggingResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10365,9 +10263,8 @@ export const putStorageLensConfigurationTagging: (
  *
  * - `eu-west-1`
  */
-export const submitMultiRegionAccessPointRoutes: (
-  input: SubmitMultiRegionAccessPointRoutesRequest,
-) => effect.Effect<
+export const submitMultiRegionAccessPointRoutes: API.OperationMethod<
+  SubmitMultiRegionAccessPointRoutesRequest,
   SubmitMultiRegionAccessPointRoutesResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10407,9 +10304,8 @@ export const submitMultiRegionAccessPointRoutes: (
  *
  * For information about S3 Tagging errors, see List of Amazon S3 Tagging error codes.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10450,9 +10346,8 @@ export const tagResource: (
  * For information about S3 Tagging errors, see List of Amazon S3
  * Tagging error codes.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10472,9 +10367,8 @@ export const untagResource: (
  *
  * You must also have the following permission: `iam:PassRole`
  */
-export const updateAccessGrantsLocation: (
-  input: UpdateAccessGrantsLocationRequest,
-) => effect.Effect<
+export const updateAccessGrantsLocation: API.OperationMethod<
+  UpdateAccessGrantsLocationRequest,
   UpdateAccessGrantsLocationResult,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -10502,9 +10396,8 @@ export const updateAccessGrantsLocation: (
  *
  * - UpdateJobStatus
  */
-export const updateJobPriority: (
-  input: UpdateJobPriorityRequest,
-) => effect.Effect<
+export const updateJobPriority: API.OperationMethod<
+  UpdateJobPriorityRequest,
   UpdateJobPriorityResult,
   | BadRequestException
   | InternalServiceException
@@ -10542,9 +10435,8 @@ export const updateJobPriority: (
  *
  * - UpdateJobStatus
  */
-export const updateJobStatus: (
-  input: UpdateJobStatusRequest,
-) => effect.Effect<
+export const updateJobStatus: API.OperationMethod<
+  UpdateJobStatusRequest,
   UpdateJobStatusResult,
   | BadRequestException
   | InternalServiceException
@@ -10574,9 +10466,8 @@ export const updateJobStatus: (
  * For information about Storage Lens groups errors, see List of Amazon S3 Storage
  * Lens error codes.
  */
-export const updateStorageLensGroup: (
-  input: UpdateStorageLensGroupRequest,
-) => effect.Effect<
+export const updateStorageLensGroup: API.OperationMethod<
+  UpdateStorageLensGroupRequest,
   UpdateStorageLensGroupResponse,
   CommonErrors,
   Creds | Rgn | HttpClient.HttpClient

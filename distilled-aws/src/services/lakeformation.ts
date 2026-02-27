@@ -3089,9 +3089,8 @@ export class WorkUnitsNotReadyYetException extends S.TaggedErrorClass<WorkUnitsN
 /**
  * Attaches one or more LF-tags to an existing resource.
  */
-export const addLFTagsToResource: (
-  input: AddLFTagsToResourceRequest,
-) => effect.Effect<
+export const addLFTagsToResource: API.OperationMethod<
+  AddLFTagsToResourceRequest,
   AddLFTagsToResourceResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3131,9 +3130,8 @@ export const addLFTagsToResource: (
  *
  * - lakeformation:GetDataAccess
  */
-export const assumeDecoratedRoleWithSAML: (
-  input: AssumeDecoratedRoleWithSAMLRequest,
-) => effect.Effect<
+export const assumeDecoratedRoleWithSAML: API.OperationMethod<
+  AssumeDecoratedRoleWithSAMLRequest,
   AssumeDecoratedRoleWithSAMLResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3156,9 +3154,8 @@ export const assumeDecoratedRoleWithSAML: (
 /**
  * Batch operation to grant permissions to the principal.
  */
-export const batchGrantPermissions: (
-  input: BatchGrantPermissionsRequest,
-) => effect.Effect<
+export const batchGrantPermissions: API.OperationMethod<
+  BatchGrantPermissionsRequest,
   BatchGrantPermissionsResponse,
   InvalidInputException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3170,9 +3167,8 @@ export const batchGrantPermissions: (
 /**
  * Batch operation to revoke permissions from the principal.
  */
-export const batchRevokePermissions: (
-  input: BatchRevokePermissionsRequest,
-) => effect.Effect<
+export const batchRevokePermissions: API.OperationMethod<
+  BatchRevokePermissionsRequest,
   BatchRevokePermissionsResponse,
   InvalidInputException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3184,9 +3180,8 @@ export const batchRevokePermissions: (
 /**
  * Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
  */
-export const cancelTransaction: (
-  input: CancelTransactionRequest,
-) => effect.Effect<
+export const cancelTransaction: API.OperationMethod<
+  CancelTransactionRequest,
   CancelTransactionResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -3213,9 +3208,8 @@ export const cancelTransaction: (
 /**
  * Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
  */
-export const commitTransaction: (
-  input: CommitTransactionRequest,
-) => effect.Effect<
+export const commitTransaction: API.OperationMethod<
+  CommitTransactionRequest,
   CommitTransactionResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -3240,9 +3234,8 @@ export const commitTransaction: (
 /**
  * Creates a data cell filter to allow one to grant access to certain columns on certain rows.
  */
-export const createDataCellsFilter: (
-  input: CreateDataCellsFilterRequest,
-) => effect.Effect<
+export const createDataCellsFilter: API.OperationMethod<
+  CreateDataCellsFilterRequest,
   CreateDataCellsFilterResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -3269,9 +3262,8 @@ export const createDataCellsFilter: (
 /**
  * Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
  */
-export const createLakeFormationIdentityCenterConfiguration: (
-  input: CreateLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  CreateLakeFormationIdentityCenterConfigurationRequest,
   CreateLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -3296,9 +3288,8 @@ export const createLakeFormationIdentityCenterConfiguration: (
 /**
  * Enforce Lake Formation permissions for the given databases, tables, and principals.
  */
-export const createLakeFormationOptIn: (
-  input: CreateLakeFormationOptInRequest,
-) => effect.Effect<
+export const createLakeFormationOptIn: API.OperationMethod<
+  CreateLakeFormationOptInRequest,
   CreateLakeFormationOptInResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3325,9 +3316,8 @@ export const createLakeFormationOptIn: (
 /**
  * Creates an LF-tag with the specified name and values.
  */
-export const createLFTag: (
-  input: CreateLFTagRequest,
-) => effect.Effect<
+export const createLFTag: API.OperationMethod<
+  CreateLFTagRequest,
   CreateLFTagResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3360,9 +3350,8 @@ export const createLFTag: (
  * `GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value pairs
  * included in the expression.
  */
-export const createLFTagExpression: (
-  input: CreateLFTagExpressionRequest,
-) => effect.Effect<
+export const createLFTagExpression: API.OperationMethod<
+  CreateLFTagExpressionRequest,
   CreateLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3387,9 +3376,8 @@ export const createLFTagExpression: (
 /**
  * Deletes a data cell filter.
  */
-export const deleteDataCellsFilter: (
-  input: DeleteDataCellsFilterRequest,
-) => effect.Effect<
+export const deleteDataCellsFilter: API.OperationMethod<
+  DeleteDataCellsFilterRequest,
   DeleteDataCellsFilterResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3412,9 +3400,8 @@ export const deleteDataCellsFilter: (
 /**
  * Deletes an IAM Identity Center connection with Lake Formation.
  */
-export const deleteLakeFormationIdentityCenterConfiguration: (
-  input: DeleteLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  DeleteLakeFormationIdentityCenterConfigurationRequest,
   DeleteLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3439,9 +3426,8 @@ export const deleteLakeFormationIdentityCenterConfiguration: (
 /**
  * Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
  */
-export const deleteLakeFormationOptIn: (
-  input: DeleteLakeFormationOptInRequest,
-) => effect.Effect<
+export const deleteLakeFormationOptIn: API.OperationMethod<
+  DeleteLakeFormationOptInRequest,
   DeleteLakeFormationOptInResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3472,9 +3458,8 @@ export const deleteLakeFormationOptIn: (
  * - Resources that had this tag assigned will no longer have the tag policy applied to
  * them.
  */
-export const deleteLFTag: (
-  input: DeleteLFTagRequest,
-) => effect.Effect<
+export const deleteLFTag: API.OperationMethod<
+  DeleteLFTagRequest,
   DeleteLFTagResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3498,9 +3483,8 @@ export const deleteLFTag: (
  * Deletes the LF-Tag expression. The caller must be a data lake admin or have `DROP` permissions on the LF-Tag expression.
  * Deleting a LF-Tag expression will also delete all `LFTagPolicy` permissions referencing the LF-Tag expression.
  */
-export const deleteLFTagExpression: (
-  input: DeleteLFTagExpressionRequest,
-) => effect.Effect<
+export const deleteLFTagExpression: API.OperationMethod<
+  DeleteLFTagExpressionRequest,
   DeleteLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3528,9 +3512,8 @@ export const deleteLFTagExpression: (
  * call `DeleteObjectsOnCancel` before writes. For more information, see
  * Rolling Back Amazon S3 Writes.
  */
-export const deleteObjectsOnCancel: (
-  input: DeleteObjectsOnCancelRequest,
-) => effect.Effect<
+export const deleteObjectsOnCancel: API.OperationMethod<
+  DeleteObjectsOnCancelRequest,
   DeleteObjectsOnCancelResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -3561,9 +3544,8 @@ export const deleteObjectsOnCancel: (
  *
  * When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
  */
-export const deregisterResource: (
-  input: DeregisterResourceRequest,
-) => effect.Effect<
+export const deregisterResource: API.OperationMethod<
+  DeregisterResourceRequest,
   DeregisterResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3584,9 +3566,8 @@ export const deregisterResource: (
 /**
  * Retrieves the instance ARN and application ARN for the connection.
  */
-export const describeLakeFormationIdentityCenterConfiguration: (
-  input: DescribeLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const describeLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  DescribeLakeFormationIdentityCenterConfigurationRequest,
   DescribeLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3609,9 +3590,8 @@ export const describeLakeFormationIdentityCenterConfiguration: (
 /**
  * Retrieves the current data access role for the given resource registered in Lake Formation.
  */
-export const describeResource: (
-  input: DescribeResourceRequest,
-) => effect.Effect<
+export const describeResource: API.OperationMethod<
+  DescribeResourceRequest,
   DescribeResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3632,9 +3612,8 @@ export const describeResource: (
 /**
  * Returns the details of a single transaction.
  */
-export const describeTransaction: (
-  input: DescribeTransactionRequest,
-) => effect.Effect<
+export const describeTransaction: API.OperationMethod<
+  DescribeTransactionRequest,
   DescribeTransactionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3657,9 +3636,8 @@ export const describeTransaction: (
  *
  * Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
  */
-export const extendTransaction: (
-  input: ExtendTransactionRequest,
-) => effect.Effect<
+export const extendTransaction: API.OperationMethod<
+  ExtendTransactionRequest,
   ExtendTransactionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3686,9 +3664,8 @@ export const extendTransaction: (
 /**
  * Returns a data cells filter.
  */
-export const getDataCellsFilter: (
-  input: GetDataCellsFilterRequest,
-) => effect.Effect<
+export const getDataCellsFilter: API.OperationMethod<
+  GetDataCellsFilterRequest,
   GetDataCellsFilterResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3711,9 +3688,8 @@ export const getDataCellsFilter: (
 /**
  * Returns the identity of the invoking principal.
  */
-export const getDataLakePrincipal: (
-  input: GetDataLakePrincipalRequest,
-) => effect.Effect<
+export const getDataLakePrincipal: API.OperationMethod<
+  GetDataLakePrincipalRequest,
   GetDataLakePrincipalResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -3732,9 +3708,8 @@ export const getDataLakePrincipal: (
 /**
  * Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
  */
-export const getDataLakeSettings: (
-  input: GetDataLakeSettingsRequest,
-) => effect.Effect<
+export const getDataLakeSettings: API.OperationMethod<
+  GetDataLakeSettingsRequest,
   GetDataLakeSettingsResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -3754,18 +3729,16 @@ export const getDataLakeSettings: (
  * Returns the Lake Formation permissions for a specified table or database resource located
  * at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and tables if the catalog is encrypted.
  */
-export const getEffectivePermissionsForPath: {
-  (
-    input: GetEffectivePermissionsForPathRequest,
-  ): effect.Effect<
-    GetEffectivePermissionsForPathResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getEffectivePermissionsForPath: API.OperationMethod<
+  GetEffectivePermissionsForPathRequest,
+  GetEffectivePermissionsForPathResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEffectivePermissionsForPathRequest,
   ) => stream.Stream<
@@ -3806,9 +3779,8 @@ export const getEffectivePermissionsForPath: {
 /**
  * Returns an LF-tag definition.
  */
-export const getLFTag: (
-  input: GetLFTagRequest,
-) => effect.Effect<
+export const getLFTag: API.OperationMethod<
+  GetLFTagRequest,
   GetLFTagResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3831,9 +3803,8 @@ export const getLFTag: (
 /**
  * Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have `DESCRIBE` permission on the LF-Tag expression resource.
  */
-export const getLFTagExpression: (
-  input: GetLFTagExpressionRequest,
-) => effect.Effect<
+export const getLFTagExpression: API.OperationMethod<
+  GetLFTagExpressionRequest,
   GetLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3856,9 +3827,8 @@ export const getLFTagExpression: (
 /**
  * Returns the state of a query previously submitted. Clients are expected to poll `GetQueryState` to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to `StartQueryPlanning`.
  */
-export const getQueryState: (
-  input: GetQueryStateRequest,
-) => effect.Effect<
+export const getQueryState: API.OperationMethod<
+  GetQueryStateRequest,
   GetQueryStateResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -3877,9 +3847,8 @@ export const getQueryState: (
 /**
  * Retrieves statistics on the planning and execution of a query.
  */
-export const getQueryStatistics: (
-  input: GetQueryStatisticsRequest,
-) => effect.Effect<
+export const getQueryStatistics: API.OperationMethod<
+  GetQueryStatisticsRequest,
   GetQueryStatisticsResponse,
   | AccessDeniedException
   | ExpiredException
@@ -3904,9 +3873,8 @@ export const getQueryStatistics: (
 /**
  * Returns the LF-tags applied to a resource.
  */
-export const getResourceLFTags: (
-  input: GetResourceLFTagsRequest,
-) => effect.Effect<
+export const getResourceLFTags: API.OperationMethod<
+  GetResourceLFTagsRequest,
   GetResourceLFTagsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -3931,21 +3899,19 @@ export const getResourceLFTags: (
 /**
  * Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
  */
-export const getTableObjects: {
-  (
-    input: GetTableObjectsRequest,
-  ): effect.Effect<
-    GetTableObjectsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | TransactionCanceledException
-    | TransactionCommittedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTableObjects: API.OperationMethod<
+  GetTableObjectsRequest,
+  GetTableObjectsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | TransactionCanceledException
+  | TransactionCommittedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTableObjectsRequest,
   ) => stream.Stream<
@@ -4012,9 +3978,8 @@ export const getTableObjects: {
  * support cross-Region access when vending credentials for a data location. Lake Formation only supports Amazon S3 paths registered within the same Region as the API
  * call.
  */
-export const getTemporaryDataLocationCredentials: (
-  input: GetTemporaryDataLocationCredentialsRequest,
-) => effect.Effect<
+export const getTemporaryDataLocationCredentials: API.OperationMethod<
+  GetTemporaryDataLocationCredentialsRequest,
   GetTemporaryDataLocationCredentialsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4041,9 +4006,8 @@ export const getTemporaryDataLocationCredentials: (
 /**
  * This API is identical to `GetTemporaryTableCredentials` except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
  */
-export const getTemporaryGluePartitionCredentials: (
-  input: GetTemporaryGluePartitionCredentialsRequest,
-) => effect.Effect<
+export const getTemporaryGluePartitionCredentials: API.OperationMethod<
+  GetTemporaryGluePartitionCredentialsRequest,
   GetTemporaryGluePartitionCredentialsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4070,9 +4034,8 @@ export const getTemporaryGluePartitionCredentials: (
  *
  * To call this API, the role that the service assumes must have `lakeformation:GetDataAccess` permission on the resource.
  */
-export const getTemporaryGlueTableCredentials: (
-  input: GetTemporaryGlueTableCredentialsRequest,
-) => effect.Effect<
+export const getTemporaryGlueTableCredentials: API.OperationMethod<
+  GetTemporaryGlueTableCredentialsRequest,
   GetTemporaryGlueTableCredentialsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -4097,9 +4060,8 @@ export const getTemporaryGlueTableCredentials: (
 /**
  * Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
  */
-export const getWorkUnitResults: (
-  input: GetWorkUnitResultsRequest,
-) => effect.Effect<
+export const getWorkUnitResults: API.OperationMethod<
+  GetWorkUnitResultsRequest,
   GetWorkUnitResultsResponse,
   | AccessDeniedException
   | ExpiredException
@@ -4122,19 +4084,17 @@ export const getWorkUnitResults: (
 /**
  * Retrieves the work units generated by the `StartQueryPlanning` operation.
  */
-export const getWorkUnits: {
-  (
-    input: GetWorkUnitsRequest,
-  ): effect.Effect<
-    GetWorkUnitsResponse,
-    | AccessDeniedException
-    | ExpiredException
-    | InternalServiceException
-    | InvalidInputException
-    | WorkUnitsNotReadyYetException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getWorkUnits: API.OperationMethod<
+  GetWorkUnitsRequest,
+  GetWorkUnitsResponse,
+  | AccessDeniedException
+  | ExpiredException
+  | InternalServiceException
+  | InvalidInputException
+  | WorkUnitsNotReadyYetException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetWorkUnitsRequest,
   ) => stream.Stream<
@@ -4181,9 +4141,8 @@ export const getWorkUnits: {
  *
  * For information about permissions, see Security and Access Control to Metadata and Data.
  */
-export const grantPermissions: (
-  input: GrantPermissionsRequest,
-) => effect.Effect<
+export const grantPermissions: API.OperationMethod<
+  GrantPermissionsRequest,
   GrantPermissionsResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4202,18 +4161,16 @@ export const grantPermissions: (
 /**
  * Lists all the data cell filters on a table.
  */
-export const listDataCellsFilter: {
-  (
-    input: ListDataCellsFilterRequest,
-  ): effect.Effect<
-    ListDataCellsFilterResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataCellsFilter: API.OperationMethod<
+  ListDataCellsFilterRequest,
+  ListDataCellsFilterResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataCellsFilterRequest,
   ) => stream.Stream<
@@ -4255,18 +4212,16 @@ export const listDataCellsFilter: {
 /**
  * Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
  */
-export const listLakeFormationOptIns: {
-  (
-    input: ListLakeFormationOptInsRequest,
-  ): effect.Effect<
-    ListLakeFormationOptInsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLakeFormationOptIns: API.OperationMethod<
+  ListLakeFormationOptInsRequest,
+  ListLakeFormationOptInsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLakeFormationOptInsRequest,
   ) => stream.Stream<
@@ -4307,19 +4262,17 @@ export const listLakeFormationOptIns: {
 /**
  * Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
  */
-export const listLFTagExpressions: {
-  (
-    input: ListLFTagExpressionsRequest,
-  ): effect.Effect<
-    ListLFTagExpressionsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLFTagExpressions: API.OperationMethod<
+  ListLFTagExpressionsRequest,
+  ListLFTagExpressionsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLFTagExpressionsRequest,
   ) => stream.Stream<
@@ -4364,19 +4317,17 @@ export const listLFTagExpressions: {
 /**
  * Lists LF-tags that the requester has permission to view.
  */
-export const listLFTags: {
-  (
-    input: ListLFTagsRequest,
-  ): effect.Effect<
-    ListLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLFTags: API.OperationMethod<
+  ListLFTagsRequest,
+  ListLFTagsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLFTagsRequest,
   ) => stream.Stream<
@@ -4427,17 +4378,15 @@ export const listLFTags: {
  *
  * For information about permissions, see Security and Access Control to Metadata and Data.
  */
-export const listPermissions: {
-  (
-    input: ListPermissionsRequest,
-  ): effect.Effect<
-    ListPermissionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissions: API.OperationMethod<
+  ListPermissionsRequest,
+  ListPermissionsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionsRequest,
   ) => stream.Stream<
@@ -4475,17 +4424,15 @@ export const listPermissions: {
 /**
  * Lists the resources registered to be managed by the Data Catalog.
  */
-export const listResources: {
-  (
-    input: ListResourcesRequest,
-  ): effect.Effect<
-    ListResourcesResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResources: API.OperationMethod<
+  ListResourcesRequest,
+  ListResourcesResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesRequest,
   ) => stream.Stream<
@@ -4523,18 +4470,16 @@ export const listResources: {
 /**
  * Returns the configuration of all storage optimizers associated with a specified table.
  */
-export const listTableStorageOptimizers: {
-  (
-    input: ListTableStorageOptimizersRequest,
-  ): effect.Effect<
-    ListTableStorageOptimizersResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTableStorageOptimizers: API.OperationMethod<
+  ListTableStorageOptimizersRequest,
+  ListTableStorageOptimizersResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTableStorageOptimizersRequest,
   ) => stream.Stream<
@@ -4577,17 +4522,15 @@ export const listTableStorageOptimizers: {
  *
  * This operation can help you identify uncommitted transactions or to get information about transactions.
  */
-export const listTransactions: {
-  (
-    input: ListTransactionsRequest,
-  ): effect.Effect<
-    ListTransactionsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTransactions: API.OperationMethod<
+  ListTransactionsRequest,
+  ListTransactionsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTransactionsRequest,
   ) => stream.Stream<
@@ -4627,9 +4570,8 @@ export const listTransactions: {
  *
  * This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
  */
-export const putDataLakeSettings: (
-  input: PutDataLakeSettingsRequest,
-) => effect.Effect<
+export const putDataLakeSettings: API.OperationMethod<
+  PutDataLakeSettingsRequest,
   PutDataLakeSettingsResponse,
   InternalServiceException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4652,9 +4594,8 @@ export const putDataLakeSettings: (
  *
  * `arn:aws:iam::12345:role/my-data-access-role`
  */
-export const registerResource: (
-  input: RegisterResourceRequest,
-) => effect.Effect<
+export const registerResource: API.OperationMethod<
+  RegisterResourceRequest,
   RegisterResourceResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -4681,9 +4622,8 @@ export const registerResource: (
 /**
  * Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify column input.
  */
-export const removeLFTagsFromResource: (
-  input: RemoveLFTagsFromResourceRequest,
-) => effect.Effect<
+export const removeLFTagsFromResource: API.OperationMethod<
+  RemoveLFTagsFromResourceRequest,
   RemoveLFTagsFromResourceResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4710,9 +4650,8 @@ export const removeLFTagsFromResource: (
 /**
  * Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
  */
-export const revokePermissions: (
-  input: RevokePermissionsRequest,
-) => effect.Effect<
+export const revokePermissions: API.OperationMethod<
+  RevokePermissionsRequest,
   RevokePermissionsResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -4731,20 +4670,18 @@ export const revokePermissions: (
 /**
  * This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is used by admins who want to grant user permissions on certain `TagConditions`. Before making a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given `TagConditions` are valid to verify whether the returned resources can be shared.
  */
-export const searchDatabasesByLFTags: {
-  (
-    input: SearchDatabasesByLFTagsRequest,
-  ): effect.Effect<
-    SearchDatabasesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchDatabasesByLFTags: API.OperationMethod<
+  SearchDatabasesByLFTagsRequest,
+  SearchDatabasesByLFTagsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchDatabasesByLFTagsRequest,
   ) => stream.Stream<
@@ -4792,20 +4729,18 @@ export const searchDatabasesByLFTags: {
 /**
  * This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are valid to verify whether the returned resources can be shared.
  */
-export const searchTablesByLFTags: {
-  (
-    input: SearchTablesByLFTagsRequest,
-  ): effect.Effect<
-    SearchTablesByLFTagsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchTablesByLFTags: API.OperationMethod<
+  SearchTablesByLFTagsRequest,
+  SearchTablesByLFTagsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTablesByLFTagsRequest,
   ) => stream.Stream<
@@ -4855,9 +4790,8 @@ export const searchTablesByLFTags: {
  *
  * This operation generates work units that can be retrieved with the `GetWorkUnits` operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
  */
-export const startQueryPlanning: (
-  input: StartQueryPlanningRequest,
-) => effect.Effect<
+export const startQueryPlanning: API.OperationMethod<
+  StartQueryPlanningRequest,
   StartQueryPlanningResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4878,9 +4812,8 @@ export const startQueryPlanning: (
 /**
  * Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
  */
-export const startTransaction: (
-  input: StartTransactionRequest,
-) => effect.Effect<
+export const startTransaction: API.OperationMethod<
+  StartTransactionRequest,
   StartTransactionResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4892,9 +4825,8 @@ export const startTransaction: (
 /**
  * Updates a data cell filter.
  */
-export const updateDataCellsFilter: (
-  input: UpdateDataCellsFilterRequest,
-) => effect.Effect<
+export const updateDataCellsFilter: API.OperationMethod<
+  UpdateDataCellsFilterRequest,
   UpdateDataCellsFilterResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4919,9 +4851,8 @@ export const updateDataCellsFilter: (
 /**
  * Updates the IAM Identity Center connection parameters.
  */
-export const updateLakeFormationIdentityCenterConfiguration: (
-  input: UpdateLakeFormationIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod<
+  UpdateLakeFormationIdentityCenterConfigurationRequest,
   UpdateLakeFormationIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4946,9 +4877,8 @@ export const updateLakeFormationIdentityCenterConfiguration: (
 /**
  * Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
  */
-export const updateLFTag: (
-  input: UpdateLFTagRequest,
-) => effect.Effect<
+export const updateLFTag: API.OperationMethod<
+  UpdateLFTagRequest,
   UpdateLFTagResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4974,9 +4904,8 @@ export const updateLFTag: (
  * Updates the name of the LF-Tag expression to the new description and expression body provided.
  * Updating a LF-Tag expression immediately changes the permission boundaries of all existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
  */
-export const updateLFTagExpression: (
-  input: UpdateLFTagExpressionRequest,
-) => effect.Effect<
+export const updateLFTagExpression: API.OperationMethod<
+  UpdateLFTagExpressionRequest,
   UpdateLFTagExpressionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -5001,9 +4930,8 @@ export const updateLFTagExpression: (
 /**
  * Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
  */
-export const updateResource: (
-  input: UpdateResourceRequest,
-) => effect.Effect<
+export const updateResource: API.OperationMethod<
+  UpdateResourceRequest,
   UpdateResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -5024,9 +4952,8 @@ export const updateResource: (
 /**
  * Updates the manifest of Amazon S3 objects that make up the specified governed table.
  */
-export const updateTableObjects: (
-  input: UpdateTableObjectsRequest,
-) => effect.Effect<
+export const updateTableObjects: API.OperationMethod<
+  UpdateTableObjectsRequest,
   UpdateTableObjectsResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -5057,9 +4984,8 @@ export const updateTableObjects: (
 /**
  * Updates the configuration of the storage optimizers for a table.
  */
-export const updateTableStorageOptimizer: (
-  input: UpdateTableStorageOptimizerRequest,
-) => effect.Effect<
+export const updateTableStorageOptimizer: API.OperationMethod<
+  UpdateTableStorageOptimizerRequest,
   UpdateTableStorageOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException

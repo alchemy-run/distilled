@@ -3545,9 +3545,8 @@ export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidP
 /**
  * Allows the destination domain owner to accept an inbound cross-cluster search connection request.
  */
-export const acceptInboundCrossClusterSearchConnection: (
-  input: AcceptInboundCrossClusterSearchConnectionRequest,
-) => effect.Effect<
+export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
+  AcceptInboundCrossClusterSearchConnectionRequest,
   AcceptInboundCrossClusterSearchConnectionResponse,
   | DisabledOperationException
   | LimitExceededException
@@ -3567,9 +3566,8 @@ export const acceptInboundCrossClusterSearchConnection: (
  * Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See
  * Tagging Amazon Elasticsearch Service Domains for more information.
  */
-export const addTags: (
-  input: AddTagsRequest,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsRequest,
   AddTagsResponse,
   | BaseException
   | InternalException
@@ -3590,9 +3588,8 @@ export const addTags: (
 /**
  * Associates a package with an Amazon ES domain.
  */
-export const associatePackage: (
-  input: AssociatePackageRequest,
-) => effect.Effect<
+export const associatePackage: API.OperationMethod<
+  AssociatePackageRequest,
   AssociatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -3617,9 +3614,8 @@ export const associatePackage: (
 /**
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
-export const authorizeVpcEndpointAccess: (
-  input: AuthorizeVpcEndpointAccessRequest,
-) => effect.Effect<
+export const authorizeVpcEndpointAccess: API.OperationMethod<
+  AuthorizeVpcEndpointAccessRequest,
   AuthorizeVpcEndpointAccessResponse,
   | BaseException
   | DisabledOperationException
@@ -3644,9 +3640,8 @@ export const authorizeVpcEndpointAccess: (
 /**
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
-export const cancelDomainConfigChange: (
-  input: CancelDomainConfigChangeRequest,
-) => effect.Effect<
+export const cancelDomainConfigChange: API.OperationMethod<
+  CancelDomainConfigChangeRequest,
   CancelDomainConfigChangeResponse,
   | BaseException
   | DisabledOperationException
@@ -3669,9 +3664,8 @@ export const cancelDomainConfigChange: (
 /**
  * Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is in the `PENDING_UPDATE` state.
  */
-export const cancelElasticsearchServiceSoftwareUpdate: (
-  input: CancelElasticsearchServiceSoftwareUpdateRequest,
-) => effect.Effect<
+export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
+  CancelElasticsearchServiceSoftwareUpdateRequest,
   CancelElasticsearchServiceSoftwareUpdateResponse,
   | BaseException
   | InternalException
@@ -3693,9 +3687,8 @@ export const cancelElasticsearchServiceSoftwareUpdate: (
  * Creates a new Elasticsearch domain. For more information,
  * see Creating Elasticsearch Domains in the *Amazon Elasticsearch Service Developer Guide*.
  */
-export const createElasticsearchDomain: (
-  input: CreateElasticsearchDomainRequest,
-) => effect.Effect<
+export const createElasticsearchDomain: API.OperationMethod<
+  CreateElasticsearchDomainRequest,
   CreateElasticsearchDomainResponse,
   | BaseException
   | DisabledOperationException
@@ -3722,9 +3715,8 @@ export const createElasticsearchDomain: (
 /**
  * Creates a new cross-cluster search connection from a source domain to a destination domain.
  */
-export const createOutboundCrossClusterSearchConnection: (
-  input: CreateOutboundCrossClusterSearchConnectionRequest,
-) => effect.Effect<
+export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
+  CreateOutboundCrossClusterSearchConnectionRequest,
   CreateOutboundCrossClusterSearchConnectionResponse,
   | DisabledOperationException
   | InternalException
@@ -3745,9 +3737,8 @@ export const createOutboundCrossClusterSearchConnection: (
 /**
  * Create a package for use with Amazon ES domains.
  */
-export const createPackage: (
-  input: CreatePackageRequest,
-) => effect.Effect<
+export const createPackage: API.OperationMethod<
+  CreatePackageRequest,
   CreatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -3774,9 +3765,8 @@ export const createPackage: (
 /**
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
-export const createVpcEndpoint: (
-  input: CreateVpcEndpointRequest,
-) => effect.Effect<
+export const createVpcEndpoint: API.OperationMethod<
+  CreateVpcEndpointRequest,
   CreateVpcEndpointResponse,
   | BaseException
   | ConflictException
@@ -3801,9 +3791,8 @@ export const createVpcEndpoint: (
 /**
  * Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
  */
-export const deleteElasticsearchDomain: (
-  input: DeleteElasticsearchDomainRequest,
-) => effect.Effect<
+export const deleteElasticsearchDomain: API.OperationMethod<
+  DeleteElasticsearchDomainRequest,
   DeleteElasticsearchDomainResponse,
   | BaseException
   | InternalException
@@ -3824,9 +3813,8 @@ export const deleteElasticsearchDomain: (
 /**
  * Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in *VPC Endpoints for Amazon Elasticsearch Service Domains*.
  */
-export const deleteElasticsearchServiceRole: (
-  input: DeleteElasticsearchServiceRoleRequest,
-) => effect.Effect<
+export const deleteElasticsearchServiceRole: API.OperationMethod<
+  DeleteElasticsearchServiceRoleRequest,
   DeleteElasticsearchServiceRoleResponse,
   BaseException | InternalException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3838,9 +3826,8 @@ export const deleteElasticsearchServiceRole: (
 /**
  * Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
  */
-export const deleteInboundCrossClusterSearchConnection: (
-  input: DeleteInboundCrossClusterSearchConnectionRequest,
-) => effect.Effect<
+export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
+  DeleteInboundCrossClusterSearchConnectionRequest,
   DeleteInboundCrossClusterSearchConnectionResponse,
   DisabledOperationException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3852,9 +3839,8 @@ export const deleteInboundCrossClusterSearchConnection: (
 /**
  * Allows the source domain owner to delete an existing outbound cross-cluster search connection.
  */
-export const deleteOutboundCrossClusterSearchConnection: (
-  input: DeleteOutboundCrossClusterSearchConnectionRequest,
-) => effect.Effect<
+export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
+  DeleteOutboundCrossClusterSearchConnectionRequest,
   DeleteOutboundCrossClusterSearchConnectionResponse,
   DisabledOperationException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3866,9 +3852,8 @@ export const deleteOutboundCrossClusterSearchConnection: (
 /**
  * Delete the package.
  */
-export const deletePackage: (
-  input: DeletePackageRequest,
-) => effect.Effect<
+export const deletePackage: API.OperationMethod<
+  DeletePackageRequest,
   DeletePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -3893,9 +3878,8 @@ export const deletePackage: (
 /**
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
-export const deleteVpcEndpoint: (
-  input: DeleteVpcEndpointRequest,
-) => effect.Effect<
+export const deleteVpcEndpoint: API.OperationMethod<
+  DeleteVpcEndpointRequest,
   DeleteVpcEndpointResponse,
   | BaseException
   | DisabledOperationException
@@ -3916,18 +3900,16 @@ export const deleteVpcEndpoint: (
 /**
  * Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
  */
-export const describeDomainAutoTunes: {
-  (
-    input: DescribeDomainAutoTunesRequest,
-  ): effect.Effect<
-    DescribeDomainAutoTunesResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeDomainAutoTunes: API.OperationMethod<
+  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDomainAutoTunesRequest,
   ) => stream.Stream<
@@ -3969,9 +3951,8 @@ export const describeDomainAutoTunes: {
  * Returns information about the current blue/green deployment happening on a domain, including
  * a change ID, status, and progress stages.
  */
-export const describeDomainChangeProgress: (
-  input: DescribeDomainChangeProgressRequest,
-) => effect.Effect<
+export const describeDomainChangeProgress: API.OperationMethod<
+  DescribeDomainChangeProgressRequest,
   DescribeDomainChangeProgressResponse,
   | BaseException
   | InternalException
@@ -3992,9 +3973,8 @@ export const describeDomainChangeProgress: (
 /**
  * Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
  */
-export const describeElasticsearchDomain: (
-  input: DescribeElasticsearchDomainRequest,
-) => effect.Effect<
+export const describeElasticsearchDomain: API.OperationMethod<
+  DescribeElasticsearchDomainRequest,
   DescribeElasticsearchDomainResponse,
   | BaseException
   | InternalException
@@ -4015,9 +3995,8 @@ export const describeElasticsearchDomain: (
 /**
  * Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
  */
-export const describeElasticsearchDomainConfig: (
-  input: DescribeElasticsearchDomainConfigRequest,
-) => effect.Effect<
+export const describeElasticsearchDomainConfig: API.OperationMethod<
+  DescribeElasticsearchDomainConfigRequest,
   DescribeElasticsearchDomainConfigResponse,
   | BaseException
   | InternalException
@@ -4038,9 +4017,8 @@ export const describeElasticsearchDomainConfig: (
 /**
  * Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
  */
-export const describeElasticsearchDomains: (
-  input: DescribeElasticsearchDomainsRequest,
-) => effect.Effect<
+export const describeElasticsearchDomains: API.OperationMethod<
+  DescribeElasticsearchDomainsRequest,
   DescribeElasticsearchDomainsResponse,
   BaseException | InternalException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4057,9 +4035,8 @@ export const describeElasticsearchDomains: (
  *
  * to know what Limits are supported for modifying.
  */
-export const describeElasticsearchInstanceTypeLimits: (
-  input: DescribeElasticsearchInstanceTypeLimitsRequest,
-) => effect.Effect<
+export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
+  DescribeElasticsearchInstanceTypeLimitsRequest,
   DescribeElasticsearchInstanceTypeLimitsResponse,
   | BaseException
   | InternalException
@@ -4084,14 +4061,12 @@ export const describeElasticsearchInstanceTypeLimits: (
 /**
  * Lists all the inbound cross-cluster search connections for a destination domain.
  */
-export const describeInboundCrossClusterSearchConnections: {
-  (
-    input: DescribeInboundCrossClusterSearchConnectionsRequest,
-  ): effect.Effect<
-    DescribeInboundCrossClusterSearchConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInboundCrossClusterSearchConnections: API.OperationMethod<
+  DescribeInboundCrossClusterSearchConnectionsRequest,
+  DescribeInboundCrossClusterSearchConnectionsResponse,
+  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInboundCrossClusterSearchConnectionsRequest,
   ) => stream.Stream<
@@ -4119,14 +4094,12 @@ export const describeInboundCrossClusterSearchConnections: {
 /**
  * Lists all the outbound cross-cluster search connections for a source domain.
  */
-export const describeOutboundCrossClusterSearchConnections: {
-  (
-    input: DescribeOutboundCrossClusterSearchConnectionsRequest,
-  ): effect.Effect<
-    DescribeOutboundCrossClusterSearchConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeOutboundCrossClusterSearchConnections: API.OperationMethod<
+  DescribeOutboundCrossClusterSearchConnectionsRequest,
+  DescribeOutboundCrossClusterSearchConnectionsResponse,
+  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOutboundCrossClusterSearchConnectionsRequest,
   ) => stream.Stream<
@@ -4154,19 +4127,17 @@ export const describeOutboundCrossClusterSearchConnections: {
 /**
  * Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
  */
-export const describePackages: {
-  (
-    input: DescribePackagesRequest,
-  ): effect.Effect<
-    DescribePackagesResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePackages: API.OperationMethod<
+  DescribePackagesRequest,
+  DescribePackagesResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePackagesRequest,
   ) => stream.Stream<
@@ -4210,18 +4181,16 @@ export const describePackages: {
 /**
  * Lists available reserved Elasticsearch instance offerings.
  */
-export const describeReservedElasticsearchInstanceOfferings: {
-  (
-    input: DescribeReservedElasticsearchInstanceOfferingsRequest,
-  ): effect.Effect<
-    DescribeReservedElasticsearchInstanceOfferingsResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReservedElasticsearchInstanceOfferings: API.OperationMethod<
+  DescribeReservedElasticsearchInstanceOfferingsRequest,
+  DescribeReservedElasticsearchInstanceOfferingsResponse,
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedElasticsearchInstanceOfferingsRequest,
   ) => stream.Stream<
@@ -4262,18 +4231,16 @@ export const describeReservedElasticsearchInstanceOfferings: {
 /**
  * Returns information about reserved Elasticsearch instances for this account.
  */
-export const describeReservedElasticsearchInstances: {
-  (
-    input: DescribeReservedElasticsearchInstancesRequest,
-  ): effect.Effect<
-    DescribeReservedElasticsearchInstancesResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReservedElasticsearchInstances: API.OperationMethod<
+  DescribeReservedElasticsearchInstancesRequest,
+  DescribeReservedElasticsearchInstancesResponse,
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedElasticsearchInstancesRequest,
   ) => stream.Stream<
@@ -4314,9 +4281,8 @@ export const describeReservedElasticsearchInstances: {
 /**
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
-export const describeVpcEndpoints: (
-  input: DescribeVpcEndpointsRequest,
-) => effect.Effect<
+export const describeVpcEndpoints: API.OperationMethod<
+  DescribeVpcEndpointsRequest,
   DescribeVpcEndpointsResponse,
   | BaseException
   | DisabledOperationException
@@ -4337,9 +4303,8 @@ export const describeVpcEndpoints: (
 /**
  * Dissociates a package from the Amazon ES domain.
  */
-export const dissociatePackage: (
-  input: DissociatePackageRequest,
-) => effect.Effect<
+export const dissociatePackage: API.OperationMethod<
+  DissociatePackageRequest,
   DissociatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -4369,9 +4334,8 @@ export const dissociatePackage: (
  *
  * to get all upgrade compatible Elasticsearch versions for that specific domain.
  */
-export const getCompatibleElasticsearchVersions: (
-  input: GetCompatibleElasticsearchVersionsRequest,
-) => effect.Effect<
+export const getCompatibleElasticsearchVersions: API.OperationMethod<
+  GetCompatibleElasticsearchVersionsRequest,
   GetCompatibleElasticsearchVersionsResponse,
   | BaseException
   | DisabledOperationException
@@ -4394,19 +4358,17 @@ export const getCompatibleElasticsearchVersions: (
 /**
  * Returns a list of versions of the package, along with their creation time and commit message.
  */
-export const getPackageVersionHistory: {
-  (
-    input: GetPackageVersionHistoryRequest,
-  ): effect.Effect<
-    GetPackageVersionHistoryResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getPackageVersionHistory: API.OperationMethod<
+  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPackageVersionHistoryRequest,
   ) => stream.Stream<
@@ -4450,19 +4412,17 @@ export const getPackageVersionHistory: {
 /**
  * Retrieves the complete history of the last 10 upgrades that were performed on the domain.
  */
-export const getUpgradeHistory: {
-  (
-    input: GetUpgradeHistoryRequest,
-  ): effect.Effect<
-    GetUpgradeHistoryResponse,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getUpgradeHistory: API.OperationMethod<
+  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUpgradeHistoryRequest,
   ) => stream.Stream<
@@ -4506,9 +4466,8 @@ export const getUpgradeHistory: {
 /**
  * Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
  */
-export const getUpgradeStatus: (
-  input: GetUpgradeStatusRequest,
-) => effect.Effect<
+export const getUpgradeStatus: API.OperationMethod<
+  GetUpgradeStatusRequest,
   GetUpgradeStatusResponse,
   | BaseException
   | DisabledOperationException
@@ -4531,9 +4490,8 @@ export const getUpgradeStatus: (
 /**
  * Returns the name of all Elasticsearch domains owned by the current user's account.
  */
-export const listDomainNames: (
-  input: ListDomainNamesRequest,
-) => effect.Effect<
+export const listDomainNames: API.OperationMethod<
+  ListDomainNamesRequest,
   ListDomainNamesResponse,
   BaseException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4545,19 +4503,17 @@ export const listDomainNames: (
 /**
  * Lists all Amazon ES domains associated with the package.
  */
-export const listDomainsForPackage: {
-  (
-    input: ListDomainsForPackageRequest,
-  ): effect.Effect<
-    ListDomainsForPackageResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDomainsForPackage: API.OperationMethod<
+  ListDomainsForPackageRequest,
+  ListDomainsForPackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsForPackageRequest,
   ) => stream.Stream<
@@ -4601,18 +4557,16 @@ export const listDomainsForPackage: {
 /**
  * List all Elasticsearch instance types that are supported for given ElasticsearchVersion
  */
-export const listElasticsearchInstanceTypes: {
-  (
-    input: ListElasticsearchInstanceTypesRequest,
-  ): effect.Effect<
-    ListElasticsearchInstanceTypesResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listElasticsearchInstanceTypes: API.OperationMethod<
+  ListElasticsearchInstanceTypesRequest,
+  ListElasticsearchInstanceTypesResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListElasticsearchInstanceTypesRequest,
   ) => stream.Stream<
@@ -4653,18 +4607,16 @@ export const listElasticsearchInstanceTypes: {
 /**
  * List all supported Elasticsearch versions
  */
-export const listElasticsearchVersions: {
-  (
-    input: ListElasticsearchVersionsRequest,
-  ): effect.Effect<
-    ListElasticsearchVersionsResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listElasticsearchVersions: API.OperationMethod<
+  ListElasticsearchVersionsRequest,
+  ListElasticsearchVersionsResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListElasticsearchVersionsRequest,
   ) => stream.Stream<
@@ -4705,19 +4657,17 @@ export const listElasticsearchVersions: {
 /**
  * Lists all packages associated with the Amazon ES domain.
  */
-export const listPackagesForDomain: {
-  (
-    input: ListPackagesForDomainRequest,
-  ): effect.Effect<
-    ListPackagesForDomainResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPackagesForDomain: API.OperationMethod<
+  ListPackagesForDomainRequest,
+  ListPackagesForDomainResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagesForDomainRequest,
   ) => stream.Stream<
@@ -4761,9 +4711,8 @@ export const listPackagesForDomain: {
 /**
  * Returns all tags for the given Elasticsearch domain.
  */
-export const listTags: (
-  input: ListTagsRequest,
-) => effect.Effect<
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
   ListTagsResponse,
   | BaseException
   | InternalException
@@ -4785,9 +4734,8 @@ export const listTags: (
  * Retrieves information about each principal that is allowed to access a
  * given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
  */
-export const listVpcEndpointAccess: (
-  input: ListVpcEndpointAccessRequest,
-) => effect.Effect<
+export const listVpcEndpointAccess: API.OperationMethod<
+  ListVpcEndpointAccessRequest,
   ListVpcEndpointAccessResponse,
   | BaseException
   | DisabledOperationException
@@ -4808,9 +4756,8 @@ export const listVpcEndpointAccess: (
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
  */
-export const listVpcEndpoints: (
-  input: ListVpcEndpointsRequest,
-) => effect.Effect<
+export const listVpcEndpoints: API.OperationMethod<
+  ListVpcEndpointsRequest,
   ListVpcEndpointsResponse,
   BaseException | DisabledOperationException | InternalException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4822,9 +4769,8 @@ export const listVpcEndpoints: (
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
  */
-export const listVpcEndpointsForDomain: (
-  input: ListVpcEndpointsForDomainRequest,
-) => effect.Effect<
+export const listVpcEndpointsForDomain: API.OperationMethod<
+  ListVpcEndpointsForDomainRequest,
   ListVpcEndpointsForDomainResponse,
   | BaseException
   | DisabledOperationException
@@ -4845,9 +4791,8 @@ export const listVpcEndpointsForDomain: (
 /**
  * Allows you to purchase reserved Elasticsearch instances.
  */
-export const purchaseReservedElasticsearchInstanceOffering: (
-  input: PurchaseReservedElasticsearchInstanceOfferingRequest,
-) => effect.Effect<
+export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
+  PurchaseReservedElasticsearchInstanceOfferingRequest,
   PurchaseReservedElasticsearchInstanceOfferingResponse,
   | DisabledOperationException
   | InternalException
@@ -4872,9 +4817,8 @@ export const purchaseReservedElasticsearchInstanceOffering: (
 /**
  * Allows the destination domain owner to reject an inbound cross-cluster search connection request.
  */
-export const rejectInboundCrossClusterSearchConnection: (
-  input: RejectInboundCrossClusterSearchConnectionRequest,
-) => effect.Effect<
+export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
+  RejectInboundCrossClusterSearchConnectionRequest,
   RejectInboundCrossClusterSearchConnectionResponse,
   DisabledOperationException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4886,9 +4830,8 @@ export const rejectInboundCrossClusterSearchConnection: (
 /**
  * Removes the specified set of tags from the specified Elasticsearch domain.
  */
-export const removeTags: (
-  input: RemoveTagsRequest,
-) => effect.Effect<
+export const removeTags: API.OperationMethod<
+  RemoveTagsRequest,
   RemoveTagsResponse,
   BaseException | InternalException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4901,9 +4844,8 @@ export const removeTags: (
  * Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
  * VPC endpoint.
  */
-export const revokeVpcEndpointAccess: (
-  input: RevokeVpcEndpointAccessRequest,
-) => effect.Effect<
+export const revokeVpcEndpointAccess: API.OperationMethod<
+  RevokeVpcEndpointAccessRequest,
   RevokeVpcEndpointAccessResponse,
   | BaseException
   | DisabledOperationException
@@ -4926,9 +4868,8 @@ export const revokeVpcEndpointAccess: (
 /**
  * Schedules a service software update for an Amazon ES domain.
  */
-export const startElasticsearchServiceSoftwareUpdate: (
-  input: StartElasticsearchServiceSoftwareUpdateRequest,
-) => effect.Effect<
+export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
+  StartElasticsearchServiceSoftwareUpdateRequest,
   StartElasticsearchServiceSoftwareUpdateResponse,
   | BaseException
   | InternalException
@@ -4949,9 +4890,8 @@ export const startElasticsearchServiceSoftwareUpdate: (
 /**
  * Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
  */
-export const updateElasticsearchDomainConfig: (
-  input: UpdateElasticsearchDomainConfigRequest,
-) => effect.Effect<
+export const updateElasticsearchDomainConfig: API.OperationMethod<
+  UpdateElasticsearchDomainConfigRequest,
   UpdateElasticsearchDomainConfigResponse,
   | BaseException
   | InternalException
@@ -4976,9 +4916,8 @@ export const updateElasticsearchDomainConfig: (
 /**
  * Updates a package for use with Amazon ES domains.
  */
-export const updatePackage: (
-  input: UpdatePackageRequest,
-) => effect.Effect<
+export const updatePackage: API.OperationMethod<
+  UpdatePackageRequest,
   UpdatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -5003,9 +4942,8 @@ export const updatePackage: (
 /**
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
-export const updateVpcEndpoint: (
-  input: UpdateVpcEndpointRequest,
-) => effect.Effect<
+export const updateVpcEndpoint: API.OperationMethod<
+  UpdateVpcEndpointRequest,
   UpdateVpcEndpointResponse,
   | BaseException
   | ConflictException
@@ -5030,9 +4968,8 @@ export const updateVpcEndpoint: (
 /**
  * Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
  */
-export const upgradeElasticsearchDomain: (
-  input: UpgradeElasticsearchDomainRequest,
-) => effect.Effect<
+export const upgradeElasticsearchDomain: API.OperationMethod<
+  UpgradeElasticsearchDomainRequest,
   UpgradeElasticsearchDomainResponse,
   | BaseException
   | DisabledOperationException

@@ -2895,9 +2895,8 @@ export class InvalidTypeException extends S.TaggedErrorClass<InvalidTypeExceptio
  *
  * For information about working with Firewall Manager administrator accounts, see Managing Firewall Manager administrators in the *Firewall Manager Developer Guide*.
  */
-export const associateAdminAccount: (
-  input: AssociateAdminAccountRequest,
-) => effect.Effect<
+export const associateAdminAccount: API.OperationMethod<
+  AssociateAdminAccountRequest,
   AssociateAdminAccountResponse,
   | InternalErrorException
   | InvalidInputException
@@ -2920,9 +2919,8 @@ export const associateAdminAccount: (
 /**
  * Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
  */
-export const associateThirdPartyFirewall: (
-  input: AssociateThirdPartyFirewallRequest,
-) => effect.Effect<
+export const associateThirdPartyFirewall: API.OperationMethod<
+  AssociateThirdPartyFirewallRequest,
   AssociateThirdPartyFirewallResponse,
   | InternalErrorException
   | InvalidInputException
@@ -2943,9 +2941,8 @@ export const associateThirdPartyFirewall: (
 /**
  * Associate resources to a Firewall Manager resource set.
  */
-export const batchAssociateResource: (
-  input: BatchAssociateResourceRequest,
-) => effect.Effect<
+export const batchAssociateResource: API.OperationMethod<
+  BatchAssociateResourceRequest,
   BatchAssociateResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -2968,9 +2965,8 @@ export const batchAssociateResource: (
 /**
  * Disassociates resources from a Firewall Manager resource set.
  */
-export const batchDisassociateResource: (
-  input: BatchDisassociateResourceRequest,
-) => effect.Effect<
+export const batchDisassociateResource: API.OperationMethod<
+  BatchDisassociateResourceRequest,
   BatchDisassociateResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -2991,9 +2987,8 @@ export const batchDisassociateResource: (
 /**
  * Permanently deletes an Firewall Manager applications list.
  */
-export const deleteAppsList: (
-  input: DeleteAppsListRequest,
-) => effect.Effect<
+export const deleteAppsList: API.OperationMethod<
+  DeleteAppsListRequest,
   DeleteAppsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3013,9 +3008,8 @@ export const deleteAppsList: (
  * Deletes an Firewall Manager association with the IAM role and the Amazon Simple
  * Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
  */
-export const deleteNotificationChannel: (
-  input: DeleteNotificationChannelRequest,
-) => effect.Effect<
+export const deleteNotificationChannel: API.OperationMethod<
+  DeleteNotificationChannelRequest,
   DeleteNotificationChannelResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3034,9 +3028,8 @@ export const deleteNotificationChannel: (
 /**
  * Permanently deletes an Firewall Manager policy.
  */
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3059,9 +3052,8 @@ export const deletePolicy: (
 /**
  * Permanently deletes an Firewall Manager protocols list.
  */
-export const deleteProtocolsList: (
-  input: DeleteProtocolsListRequest,
-) => effect.Effect<
+export const deleteProtocolsList: API.OperationMethod<
+  DeleteProtocolsListRequest,
   DeleteProtocolsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3080,9 +3072,8 @@ export const deleteProtocolsList: (
 /**
  * Deletes the specified ResourceSet.
  */
-export const deleteResourceSet: (
-  input: DeleteResourceSetRequest,
-) => effect.Effect<
+export const deleteResourceSet: API.OperationMethod<
+  DeleteResourceSetRequest,
   DeleteResourceSetResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3105,9 +3096,8 @@ export const deleteResourceSet: (
  *
  * Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
  */
-export const disassociateAdminAccount: (
-  input: DisassociateAdminAccountRequest,
-) => effect.Effect<
+export const disassociateAdminAccount: API.OperationMethod<
+  DisassociateAdminAccountRequest,
   DisassociateAdminAccountResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3126,9 +3116,8 @@ export const disassociateAdminAccount: (
 /**
  * Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call `DisassociateThirdPartyFirewall`, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
  */
-export const disassociateThirdPartyFirewall: (
-  input: DisassociateThirdPartyFirewallRequest,
-) => effect.Effect<
+export const disassociateThirdPartyFirewall: API.OperationMethod<
+  DisassociateThirdPartyFirewallRequest,
   DisassociateThirdPartyFirewallResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3150,9 +3139,8 @@ export const disassociateThirdPartyFirewall: (
  * Returns the Organizations account that is associated with Firewall Manager
  * as the Firewall Manager default administrator.
  */
-export const getAdminAccount: (
-  input: GetAdminAccountRequest,
-) => effect.Effect<
+export const getAdminAccount: API.OperationMethod<
+  GetAdminAccountRequest,
   GetAdminAccountResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3171,9 +3159,8 @@ export const getAdminAccount: (
 /**
  * Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
  */
-export const getAdminScope: (
-  input: GetAdminScopeRequest,
-) => effect.Effect<
+export const getAdminScope: API.OperationMethod<
+  GetAdminScopeRequest,
   GetAdminScopeResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3196,9 +3183,8 @@ export const getAdminScope: (
 /**
  * Returns information about the specified Firewall Manager applications list.
  */
-export const getAppsList: (
-  input: GetAppsListRequest,
-) => effect.Effect<
+export const getAppsList: API.OperationMethod<
+  GetAppsListRequest,
   GetAppsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3220,9 +3206,8 @@ export const getAppsList: (
  *
  * The reasons for resources being considered compliant depend on the Firewall Manager policy type.
  */
-export const getComplianceDetail: (
-  input: GetComplianceDetailRequest,
-) => effect.Effect<
+export const getComplianceDetail: API.OperationMethod<
+  GetComplianceDetailRequest,
   GetComplianceDetailResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3245,9 +3230,8 @@ export const getComplianceDetail: (
  * about the Amazon Simple Notification Service (SNS) topic that is used to
  * record Firewall Manager SNS logs.
  */
-export const getNotificationChannel: (
-  input: GetNotificationChannelRequest,
-) => effect.Effect<
+export const getNotificationChannel: API.OperationMethod<
+  GetNotificationChannelRequest,
   GetNotificationChannelResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3266,9 +3250,8 @@ export const getNotificationChannel: (
 /**
  * Returns information about the specified Firewall Manager policy.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3290,9 +3273,8 @@ export const getPolicy: (
  * If you created a Shield Advanced policy, returns policy-level attack summary information
  * in the event of a potential DDoS attack. Other policy types are currently unsupported.
  */
-export const getProtectionStatus: (
-  input: GetProtectionStatusRequest,
-) => effect.Effect<
+export const getProtectionStatus: API.OperationMethod<
+  GetProtectionStatusRequest,
   GetProtectionStatusResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3311,9 +3293,8 @@ export const getProtectionStatus: (
 /**
  * Returns information about the specified Firewall Manager protocols list.
  */
-export const getProtocolsList: (
-  input: GetProtocolsListRequest,
-) => effect.Effect<
+export const getProtocolsList: API.OperationMethod<
+  GetProtocolsListRequest,
   GetProtocolsListResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3332,9 +3313,8 @@ export const getProtocolsList: (
 /**
  * Gets information about a specific resource set.
  */
-export const getResourceSet: (
-  input: GetResourceSetRequest,
-) => effect.Effect<
+export const getResourceSet: API.OperationMethod<
+  GetResourceSetRequest,
   GetResourceSetResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3355,9 +3335,8 @@ export const getResourceSet: (
 /**
  * The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
  */
-export const getThirdPartyFirewallAssociationStatus: (
-  input: GetThirdPartyFirewallAssociationStatusRequest,
-) => effect.Effect<
+export const getThirdPartyFirewallAssociationStatus: API.OperationMethod<
+  GetThirdPartyFirewallAssociationStatusRequest,
   GetThirdPartyFirewallAssociationStatusResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3378,9 +3357,8 @@ export const getThirdPartyFirewallAssociationStatus: (
 /**
  * Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
  */
-export const getViolationDetails: (
-  input: GetViolationDetailsRequest,
-) => effect.Effect<
+export const getViolationDetails: API.OperationMethod<
+  GetViolationDetailsRequest,
   GetViolationDetailsResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3401,18 +3379,16 @@ export const getViolationDetails: (
  *
  * This operation can be called only from the organization's management account.
  */
-export const listAdminAccountsForOrganization: {
-  (
-    input: ListAdminAccountsForOrganizationRequest,
-  ): effect.Effect<
-    ListAdminAccountsForOrganizationResponse,
-    | InternalErrorException
-    | InvalidOperationException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAdminAccountsForOrganization: API.OperationMethod<
+  ListAdminAccountsForOrganizationRequest,
+  ListAdminAccountsForOrganizationResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAdminAccountsForOrganizationRequest,
   ) => stream.Stream<
@@ -3454,17 +3430,15 @@ export const listAdminAccountsForOrganization: {
 /**
  * Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their AdminScope.
  */
-export const listAdminsManagingAccount: {
-  (
-    input: ListAdminsManagingAccountRequest,
-  ): effect.Effect<
-    ListAdminsManagingAccountResponse,
-    | InternalErrorException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAdminsManagingAccount: API.OperationMethod<
+  ListAdminsManagingAccountRequest,
+  ListAdminsManagingAccountResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAdminsManagingAccountRequest,
   ) => stream.Stream<
@@ -3503,18 +3477,16 @@ export const listAdminsManagingAccount: {
 /**
  * Returns an array of `AppsListDataSummary` objects.
  */
-export const listAppsLists: {
-  (
-    input: ListAppsListsRequest,
-  ): effect.Effect<
-    ListAppsListsResponse,
-    | InternalErrorException
-    | InvalidOperationException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppsLists: API.OperationMethod<
+  ListAppsListsRequest,
+  ListAppsListsResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppsListsRequest,
   ) => stream.Stream<
@@ -3558,14 +3530,12 @@ export const listAppsLists: {
  * `PolicyComplianceStatus` to get a summary of which member accounts are protected
  * by the specified policy.
  */
-export const listComplianceStatus: {
-  (
-    input: ListComplianceStatusRequest,
-  ): effect.Effect<
-    ListComplianceStatusResponse,
-    InternalErrorException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComplianceStatus: API.OperationMethod<
+  ListComplianceStatusRequest,
+  ListComplianceStatusResponse,
+  InternalErrorException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComplianceStatusRequest,
   ) => stream.Stream<
@@ -3594,9 +3564,8 @@ export const listComplianceStatus: {
 /**
  * Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
  */
-export const listDiscoveredResources: (
-  input: ListDiscoveredResourcesRequest,
-) => effect.Effect<
+export const listDiscoveredResources: API.OperationMethod<
+  ListDiscoveredResourcesRequest,
   ListDiscoveredResourcesResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3618,14 +3587,12 @@ export const listDiscoveredResources: (
  *
  * Either an Firewall Manager administrator or the organization's management account can make this request.
  */
-export const listMemberAccounts: {
-  (
-    input: ListMemberAccountsRequest,
-  ): effect.Effect<
-    ListMemberAccountsResponse,
-    InternalErrorException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMemberAccounts: API.OperationMethod<
+  ListMemberAccountsRequest,
+  ListMemberAccountsResponse,
+  InternalErrorException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMemberAccountsRequest,
   ) => stream.Stream<
@@ -3654,18 +3621,16 @@ export const listMemberAccounts: {
 /**
  * Returns an array of `PolicySummary` objects.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesRequest,
-  ): effect.Effect<
-    ListPoliciesResponse,
-    | InternalErrorException
-    | InvalidOperationException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  ListPoliciesResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
@@ -3707,17 +3672,15 @@ export const listPolicies: {
 /**
  * Returns an array of `ProtocolsListDataSummary` objects.
  */
-export const listProtocolsLists: {
-  (
-    input: ListProtocolsListsRequest,
-  ): effect.Effect<
-    ListProtocolsListsResponse,
-    | InternalErrorException
-    | InvalidOperationException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProtocolsLists: API.OperationMethod<
+  ListProtocolsListsRequest,
+  ListProtocolsListsResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtocolsListsRequest,
   ) => stream.Stream<
@@ -3756,9 +3719,8 @@ export const listProtocolsLists: {
 /**
  * Returns an array of resources that are currently associated to a resource set.
  */
-export const listResourceSetResources: (
-  input: ListResourceSetResourcesRequest,
-) => effect.Effect<
+export const listResourceSetResources: API.OperationMethod<
+  ListResourceSetResourcesRequest,
   ListResourceSetResourcesResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3779,9 +3741,8 @@ export const listResourceSetResources: (
 /**
  * Returns an array of `ResourceSetSummary` objects.
  */
-export const listResourceSets: (
-  input: ListResourceSetsRequest,
-) => effect.Effect<
+export const listResourceSets: API.OperationMethod<
+  ListResourceSetsRequest,
   ListResourceSetsResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3800,9 +3761,8 @@ export const listResourceSets: (
 /**
  * Retrieves the list of tags for the specified Amazon Web Services resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3823,18 +3783,16 @@ export const listTagsForResource: (
 /**
  * Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
  */
-export const listThirdPartyFirewallFirewallPolicies: {
-  (
-    input: ListThirdPartyFirewallFirewallPoliciesRequest,
-  ): effect.Effect<
-    ListThirdPartyFirewallFirewallPoliciesResponse,
-    | InternalErrorException
-    | InvalidInputException
-    | InvalidOperationException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThirdPartyFirewallFirewallPolicies: API.OperationMethod<
+  ListThirdPartyFirewallFirewallPoliciesRequest,
+  ListThirdPartyFirewallFirewallPoliciesResponse,
+  | InternalErrorException
+  | InvalidInputException
+  | InvalidOperationException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThirdPartyFirewallFirewallPoliciesRequest,
   ) => stream.Stream<
@@ -3877,9 +3835,8 @@ export const listThirdPartyFirewallFirewallPolicies: {
  * Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by AssociateAdminAccount. Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager calls Organizations to delegate the account within Organizations. For more information about administrator accounts within Organizations, see
  * Managing the Amazon Web Services Accounts in Your Organization.
  */
-export const putAdminAccount: (
-  input: PutAdminAccountRequest,
-) => effect.Effect<
+export const putAdminAccount: API.OperationMethod<
+  PutAdminAccountRequest,
   PutAdminAccountResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3900,9 +3857,8 @@ export const putAdminAccount: (
 /**
  * Creates an Firewall Manager applications list.
  */
-export const putAppsList: (
-  input: PutAppsListRequest,
-) => effect.Effect<
+export const putAppsList: API.OperationMethod<
+  PutAppsListRequest,
   PutAppsListResponse,
   | InternalErrorException
   | InvalidInputException
@@ -3929,9 +3885,8 @@ export const putAppsList: (
  * To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the `SnsRoleName` to publish SNS logs. If the `SnsRoleName` provided is a role other than the `AWSServiceRoleForFMS` service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal `fms.amazonaws.com` to assume this role. For information about configuring an SNS access policy, see
  * Service roles for Firewall Manager in the *Firewall Manager Developer Guide*.
  */
-export const putNotificationChannel: (
-  input: PutNotificationChannelRequest,
-) => effect.Effect<
+export const putNotificationChannel: API.OperationMethod<
+  PutNotificationChannelRequest,
   PutNotificationChannelResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -3987,9 +3942,8 @@ export const putNotificationChannel: (
  * - **Fortigate CNF policy** - This policy applies
  * Fortigate Cloud Native Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and secures cloud infrastructures with industry-leading advanced threat prevention, smart web application firewalls (WAF), and API protection.
  */
-export const putPolicy: (
-  input: PutPolicyRequest,
-) => effect.Effect<
+export const putPolicy: API.OperationMethod<
+  PutPolicyRequest,
   PutPolicyResponse,
   | InternalErrorException
   | InvalidInputException
@@ -4014,9 +3968,8 @@ export const putPolicy: (
 /**
  * Creates an Firewall Manager protocols list.
  */
-export const putProtocolsList: (
-  input: PutProtocolsListRequest,
-) => effect.Effect<
+export const putProtocolsList: API.OperationMethod<
+  PutProtocolsListRequest,
   PutProtocolsListResponse,
   | InternalErrorException
   | InvalidInputException
@@ -4041,9 +3994,8 @@ export const putProtocolsList: (
  *
  * An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
  */
-export const putResourceSet: (
-  input: PutResourceSetRequest,
-) => effect.Effect<
+export const putResourceSet: API.OperationMethod<
+  PutResourceSetRequest,
   PutResourceSetResponse,
   | InternalErrorException
   | InvalidInputException
@@ -4064,9 +4016,8 @@ export const putResourceSet: (
 /**
  * Adds one or more tags to an Amazon Web Services resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalErrorException
   | InvalidInputException
@@ -4089,9 +4040,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from an Amazon Web Services resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalErrorException
   | InvalidInputException

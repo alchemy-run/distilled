@@ -1258,9 +1258,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  * For more information, see Delete a step scaling policy and Delete a target tracking scaling policy in the
  * *Application Auto Scaling User Guide*.
  */
-export const deleteScalingPolicy: (
-  input: DeleteScalingPolicyRequest,
-) => effect.Effect<
+export const deleteScalingPolicy: API.OperationMethod<
+  DeleteScalingPolicyRequest,
   DeleteScalingPolicyResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1283,9 +1282,8 @@ export const deleteScalingPolicy: (
  *
  * For more information, see Delete a scheduled action in the *Application Auto Scaling User Guide*.
  */
-export const deleteScheduledAction: (
-  input: DeleteScheduledActionRequest,
-) => effect.Effect<
+export const deleteScheduledAction: API.OperationMethod<
+  DeleteScheduledActionRequest,
   DeleteScheduledActionResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1310,9 +1308,8 @@ export const deleteScheduledAction: (
  * Deregistering a scalable target deletes the scaling policies and the scheduled
  * actions that are associated with it.
  */
-export const deregisterScalableTarget: (
-  input: DeregisterScalableTargetRequest,
-) => effect.Effect<
+export const deregisterScalableTarget: API.OperationMethod<
+  DeregisterScalableTargetRequest,
   DeregisterScalableTargetResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1336,18 +1333,16 @@ export const deregisterScalableTarget: (
  * You can filter the results using `ResourceIds` and
  * `ScalableDimension`.
  */
-export const describeScalableTargets: {
-  (
-    input: DescribeScalableTargetsRequest,
-  ): effect.Effect<
-    DescribeScalableTargetsResponse,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScalableTargets: API.OperationMethod<
+  DescribeScalableTargetsRequest,
+  DescribeScalableTargetsResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScalableTargetsRequest,
   ) => stream.Stream<
@@ -1395,18 +1390,16 @@ export const describeScalableTargets: {
  *
  * For information about viewing scaling activities using the Amazon Web Services CLI, see Scaling activities for Application Auto Scaling.
  */
-export const describeScalingActivities: {
-  (
-    input: DescribeScalingActivitiesRequest,
-  ): effect.Effect<
-    DescribeScalingActivitiesResponse,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScalingActivities: API.OperationMethod<
+  DescribeScalingActivitiesRequest,
+  DescribeScalingActivitiesResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScalingActivitiesRequest,
   ) => stream.Stream<
@@ -1453,19 +1446,17 @@ export const describeScalingActivities: {
  *
  * For more information, see Target tracking scaling policies and Step scaling policies in the *Application Auto Scaling User Guide*.
  */
-export const describeScalingPolicies: {
-  (
-    input: DescribeScalingPoliciesRequest,
-  ): effect.Effect<
-    DescribeScalingPoliciesResponse,
-    | ConcurrentUpdateException
-    | FailedResourceAccessException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScalingPolicies: API.OperationMethod<
+  DescribeScalingPoliciesRequest,
+  DescribeScalingPoliciesResponse,
+  | ConcurrentUpdateException
+  | FailedResourceAccessException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScalingPoliciesRequest,
   ) => stream.Stream<
@@ -1515,18 +1506,16 @@ export const describeScalingPolicies: {
  *
  * For more information, see Scheduled scaling in the *Application Auto Scaling User Guide*.
  */
-export const describeScheduledActions: {
-  (
-    input: DescribeScheduledActionsRequest,
-  ): effect.Effect<
-    DescribeScheduledActionsResponse,
-    | ConcurrentUpdateException
-    | InternalServiceException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScheduledActions: API.OperationMethod<
+  DescribeScheduledActionsRequest,
+  DescribeScheduledActionsResponse,
+  | ConcurrentUpdateException
+  | InternalServiceException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScheduledActionsRequest,
   ) => stream.Stream<
@@ -1576,9 +1565,8 @@ export const describeScheduledActions: {
  * A minimum of 24 hours of data is required to create the initial forecasts. However,
  * having a full 14 days of historical data results in more accurate forecasts.
  */
-export const getPredictiveScalingForecast: (
-  input: GetPredictiveScalingForecastRequest,
-) => effect.Effect<
+export const getPredictiveScalingForecast: API.OperationMethod<
+  GetPredictiveScalingForecastRequest,
   GetPredictiveScalingForecastResponse,
   InternalServiceException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1593,9 +1581,8 @@ export const getPredictiveScalingForecast: (
  * For general information about tags, including the format and syntax, see Tagging your Amazon Web Services
  * resources in the *Amazon Web Services General Reference*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1635,9 +1622,8 @@ export const listTagsForResource: (
  * use scaling policies. Any scaling policies that were specified for the scalable target
  * are deleted.
  */
-export const putScalingPolicy: (
-  input: PutScalingPolicyRequest,
-) => effect.Effect<
+export const putScalingPolicy: API.OperationMethod<
+  PutScalingPolicyRequest,
   PutScalingPolicyResponse,
   | ConcurrentUpdateException
   | FailedResourceAccessException
@@ -1679,9 +1665,8 @@ export const putScalingPolicy: (
  * run scheduled actions. Any scheduled actions that were specified for the scalable target
  * are deleted.
  */
-export const putScheduledAction: (
-  input: PutScheduledActionRequest,
-) => effect.Effect<
+export const putScheduledAction: API.OperationMethod<
+  PutScheduledActionRequest,
   PutScheduledActionResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1740,9 +1725,8 @@ export const putScheduledAction: (
  * include the `MinCapacity` or `MaxCapacity` request
  * parameters.
  */
-export const registerScalableTarget: (
-  input: RegisterScalableTargetRequest,
-) => effect.Effect<
+export const registerScalableTarget: API.OperationMethod<
+  RegisterScalableTargetRequest,
   RegisterScalableTargetResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -1779,9 +1763,8 @@ export const registerScalableTarget: (
  * Use tags to control access to a scalable target. For more information, see Tagging support
  * for Application Auto Scaling in the *Application Auto Scaling User Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -1801,9 +1784,8 @@ export const tagResource: (
  * Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and
  * the Application Auto Scaling scalable target.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

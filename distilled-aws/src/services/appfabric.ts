@@ -1355,9 +1355,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * This action polls data from the tasks that are kicked off by the
  * `StartUserAccessTasks` action.
  */
-export const batchGetUserAccessTasks: (
-  input: BatchGetUserAccessTasksRequest,
-) => effect.Effect<
+export const batchGetUserAccessTasks: API.OperationMethod<
+  BatchGetUserAccessTasksRequest,
   BatchGetUserAccessTasksResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1381,9 +1380,8 @@ export const batchGetUserAccessTasks: (
  * Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to
  * call the APIs of the application.
  */
-export const connectAppAuthorization: (
-  input: ConnectAppAuthorizationRequest,
-) => effect.Effect<
+export const connectAppAuthorization: API.OperationMethod<
+  ConnectAppAuthorizationRequest,
   ConnectAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1407,9 +1405,8 @@ export const connectAppAuthorization: (
  * Creates an app authorization within an app bundle, which allows AppFabric to connect to an
  * application.
  */
-export const createAppAuthorization: (
-  input: CreateAppAuthorizationRequest,
-) => effect.Effect<
+export const createAppAuthorization: API.OperationMethod<
+  CreateAppAuthorizationRequest,
   CreateAppAuthorizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1436,9 +1433,8 @@ export const createAppAuthorization: (
 /**
  * Creates an app bundle to collect data from an application using AppFabric.
  */
-export const createAppBundle: (
-  input: CreateAppBundleRequest,
-) => effect.Effect<
+export const createAppBundle: API.OperationMethod<
+  CreateAppBundleRequest,
   CreateAppBundleResponse,
   | AccessDeniedException
   | ConflictException
@@ -1463,9 +1459,8 @@ export const createAppBundle: (
 /**
  * Creates a data ingestion for an application.
  */
-export const createIngestion: (
-  input: CreateIngestionRequest,
-) => effect.Effect<
+export const createIngestion: API.OperationMethod<
+  CreateIngestionRequest,
   CreateIngestionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1491,9 +1486,8 @@ export const createIngestion: (
  * Creates an ingestion destination, which specifies how an application's ingested data is
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
-export const createIngestionDestination: (
-  input: CreateIngestionDestinationRequest,
-) => effect.Effect<
+export const createIngestionDestination: API.OperationMethod<
+  CreateIngestionDestinationRequest,
   CreateIngestionDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1519,9 +1513,8 @@ export const createIngestionDestination: (
  * Deletes an app authorization. You must delete the associated ingestion before you can
  * delete an app authorization.
  */
-export const deleteAppAuthorization: (
-  input: DeleteAppAuthorizationRequest,
-) => effect.Effect<
+export const deleteAppAuthorization: API.OperationMethod<
+  DeleteAppAuthorizationRequest,
   DeleteAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1545,9 +1538,8 @@ export const deleteAppAuthorization: (
  * Deletes an app bundle. You must delete all associated app authorizations before you can
  * delete an app bundle.
  */
-export const deleteAppBundle: (
-  input: DeleteAppBundleRequest,
-) => effect.Effect<
+export const deleteAppBundle: API.OperationMethod<
+  DeleteAppBundleRequest,
   DeleteAppBundleResponse,
   | AccessDeniedException
   | ConflictException
@@ -1571,9 +1563,8 @@ export const deleteAppBundle: (
  * Deletes an ingestion. You must stop (disable) the ingestion and you must delete all
  * associated ingestion destinations before you can delete an app ingestion.
  */
-export const deleteIngestion: (
-  input: DeleteIngestionRequest,
-) => effect.Effect<
+export const deleteIngestion: API.OperationMethod<
+  DeleteIngestionRequest,
   DeleteIngestionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1601,9 +1592,8 @@ export const deleteIngestion: (
  * bucket where the data is delivered. If the ingestion destination is deleted while the
  * associated ingestion is enabled, the ingestion will fail and is eventually disabled.
  */
-export const deleteIngestionDestination: (
-  input: DeleteIngestionDestinationRequest,
-) => effect.Effect<
+export const deleteIngestionDestination: API.OperationMethod<
+  DeleteIngestionDestinationRequest,
   DeleteIngestionDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1626,9 +1616,8 @@ export const deleteIngestionDestination: (
 /**
  * Returns information about an app authorization.
  */
-export const getAppAuthorization: (
-  input: GetAppAuthorizationRequest,
-) => effect.Effect<
+export const getAppAuthorization: API.OperationMethod<
+  GetAppAuthorizationRequest,
   GetAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1651,9 +1640,8 @@ export const getAppAuthorization: (
 /**
  * Returns information about an app bundle.
  */
-export const getAppBundle: (
-  input: GetAppBundleRequest,
-) => effect.Effect<
+export const getAppBundle: API.OperationMethod<
+  GetAppBundleRequest,
   GetAppBundleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1676,9 +1664,8 @@ export const getAppBundle: (
 /**
  * Returns information about an ingestion.
  */
-export const getIngestion: (
-  input: GetIngestionRequest,
-) => effect.Effect<
+export const getIngestion: API.OperationMethod<
+  GetIngestionRequest,
   GetIngestionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1701,9 +1688,8 @@ export const getIngestion: (
 /**
  * Returns information about an ingestion destination.
  */
-export const getIngestionDestination: (
-  input: GetIngestionDestinationRequest,
-) => effect.Effect<
+export const getIngestionDestination: API.OperationMethod<
+  GetIngestionDestinationRequest,
   GetIngestionDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1726,19 +1712,17 @@ export const getIngestionDestination: (
 /**
  * Returns a list of all app authorizations configured for an app bundle.
  */
-export const listAppAuthorizations: {
-  (
-    input: ListAppAuthorizationsRequest,
-  ): effect.Effect<
-    ListAppAuthorizationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppAuthorizations: API.OperationMethod<
+  ListAppAuthorizationsRequest,
+  ListAppAuthorizationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppAuthorizationsRequest,
   ) => stream.Stream<
@@ -1783,18 +1767,16 @@ export const listAppAuthorizations: {
 /**
  * Returns a list of app bundles.
  */
-export const listAppBundles: {
-  (
-    input: ListAppBundlesRequest,
-  ): effect.Effect<
-    ListAppBundlesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppBundles: API.OperationMethod<
+  ListAppBundlesRequest,
+  ListAppBundlesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppBundlesRequest,
   ) => stream.Stream<
@@ -1836,19 +1818,17 @@ export const listAppBundles: {
 /**
  * Returns a list of all ingestion destinations configured for an ingestion.
  */
-export const listIngestionDestinations: {
-  (
-    input: ListIngestionDestinationsRequest,
-  ): effect.Effect<
-    ListIngestionDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIngestionDestinations: API.OperationMethod<
+  ListIngestionDestinationsRequest,
+  ListIngestionDestinationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIngestionDestinationsRequest,
   ) => stream.Stream<
@@ -1893,19 +1873,17 @@ export const listIngestionDestinations: {
 /**
  * Returns a list of all ingestions configured for an app bundle.
  */
-export const listIngestions: {
-  (
-    input: ListIngestionsRequest,
-  ): effect.Effect<
-    ListIngestionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIngestions: API.OperationMethod<
+  ListIngestionsRequest,
+  ListIngestionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIngestionsRequest,
   ) => stream.Stream<
@@ -1950,9 +1928,8 @@ export const listIngestions: {
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1975,9 +1952,8 @@ export const listTagsForResource: (
 /**
  * Starts (enables) an ingestion, which collects data from an application.
  */
-export const startIngestion: (
-  input: StartIngestionRequest,
-) => effect.Effect<
+export const startIngestion: API.OperationMethod<
+  StartIngestionRequest,
   StartIngestionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2005,9 +1981,8 @@ export const startIngestion: (
  * The tasks are stopped when the user access status data is found. The tasks are
  * terminated when the API calls to the application time out.
  */
-export const startUserAccessTasks: (
-  input: StartUserAccessTasksRequest,
-) => effect.Effect<
+export const startUserAccessTasks: API.OperationMethod<
+  StartUserAccessTasksRequest,
   StartUserAccessTasksResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2030,9 +2005,8 @@ export const startUserAccessTasks: (
 /**
  * Stops (disables) an ingestion.
  */
-export const stopIngestion: (
-  input: StopIngestionRequest,
-) => effect.Effect<
+export const stopIngestion: API.OperationMethod<
+  StopIngestionRequest,
   StopIngestionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2057,9 +2031,8 @@ export const stopIngestion: (
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2082,9 +2055,8 @@ export const tagResource: (
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2111,9 +2083,8 @@ export const untagResource: (
  * If the app authorization was in a `connected` state, updating the app
  * authorization will set it back to a `PendingConnect` state.
  */
-export const updateAppAuthorization: (
-  input: UpdateAppAuthorizationRequest,
-) => effect.Effect<
+export const updateAppAuthorization: API.OperationMethod<
+  UpdateAppAuthorizationRequest,
   UpdateAppAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2137,9 +2108,8 @@ export const updateAppAuthorization: (
  * Updates an ingestion destination, which specifies how an application's ingested data is
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
-export const updateIngestionDestination: (
-  input: UpdateIngestionDestinationRequest,
-) => effect.Effect<
+export const updateIngestionDestination: API.OperationMethod<
+  UpdateIngestionDestinationRequest,
   UpdateIngestionDestinationResponse,
   | AccessDeniedException
   | ConflictException

@@ -89,7 +89,12 @@ export const GetDirectoryServiceResponse = Schema.Struct({
           resolverIps: "resolver_ips",
         }),
       ),
-    }).pipe(Schema.encodeKeys({ resolverNetwork: "resolver_network" })),
+    }).pipe(
+      Schema.encodeKeys({
+        hostname: "hostname",
+        resolverNetwork: "resolver_network",
+      }),
+    ),
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
@@ -100,6 +105,9 @@ export const GetDirectoryServiceResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    host: "host",
+    name: "name",
+    type: "type",
     createdAt: "created_at",
     httpPort: "http_port",
     httpsPort: "https_port",
@@ -108,9 +116,8 @@ export const GetDirectoryServiceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDirectoryServiceResponse>;
 
-export const getDirectoryService: (
-  input: GetDirectoryServiceRequest,
-) => Effect.Effect<
+export const getDirectoryService: API.OperationMethod<
+  GetDirectoryServiceRequest,
   GetDirectoryServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -192,7 +199,12 @@ export const ListDirectoryServicesResponse = Schema.Array(
             resolverIps: "resolver_ips",
           }),
         ),
-      }).pipe(Schema.encodeKeys({ resolverNetwork: "resolver_network" })),
+      }).pipe(
+        Schema.encodeKeys({
+          hostname: "hostname",
+          resolverNetwork: "resolver_network",
+        }),
+      ),
     ]),
     name: Schema.String,
     type: Schema.Literal("http"),
@@ -203,6 +215,9 @@ export const ListDirectoryServicesResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      host: "host",
+      name: "name",
+      type: "type",
       createdAt: "created_at",
       httpPort: "http_port",
       httpsPort: "https_port",
@@ -212,9 +227,8 @@ export const ListDirectoryServicesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDirectoryServicesResponse>;
 
-export const listDirectoryServices: (
-  input: ListDirectoryServicesRequest,
-) => Effect.Effect<
+export const listDirectoryServices: API.OperationMethod<
+  ListDirectoryServicesRequest,
   ListDirectoryServicesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -281,14 +295,25 @@ export const CreateDirectoryServiceRequest = Schema.Struct({
           resolverIps: "resolver_ips",
         }),
       ),
-    }).pipe(Schema.encodeKeys({ resolverNetwork: "resolver_network" })),
+    }).pipe(
+      Schema.encodeKeys({
+        hostname: "hostname",
+        resolverNetwork: "resolver_network",
+      }),
+    ),
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
   httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ httpPort: "http_port", httpsPort: "https_port" }),
+  Schema.encodeKeys({
+    host: "host",
+    name: "name",
+    type: "type",
+    httpPort: "http_port",
+    httpsPort: "https_port",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/connectivity/directory/services",
@@ -347,7 +372,12 @@ export const CreateDirectoryServiceResponse = Schema.Struct({
           resolverIps: "resolver_ips",
         }),
       ),
-    }).pipe(Schema.encodeKeys({ resolverNetwork: "resolver_network" })),
+    }).pipe(
+      Schema.encodeKeys({
+        hostname: "hostname",
+        resolverNetwork: "resolver_network",
+      }),
+    ),
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
@@ -358,6 +388,9 @@ export const CreateDirectoryServiceResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    host: "host",
+    name: "name",
+    type: "type",
     createdAt: "created_at",
     httpPort: "http_port",
     httpsPort: "https_port",
@@ -366,9 +399,8 @@ export const CreateDirectoryServiceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDirectoryServiceResponse>;
 
-export const createDirectoryService: (
-  input: CreateDirectoryServiceRequest,
-) => Effect.Effect<
+export const createDirectoryService: API.OperationMethod<
+  CreateDirectoryServiceRequest,
   CreateDirectoryServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -437,14 +469,25 @@ export const UpdateDirectoryServiceRequest = Schema.Struct({
           resolverIps: "resolver_ips",
         }),
       ),
-    }).pipe(Schema.encodeKeys({ resolverNetwork: "resolver_network" })),
+    }).pipe(
+      Schema.encodeKeys({
+        hostname: "hostname",
+        resolverNetwork: "resolver_network",
+      }),
+    ),
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
   httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ httpPort: "http_port", httpsPort: "https_port" }),
+  Schema.encodeKeys({
+    host: "host",
+    name: "name",
+    type: "type",
+    httpPort: "http_port",
+    httpsPort: "https_port",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/connectivity/directory/services/{serviceId}",
@@ -503,7 +546,12 @@ export const UpdateDirectoryServiceResponse = Schema.Struct({
           resolverIps: "resolver_ips",
         }),
       ),
-    }).pipe(Schema.encodeKeys({ resolverNetwork: "resolver_network" })),
+    }).pipe(
+      Schema.encodeKeys({
+        hostname: "hostname",
+        resolverNetwork: "resolver_network",
+      }),
+    ),
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
@@ -514,6 +562,9 @@ export const UpdateDirectoryServiceResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    host: "host",
+    name: "name",
+    type: "type",
     createdAt: "created_at",
     httpPort: "http_port",
     httpsPort: "https_port",
@@ -522,9 +573,8 @@ export const UpdateDirectoryServiceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateDirectoryServiceResponse>;
 
-export const updateDirectoryService: (
-  input: UpdateDirectoryServiceRequest,
-) => Effect.Effect<
+export const updateDirectoryService: API.OperationMethod<
+  UpdateDirectoryServiceRequest,
   UpdateDirectoryServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -554,9 +604,8 @@ export type DeleteDirectoryServiceResponse = unknown;
 export const DeleteDirectoryServiceResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDirectoryServiceResponse>;
 
-export const deleteDirectoryService: (
-  input: DeleteDirectoryServiceRequest,
-) => Effect.Effect<
+export const deleteDirectoryService: API.OperationMethod<
+  DeleteDirectoryServiceRequest,
   DeleteDirectoryServiceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

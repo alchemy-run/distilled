@@ -79,13 +79,13 @@ export const GetTotalTlResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
+    enabled: "enabled",
     validityPeriod: "validity_period",
   }),
 ) as unknown as Schema.Schema<GetTotalTlResponse>;
 
-export const getTotalTl: (
-  input: GetTotalTlRequest,
-) => Effect.Effect<
+export const getTotalTl: API.OperationMethod<
+  GetTotalTlRequest,
   GetTotalTlResponse,
   CommonErrors | InvalidObjectIdentifier | AdvancedCertificateManagerRequired,
   ApiToken | HttpClient.HttpClient
@@ -111,7 +111,10 @@ export const CreateTotalTlRequest = Schema.Struct({
     Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ certificateAuthority: "certificate_authority" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    certificateAuthority: "certificate_authority",
+  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/acm/total_tls" }),
 ) as unknown as Schema.Schema<CreateTotalTlRequest>;
 
@@ -133,13 +136,13 @@ export const CreateTotalTlResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
+    enabled: "enabled",
     validityPeriod: "validity_period",
   }),
 ) as unknown as Schema.Schema<CreateTotalTlResponse>;
 
-export const createTotalTl: (
-  input: CreateTotalTlRequest,
-) => Effect.Effect<
+export const createTotalTl: API.OperationMethod<
+  CreateTotalTlRequest,
   CreateTotalTlResponse,
   | CommonErrors
   | InvalidObjectIdentifier

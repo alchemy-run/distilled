@@ -44,9 +44,8 @@ export const PurgeCacheResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<PurgeCacheResponse>;
 
-export const purgeCache: (
-  input: PurgeCacheRequest,
-) => Effect.Effect<
+export const purgeCache: API.OperationMethod<
+  PurgeCacheRequest,
   PurgeCacheResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -88,12 +87,16 @@ export const GetCacheReserveResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetCacheReserveResponse>;
 
-export const getCacheReserve: (
-  input: GetCacheReserveRequest,
-) => Effect.Effect<
+export const getCacheReserve: API.OperationMethod<
+  GetCacheReserveRequest,
   GetCacheReserveResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -134,12 +137,16 @@ export const PatchCacheReserveResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PatchCacheReserveResponse>;
 
-export const patchCacheReserve: (
-  input: PatchCacheReserveRequest,
-) => Effect.Effect<
+export const patchCacheReserve: API.OperationMethod<
+  PatchCacheReserveRequest,
   PatchCacheReserveResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -181,15 +188,16 @@ export const StatusCacheReserveResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     startTs: "start_ts",
+    state: "state",
     endTs: "end_ts",
     modifiedOn: "modified_on",
   }),
 ) as unknown as Schema.Schema<StatusCacheReserveResponse>;
 
-export const statusCacheReserve: (
-  input: StatusCacheReserveRequest,
-) => Effect.Effect<
+export const statusCacheReserve: API.OperationMethod<
+  StatusCacheReserveRequest,
   StatusCacheReserveResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -237,15 +245,16 @@ export const ClearCacheReserveResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     startTs: "start_ts",
+    state: "state",
     endTs: "end_ts",
     modifiedOn: "modified_on",
   }),
 ) as unknown as Schema.Schema<ClearCacheReserveResponse>;
 
-export const clearCacheReserve: (
-  input: ClearCacheReserveRequest,
-) => Effect.Effect<
+export const clearCacheReserve: API.OperationMethod<
+  ClearCacheReserveRequest,
   ClearCacheReserveResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -290,12 +299,16 @@ export const GetRegionalTieredCacheResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
 
-export const getRegionalTieredCache: (
-  input: GetRegionalTieredCacheRequest,
-) => Effect.Effect<
+export const getRegionalTieredCache: API.OperationMethod<
+  GetRegionalTieredCacheRequest,
   GetRegionalTieredCacheResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -339,12 +352,16 @@ export const PatchRegionalTieredCacheResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
 
-export const patchRegionalTieredCache: (
-  input: PatchRegionalTieredCacheRequest,
-) => Effect.Effect<
+export const patchRegionalTieredCache: API.OperationMethod<
+  PatchRegionalTieredCacheRequest,
   PatchRegionalTieredCacheResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -389,12 +406,16 @@ export const GetSmartTieredCacheResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
 
-export const getSmartTieredCache: (
-  input: GetSmartTieredCacheRequest,
-) => Effect.Effect<
+export const getSmartTieredCache: API.OperationMethod<
+  GetSmartTieredCacheRequest,
   GetSmartTieredCacheResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -438,12 +459,16 @@ export const PatchSmartTieredCacheResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
 
-export const patchSmartTieredCache: (
-  input: PatchSmartTieredCacheRequest,
-) => Effect.Effect<
+export const patchSmartTieredCache: API.OperationMethod<
+  PatchSmartTieredCacheRequest,
   PatchSmartTieredCacheResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -481,12 +506,15 @@ export const DeleteSmartTieredCacheResponse = Schema.Struct({
   editable: Schema.Boolean,
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
 
-export const deleteSmartTieredCache: (
-  input: DeleteSmartTieredCacheRequest,
-) => Effect.Effect<
+export const deleteSmartTieredCache: API.OperationMethod<
+  DeleteSmartTieredCacheRequest,
   DeleteSmartTieredCacheResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -552,12 +580,16 @@ export const GetVariantResponse = Schema.Struct({
   }),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetVariantResponse>;
 
-export const getVariant: (
-  input: GetVariantRequest,
-) => Effect.Effect<
+export const getVariant: API.OperationMethod<
+  GetVariantRequest,
   GetVariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -646,12 +678,16 @@ export const PatchVariantResponse = Schema.Struct({
   }),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PatchVariantResponse>;
 
-export const patchVariant: (
-  input: PatchVariantRequest,
-) => Effect.Effect<
+export const patchVariant: API.OperationMethod<
+  PatchVariantRequest,
   PatchVariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -686,12 +722,15 @@ export const DeleteVariantResponse = Schema.Struct({
   editable: Schema.Boolean,
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<DeleteVariantResponse>;
 
-export const deleteVariant: (
-  input: DeleteVariantRequest,
-) => Effect.Effect<
+export const deleteVariant: API.OperationMethod<
+  DeleteVariantRequest,
   DeleteVariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

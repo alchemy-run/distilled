@@ -4569,9 +4569,8 @@ export class IrreversibleInstanceRefreshFault extends S.TaggedErrorClass<Irrever
  * For more information, see Detach
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const attachInstances: (
-  input: AttachInstancesQuery,
-) => effect.Effect<
+export const attachInstances: API.OperationMethod<
+  AttachInstancesQuery,
   AttachInstancesResponse,
   ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4602,9 +4601,8 @@ export const attachInstances: (
  * distribute traffic across the instances in your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const attachLoadBalancers: (
-  input: AttachLoadBalancersType,
-) => effect.Effect<
+export const attachLoadBalancers: API.OperationMethod<
+  AttachLoadBalancersType,
   AttachLoadBalancersResultType,
   | InstanceRefreshInProgressFault
   | ResourceContentionFault
@@ -4651,9 +4649,8 @@ export const attachLoadBalancers: (
  * distribute traffic across the instances in your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const attachLoadBalancerTargetGroups: (
-  input: AttachLoadBalancerTargetGroupsType,
-) => effect.Effect<
+export const attachLoadBalancerTargetGroups: API.OperationMethod<
+  AttachLoadBalancerTargetGroupsType,
   AttachLoadBalancerTargetGroupsResultType,
   | InstanceRefreshInProgressFault
   | ResourceContentionFault
@@ -4692,9 +4689,8 @@ export const attachLoadBalancerTargetGroups: (
  * group. To detach a traffic source from the Auto Scaling group, call the
  * DetachTrafficSources API.
  */
-export const attachTrafficSources: (
-  input: AttachTrafficSourcesType,
-) => effect.Effect<
+export const attachTrafficSources: API.OperationMethod<
+  AttachTrafficSourcesType,
   AttachTrafficSourcesResultType,
   | InstanceRefreshInProgressFault
   | ResourceContentionFault
@@ -4713,9 +4709,8 @@ export const attachTrafficSources: (
 /**
  * Deletes one or more scheduled actions for the specified Auto Scaling group.
  */
-export const batchDeleteScheduledAction: (
-  input: BatchDeleteScheduledActionType,
-) => effect.Effect<
+export const batchDeleteScheduledAction: API.OperationMethod<
+  BatchDeleteScheduledActionType,
   BatchDeleteScheduledActionAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4727,9 +4722,8 @@ export const batchDeleteScheduledAction: (
 /**
  * Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
  */
-export const batchPutScheduledUpdateGroupAction: (
-  input: BatchPutScheduledUpdateGroupActionType,
-) => effect.Effect<
+export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
+  BatchPutScheduledUpdateGroupActionType,
   BatchPutScheduledUpdateGroupActionAnswer,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -4753,9 +4747,8 @@ export const batchPutScheduledUpdateGroupAction: (
  * When you cancel an instance refresh, this does not roll back any changes that it made.
  * Use the RollbackInstanceRefresh API to roll back instead.
  */
-export const cancelInstanceRefresh: (
-  input: CancelInstanceRefreshType,
-) => effect.Effect<
+export const cancelInstanceRefresh: API.OperationMethod<
+  CancelInstanceRefreshType,
   CancelInstanceRefreshAnswer,
   | ActiveInstanceRefreshNotFoundFault
   | LimitExceededFault
@@ -4803,9 +4796,8 @@ export const cancelInstanceRefresh: (
  * For more information, see Complete a lifecycle
  * action in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const completeLifecycleAction: (
-  input: CompleteLifecycleActionType,
-) => effect.Effect<
+export const completeLifecycleAction: API.OperationMethod<
+  CompleteLifecycleActionType,
   CompleteLifecycleActionAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4833,9 +4825,8 @@ export const completeLifecycleAction: (
  * that defines weights for the instance types, you must specify these sizes with the same
  * units that you use for weighting instances.
  */
-export const createAutoScalingGroup: (
-  input: CreateAutoScalingGroupType,
-) => effect.Effect<
+export const createAutoScalingGroup: API.OperationMethod<
+  CreateAutoScalingGroupType,
   CreateAutoScalingGroupResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -4869,9 +4860,8 @@ export const createAutoScalingGroup: (
  * launch configurations. They do not provide full functionality for Amazon EC2 Auto Scaling or Amazon EC2.
  * For information about using launch templates, see Launch templates in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const createLaunchConfiguration: (
-  input: CreateLaunchConfigurationType,
-) => effect.Effect<
+export const createLaunchConfiguration: API.OperationMethod<
+  CreateLaunchConfigurationType,
   CreateLaunchConfigurationResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -4892,9 +4882,8 @@ export const createLaunchConfiguration: (
  * For more information, see Tag Auto Scaling groups and
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const createOrUpdateTags: (
-  input: CreateOrUpdateTagsType,
-) => effect.Effect<
+export const createOrUpdateTags: API.OperationMethod<
+  CreateOrUpdateTagsType,
   CreateOrUpdateTagsResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -4936,9 +4925,8 @@ export const createOrUpdateTags: (
  * For more information, see Delete your Auto Scaling
  * infrastructure in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const deleteAutoScalingGroup: (
-  input: DeleteAutoScalingGroupType,
-) => effect.Effect<
+export const deleteAutoScalingGroup: API.OperationMethod<
+  DeleteAutoScalingGroupType,
   DeleteAutoScalingGroupResponse,
   | ResourceContentionFault
   | ResourceInUseFault
@@ -4960,9 +4948,8 @@ export const deleteAutoScalingGroup: (
  * The launch configuration must not be attached to an Auto Scaling group. When this call
  * completes, the launch configuration is no longer available for use.
  */
-export const deleteLaunchConfiguration: (
-  input: LaunchConfigurationNameType,
-) => effect.Effect<
+export const deleteLaunchConfiguration: API.OperationMethod<
+  LaunchConfigurationNameType,
   DeleteLaunchConfigurationResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4978,9 +4965,8 @@ export const deleteLaunchConfiguration: (
  * (`ABANDON` for launching instances, `CONTINUE` for terminating
  * instances).
  */
-export const deleteLifecycleHook: (
-  input: DeleteLifecycleHookType,
-) => effect.Effect<
+export const deleteLifecycleHook: API.OperationMethod<
+  DeleteLifecycleHookType,
   DeleteLifecycleHookAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4992,9 +4978,8 @@ export const deleteLifecycleHook: (
 /**
  * Deletes the specified notification.
  */
-export const deleteNotificationConfiguration: (
-  input: DeleteNotificationConfigurationType,
-) => effect.Effect<
+export const deleteNotificationConfiguration: API.OperationMethod<
+  DeleteNotificationConfigurationType,
   DeleteNotificationConfigurationResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5013,9 +4998,8 @@ export const deleteNotificationConfiguration: (
  * For more information, see Delete a scaling
  * policy in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const deletePolicy: (
-  input: DeletePolicyType,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyType,
   DeletePolicyResponse,
   ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5027,9 +5011,8 @@ export const deletePolicy: (
 /**
  * Deletes the specified scheduled action.
  */
-export const deleteScheduledAction: (
-  input: DeleteScheduledActionType,
-) => effect.Effect<
+export const deleteScheduledAction: API.OperationMethod<
+  DeleteScheduledActionType,
   DeleteScheduledActionResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5041,9 +5024,8 @@ export const deleteScheduledAction: (
 /**
  * Deletes the specified tags.
  */
-export const deleteTags: (
-  input: DeleteTagsType,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsType,
   DeleteTagsResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5058,9 +5040,8 @@ export const deleteTags: (
  * For more information, see Warm pools for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const deleteWarmPool: (
-  input: DeleteWarmPoolType,
-) => effect.Effect<
+export const deleteWarmPool: API.OperationMethod<
+  DeleteWarmPoolType,
   DeleteWarmPoolAnswer,
   | LimitExceededFault
   | ResourceContentionFault
@@ -5086,9 +5067,8 @@ export const deleteWarmPool: (
  * For more information, see Quotas for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeAccountLimits: (
-  input: DescribeAccountLimitsRequest,
-) => effect.Effect<
+export const describeAccountLimits: API.OperationMethod<
+  DescribeAccountLimitsRequest,
   DescribeAccountLimitsAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5109,9 +5089,8 @@ export const describeAccountLimits: (
  *
  * - `PercentChangeInCapacity`
  */
-export const describeAdjustmentTypes: (
-  input: DescribeAdjustmentTypesRequest,
-) => effect.Effect<
+export const describeAdjustmentTypes: API.OperationMethod<
+  DescribeAdjustmentTypesRequest,
   DescribeAdjustmentTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5132,14 +5111,12 @@ export const describeAdjustmentTypes: (
  * information about the instances in a warm pool, you must call the
  * DescribeWarmPool API.
  */
-export const describeAutoScalingGroups: {
-  (
-    input: AutoScalingGroupNamesType,
-  ): effect.Effect<
-    AutoScalingGroupsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAutoScalingGroups: API.OperationMethod<
+  AutoScalingGroupNamesType,
+  AutoScalingGroupsType,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: AutoScalingGroupNamesType,
   ) => stream.Stream<
@@ -5168,14 +5145,12 @@ export const describeAutoScalingGroups: {
 /**
  * Gets information about the Auto Scaling instances in the account and Region.
  */
-export const describeAutoScalingInstances: {
-  (
-    input: DescribeAutoScalingInstancesType,
-  ): effect.Effect<
-    AutoScalingInstancesType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAutoScalingInstances: API.OperationMethod<
+  DescribeAutoScalingInstancesType,
+  AutoScalingInstancesType,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAutoScalingInstancesType,
   ) => stream.Stream<
@@ -5204,9 +5179,8 @@ export const describeAutoScalingInstances: {
 /**
  * Describes the notification types that are supported by Amazon EC2 Auto Scaling.
  */
-export const describeAutoScalingNotificationTypes: (
-  input: DescribeAutoScalingNotificationTypesRequest,
-) => effect.Effect<
+export const describeAutoScalingNotificationTypes: API.OperationMethod<
+  DescribeAutoScalingNotificationTypesRequest,
   DescribeAutoScalingNotificationTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5230,14 +5204,12 @@ export const describeAutoScalingNotificationTypes: (
  * is initiated while an instance refresh is in progress, Amazon EC2 Auto Scaling also returns information
  * about the rollback of the instance refresh.
  */
-export const describeInstanceRefreshes: {
-  (
-    input: DescribeInstanceRefreshesType,
-  ): effect.Effect<
-    DescribeInstanceRefreshesAnswer,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeInstanceRefreshes: API.OperationMethod<
+  DescribeInstanceRefreshesType,
+  DescribeInstanceRefreshesAnswer,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceRefreshesType,
   ) => stream.Stream<
@@ -5265,14 +5237,12 @@ export const describeInstanceRefreshes: {
 /**
  * Gets information about the launch configurations in the account and Region.
  */
-export const describeLaunchConfigurations: {
-  (
-    input: LaunchConfigurationNamesType,
-  ): effect.Effect<
-    LaunchConfigurationsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLaunchConfigurations: API.OperationMethod<
+  LaunchConfigurationNamesType,
+  LaunchConfigurationsType,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: LaunchConfigurationNamesType,
   ) => stream.Stream<
@@ -5301,9 +5271,8 @@ export const describeLaunchConfigurations: {
 /**
  * Gets information about the lifecycle hooks for the specified Auto Scaling group.
  */
-export const describeLifecycleHooks: (
-  input: DescribeLifecycleHooksType,
-) => effect.Effect<
+export const describeLifecycleHooks: API.OperationMethod<
+  DescribeLifecycleHooksType,
   DescribeLifecycleHooksAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5321,9 +5290,8 @@ export const describeLifecycleHooks: (
  *
  * - `autoscaling:EC2_INSTANCE_TERMINATING`
  */
-export const describeLifecycleHookTypes: (
-  input: DescribeLifecycleHookTypesRequest,
-) => effect.Effect<
+export const describeLifecycleHookTypes: API.OperationMethod<
+  DescribeLifecycleHookTypesRequest,
   DescribeLifecycleHookTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5368,14 +5336,12 @@ export const describeLifecycleHookTypes: (
  * distribute traffic across the instances in your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeLoadBalancers: {
-  (
-    input: DescribeLoadBalancersRequest,
-  ): effect.Effect<
-    DescribeLoadBalancersResponse,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLoadBalancers: API.OperationMethod<
+  DescribeLoadBalancersRequest,
+  DescribeLoadBalancersResponse,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLoadBalancersRequest,
   ) => stream.Stream<
@@ -5436,14 +5402,12 @@ export const describeLoadBalancers: {
  * AttachLoadBalancerTargetGroups, but not for target groups that
  * were attached by using AttachTrafficSources.
  */
-export const describeLoadBalancerTargetGroups: {
-  (
-    input: DescribeLoadBalancerTargetGroupsRequest,
-  ): effect.Effect<
-    DescribeLoadBalancerTargetGroupsResponse,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLoadBalancerTargetGroups: API.OperationMethod<
+  DescribeLoadBalancerTargetGroupsRequest,
+  DescribeLoadBalancerTargetGroupsResponse,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLoadBalancerTargetGroupsRequest,
   ) => stream.Stream<
@@ -5471,9 +5435,8 @@ export const describeLoadBalancerTargetGroups: {
 /**
  * Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
  */
-export const describeMetricCollectionTypes: (
-  input: DescribeMetricCollectionTypesRequest,
-) => effect.Effect<
+export const describeMetricCollectionTypes: API.OperationMethod<
+  DescribeMetricCollectionTypesRequest,
   DescribeMetricCollectionTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5486,14 +5449,12 @@ export const describeMetricCollectionTypes: (
  * Gets information about the Amazon SNS notifications that are configured for one or more
  * Auto Scaling groups.
  */
-export const describeNotificationConfigurations: {
-  (
-    input: DescribeNotificationConfigurationsType,
-  ): effect.Effect<
-    DescribeNotificationConfigurationsAnswer,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeNotificationConfigurations: API.OperationMethod<
+  DescribeNotificationConfigurationsType,
+  DescribeNotificationConfigurationsAnswer,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNotificationConfigurationsType,
   ) => stream.Stream<
@@ -5522,17 +5483,15 @@ export const describeNotificationConfigurations: {
 /**
  * Gets information about the scaling policies in the account and Region.
  */
-export const describePolicies: {
-  (
-    input: DescribePoliciesType,
-  ): effect.Effect<
-    PoliciesType,
-    | InvalidNextToken
-    | ResourceContentionFault
-    | ServiceLinkedRoleFailure
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePolicies: API.OperationMethod<
+  DescribePoliciesType,
+  PoliciesType,
+  | InvalidNextToken
+  | ResourceContentionFault
+  | ServiceLinkedRoleFailure
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePoliciesType,
   ) => stream.Stream<
@@ -5577,14 +5536,12 @@ export const describePolicies: {
  * the `StatusMessage` element in the response indicates the cause of the
  * failure. For help interpreting the `StatusMessage`, see Troubleshooting Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeScalingActivities: {
-  (
-    input: DescribeScalingActivitiesType,
-  ): effect.Effect<
-    ActivitiesType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScalingActivities: API.OperationMethod<
+  DescribeScalingActivitiesType,
+  ActivitiesType,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScalingActivitiesType,
   ) => stream.Stream<
@@ -5614,9 +5571,8 @@ export const describeScalingActivities: {
  * Describes the scaling process types for use with the ResumeProcesses
  * and SuspendProcesses APIs.
  */
-export const describeScalingProcessTypes: (
-  input: DescribeScalingProcessTypesRequest,
-) => effect.Effect<
+export const describeScalingProcessTypes: API.OperationMethod<
+  DescribeScalingProcessTypesRequest,
   ProcessesType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5632,14 +5588,12 @@ export const describeScalingProcessTypes: (
  * To describe the scaling activities for scheduled actions that have already run, call
  * the DescribeScalingActivities API.
  */
-export const describeScheduledActions: {
-  (
-    input: DescribeScheduledActionsType,
-  ): effect.Effect<
-    ScheduledActionsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScheduledActions: API.OperationMethod<
+  DescribeScheduledActionsType,
+  ScheduledActionsType,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScheduledActionsType,
   ) => stream.Stream<
@@ -5679,14 +5633,12 @@ export const describeScheduledActions: {
  * For more information, see Tag Auto Scaling groups and
  * instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeTags: {
-  (
-    input: DescribeTagsType,
-  ): effect.Effect<
-    TagsType,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTags: API.OperationMethod<
+  DescribeTagsType,
+  TagsType,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTagsType,
   ) => stream.Stream<
@@ -5719,9 +5671,8 @@ export const describeTags: {
  * termination policies for Amazon EC2 Auto Scaling in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeTerminationPolicyTypes: (
-  input: DescribeTerminationPolicyTypesRequest,
-) => effect.Effect<
+export const describeTerminationPolicyTypes: API.OperationMethod<
+  DescribeTerminationPolicyTypesRequest,
   DescribeTerminationPolicyTypesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5739,14 +5690,12 @@ export const describeTerminationPolicyTypes: (
  * If you do not provide a traffic source type, then the results include all the traffic
  * sources for the specified Auto Scaling group.
  */
-export const describeTrafficSources: {
-  (
-    input: DescribeTrafficSourcesRequest,
-  ): effect.Effect<
-    DescribeTrafficSourcesResponse,
-    InvalidNextToken | ResourceContentionFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTrafficSources: API.OperationMethod<
+  DescribeTrafficSourcesRequest,
+  DescribeTrafficSourcesResponse,
+  InvalidNextToken | ResourceContentionFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrafficSourcesRequest,
   ) => stream.Stream<
@@ -5777,17 +5726,15 @@ export const describeTrafficSources: {
  * For more information, see Warm pools for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const describeWarmPool: {
-  (
-    input: DescribeWarmPoolType,
-  ): effect.Effect<
-    DescribeWarmPoolAnswer,
-    | InvalidNextToken
-    | LimitExceededFault
-    | ResourceContentionFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeWarmPool: API.OperationMethod<
+  DescribeWarmPoolType,
+  DescribeWarmPoolAnswer,
+  | InvalidNextToken
+  | LimitExceededFault
+  | ResourceContentionFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeWarmPoolType,
   ) => stream.Stream<
@@ -5835,9 +5782,8 @@ export const describeWarmPool: {
  * For more information, see Detach
  * or attach instances in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const detachInstances: (
-  input: DetachInstancesQuery,
-) => effect.Effect<
+export const detachInstances: API.OperationMethod<
+  DetachInstancesQuery,
   DetachInstancesAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5864,9 +5810,8 @@ export const detachInstances: (
  * can no longer describe the load balancer using the DescribeLoadBalancers
  * API call. The instances remain running.
  */
-export const detachLoadBalancers: (
-  input: DetachLoadBalancersType,
-) => effect.Effect<
+export const detachLoadBalancers: API.OperationMethod<
+  DetachLoadBalancersType,
   DetachLoadBalancersResultType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5895,9 +5840,8 @@ export const detachLoadBalancers: (
  * AttachLoadBalancerTargetGroups, but not for target groups that
  * were attached by using AttachTrafficSources.
  */
-export const detachLoadBalancerTargetGroups: (
-  input: DetachLoadBalancerTargetGroupsType,
-) => effect.Effect<
+export const detachLoadBalancerTargetGroups: API.OperationMethod<
+  DetachLoadBalancerTargetGroupsType,
   DetachLoadBalancerTargetGroupsResultType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5915,9 +5859,8 @@ export const detachLoadBalancerTargetGroups: (
  * DescribeTrafficSources
  * API call. The instances continue to run.
  */
-export const detachTrafficSources: (
-  input: DetachTrafficSourcesType,
-) => effect.Effect<
+export const detachTrafficSources: API.OperationMethod<
+  DetachTrafficSourcesType,
   DetachTrafficSourcesResultType,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5929,9 +5872,8 @@ export const detachTrafficSources: (
 /**
  * Disables group metrics collection for the specified Auto Scaling group.
  */
-export const disableMetricsCollection: (
-  input: DisableMetricsCollectionQuery,
-) => effect.Effect<
+export const disableMetricsCollection: API.OperationMethod<
+  DisableMetricsCollectionQuery,
   DisableMetricsCollectionResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5949,9 +5891,8 @@ export const disableMetricsCollection: (
  * CloudWatch metrics for your Auto Scaling groups and instances in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const enableMetricsCollection: (
-  input: EnableMetricsCollectionQuery,
-) => effect.Effect<
+export const enableMetricsCollection: API.OperationMethod<
+  EnableMetricsCollectionQuery,
   EnableMetricsCollectionResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5975,9 +5916,8 @@ export const enableMetricsCollection: (
  * instances from your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const enterStandby: (
-  input: EnterStandbyQuery,
-) => effect.Effect<
+export const enterStandby: API.OperationMethod<
+  EnterStandbyQuery,
   EnterStandbyAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5990,9 +5930,8 @@ export const enterStandby: (
  * Executes the specified policy. This can be useful for testing the design of your
  * scaling policy.
  */
-export const executePolicy: (
-  input: ExecutePolicyType,
-) => effect.Effect<
+export const executePolicy: API.OperationMethod<
+  ExecutePolicyType,
   ExecutePolicyResponse,
   ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6011,9 +5950,8 @@ export const executePolicy: (
  * instances from your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const exitStandby: (
-  input: ExitStandbyQuery,
-) => effect.Effect<
+export const exitStandby: API.OperationMethod<
+  ExitStandbyQuery,
   ExitStandbyAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6036,9 +5974,8 @@ export const exitStandby: (
  * For more information, see Predictive
  * scaling for Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const getPredictiveScalingForecast: (
-  input: GetPredictiveScalingForecastType,
-) => effect.Effect<
+export const getPredictiveScalingForecast: API.OperationMethod<
+  GetPredictiveScalingForecastType,
   GetPredictiveScalingForecastAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6051,9 +5988,8 @@ export const getPredictiveScalingForecast: (
  * Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and
  * other details if launch is successful or error details if launch is unsuccessful.
  */
-export const launchInstances: (
-  input: LaunchInstancesRequest,
-) => effect.Effect<
+export const launchInstances: API.OperationMethod<
+  LaunchInstancesRequest,
   LaunchInstancesResult,
   IdempotentParameterMismatchError | ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6103,9 +6039,8 @@ export const launchInstances: (
  * DescribeLifecycleHooks API call. If you are no longer using a lifecycle
  * hook, you can delete it by calling the DeleteLifecycleHook API.
  */
-export const putLifecycleHook: (
-  input: PutLifecycleHookType,
-) => effect.Effect<
+export const putLifecycleHook: API.OperationMethod<
+  PutLifecycleHookType,
   PutLifecycleHookAnswer,
   LimitExceededFault | ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6128,9 +6063,8 @@ export const putLifecycleHook: (
  * If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call
  * fails.
  */
-export const putNotificationConfiguration: (
-  input: PutNotificationConfigurationType,
-) => effect.Effect<
+export const putNotificationConfiguration: API.OperationMethod<
+  PutNotificationConfigurationType,
   PutNotificationConfigurationResponse,
   | LimitExceededFault
   | ResourceContentionFault
@@ -6162,9 +6096,8 @@ export const putNotificationConfiguration: (
  * DescribePolicies API call. If you are no longer using a scaling policy,
  * you can delete it by calling the DeletePolicy API.
  */
-export const putScalingPolicy: (
-  input: PutScalingPolicyType,
-) => effect.Effect<
+export const putScalingPolicy: API.OperationMethod<
+  PutScalingPolicyType,
   PolicyARNType,
   | LimitExceededFault
   | ResourceContentionFault
@@ -6194,9 +6127,8 @@ export const putScalingPolicy: (
  * If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error
  * message.
  */
-export const putScheduledUpdateGroupAction: (
-  input: PutScheduledUpdateGroupActionType,
-) => effect.Effect<
+export const putScheduledUpdateGroupAction: API.OperationMethod<
+  PutScheduledUpdateGroupActionType,
   PutScheduledUpdateGroupActionResponse,
   | AlreadyExistsFault
   | LimitExceededFault
@@ -6223,9 +6155,8 @@ export const putScheduledUpdateGroupAction: (
  * For more information, see Warm pools for
  * Amazon EC2 Auto Scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const putWarmPool: (
-  input: PutWarmPoolType,
-) => effect.Effect<
+export const putWarmPool: API.OperationMethod<
+  PutWarmPoolType,
   PutWarmPoolAnswer,
   | InstanceRefreshInProgressFault
   | LimitExceededFault
@@ -6273,9 +6204,8 @@ export const putWarmPool: (
  * For more information, see Amazon EC2 Auto Scaling lifecycle
  * hooks in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const recordLifecycleActionHeartbeat: (
-  input: RecordLifecycleActionHeartbeatType,
-) => effect.Effect<
+export const recordLifecycleActionHeartbeat: API.OperationMethod<
+  RecordLifecycleActionHeartbeatType,
   RecordLifecycleActionHeartbeatAnswer,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6291,9 +6221,8 @@ export const recordLifecycleActionHeartbeat: (
  * For more information, see Suspend and resume
  * Amazon EC2 Auto Scaling processes in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const resumeProcesses: (
-  input: ScalingProcessQuery,
-) => effect.Effect<
+export const resumeProcesses: API.OperationMethod<
+  ScalingProcessQuery,
   ResumeProcessesResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6326,9 +6255,8 @@ export const resumeProcesses: (
  * begins replacing instances. You can check the status of this operation through the
  * DescribeInstanceRefreshes API operation.
  */
-export const rollbackInstanceRefresh: (
-  input: RollbackInstanceRefreshType,
-) => effect.Effect<
+export const rollbackInstanceRefresh: API.OperationMethod<
+  RollbackInstanceRefreshType,
   RollbackInstanceRefreshAnswer,
   | ActiveInstanceRefreshNotFoundFault
   | IrreversibleInstanceRefreshFault
@@ -6356,9 +6284,8 @@ export const rollbackInstanceRefresh: (
  * For more information, see Manual
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const setDesiredCapacity: (
-  input: SetDesiredCapacityType,
-) => effect.Effect<
+export const setDesiredCapacity: API.OperationMethod<
+  SetDesiredCapacityType,
   SetDesiredCapacityResponse,
   ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6374,9 +6301,8 @@ export const setDesiredCapacity: (
  * health check for your Auto Scaling group in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const setInstanceHealth: (
-  input: SetInstanceHealthQuery,
-) => effect.Effect<
+export const setInstanceHealth: API.OperationMethod<
+  SetInstanceHealthQuery,
   SetInstanceHealthResponse,
   ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6396,9 +6322,8 @@ export const setInstanceHealth: (
  * If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call
  * fails.
  */
-export const setInstanceProtection: (
-  input: SetInstanceProtectionQuery,
-) => effect.Effect<
+export const setInstanceProtection: API.OperationMethod<
+  SetInstanceProtectionQuery,
   SetInstanceProtectionAnswer,
   LimitExceededFault | ResourceContentionFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6436,9 +6361,8 @@ export const setInstanceProtection: (
  * preferences. Otherwise, to roll back an instance refresh before it finishes, use the
  * RollbackInstanceRefresh API.
  */
-export const startInstanceRefresh: (
-  input: StartInstanceRefreshType,
-) => effect.Effect<
+export const startInstanceRefresh: API.OperationMethod<
+  StartInstanceRefreshType,
   StartInstanceRefreshAnswer,
   | InstanceRefreshInProgressFault
   | LimitExceededFault
@@ -6465,9 +6389,8 @@ export const startInstanceRefresh: (
  *
  * To resume processes that have been suspended, call the ResumeProcesses API.
  */
-export const suspendProcesses: (
-  input: ScalingProcessQuery,
-) => effect.Effect<
+export const suspendProcesses: API.OperationMethod<
+  ScalingProcessQuery,
   SuspendProcessesResponse,
   ResourceContentionFault | ResourceInUseFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6494,9 +6417,8 @@ export const suspendProcesses: (
  * terminate instances in other zones. For more information, see Manual
  * scaling in the *Amazon EC2 Auto Scaling User Guide*.
  */
-export const terminateInstanceInAutoScalingGroup: (
-  input: TerminateInstanceInAutoScalingGroupType,
-) => effect.Effect<
+export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
+  TerminateInstanceInAutoScalingGroupType,
   ActivityType,
   ResourceContentionFault | ScalingActivityInProgressFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6548,9 +6470,8 @@ export const terminateInstanceInAutoScalingGroup: (
  * group, call the DescribePolicies API. If the group has scaling
  * policies, you can update them by calling the PutScalingPolicy API.
  */
-export const updateAutoScalingGroup: (
-  input: UpdateAutoScalingGroupType,
-) => effect.Effect<
+export const updateAutoScalingGroup: API.OperationMethod<
+  UpdateAutoScalingGroupType,
   UpdateAutoScalingGroupResponse,
   | ResourceContentionFault
   | ScalingActivityInProgressFault

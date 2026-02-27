@@ -8290,9 +8290,8 @@ export class EndpointAuthorizationNotFoundFault extends S.TaggedErrorClass<Endpo
  * Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the
  * configuration (term, payment type, or number of nodes) and no additional costs.
  */
-export const acceptReservedNodeExchange: (
-  input: AcceptReservedNodeExchangeInputMessage,
-) => effect.Effect<
+export const acceptReservedNodeExchange: API.OperationMethod<
+  AcceptReservedNodeExchangeInputMessage,
   AcceptReservedNodeExchangeOutputMessage,
   | DependentServiceUnavailableFault
   | InvalidReservedNodeStateFault
@@ -8321,9 +8320,8 @@ export const acceptReservedNodeExchange: (
  * This operation authorizes a partner to push status updates for the specified database.
  * To complete the integration, you also set up the integration on the partner website.
  */
-export const addPartner: (
-  input: PartnerIntegrationInputMessage,
-) => effect.Effect<
+export const addPartner: API.OperationMethod<
+  PartnerIntegrationInputMessage,
   PartnerIntegrationOutputMessage,
   | ClusterNotFoundFault
   | PartnerNotFoundFault
@@ -8346,9 +8344,8 @@ export const addPartner: (
  * account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer
  * can consume the datashare.
  */
-export const associateDataShareConsumer: (
-  input: AssociateDataShareConsumerMessage,
-) => effect.Effect<
+export const associateDataShareConsumer: API.OperationMethod<
+  AssociateDataShareConsumerMessage,
   DataShare,
   InvalidDataShareFault | InvalidNamespaceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8378,9 +8375,8 @@ export const associateDataShareConsumer: (
  * information about managing security groups, go to Working with Security
  * Groups in the *Amazon Redshift Cluster Management Guide*.
  */
-export const authorizeClusterSecurityGroupIngress: (
-  input: AuthorizeClusterSecurityGroupIngressMessage,
-) => effect.Effect<
+export const authorizeClusterSecurityGroupIngress: API.OperationMethod<
+  AuthorizeClusterSecurityGroupIngressMessage,
   AuthorizeClusterSecurityGroupIngressResult,
   | AuthorizationAlreadyExistsFault
   | AuthorizationQuotaExceededFault
@@ -8403,9 +8399,8 @@ export const authorizeClusterSecurityGroupIngress: (
  * consumer accounts or managing entities. To authorize a datashare for a data consumer,
  * the producer account must have the correct access permissions.
  */
-export const authorizeDataShare: (
-  input: AuthorizeDataShareMessage,
-) => effect.Effect<
+export const authorizeDataShare: API.OperationMethod<
+  AuthorizeDataShareMessage,
   DataShare,
   InvalidDataShareFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8417,9 +8412,8 @@ export const authorizeDataShare: (
 /**
  * Grants access to a cluster.
  */
-export const authorizeEndpointAccess: (
-  input: AuthorizeEndpointAccessMessage,
-) => effect.Effect<
+export const authorizeEndpointAccess: API.OperationMethod<
+  AuthorizeEndpointAccessMessage,
   EndpointAuthorization,
   | ClusterNotFoundFault
   | EndpointAuthorizationAlreadyExistsFault
@@ -8449,9 +8443,8 @@ export const authorizeEndpointAccess: (
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const authorizeSnapshotAccess: (
-  input: AuthorizeSnapshotAccessMessage,
-) => effect.Effect<
+export const authorizeSnapshotAccess: API.OperationMethod<
+  AuthorizeSnapshotAccessMessage,
   AuthorizeSnapshotAccessResult,
   | AuthorizationAlreadyExistsFault
   | AuthorizationQuotaExceededFault
@@ -8478,9 +8471,8 @@ export const authorizeSnapshotAccess: (
 /**
  * Deletes a set of cluster snapshots.
  */
-export const batchDeleteClusterSnapshots: (
-  input: BatchDeleteClusterSnapshotsRequest,
-) => effect.Effect<
+export const batchDeleteClusterSnapshots: API.OperationMethod<
+  BatchDeleteClusterSnapshotsRequest,
   BatchDeleteClusterSnapshotsResult,
   BatchDeleteRequestSizeExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8492,9 +8484,8 @@ export const batchDeleteClusterSnapshots: (
 /**
  * Modifies the settings for a set of cluster snapshots.
  */
-export const batchModifyClusterSnapshots: (
-  input: BatchModifyClusterSnapshotsMessage,
-) => effect.Effect<
+export const batchModifyClusterSnapshots: API.OperationMethod<
+  BatchModifyClusterSnapshotsMessage,
   BatchModifyClusterSnapshotsOutputMessage,
   | BatchModifyClusterSnapshotsLimitExceededFault
   | InvalidRetentionPeriodFault
@@ -8511,9 +8502,8 @@ export const batchModifyClusterSnapshots: (
 /**
  * Cancels a resize operation for a cluster.
  */
-export const cancelResize: (
-  input: CancelResizeMessage,
-) => effect.Effect<
+export const cancelResize: API.OperationMethod<
+  CancelResizeMessage,
   ResizeProgressMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -8546,9 +8536,8 @@ export const cancelResize: (
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const copyClusterSnapshot: (
-  input: CopyClusterSnapshotMessage,
-) => effect.Effect<
+export const copyClusterSnapshot: API.OperationMethod<
+  CopyClusterSnapshotMessage,
   CopyClusterSnapshotResult,
   | ClusterNotFoundFault
   | ClusterSnapshotAlreadyExistsFault
@@ -8573,9 +8562,8 @@ export const copyClusterSnapshot: (
 /**
  * Creates an authentication profile with the specified parameters.
  */
-export const createAuthenticationProfile: (
-  input: CreateAuthenticationProfileMessage,
-) => effect.Effect<
+export const createAuthenticationProfile: API.OperationMethod<
+  CreateAuthenticationProfileMessage,
   CreateAuthenticationProfileResult,
   | AuthenticationProfileAlreadyExistsFault
   | AuthenticationProfileQuotaExceededFault
@@ -8619,9 +8607,8 @@ export const createAuthenticationProfile: (
  * For more information about VPC BPA, see Block public access to VPCs and
  * subnets in the *Amazon VPC User Guide*.
  */
-export const createCluster: (
-  input: CreateClusterMessage,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterMessage,
   CreateClusterResult,
   | ClusterAlreadyExistsFault
   | ClusterParameterGroupNotFoundFault
@@ -8698,9 +8685,8 @@ export const createCluster: (
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterParameterGroup: (
-  input: CreateClusterParameterGroupMessage,
-) => effect.Effect<
+export const createClusterParameterGroup: API.OperationMethod<
+  CreateClusterParameterGroupMessage,
   CreateClusterParameterGroupResult,
   | ClusterParameterGroupAlreadyExistsFault
   | ClusterParameterGroupQuotaExceededFault
@@ -8726,9 +8712,8 @@ export const createClusterParameterGroup: (
  * Amazon Redshift Cluster Security Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterSecurityGroup: (
-  input: CreateClusterSecurityGroupMessage,
-) => effect.Effect<
+export const createClusterSecurityGroup: API.OperationMethod<
+  CreateClusterSecurityGroupMessage,
   CreateClusterSecurityGroupResult,
   | ClusterSecurityGroupAlreadyExistsFault
   | ClusterSecurityGroupQuotaExceededFault
@@ -8754,9 +8739,8 @@ export const createClusterSecurityGroup: (
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterSnapshot: (
-  input: CreateClusterSnapshotMessage,
-) => effect.Effect<
+export const createClusterSnapshot: API.OperationMethod<
+  CreateClusterSnapshotMessage,
   CreateClusterSnapshotResult,
   | ClusterNotFoundFault
   | ClusterSnapshotAlreadyExistsFault
@@ -8789,9 +8773,8 @@ export const createClusterSnapshot: (
  * Amazon Redshift Cluster Subnet Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const createClusterSubnetGroup: (
-  input: CreateClusterSubnetGroupMessage,
-) => effect.Effect<
+export const createClusterSubnetGroup: API.OperationMethod<
+  CreateClusterSubnetGroupMessage,
   CreateClusterSubnetGroupResult,
   | ClusterSubnetGroupAlreadyExistsFault
   | ClusterSubnetGroupQuotaExceededFault
@@ -8821,9 +8804,8 @@ export const createClusterSubnetGroup: (
  * Used to create a custom domain name for a cluster. Properties include the custom domain name, the
  * cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
  */
-export const createCustomDomainAssociation: (
-  input: CreateCustomDomainAssociationMessage,
-) => effect.Effect<
+export const createCustomDomainAssociation: API.OperationMethod<
+  CreateCustomDomainAssociationMessage,
   CreateCustomDomainAssociationResult,
   | ClusterNotFoundFault
   | CustomCnameAssociationFault
@@ -8842,9 +8824,8 @@ export const createCustomDomainAssociation: (
 /**
  * Creates a Redshift-managed VPC endpoint.
  */
-export const createEndpointAccess: (
-  input: CreateEndpointAccessMessage,
-) => effect.Effect<
+export const createEndpointAccess: API.OperationMethod<
+  CreateEndpointAccessMessage,
   EndpointAccess,
   | AccessToClusterDeniedFault
   | ClusterNotFoundFault
@@ -8895,9 +8876,8 @@ export const createEndpointAccess: (
  * Amazon Web Services account. If you do not specify either the SourceType nor the SourceIdentifier, you
  * will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
  */
-export const createEventSubscription: (
-  input: CreateEventSubscriptionMessage,
-) => effect.Effect<
+export const createEventSubscription: API.OperationMethod<
+  CreateEventSubscriptionMessage,
   CreateEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | InvalidTagFault
@@ -8940,9 +8920,8 @@ export const createEventSubscription: (
  * For more information, go to Hardware Security Modules
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createHsmClientCertificate: (
-  input: CreateHsmClientCertificateMessage,
-) => effect.Effect<
+export const createHsmClientCertificate: API.OperationMethod<
+  CreateHsmClientCertificateMessage,
   CreateHsmClientCertificateResult,
   | HsmClientCertificateAlreadyExistsFault
   | HsmClientCertificateQuotaExceededFault
@@ -8970,9 +8949,8 @@ export const createHsmClientCertificate: (
  * certificate. For more information, go to Hardware Security Modules
  * in the Amazon Redshift Cluster Management Guide.
  */
-export const createHsmConfiguration: (
-  input: CreateHsmConfigurationMessage,
-) => effect.Effect<
+export const createHsmConfiguration: API.OperationMethod<
+  CreateHsmConfigurationMessage,
   CreateHsmConfigurationResult,
   | HsmConfigurationAlreadyExistsFault
   | HsmConfigurationQuotaExceededFault
@@ -8993,9 +8971,8 @@ export const createHsmConfiguration: (
 /**
  * Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
-export const createIntegration: (
-  input: CreateIntegrationMessage,
-) => effect.Effect<
+export const createIntegration: API.OperationMethod<
+  CreateIntegrationMessage,
   Integration,
   | IntegrationAlreadyExistsFault
   | IntegrationConflictOperationFault
@@ -9026,9 +9003,8 @@ export const createIntegration: (
 /**
  * Creates an Amazon Redshift application for use with IAM Identity Center.
  */
-export const createRedshiftIdcApplication: (
-  input: CreateRedshiftIdcApplicationMessage,
-) => effect.Effect<
+export const createRedshiftIdcApplication: API.OperationMethod<
+  CreateRedshiftIdcApplicationMessage,
   CreateRedshiftIdcApplicationResult,
   | DependentServiceAccessDeniedFault
   | DependentServiceUnavailableFault
@@ -9056,9 +9032,8 @@ export const createRedshiftIdcApplication: (
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action.
  * For example, you can create a schedule of when to run the `ResizeCluster` API operation.
  */
-export const createScheduledAction: (
-  input: CreateScheduledActionMessage,
-) => effect.Effect<
+export const createScheduledAction: API.OperationMethod<
+  CreateScheduledActionMessage,
   ScheduledAction,
   | ClusterNotFoundFault
   | InvalidScheduledActionFault
@@ -9093,9 +9068,8 @@ export const createScheduledAction: (
  * Amazon Redshift Database Encryption
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const createSnapshotCopyGrant: (
-  input: CreateSnapshotCopyGrantMessage,
-) => effect.Effect<
+export const createSnapshotCopyGrant: API.OperationMethod<
+  CreateSnapshotCopyGrantMessage,
   CreateSnapshotCopyGrantResult,
   | DependentServiceRequestThrottlingFault
   | InvalidTagFault
@@ -9120,9 +9094,8 @@ export const createSnapshotCopyGrant: (
 /**
  * Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
  */
-export const createSnapshotSchedule: (
-  input: CreateSnapshotScheduleMessage,
-) => effect.Effect<
+export const createSnapshotSchedule: API.OperationMethod<
+  CreateSnapshotScheduleMessage,
   SnapshotSchedule,
   | InvalidScheduleFault
   | InvalidTagFault
@@ -9153,9 +9126,8 @@ export const createSnapshotSchedule: (
  * If you specify a key that already exists for the resource, the value for that key
  * will be updated with the new value.
  */
-export const createTags: (
-  input: CreateTagsMessage,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsMessage,
   CreateTagsResponse,
   | InvalidClusterStateFault
   | InvalidTagFault
@@ -9177,9 +9149,8 @@ export const createTags: (
  * Creates a usage limit for a specified Amazon Redshift feature on a cluster.
  * The usage limit is identified by the returned usage limit identifier.
  */
-export const createUsageLimit: (
-  input: CreateUsageLimitMessage,
-) => effect.Effect<
+export const createUsageLimit: API.OperationMethod<
+  CreateUsageLimitMessage,
   UsageLimit,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9206,9 +9177,8 @@ export const createUsageLimit: (
 /**
  * From a datashare producer account, removes authorization from the specified datashare.
  */
-export const deauthorizeDataShare: (
-  input: DeauthorizeDataShareMessage,
-) => effect.Effect<
+export const deauthorizeDataShare: API.OperationMethod<
+  DeauthorizeDataShareMessage,
   DataShare,
   InvalidDataShareFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9220,9 +9190,8 @@ export const deauthorizeDataShare: (
 /**
  * Deletes an authentication profile.
  */
-export const deleteAuthenticationProfile: (
-  input: DeleteAuthenticationProfileMessage,
-) => effect.Effect<
+export const deleteAuthenticationProfile: API.OperationMethod<
+  DeleteAuthenticationProfileMessage,
   DeleteAuthenticationProfileResult,
   | AuthenticationProfileNotFoundFault
   | InvalidAuthenticationProfileRequestFault
@@ -9255,9 +9224,8 @@ export const deleteAuthenticationProfile: (
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const deleteCluster: (
-  input: DeleteClusterMessage,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterMessage,
   DeleteClusterResult,
   | ClusterNotFoundFault
   | ClusterSnapshotAlreadyExistsFault
@@ -9283,9 +9251,8 @@ export const deleteCluster: (
  * You cannot delete a parameter group if it is associated with a
  * cluster.
  */
-export const deleteClusterParameterGroup: (
-  input: DeleteClusterParameterGroupMessage,
-) => effect.Effect<
+export const deleteClusterParameterGroup: API.OperationMethod<
+  DeleteClusterParameterGroupMessage,
   DeleteClusterParameterGroupResponse,
   | ClusterParameterGroupNotFoundFault
   | InvalidClusterParameterGroupStateFault
@@ -9309,9 +9276,8 @@ export const deleteClusterParameterGroup: (
  * Amazon Redshift Cluster Security Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const deleteClusterSecurityGroup: (
-  input: DeleteClusterSecurityGroupMessage,
-) => effect.Effect<
+export const deleteClusterSecurityGroup: API.OperationMethod<
+  DeleteClusterSecurityGroupMessage,
   DeleteClusterSecurityGroupResponse,
   | ClusterSecurityGroupNotFoundFault
   | InvalidClusterSecurityGroupStateFault
@@ -9335,9 +9301,8 @@ export const deleteClusterSecurityGroup: (
  * the snapshot, you must revoke all of the authorizations before you can delete the
  * snapshot.
  */
-export const deleteClusterSnapshot: (
-  input: DeleteClusterSnapshotMessage,
-) => effect.Effect<
+export const deleteClusterSnapshot: API.OperationMethod<
+  DeleteClusterSnapshotMessage,
   DeleteClusterSnapshotResult,
   | ClusterSnapshotNotFoundFault
   | InvalidClusterSnapshotStateFault
@@ -9351,9 +9316,8 @@ export const deleteClusterSnapshot: (
 /**
  * Deletes the specified cluster subnet group.
  */
-export const deleteClusterSubnetGroup: (
-  input: DeleteClusterSubnetGroupMessage,
-) => effect.Effect<
+export const deleteClusterSubnetGroup: API.OperationMethod<
+  DeleteClusterSubnetGroupMessage,
   DeleteClusterSubnetGroupResponse,
   | ClusterSubnetGroupNotFoundFault
   | InvalidClusterSubnetGroupStateFault
@@ -9372,9 +9336,8 @@ export const deleteClusterSubnetGroup: (
 /**
  * Contains information about deleting a custom domain association for a cluster.
  */
-export const deleteCustomDomainAssociation: (
-  input: DeleteCustomDomainAssociationMessage,
-) => effect.Effect<
+export const deleteCustomDomainAssociation: API.OperationMethod<
+  DeleteCustomDomainAssociationMessage,
   DeleteCustomDomainAssociationResponse,
   | ClusterNotFoundFault
   | CustomCnameAssociationFault
@@ -9395,9 +9358,8 @@ export const deleteCustomDomainAssociation: (
 /**
  * Deletes a Redshift-managed VPC endpoint.
  */
-export const deleteEndpointAccess: (
-  input: DeleteEndpointAccessMessage,
-) => effect.Effect<
+export const deleteEndpointAccess: API.OperationMethod<
+  DeleteEndpointAccessMessage,
   EndpointAccess,
   | ClusterNotFoundFault
   | EndpointNotFoundFault
@@ -9420,9 +9382,8 @@ export const deleteEndpointAccess: (
 /**
  * Deletes an Amazon Redshift event notification subscription.
  */
-export const deleteEventSubscription: (
-  input: DeleteEventSubscriptionMessage,
-) => effect.Effect<
+export const deleteEventSubscription: API.OperationMethod<
+  DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResponse,
   InvalidSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9434,9 +9395,8 @@ export const deleteEventSubscription: (
 /**
  * Deletes the specified HSM client certificate.
  */
-export const deleteHsmClientCertificate: (
-  input: DeleteHsmClientCertificateMessage,
-) => effect.Effect<
+export const deleteHsmClientCertificate: API.OperationMethod<
+  DeleteHsmClientCertificateMessage,
   DeleteHsmClientCertificateResponse,
   | HsmClientCertificateNotFoundFault
   | InvalidHsmClientCertificateStateFault
@@ -9453,9 +9413,8 @@ export const deleteHsmClientCertificate: (
 /**
  * Deletes the specified Amazon Redshift HSM configuration.
  */
-export const deleteHsmConfiguration: (
-  input: DeleteHsmConfigurationMessage,
-) => effect.Effect<
+export const deleteHsmConfiguration: API.OperationMethod<
+  DeleteHsmConfigurationMessage,
   DeleteHsmConfigurationResponse,
   | HsmConfigurationNotFoundFault
   | InvalidHsmConfigurationStateFault
@@ -9469,9 +9428,8 @@ export const deleteHsmConfiguration: (
 /**
  * Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationMessage,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationMessage,
   Integration,
   | IntegrationConflictOperationFault
   | IntegrationConflictStateFault
@@ -9492,9 +9450,8 @@ export const deleteIntegration: (
 /**
  * Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
  */
-export const deletePartner: (
-  input: PartnerIntegrationInputMessage,
-) => effect.Effect<
+export const deletePartner: API.OperationMethod<
+  PartnerIntegrationInputMessage,
   PartnerIntegrationOutputMessage,
   | ClusterNotFoundFault
   | PartnerNotFoundFault
@@ -9515,9 +9472,8 @@ export const deletePartner: (
 /**
  * Deletes an Amazon Redshift IAM Identity Center application.
  */
-export const deleteRedshiftIdcApplication: (
-  input: DeleteRedshiftIdcApplicationMessage,
-) => effect.Effect<
+export const deleteRedshiftIdcApplication: API.OperationMethod<
+  DeleteRedshiftIdcApplicationMessage,
   DeleteRedshiftIdcApplicationResponse,
   | DependentServiceAccessDeniedFault
   | DependentServiceUnavailableFault
@@ -9538,9 +9494,8 @@ export const deleteRedshiftIdcApplication: (
 /**
  * Deletes the resource policy for a specified resource.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyMessage,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyMessage,
   DeleteResourcePolicyResponse,
   ResourceNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9552,9 +9507,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes a scheduled action.
  */
-export const deleteScheduledAction: (
-  input: DeleteScheduledActionMessage,
-) => effect.Effect<
+export const deleteScheduledAction: API.OperationMethod<
+  DeleteScheduledActionMessage,
   DeleteScheduledActionResponse,
   ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9566,9 +9520,8 @@ export const deleteScheduledAction: (
 /**
  * Deletes the specified snapshot copy grant.
  */
-export const deleteSnapshotCopyGrant: (
-  input: DeleteSnapshotCopyGrantMessage,
-) => effect.Effect<
+export const deleteSnapshotCopyGrant: API.OperationMethod<
+  DeleteSnapshotCopyGrantMessage,
   DeleteSnapshotCopyGrantResponse,
   | InvalidSnapshotCopyGrantStateFault
   | SnapshotCopyGrantNotFoundFault
@@ -9582,9 +9535,8 @@ export const deleteSnapshotCopyGrant: (
 /**
  * Deletes a snapshot schedule.
  */
-export const deleteSnapshotSchedule: (
-  input: DeleteSnapshotScheduleMessage,
-) => effect.Effect<
+export const deleteSnapshotSchedule: API.OperationMethod<
+  DeleteSnapshotScheduleMessage,
   DeleteSnapshotScheduleResponse,
   | InvalidClusterSnapshotScheduleStateFault
   | SnapshotScheduleNotFoundFault
@@ -9602,9 +9554,8 @@ export const deleteSnapshotSchedule: (
  * Deletes tags from a resource. You must provide the ARN of the resource
  * from which you want to delete the tag or tags.
  */
-export const deleteTags: (
-  input: DeleteTagsMessage,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsMessage,
   DeleteTagsResponse,
   InvalidTagFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9616,9 +9567,8 @@ export const deleteTags: (
 /**
  * Deletes a usage limit from a cluster.
  */
-export const deleteUsageLimit: (
-  input: DeleteUsageLimitMessage,
-) => effect.Effect<
+export const deleteUsageLimit: API.OperationMethod<
+  DeleteUsageLimitMessage,
   DeleteUsageLimitResponse,
   UnsupportedOperationFault | UsageLimitNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9630,9 +9580,8 @@ export const deleteUsageLimit: (
 /**
  * Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
  */
-export const deregisterNamespace: (
-  input: DeregisterNamespaceInputMessage,
-) => effect.Effect<
+export const deregisterNamespace: API.OperationMethod<
+  DeregisterNamespaceInputMessage,
   DeregisterNamespaceOutputMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -9651,9 +9600,8 @@ export const deregisterNamespace: (
 /**
  * Returns a list of attributes attached to an account
  */
-export const describeAccountAttributes: (
-  input: DescribeAccountAttributesMessage,
-) => effect.Effect<
+export const describeAccountAttributes: API.OperationMethod<
+  DescribeAccountAttributesMessage,
   AccountAttributeList,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9665,9 +9613,8 @@ export const describeAccountAttributes: (
 /**
  * Describes an authentication profile.
  */
-export const describeAuthenticationProfiles: (
-  input: DescribeAuthenticationProfilesMessage,
-) => effect.Effect<
+export const describeAuthenticationProfiles: API.OperationMethod<
+  DescribeAuthenticationProfilesMessage,
   DescribeAuthenticationProfilesResult,
   | AuthenticationProfileNotFoundFault
   | InvalidAuthenticationProfileRequestFault
@@ -9684,14 +9631,12 @@ export const describeAuthenticationProfiles: (
 /**
  * Returns an array of `ClusterDbRevision` objects.
  */
-export const describeClusterDbRevisions: {
-  (
-    input: DescribeClusterDbRevisionsMessage,
-  ): effect.Effect<
-    ClusterDbRevisionsMessage,
-    ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterDbRevisions: API.OperationMethod<
+  DescribeClusterDbRevisionsMessage,
+  ClusterDbRevisionsMessage,
+  ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterDbRevisionsMessage,
   ) => stream.Stream<
@@ -9738,14 +9683,12 @@ export const describeClusterDbRevisions: {
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeClusterParameterGroups: {
-  (
-    input: DescribeClusterParameterGroupsMessage,
-  ): effect.Effect<
-    ClusterParameterGroupsMessage,
-    ClusterParameterGroupNotFoundFault | InvalidTagFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterParameterGroups: API.OperationMethod<
+  DescribeClusterParameterGroupsMessage,
+  ClusterParameterGroupsMessage,
+  ClusterParameterGroupNotFoundFault | InvalidTagFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterParameterGroupsMessage,
   ) => stream.Stream<
@@ -9786,14 +9729,12 @@ export const describeClusterParameterGroups: {
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeClusterParameters: {
-  (
-    input: DescribeClusterParametersMessage,
-  ): effect.Effect<
-    ClusterParameterGroupDetails,
-    ClusterParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterParameters: API.OperationMethod<
+  DescribeClusterParametersMessage,
+  ClusterParameterGroupDetails,
+  ClusterParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterParametersMessage,
   ) => stream.Stream<
@@ -9836,14 +9777,12 @@ export const describeClusterParameters: {
  * If both tag keys and values are omitted from the request, clusters are returned
  * regardless of whether they have tag keys or values associated with them.
  */
-export const describeClusters: {
-  (
-    input: DescribeClustersMessage,
-  ): effect.Effect<
-    ClustersMessage,
-    ClusterNotFoundFault | InvalidTagFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusters: API.OperationMethod<
+  DescribeClustersMessage,
+  ClustersMessage,
+  ClusterNotFoundFault | InvalidTagFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClustersMessage,
   ) => stream.Stream<
@@ -9888,14 +9827,12 @@ export const describeClusters: {
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeClusterSecurityGroups: {
-  (
-    input: DescribeClusterSecurityGroupsMessage,
-  ): effect.Effect<
-    ClusterSecurityGroupMessage,
-    ClusterSecurityGroupNotFoundFault | InvalidTagFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterSecurityGroups: API.OperationMethod<
+  DescribeClusterSecurityGroupsMessage,
+  ClusterSecurityGroupMessage,
+  ClusterSecurityGroupNotFoundFault | InvalidTagFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterSecurityGroupsMessage,
   ) => stream.Stream<
@@ -9938,18 +9875,16 @@ export const describeClusterSecurityGroups: {
  * If both tag keys and values are omitted from the request, snapshots are returned
  * regardless of whether they have tag keys or values associated with them.
  */
-export const describeClusterSnapshots: {
-  (
-    input: DescribeClusterSnapshotsMessage,
-  ): effect.Effect<
-    SnapshotMessage,
-    | ClusterNotFoundFault
-    | ClusterSnapshotNotFoundFault
-    | InvalidTagFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterSnapshots: API.OperationMethod<
+  DescribeClusterSnapshotsMessage,
+  SnapshotMessage,
+  | ClusterNotFoundFault
+  | ClusterSnapshotNotFoundFault
+  | InvalidTagFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterSnapshotsMessage,
   ) => stream.Stream<
@@ -10003,14 +9938,12 @@ export const describeClusterSnapshots: {
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeClusterSubnetGroups: {
-  (
-    input: DescribeClusterSubnetGroupsMessage,
-  ): effect.Effect<
-    ClusterSubnetGroupMessage,
-    ClusterSubnetGroupNotFoundFault | InvalidTagFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterSubnetGroups: API.OperationMethod<
+  DescribeClusterSubnetGroupsMessage,
+  ClusterSubnetGroupMessage,
+  ClusterSubnetGroupNotFoundFault | InvalidTagFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterSubnetGroupsMessage,
   ) => stream.Stream<
@@ -10039,14 +9972,12 @@ export const describeClusterSubnetGroups: {
 /**
  * Returns a list of all the available maintenance tracks.
  */
-export const describeClusterTracks: {
-  (
-    input: DescribeClusterTracksMessage,
-  ): effect.Effect<
-    TrackListMessage,
-    InvalidClusterTrackFault | UnauthorizedOperation | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterTracks: API.OperationMethod<
+  DescribeClusterTracksMessage,
+  TrackListMessage,
+  InvalidClusterTrackFault | UnauthorizedOperation | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterTracksMessage,
   ) => stream.Stream<
@@ -10080,14 +10011,12 @@ export const describeClusterTracks: {
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeClusterVersions: {
-  (
-    input: DescribeClusterVersionsMessage,
-  ): effect.Effect<
-    ClusterVersionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterVersions: API.OperationMethod<
+  DescribeClusterVersionsMessage,
+  ClusterVersionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterVersionsMessage,
   ) => stream.Stream<
@@ -10116,16 +10045,14 @@ export const describeClusterVersions: {
 /**
  * Contains information about custom domain associations for a cluster.
  */
-export const describeCustomDomainAssociations: {
-  (
-    input: DescribeCustomDomainAssociationsMessage,
-  ): effect.Effect<
-    CustomDomainAssociationsMessage,
-    | CustomDomainAssociationNotFoundFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCustomDomainAssociations: API.OperationMethod<
+  DescribeCustomDomainAssociationsMessage,
+  CustomDomainAssociationsMessage,
+  | CustomDomainAssociationNotFoundFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCustomDomainAssociationsMessage,
   ) => stream.Stream<
@@ -10159,14 +10086,12 @@ export const describeCustomDomainAssociations: {
  * Shows the status of any inbound or outbound datashares available in the specified
  * account.
  */
-export const describeDataShares: {
-  (
-    input: DescribeDataSharesMessage,
-  ): effect.Effect<
-    DescribeDataSharesResult,
-    InvalidDataShareFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDataShares: API.OperationMethod<
+  DescribeDataSharesMessage,
+  DescribeDataSharesResult,
+  InvalidDataShareFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataSharesMessage,
   ) => stream.Stream<
@@ -10195,14 +10120,12 @@ export const describeDataShares: {
 /**
  * Returns a list of datashares where the account identifier being called is a consumer account identifier.
  */
-export const describeDataSharesForConsumer: {
-  (
-    input: DescribeDataSharesForConsumerMessage,
-  ): effect.Effect<
-    DescribeDataSharesForConsumerResult,
-    InvalidNamespaceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDataSharesForConsumer: API.OperationMethod<
+  DescribeDataSharesForConsumerMessage,
+  DescribeDataSharesForConsumerResult,
+  InvalidNamespaceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataSharesForConsumerMessage,
   ) => stream.Stream<
@@ -10231,14 +10154,12 @@ export const describeDataSharesForConsumer: {
 /**
  * Returns a list of datashares when the account identifier being called is a producer account identifier.
  */
-export const describeDataSharesForProducer: {
-  (
-    input: DescribeDataSharesForProducerMessage,
-  ): effect.Effect<
-    DescribeDataSharesForProducerResult,
-    InvalidNamespaceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDataSharesForProducer: API.OperationMethod<
+  DescribeDataSharesForProducerMessage,
+  DescribeDataSharesForProducerResult,
+  InvalidNamespaceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataSharesForProducerMessage,
   ) => stream.Stream<
@@ -10272,14 +10193,12 @@ export const describeDataSharesForProducer: {
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeDefaultClusterParameters: {
-  (
-    input: DescribeDefaultClusterParametersMessage,
-  ): effect.Effect<
-    DescribeDefaultClusterParametersResult,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDefaultClusterParameters: API.OperationMethod<
+  DescribeDefaultClusterParametersMessage,
+  DescribeDefaultClusterParametersResult,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDefaultClusterParametersMessage,
   ) => stream.Stream<
@@ -10308,17 +10227,15 @@ export const describeDefaultClusterParameters: {
 /**
  * Describes a Redshift-managed VPC endpoint.
  */
-export const describeEndpointAccess: {
-  (
-    input: DescribeEndpointAccessMessage,
-  ): effect.Effect<
-    EndpointAccessList,
-    | ClusterNotFoundFault
-    | EndpointNotFoundFault
-    | InvalidClusterStateFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEndpointAccess: API.OperationMethod<
+  DescribeEndpointAccessMessage,
+  EndpointAccessList,
+  | ClusterNotFoundFault
+  | EndpointNotFoundFault
+  | InvalidClusterStateFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEndpointAccessMessage,
   ) => stream.Stream<
@@ -10357,14 +10274,12 @@ export const describeEndpointAccess: {
 /**
  * Describes an endpoint authorization.
  */
-export const describeEndpointAuthorization: {
-  (
-    input: DescribeEndpointAuthorizationMessage,
-  ): effect.Effect<
-    EndpointAuthorizationList,
-    ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEndpointAuthorization: API.OperationMethod<
+  DescribeEndpointAuthorizationMessage,
+  EndpointAuthorizationList,
+  ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEndpointAuthorizationMessage,
   ) => stream.Stream<
@@ -10395,9 +10310,8 @@ export const describeEndpointAuthorization: {
  * source type. For a list of the event categories and source types, go to Amazon Redshift Event
  * Notifications.
  */
-export const describeEventCategories: (
-  input: DescribeEventCategoriesMessage,
-) => effect.Effect<
+export const describeEventCategories: API.OperationMethod<
+  DescribeEventCategoriesMessage,
   EventCategoriesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10412,14 +10326,12 @@ export const describeEventCategories: (
  * snapshot or parameter group can be obtained by providing the name as a parameter. By
  * default, the past hour of events are returned.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    EventsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  EventsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -10460,14 +10372,12 @@ export const describeEvents: {
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeEventSubscriptions: {
-  (
-    input: DescribeEventSubscriptionsMessage,
-  ): effect.Effect<
-    EventSubscriptionsMessage,
-    InvalidTagFault | SubscriptionNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEventSubscriptions: API.OperationMethod<
+  DescribeEventSubscriptionsMessage,
+  EventSubscriptionsMessage,
+  InvalidTagFault | SubscriptionNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
@@ -10507,14 +10417,12 @@ export const describeEventSubscriptions: {
  * are returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeHsmClientCertificates: {
-  (
-    input: DescribeHsmClientCertificatesMessage,
-  ): effect.Effect<
-    HsmClientCertificateMessage,
-    HsmClientCertificateNotFoundFault | InvalidTagFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeHsmClientCertificates: API.OperationMethod<
+  DescribeHsmClientCertificatesMessage,
+  HsmClientCertificateMessage,
+  HsmClientCertificateNotFoundFault | InvalidTagFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeHsmClientCertificatesMessage,
   ) => stream.Stream<
@@ -10555,14 +10463,12 @@ export const describeHsmClientCertificates: {
  * returned regardless of whether they have tag keys or values associated with
  * them.
  */
-export const describeHsmConfigurations: {
-  (
-    input: DescribeHsmConfigurationsMessage,
-  ): effect.Effect<
-    HsmConfigurationMessage,
-    HsmConfigurationNotFoundFault | InvalidTagFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeHsmConfigurations: API.OperationMethod<
+  DescribeHsmConfigurationsMessage,
+  HsmConfigurationMessage,
+  HsmConfigurationNotFoundFault | InvalidTagFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeHsmConfigurationsMessage,
   ) => stream.Stream<
@@ -10591,17 +10497,15 @@ export const describeHsmConfigurations: {
 /**
  * Returns a list of inbound integrations.
  */
-export const describeInboundIntegrations: {
-  (
-    input: DescribeInboundIntegrationsMessage,
-  ): effect.Effect<
-    InboundIntegrationsMessage,
-    | IntegrationNotFoundFault
-    | InvalidNamespaceFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeInboundIntegrations: API.OperationMethod<
+  DescribeInboundIntegrationsMessage,
+  InboundIntegrationsMessage,
+  | IntegrationNotFoundFault
+  | InvalidNamespaceFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInboundIntegrationsMessage,
   ) => stream.Stream<
@@ -10640,14 +10544,12 @@ export const describeInboundIntegrations: {
 /**
  * Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
  */
-export const describeIntegrations: {
-  (
-    input: DescribeIntegrationsMessage,
-  ): effect.Effect<
-    IntegrationsMessage,
-    IntegrationNotFoundFault | UnsupportedOperationFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeIntegrations: API.OperationMethod<
+  DescribeIntegrationsMessage,
+  IntegrationsMessage,
+  IntegrationNotFoundFault | UnsupportedOperationFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIntegrationsMessage,
   ) => stream.Stream<
@@ -10677,9 +10579,8 @@ export const describeIntegrations: {
  * Describes whether information, such as queries and connection attempts, is being
  * logged for the specified Amazon Redshift cluster.
  */
-export const describeLoggingStatus: (
-  input: DescribeLoggingStatusMessage,
-) => effect.Effect<
+export const describeLoggingStatus: API.OperationMethod<
+  DescribeLoggingStatusMessage,
   LoggingStatus,
   ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10692,19 +10593,17 @@ export const describeLoggingStatus: (
  * Returns properties of possible node configurations such as node type, number of nodes, and
  * disk usage for the specified action type.
  */
-export const describeNodeConfigurationOptions: {
-  (
-    input: DescribeNodeConfigurationOptionsMessage,
-  ): effect.Effect<
-    NodeConfigurationOptionsMessage,
-    | AccessToSnapshotDeniedFault
-    | ClusterNotFoundFault
-    | ClusterSnapshotNotFoundFault
-    | InvalidClusterSnapshotStateFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeNodeConfigurationOptions: API.OperationMethod<
+  DescribeNodeConfigurationOptionsMessage,
+  NodeConfigurationOptionsMessage,
+  | AccessToSnapshotDeniedFault
+  | ClusterNotFoundFault
+  | ClusterSnapshotNotFoundFault
+  | InvalidClusterSnapshotStateFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNodeConfigurationOptionsMessage,
   ) => stream.Stream<
@@ -10757,14 +10656,12 @@ export const describeNodeConfigurationOptions: {
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeOrderableClusterOptions: {
-  (
-    input: DescribeOrderableClusterOptionsMessage,
-  ): effect.Effect<
-    OrderableClusterOptionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrderableClusterOptions: API.OperationMethod<
+  DescribeOrderableClusterOptionsMessage,
+  OrderableClusterOptionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrderableClusterOptionsMessage,
   ) => stream.Stream<
@@ -10793,9 +10690,8 @@ export const describeOrderableClusterOptions: {
 /**
  * Returns information about the partner integrations defined for a cluster.
  */
-export const describePartners: (
-  input: DescribePartnersInputMessage,
-) => effect.Effect<
+export const describePartners: API.OperationMethod<
+  DescribePartnersInputMessage,
   DescribePartnersOutputMessage,
   | ClusterNotFoundFault
   | UnauthorizedPartnerIntegrationFault
@@ -10814,18 +10710,16 @@ export const describePartners: (
 /**
  * Lists the Amazon Redshift IAM Identity Center applications.
  */
-export const describeRedshiftIdcApplications: {
-  (
-    input: DescribeRedshiftIdcApplicationsMessage,
-  ): effect.Effect<
-    DescribeRedshiftIdcApplicationsResult,
-    | DependentServiceAccessDeniedFault
-    | DependentServiceUnavailableFault
-    | RedshiftIdcApplicationNotExistsFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRedshiftIdcApplications: API.OperationMethod<
+  DescribeRedshiftIdcApplicationsMessage,
+  DescribeRedshiftIdcApplicationsResult,
+  | DependentServiceAccessDeniedFault
+  | DependentServiceUnavailableFault
+  | RedshiftIdcApplicationNotExistsFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRedshiftIdcApplicationsMessage,
   ) => stream.Stream<
@@ -10868,17 +10762,15 @@ export const describeRedshiftIdcApplications: {
  * Returns exchange status details and associated metadata for a reserved-node
  * exchange. Statuses include such values as in progress and requested.
  */
-export const describeReservedNodeExchangeStatus: {
-  (
-    input: DescribeReservedNodeExchangeStatusInputMessage,
-  ): effect.Effect<
-    DescribeReservedNodeExchangeStatusOutputMessage,
-    | ReservedNodeExchangeNotFoundFault
-    | ReservedNodeNotFoundFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedNodeExchangeStatus: API.OperationMethod<
+  DescribeReservedNodeExchangeStatusInputMessage,
+  DescribeReservedNodeExchangeStatusOutputMessage,
+  | ReservedNodeExchangeNotFoundFault
+  | ReservedNodeNotFoundFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedNodeExchangeStatusInputMessage,
   ) => stream.Stream<
@@ -10926,17 +10818,15 @@ export const describeReservedNodeExchangeStatus: {
  * Purchasing Reserved Nodes
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeReservedNodeOfferings: {
-  (
-    input: DescribeReservedNodeOfferingsMessage,
-  ): effect.Effect<
-    ReservedNodeOfferingsMessage,
-    | DependentServiceUnavailableFault
-    | ReservedNodeOfferingNotFoundFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedNodeOfferings: API.OperationMethod<
+  DescribeReservedNodeOfferingsMessage,
+  ReservedNodeOfferingsMessage,
+  | DependentServiceUnavailableFault
+  | ReservedNodeOfferingNotFoundFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedNodeOfferingsMessage,
   ) => stream.Stream<
@@ -10975,14 +10865,12 @@ export const describeReservedNodeOfferings: {
 /**
  * Returns the descriptions of the reserved nodes.
  */
-export const describeReservedNodes: {
-  (
-    input: DescribeReservedNodesMessage,
-  ): effect.Effect<
-    ReservedNodesMessage,
-    DependentServiceUnavailableFault | ReservedNodeNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedNodes: API.OperationMethod<
+  DescribeReservedNodesMessage,
+  ReservedNodesMessage,
+  DependentServiceUnavailableFault | ReservedNodeNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedNodesMessage,
   ) => stream.Stream<
@@ -11017,9 +10905,8 @@ export const describeReservedNodes: {
  * A resize operation can be requested using ModifyCluster and
  * specifying a different number or type of nodes for the cluster.
  */
-export const describeResize: (
-  input: DescribeResizeMessage,
-) => effect.Effect<
+export const describeResize: API.OperationMethod<
+  DescribeResizeMessage,
   ResizeProgressMessage,
   | ClusterNotFoundFault
   | ResizeNotFoundFault
@@ -11038,14 +10925,12 @@ export const describeResize: (
 /**
  * Describes properties of scheduled actions.
  */
-export const describeScheduledActions: {
-  (
-    input: DescribeScheduledActionsMessage,
-  ): effect.Effect<
-    ScheduledActionsMessage,
-    ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScheduledActions: API.OperationMethod<
+  DescribeScheduledActionsMessage,
+  ScheduledActionsMessage,
+  ScheduledActionNotFoundFault | UnauthorizedOperation | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScheduledActionsMessage,
   ) => stream.Stream<
@@ -11079,14 +10964,12 @@ export const describeScheduledActions: {
  * Amazon Redshift Database Encryption
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const describeSnapshotCopyGrants: {
-  (
-    input: DescribeSnapshotCopyGrantsMessage,
-  ): effect.Effect<
-    SnapshotCopyGrantMessage,
-    InvalidTagFault | SnapshotCopyGrantNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSnapshotCopyGrants: API.OperationMethod<
+  DescribeSnapshotCopyGrantsMessage,
+  SnapshotCopyGrantMessage,
+  InvalidTagFault | SnapshotCopyGrantNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotCopyGrantsMessage,
   ) => stream.Stream<
@@ -11115,14 +10998,12 @@ export const describeSnapshotCopyGrants: {
 /**
  * Returns a list of snapshot schedules.
  */
-export const describeSnapshotSchedules: {
-  (
-    input: DescribeSnapshotSchedulesMessage,
-  ): effect.Effect<
-    DescribeSnapshotSchedulesOutputMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSnapshotSchedules: API.OperationMethod<
+  DescribeSnapshotSchedulesMessage,
+  DescribeSnapshotSchedulesOutputMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotSchedulesMessage,
   ) => stream.Stream<
@@ -11151,9 +11032,8 @@ export const describeSnapshotSchedules: {
 /**
  * Returns account level backups storage size and provisional storage.
  */
-export const describeStorage: (
-  input: DescribeStorageRequest,
-) => effect.Effect<
+export const describeStorage: API.OperationMethod<
+  DescribeStorageRequest,
   CustomerStorageMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11170,14 +11050,12 @@ export const describeStorage: (
  * `DescribeTableRestoreStatus` returns the status of the table specified by
  * `TableRestoreRequestId`.
  */
-export const describeTableRestoreStatus: {
-  (
-    input: DescribeTableRestoreStatusMessage,
-  ): effect.Effect<
-    TableRestoreStatusMessage,
-    ClusterNotFoundFault | TableRestoreNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTableRestoreStatus: API.OperationMethod<
+  DescribeTableRestoreStatusMessage,
+  TableRestoreStatusMessage,
+  ClusterNotFoundFault | TableRestoreNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTableRestoreStatusMessage,
   ) => stream.Stream<
@@ -11228,14 +11106,12 @@ export const describeTableRestoreStatus: {
  * If both tag keys and values are omitted from the request, resources are returned
  * regardless of whether they have tag keys or values associated with them.
  */
-export const describeTags: {
-  (
-    input: DescribeTagsMessage,
-  ): effect.Effect<
-    TaggedResourceListMessage,
-    InvalidTagFault | ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTags: API.OperationMethod<
+  DescribeTagsMessage,
+  TaggedResourceListMessage,
+  InvalidTagFault | ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTagsMessage,
   ) => stream.Stream<
@@ -11277,14 +11153,12 @@ export const describeTags: {
  * - If cluster identifier and feature type are provided,
  * then all usage limit objects for the combination of cluster and feature are returned.
  */
-export const describeUsageLimits: {
-  (
-    input: DescribeUsageLimitsMessage,
-  ): effect.Effect<
-    UsageLimitList,
-    ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUsageLimits: API.OperationMethod<
+  DescribeUsageLimitsMessage,
+  UsageLimitList,
+  ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUsageLimitsMessage,
   ) => stream.Stream<
@@ -11314,9 +11188,8 @@ export const describeUsageLimits: {
  * Stops logging information, such as queries and connection attempts, for the
  * specified Amazon Redshift cluster.
  */
-export const disableLogging: (
-  input: DisableLoggingMessage,
-) => effect.Effect<
+export const disableLogging: API.OperationMethod<
+  DisableLoggingMessage,
   LoggingStatus,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -11340,9 +11213,8 @@ export const disableLogging: (
  * from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that
  * grants Amazon Redshift permission to the key in the destination region.
  */
-export const disableSnapshotCopy: (
-  input: DisableSnapshotCopyMessage,
-) => effect.Effect<
+export const disableSnapshotCopy: API.OperationMethod<
+  DisableSnapshotCopyMessage,
   DisableSnapshotCopyResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -11365,9 +11237,8 @@ export const disableSnapshotCopy: (
 /**
  * From a datashare consumer account, remove association for the specified datashare.
  */
-export const disassociateDataShareConsumer: (
-  input: DisassociateDataShareConsumerMessage,
-) => effect.Effect<
+export const disassociateDataShareConsumer: API.OperationMethod<
+  DisassociateDataShareConsumerMessage,
   DataShare,
   InvalidDataShareFault | InvalidNamespaceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11380,9 +11251,8 @@ export const disassociateDataShareConsumer: (
  * Starts logging information, such as queries and connection attempts, for the
  * specified Amazon Redshift cluster.
  */
-export const enableLogging: (
-  input: EnableLoggingMessage,
-) => effect.Effect<
+export const enableLogging: API.OperationMethod<
+  EnableLoggingMessage,
   LoggingStatus,
   | BucketNotFoundFault
   | ClusterNotFoundFault
@@ -11410,9 +11280,8 @@ export const enableLogging: (
  * Enables the automatic copy of snapshots from one region to another region for a
  * specified cluster.
  */
-export const enableSnapshotCopy: (
-  input: EnableSnapshotCopyMessage,
-) => effect.Effect<
+export const enableSnapshotCopy: API.OperationMethod<
+  EnableSnapshotCopyMessage,
   EnableSnapshotCopyResult,
   | ClusterNotFoundFault
   | CopyToRegionDisabledFault
@@ -11447,9 +11316,8 @@ export const enableSnapshotCopy: (
 /**
  * Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
  */
-export const failoverPrimaryCompute: (
-  input: FailoverPrimaryComputeInputMessage,
-) => effect.Effect<
+export const failoverPrimaryCompute: API.OperationMethod<
+  FailoverPrimaryComputeInputMessage,
   FailoverPrimaryComputeResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -11494,9 +11362,8 @@ export const failoverPrimaryCompute: (
  * If the `DbName` parameter is specified, the IAM policy must allow access
  * to the resource `dbname` for the specified database name.
  */
-export const getClusterCredentials: (
-  input: GetClusterCredentialsMessage,
-) => effect.Effect<
+export const getClusterCredentials: API.OperationMethod<
+  GetClusterCredentialsMessage,
   ClusterCredentials,
   ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11518,9 +11385,8 @@ export const getClusterCredentials: (
  * For more information about permissions, see Using identity-based policies (IAM policies) in the
  * Amazon Redshift Cluster Management Guide.
  */
-export const getClusterCredentialsWithIAM: (
-  input: GetClusterCredentialsWithIAMMessage,
-) => effect.Effect<
+export const getClusterCredentialsWithIAM: API.OperationMethod<
+  GetClusterCredentialsWithIAMMessage,
   ClusterExtendedCredentials,
   ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11543,9 +11409,8 @@ export const getClusterCredentialsWithIAM: (
  * caller is not using enhanced credentials with embedded Amazon Web Services IAM Identity Center identity, the API will
  * return an error.
  */
-export const getIdentityCenterAuthToken: (
-  input: GetIdentityCenterAuthTokenRequest,
-) => effect.Effect<
+export const getIdentityCenterAuthToken: API.OperationMethod<
+  GetIdentityCenterAuthTokenRequest,
   GetIdentityCenterAuthTokenResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -11568,22 +11433,20 @@ export const getIdentityCenterAuthToken: (
  * include information about the source reserved node and target reserved node offering.
  * Details include the node type, the price, the node count, and the offering type.
  */
-export const getReservedNodeExchangeConfigurationOptions: {
-  (
-    input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
-  ): effect.Effect<
-    GetReservedNodeExchangeConfigurationOptionsOutputMessage,
-    | ClusterNotFoundFault
-    | ClusterSnapshotNotFoundFault
-    | DependentServiceUnavailableFault
-    | InvalidReservedNodeStateFault
-    | ReservedNodeAlreadyMigratedFault
-    | ReservedNodeNotFoundFault
-    | ReservedNodeOfferingNotFoundFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getReservedNodeExchangeConfigurationOptions: API.OperationMethod<
+  GetReservedNodeExchangeConfigurationOptionsInputMessage,
+  GetReservedNodeExchangeConfigurationOptionsOutputMessage,
+  | ClusterNotFoundFault
+  | ClusterSnapshotNotFoundFault
+  | DependentServiceUnavailableFault
+  | InvalidReservedNodeStateFault
+  | ReservedNodeAlreadyMigratedFault
+  | ReservedNodeNotFoundFault
+  | ReservedNodeOfferingNotFoundFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
   ) => stream.Stream<
@@ -11638,20 +11501,18 @@ export const getReservedNodeExchangeConfigurationOptions: {
  * Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term,
  * and usage price of the given DC1 reserved node.
  */
-export const getReservedNodeExchangeOfferings: {
-  (
-    input: GetReservedNodeExchangeOfferingsInputMessage,
-  ): effect.Effect<
-    GetReservedNodeExchangeOfferingsOutputMessage,
-    | DependentServiceUnavailableFault
-    | InvalidReservedNodeStateFault
-    | ReservedNodeAlreadyMigratedFault
-    | ReservedNodeNotFoundFault
-    | ReservedNodeOfferingNotFoundFault
-    | UnsupportedOperationFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getReservedNodeExchangeOfferings: API.OperationMethod<
+  GetReservedNodeExchangeOfferingsInputMessage,
+  GetReservedNodeExchangeOfferingsOutputMessage,
+  | DependentServiceUnavailableFault
+  | InvalidReservedNodeStateFault
+  | ReservedNodeAlreadyMigratedFault
+  | ReservedNodeNotFoundFault
+  | ReservedNodeOfferingNotFoundFault
+  | UnsupportedOperationFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetReservedNodeExchangeOfferingsInputMessage,
   ) => stream.Stream<
@@ -11699,9 +11560,8 @@ export const getReservedNodeExchangeOfferings: {
 /**
  * Get the resource policy for a specified resource.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyMessage,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyMessage,
   GetResourcePolicyResult,
   | InvalidPolicyFault
   | ResourceNotFoundFault
@@ -11720,14 +11580,12 @@ export const getResourcePolicy: (
 /**
  * List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
  */
-export const listRecommendations: {
-  (
-    input: ListRecommendationsMessage,
-  ): effect.Effect<
-    ListRecommendationsResult,
-    ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendations: API.OperationMethod<
+  ListRecommendationsMessage,
+  ListRecommendationsResult,
+  ClusterNotFoundFault | UnsupportedOperationFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationsMessage,
   ) => stream.Stream<
@@ -11756,9 +11614,8 @@ export const listRecommendations: {
 /**
  * This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
  */
-export const modifyAquaConfiguration: (
-  input: ModifyAquaInputMessage,
-) => effect.Effect<
+export const modifyAquaConfiguration: API.OperationMethod<
+  ModifyAquaInputMessage,
   ModifyAquaOutputMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -11777,9 +11634,8 @@ export const modifyAquaConfiguration: (
 /**
  * Modifies an authentication profile.
  */
-export const modifyAuthenticationProfile: (
-  input: ModifyAuthenticationProfileMessage,
-) => effect.Effect<
+export const modifyAuthenticationProfile: API.OperationMethod<
+  ModifyAuthenticationProfileMessage,
   ModifyAuthenticationProfileResult,
   | AuthenticationProfileNotFoundFault
   | AuthenticationProfileQuotaExceededFault
@@ -11826,9 +11682,8 @@ export const modifyAuthenticationProfile: (
  * For more information about VPC BPA, see Block public access to VPCs and
  * subnets in the *Amazon VPC User Guide*.
  */
-export const modifyCluster: (
-  input: ModifyClusterMessage,
-) => effect.Effect<
+export const modifyCluster: API.OperationMethod<
+  ModifyClusterMessage,
   ModifyClusterResult,
   | ClusterAlreadyExistsFault
   | ClusterNotFoundFault
@@ -11886,9 +11741,8 @@ export const modifyCluster: (
  * Modifies the database revision of a cluster. The database revision is a unique
  * revision of the database running in a cluster.
  */
-export const modifyClusterDbRevision: (
-  input: ModifyClusterDbRevisionMessage,
-) => effect.Effect<
+export const modifyClusterDbRevision: API.OperationMethod<
+  ModifyClusterDbRevisionMessage,
   ModifyClusterDbRevisionResult,
   | ClusterNotFoundFault
   | ClusterOnLatestRevisionFault
@@ -11914,9 +11768,8 @@ export const modifyClusterDbRevision: (
  * For more information, go to Quotas and limits
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const modifyClusterIamRoles: (
-  input: ModifyClusterIamRolesMessage,
-) => effect.Effect<
+export const modifyClusterIamRoles: API.OperationMethod<
+  ModifyClusterIamRolesMessage,
   ModifyClusterIamRolesResult,
   ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11928,9 +11781,8 @@ export const modifyClusterIamRoles: (
 /**
  * Modifies the maintenance settings of a cluster.
  */
-export const modifyClusterMaintenance: (
-  input: ModifyClusterMaintenanceMessage,
-) => effect.Effect<
+export const modifyClusterMaintenance: API.OperationMethod<
+  ModifyClusterMaintenanceMessage,
   ModifyClusterMaintenanceResult,
   ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11946,9 +11798,8 @@ export const modifyClusterMaintenance: (
  * Amazon Redshift Parameter Groups
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const modifyClusterParameterGroup: (
-  input: ModifyClusterParameterGroupMessage,
-) => effect.Effect<
+export const modifyClusterParameterGroup: API.OperationMethod<
+  ModifyClusterParameterGroupMessage,
   ClusterParameterGroupNameMessage,
   | ClusterParameterGroupNotFoundFault
   | InvalidClusterParameterGroupStateFault
@@ -11967,9 +11818,8 @@ export const modifyClusterParameterGroup: (
  *
  * This exanmple modifies the manual retention period setting for a cluster snapshot.
  */
-export const modifyClusterSnapshot: (
-  input: ModifyClusterSnapshotMessage,
-) => effect.Effect<
+export const modifyClusterSnapshot: API.OperationMethod<
+  ModifyClusterSnapshotMessage,
   ModifyClusterSnapshotResult,
   | ClusterSnapshotNotFoundFault
   | InvalidClusterSnapshotStateFault
@@ -11988,9 +11838,8 @@ export const modifyClusterSnapshot: (
 /**
  * Modifies a snapshot schedule for a cluster.
  */
-export const modifyClusterSnapshotSchedule: (
-  input: ModifyClusterSnapshotScheduleMessage,
-) => effect.Effect<
+export const modifyClusterSnapshotSchedule: API.OperationMethod<
+  ModifyClusterSnapshotScheduleMessage,
   ModifyClusterSnapshotScheduleResponse,
   | ClusterNotFoundFault
   | InvalidClusterSnapshotScheduleStateFault
@@ -12028,9 +11877,8 @@ export const modifyClusterSnapshotSchedule: (
  * For more information about VPC BPA, see Block public access to VPCs and
  * subnets in the *Amazon VPC User Guide*.
  */
-export const modifyClusterSubnetGroup: (
-  input: ModifyClusterSubnetGroupMessage,
-) => effect.Effect<
+export const modifyClusterSubnetGroup: API.OperationMethod<
+  ModifyClusterSubnetGroupMessage,
   ModifyClusterSubnetGroupResult,
   | ClusterSubnetGroupNotFoundFault
   | ClusterSubnetQuotaExceededFault
@@ -12055,9 +11903,8 @@ export const modifyClusterSubnetGroup: (
 /**
  * Contains information for changing a custom domain association.
  */
-export const modifyCustomDomainAssociation: (
-  input: ModifyCustomDomainAssociationMessage,
-) => effect.Effect<
+export const modifyCustomDomainAssociation: API.OperationMethod<
+  ModifyCustomDomainAssociationMessage,
   ModifyCustomDomainAssociationResult,
   | ClusterNotFoundFault
   | CustomCnameAssociationFault
@@ -12078,9 +11925,8 @@ export const modifyCustomDomainAssociation: (
 /**
  * Modifies a Redshift-managed VPC endpoint.
  */
-export const modifyEndpointAccess: (
-  input: ModifyEndpointAccessMessage,
-) => effect.Effect<
+export const modifyEndpointAccess: API.OperationMethod<
+  ModifyEndpointAccessMessage,
   EndpointAccess,
   | ClusterNotFoundFault
   | EndpointNotFoundFault
@@ -12105,9 +11951,8 @@ export const modifyEndpointAccess: (
 /**
  * Modifies an existing Amazon Redshift event notification subscription.
  */
-export const modifyEventSubscription: (
-  input: ModifyEventSubscriptionMessage,
-) => effect.Effect<
+export const modifyEventSubscription: API.OperationMethod<
+  ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResult,
   | InvalidSubscriptionStateFault
   | SNSInvalidTopicFault
@@ -12138,9 +11983,8 @@ export const modifyEventSubscription: (
 /**
  * Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
  */
-export const modifyIntegration: (
-  input: ModifyIntegrationMessage,
-) => effect.Effect<
+export const modifyIntegration: API.OperationMethod<
+  ModifyIntegrationMessage,
   Integration,
   | IntegrationAlreadyExistsFault
   | IntegrationConflictOperationFault
@@ -12163,9 +12007,8 @@ export const modifyIntegration: (
 /**
  * Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
-export const modifyLakehouseConfiguration: (
-  input: ModifyLakehouseConfigurationMessage,
-) => effect.Effect<
+export const modifyLakehouseConfiguration: API.OperationMethod<
+  ModifyLakehouseConfigurationMessage,
   LakehouseConfiguration,
   | ClusterNotFoundFault
   | DependentServiceAccessDeniedFault
@@ -12192,9 +12035,8 @@ export const modifyLakehouseConfiguration: (
 /**
  * Changes an existing Amazon Redshift IAM Identity Center application.
  */
-export const modifyRedshiftIdcApplication: (
-  input: ModifyRedshiftIdcApplicationMessage,
-) => effect.Effect<
+export const modifyRedshiftIdcApplication: API.OperationMethod<
+  ModifyRedshiftIdcApplicationMessage,
   ModifyRedshiftIdcApplicationResult,
   | DependentServiceAccessDeniedFault
   | DependentServiceUnavailableFault
@@ -12215,9 +12057,8 @@ export const modifyRedshiftIdcApplication: (
 /**
  * Modifies a scheduled action.
  */
-export const modifyScheduledAction: (
-  input: ModifyScheduledActionMessage,
-) => effect.Effect<
+export const modifyScheduledAction: API.OperationMethod<
+  ModifyScheduledActionMessage,
   ScheduledAction,
   | ClusterNotFoundFault
   | InvalidScheduledActionFault
@@ -12250,9 +12091,8 @@ export const modifyScheduledAction: (
  * If you set this option, only newly copied manual snapshots have the new retention
  * period.
  */
-export const modifySnapshotCopyRetentionPeriod: (
-  input: ModifySnapshotCopyRetentionPeriodMessage,
-) => effect.Effect<
+export const modifySnapshotCopyRetentionPeriod: API.OperationMethod<
+  ModifySnapshotCopyRetentionPeriodMessage,
   ModifySnapshotCopyRetentionPeriodResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -12276,9 +12116,8 @@ export const modifySnapshotCopyRetentionPeriod: (
  * Modifies a snapshot schedule. Any schedule associated with a cluster is modified
  * asynchronously.
  */
-export const modifySnapshotSchedule: (
-  input: ModifySnapshotScheduleMessage,
-) => effect.Effect<
+export const modifySnapshotSchedule: API.OperationMethod<
+  ModifySnapshotScheduleMessage,
   SnapshotSchedule,
   | InvalidScheduleFault
   | SnapshotScheduleNotFoundFault
@@ -12298,9 +12137,8 @@ export const modifySnapshotSchedule: (
  * Modifies a usage limit in a cluster.
  * You can't modify the feature type or period of a usage limit.
  */
-export const modifyUsageLimit: (
-  input: ModifyUsageLimitMessage,
-) => effect.Effect<
+export const modifyUsageLimit: API.OperationMethod<
+  ModifyUsageLimitMessage,
   UsageLimit,
   | InvalidUsageLimitFault
   | UnsupportedOperationFault
@@ -12319,9 +12157,8 @@ export const modifyUsageLimit: (
 /**
  * Pauses a cluster.
  */
-export const pauseCluster: (
-  input: PauseClusterMessage,
-) => effect.Effect<
+export const pauseCluster: API.OperationMethod<
+  PauseClusterMessage,
   PauseClusterResult,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -12348,9 +12185,8 @@ export const pauseCluster: (
  * Purchasing Reserved Nodes
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const purchaseReservedNodeOffering: (
-  input: PurchaseReservedNodeOfferingMessage,
-) => effect.Effect<
+export const purchaseReservedNodeOffering: API.OperationMethod<
+  PurchaseReservedNodeOfferingMessage,
   PurchaseReservedNodeOfferingResult,
   | ReservedNodeAlreadyExistsFault
   | ReservedNodeOfferingNotFoundFault
@@ -12371,9 +12207,8 @@ export const purchaseReservedNodeOffering: (
 /**
  * Updates the resource policy for a specified resource.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyMessage,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyMessage,
   PutResourcePolicyResult,
   | ConflictPolicyUpdateFault
   | InvalidPolicyFault
@@ -12401,9 +12236,8 @@ export const putResourcePolicy: (
  * Amazon Redshift Clusters
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const rebootCluster: (
-  input: RebootClusterMessage,
-) => effect.Effect<
+export const rebootCluster: API.OperationMethod<
+  RebootClusterMessage,
   RebootClusterResult,
   ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12415,9 +12249,8 @@ export const rebootCluster: (
 /**
  * Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
  */
-export const registerNamespace: (
-  input: RegisterNamespaceInputMessage,
-) => effect.Effect<
+export const registerNamespace: API.OperationMethod<
+  RegisterNamespaceInputMessage,
   RegisterNamespaceOutputMessage,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -12436,9 +12269,8 @@ export const registerNamespace: (
 /**
  * From a datashare consumer account, rejects the specified datashare.
  */
-export const rejectDataShare: (
-  input: RejectDataShareMessage,
-) => effect.Effect<
+export const rejectDataShare: API.OperationMethod<
+  RejectDataShareMessage,
   DataShare,
   InvalidDataShareFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12453,9 +12285,8 @@ export const rejectDataShare: (
  * entire parameter group specify the *ResetAllParameters* parameter.
  * For parameter changes to take effect you must reboot any associated clusters.
  */
-export const resetClusterParameterGroup: (
-  input: ResetClusterParameterGroupMessage,
-) => effect.Effect<
+export const resetClusterParameterGroup: API.OperationMethod<
+  ResetClusterParameterGroupMessage,
   ClusterParameterGroupNameMessage,
   | ClusterParameterGroupNotFoundFault
   | InvalidClusterParameterGroupStateFault
@@ -12494,9 +12325,8 @@ export const resetClusterParameterGroup: (
  * - The type of nodes that you add must match the node type for the
  * cluster.
  */
-export const resizeCluster: (
-  input: ResizeClusterMessage,
-) => effect.Effect<
+export const resizeCluster: API.OperationMethod<
+  ResizeClusterMessage,
   ResizeClusterResult,
   | ClusterNotFoundFault
   | DependentServiceUnavailableFault
@@ -12569,9 +12399,8 @@ export const resizeCluster: (
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const restoreFromClusterSnapshot: (
-  input: RestoreFromClusterSnapshotMessage,
-) => effect.Effect<
+export const restoreFromClusterSnapshot: API.OperationMethod<
+  RestoreFromClusterSnapshotMessage,
   RestoreFromClusterSnapshotResult,
   | AccessToSnapshotDeniedFault
   | ClusterAlreadyExistsFault
@@ -12669,9 +12498,8 @@ export const restoreFromClusterSnapshot: (
  * You can't use this operation to restore tables with
  * interleaved sort keys.
  */
-export const restoreTableFromClusterSnapshot: (
-  input: RestoreTableFromClusterSnapshotMessage,
-) => effect.Effect<
+export const restoreTableFromClusterSnapshot: API.OperationMethod<
+  RestoreTableFromClusterSnapshotMessage,
   RestoreTableFromClusterSnapshotResult,
   | ClusterNotFoundFault
   | ClusterSnapshotNotFoundFault
@@ -12698,9 +12526,8 @@ export const restoreTableFromClusterSnapshot: (
 /**
  * Resumes a paused cluster.
  */
-export const resumeCluster: (
-  input: ResumeClusterMessage,
-) => effect.Effect<
+export const resumeCluster: API.OperationMethod<
+  ResumeClusterMessage,
   ResumeClusterResult,
   | ClusterNotFoundFault
   | InsufficientClusterCapacityFault
@@ -12725,9 +12552,8 @@ export const resumeCluster: (
  * Amazon Redshift Cluster Security Groups in the
  * *Amazon Redshift Cluster Management Guide*.
  */
-export const revokeClusterSecurityGroupIngress: (
-  input: RevokeClusterSecurityGroupIngressMessage,
-) => effect.Effect<
+export const revokeClusterSecurityGroupIngress: API.OperationMethod<
+  RevokeClusterSecurityGroupIngressMessage,
   RevokeClusterSecurityGroupIngressResult,
   | AuthorizationNotFoundFault
   | ClusterSecurityGroupNotFoundFault
@@ -12746,9 +12572,8 @@ export const revokeClusterSecurityGroupIngress: (
 /**
  * Revokes access to a cluster.
  */
-export const revokeEndpointAccess: (
-  input: RevokeEndpointAccessMessage,
-) => effect.Effect<
+export const revokeEndpointAccess: API.OperationMethod<
+  RevokeEndpointAccessMessage,
   EndpointAuthorization,
   | ClusterNotFoundFault
   | EndpointAuthorizationNotFoundFault
@@ -12781,9 +12606,8 @@ export const revokeEndpointAccess: (
  * Amazon Redshift Snapshots
  * in the *Amazon Redshift Cluster Management Guide*.
  */
-export const revokeSnapshotAccess: (
-  input: RevokeSnapshotAccessMessage,
-) => effect.Effect<
+export const revokeSnapshotAccess: API.OperationMethod<
+  RevokeSnapshotAccessMessage,
   RevokeSnapshotAccessResult,
   | AccessToSnapshotDeniedFault
   | AuthorizationNotFoundFault
@@ -12804,9 +12628,8 @@ export const revokeSnapshotAccess: (
 /**
  * Rotates the encryption keys for a cluster.
  */
-export const rotateEncryptionKey: (
-  input: RotateEncryptionKeyMessage,
-) => effect.Effect<
+export const rotateEncryptionKey: API.OperationMethod<
+  RotateEncryptionKeyMessage,
   RotateEncryptionKeyResult,
   | ClusterNotFoundFault
   | DependentServiceRequestThrottlingFault
@@ -12827,9 +12650,8 @@ export const rotateEncryptionKey: (
 /**
  * Updates the status of a partner integration.
  */
-export const updatePartnerStatus: (
-  input: UpdatePartnerStatusInputMessage,
-) => effect.Effect<
+export const updatePartnerStatus: API.OperationMethod<
+  UpdatePartnerStatusInputMessage,
   PartnerIntegrationOutputMessage,
   | ClusterNotFoundFault
   | PartnerNotFoundFault

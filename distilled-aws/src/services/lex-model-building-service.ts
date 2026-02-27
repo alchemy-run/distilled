@@ -2628,9 +2628,8 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
  * This operation requires permission for the
  * `lex:CreateBotVersion` action.
  */
-export const createBotVersion: (
-  input: CreateBotVersionRequest,
-) => effect.Effect<
+export const createBotVersion: API.OperationMethod<
+  CreateBotVersionRequest,
   CreateBotVersionResponse,
   | BadRequestException
   | ConflictException
@@ -2669,9 +2668,8 @@ export const createBotVersion: (
  * This operation requires permissions to perform the
  * `lex:CreateIntentVersion` action.
  */
-export const createIntentVersion: (
-  input: CreateIntentVersionRequest,
-) => effect.Effect<
+export const createIntentVersion: API.OperationMethod<
+  CreateIntentVersionRequest,
   CreateIntentVersionResponse,
   | BadRequestException
   | ConflictException
@@ -2710,9 +2708,8 @@ export const createIntentVersion: (
  * This operation requires permissions for the
  * `lex:CreateSlotTypeVersion` action.
  */
-export const createSlotTypeVersion: (
-  input: CreateSlotTypeVersionRequest,
-) => effect.Effect<
+export const createSlotTypeVersion: API.OperationMethod<
+  CreateSlotTypeVersionRequest,
   CreateSlotTypeVersionResponse,
   | BadRequestException
   | ConflictException
@@ -2755,9 +2752,8 @@ export const createSlotTypeVersion: (
  * This operation requires permissions for the
  * `lex:DeleteBot` action.
  */
-export const deleteBot: (
-  input: DeleteBotRequest,
-) => effect.Effect<
+export const deleteBot: API.OperationMethod<
+  DeleteBotRequest,
   DeleteBotResponse,
   | BadRequestException
   | ConflictException
@@ -2791,9 +2787,8 @@ export const deleteBot: (
  * same exception again, delete the referring association until the
  * `DeleteBotAlias` operation is successful.
  */
-export const deleteBotAlias: (
-  input: DeleteBotAliasRequest,
-) => effect.Effect<
+export const deleteBotAlias: API.OperationMethod<
+  DeleteBotAliasRequest,
   DeleteBotAliasResponse,
   | BadRequestException
   | ConflictException
@@ -2822,9 +2817,8 @@ export const deleteBotAlias: (
  * This operation requires permission for the
  * `lex:DeleteBotChannelAssociation` action.
  */
-export const deleteBotChannelAssociation: (
-  input: DeleteBotChannelAssociationRequest,
-) => effect.Effect<
+export const deleteBotChannelAssociation: API.OperationMethod<
+  DeleteBotChannelAssociationRequest,
   DeleteBotChannelAssociationResponse,
   | BadRequestException
   | ConflictException
@@ -2851,9 +2845,8 @@ export const deleteBotChannelAssociation: (
  * This operation requires permissions for the
  * `lex:DeleteBotVersion` action.
  */
-export const deleteBotVersion: (
-  input: DeleteBotVersionRequest,
-) => effect.Effect<
+export const deleteBotVersion: API.OperationMethod<
+  DeleteBotVersionRequest,
   DeleteBotVersionResponse,
   | BadRequestException
   | ConflictException
@@ -2895,9 +2888,8 @@ export const deleteBotVersion: (
  * This operation requires permission for the
  * `lex:DeleteIntent` action.
  */
-export const deleteIntent: (
-  input: DeleteIntentRequest,
-) => effect.Effect<
+export const deleteIntent: API.OperationMethod<
+  DeleteIntentRequest,
   DeleteIntentResponse,
   | BadRequestException
   | ConflictException
@@ -2926,9 +2918,8 @@ export const deleteIntent: (
  * This operation requires permissions for the
  * `lex:DeleteIntentVersion` action.
  */
-export const deleteIntentVersion: (
-  input: DeleteIntentVersionRequest,
-) => effect.Effect<
+export const deleteIntentVersion: API.OperationMethod<
+  DeleteIntentVersionRequest,
   DeleteIntentVersionResponse,
   | BadRequestException
   | ConflictException
@@ -2970,9 +2961,8 @@ export const deleteIntentVersion: (
  * This operation requires permission for the
  * `lex:DeleteSlotType` action.
  */
-export const deleteSlotType: (
-  input: DeleteSlotTypeRequest,
-) => effect.Effect<
+export const deleteSlotType: API.OperationMethod<
+  DeleteSlotTypeRequest,
   DeleteSlotTypeResponse,
   | BadRequestException
   | ConflictException
@@ -3001,9 +2991,8 @@ export const deleteSlotType: (
  * This operation requires permissions for the
  * `lex:DeleteSlotTypeVersion` action.
  */
-export const deleteSlotTypeVersion: (
-  input: DeleteSlotTypeVersionRequest,
-) => effect.Effect<
+export const deleteSlotTypeVersion: API.OperationMethod<
+  DeleteSlotTypeVersionRequest,
   DeleteSlotTypeVersionResponse,
   | BadRequestException
   | ConflictException
@@ -3042,9 +3031,8 @@ export const deleteSlotTypeVersion: (
  * This operation requires permissions for the
  * `lex:DeleteUtterances` action.
  */
-export const deleteUtterances: (
-  input: DeleteUtterancesRequest,
-) => effect.Effect<
+export const deleteUtterances: API.OperationMethod<
+  DeleteUtterancesRequest,
   DeleteUtterancesResponse,
   | BadRequestException
   | InternalFailureException
@@ -3069,9 +3057,8 @@ export const deleteUtterances: (
  * This operation requires permissions for the
  * `lex:GetBot` action.
  */
-export const getBot: (
-  input: GetBotRequest,
-) => effect.Effect<
+export const getBot: API.OperationMethod<
+  GetBotRequest,
   GetBotResponse,
   | BadRequestException
   | InternalFailureException
@@ -3096,9 +3083,8 @@ export const getBot: (
  * This operation requires permissions for the
  * `lex:GetBotAlias` action.
  */
-export const getBotAlias: (
-  input: GetBotAliasRequest,
-) => effect.Effect<
+export const getBotAlias: API.OperationMethod<
+  GetBotAliasRequest,
   GetBotAliasResponse,
   | BadRequestException
   | InternalFailureException
@@ -3122,17 +3108,15 @@ export const getBotAlias: (
  * This operation requires permissions for the
  * `lex:GetBotAliases` action.
  */
-export const getBotAliases: {
-  (
-    input: GetBotAliasesRequest,
-  ): effect.Effect<
-    GetBotAliasesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBotAliases: API.OperationMethod<
+  GetBotAliasesRequest,
+  GetBotAliasesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBotAliasesRequest,
   ) => stream.Stream<
@@ -3174,9 +3158,8 @@ export const getBotAliases: {
  * This operation requires permissions for the
  * `lex:GetBotChannelAssociation` action.
  */
-export const getBotChannelAssociation: (
-  input: GetBotChannelAssociationRequest,
-) => effect.Effect<
+export const getBotChannelAssociation: API.OperationMethod<
+  GetBotChannelAssociationRequest,
   GetBotChannelAssociationResponse,
   | BadRequestException
   | InternalFailureException
@@ -3202,17 +3185,15 @@ export const getBotChannelAssociation: (
  * permissions for the `lex:GetBotChannelAssociations`
  * action.
  */
-export const getBotChannelAssociations: {
-  (
-    input: GetBotChannelAssociationsRequest,
-  ): effect.Effect<
-    GetBotChannelAssociationsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBotChannelAssociations: API.OperationMethod<
+  GetBotChannelAssociationsRequest,
+  GetBotChannelAssociationsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBotChannelAssociationsRequest,
   ) => stream.Stream<
@@ -3261,18 +3242,16 @@ export const getBotChannelAssociations: {
  * This operation requires permission for the `lex:GetBots`
  * action.
  */
-export const getBots: {
-  (
-    input: GetBotsRequest,
-  ): effect.Effect<
-    GetBotsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBots: API.OperationMethod<
+  GetBotsRequest,
+  GetBotsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBotsRequest,
   ) => stream.Stream<
@@ -3326,18 +3305,16 @@ export const getBots: {
  * This operation requires permissions for the
  * `lex:GetBotVersions` action.
  */
-export const getBotVersions: {
-  (
-    input: GetBotVersionsRequest,
-  ): effect.Effect<
-    GetBotVersionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBotVersions: API.OperationMethod<
+  GetBotVersionsRequest,
+  GetBotVersionsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBotVersionsRequest,
   ) => stream.Stream<
@@ -3381,9 +3358,8 @@ export const getBotVersions: {
  * This operation requires permission for the
  * `lex:GetBuiltinIntent` action.
  */
-export const getBuiltinIntent: (
-  input: GetBuiltinIntentRequest,
-) => effect.Effect<
+export const getBuiltinIntent: API.OperationMethod<
+  GetBuiltinIntentRequest,
   GetBuiltinIntentResponse,
   | BadRequestException
   | InternalFailureException
@@ -3408,17 +3384,15 @@ export const getBuiltinIntent: (
  * This operation requires permission for the
  * `lex:GetBuiltinIntents` action.
  */
-export const getBuiltinIntents: {
-  (
-    input: GetBuiltinIntentsRequest,
-  ): effect.Effect<
-    GetBuiltinIntentsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBuiltinIntents: API.OperationMethod<
+  GetBuiltinIntentsRequest,
+  GetBuiltinIntentsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBuiltinIntentsRequest,
   ) => stream.Stream<
@@ -3463,17 +3437,15 @@ export const getBuiltinIntents: {
  * This operation requires permission for the
  * `lex:GetBuiltInSlotTypes` action.
  */
-export const getBuiltinSlotTypes: {
-  (
-    input: GetBuiltinSlotTypesRequest,
-  ): effect.Effect<
-    GetBuiltinSlotTypesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBuiltinSlotTypes: API.OperationMethod<
+  GetBuiltinSlotTypesRequest,
+  GetBuiltinSlotTypesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBuiltinSlotTypesRequest,
   ) => stream.Stream<
@@ -3511,9 +3483,8 @@ export const getBuiltinSlotTypes: {
 /**
  * Exports the contents of a Amazon Lex resource in a specified format.
  */
-export const getExport: (
-  input: GetExportRequest,
-) => effect.Effect<
+export const getExport: API.OperationMethod<
+  GetExportRequest,
   GetExportResponse,
   | BadRequestException
   | InternalFailureException
@@ -3535,9 +3506,8 @@ export const getExport: (
  * Gets information about an import job started with the
  * `StartImport` operation.
  */
-export const getImport: (
-  input: GetImportRequest,
-) => effect.Effect<
+export const getImport: API.OperationMethod<
+  GetImportRequest,
   GetImportResponse,
   | BadRequestException
   | InternalFailureException
@@ -3562,9 +3532,8 @@ export const getImport: (
  * This operation requires permissions to perform the
  * `lex:GetIntent` action.
  */
-export const getIntent: (
-  input: GetIntentRequest,
-) => effect.Effect<
+export const getIntent: API.OperationMethod<
+  GetIntentRequest,
   GetIntentResponse,
   | BadRequestException
   | InternalFailureException
@@ -3596,18 +3565,16 @@ export const getIntent: (
  * The operation requires permission for the
  * `lex:GetIntents` action.
  */
-export const getIntents: {
-  (
-    input: GetIntentsRequest,
-  ): effect.Effect<
-    GetIntentsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getIntents: API.OperationMethod<
+  GetIntentsRequest,
+  GetIntentsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIntentsRequest,
   ) => stream.Stream<
@@ -3661,18 +3628,16 @@ export const getIntents: {
  * This operation requires permissions for the
  * `lex:GetIntentVersions` action.
  */
-export const getIntentVersions: {
-  (
-    input: GetIntentVersionsRequest,
-  ): effect.Effect<
-    GetIntentVersionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getIntentVersions: API.OperationMethod<
+  GetIntentVersionsRequest,
+  GetIntentVersionsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIntentVersionsRequest,
   ) => stream.Stream<
@@ -3715,9 +3680,8 @@ export const getIntentVersions: {
  * Amazon Lex V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration
  * alerts and warnings related to the migration.
  */
-export const getMigration: (
-  input: GetMigrationRequest,
-) => effect.Effect<
+export const getMigration: API.OperationMethod<
+  GetMigrationRequest,
   GetMigrationResponse,
   | BadRequestException
   | InternalFailureException
@@ -3738,17 +3702,15 @@ export const getMigration: (
 /**
  * Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
  */
-export const getMigrations: {
-  (
-    input: GetMigrationsRequest,
-  ): effect.Effect<
-    GetMigrationsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getMigrations: API.OperationMethod<
+  GetMigrationsRequest,
+  GetMigrationsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMigrationsRequest,
   ) => stream.Stream<
@@ -3791,9 +3753,8 @@ export const getMigrations: {
  * This operation requires permissions for the
  * `lex:GetSlotType` action.
  */
-export const getSlotType: (
-  input: GetSlotTypeRequest,
-) => effect.Effect<
+export const getSlotType: API.OperationMethod<
+  GetSlotTypeRequest,
   GetSlotTypeResponse,
   | BadRequestException
   | InternalFailureException
@@ -3825,18 +3786,16 @@ export const getSlotType: (
  * The operation requires permission for the
  * `lex:GetSlotTypes` action.
  */
-export const getSlotTypes: {
-  (
-    input: GetSlotTypesRequest,
-  ): effect.Effect<
-    GetSlotTypesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSlotTypes: API.OperationMethod<
+  GetSlotTypesRequest,
+  GetSlotTypesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSlotTypesRequest,
   ) => stream.Stream<
@@ -3890,18 +3849,16 @@ export const getSlotTypes: {
  * This operation requires permissions for the
  * `lex:GetSlotTypeVersions` action.
  */
-export const getSlotTypeVersions: {
-  (
-    input: GetSlotTypeVersionsRequest,
-  ): effect.Effect<
-    GetSlotTypeVersionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSlotTypeVersions: API.OperationMethod<
+  GetSlotTypeVersionsRequest,
+  GetSlotTypeVersionsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSlotTypeVersionsRequest,
   ) => stream.Stream<
@@ -3970,9 +3927,8 @@ export const getSlotTypeVersions: {
  * This operation requires permissions for the
  * `lex:GetUtterancesView` action.
  */
-export const getUtterancesView: (
-  input: GetUtterancesViewRequest,
-) => effect.Effect<
+export const getUtterancesView: API.OperationMethod<
+  GetUtterancesViewRequest,
   GetUtterancesViewResponse,
   | BadRequestException
   | InternalFailureException
@@ -3992,9 +3948,8 @@ export const getUtterancesView: (
  * Gets a list of tags associated with the specified resource. Only bots,
  * bot aliases, and bot channels can have tags associated with them.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -4033,9 +3988,8 @@ export const listTagsForResource: (
  * This operation requires permissions for the `lex:PutBot`
  * action. For more information, see security-iam.
  */
-export const putBot: (
-  input: PutBotRequest,
-) => effect.Effect<
+export const putBot: API.OperationMethod<
+  PutBotRequest,
   PutBotResponse,
   | BadRequestException
   | ConflictException
@@ -4064,9 +4018,8 @@ export const putBot: (
  * This operation requires permissions for the
  * `lex:PutBotAlias` action.
  */
-export const putBotAlias: (
-  input: PutBotAliasRequest,
-) => effect.Effect<
+export const putBotAlias: API.OperationMethod<
+  PutBotAliasRequest,
   PutBotAliasResponse,
   | BadRequestException
   | ConflictException
@@ -4140,9 +4093,8 @@ export const putBotAlias: (
  * This operation requires permissions for the
  * `lex:PutIntent` action.
  */
-export const putIntent: (
-  input: PutIntentRequest,
-) => effect.Effect<
+export const putIntent: API.OperationMethod<
+  PutIntentRequest,
   PutIntentResponse,
   | BadRequestException
   | ConflictException
@@ -4182,9 +4134,8 @@ export const putIntent: (
  * This operation requires permissions for the
  * `lex:PutSlotType` action.
  */
-export const putSlotType: (
-  input: PutSlotTypeRequest,
-) => effect.Effect<
+export const putSlotType: API.OperationMethod<
+  PutSlotTypeRequest,
   PutSlotTypeResponse,
   | BadRequestException
   | ConflictException
@@ -4207,9 +4158,8 @@ export const putSlotType: (
 /**
  * Starts a job to import a resource to Amazon Lex.
  */
-export const startImport: (
-  input: StartImportRequest,
-) => effect.Effect<
+export const startImport: API.OperationMethod<
+  StartImportRequest,
   StartImportResponse,
   | BadRequestException
   | InternalFailureException
@@ -4232,9 +4182,8 @@ export const startImport: (
  * For more information, see Migrating a bot in the Amazon Lex
  * developer guide.
  */
-export const startMigration: (
-  input: StartMigrationRequest,
-) => effect.Effect<
+export const startMigration: API.OperationMethod<
+  StartMigrationRequest,
   StartMigrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4258,9 +4207,8 @@ export const startMigration: (
  * Adds the specified tags to the specified resource. If a tag key
  * already exists, the existing value is replaced with the new value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -4283,9 +4231,8 @@ export const tagResource: (
 /**
  * Removes tags from a bot, bot alias or bot channel.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException

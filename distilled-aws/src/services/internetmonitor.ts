@@ -1078,9 +1078,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | BadRequestException
@@ -1105,9 +1104,8 @@ export const listTagsForResource: (
  *
  * A minimum of one tag is required for this call. It returns an error if you use the `TagResource` request with 0 tags.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | BadRequestException
@@ -1130,9 +1128,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | BadRequestException
@@ -1161,9 +1158,8 @@ export const untagResource: (
  * when the event started and (if the event is over) ended, the type of event (`PERFORMANCE` or `AVAILABILITY`),
  * and the status (`ACTIVE` or `RESOLVED`).
  */
-export const getInternetEvent: (
-  input: GetInternetEventInput,
-) => effect.Effect<
+export const getInternetEvent: API.OperationMethod<
+  GetInternetEventInput,
   GetInternetEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1193,18 +1189,16 @@ export const getInternetEvent: (
  * You can also limit the events returned to a specific status
  * (`ACTIVE` or `RESOLVED`) or type (`PERFORMANCE` or `AVAILABILITY`).
  */
-export const listInternetEvents: {
-  (
-    input: ListInternetEventsInput,
-  ): effect.Effect<
-    ListInternetEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInternetEvents: API.OperationMethod<
+  ListInternetEventsInput,
+  ListInternetEventsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInternetEventsInput,
   ) => stream.Stream<
@@ -1255,9 +1249,8 @@ export const listInternetEvents: {
  * maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor
  * at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see Choosing a city-network maximum value in the *Amazon CloudWatch User Guide*.
  */
-export const createMonitor: (
-  input: CreateMonitorInput,
-) => effect.Effect<
+export const createMonitor: API.OperationMethod<
+  CreateMonitorInput,
   CreateMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1283,9 +1276,8 @@ export const createMonitor: (
  * Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time,
  * modified time, resources included in the monitor, and status information.
  */
-export const getMonitor: (
-  input: GetMonitorInput,
-) => effect.Effect<
+export const getMonitor: API.OperationMethod<
+  GetMonitorInput,
   GetMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1310,9 +1302,8 @@ export const getMonitor: (
  * The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored.
  * For more information, see Choosing a city-network maximum value in the *Amazon CloudWatch User Guide*.
  */
-export const updateMonitor: (
-  input: UpdateMonitorInput,
-) => effect.Effect<
+export const updateMonitor: API.OperationMethod<
+  UpdateMonitorInput,
   UpdateMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1337,9 +1328,8 @@ export const updateMonitor: (
 /**
  * Deletes a monitor in Amazon CloudWatch Internet Monitor.
  */
-export const deleteMonitor: (
-  input: DeleteMonitorInput,
-) => effect.Effect<
+export const deleteMonitor: API.OperationMethod<
+  DeleteMonitorInput,
   DeleteMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1360,18 +1350,16 @@ export const deleteMonitor: (
 /**
  * Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
  */
-export const listMonitors: {
-  (
-    input: ListMonitorsInput,
-  ): effect.Effect<
-    ListMonitorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitors: API.OperationMethod<
+  ListMonitorsInput,
+  ListMonitorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitorsInput,
   ) => stream.Stream<
@@ -1418,19 +1406,17 @@ export const listMonitors: {
  * Using the Amazon CloudWatch Internet Monitor query interface
  * in the Amazon CloudWatch Internet Monitor User Guide.
  */
-export const getQueryResults: {
-  (
-    input: GetQueryResultsInput,
-  ): effect.Effect<
-    GetQueryResultsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getQueryResults: API.OperationMethod<
+  GetQueryResultsInput,
+  GetQueryResultsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetQueryResultsInput,
   ) => stream.Stream<
@@ -1485,9 +1471,8 @@ export const getQueryResults: {
  *
  * - `CANCELED`: The query was canceled.
  */
-export const getQueryStatus: (
-  input: GetQueryStatusInput,
-) => effect.Effect<
+export const getQueryStatus: API.OperationMethod<
+  GetQueryStatusInput,
   GetQueryStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1516,9 +1501,8 @@ export const getQueryStatus: (
  * Using the Amazon CloudWatch Internet Monitor query interface
  * in the Amazon CloudWatch Internet Monitor User Guide.
  */
-export const startQuery: (
-  input: StartQueryInput,
-) => effect.Effect<
+export const startQuery: API.OperationMethod<
+  StartQueryInput,
   StartQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1541,9 +1525,8 @@ export const startQuery: (
 /**
  * Stop a query that is progress for a specific monitor.
  */
-export const stopQuery: (
-  input: StopQueryInput,
-) => effect.Effect<
+export const stopQuery: API.OperationMethod<
+  StopQueryInput,
   StopQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1572,9 +1555,8 @@ export const stopQuery: (
  *
  * Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
  */
-export const getHealthEvent: (
-  input: GetHealthEventInput,
-) => effect.Effect<
+export const getHealthEvent: API.OperationMethod<
+  GetHealthEventInput,
   GetHealthEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1598,18 +1580,16 @@ export const getHealthEvent: (
  *
  * Health events that have start times during the time frame that is requested are not included in the list of health events.
  */
-export const listHealthEvents: {
-  (
-    input: ListHealthEventsInput,
-  ): effect.Effect<
-    ListHealthEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHealthEvents: API.OperationMethod<
+  ListHealthEventsInput,
+  ListHealthEventsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHealthEventsInput,
   ) => stream.Stream<

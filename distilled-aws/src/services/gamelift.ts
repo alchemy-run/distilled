@@ -7489,9 +7489,8 @@ export class InvalidGameSessionStatusException extends S.TaggedErrorClass<Invali
  *
  * FlexMatch events (reference)
  */
-export const acceptMatch: (
-  input: AcceptMatchInput,
-) => effect.Effect<
+export const acceptMatch: API.OperationMethod<
+  AcceptMatchInput,
   AcceptMatchOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -7549,9 +7548,8 @@ export const acceptMatch: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const claimGameServer: (
-  input: ClaimGameServerInput,
-) => effect.Effect<
+export const claimGameServer: API.OperationMethod<
+  ClaimGameServerInput,
   ClaimGameServerOutput,
   | ConflictException
   | InternalServiceException
@@ -7597,9 +7595,8 @@ export const claimGameServer: (
  *
  * All APIs by task
  */
-export const createAlias: (
-  input: CreateAliasInput,
-) => effect.Effect<
+export const createAlias: API.OperationMethod<
+  CreateAliasInput,
   CreateAliasOutput,
   | ConflictException
   | InternalServiceException
@@ -7661,9 +7658,8 @@ export const createAlias: (
  *
  * All APIs by task
  */
-export const createBuild: (
-  input: CreateBuildInput,
-) => effect.Effect<
+export const createBuild: API.OperationMethod<
+  CreateBuildInput,
   CreateBuildOutput,
   | ConflictException
   | InternalServiceException
@@ -7760,9 +7756,8 @@ export const createBuild: (
  * servers. For guidance, see
  * Security best practices for Amazon GameLift Servers.
  */
-export const createContainerFleet: (
-  input: CreateContainerFleetInput,
-) => effect.Effect<
+export const createContainerFleet: API.OperationMethod<
+  CreateContainerFleetInput,
   CreateContainerFleetOutput,
   | ConflictException
   | InternalServiceException
@@ -7881,9 +7876,8 @@ export const createContainerFleet: (
  * assigns a unique ARN value. You can update most properties of a container group definition by
  * calling UpdateContainerGroupDefinition, and optionally save the update as a new version.
  */
-export const createContainerGroupDefinition: (
-  input: CreateContainerGroupDefinitionInput,
-) => effect.Effect<
+export const createContainerGroupDefinition: API.OperationMethod<
+  CreateContainerGroupDefinitionInput,
   CreateContainerGroupDefinitionOutput,
   | ConflictException
   | InternalServiceException
@@ -7983,9 +7977,8 @@ export const createContainerGroupDefinition: (
  *
  * Multi-location fleets
  */
-export const createFleet: (
-  input: CreateFleetInput,
-) => effect.Effect<
+export const createFleet: API.OperationMethod<
+  CreateFleetInput,
   CreateFleetOutput,
   | ConflictException
   | InternalServiceException
@@ -8041,9 +8034,8 @@ export const createFleet: (
  *
  * Amazon GameLift Servers service locations for managed hosting.
  */
-export const createFleetLocations: (
-  input: CreateFleetLocationsInput,
-) => effect.Effect<
+export const createFleetLocations: API.OperationMethod<
+  CreateFleetLocationsInput,
   CreateFleetLocationsOutput,
   | ConflictException
   | InternalServiceException
@@ -8111,9 +8103,8 @@ export const createFleetLocations: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const createGameServerGroup: (
-  input: CreateGameServerGroupInput,
-) => effect.Effect<
+export const createGameServerGroup: API.OperationMethod<
+  CreateGameServerGroupInput,
   CreateGameServerGroupOutput,
   | ConflictException
   | InternalServiceException
@@ -8176,9 +8167,8 @@ export const createGameServerGroup: (
  *
  * All APIs by task
  */
-export const createGameSession: (
-  input: CreateGameSessionInput,
-) => effect.Effect<
+export const createGameSession: API.OperationMethod<
+  CreateGameSessionInput,
   CreateGameSessionOutput,
   | ConflictException
   | FleetCapacityExceededException
@@ -8287,9 +8277,8 @@ export const createGameSession: (
  * |
  * All APIs by task
  */
-export const createGameSessionQueue: (
-  input: CreateGameSessionQueueInput,
-) => effect.Effect<
+export const createGameSessionQueue: API.OperationMethod<
+  CreateGameSessionQueueInput,
   CreateGameSessionQueueOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8316,9 +8305,8 @@ export const createGameSessionQueue: (
  *
  * Creates a custom location for use in an Anywhere fleet.
  */
-export const createLocation: (
-  input: CreateLocationInput,
-) => effect.Effect<
+export const createLocation: API.OperationMethod<
+  CreateLocationInput,
   CreateLocationOutput,
   | ConflictException
   | InternalServiceException
@@ -8369,9 +8357,8 @@ export const createLocation: (
  * Set up FlexMatch event
  * notification
  */
-export const createMatchmakingConfiguration: (
-  input: CreateMatchmakingConfigurationInput,
-) => effect.Effect<
+export const createMatchmakingConfiguration: API.OperationMethod<
+  CreateMatchmakingConfigurationInput,
   CreateMatchmakingConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8418,9 +8405,8 @@ export const createMatchmakingConfiguration: (
  * - Matchmaking with
  * FlexMatch
  */
-export const createMatchmakingRuleSet: (
-  input: CreateMatchmakingRuleSetInput,
-) => effect.Effect<
+export const createMatchmakingRuleSet: API.OperationMethod<
+  CreateMatchmakingRuleSetInput,
   CreateMatchmakingRuleSetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8463,9 +8449,8 @@ export const createMatchmakingRuleSet: (
  *
  * All APIs by task
  */
-export const createPlayerSession: (
-  input: CreatePlayerSessionInput,
-) => effect.Effect<
+export const createPlayerSession: API.OperationMethod<
+  CreatePlayerSessionInput,
   CreatePlayerSessionOutput,
   | GameSessionFullException
   | InternalServiceException
@@ -8512,9 +8497,8 @@ export const createPlayerSession: (
  *
  * All APIs by task
  */
-export const createPlayerSessions: (
-  input: CreatePlayerSessionsInput,
-) => effect.Effect<
+export const createPlayerSessions: API.OperationMethod<
+  CreatePlayerSessionsInput,
   CreatePlayerSessionsOutput,
   | GameSessionFullException
   | InternalServiceException
@@ -8574,9 +8558,8 @@ export const createPlayerSessions: (
  *
  * All APIs by task
  */
-export const createScript: (
-  input: CreateScriptInput,
-) => effect.Effect<
+export const createScript: API.OperationMethod<
+  CreateScriptInput,
   CreateScriptOutput,
   | ConflictException
   | InternalServiceException
@@ -8629,9 +8612,8 @@ export const createScript: (
  *
  * All APIs by task
  */
-export const createVpcPeeringAuthorization: (
-  input: CreateVpcPeeringAuthorizationInput,
-) => effect.Effect<
+export const createVpcPeeringAuthorization: API.OperationMethod<
+  CreateVpcPeeringAuthorizationInput,
   CreateVpcPeeringAuthorizationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8677,9 +8659,8 @@ export const createVpcPeeringAuthorization: (
  *
  * All APIs by task
  */
-export const createVpcPeeringConnection: (
-  input: CreateVpcPeeringConnectionInput,
-) => effect.Effect<
+export const createVpcPeeringConnection: API.OperationMethod<
+  CreateVpcPeeringConnectionInput,
   CreateVpcPeeringConnectionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8708,9 +8689,8 @@ export const createVpcPeeringConnection: (
  *
  * All APIs by task
  */
-export const deleteAlias: (
-  input: DeleteAliasInput,
-) => effect.Effect<
+export const deleteAlias: API.OperationMethod<
+  DeleteAliasInput,
   DeleteAliasResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -8746,9 +8726,8 @@ export const deleteAlias: (
  *
  * All APIs by task
  */
-export const deleteBuild: (
-  input: DeleteBuildInput,
-) => effect.Effect<
+export const deleteBuild: API.OperationMethod<
+  DeleteBuildInput,
   DeleteBuildResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -8783,9 +8762,8 @@ export const deleteBuild: (
  * Setting up Amazon GameLift Servers
  * Fleets
  */
-export const deleteContainerFleet: (
-  input: DeleteContainerFleetInput,
-) => effect.Effect<
+export const deleteContainerFleet: API.OperationMethod<
+  DeleteContainerFleetInput,
   DeleteContainerFleetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8840,9 +8818,8 @@ export const deleteContainerFleet: (
  *
  * - Manage a container group definition
  */
-export const deleteContainerGroupDefinition: (
-  input: DeleteContainerGroupDefinitionInput,
-) => effect.Effect<
+export const deleteContainerGroupDefinition: API.OperationMethod<
+  DeleteContainerGroupDefinitionInput,
   DeleteContainerGroupDefinitionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8884,9 +8861,8 @@ export const deleteContainerGroupDefinition: (
  * Setting up Amazon GameLift Servers
  * Fleets
  */
-export const deleteFleet: (
-  input: DeleteFleetInput,
-) => effect.Effect<
+export const deleteFleet: API.OperationMethod<
+  DeleteFleetInput,
   DeleteFleetResponse,
   | InternalServiceException
   | InvalidFleetStatusException
@@ -8926,9 +8902,8 @@ export const deleteFleet: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const deleteFleetLocations: (
-  input: DeleteFleetLocationsInput,
-) => effect.Effect<
+export const deleteFleetLocations: API.OperationMethod<
+  DeleteFleetLocationsInput,
   DeleteFleetLocationsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -8980,9 +8955,8 @@ export const deleteFleetLocations: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const deleteGameServerGroup: (
-  input: DeleteGameServerGroupInput,
-) => effect.Effect<
+export const deleteGameServerGroup: API.OperationMethod<
+  DeleteGameServerGroupInput,
   DeleteGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9006,9 +8980,8 @@ export const deleteGameServerGroup: (
  * Deletes a game session queue. Once a queue is successfully deleted, unfulfilled StartGameSessionPlacement requests that reference the queue will fail. To
  * delete a queue, specify the queue name.
  */
-export const deleteGameSessionQueue: (
-  input: DeleteGameSessionQueueInput,
-) => effect.Effect<
+export const deleteGameSessionQueue: API.OperationMethod<
+  DeleteGameSessionQueueInput,
   DeleteGameSessionQueueOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9036,9 +9009,8 @@ export const deleteGameSessionQueue: (
  * Before deleting a custom location, review any fleets currently using the custom
  * location and deregister the location if it is in use. For more information, see DeregisterCompute.
  */
-export const deleteLocation: (
-  input: DeleteLocationInput,
-) => effect.Effect<
+export const deleteLocation: API.OperationMethod<
+  DeleteLocationInput,
   DeleteLocationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9063,9 +9035,8 @@ export const deleteLocation: (
  * configuration name. A matchmaking configuration cannot be deleted if it is being used in
  * any active matchmaking tickets.
  */
-export const deleteMatchmakingConfiguration: (
-  input: DeleteMatchmakingConfigurationInput,
-) => effect.Effect<
+export const deleteMatchmakingConfiguration: API.OperationMethod<
+  DeleteMatchmakingConfigurationInput,
   DeleteMatchmakingConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9097,9 +9068,8 @@ export const deleteMatchmakingConfiguration: (
  * - Build a rule
  * set
  */
-export const deleteMatchmakingRuleSet: (
-  input: DeleteMatchmakingRuleSetInput,
-) => effect.Effect<
+export const deleteMatchmakingRuleSet: API.OperationMethod<
+  DeleteMatchmakingRuleSetInput,
   DeleteMatchmakingRuleSetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9129,9 +9099,8 @@ export const deleteMatchmakingRuleSet: (
  * To temporarily suspend scaling policies, use StopFleetActions. This operation suspends all policies for the
  * fleet.
  */
-export const deleteScalingPolicy: (
-  input: DeleteScalingPolicyInput,
-) => effect.Effect<
+export const deleteScalingPolicy: API.OperationMethod<
+  DeleteScalingPolicyInput,
   DeleteScalingPolicyResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -9171,9 +9140,8 @@ export const deleteScalingPolicy: (
  *
  * All APIs by task
  */
-export const deleteScript: (
-  input: DeleteScriptInput,
-) => effect.Effect<
+export const deleteScript: API.OperationMethod<
+  DeleteScriptInput,
   DeleteScriptResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -9203,9 +9171,8 @@ export const deleteScript: (
  *
  * All APIs by task
  */
-export const deleteVpcPeeringAuthorization: (
-  input: DeleteVpcPeeringAuthorizationInput,
-) => effect.Effect<
+export const deleteVpcPeeringAuthorization: API.OperationMethod<
+  DeleteVpcPeeringAuthorizationInput,
   DeleteVpcPeeringAuthorizationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9237,9 +9204,8 @@ export const deleteVpcPeeringAuthorization: (
  *
  * All APIs by task
  */
-export const deleteVpcPeeringConnection: (
-  input: DeleteVpcPeeringConnectionInput,
-) => effect.Effect<
+export const deleteVpcPeeringConnection: API.OperationMethod<
+  DeleteVpcPeeringConnectionInput,
   DeleteVpcPeeringConnectionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9268,9 +9234,8 @@ export const deleteVpcPeeringConnection: (
  * To deregister a compute, call this operation from the compute that's being
  * deregistered and specify the compute name and the fleet ID.
  */
-export const deregisterCompute: (
-  input: DeregisterComputeInput,
-) => effect.Effect<
+export const deregisterCompute: API.OperationMethod<
+  DeregisterComputeInput,
   DeregisterComputeOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9304,9 +9269,8 @@ export const deregisterCompute: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const deregisterGameServer: (
-  input: DeregisterGameServerInput,
-) => effect.Effect<
+export const deregisterGameServer: API.OperationMethod<
+  DeregisterGameServerInput,
   DeregisterGameServerResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -9337,9 +9301,8 @@ export const deregisterGameServer: (
  *
  * All APIs by task
  */
-export const describeAlias: (
-  input: DescribeAliasInput,
-) => effect.Effect<
+export const describeAlias: API.OperationMethod<
+  DescribeAliasInput,
   DescribeAliasOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9370,9 +9333,8 @@ export const describeAlias: (
  *
  * All APIs by task
  */
-export const describeBuild: (
-  input: DescribeBuildInput,
-) => effect.Effect<
+export const describeBuild: API.OperationMethod<
+  DescribeBuildInput,
   DescribeBuildOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9423,9 +9385,8 @@ export const describeBuild: (
  * - For an Anywhere fleet, this operation returns information about the registered
  * compute.
  */
-export const describeCompute: (
-  input: DescribeComputeInput,
-) => effect.Effect<
+export const describeCompute: API.OperationMethod<
+  DescribeComputeInput,
   DescribeComputeOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9465,9 +9426,8 @@ export const describeCompute: (
  * a request exceeds this limit, the request fails and the error message contains the
  * maximum allowed number.
  */
-export const describeContainerFleet: (
-  input: DescribeContainerFleetInput,
-) => effect.Effect<
+export const describeContainerFleet: API.OperationMethod<
+  DescribeContainerFleetInput,
   DescribeContainerFleetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9510,9 +9470,8 @@ export const describeContainerFleet: (
  *
  * - Manage a container group definition
  */
-export const describeContainerGroupDefinition: (
-  input: DescribeContainerGroupDefinitionInput,
-) => effect.Effect<
+export const describeContainerGroupDefinition: API.OperationMethod<
+  DescribeContainerGroupDefinitionInput,
   DescribeContainerGroupDefinitionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9583,9 +9542,8 @@ export const describeContainerGroupDefinition: (
  *
  * Setting up Amazon GameLift Servers fleets
  */
-export const describeEC2InstanceLimits: (
-  input: DescribeEC2InstanceLimitsInput,
-) => effect.Effect<
+export const describeEC2InstanceLimits: API.OperationMethod<
+  DescribeEC2InstanceLimitsInput,
   DescribeEC2InstanceLimitsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9630,18 +9588,16 @@ export const describeEC2InstanceLimits: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const describeFleetAttributes: {
-  (
-    input: DescribeFleetAttributesInput,
-  ): effect.Effect<
-    DescribeFleetAttributesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetAttributes: API.OperationMethod<
+  DescribeFleetAttributesInput,
+  DescribeFleetAttributesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetAttributesInput,
   ) => stream.Stream<
@@ -9716,19 +9672,17 @@ export const describeFleetAttributes: {
  *
  * GameLift metrics for fleets
  */
-export const describeFleetCapacity: {
-  (
-    input: DescribeFleetCapacityInput,
-  ): effect.Effect<
-    DescribeFleetCapacityOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetCapacity: API.OperationMethod<
+  DescribeFleetCapacityInput,
+  DescribeFleetCapacityOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetCapacityInput,
   ) => stream.Stream<
@@ -9787,9 +9741,8 @@ export const describeFleetCapacity: {
  *
  * If successful, a `FleetDeployment` object is returned.
  */
-export const describeFleetDeployment: (
-  input: DescribeFleetDeploymentInput,
-) => effect.Effect<
+export const describeFleetDeployment: API.OperationMethod<
+  DescribeFleetDeploymentInput,
   DescribeFleetDeploymentOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -9827,19 +9780,17 @@ export const describeFleetDeployment: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const describeFleetEvents: {
-  (
-    input: DescribeFleetEventsInput,
-  ): effect.Effect<
-    DescribeFleetEventsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetEvents: API.OperationMethod<
+  DescribeFleetEventsInput,
+  DescribeFleetEventsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetEventsInput,
   ) => stream.Stream<
@@ -9910,19 +9861,17 @@ export const describeFleetEvents: {
  *
  * Amazon GameLift Servers service locations for managed hosting
  */
-export const describeFleetLocationAttributes: {
-  (
-    input: DescribeFleetLocationAttributesInput,
-  ): effect.Effect<
-    DescribeFleetLocationAttributesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetLocationAttributes: API.OperationMethod<
+  DescribeFleetLocationAttributesInput,
+  DescribeFleetLocationAttributesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetLocationAttributesInput,
   ) => stream.Stream<
@@ -9989,9 +9938,8 @@ export const describeFleetLocationAttributes: {
  *
  * GameLift metrics for fleets
  */
-export const describeFleetLocationCapacity: (
-  input: DescribeFleetLocationCapacityInput,
-) => effect.Effect<
+export const describeFleetLocationCapacity: API.OperationMethod<
+  DescribeFleetLocationCapacityInput,
   DescribeFleetLocationCapacityOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10034,9 +9982,8 @@ export const describeFleetLocationCapacity: (
  *
  * GameLift metrics for fleets
  */
-export const describeFleetLocationUtilization: (
-  input: DescribeFleetLocationUtilizationInput,
-) => effect.Effect<
+export const describeFleetLocationUtilization: API.OperationMethod<
+  DescribeFleetLocationUtilizationInput,
   DescribeFleetLocationUtilizationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10082,9 +10029,8 @@ export const describeFleetLocationUtilization: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const describeFleetPortSettings: (
-  input: DescribeFleetPortSettingsInput,
-) => effect.Effect<
+export const describeFleetPortSettings: API.OperationMethod<
+  DescribeFleetPortSettingsInput,
   DescribeFleetPortSettingsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10138,18 +10084,16 @@ export const describeFleetPortSettings: (
  *
  * GameLift Metrics for Fleets
  */
-export const describeFleetUtilization: {
-  (
-    input: DescribeFleetUtilizationInput,
-  ): effect.Effect<
-    DescribeFleetUtilizationOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetUtilization: API.OperationMethod<
+  DescribeFleetUtilizationInput,
+  DescribeFleetUtilizationOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetUtilizationInput,
   ) => stream.Stream<
@@ -10203,9 +10147,8 @@ export const describeFleetUtilization: {
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const describeGameServer: (
-  input: DescribeGameServerInput,
-) => effect.Effect<
+export const describeGameServer: API.OperationMethod<
+  DescribeGameServerInput,
   DescribeGameServerOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10240,9 +10183,8 @@ export const describeGameServer: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const describeGameServerGroup: (
-  input: DescribeGameServerGroupInput,
-) => effect.Effect<
+export const describeGameServerGroup: API.OperationMethod<
+  DescribeGameServerGroupInput,
   DescribeGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10284,18 +10226,16 @@ export const describeGameServerGroup: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const describeGameServerInstances: {
-  (
-    input: DescribeGameServerInstancesInput,
-  ): effect.Effect<
-    DescribeGameServerInstancesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGameServerInstances: API.OperationMethod<
+  DescribeGameServerInstancesInput,
+  DescribeGameServerInstancesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGameServerInstancesInput,
   ) => stream.Stream<
@@ -10368,20 +10308,18 @@ export const describeGameServerInstances: {
  *
  * All APIs by task
  */
-export const describeGameSessionDetails: {
-  (
-    input: DescribeGameSessionDetailsInput,
-  ): effect.Effect<
-    DescribeGameSessionDetailsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGameSessionDetails: API.OperationMethod<
+  DescribeGameSessionDetailsInput,
+  DescribeGameSessionDetailsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGameSessionDetailsInput,
   ) => stream.Stream<
@@ -10440,9 +10378,8 @@ export const describeGameSessionDetails: {
  * queues. Continuously polling with `DescribeGameSessionPlacement` should only
  * be used for games in development with low game session usage.
  */
-export const describeGameSessionPlacement: (
-  input: DescribeGameSessionPlacementInput,
-) => effect.Effect<
+export const describeGameSessionPlacement: API.OperationMethod<
+  DescribeGameSessionPlacementInput,
   DescribeGameSessionPlacementOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10472,18 +10409,16 @@ export const describeGameSessionPlacement: (
  *
  * View Your Queues
  */
-export const describeGameSessionQueues: {
-  (
-    input: DescribeGameSessionQueuesInput,
-  ): effect.Effect<
-    DescribeGameSessionQueuesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGameSessionQueues: API.OperationMethod<
+  DescribeGameSessionQueuesInput,
+  DescribeGameSessionQueuesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGameSessionQueuesInput,
   ) => stream.Stream<
@@ -10563,20 +10498,18 @@ export const describeGameSessionQueues: {
  *
  * All APIs by task
  */
-export const describeGameSessions: {
-  (
-    input: DescribeGameSessionsInput,
-  ): effect.Effect<
-    DescribeGameSessionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGameSessions: API.OperationMethod<
+  DescribeGameSessionsInput,
+  DescribeGameSessionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGameSessionsInput,
   ) => stream.Stream<
@@ -10659,19 +10592,17 @@ export const describeGameSessions: {
  *
  * All APIs by task
  */
-export const describeInstances: {
-  (
-    input: DescribeInstancesInput,
-  ): effect.Effect<
-    DescribeInstancesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeInstances: API.OperationMethod<
+  DescribeInstancesInput,
+  DescribeInstancesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstancesInput,
   ) => stream.Stream<
@@ -10736,9 +10667,8 @@ export const describeInstances: {
  * Set Up FlexMatch event
  * notification
  */
-export const describeMatchmaking: (
-  input: DescribeMatchmakingInput,
-) => effect.Effect<
+export const describeMatchmaking: API.OperationMethod<
+  DescribeMatchmakingInput,
   DescribeMatchmakingOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -10771,17 +10701,15 @@ export const describeMatchmaking: (
  *
  * Setting up FlexMatch matchmakers
  */
-export const describeMatchmakingConfigurations: {
-  (
-    input: DescribeMatchmakingConfigurationsInput,
-  ): effect.Effect<
-    DescribeMatchmakingConfigurationsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMatchmakingConfigurations: API.OperationMethod<
+  DescribeMatchmakingConfigurationsInput,
+  DescribeMatchmakingConfigurationsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMatchmakingConfigurationsInput,
   ) => stream.Stream<
@@ -10830,18 +10758,16 @@ export const describeMatchmakingConfigurations: {
  * - Build a rule
  * set
  */
-export const describeMatchmakingRuleSets: {
-  (
-    input: DescribeMatchmakingRuleSetsInput,
-  ): effect.Effect<
-    DescribeMatchmakingRuleSetsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMatchmakingRuleSets: API.OperationMethod<
+  DescribeMatchmakingRuleSetsInput,
+  DescribeMatchmakingRuleSetsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMatchmakingRuleSetsInput,
   ) => stream.Stream<
@@ -10908,18 +10834,16 @@ export const describeMatchmakingRuleSets: {
  *
  * All APIs by task
  */
-export const describePlayerSessions: {
-  (
-    input: DescribePlayerSessionsInput,
-  ): effect.Effect<
-    DescribePlayerSessionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePlayerSessions: API.OperationMethod<
+  DescribePlayerSessionsInput,
+  DescribePlayerSessionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePlayerSessionsInput,
   ) => stream.Stream<
@@ -10981,9 +10905,8 @@ export const describePlayerSessions: {
  * Running multiple
  * processes on a fleet
  */
-export const describeRuntimeConfiguration: (
-  input: DescribeRuntimeConfigurationInput,
-) => effect.Effect<
+export const describeRuntimeConfiguration: API.OperationMethod<
+  DescribeRuntimeConfigurationInput,
   DescribeRuntimeConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11014,19 +10937,17 @@ export const describeRuntimeConfiguration: (
  * A fleet may have all of its scaling policies suspended. This operation does not affect
  * the status of the scaling policies, which remains ACTIVE.
  */
-export const describeScalingPolicies: {
-  (
-    input: DescribeScalingPoliciesInput,
-  ): effect.Effect<
-    DescribeScalingPoliciesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeScalingPolicies: API.OperationMethod<
+  DescribeScalingPoliciesInput,
+  DescribeScalingPoliciesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScalingPoliciesInput,
   ) => stream.Stream<
@@ -11084,9 +11005,8 @@ export const describeScalingPolicies: {
  *
  * All APIs by task
  */
-export const describeScript: (
-  input: DescribeScriptInput,
-) => effect.Effect<
+export const describeScript: API.OperationMethod<
+  DescribeScriptInput,
   DescribeScriptOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11115,9 +11035,8 @@ export const describeScript: (
  *
  * All APIs by task
  */
-export const describeVpcPeeringAuthorizations: (
-  input: DescribeVpcPeeringAuthorizationsInput,
-) => effect.Effect<
+export const describeVpcPeeringAuthorizations: API.OperationMethod<
+  DescribeVpcPeeringAuthorizationsInput,
   DescribeVpcPeeringAuthorizationsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11149,9 +11068,8 @@ export const describeVpcPeeringAuthorizations: (
  *
  * All APIs by task
  */
-export const describeVpcPeeringConnections: (
-  input: DescribeVpcPeeringConnectionsInput,
-) => effect.Effect<
+export const describeVpcPeeringConnections: API.OperationMethod<
+  DescribeVpcPeeringConnectionsInput,
   DescribeVpcPeeringConnectionsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11197,9 +11115,8 @@ export const describeVpcPeeringConnections: (
  * details, see Starting a session (CLI) in the Amazon EC2 Systems Manager User
  * Guide.
  */
-export const getComputeAccess: (
-  input: GetComputeAccessInput,
-) => effect.Effect<
+export const getComputeAccess: API.OperationMethod<
+  GetComputeAccessInput,
   GetComputeAccessOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11251,9 +11168,8 @@ export const getComputeAccess: (
  * - Server SDK
  * reference guides (for version 5.x)
  */
-export const getComputeAuthToken: (
-  input: GetComputeAuthTokenInput,
-) => effect.Effect<
+export const getComputeAuthToken: API.OperationMethod<
+  GetComputeAuthTokenInput,
   GetComputeAuthTokenOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11286,9 +11202,8 @@ export const getComputeAuthToken: (
  *
  * All APIs by task
  */
-export const getGameSessionLogUrl: (
-  input: GetGameSessionLogUrlInput,
-) => effect.Effect<
+export const getGameSessionLogUrl: API.OperationMethod<
+  GetGameSessionLogUrlInput,
   GetGameSessionLogUrlOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11340,9 +11255,8 @@ export const getGameSessionLogUrl: (
  *
  * All APIs by task
  */
-export const getInstanceAccess: (
-  input: GetInstanceAccessInput,
-) => effect.Effect<
+export const getInstanceAccess: API.OperationMethod<
+  GetInstanceAccessInput,
   GetInstanceAccessOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -11373,17 +11287,15 @@ export const getInstanceAccess: (
  *
  * All APIs by task
  */
-export const listAliases: {
-  (
-    input: ListAliasesInput,
-  ): effect.Effect<
-    ListAliasesOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAliases: API.OperationMethod<
+  ListAliasesInput,
+  ListAliasesOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAliasesInput,
   ) => stream.Stream<
@@ -11435,17 +11347,15 @@ export const listAliases: {
  *
  * All APIs by task
  */
-export const listBuilds: {
-  (
-    input: ListBuildsInput,
-  ): effect.Effect<
-    ListBuildsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuilds: API.OperationMethod<
+  ListBuildsInput,
+  ListBuildsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuildsInput,
   ) => stream.Stream<
@@ -11509,18 +11419,16 @@ export const listBuilds: {
  * `GameLiftServiceSdkEndpoint` or
  * `GameLiftAgentEndpoint`.
  */
-export const listCompute: {
-  (
-    input: ListComputeInput,
-  ): effect.Effect<
-    ListComputeOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCompute: API.OperationMethod<
+  ListComputeInput,
+  ListComputeOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComputeInput,
   ) => stream.Stream<
@@ -11585,18 +11493,16 @@ export const listCompute: {
  *
  * Fleet IDs are returned in no particular order.
  */
-export const listContainerFleets: {
-  (
-    input: ListContainerFleetsInput,
-  ): effect.Effect<
-    ListContainerFleetsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContainerFleets: API.OperationMethod<
+  ListContainerFleetsInput,
+  ListContainerFleetsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContainerFleetsInput,
   ) => stream.Stream<
@@ -11658,18 +11564,16 @@ export const listContainerFleets: {
  *
  * This operation returns the list of container group definitions in no particular order.
  */
-export const listContainerGroupDefinitions: {
-  (
-    input: ListContainerGroupDefinitionsInput,
-  ): effect.Effect<
-    ListContainerGroupDefinitionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContainerGroupDefinitions: API.OperationMethod<
+  ListContainerGroupDefinitionsInput,
+  ListContainerGroupDefinitionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContainerGroupDefinitionsInput,
   ) => stream.Stream<
@@ -11732,19 +11636,17 @@ export const listContainerGroupDefinitions: {
  *
  * - Manage a container group definition
  */
-export const listContainerGroupDefinitionVersions: {
-  (
-    input: ListContainerGroupDefinitionVersionsInput,
-  ): effect.Effect<
-    ListContainerGroupDefinitionVersionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContainerGroupDefinitionVersions: API.OperationMethod<
+  ListContainerGroupDefinitionVersionsInput,
+  ListContainerGroupDefinitionVersionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContainerGroupDefinitionVersionsInput,
   ) => stream.Stream<
@@ -11806,19 +11708,17 @@ export const listContainerGroupDefinitionVersions: {
  *
  * Deployments are returned starting with the latest.
  */
-export const listFleetDeployments: {
-  (
-    input: ListFleetDeploymentsInput,
-  ): effect.Effect<
-    ListFleetDeploymentsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleetDeployments: API.OperationMethod<
+  ListFleetDeploymentsInput,
+  ListFleetDeploymentsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetDeploymentsInput,
   ) => stream.Stream<
@@ -11887,18 +11787,16 @@ export const listFleetDeployments: {
  *
  * Fleet IDs are returned in no particular order.
  */
-export const listFleets: {
-  (
-    input: ListFleetsInput,
-  ): effect.Effect<
-    ListFleetsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleets: API.OperationMethod<
+  ListFleetsInput,
+  ListFleetsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetsInput,
   ) => stream.Stream<
@@ -11942,17 +11840,15 @@ export const listFleets: {
  *
  * Lists a game server groups.
  */
-export const listGameServerGroups: {
-  (
-    input: ListGameServerGroupsInput,
-  ): effect.Effect<
-    ListGameServerGroupsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGameServerGroups: API.OperationMethod<
+  ListGameServerGroupsInput,
+  ListGameServerGroupsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGameServerGroupsInput,
   ) => stream.Stream<
@@ -12001,17 +11897,15 @@ export const listGameServerGroups: {
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const listGameServers: {
-  (
-    input: ListGameServersInput,
-  ): effect.Effect<
-    ListGameServersOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGameServers: API.OperationMethod<
+  ListGameServersInput,
+  ListGameServersOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGameServersInput,
   ) => stream.Stream<
@@ -12064,17 +11958,15 @@ export const listGameServers: {
  *
  * Service locations
  */
-export const listLocations: {
-  (
-    input: ListLocationsInput,
-  ): effect.Effect<
-    ListLocationsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLocations: API.OperationMethod<
+  ListLocationsInput,
+  ListLocationsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLocationsInput,
   ) => stream.Stream<
@@ -12124,17 +12016,15 @@ export const listLocations: {
  *
  * All APIs by task
  */
-export const listScripts: {
-  (
-    input: ListScriptsInput,
-  ): effect.Effect<
-    ListScriptsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScripts: API.OperationMethod<
+  ListScriptsInput,
+  ListScriptsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScriptsInput,
   ) => stream.Stream<
@@ -12190,9 +12080,8 @@ export const listScripts: {
  *
  * All APIs by task
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -12284,9 +12173,8 @@ export const listTagsForResource: (
  * auto-scaling actions are temporarily suspended, the new policy will be in force once the
  * fleet actions are restarted.
  */
-export const putScalingPolicy: (
-  input: PutScalingPolicyInput,
-) => effect.Effect<
+export const putScalingPolicy: API.OperationMethod<
+  PutScalingPolicyInput,
   PutScalingPolicyOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12338,9 +12226,8 @@ export const putScalingPolicy: (
  * - Server SDK
  * reference guides (for version 5.x)
  */
-export const registerCompute: (
-  input: RegisterComputeInput,
-) => effect.Effect<
+export const registerCompute: API.OperationMethod<
+  RegisterComputeInput,
   RegisterComputeOutput,
   | ConflictException
   | InternalServiceException
@@ -12386,9 +12273,8 @@ export const registerCompute: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const registerGameServer: (
-  input: RegisterGameServerInput,
-) => effect.Effect<
+export const registerGameServer: API.OperationMethod<
+  RegisterGameServerInput,
   RegisterGameServerOutput,
   | ConflictException
   | InternalServiceException
@@ -12425,9 +12311,8 @@ export const registerGameServer: (
  *
  * All APIs by task
  */
-export const requestUploadCredentials: (
-  input: RequestUploadCredentialsInput,
-) => effect.Effect<
+export const requestUploadCredentials: API.OperationMethod<
+  RequestUploadCredentialsInput,
   RequestUploadCredentialsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12459,9 +12344,8 @@ export const requestUploadCredentials: (
  *
  * All APIs by task
  */
-export const resolveAlias: (
-  input: ResolveAliasInput,
-) => effect.Effect<
+export const resolveAlias: API.OperationMethod<
+  ResolveAliasInput,
   ResolveAliasOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12501,9 +12385,8 @@ export const resolveAlias: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const resumeGameServerGroup: (
-  input: ResumeGameServerGroupInput,
-) => effect.Effect<
+export const resumeGameServerGroup: API.OperationMethod<
+  ResumeGameServerGroupInput,
   ResumeGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12592,20 +12475,18 @@ export const resumeGameServerGroup: (
  *
  * All APIs by task
  */
-export const searchGameSessions: {
-  (
-    input: SearchGameSessionsInput,
-  ): effect.Effect<
-    SearchGameSessionsOutput,
-    | InternalServiceException
-    | InvalidRequestException
-    | NotFoundException
-    | TerminalRoutingStrategyException
-    | UnauthorizedException
-    | UnsupportedRegionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchGameSessions: API.OperationMethod<
+  SearchGameSessionsInput,
+  SearchGameSessionsOutput,
+  | InternalServiceException
+  | InvalidRequestException
+  | NotFoundException
+  | TerminalRoutingStrategyException
+  | UnauthorizedException
+  | UnsupportedRegionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchGameSessionsInput,
   ) => stream.Stream<
@@ -12674,9 +12555,8 @@ export const searchGameSessions: {
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const startFleetActions: (
-  input: StartFleetActionsInput,
-) => effect.Effect<
+export const startFleetActions: API.OperationMethod<
+  StartFleetActionsInput,
   StartFleetActionsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12776,9 +12656,8 @@ export const startFleetActions: (
  * setting. If a request times out, you can resubmit the request to the same queue or try a
  * different queue.
  */
-export const startGameSessionPlacement: (
-  input: StartGameSessionPlacementInput,
-) => effect.Effect<
+export const startGameSessionPlacement: API.OperationMethod<
+  StartGameSessionPlacementInput,
   StartGameSessionPlacementOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12838,9 +12717,8 @@ export const startGameSessionPlacement: (
  *
  * How Amazon GameLift Servers FlexMatch works
  */
-export const startMatchBackfill: (
-  input: StartMatchBackfillInput,
-) => effect.Effect<
+export const startMatchBackfill: API.OperationMethod<
+  StartMatchBackfillInput,
   StartMatchBackfillOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12888,9 +12766,8 @@ export const startMatchBackfill: (
  *
  * How Amazon GameLift Servers FlexMatch works
  */
-export const startMatchmaking: (
-  input: StartMatchmakingInput,
-) => effect.Effect<
+export const startMatchmaking: API.OperationMethod<
+  StartMatchmakingInput,
   StartMatchmakingOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12937,9 +12814,8 @@ export const startMatchmaking: (
  * Setting up Amazon GameLift Servers
  * Fleets
  */
-export const stopFleetActions: (
-  input: StopFleetActionsInput,
-) => effect.Effect<
+export const stopFleetActions: API.OperationMethod<
+  StopFleetActionsInput,
   StopFleetActionsOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -12974,9 +12850,8 @@ export const stopFleetActions: (
  * game session has already been created for this placement. You can clean up an unneeded
  * game session by calling TerminateGameSession.
  */
-export const stopGameSessionPlacement: (
-  input: StopGameSessionPlacementInput,
-) => effect.Effect<
+export const stopGameSessionPlacement: API.OperationMethod<
+  StopGameSessionPlacementInput,
   StopGameSessionPlacementOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13014,9 +12889,8 @@ export const stopGameSessionPlacement: (
  *
  * Add FlexMatch to a game client
  */
-export const stopMatchmaking: (
-  input: StopMatchmakingInput,
-) => effect.Effect<
+export const stopMatchmaking: API.OperationMethod<
+  StopMatchmakingInput,
   StopMatchmakingOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13060,9 +12934,8 @@ export const stopMatchmaking: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const suspendGameServerGroup: (
-  input: SuspendGameServerGroupInput,
-) => effect.Effect<
+export const suspendGameServerGroup: API.OperationMethod<
+  SuspendGameServerGroupInput,
   SuspendGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13103,9 +12976,8 @@ export const suspendGameServerGroup: (
  *
  * All APIs by task
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -13172,9 +13044,8 @@ export const tagResource: (
  * (Unreal)
  * (Go)
  */
-export const terminateGameSession: (
-  input: TerminateGameSessionInput,
-) => effect.Effect<
+export const terminateGameSession: API.OperationMethod<
+  TerminateGameSessionInput,
   TerminateGameSessionOutput,
   | InternalServiceException
   | InvalidGameSessionStatusException
@@ -13218,9 +13089,8 @@ export const terminateGameSession: (
  *
  * All APIs by task
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -13253,9 +13123,8 @@ export const untagResource: (
  *
  * All APIs by task
  */
-export const updateAlias: (
-  input: UpdateAliasInput,
-) => effect.Effect<
+export const updateAlias: API.OperationMethod<
+  UpdateAliasInput,
   UpdateAliasOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13287,9 +13156,8 @@ export const updateAlias: (
  *
  * All APIs by task
  */
-export const updateBuild: (
-  input: UpdateBuildInput,
-) => effect.Effect<
+export const updateBuild: API.OperationMethod<
+  UpdateBuildInput,
   UpdateBuildOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13359,9 +13227,8 @@ export const updateBuild: (
  * update request initiates a deployment while another deployment is in progress, the first
  * deployment is cancelled.
  */
-export const updateContainerFleet: (
-  input: UpdateContainerFleetInput,
-) => effect.Effect<
+export const updateContainerFleet: API.OperationMethod<
+  UpdateContainerFleetInput,
   UpdateContainerFleetOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13425,9 +13292,8 @@ export const updateContainerFleet: (
  * automatically initiates a new fleet deployment of the new version. You can track a fleet's
  * deployments using ListFleetDeployments.
  */
-export const updateContainerGroupDefinition: (
-  input: UpdateContainerGroupDefinitionInput,
-) => effect.Effect<
+export const updateContainerGroupDefinition: API.OperationMethod<
+  UpdateContainerGroupDefinitionInput,
   UpdateContainerGroupDefinitionOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13470,9 +13336,8 @@ export const updateContainerGroupDefinition: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const updateFleetAttributes: (
-  input: UpdateFleetAttributesInput,
-) => effect.Effect<
+export const updateFleetAttributes: API.OperationMethod<
+  UpdateFleetAttributesInput,
   UpdateFleetAttributesOutput,
   | ConflictException
   | InternalServiceException
@@ -13549,9 +13414,8 @@ export const updateFleetAttributes: (
  * Scaling fleet
  * capacity
  */
-export const updateFleetCapacity: (
-  input: UpdateFleetCapacityInput,
-) => effect.Effect<
+export const updateFleetCapacity: API.OperationMethod<
+  UpdateFleetCapacityInput,
   UpdateFleetCapacityOutput,
   | ConflictException
   | InternalServiceException
@@ -13599,9 +13463,8 @@ export const updateFleetCapacity: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const updateFleetPortSettings: (
-  input: UpdateFleetPortSettingsInput,
-) => effect.Effect<
+export const updateFleetPortSettings: API.OperationMethod<
+  UpdateFleetPortSettingsInput,
   UpdateFleetPortSettingsOutput,
   | ConflictException
   | InternalServiceException
@@ -13658,9 +13521,8 @@ export const updateFleetPortSettings: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const updateGameServer: (
-  input: UpdateGameServerInput,
-) => effect.Effect<
+export const updateGameServer: API.OperationMethod<
+  UpdateGameServerInput,
   UpdateGameServerOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13696,9 +13558,8 @@ export const updateGameServer: (
  * Amazon GameLift Servers FleetIQ
  * Guide
  */
-export const updateGameServerGroup: (
-  input: UpdateGameServerGroupInput,
-) => effect.Effect<
+export const updateGameServerGroup: API.OperationMethod<
+  UpdateGameServerGroupInput,
   UpdateGameServerGroupOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13728,9 +13589,8 @@ export const updateGameServerGroup: (
  *
  * All APIs by task
  */
-export const updateGameSession: (
-  input: UpdateGameSessionInput,
-) => effect.Effect<
+export const updateGameSession: API.OperationMethod<
+  UpdateGameSessionInput,
   UpdateGameSessionOutput,
   | ConflictException
   | InternalServiceException
@@ -13766,9 +13626,8 @@ export const updateGameSession: (
  *
  * Using Multi-Region Queues
  */
-export const updateGameSessionQueue: (
-  input: UpdateGameSessionQueueInput,
-) => effect.Effect<
+export const updateGameSessionQueue: API.OperationMethod<
+  UpdateGameSessionQueueInput,
   UpdateGameSessionQueueOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13798,9 +13657,8 @@ export const updateGameSessionQueue: (
  * Design a FlexMatch
  * matchmaker
  */
-export const updateMatchmakingConfiguration: (
-  input: UpdateMatchmakingConfigurationInput,
-) => effect.Effect<
+export const updateMatchmakingConfiguration: API.OperationMethod<
+  UpdateMatchmakingConfigurationInput,
   UpdateMatchmakingConfigurationOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13842,9 +13700,8 @@ export const updateMatchmakingConfiguration: (
  * Setting up Amazon GameLift Servers
  * fleets
  */
-export const updateRuntimeConfiguration: (
-  input: UpdateRuntimeConfigurationInput,
-) => effect.Effect<
+export const updateRuntimeConfiguration: API.OperationMethod<
+  UpdateRuntimeConfigurationInput,
   UpdateRuntimeConfigurationOutput,
   | InternalServiceException
   | InvalidFleetStatusException
@@ -13891,9 +13748,8 @@ export const updateRuntimeConfiguration: (
  *
  * All APIs by task
  */
-export const updateScript: (
-  input: UpdateScriptInput,
-) => effect.Effect<
+export const updateScript: API.OperationMethod<
+  UpdateScriptInput,
   UpdateScriptOutput,
   | InternalServiceException
   | InvalidRequestException
@@ -13923,9 +13779,8 @@ export const updateScript: (
  * - Build a rule
  * set
  */
-export const validateMatchmakingRuleSet: (
-  input: ValidateMatchmakingRuleSetInput,
-) => effect.Effect<
+export const validateMatchmakingRuleSet: API.OperationMethod<
+  ValidateMatchmakingRuleSetInput,
   ValidateMatchmakingRuleSetOutput,
   | InternalServiceException
   | InvalidRequestException

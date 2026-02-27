@@ -55,12 +55,16 @@ export const GetEndpointHealthcheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ checkType: "check_type" }),
+  Schema.encodeKeys({
+    checkType: "check_type",
+    endpoint: "endpoint",
+    id: "id",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<GetEndpointHealthcheckResponse>;
 
-export const getEndpointHealthcheck: (
-  input: GetEndpointHealthcheckRequest,
-) => Effect.Effect<
+export const getEndpointHealthcheck: API.OperationMethod<
+  GetEndpointHealthcheckRequest,
   GetEndpointHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -101,12 +105,16 @@ export const ListEndpointHealthchecksResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ checkType: "check_type" }),
+  Schema.encodeKeys({
+    checkType: "check_type",
+    endpoint: "endpoint",
+    id: "id",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<ListEndpointHealthchecksResponse>;
 
-export const listEndpointHealthchecks: (
-  input: ListEndpointHealthchecksRequest,
-) => Effect.Effect<
+export const listEndpointHealthchecks: API.OperationMethod<
+  ListEndpointHealthchecksRequest,
   ListEndpointHealthchecksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -133,7 +141,11 @@ export const CreateEndpointHealthcheckRequest = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ checkType: "check_type" }),
+  Schema.encodeKeys({
+    checkType: "check_type",
+    endpoint: "endpoint",
+    name: "name",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks",
@@ -157,12 +169,16 @@ export const CreateEndpointHealthcheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ checkType: "check_type" }),
+  Schema.encodeKeys({
+    checkType: "check_type",
+    endpoint: "endpoint",
+    id: "id",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<CreateEndpointHealthcheckResponse>;
 
-export const createEndpointHealthcheck: (
-  input: CreateEndpointHealthcheckRequest,
-) => Effect.Effect<
+export const createEndpointHealthcheck: API.OperationMethod<
+  CreateEndpointHealthcheckRequest,
   CreateEndpointHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -191,7 +207,11 @@ export const UpdateEndpointHealthcheckRequest = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ checkType: "check_type" }),
+  Schema.encodeKeys({
+    checkType: "check_type",
+    endpoint: "endpoint",
+    name: "name",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
@@ -215,12 +235,16 @@ export const UpdateEndpointHealthcheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ checkType: "check_type" }),
+  Schema.encodeKeys({
+    checkType: "check_type",
+    endpoint: "endpoint",
+    id: "id",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<UpdateEndpointHealthcheckResponse>;
 
-export const updateEndpointHealthcheck: (
-  input: UpdateEndpointHealthcheckRequest,
-) => Effect.Effect<
+export const updateEndpointHealthcheck: API.OperationMethod<
+  UpdateEndpointHealthcheckRequest,
   UpdateEndpointHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -274,7 +298,14 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -286,14 +317,20 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteEndpointHealthcheckResponse>;
 
-export const deleteEndpointHealthcheck: (
-  input: DeleteEndpointHealthcheckRequest,
-) => Effect.Effect<
+export const deleteEndpointHealthcheck: API.OperationMethod<
+  DeleteEndpointHealthcheckRequest,
   DeleteEndpointHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -342,6 +379,7 @@ export const CreateTracerouteRequest = Schema.Struct({
         maxTtl: "max_ttl",
         packetType: "packet_type",
         packetsPerTtl: "packets_per_ttl",
+        port: "port",
         waitTime: "wait_time",
       }),
     ),
@@ -421,9 +459,13 @@ export const CreateTracerouteResponse = Schema.Array(
                       stdDevRttMs: Schema.optional(Schema.Number),
                     }).pipe(
                       Schema.encodeKeys({
+                        asn: "asn",
+                        ip: "ip",
+                        labels: "labels",
                         maxRttMs: "max_rtt_ms",
                         meanRttMs: "mean_rtt_ms",
                         minRttMs: "min_rtt_ms",
+                        name: "name",
                         packetCount: "packet_count",
                         stdDevRttMs: "std_dev_rtt_ms",
                       }),
@@ -435,6 +477,7 @@ export const CreateTracerouteResponse = Schema.Array(
                 packetsTtl: Schema.optional(Schema.Number),
               }).pipe(
                 Schema.encodeKeys({
+                  nodes: "nodes",
                   packetsLost: "packets_lost",
                   packetsSent: "packets_sent",
                   packetsTtl: "packets_ttl",
@@ -446,6 +489,9 @@ export const CreateTracerouteResponse = Schema.Array(
           tracerouteTimeMs: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            colo: "colo",
+            error: "error",
+            hops: "hops",
             targetSummary: "target_summary",
             tracerouteTimeMs: "traceroute_time_ms",
           }),
@@ -456,9 +502,8 @@ export const CreateTracerouteResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateTracerouteResponse>;
 
-export const createTraceroute: (
-  input: CreateTracerouteRequest,
-) => Effect.Effect<
+export const createTraceroute: API.OperationMethod<
+  CreateTracerouteRequest,
   CreateTracerouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

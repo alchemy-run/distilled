@@ -2423,9 +2423,8 @@ export class ExceedsLimitException extends S.TaggedErrorClass<ExceedsLimitExcept
 /**
  * Adds a policy statement object. To retrieve a list of existing policy statements, use the `GetPolicy` API.
  */
-export const addPolicyStatement: (
-  input: AddPolicyStatementInput,
-) => effect.Effect<
+export const addPolicyStatement: API.OperationMethod<
+  AddPolicyStatementInput,
   AddPolicyStatementOutput,
   | AccessDeniedException
   | ConflictException
@@ -2450,9 +2449,8 @@ export const addPolicyStatement: (
 /**
  * Deletes multiple unique IDs in a matching workflow.
  */
-export const batchDeleteUniqueId: (
-  input: BatchDeleteUniqueIdInput,
-) => effect.Effect<
+export const batchDeleteUniqueId: API.OperationMethod<
+  BatchDeleteUniqueIdInput,
   BatchDeleteUniqueIdOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2473,9 +2471,8 @@ export const batchDeleteUniqueId: (
  *
  * Incremental processing is not supported for ID mapping workflows.
  */
-export const createIdMappingWorkflow: (
-  input: CreateIdMappingWorkflowInput,
-) => effect.Effect<
+export const createIdMappingWorkflow: API.OperationMethod<
+  CreateIdMappingWorkflowInput,
   CreateIdMappingWorkflowOutput,
   | AccessDeniedException
   | ConflictException
@@ -2500,9 +2497,8 @@ export const createIdMappingWorkflow: (
 /**
  * Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
  */
-export const createIdNamespace: (
-  input: CreateIdNamespaceInput,
-) => effect.Effect<
+export const createIdNamespace: API.OperationMethod<
+  CreateIdNamespaceInput,
   CreateIdNamespaceOutput,
   | AccessDeniedException
   | ConflictException
@@ -2529,9 +2525,8 @@ export const createIdNamespace: (
  *
  * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
  */
-export const createMatchingWorkflow: (
-  input: CreateMatchingWorkflowInput,
-) => effect.Effect<
+export const createMatchingWorkflow: API.OperationMethod<
+  CreateMatchingWorkflowInput,
   CreateMatchingWorkflowOutput,
   | AccessDeniedException
   | ConflictException
@@ -2556,9 +2551,8 @@ export const createMatchingWorkflow: (
 /**
  * Creates a schema mapping, which defines the schema of the input customer records table. The `SchemaMapping` also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
  */
-export const createSchemaMapping: (
-  input: CreateSchemaMappingInput,
-) => effect.Effect<
+export const createSchemaMapping: API.OperationMethod<
+  CreateSchemaMappingInput,
   CreateSchemaMappingOutput,
   | AccessDeniedException
   | ConflictException
@@ -2583,9 +2577,8 @@ export const createSchemaMapping: (
 /**
  * Deletes the `IdMappingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
  */
-export const deleteIdMappingWorkflow: (
-  input: DeleteIdMappingWorkflowInput,
-) => effect.Effect<
+export const deleteIdMappingWorkflow: API.OperationMethod<
+  DeleteIdMappingWorkflowInput,
   DeleteIdMappingWorkflowOutput,
   | AccessDeniedException
   | ConflictException
@@ -2608,9 +2601,8 @@ export const deleteIdMappingWorkflow: (
 /**
  * Deletes the `IdNamespace` with a given name.
  */
-export const deleteIdNamespace: (
-  input: DeleteIdNamespaceInput,
-) => effect.Effect<
+export const deleteIdNamespace: API.OperationMethod<
+  DeleteIdNamespaceInput,
   DeleteIdNamespaceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2631,9 +2623,8 @@ export const deleteIdNamespace: (
 /**
  * Deletes the `MatchingWorkflow` with a given name. This operation will succeed even if a workflow with the given name does not exist.
  */
-export const deleteMatchingWorkflow: (
-  input: DeleteMatchingWorkflowInput,
-) => effect.Effect<
+export const deleteMatchingWorkflow: API.OperationMethod<
+  DeleteMatchingWorkflowInput,
   DeleteMatchingWorkflowOutput,
   | AccessDeniedException
   | ConflictException
@@ -2656,9 +2647,8 @@ export const deleteMatchingWorkflow: (
 /**
  * Deletes the policy statement.
  */
-export const deletePolicyStatement: (
-  input: DeletePolicyStatementInput,
-) => effect.Effect<
+export const deletePolicyStatement: API.OperationMethod<
+  DeletePolicyStatementInput,
   DeletePolicyStatementOutput,
   | AccessDeniedException
   | ConflictException
@@ -2683,9 +2673,8 @@ export const deletePolicyStatement: (
 /**
  * Deletes the `SchemaMapping` with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a `MatchingWorkflow` object that references the `SchemaMapping` in the workflow's `InputSourceConfig`.
  */
-export const deleteSchemaMapping: (
-  input: DeleteSchemaMappingInput,
-) => effect.Effect<
+export const deleteSchemaMapping: API.OperationMethod<
+  DeleteSchemaMappingInput,
   DeleteSchemaMappingOutput,
   | AccessDeniedException
   | ConflictException
@@ -2710,9 +2699,8 @@ export const deleteSchemaMapping: (
  *
  * The processing type (`processingType`) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
  */
-export const generateMatchId: (
-  input: GenerateMatchIdInput,
-) => effect.Effect<
+export const generateMatchId: API.OperationMethod<
+  GenerateMatchIdInput,
   GenerateMatchIdOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2735,9 +2723,8 @@ export const generateMatchId: (
 /**
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
-export const getIdMappingJob: (
-  input: GetIdMappingJobInput,
-) => effect.Effect<
+export const getIdMappingJob: API.OperationMethod<
+  GetIdMappingJobInput,
   GetIdMappingJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2760,9 +2747,8 @@ export const getIdMappingJob: (
 /**
  * Returns the `IdMappingWorkflow` with a given name, if it exists.
  */
-export const getIdMappingWorkflow: (
-  input: GetIdMappingWorkflowInput,
-) => effect.Effect<
+export const getIdMappingWorkflow: API.OperationMethod<
+  GetIdMappingWorkflowInput,
   GetIdMappingWorkflowOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2785,9 +2771,8 @@ export const getIdMappingWorkflow: (
 /**
  * Returns the `IdNamespace` with a given name, if it exists.
  */
-export const getIdNamespace: (
-  input: GetIdNamespaceInput,
-) => effect.Effect<
+export const getIdNamespace: API.OperationMethod<
+  GetIdNamespaceInput,
   GetIdNamespaceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2812,9 +2797,8 @@ export const getIdNamespace: (
  *
  * You can call this API as a dry run of an incremental load on the rule-based matching workflow.
  */
-export const getMatchId: (
-  input: GetMatchIdInput,
-) => effect.Effect<
+export const getMatchId: API.OperationMethod<
+  GetMatchIdInput,
   GetMatchIdOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2837,9 +2821,8 @@ export const getMatchId: (
 /**
  * Returns the status, metrics, and errors (if there are any) that are associated with a job.
  */
-export const getMatchingJob: (
-  input: GetMatchingJobInput,
-) => effect.Effect<
+export const getMatchingJob: API.OperationMethod<
+  GetMatchingJobInput,
   GetMatchingJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2862,9 +2845,8 @@ export const getMatchingJob: (
 /**
  * Returns the `MatchingWorkflow` with a given name, if it exists.
  */
-export const getMatchingWorkflow: (
-  input: GetMatchingWorkflowInput,
-) => effect.Effect<
+export const getMatchingWorkflow: API.OperationMethod<
+  GetMatchingWorkflowInput,
   GetMatchingWorkflowOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2887,9 +2869,8 @@ export const getMatchingWorkflow: (
 /**
  * Returns the resource-based policy.
  */
-export const getPolicy: (
-  input: GetPolicyInput,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyInput,
   GetPolicyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2912,9 +2893,8 @@ export const getPolicy: (
 /**
  * Returns the `ProviderService` of a given name.
  */
-export const getProviderService: (
-  input: GetProviderServiceInput,
-) => effect.Effect<
+export const getProviderService: API.OperationMethod<
+  GetProviderServiceInput,
   GetProviderServiceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2937,9 +2917,8 @@ export const getProviderService: (
 /**
  * Returns the SchemaMapping of a given name.
  */
-export const getSchemaMapping: (
-  input: GetSchemaMappingInput,
-) => effect.Effect<
+export const getSchemaMapping: API.OperationMethod<
+  GetSchemaMappingInput,
   GetSchemaMappingOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2962,19 +2941,17 @@ export const getSchemaMapping: (
 /**
  * Lists all ID mapping jobs for a given workflow.
  */
-export const listIdMappingJobs: {
-  (
-    input: ListIdMappingJobsInput,
-  ): effect.Effect<
-    ListIdMappingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdMappingJobs: API.OperationMethod<
+  ListIdMappingJobsInput,
+  ListIdMappingJobsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdMappingJobsInput,
   ) => stream.Stream<
@@ -3019,18 +2996,16 @@ export const listIdMappingJobs: {
 /**
  * Returns a list of all the `IdMappingWorkflows` that have been created for an Amazon Web Services account.
  */
-export const listIdMappingWorkflows: {
-  (
-    input: ListIdMappingWorkflowsInput,
-  ): effect.Effect<
-    ListIdMappingWorkflowsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdMappingWorkflows: API.OperationMethod<
+  ListIdMappingWorkflowsInput,
+  ListIdMappingWorkflowsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdMappingWorkflowsInput,
   ) => stream.Stream<
@@ -3072,18 +3047,16 @@ export const listIdMappingWorkflows: {
 /**
  * Returns a list of all ID namespaces.
  */
-export const listIdNamespaces: {
-  (
-    input: ListIdNamespacesInput,
-  ): effect.Effect<
-    ListIdNamespacesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdNamespaces: API.OperationMethod<
+  ListIdNamespacesInput,
+  ListIdNamespacesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdNamespacesInput,
   ) => stream.Stream<
@@ -3125,19 +3098,17 @@ export const listIdNamespaces: {
 /**
  * Lists all jobs for a given workflow.
  */
-export const listMatchingJobs: {
-  (
-    input: ListMatchingJobsInput,
-  ): effect.Effect<
-    ListMatchingJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMatchingJobs: API.OperationMethod<
+  ListMatchingJobsInput,
+  ListMatchingJobsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMatchingJobsInput,
   ) => stream.Stream<
@@ -3182,18 +3153,16 @@ export const listMatchingJobs: {
 /**
  * Returns a list of all the `MatchingWorkflows` that have been created for an Amazon Web Services account.
  */
-export const listMatchingWorkflows: {
-  (
-    input: ListMatchingWorkflowsInput,
-  ): effect.Effect<
-    ListMatchingWorkflowsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMatchingWorkflows: API.OperationMethod<
+  ListMatchingWorkflowsInput,
+  ListMatchingWorkflowsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMatchingWorkflowsInput,
   ) => stream.Stream<
@@ -3235,18 +3204,16 @@ export const listMatchingWorkflows: {
 /**
  * Returns a list of all the `ProviderServices` that are available in this Amazon Web Services Region.
  */
-export const listProviderServices: {
-  (
-    input: ListProviderServicesInput,
-  ): effect.Effect<
-    ListProviderServicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProviderServices: API.OperationMethod<
+  ListProviderServicesInput,
+  ListProviderServicesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProviderServicesInput,
   ) => stream.Stream<
@@ -3288,18 +3255,16 @@ export const listProviderServices: {
 /**
  * Returns a list of all the `SchemaMappings` that have been created for an Amazon Web Services account.
  */
-export const listSchemaMappings: {
-  (
-    input: ListSchemaMappingsInput,
-  ): effect.Effect<
-    ListSchemaMappingsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemaMappings: API.OperationMethod<
+  ListSchemaMappingsInput,
+  ListSchemaMappingsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemaMappingsInput,
   ) => stream.Stream<
@@ -3341,9 +3306,8 @@ export const listSchemaMappings: {
 /**
  * Displays the tags associated with an Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -3362,9 +3326,8 @@ export const listTagsForResource: (
 /**
  * Updates the resource-based policy.
  */
-export const putPolicy: (
-  input: PutPolicyInput,
-) => effect.Effect<
+export const putPolicy: API.OperationMethod<
+  PutPolicyInput,
   PutPolicyOutput,
   | AccessDeniedException
   | ConflictException
@@ -3389,9 +3352,8 @@ export const putPolicy: (
 /**
  * Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
  */
-export const startIdMappingJob: (
-  input: StartIdMappingJobInput,
-) => effect.Effect<
+export const startIdMappingJob: API.OperationMethod<
+  StartIdMappingJobInput,
   StartIdMappingJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -3418,9 +3380,8 @@ export const startIdMappingJob: (
 /**
  * Starts the `MatchingJob` of a workflow. The workflow must have previously been created using the `CreateMatchingWorkflow` endpoint.
  */
-export const startMatchingJob: (
-  input: StartMatchingJobInput,
-) => effect.Effect<
+export const startMatchingJob: API.OperationMethod<
+  StartMatchingJobInput,
   StartMatchingJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -3447,9 +3408,8 @@ export const startMatchingJob: (
 /**
  * Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, `SchemaMapping` and `MatchingWorkflow` can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the `TagResource` action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -3468,9 +3428,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3484,9 +3443,8 @@ export const untagResource: (
  *
  * Incremental processing is not supported for ID mapping workflows.
  */
-export const updateIdMappingWorkflow: (
-  input: UpdateIdMappingWorkflowInput,
-) => effect.Effect<
+export const updateIdMappingWorkflow: API.OperationMethod<
+  UpdateIdMappingWorkflowInput,
   UpdateIdMappingWorkflowOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3509,9 +3467,8 @@ export const updateIdMappingWorkflow: (
 /**
  * Updates an existing ID namespace.
  */
-export const updateIdNamespace: (
-  input: UpdateIdNamespaceInput,
-) => effect.Effect<
+export const updateIdNamespace: API.OperationMethod<
+  UpdateIdNamespaceInput,
   UpdateIdNamespaceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3536,9 +3493,8 @@ export const updateIdNamespace: (
  *
  * For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
  */
-export const updateMatchingWorkflow: (
-  input: UpdateMatchingWorkflowInput,
-) => effect.Effect<
+export const updateMatchingWorkflow: API.OperationMethod<
+  UpdateMatchingWorkflowInput,
   UpdateMatchingWorkflowOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3563,9 +3519,8 @@ export const updateMatchingWorkflow: (
  *
  * A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
  */
-export const updateSchemaMapping: (
-  input: UpdateSchemaMappingInput,
-) => effect.Effect<
+export const updateSchemaMapping: API.OperationMethod<
+  UpdateSchemaMappingInput,
   UpdateSchemaMappingOutput,
   | AccessDeniedException
   | ConflictException

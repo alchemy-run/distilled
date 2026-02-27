@@ -1565,9 +1565,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Used to acknowledge an engagement to a contact channel during an incident.
  */
-export const acceptPage: (
-  input: AcceptPageRequest,
-) => effect.Effect<
+export const acceptPage: API.OperationMethod<
+  AcceptPageRequest,
   AcceptPageResult,
   | AccessDeniedException
   | InternalServerException
@@ -1591,9 +1590,8 @@ export const acceptPage: (
  * Activates a contact's contact channel. Incident Manager can't engage a contact until the
  * contact channel has been activated.
  */
-export const activateContactChannel: (
-  input: ActivateContactChannelRequest,
-) => effect.Effect<
+export const activateContactChannel: API.OperationMethod<
+  ActivateContactChannelRequest,
   ActivateContactChannelResult,
   | AccessDeniedException
   | InternalServerException
@@ -1618,9 +1616,8 @@ export const activateContactChannel: (
  * escalation plans that Incident Manager uses to engage contacts in phases during an
  * incident.
  */
-export const createContact: (
-  input: CreateContactRequest,
-) => effect.Effect<
+export const createContact: API.OperationMethod<
+  CreateContactRequest,
   CreateContactResult,
   | AccessDeniedException
   | ConflictException
@@ -1647,9 +1644,8 @@ export const createContact: (
 /**
  * A contact channel is the method that Incident Manager uses to engage your contact.
  */
-export const createContactChannel: (
-  input: CreateContactChannelRequest,
-) => effect.Effect<
+export const createContactChannel: API.OperationMethod<
+  CreateContactChannelRequest,
   CreateContactChannelResult,
   | AccessDeniedException
   | ConflictException
@@ -1674,9 +1670,8 @@ export const createContactChannel: (
 /**
  * Creates a rotation in an on-call schedule.
  */
-export const createRotation: (
-  input: CreateRotationRequest,
-) => effect.Effect<
+export const createRotation: API.OperationMethod<
+  CreateRotationRequest,
   CreateRotationResult,
   | AccessDeniedException
   | InternalServerException
@@ -1701,9 +1696,8 @@ export const createRotation: (
 /**
  * Creates an override for a rotation in an on-call schedule.
  */
-export const createRotationOverride: (
-  input: CreateRotationOverrideRequest,
-) => effect.Effect<
+export const createRotationOverride: API.OperationMethod<
+  CreateRotationOverrideRequest,
   CreateRotationOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -1729,9 +1723,8 @@ export const createRotationOverride: (
  * To no longer receive Incident Manager engagements to a contact channel, you can deactivate
  * the channel.
  */
-export const deactivateContactChannel: (
-  input: DeactivateContactChannelRequest,
-) => effect.Effect<
+export const deactivateContactChannel: API.OperationMethod<
+  DeactivateContactChannelRequest,
   DeactivateContactChannelResult,
   | AccessDeniedException
   | InternalServerException
@@ -1758,9 +1751,8 @@ export const deactivateContactChannel: (
  * escalation plan, we recommend using the UpdateContact action to specify a
  * different existing contact.
  */
-export const deleteContact: (
-  input: DeleteContactRequest,
-) => effect.Effect<
+export const deleteContact: API.OperationMethod<
+  DeleteContactRequest,
   DeleteContactResult,
   | AccessDeniedException
   | ConflictException
@@ -1789,9 +1781,8 @@ export const deleteContact: (
  * contact channel for a contact, you'll no longer be able to engage that contact during an
  * incident.
  */
-export const deleteContactChannel: (
-  input: DeleteContactChannelRequest,
-) => effect.Effect<
+export const deleteContactChannel: API.OperationMethod<
+  DeleteContactChannelRequest,
   DeleteContactChannelResult,
   | AccessDeniedException
   | InternalServerException
@@ -1815,9 +1806,8 @@ export const deleteContactChannel: (
  * Deletes a rotation from the system. If a rotation belongs to more than one on-call
  * schedule, this operation deletes it from all of them.
  */
-export const deleteRotation: (
-  input: DeleteRotationRequest,
-) => effect.Effect<
+export const deleteRotation: API.OperationMethod<
+  DeleteRotationRequest,
   DeleteRotationResult,
   | AccessDeniedException
   | ConflictException
@@ -1842,9 +1832,8 @@ export const deleteRotation: (
 /**
  * Deletes an existing override for an on-call rotation.
  */
-export const deleteRotationOverride: (
-  input: DeleteRotationOverrideRequest,
-) => effect.Effect<
+export const deleteRotationOverride: API.OperationMethod<
+  DeleteRotationOverrideRequest,
   DeleteRotationOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -1868,9 +1857,8 @@ export const deleteRotationOverride: (
  * Incident Manager uses engagements to engage contacts and escalation plans during an incident.
  * Use this command to describe the engagement that occurred during an incident.
  */
-export const describeEngagement: (
-  input: DescribeEngagementRequest,
-) => effect.Effect<
+export const describeEngagement: API.OperationMethod<
+  DescribeEngagementRequest,
   DescribeEngagementResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -1895,9 +1883,8 @@ export const describeEngagement: (
 /**
  * Lists details of the engagement to a contact channel.
  */
-export const describePage: (
-  input: DescribePageRequest,
-) => effect.Effect<
+export const describePage: API.OperationMethod<
+  DescribePageRequest,
   DescribePageResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -1922,9 +1909,8 @@ export const describePage: (
 /**
  * Retrieves information about the specified contact or escalation plan.
  */
-export const getContact: (
-  input: GetContactRequest,
-) => effect.Effect<
+export const getContact: API.OperationMethod<
+  GetContactRequest,
   GetContactResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -1949,9 +1935,8 @@ export const getContact: (
 /**
  * List details about a specific contact channel.
  */
-export const getContactChannel: (
-  input: GetContactChannelRequest,
-) => effect.Effect<
+export const getContactChannel: API.OperationMethod<
+  GetContactChannelRequest,
   GetContactChannelResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -1977,9 +1962,8 @@ export const getContactChannel: (
  * Retrieves the resource policies attached to the specified contact or escalation
  * plan.
  */
-export const getContactPolicy: (
-  input: GetContactPolicyRequest,
-) => effect.Effect<
+export const getContactPolicy: API.OperationMethod<
+  GetContactPolicyRequest,
   GetContactPolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -2002,9 +1986,8 @@ export const getContactPolicy: (
 /**
  * Retrieves information about an on-call rotation.
  */
-export const getRotation: (
-  input: GetRotationRequest,
-) => effect.Effect<
+export const getRotation: API.OperationMethod<
+  GetRotationRequest,
   GetRotationResult,
   | AccessDeniedException
   | InternalServerException
@@ -2027,9 +2010,8 @@ export const getRotation: (
 /**
  * Retrieves information about an override to an on-call rotation.
  */
-export const getRotationOverride: (
-  input: GetRotationOverrideRequest,
-) => effect.Effect<
+export const getRotationOverride: API.OperationMethod<
+  GetRotationOverrideRequest,
   GetRotationOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -2052,20 +2034,18 @@ export const getRotationOverride: (
 /**
  * Lists all contact channels for the specified contact.
  */
-export const listContactChannels: {
-  (
-    input: ListContactChannelsRequest,
-  ): effect.Effect<
-    ListContactChannelsResult,
-    | AccessDeniedException
-    | DataEncryptionException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContactChannels: API.OperationMethod<
+  ListContactChannelsRequest,
+  ListContactChannelsResult,
+  | AccessDeniedException
+  | DataEncryptionException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactChannelsRequest,
   ) => stream.Stream<
@@ -2113,18 +2093,16 @@ export const listContactChannels: {
 /**
  * Lists all contacts and escalation plans in Incident Manager.
  */
-export const listContacts: {
-  (
-    input: ListContactsRequest,
-  ): effect.Effect<
-    ListContactsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContacts: API.OperationMethod<
+  ListContactsRequest,
+  ListContactsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactsRequest,
   ) => stream.Stream<
@@ -2166,18 +2144,16 @@ export const listContacts: {
 /**
  * Lists all engagements that have happened in an incident.
  */
-export const listEngagements: {
-  (
-    input: ListEngagementsRequest,
-  ): effect.Effect<
-    ListEngagementsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngagements: API.OperationMethod<
+  ListEngagementsRequest,
+  ListEngagementsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngagementsRequest,
   ) => stream.Stream<
@@ -2219,19 +2195,17 @@ export const listEngagements: {
 /**
  * Lists all of the engagements to contact channels that have been acknowledged.
  */
-export const listPageReceipts: {
-  (
-    input: ListPageReceiptsRequest,
-  ): effect.Effect<
-    ListPageReceiptsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPageReceipts: API.OperationMethod<
+  ListPageReceiptsRequest,
+  ListPageReceiptsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPageReceiptsRequest,
   ) => stream.Stream<
@@ -2280,19 +2254,17 @@ export const listPageReceipts: {
  * indicates the hierarchy of escalation plan > on-call schedule >
  * contact.
  */
-export const listPageResolutions: {
-  (
-    input: ListPageResolutionsRequest,
-  ): effect.Effect<
-    ListPageResolutionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPageResolutions: API.OperationMethod<
+  ListPageResolutionsRequest,
+  ListPageResolutionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPageResolutionsRequest,
   ) => stream.Stream<
@@ -2336,19 +2308,17 @@ export const listPageResolutions: {
 /**
  * Lists the engagements to a contact's contact channels.
  */
-export const listPagesByContact: {
-  (
-    input: ListPagesByContactRequest,
-  ): effect.Effect<
-    ListPagesByContactResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPagesByContact: API.OperationMethod<
+  ListPagesByContactRequest,
+  ListPagesByContactResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPagesByContactRequest,
   ) => stream.Stream<
@@ -2393,19 +2363,17 @@ export const listPagesByContact: {
 /**
  * Lists the engagements to contact channels that occurred by engaging a contact.
  */
-export const listPagesByEngagement: {
-  (
-    input: ListPagesByEngagementRequest,
-  ): effect.Effect<
-    ListPagesByEngagementResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPagesByEngagement: API.OperationMethod<
+  ListPagesByEngagementRequest,
+  ListPagesByEngagementResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPagesByEngagementRequest,
   ) => stream.Stream<
@@ -2452,18 +2420,16 @@ export const listPagesByEngagement: {
  *
  * The Incident Manager primarily uses this operation to populate the **Preview** calendar. It is not typically run by end users.
  */
-export const listPreviewRotationShifts: {
-  (
-    input: ListPreviewRotationShiftsRequest,
-  ): effect.Effect<
-    ListPreviewRotationShiftsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPreviewRotationShifts: API.OperationMethod<
+  ListPreviewRotationShiftsRequest,
+  ListPreviewRotationShiftsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPreviewRotationShiftsRequest,
   ) => stream.Stream<
@@ -2505,19 +2471,17 @@ export const listPreviewRotationShifts: {
 /**
  * Retrieves a list of overrides currently specified for an on-call rotation.
  */
-export const listRotationOverrides: {
-  (
-    input: ListRotationOverridesRequest,
-  ): effect.Effect<
-    ListRotationOverridesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRotationOverrides: API.OperationMethod<
+  ListRotationOverridesRequest,
+  ListRotationOverridesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRotationOverridesRequest,
   ) => stream.Stream<
@@ -2562,19 +2526,17 @@ export const listRotationOverrides: {
 /**
  * Retrieves a list of on-call rotations.
  */
-export const listRotations: {
-  (
-    input: ListRotationsRequest,
-  ): effect.Effect<
-    ListRotationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRotations: API.OperationMethod<
+  ListRotationsRequest,
+  ListRotationsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRotationsRequest,
   ) => stream.Stream<
@@ -2619,20 +2581,18 @@ export const listRotations: {
 /**
  * Returns a list of shifts generated by an existing rotation in the system.
  */
-export const listRotationShifts: {
-  (
-    input: ListRotationShiftsRequest,
-  ): effect.Effect<
-    ListRotationShiftsResult,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRotationShifts: API.OperationMethod<
+  ListRotationShiftsRequest,
+  ListRotationShiftsResult,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRotationShiftsRequest,
   ) => stream.Stream<
@@ -2680,9 +2640,8 @@ export const listRotationShifts: {
 /**
  * Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -2707,9 +2666,8 @@ export const listTagsForResource: (
  * is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up
  * cross-account functionality.
  */
-export const putContactPolicy: (
-  input: PutContactPolicyRequest,
-) => effect.Effect<
+export const putContactPolicy: API.OperationMethod<
+  PutContactPolicyRequest,
   PutContactPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -2736,9 +2694,8 @@ export const putContactPolicy: (
  * the contact channel in the console or with the `ActivateChannel` operation.
  * Incident Manager can't engage a contact channel until it has been activated.
  */
-export const sendActivationCode: (
-  input: SendActivationCodeRequest,
-) => effect.Effect<
+export const sendActivationCode: API.OperationMethod<
+  SendActivationCodeRequest,
   SendActivationCodeResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2766,9 +2723,8 @@ export const sendActivationCode: (
  * Starts an engagement to a contact or escalation plan. The engagement engages each
  * contact specified in the incident.
  */
-export const startEngagement: (
-  input: StartEngagementRequest,
-) => effect.Effect<
+export const startEngagement: API.OperationMethod<
+  StartEngagementRequest,
   StartEngagementResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2794,9 +2750,8 @@ export const startEngagement: (
  * Stops an engagement before it finishes the final stage of the escalation plan or
  * engagement plan. Further contacts aren't engaged.
  */
-export const stopEngagement: (
-  input: StopEngagementRequest,
-) => effect.Effect<
+export const stopEngagement: API.OperationMethod<
+  StopEngagementRequest,
   StopEngagementResult,
   | AccessDeniedException
   | InternalServerException
@@ -2820,9 +2775,8 @@ export const stopEngagement: (
  * Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
  * first region of your replication set.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -2847,9 +2801,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -2872,9 +2825,8 @@ export const untagResource: (
 /**
  * Updates the contact or escalation plan specified.
  */
-export const updateContact: (
-  input: UpdateContactRequest,
-) => effect.Effect<
+export const updateContact: API.OperationMethod<
+  UpdateContactRequest,
   UpdateContactResult,
   | AccessDeniedException
   | DataEncryptionException
@@ -2901,9 +2853,8 @@ export const updateContact: (
 /**
  * Updates a contact's contact channel.
  */
-export const updateContactChannel: (
-  input: UpdateContactChannelRequest,
-) => effect.Effect<
+export const updateContactChannel: API.OperationMethod<
+  UpdateContactChannelRequest,
   UpdateContactChannelResult,
   | AccessDeniedException
   | ConflictException
@@ -2930,9 +2881,8 @@ export const updateContactChannel: (
 /**
  * Updates the information specified for an on-call rotation.
  */
-export const updateRotation: (
-  input: UpdateRotationRequest,
-) => effect.Effect<
+export const updateRotation: API.OperationMethod<
+  UpdateRotationRequest,
   UpdateRotationResult,
   | AccessDeniedException
   | ConflictException

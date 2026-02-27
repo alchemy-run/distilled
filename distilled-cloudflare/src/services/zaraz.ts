@@ -148,9 +148,8 @@ export const GetConfigResponse = Schema.Struct({
   historyChange: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetConfigResponse>;
 
-export const getConfig: (
-  input: GetConfigRequest,
-) => Effect.Effect<
+export const getConfig: API.OperationMethod<
+  GetConfigRequest,
   GetConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -395,9 +394,8 @@ export const PutConfigResponse = Schema.Struct({
   historyChange: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PutConfigResponse>;
 
-export const putConfig: (
-  input: PutConfigRequest,
-) => Effect.Effect<
+export const putConfig: API.OperationMethod<
+  PutConfigRequest,
   PutConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -427,9 +425,8 @@ export type GetDefaultResponse = unknown;
 export const GetDefaultResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
 
-export const getDefault: (
-  input: GetDefaultRequest,
-) => Effect.Effect<
+export const getDefault: API.OperationMethod<
+  GetDefaultRequest,
   GetDefaultResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -459,9 +456,8 @@ export type GetExportResponse = unknown;
 export const GetExportResponse =
   Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
 
-export const getExport: (
-  input: GetExportRequest,
-) => Effect.Effect<
+export const getExport: API.OperationMethod<
+  GetExportRequest,
   GetExportResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -526,9 +522,8 @@ export const ListHistoriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListHistoriesResponse>;
 
-export const listHistories: (
-  input: ListHistoriesRequest,
-) => Effect.Effect<
+export const listHistories: API.OperationMethod<
+  ListHistoriesRequest,
   ListHistoriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -557,9 +552,8 @@ export type PutHistoryResponse = unknown;
 export const PutHistoryResponse =
   Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
 
-export const putHistory: (
-  input: PutHistoryRequest,
-) => Effect.Effect<
+export const putHistory: API.OperationMethod<
+  PutHistoryRequest,
   PutHistoryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -596,9 +590,8 @@ export const GetHistoryConfigResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<GetHistoryConfigResponse>;
 
-export const getHistoryConfig: (
-  input: GetHistoryConfigRequest,
-) => Effect.Effect<
+export const getHistoryConfig: API.OperationMethod<
+  GetHistoryConfigRequest,
   GetHistoryConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -631,9 +624,8 @@ export type CreatePublishResponse = string;
 export const CreatePublishResponse =
   Schema.String as unknown as Schema.Schema<CreatePublishResponse>;
 
-export const createPublish: (
-  input: CreatePublishRequest,
-) => Effect.Effect<
+export const createPublish: API.OperationMethod<
+  CreatePublishRequest,
   CreatePublishResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -665,9 +657,8 @@ export const GetWorkflowResponse = Schema.Literals([
   "preview",
 ]) as unknown as Schema.Schema<GetWorkflowResponse>;
 
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => Effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -700,9 +691,8 @@ export type PutZarazResponse = unknown;
 export const PutZarazResponse =
   Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
 
-export const putZaraz: (
-  input: PutZarazRequest,
-) => Effect.Effect<
+export const putZaraz: API.OperationMethod<
+  PutZarazRequest,
   PutZarazResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

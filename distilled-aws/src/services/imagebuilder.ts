@@ -5393,9 +5393,8 @@ export class InvalidParameterValueException extends S.TaggedErrorClass<InvalidPa
  * CancelImageCreation cancels the creation of Image. This operation can only be used on
  * images in a non-terminal state.
  */
-export const cancelImageCreation: (
-  input: CancelImageCreationRequest,
-) => effect.Effect<
+export const cancelImageCreation: API.OperationMethod<
+  CancelImageCreationRequest,
   CancelImageCreationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5424,9 +5423,8 @@ export const cancelImageCreation: (
 /**
  * Cancel a specific image lifecycle policy runtime instance.
  */
-export const cancelLifecycleExecution: (
-  input: CancelLifecycleExecutionRequest,
-) => effect.Effect<
+export const cancelLifecycleExecution: API.OperationMethod<
+  CancelLifecycleExecutionRequest,
   CancelLifecycleExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5462,9 +5460,8 @@ export const cancelLifecycleExecution: (
  * - A URL that points to a YAML document file stored in Amazon S3, using the
  * `uri` property in the request body.
  */
-export const createComponent: (
-  input: CreateComponentRequest,
-) => effect.Effect<
+export const createComponent: API.OperationMethod<
+  CreateComponentRequest,
   CreateComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5502,9 +5499,8 @@ export const createComponent: (
  * Creates a new container recipe. Container recipes define how images are configured,
  * tested, and assessed.
  */
-export const createContainerRecipe: (
-  input: CreateContainerRecipeRequest,
-) => effect.Effect<
+export const createContainerRecipe: API.OperationMethod<
+  CreateContainerRecipeRequest,
   CreateContainerRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5540,9 +5536,8 @@ export const createContainerRecipe: (
  * Creates a new distribution configuration. Distribution configurations define and
  * configure the outputs of your pipeline.
  */
-export const createDistributionConfiguration: (
-  input: CreateDistributionConfigurationRequest,
-) => effect.Effect<
+export const createDistributionConfiguration: API.OperationMethod<
+  CreateDistributionConfigurationRequest,
   CreateDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5580,9 +5575,8 @@ export const createDistributionConfiguration: (
  * exactly one recipe for your image, using either a ContainerRecipeArn or an
  * ImageRecipeArn.
  */
-export const createImage: (
-  input: CreateImageRequest,
-) => effect.Effect<
+export const createImage: API.OperationMethod<
+  CreateImageRequest,
   CreateImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5614,9 +5608,8 @@ export const createImage: (
  * Creates a new image pipeline. Image pipelines enable you to automate the creation and
  * distribution of images.
  */
-export const createImagePipeline: (
-  input: CreateImagePipelineRequest,
-) => effect.Effect<
+export const createImagePipeline: API.OperationMethod<
+  CreateImagePipelineRequest,
   CreateImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5650,9 +5643,8 @@ export const createImagePipeline: (
  * Creates a new image recipe. Image recipes define how images are configured, tested,
  * and assessed.
  */
-export const createImageRecipe: (
-  input: CreateImageRecipeRequest,
-) => effect.Effect<
+export const createImageRecipe: API.OperationMethod<
+  CreateImageRecipeRequest,
   CreateImageRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5688,9 +5680,8 @@ export const createImageRecipe: (
  * Creates a new infrastructure configuration. An infrastructure configuration defines
  * the environment in which your image will be built and tested.
  */
-export const createInfrastructureConfiguration: (
-  input: CreateInfrastructureConfigurationRequest,
-) => effect.Effect<
+export const createInfrastructureConfiguration: API.OperationMethod<
+  CreateInfrastructureConfigurationRequest,
   CreateInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5723,9 +5714,8 @@ export const createInfrastructureConfiguration: (
 /**
  * Create a lifecycle policy resource.
  */
-export const createLifecyclePolicy: (
-  input: CreateLifecyclePolicyRequest,
-) => effect.Effect<
+export const createLifecyclePolicy: API.OperationMethod<
+  CreateLifecyclePolicyRequest,
   CreateLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5758,9 +5748,8 @@ export const createLifecyclePolicy: (
 /**
  * Create a new workflow or a new version of an existing workflow.
  */
-export const createWorkflow: (
-  input: CreateWorkflowRequest,
-) => effect.Effect<
+export const createWorkflow: API.OperationMethod<
+  CreateWorkflowRequest,
   CreateWorkflowResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5797,9 +5786,8 @@ export const createWorkflow: (
 /**
  * Deletes a component build version.
  */
-export const deleteComponent: (
-  input: DeleteComponentRequest,
-) => effect.Effect<
+export const deleteComponent: API.OperationMethod<
+  DeleteComponentRequest,
   DeleteComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5826,9 +5814,8 @@ export const deleteComponent: (
 /**
  * Deletes a container recipe.
  */
-export const deleteContainerRecipe: (
-  input: DeleteContainerRecipeRequest,
-) => effect.Effect<
+export const deleteContainerRecipe: API.OperationMethod<
+  DeleteContainerRecipeRequest,
   DeleteContainerRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5855,9 +5842,8 @@ export const deleteContainerRecipe: (
 /**
  * Deletes a distribution configuration.
  */
-export const deleteDistributionConfiguration: (
-  input: DeleteDistributionConfigurationRequest,
-) => effect.Effect<
+export const deleteDistributionConfiguration: API.OperationMethod<
+  DeleteDistributionConfigurationRequest,
   DeleteDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5900,9 +5886,8 @@ export const deleteDistributionConfiguration: (
  * - To delete a container image from Amazon ECR, see Deleting
  * an image in the *Amazon ECR User Guide*.
  */
-export const deleteImage: (
-  input: DeleteImageRequest,
-) => effect.Effect<
+export const deleteImage: API.OperationMethod<
+  DeleteImageRequest,
   DeleteImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5929,9 +5914,8 @@ export const deleteImage: (
 /**
  * Deletes an image pipeline.
  */
-export const deleteImagePipeline: (
-  input: DeleteImagePipelineRequest,
-) => effect.Effect<
+export const deleteImagePipeline: API.OperationMethod<
+  DeleteImagePipelineRequest,
   DeleteImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5958,9 +5942,8 @@ export const deleteImagePipeline: (
 /**
  * Deletes an image recipe.
  */
-export const deleteImageRecipe: (
-  input: DeleteImageRecipeRequest,
-) => effect.Effect<
+export const deleteImageRecipe: API.OperationMethod<
+  DeleteImageRecipeRequest,
   DeleteImageRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -5987,9 +5970,8 @@ export const deleteImageRecipe: (
 /**
  * Deletes an infrastructure configuration.
  */
-export const deleteInfrastructureConfiguration: (
-  input: DeleteInfrastructureConfigurationRequest,
-) => effect.Effect<
+export const deleteInfrastructureConfiguration: API.OperationMethod<
+  DeleteInfrastructureConfigurationRequest,
   DeleteInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6016,9 +5998,8 @@ export const deleteInfrastructureConfiguration: (
 /**
  * Delete the specified lifecycle policy resource.
  */
-export const deleteLifecyclePolicy: (
-  input: DeleteLifecyclePolicyRequest,
-) => effect.Effect<
+export const deleteLifecyclePolicy: API.OperationMethod<
+  DeleteLifecyclePolicyRequest,
   DeleteLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6045,9 +6026,8 @@ export const deleteLifecyclePolicy: (
 /**
  * Deletes a specific workflow resource.
  */
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteWorkflowRequest,
   DeleteWorkflowResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6074,9 +6054,8 @@ export const deleteWorkflow: (
 /**
  * DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
  */
-export const distributeImage: (
-  input: DistributeImageRequest,
-) => effect.Effect<
+export const distributeImage: API.OperationMethod<
+  DistributeImageRequest,
   DistributeImageResponse,
   | AccessDeniedException
   | CallRateLimitExceededException
@@ -6113,9 +6092,8 @@ export const distributeImage: (
 /**
  * Gets a component object.
  */
-export const getComponent: (
-  input: GetComponentRequest,
-) => effect.Effect<
+export const getComponent: API.OperationMethod<
+  GetComponentRequest,
   GetComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6140,9 +6118,8 @@ export const getComponent: (
 /**
  * Gets a component policy.
  */
-export const getComponentPolicy: (
-  input: GetComponentPolicyRequest,
-) => effect.Effect<
+export const getComponentPolicy: API.OperationMethod<
+  GetComponentPolicyRequest,
   GetComponentPolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6167,9 +6144,8 @@ export const getComponentPolicy: (
 /**
  * Retrieves a container recipe.
  */
-export const getContainerRecipe: (
-  input: GetContainerRecipeRequest,
-) => effect.Effect<
+export const getContainerRecipe: API.OperationMethod<
+  GetContainerRecipeRequest,
   GetContainerRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6194,9 +6170,8 @@ export const getContainerRecipe: (
 /**
  * Retrieves the policy for a container recipe.
  */
-export const getContainerRecipePolicy: (
-  input: GetContainerRecipePolicyRequest,
-) => effect.Effect<
+export const getContainerRecipePolicy: API.OperationMethod<
+  GetContainerRecipePolicyRequest,
   GetContainerRecipePolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6221,9 +6196,8 @@ export const getContainerRecipePolicy: (
 /**
  * Gets a distribution configuration.
  */
-export const getDistributionConfiguration: (
-  input: GetDistributionConfigurationRequest,
-) => effect.Effect<
+export const getDistributionConfiguration: API.OperationMethod<
+  GetDistributionConfigurationRequest,
   GetDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6248,9 +6222,8 @@ export const getDistributionConfiguration: (
 /**
  * Gets an image.
  */
-export const getImage: (
-  input: GetImageRequest,
-) => effect.Effect<
+export const getImage: API.OperationMethod<
+  GetImageRequest,
   GetImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6275,9 +6248,8 @@ export const getImage: (
 /**
  * Gets an image pipeline.
  */
-export const getImagePipeline: (
-  input: GetImagePipelineRequest,
-) => effect.Effect<
+export const getImagePipeline: API.OperationMethod<
+  GetImagePipelineRequest,
   GetImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6302,9 +6274,8 @@ export const getImagePipeline: (
 /**
  * Gets an image policy.
  */
-export const getImagePolicy: (
-  input: GetImagePolicyRequest,
-) => effect.Effect<
+export const getImagePolicy: API.OperationMethod<
+  GetImagePolicyRequest,
   GetImagePolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6329,9 +6300,8 @@ export const getImagePolicy: (
 /**
  * Gets an image recipe.
  */
-export const getImageRecipe: (
-  input: GetImageRecipeRequest,
-) => effect.Effect<
+export const getImageRecipe: API.OperationMethod<
+  GetImageRecipeRequest,
   GetImageRecipeResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6356,9 +6326,8 @@ export const getImageRecipe: (
 /**
  * Gets an image recipe policy.
  */
-export const getImageRecipePolicy: (
-  input: GetImageRecipePolicyRequest,
-) => effect.Effect<
+export const getImageRecipePolicy: API.OperationMethod<
+  GetImageRecipePolicyRequest,
   GetImageRecipePolicyResponse,
   | CallRateLimitExceededException
   | ForbiddenException
@@ -6383,9 +6352,8 @@ export const getImageRecipePolicy: (
 /**
  * Gets an infrastructure configuration.
  */
-export const getInfrastructureConfiguration: (
-  input: GetInfrastructureConfigurationRequest,
-) => effect.Effect<
+export const getInfrastructureConfiguration: API.OperationMethod<
+  GetInfrastructureConfigurationRequest,
   GetInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6410,9 +6378,8 @@ export const getInfrastructureConfiguration: (
 /**
  * Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
  */
-export const getLifecycleExecution: (
-  input: GetLifecycleExecutionRequest,
-) => effect.Effect<
+export const getLifecycleExecution: API.OperationMethod<
+  GetLifecycleExecutionRequest,
   GetLifecycleExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6437,9 +6404,8 @@ export const getLifecycleExecution: (
 /**
  * Get details for the specified image lifecycle policy.
  */
-export const getLifecyclePolicy: (
-  input: GetLifecyclePolicyRequest,
-) => effect.Effect<
+export const getLifecyclePolicy: API.OperationMethod<
+  GetLifecyclePolicyRequest,
   GetLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6466,9 +6432,8 @@ export const getLifecyclePolicy: (
  * Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
  * components and their artifacts.
  */
-export const getMarketplaceResource: (
-  input: GetMarketplaceResourceRequest,
-) => effect.Effect<
+export const getMarketplaceResource: API.OperationMethod<
+  GetMarketplaceResourceRequest,
   GetMarketplaceResourceResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6493,9 +6458,8 @@ export const getMarketplaceResource: (
 /**
  * Get a workflow resource object.
  */
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6521,9 +6485,8 @@ export const getWorkflow: (
  * Get the runtime information that was logged for a specific runtime instance
  * of the workflow.
  */
-export const getWorkflowExecution: (
-  input: GetWorkflowExecutionRequest,
-) => effect.Effect<
+export const getWorkflowExecution: API.OperationMethod<
+  GetWorkflowExecutionRequest,
   GetWorkflowExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6549,9 +6512,8 @@ export const getWorkflowExecution: (
  * Get the runtime information that was logged for a specific runtime instance of
  * the workflow step.
  */
-export const getWorkflowStepExecution: (
-  input: GetWorkflowStepExecutionRequest,
-) => effect.Effect<
+export const getWorkflowStepExecution: API.OperationMethod<
+  GetWorkflowStepExecutionRequest,
   GetWorkflowStepExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6576,9 +6538,8 @@ export const getWorkflowStepExecution: (
 /**
  * Imports a component and transforms its data into a component document.
  */
-export const importComponent: (
-  input: ImportComponentRequest,
-) => effect.Effect<
+export const importComponent: API.OperationMethod<
+  ImportComponentRequest,
   ImportComponentResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -6614,9 +6575,8 @@ export const importComponent: (
  *
  * - Windows 11 Enterprise
  */
-export const importDiskImage: (
-  input: ImportDiskImageRequest,
-) => effect.Effect<
+export const importDiskImage: API.OperationMethod<
+  ImportDiskImageRequest,
   ImportDiskImageResponse,
   | ClientException
   | ServiceException
@@ -6638,9 +6598,8 @@ export const importDiskImage: (
  * You can reference the task ID from the VM import to pull in the AMI that the import
  * created as the base image for your Image Builder recipe.
  */
-export const importVmImage: (
-  input: ImportVmImageRequest,
-) => effect.Effect<
+export const importVmImage: API.OperationMethod<
+  ImportVmImageRequest,
   ImportVmImageResponse,
   | ClientException
   | ServiceException
@@ -6656,21 +6615,19 @@ export const importVmImage: (
  * Returns the list of component build versions for the specified component
  * version Amazon Resource Name (ARN).
  */
-export const listComponentBuildVersions: {
-  (
-    input: ListComponentBuildVersionsRequest,
-  ): effect.Effect<
-    ListComponentBuildVersionsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponentBuildVersions: API.OperationMethod<
+  ListComponentBuildVersionsRequest,
+  ListComponentBuildVersionsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentBuildVersionsRequest,
   ) => stream.Stream<
@@ -6731,21 +6688,19 @@ export const listComponentBuildVersions: {
  * recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
  * wildcards.
  */
-export const listComponents: {
-  (
-    input: ListComponentsRequest,
-  ): effect.Effect<
-    ListComponentsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsRequest,
+  ListComponentsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
@@ -6796,21 +6751,19 @@ export const listComponents: {
 /**
  * Returns a list of container recipes.
  */
-export const listContainerRecipes: {
-  (
-    input: ListContainerRecipesRequest,
-  ): effect.Effect<
-    ListContainerRecipesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContainerRecipes: API.OperationMethod<
+  ListContainerRecipesRequest,
+  ListContainerRecipesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContainerRecipesRequest,
   ) => stream.Stream<
@@ -6861,21 +6814,19 @@ export const listContainerRecipes: {
 /**
  * Returns a list of distribution configurations.
  */
-export const listDistributionConfigurations: {
-  (
-    input: ListDistributionConfigurationsRequest,
-  ): effect.Effect<
-    ListDistributionConfigurationsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDistributionConfigurations: API.OperationMethod<
+  ListDistributionConfigurationsRequest,
+  ListDistributionConfigurationsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDistributionConfigurationsRequest,
   ) => stream.Stream<
@@ -6926,21 +6877,19 @@ export const listDistributionConfigurations: {
 /**
  * Returns a list of image build versions.
  */
-export const listImageBuildVersions: {
-  (
-    input: ListImageBuildVersionsRequest,
-  ): effect.Effect<
-    ListImageBuildVersionsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImageBuildVersions: API.OperationMethod<
+  ListImageBuildVersionsRequest,
+  ListImageBuildVersionsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImageBuildVersionsRequest,
   ) => stream.Stream<
@@ -6992,22 +6941,20 @@ export const listImageBuildVersions: {
  * List the Packages that are associated with an Image Build Version, as determined by
  * Amazon Web Services Systems Manager Inventory at build time.
  */
-export const listImagePackages: {
-  (
-    input: ListImagePackagesRequest,
-  ): effect.Effect<
-    ListImagePackagesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImagePackages: API.OperationMethod<
+  ListImagePackagesRequest,
+  ListImagePackagesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagePackagesRequest,
   ) => stream.Stream<
@@ -7061,22 +7008,20 @@ export const listImagePackages: {
 /**
  * Returns a list of images created by the specified pipeline.
  */
-export const listImagePipelineImages: {
-  (
-    input: ListImagePipelineImagesRequest,
-  ): effect.Effect<
-    ListImagePipelineImagesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImagePipelineImages: API.OperationMethod<
+  ListImagePipelineImagesRequest,
+  ListImagePipelineImagesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagePipelineImagesRequest,
   ) => stream.Stream<
@@ -7130,21 +7075,19 @@ export const listImagePipelineImages: {
 /**
  * Returns a list of image pipelines.
  */
-export const listImagePipelines: {
-  (
-    input: ListImagePipelinesRequest,
-  ): effect.Effect<
-    ListImagePipelinesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImagePipelines: API.OperationMethod<
+  ListImagePipelinesRequest,
+  ListImagePipelinesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagePipelinesRequest,
   ) => stream.Stream<
@@ -7195,21 +7138,19 @@ export const listImagePipelines: {
 /**
  * Returns a list of image recipes.
  */
-export const listImageRecipes: {
-  (
-    input: ListImageRecipesRequest,
-  ): effect.Effect<
-    ListImageRecipesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImageRecipes: API.OperationMethod<
+  ListImageRecipesRequest,
+  ListImageRecipesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImageRecipesRequest,
   ) => stream.Stream<
@@ -7261,21 +7202,19 @@ export const listImageRecipes: {
  * Returns the list of images that you have access to. Newly created images can take up
  * to two minutes to appear in the ListImages API Results.
  */
-export const listImages: {
-  (
-    input: ListImagesRequest,
-  ): effect.Effect<
-    ListImagesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImages: API.OperationMethod<
+  ListImagesRequest,
+  ListImagesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagesRequest,
   ) => stream.Stream<
@@ -7340,21 +7279,19 @@ export const listImages: {
  *
  * - `vulnerabilityId`
  */
-export const listImageScanFindingAggregations: {
-  (
-    input: ListImageScanFindingAggregationsRequest,
-  ): effect.Effect<
-    ListImageScanFindingAggregationsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImageScanFindingAggregations: API.OperationMethod<
+  ListImageScanFindingAggregationsRequest,
+  ListImageScanFindingAggregationsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImageScanFindingAggregationsRequest,
   ) => stream.Stream<
@@ -7404,21 +7341,19 @@ export const listImageScanFindingAggregations: {
 /**
  * Returns a list of image scan findings for your account.
  */
-export const listImageScanFindings: {
-  (
-    input: ListImageScanFindingsRequest,
-  ): effect.Effect<
-    ListImageScanFindingsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImageScanFindings: API.OperationMethod<
+  ListImageScanFindingsRequest,
+  ListImageScanFindingsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImageScanFindingsRequest,
   ) => stream.Stream<
@@ -7469,21 +7404,19 @@ export const listImageScanFindings: {
 /**
  * Returns a list of infrastructure configurations.
  */
-export const listInfrastructureConfigurations: {
-  (
-    input: ListInfrastructureConfigurationsRequest,
-  ): effect.Effect<
-    ListInfrastructureConfigurationsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInfrastructureConfigurations: API.OperationMethod<
+  ListInfrastructureConfigurationsRequest,
+  ListInfrastructureConfigurationsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInfrastructureConfigurationsRequest,
   ) => stream.Stream<
@@ -7534,21 +7467,19 @@ export const listInfrastructureConfigurations: {
 /**
  * List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
-export const listLifecycleExecutionResources: {
-  (
-    input: ListLifecycleExecutionResourcesRequest,
-  ): effect.Effect<
-    ListLifecycleExecutionResourcesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLifecycleExecutionResources: API.OperationMethod<
+  ListLifecycleExecutionResourcesRequest,
+  ListLifecycleExecutionResourcesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLifecycleExecutionResourcesRequest,
   ) => stream.Stream<
@@ -7599,21 +7530,19 @@ export const listLifecycleExecutionResources: {
 /**
  * Get the lifecycle runtime history for the specified resource.
  */
-export const listLifecycleExecutions: {
-  (
-    input: ListLifecycleExecutionsRequest,
-  ): effect.Effect<
-    ListLifecycleExecutionsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLifecycleExecutions: API.OperationMethod<
+  ListLifecycleExecutionsRequest,
+  ListLifecycleExecutionsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLifecycleExecutionsRequest,
   ) => stream.Stream<
@@ -7664,21 +7593,19 @@ export const listLifecycleExecutions: {
 /**
  * Get a list of lifecycle policies in your Amazon Web Services account.
  */
-export const listLifecyclePolicies: {
-  (
-    input: ListLifecyclePoliciesRequest,
-  ): effect.Effect<
-    ListLifecyclePoliciesResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLifecyclePolicies: API.OperationMethod<
+  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLifecyclePoliciesRequest,
   ) => stream.Stream<
@@ -7729,9 +7656,8 @@ export const listLifecyclePolicies: {
 /**
  * Returns the list of tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7751,21 +7677,19 @@ export const listTagsForResource: (
  * Get a list of workflow steps that are waiting for action for workflows
  * in your Amazon Web Services account.
  */
-export const listWaitingWorkflowSteps: {
-  (
-    input: ListWaitingWorkflowStepsRequest,
-  ): effect.Effect<
-    ListWaitingWorkflowStepsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWaitingWorkflowSteps: API.OperationMethod<
+  ListWaitingWorkflowStepsRequest,
+  ListWaitingWorkflowStepsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWaitingWorkflowStepsRequest,
   ) => stream.Stream<
@@ -7816,21 +7740,19 @@ export const listWaitingWorkflowSteps: {
 /**
  * Returns a list of build versions for a specific workflow resource.
  */
-export const listWorkflowBuildVersions: {
-  (
-    input: ListWorkflowBuildVersionsRequest,
-  ): effect.Effect<
-    ListWorkflowBuildVersionsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowBuildVersions: API.OperationMethod<
+  ListWorkflowBuildVersionsRequest,
+  ListWorkflowBuildVersionsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowBuildVersionsRequest,
   ) => stream.Stream<
@@ -7882,21 +7804,19 @@ export const listWorkflowBuildVersions: {
  * Returns a list of workflow runtime instance metadata objects for a specific image build
  * version.
  */
-export const listWorkflowExecutions: {
-  (
-    input: ListWorkflowExecutionsRequest,
-  ): effect.Effect<
-    ListWorkflowExecutionsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowExecutions: API.OperationMethod<
+  ListWorkflowExecutionsRequest,
+  ListWorkflowExecutionsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowExecutionsRequest,
   ) => stream.Stream<
@@ -7947,21 +7867,19 @@ export const listWorkflowExecutions: {
 /**
  * Lists workflow build versions based on filtering parameters.
  */
-export const listWorkflows: {
-  (
-    input: ListWorkflowsRequest,
-  ): effect.Effect<
-    ListWorkflowsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
+  ListWorkflowsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<
@@ -8013,21 +7931,19 @@ export const listWorkflows: {
  * Returns runtime data for each step in a runtime instance of the workflow
  * that you specify in the request.
  */
-export const listWorkflowStepExecutions: {
-  (
-    input: ListWorkflowStepExecutionsRequest,
-  ): effect.Effect<
-    ListWorkflowStepExecutionsResponse,
-    | CallRateLimitExceededException
-    | ClientException
-    | ForbiddenException
-    | InvalidPaginationTokenException
-    | InvalidRequestException
-    | ServiceException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowStepExecutions: API.OperationMethod<
+  ListWorkflowStepExecutionsRequest,
+  ListWorkflowStepExecutionsResponse,
+  | CallRateLimitExceededException
+  | ClientException
+  | ForbiddenException
+  | InvalidPaginationTokenException
+  | InvalidRequestException
+  | ServiceException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowStepExecutionsRequest,
   ) => stream.Stream<
@@ -8080,9 +7996,8 @@ export const listWorkflowStepExecutions: {
  * `PutComponentPolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putComponentPolicy: (
-  input: PutComponentPolicyRequest,
-) => effect.Effect<
+export const putComponentPolicy: API.OperationMethod<
+  PutComponentPolicyRequest,
   PutComponentPolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8118,9 +8033,8 @@ export const putComponentPolicy: (
  * in order for the resource to be visible to all principals with whom the resource is
  * shared.
  */
-export const putContainerRecipePolicy: (
-  input: PutContainerRecipePolicyRequest,
-) => effect.Effect<
+export const putContainerRecipePolicy: API.OperationMethod<
+  PutContainerRecipePolicyRequest,
   PutContainerRecipePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8151,9 +8065,8 @@ export const putContainerRecipePolicy: (
  * `PutImagePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putImagePolicy: (
-  input: PutImagePolicyRequest,
-) => effect.Effect<
+export const putImagePolicy: API.OperationMethod<
+  PutImagePolicyRequest,
   PutImagePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8184,9 +8097,8 @@ export const putImagePolicy: (
  * `PutImageRecipePolicy`, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
  * visible to all principals with whom the resource is shared.
  */
-export const putImageRecipePolicy: (
-  input: PutImageRecipePolicyRequest,
-) => effect.Effect<
+export const putImageRecipePolicy: API.OperationMethod<
+  PutImageRecipePolicyRequest,
   PutImageRecipePolicyResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8215,9 +8127,8 @@ export const putImageRecipePolicy: (
 /**
  * RetryImage retries an image distribution without rebuilding the image.
  */
-export const retryImage: (
-  input: RetryImageRequest,
-) => effect.Effect<
+export const retryImage: API.OperationMethod<
+  RetryImageRequest,
   RetryImageResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8247,9 +8158,8 @@ export const retryImage: (
  * Pauses or resumes image creation when the associated workflow runs a
  * `WaitForAction` step.
  */
-export const sendWorkflowStepAction: (
-  input: SendWorkflowStepActionRequest,
-) => effect.Effect<
+export const sendWorkflowStepAction: API.OperationMethod<
+  SendWorkflowStepActionRequest,
   SendWorkflowStepActionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8282,9 +8192,8 @@ export const sendWorkflowStepAction: (
 /**
  * Manually triggers a pipeline to create an image.
  */
-export const startImagePipelineExecution: (
-  input: StartImagePipelineExecutionRequest,
-) => effect.Effect<
+export const startImagePipelineExecution: API.OperationMethod<
+  StartImagePipelineExecutionRequest,
   StartImagePipelineExecutionResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8316,9 +8225,8 @@ export const startImagePipelineExecution: (
  * Begin asynchronous resource state update for lifecycle changes to the
  * specified image resources.
  */
-export const startResourceStateUpdate: (
-  input: StartResourceStateUpdateRequest,
-) => effect.Effect<
+export const startResourceStateUpdate: API.OperationMethod<
+  StartResourceStateUpdateRequest,
   StartResourceStateUpdateResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8349,9 +8257,8 @@ export const startResourceStateUpdate: (
 /**
  * Adds a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8370,9 +8277,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8392,9 +8298,8 @@ export const untagResource: (
  * Updates a new distribution configuration. Distribution configurations define and
  * configure the outputs of your pipeline.
  */
-export const updateDistributionConfiguration: (
-  input: UpdateDistributionConfigurationRequest,
-) => effect.Effect<
+export const updateDistributionConfiguration: API.OperationMethod<
+  UpdateDistributionConfigurationRequest,
   UpdateDistributionConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8431,9 +8336,8 @@ export const updateDistributionConfiguration: (
  * specify all of the required properties in the update request, not just the
  * properties that have changed.
  */
-export const updateImagePipeline: (
-  input: UpdateImagePipelineRequest,
-) => effect.Effect<
+export const updateImagePipeline: API.OperationMethod<
+  UpdateImagePipelineRequest,
   UpdateImagePipelineResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8463,9 +8367,8 @@ export const updateImagePipeline: (
  * Updates a new infrastructure configuration. An infrastructure configuration defines
  * the environment in which your image will be built and tested.
  */
-export const updateInfrastructureConfiguration: (
-  input: UpdateInfrastructureConfigurationRequest,
-) => effect.Effect<
+export const updateInfrastructureConfiguration: API.OperationMethod<
+  UpdateInfrastructureConfigurationRequest,
   UpdateInfrastructureConfigurationResponse,
   | CallRateLimitExceededException
   | ClientException
@@ -8494,9 +8397,8 @@ export const updateInfrastructureConfiguration: (
 /**
  * Update the specified lifecycle policy.
  */
-export const updateLifecyclePolicy: (
-  input: UpdateLifecyclePolicyRequest,
-) => effect.Effect<
+export const updateLifecyclePolicy: API.OperationMethod<
+  UpdateLifecyclePolicyRequest,
   UpdateLifecyclePolicyResponse,
   | CallRateLimitExceededException
   | ClientException

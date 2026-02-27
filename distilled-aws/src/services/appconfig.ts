@@ -2075,9 +2075,8 @@ export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLarge
  * MyMobileApp to organize and manage configuration data for a mobile application installed by
  * your users.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   Application,
   | BadRequestException
   | InternalServerException
@@ -2124,9 +2123,8 @@ export const createApplication: (
  * Configuration and a Configuration Profile in the AppConfig
  * User Guide.
  */
-export const createConfigurationProfile: (
-  input: CreateConfigurationProfileRequest,
-) => effect.Effect<
+export const createConfigurationProfile: API.OperationMethod<
+  CreateConfigurationProfileRequest,
   ConfigurationProfile,
   | BadRequestException
   | InternalServerException
@@ -2150,9 +2148,8 @@ export const createConfigurationProfile: (
  * duration required, a percentage of targets to receive the deployment during each interval,
  * an algorithm that defines how percentage grows, and bake time.
  */
-export const createDeploymentStrategy: (
-  input: CreateDeploymentStrategyRequest,
-) => effect.Effect<
+export const createDeploymentStrategy: API.OperationMethod<
+  CreateDeploymentStrategyRequest,
   DeploymentStrategy,
   | BadRequestException
   | InternalServerException
@@ -2178,9 +2175,8 @@ export const createDeploymentStrategy: (
  * configuration deployment. If an alarm is triggered, the system rolls back the
  * configuration.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentRequest,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
   Environment,
   | BadRequestException
   | InternalServerException
@@ -2221,9 +2217,8 @@ export const createEnvironment: (
  * For more information about extensions, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const createExtension: (
-  input: CreateExtensionRequest,
-) => effect.Effect<
+export const createExtension: API.OperationMethod<
+  CreateExtensionRequest,
   Extension,
   | BadRequestException
   | ConflictException
@@ -2255,9 +2250,8 @@ export const createExtension: (
  * associations, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const createExtensionAssociation: (
-  input: CreateExtensionAssociationRequest,
-) => effect.Effect<
+export const createExtensionAssociation: API.OperationMethod<
+  CreateExtensionAssociationRequest,
   ExtensionAssociation,
   | BadRequestException
   | InternalServerException
@@ -2281,9 +2275,8 @@ export const createExtensionAssociation: (
  * for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the
  * *AppConfig User Guide*.
  */
-export const createHostedConfigurationVersion: (
-  input: CreateHostedConfigurationVersionRequest,
-) => effect.Effect<
+export const createHostedConfigurationVersion: API.OperationMethod<
+  CreateHostedConfigurationVersionRequest,
   HostedConfigurationVersion,
   | BadRequestException
   | ConflictException
@@ -2308,9 +2301,8 @@ export const createHostedConfigurationVersion: (
 /**
  * Deletes an application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | BadRequestException
   | InternalServerException
@@ -2333,9 +2325,8 @@ export const deleteApplication: (
  * enable deletion
  * protection.
  */
-export const deleteConfigurationProfile: (
-  input: DeleteConfigurationProfileRequest,
-) => effect.Effect<
+export const deleteConfigurationProfile: API.OperationMethod<
+  DeleteConfigurationProfileRequest,
   DeleteConfigurationProfileResponse,
   | BadRequestException
   | ConflictException
@@ -2356,9 +2347,8 @@ export const deleteConfigurationProfile: (
 /**
  * Deletes a deployment strategy.
  */
-export const deleteDeploymentStrategy: (
-  input: DeleteDeploymentStrategyRequest,
-) => effect.Effect<
+export const deleteDeploymentStrategy: API.OperationMethod<
+  DeleteDeploymentStrategyRequest,
   DeleteDeploymentStrategyResponse,
   | BadRequestException
   | InternalServerException
@@ -2380,9 +2370,8 @@ export const deleteDeploymentStrategy: (
  * To prevent users from unintentionally deleting actively-used environments, enable deletion
  * protection.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
   | BadRequestException
   | ConflictException
@@ -2404,9 +2393,8 @@ export const deleteEnvironment: (
  * Deletes an AppConfig extension. You must delete all associations to an
  * extension before you delete the extension.
  */
-export const deleteExtension: (
-  input: DeleteExtensionRequest,
-) => effect.Effect<
+export const deleteExtension: API.OperationMethod<
+  DeleteExtensionRequest,
   DeleteExtensionResponse,
   | BadRequestException
   | InternalServerException
@@ -2426,9 +2414,8 @@ export const deleteExtension: (
  * Deletes an extension association. This action doesn't delete extensions defined in the
  * association.
  */
-export const deleteExtensionAssociation: (
-  input: DeleteExtensionAssociationRequest,
-) => effect.Effect<
+export const deleteExtensionAssociation: API.OperationMethod<
+  DeleteExtensionAssociationRequest,
   DeleteExtensionAssociationResponse,
   | BadRequestException
   | InternalServerException
@@ -2448,9 +2435,8 @@ export const deleteExtensionAssociation: (
  * Deletes a version of a configuration from the AppConfig hosted configuration
  * store.
  */
-export const deleteHostedConfigurationVersion: (
-  input: DeleteHostedConfigurationVersionRequest,
-) => effect.Effect<
+export const deleteHostedConfigurationVersion: API.OperationMethod<
+  DeleteHostedConfigurationVersionRequest,
   DeleteHostedConfigurationVersionResponse,
   | BadRequestException
   | InternalServerException
@@ -2470,9 +2456,8 @@ export const deleteHostedConfigurationVersion: (
  * Returns information about the status of the `DeletionProtection`
  * parameter.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   AccountSettings,
   BadRequestException | InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2484,9 +2469,8 @@ export const getAccountSettings: (
 /**
  * Retrieves information about an application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   Application,
   | BadRequestException
   | InternalServerException
@@ -2513,9 +2497,8 @@ export const getApplication: (
  * - GetConfiguration is a priced call. For more information, see
  * Pricing.
  */
-export const getConfiguration: (
-  input: GetConfigurationRequest,
-) => effect.Effect<
+export const getConfiguration: API.OperationMethod<
+  GetConfigurationRequest,
   Configuration,
   | BadRequestException
   | InternalServerException
@@ -2534,9 +2517,8 @@ export const getConfiguration: (
 /**
  * Retrieves information about a configuration profile.
  */
-export const getConfigurationProfile: (
-  input: GetConfigurationProfileRequest,
-) => effect.Effect<
+export const getConfigurationProfile: API.OperationMethod<
+  GetConfigurationProfileRequest,
   ConfigurationProfile,
   | BadRequestException
   | InternalServerException
@@ -2555,9 +2537,8 @@ export const getConfigurationProfile: (
 /**
  * Retrieves information about a configuration deployment.
  */
-export const getDeployment: (
-  input: GetDeploymentRequest,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentRequest,
   Deployment,
   | BadRequestException
   | InternalServerException
@@ -2580,9 +2561,8 @@ export const getDeployment: (
  * receive the deployment during each interval, an algorithm that defines how percentage
  * grows, and bake time.
  */
-export const getDeploymentStrategy: (
-  input: GetDeploymentStrategyRequest,
-) => effect.Effect<
+export const getDeploymentStrategy: API.OperationMethod<
+  GetDeploymentStrategyRequest,
   DeploymentStrategy,
   | BadRequestException
   | InternalServerException
@@ -2606,9 +2586,8 @@ export const getDeploymentStrategy: (
  * an alarm is triggered during a deployment, AppConfig roles back the
  * configuration.
  */
-export const getEnvironment: (
-  input: GetEnvironmentRequest,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentRequest,
   Environment,
   | BadRequestException
   | InternalServerException
@@ -2627,9 +2606,8 @@ export const getEnvironment: (
 /**
  * Returns information about an AppConfig extension.
  */
-export const getExtension: (
-  input: GetExtensionRequest,
-) => effect.Effect<
+export const getExtension: API.OperationMethod<
+  GetExtensionRequest,
   Extension,
   | BadRequestException
   | InternalServerException
@@ -2650,9 +2628,8 @@ export const getExtension: (
  * information about extensions and associations, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const getExtensionAssociation: (
-  input: GetExtensionAssociationRequest,
-) => effect.Effect<
+export const getExtensionAssociation: API.OperationMethod<
+  GetExtensionAssociationRequest,
   ExtensionAssociation,
   | BadRequestException
   | InternalServerException
@@ -2671,9 +2648,8 @@ export const getExtensionAssociation: (
 /**
  * Retrieves information about a specific configuration version.
  */
-export const getHostedConfigurationVersion: (
-  input: GetHostedConfigurationVersionRequest,
-) => effect.Effect<
+export const getHostedConfigurationVersion: API.OperationMethod<
+  GetHostedConfigurationVersionRequest,
   HostedConfigurationVersion,
   | BadRequestException
   | InternalServerException
@@ -2692,14 +2668,12 @@ export const getHostedConfigurationVersion: (
 /**
  * Lists all applications in your Amazon Web Services account.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    Applications,
-    BadRequestException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  Applications,
+  BadRequestException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -2728,17 +2702,15 @@ export const listApplications: {
 /**
  * Lists the configuration profiles for an application.
  */
-export const listConfigurationProfiles: {
-  (
-    input: ListConfigurationProfilesRequest,
-  ): effect.Effect<
-    ConfigurationProfiles,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationProfiles: API.OperationMethod<
+  ListConfigurationProfilesRequest,
+  ConfigurationProfiles,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationProfilesRequest,
   ) => stream.Stream<
@@ -2777,17 +2749,15 @@ export const listConfigurationProfiles: {
 /**
  * Lists the deployments for an environment in descending deployment number order.
  */
-export const listDeployments: {
-  (
-    input: ListDeploymentsRequest,
-  ): effect.Effect<
-    Deployments,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsRequest,
+  Deployments,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
@@ -2826,14 +2796,12 @@ export const listDeployments: {
 /**
  * Lists deployment strategies.
  */
-export const listDeploymentStrategies: {
-  (
-    input: ListDeploymentStrategiesRequest,
-  ): effect.Effect<
-    DeploymentStrategies,
-    BadRequestException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeploymentStrategies: API.OperationMethod<
+  ListDeploymentStrategiesRequest,
+  DeploymentStrategies,
+  BadRequestException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentStrategiesRequest,
   ) => stream.Stream<
@@ -2862,17 +2830,15 @@ export const listDeploymentStrategies: {
 /**
  * Lists the environments for an application.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsRequest,
-  ): effect.Effect<
-    Environments,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
+  Environments,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
@@ -2913,14 +2879,12 @@ export const listEnvironments: {
  * information about extensions and associations, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const listExtensionAssociations: {
-  (
-    input: ListExtensionAssociationsRequest,
-  ): effect.Effect<
-    ExtensionAssociations,
-    BadRequestException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExtensionAssociations: API.OperationMethod<
+  ListExtensionAssociationsRequest,
+  ExtensionAssociations,
+  BadRequestException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExtensionAssociationsRequest,
   ) => stream.Stream<
@@ -2951,14 +2915,12 @@ export const listExtensionAssociations: {
  * account. For more information about extensions, see Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const listExtensions: {
-  (
-    input: ListExtensionsRequest,
-  ): effect.Effect<
-    Extensions,
-    BadRequestException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExtensions: API.OperationMethod<
+  ListExtensionsRequest,
+  Extensions,
+  BadRequestException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExtensionsRequest,
   ) => stream.Stream<
@@ -2988,17 +2950,15 @@ export const listExtensions: {
  * Lists configurations stored in the AppConfig hosted configuration store by
  * version.
  */
-export const listHostedConfigurationVersions: {
-  (
-    input: ListHostedConfigurationVersionsRequest,
-  ): effect.Effect<
-    HostedConfigurationVersions,
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHostedConfigurationVersions: API.OperationMethod<
+  ListHostedConfigurationVersionsRequest,
+  HostedConfigurationVersions,
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHostedConfigurationVersionsRequest,
   ) => stream.Stream<
@@ -3037,9 +2997,8 @@ export const listHostedConfigurationVersions: {
 /**
  * Retrieves the list of key-value tags assigned to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ResourceTags,
   | BadRequestException
   | InternalServerException
@@ -3058,9 +3017,8 @@ export const listTagsForResource: (
 /**
  * Starts a deployment.
  */
-export const startDeployment: (
-  input: StartDeploymentRequest,
-) => effect.Effect<
+export const startDeployment: API.OperationMethod<
+  StartDeploymentRequest,
   Deployment,
   | BadRequestException
   | ConflictException
@@ -3086,9 +3044,8 @@ export const startDeployment: (
  * `REVERTED`. AppConfig only allows a revert within 72 hours of
  * deployment completion.
  */
-export const stopDeployment: (
-  input: StopDeploymentRequest,
-) => effect.Effect<
+export const stopDeployment: API.OperationMethod<
+  StopDeploymentRequest,
   Deployment,
   | BadRequestException
   | InternalServerException
@@ -3109,9 +3066,8 @@ export const stopDeployment: (
  * your AppConfig resources. Each tag consists of a key and an optional value, both
  * of which you define. You can specify a maximum of 50 tags for a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -3130,9 +3086,8 @@ export const tagResource: (
 /**
  * Deletes a tag key and value from an AppConfig resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -3151,9 +3106,8 @@ export const untagResource: (
 /**
  * Updates the value of the `DeletionProtection` parameter.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsRequest,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsRequest,
   AccountSettings,
   BadRequestException | InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3165,9 +3119,8 @@ export const updateAccountSettings: (
 /**
  * Updates an application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   Application,
   | BadRequestException
   | InternalServerException
@@ -3186,9 +3139,8 @@ export const updateApplication: (
 /**
  * Updates a configuration profile.
  */
-export const updateConfigurationProfile: (
-  input: UpdateConfigurationProfileRequest,
-) => effect.Effect<
+export const updateConfigurationProfile: API.OperationMethod<
+  UpdateConfigurationProfileRequest,
   ConfigurationProfile,
   | BadRequestException
   | InternalServerException
@@ -3207,9 +3159,8 @@ export const updateConfigurationProfile: (
 /**
  * Updates a deployment strategy.
  */
-export const updateDeploymentStrategy: (
-  input: UpdateDeploymentStrategyRequest,
-) => effect.Effect<
+export const updateDeploymentStrategy: API.OperationMethod<
+  UpdateDeploymentStrategyRequest,
   DeploymentStrategy,
   | BadRequestException
   | InternalServerException
@@ -3228,9 +3179,8 @@ export const updateDeploymentStrategy: (
 /**
  * Updates an environment.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentRequest,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentRequest,
   Environment,
   | BadRequestException
   | InternalServerException
@@ -3251,9 +3201,8 @@ export const updateEnvironment: (
  * Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const updateExtension: (
-  input: UpdateExtensionRequest,
-) => effect.Effect<
+export const updateExtension: API.OperationMethod<
+  UpdateExtensionRequest,
   Extension,
   | BadRequestException
   | ConflictException
@@ -3276,9 +3225,8 @@ export const updateExtension: (
  * Extending
  * workflows in the *AppConfig User Guide*.
  */
-export const updateExtensionAssociation: (
-  input: UpdateExtensionAssociationRequest,
-) => effect.Effect<
+export const updateExtensionAssociation: API.OperationMethod<
+  UpdateExtensionAssociationRequest,
   ExtensionAssociation,
   | BadRequestException
   | InternalServerException
@@ -3297,9 +3245,8 @@ export const updateExtensionAssociation: (
 /**
  * Uses the validators in a configuration profile to validate a configuration.
  */
-export const validateConfiguration: (
-  input: ValidateConfigurationRequest,
-) => effect.Effect<
+export const validateConfiguration: API.OperationMethod<
+  ValidateConfigurationRequest,
   ValidateConfigurationResponse,
   | BadRequestException
   | InternalServerException

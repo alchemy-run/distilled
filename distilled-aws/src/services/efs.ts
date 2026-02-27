@@ -1617,9 +1617,8 @@ export class ReplicationAlreadyExists extends S.TaggedErrorClass<ReplicationAlre
  * information, see Granting
  * permissions to tag resources during creation.
  */
-export const createAccessPoint: (
-  input: CreateAccessPointRequest,
-) => effect.Effect<
+export const createAccessPoint: API.OperationMethod<
+  CreateAccessPointRequest,
   AccessPointDescription,
   | AccessPointAlreadyExists
   | AccessPointLimitExceeded
@@ -1706,9 +1705,8 @@ export const createAccessPoint: (
  * permissions to use the `elasticfilesystem:TagResource` action. For more
  * information, see Granting permissions to tag resources during creation.
  */
-export const createFileSystem: (
-  input: CreateFileSystemRequest,
-) => effect.Effect<
+export const createFileSystem: API.OperationMethod<
+  CreateFileSystemRequest,
   FileSystemDescription,
   | BadRequest
   | FileSystemAlreadyExists
@@ -1846,9 +1844,8 @@ export const createFileSystem: (
  *
  * - `ec2:CreateNetworkInterface`
  */
-export const createMountTarget: (
-  input: CreateMountTargetRequest,
-) => effect.Effect<
+export const createMountTarget: API.OperationMethod<
+  CreateMountTargetRequest,
   MountTargetDescription,
   | AvailabilityZonesMismatch
   | BadRequest
@@ -1908,9 +1905,8 @@ export const createMountTarget: (
  * in the Amazon EFS User
  * Guide.
  */
-export const createReplicationConfiguration: (
-  input: CreateReplicationConfigurationRequest,
-) => effect.Effect<
+export const createReplicationConfiguration: API.OperationMethod<
+  CreateReplicationConfigurationRequest,
   ReplicationConfigurationDescription,
   | BadRequest
   | ConflictException
@@ -1954,9 +1950,8 @@ export const createReplicationConfiguration: (
  * This operation requires permission for the `elasticfilesystem:CreateTags`
  * action.
  */
-export const createTags: (
-  input: CreateTagsRequest,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsRequest,
   CreateTagsResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1972,9 +1967,8 @@ export const createTags: (
  *
  * This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint` action.
  */
-export const deleteAccessPoint: (
-  input: DeleteAccessPointRequest,
-) => effect.Effect<
+export const deleteAccessPoint: API.OperationMethod<
+  DeleteAccessPointRequest,
   DeleteAccessPointResponse,
   AccessPointNotFound | BadRequest | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2006,9 +2000,8 @@ export const deleteAccessPoint: (
  * This operation requires permissions for the
  * `elasticfilesystem:DeleteFileSystem` action.
  */
-export const deleteFileSystem: (
-  input: DeleteFileSystemRequest,
-) => effect.Effect<
+export const deleteFileSystem: API.OperationMethod<
+  DeleteFileSystemRequest,
   DeleteFileSystemResponse,
   | BadRequest
   | FileSystemInUse
@@ -2033,9 +2026,8 @@ export const deleteFileSystem: (
  *
  * This operation requires permissions for the `elasticfilesystem:DeleteFileSystemPolicy` action.
  */
-export const deleteFileSystemPolicy: (
-  input: DeleteFileSystemPolicyRequest,
-) => effect.Effect<
+export const deleteFileSystemPolicy: API.OperationMethod<
+  DeleteFileSystemPolicyRequest,
   DeleteFileSystemPolicyResponse,
   | BadRequest
   | FileSystemNotFound
@@ -2078,9 +2070,8 @@ export const deleteFileSystemPolicy: (
  *
  * - `ec2:DeleteNetworkInterface`
  */
-export const deleteMountTarget: (
-  input: DeleteMountTargetRequest,
-) => effect.Effect<
+export const deleteMountTarget: API.OperationMethod<
+  DeleteMountTargetRequest,
   DeleteMountTargetResponse,
   | BadRequest
   | DependencyTimeout
@@ -2107,9 +2098,8 @@ export const deleteMountTarget: (
  * This operation requires permissions for the
  * `elasticfilesystem:DeleteReplicationConfiguration` action.
  */
-export const deleteReplicationConfiguration: (
-  input: DeleteReplicationConfigurationRequest,
-) => effect.Effect<
+export const deleteReplicationConfiguration: API.OperationMethod<
+  DeleteReplicationConfigurationRequest,
   DeleteReplicationConfigurationResponse,
   | BadRequest
   | FileSystemNotFound
@@ -2139,9 +2129,8 @@ export const deleteReplicationConfiguration: (
  * This operation requires permissions for the `elasticfilesystem:DeleteTags`
  * action.
  */
-export const deleteTags: (
-  input: DeleteTagsRequest,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsRequest,
   DeleteTagsResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2159,18 +2148,16 @@ export const deleteTags: (
  *
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
-export const describeAccessPoints: {
-  (
-    input: DescribeAccessPointsRequest,
-  ): effect.Effect<
-    DescribeAccessPointsResponse,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAccessPoints: API.OperationMethod<
+  DescribeAccessPointsRequest,
+  DescribeAccessPointsResponse,
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAccessPointsRequest,
   ) => stream.Stream<
@@ -2212,9 +2199,8 @@ export const describeAccessPoints: {
 /**
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
-export const describeAccountPreferences: (
-  input: DescribeAccountPreferencesRequest,
-) => effect.Effect<
+export const describeAccountPreferences: API.OperationMethod<
+  DescribeAccountPreferencesRequest,
   DescribeAccountPreferencesResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2226,9 +2212,8 @@ export const describeAccountPreferences: (
 /**
  * Returns the backup policy for the specified EFS file system.
  */
-export const describeBackupPolicy: (
-  input: DescribeBackupPolicyRequest,
-) => effect.Effect<
+export const describeBackupPolicy: API.OperationMethod<
+  DescribeBackupPolicyRequest,
   BackupPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2254,9 +2239,8 @@ export const describeBackupPolicy: (
  *
  * This operation requires permissions for the `elasticfilesystem:DescribeFileSystemPolicy` action.
  */
-export const describeFileSystemPolicy: (
-  input: DescribeFileSystemPolicyRequest,
-) => effect.Effect<
+export const describeFileSystemPolicy: API.OperationMethod<
+  DescribeFileSystemPolicyRequest,
   FileSystemPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2295,14 +2279,12 @@ export const describeFileSystemPolicy: (
  * This operation requires permissions for the
  * `elasticfilesystem:DescribeFileSystems` action.
  */
-export const describeFileSystems: {
-  (
-    input: DescribeFileSystemsRequest,
-  ): effect.Effect<
-    DescribeFileSystemsResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFileSystems: API.OperationMethod<
+  DescribeFileSystemsRequest,
+  DescribeFileSystemsResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFileSystemsRequest,
   ) => stream.Stream<
@@ -2338,9 +2320,8 @@ export const describeFileSystems: {
  * This operation requires permissions for the
  * `elasticfilesystem:DescribeLifecycleConfiguration` operation.
  */
-export const describeLifecycleConfiguration: (
-  input: DescribeLifecycleConfigurationRequest,
-) => effect.Effect<
+export const describeLifecycleConfiguration: API.OperationMethod<
+  DescribeLifecycleConfigurationRequest,
   LifecycleConfigurationDescription,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2359,19 +2340,17 @@ export const describeLifecycleConfiguration: (
  * that you specify in `FileSystemId`, or on the file system of the mount target that
  * you specify in `MountTargetId`.
  */
-export const describeMountTargets: {
-  (
-    input: DescribeMountTargetsRequest,
-  ): effect.Effect<
-    DescribeMountTargetsResponse,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | MountTargetNotFound
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMountTargets: API.OperationMethod<
+  DescribeMountTargetsRequest,
+  DescribeMountTargetsResponse,
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | MountTargetNotFound
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMountTargetsRequest,
   ) => stream.Stream<
@@ -2426,9 +2405,8 @@ export const describeMountTargets: {
  * - `ec2:DescribeNetworkInterfaceAttribute` action on the mount target's
  * network interface.
  */
-export const describeMountTargetSecurityGroups: (
-  input: DescribeMountTargetSecurityGroupsRequest,
-) => effect.Effect<
+export const describeMountTargetSecurityGroups: API.OperationMethod<
+  DescribeMountTargetSecurityGroupsRequest,
   DescribeMountTargetSecurityGroupsResponse,
   | BadRequest
   | IncorrectMountTargetState
@@ -2451,19 +2429,17 @@ export const describeMountTargetSecurityGroups: (
  * not specified, all of the replication configurations for the Amazon Web Services account in an
  * Amazon Web Services Region are retrieved.
  */
-export const describeReplicationConfigurations: {
-  (
-    input: DescribeReplicationConfigurationsRequest,
-  ): effect.Effect<
-    DescribeReplicationConfigurationsResponse,
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | ReplicationNotFound
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationConfigurations: API.OperationMethod<
+  DescribeReplicationConfigurationsRequest,
+  DescribeReplicationConfigurationsResponse,
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | ReplicationNotFound
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationConfigurationsRequest,
   ) => stream.Stream<
@@ -2517,14 +2493,12 @@ export const describeReplicationConfigurations: {
  * This operation requires permissions for the
  * `elasticfilesystem:DescribeTags` action.
  */
-export const describeTags: {
-  (
-    input: DescribeTagsRequest,
-  ): effect.Effect<
-    DescribeTagsResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTags: API.OperationMethod<
+  DescribeTagsRequest,
+  DescribeTagsResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
@@ -2556,18 +2530,16 @@ export const describeTags: {
  *
  * This operation requires permissions for the `elasticfilesystem:DescribeAccessPoints` action.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | AccessPointNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | AccessPointNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -2623,9 +2595,8 @@ export const listTagsForResource: {
  * - `ec2:ModifyNetworkInterfaceAttribute` action on the mount target's network
  * interface.
  */
-export const modifyMountTargetSecurityGroups: (
-  input: ModifyMountTargetSecurityGroupsRequest,
-) => effect.Effect<
+export const modifyMountTargetSecurityGroups: API.OperationMethod<
+  ModifyMountTargetSecurityGroupsRequest,
   ModifyMountTargetSecurityGroupsResponse,
   | BadRequest
   | IncorrectMountTargetState
@@ -2658,9 +2629,8 @@ export const modifyMountTargetSecurityGroups: (
  * to use the short 8 character format resource ID. Contact Amazon Web Services support if you
  * receive an error and must use short IDs for file system and mount target resources.
  */
-export const putAccountPreferences: (
-  input: PutAccountPreferencesRequest,
-) => effect.Effect<
+export const putAccountPreferences: API.OperationMethod<
+  PutAccountPreferencesRequest,
   PutAccountPreferencesResponse,
   BadRequest | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2672,9 +2642,8 @@ export const putAccountPreferences: (
 /**
  * Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
  */
-export const putBackupPolicy: (
-  input: PutBackupPolicyRequest,
-) => effect.Effect<
+export const putBackupPolicy: API.OperationMethod<
+  PutBackupPolicyRequest,
   BackupPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2708,9 +2677,8 @@ export const putBackupPolicy: (
  *
  * This operation requires permissions for the `elasticfilesystem:PutFileSystemPolicy` action.
  */
-export const putFileSystemPolicy: (
-  input: PutFileSystemPolicyRequest,
-) => effect.Effect<
+export const putFileSystemPolicy: API.OperationMethod<
+  PutFileSystemPolicyRequest,
   FileSystemPolicyDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2785,9 +2753,8 @@ export const putFileSystemPolicy: (
  * To apply a `LifecycleConfiguration` object to an encrypted file system, you
  * need the same Key Management Service permissions as when you created the encrypted file system.
  */
-export const putLifecycleConfiguration: (
-  input: PutLifecycleConfigurationRequest,
-) => effect.Effect<
+export const putLifecycleConfiguration: API.OperationMethod<
+  PutLifecycleConfigurationRequest,
   LifecycleConfigurationDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2811,9 +2778,8 @@ export const putLifecycleConfiguration: (
  *
  * This operation requires permissions for the `elasticfilesystem:TagResource` action.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessPointNotFound
   | BadRequest
@@ -2837,9 +2803,8 @@ export const tagResource: (
  *
  * This operation requires permissions for the `elasticfilesystem:UntagResource` action.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessPointNotFound
   | BadRequest
@@ -2861,9 +2826,8 @@ export const untagResource: (
  * Updates the throughput mode or the amount of provisioned throughput of an existing file
  * system.
  */
-export const updateFileSystem: (
-  input: UpdateFileSystemRequest,
-) => effect.Effect<
+export const updateFileSystem: API.OperationMethod<
+  UpdateFileSystemRequest,
   FileSystemDescription,
   | BadRequest
   | FileSystemNotFound
@@ -2893,9 +2857,8 @@ export const updateFileSystem: (
  * This operation requires permissions for the
  * `elasticfilesystem:UpdateFileSystemProtection` action.
  */
-export const updateFileSystemProtection: (
-  input: UpdateFileSystemProtectionRequest,
-) => effect.Effect<
+export const updateFileSystemProtection: API.OperationMethod<
+  UpdateFileSystemProtectionRequest,
   FileSystemProtectionDescription,
   | BadRequest
   | FileSystemNotFound

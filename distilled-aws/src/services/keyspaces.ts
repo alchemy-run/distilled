@@ -1084,9 +1084,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  *
  * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
-export const createKeyspace: (
-  input: CreateKeyspaceRequest,
-) => effect.Effect<
+export const createKeyspace: API.OperationMethod<
+  CreateKeyspaceRequest,
   CreateKeyspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1113,9 +1112,8 @@ export const createKeyspace: (
  *
  * For more information, see Create a table in the *Amazon Keyspaces Developer Guide*.
  */
-export const createTable: (
-  input: CreateTableRequest,
-) => effect.Effect<
+export const createTable: API.OperationMethod<
+  CreateTableRequest,
   CreateTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1144,9 +1142,8 @@ export const createTable: (
  *
  * For more information, see User-defined types (UDTs) in the *Amazon Keyspaces Developer Guide*.
  */
-export const createType: (
-  input: CreateTypeRequest,
-) => effect.Effect<
+export const createType: API.OperationMethod<
+  CreateTypeRequest,
   CreateTypeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1171,9 +1168,8 @@ export const createType: (
 /**
  * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
  */
-export const deleteKeyspace: (
-  input: DeleteKeyspaceRequest,
-) => effect.Effect<
+export const deleteKeyspace: API.OperationMethod<
+  DeleteKeyspaceRequest,
   DeleteKeyspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1198,9 +1194,8 @@ export const deleteKeyspace: (
 /**
  * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
  */
-export const deleteTable: (
-  input: DeleteTableRequest,
-) => effect.Effect<
+export const deleteTable: API.OperationMethod<
+  DeleteTableRequest,
   DeleteTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1227,9 +1222,8 @@ export const deleteTable: (
  *
  * To configure the required permissions, see Permissions to delete a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const deleteType: (
-  input: DeleteTypeRequest,
-) => effect.Effect<
+export const deleteType: API.OperationMethod<
+  DeleteTypeRequest,
   DeleteTypeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1254,9 +1248,8 @@ export const deleteType: (
 /**
  * Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an `UpdateKeyspace` operation.
  */
-export const getKeyspace: (
-  input: GetKeyspaceRequest,
-) => effect.Effect<
+export const getKeyspace: API.OperationMethod<
+  GetKeyspaceRequest,
   GetKeyspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1281,9 +1274,8 @@ export const getKeyspace: (
  *
  * To read table metadata using `GetTable`, the IAM principal needs `Select` action permissions for the table and the system keyspace.
  */
-export const getTable: (
-  input: GetTableRequest,
-) => effect.Effect<
+export const getTable: API.OperationMethod<
+  GetTableRequest,
   GetTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1316,9 +1308,8 @@ export const getTable: (
  *
  * - `application-autoscaling:DescribeScalingPolicies`
  */
-export const getTableAutoScalingSettings: (
-  input: GetTableAutoScalingSettingsRequest,
-) => effect.Effect<
+export const getTableAutoScalingSettings: API.OperationMethod<
+  GetTableAutoScalingSettingsRequest,
   GetTableAutoScalingSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1343,9 +1334,8 @@ export const getTableAutoScalingSettings: (
  *
  * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const getType: (
-  input: GetTypeRequest,
-) => effect.Effect<
+export const getType: API.OperationMethod<
+  GetTypeRequest,
   GetTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1368,19 +1358,17 @@ export const getType: (
 /**
  * The `ListKeyspaces` operation returns a list of keyspaces.
  */
-export const listKeyspaces: {
-  (
-    input: ListKeyspacesRequest,
-  ): effect.Effect<
-    ListKeyspacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listKeyspaces: API.OperationMethod<
+  ListKeyspacesRequest,
+  ListKeyspacesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeyspacesRequest,
   ) => stream.Stream<
@@ -1427,19 +1415,17 @@ export const listKeyspaces: {
  *
  * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
  */
-export const listTables: {
-  (
-    input: ListTablesRequest,
-  ): effect.Effect<
-    ListTablesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTables: API.OperationMethod<
+  ListTablesRequest,
+  ListTablesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
@@ -1486,19 +1472,17 @@ export const listTables: {
  *
  * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -1545,19 +1529,17 @@ export const listTagsForResource: {
  *
  * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
-export const listTypes: {
-  (
-    input: ListTypesRequest,
-  ): effect.Effect<
-    ListTypesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTypes: API.OperationMethod<
+  ListTypesRequest,
+  ListTypesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypesRequest,
   ) => stream.Stream<
@@ -1628,9 +1610,8 @@ export const listTypes: {
  *
  * - Amazon CloudWatch metrics and alarms
  */
-export const restoreTable: (
-  input: RestoreTableRequest,
-) => effect.Effect<
+export const restoreTable: API.OperationMethod<
+  RestoreTableRequest,
   RestoreTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1657,9 +1638,8 @@ export const restoreTable: (
  *
  * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1684,9 +1664,8 @@ export const tagResource: (
 /**
  * Removes the association of tags from a Amazon Keyspaces resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1751,9 +1730,8 @@ export const untagResource: (
  *
  * For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
-export const updateKeyspace: (
-  input: UpdateKeyspaceRequest,
-) => effect.Effect<
+export const updateKeyspace: API.OperationMethod<
+  UpdateKeyspaceRequest,
   UpdateKeyspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1778,9 +1756,8 @@ export const updateKeyspace: (
 /**
  * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
  */
-export const updateTable: (
-  input: UpdateTableRequest,
-) => effect.Effect<
+export const updateTable: API.OperationMethod<
+  UpdateTableRequest,
   UpdateTableResponse,
   | AccessDeniedException
   | ConflictException

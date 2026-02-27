@@ -5171,9 +5171,8 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 /**
  * Accepts an Amazon Macie membership invitation that was received from a specific account.
  */
-export const acceptInvitation: (
-  input: AcceptInvitationRequest,
-) => effect.Effect<
+export const acceptInvitation: API.OperationMethod<
+  AcceptInvitationRequest,
   AcceptInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5200,9 +5199,8 @@ export const acceptInvitation: (
 /**
  * Retrieves information about one or more custom data identifiers.
  */
-export const batchGetCustomDataIdentifiers: (
-  input: BatchGetCustomDataIdentifiersRequest,
-) => effect.Effect<
+export const batchGetCustomDataIdentifiers: API.OperationMethod<
+  BatchGetCustomDataIdentifiersRequest,
   BatchGetCustomDataIdentifiersResponse,
   | AccessDeniedException
   | ConflictException
@@ -5229,9 +5227,8 @@ export const batchGetCustomDataIdentifiers: (
 /**
  * Changes the status of automated sensitive data discovery for one or more accounts.
  */
-export const batchUpdateAutomatedDiscoveryAccounts: (
-  input: BatchUpdateAutomatedDiscoveryAccountsRequest,
-) => effect.Effect<
+export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
+  BatchUpdateAutomatedDiscoveryAccountsRequest,
   BatchUpdateAutomatedDiscoveryAccountsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5254,9 +5251,8 @@ export const batchUpdateAutomatedDiscoveryAccounts: (
 /**
  * Creates and defines the settings for an allow list.
  */
-export const createAllowList: (
-  input: CreateAllowListRequest,
-) => effect.Effect<
+export const createAllowList: API.OperationMethod<
+  CreateAllowListRequest,
   CreateAllowListResponse,
   | AccessDeniedException
   | ConflictException
@@ -5283,9 +5279,8 @@ export const createAllowList: (
 /**
  * Creates and defines the settings for a classification job.
  */
-export const createClassificationJob: (
-  input: CreateClassificationJobRequest,
-) => effect.Effect<
+export const createClassificationJob: API.OperationMethod<
+  CreateClassificationJobRequest,
   CreateClassificationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5312,9 +5307,8 @@ export const createClassificationJob: (
 /**
  * Creates and defines the criteria and other settings for a custom data identifier.
  */
-export const createCustomDataIdentifier: (
-  input: CreateCustomDataIdentifierRequest,
-) => effect.Effect<
+export const createCustomDataIdentifier: API.OperationMethod<
+  CreateCustomDataIdentifierRequest,
   CreateCustomDataIdentifierResponse,
   | AccessDeniedException
   | ConflictException
@@ -5341,9 +5335,8 @@ export const createCustomDataIdentifier: (
 /**
  * Creates and defines the criteria and other settings for a findings filter.
  */
-export const createFindingsFilter: (
-  input: CreateFindingsFilterRequest,
-) => effect.Effect<
+export const createFindingsFilter: API.OperationMethod<
+  CreateFindingsFilterRequest,
   CreateFindingsFilterResponse,
   | AccessDeniedException
   | ConflictException
@@ -5370,9 +5363,8 @@ export const createFindingsFilter: (
 /**
  * Sends an Amazon Macie membership invitation to one or more accounts.
  */
-export const createInvitations: (
-  input: CreateInvitationsRequest,
-) => effect.Effect<
+export const createInvitations: API.OperationMethod<
+  CreateInvitationsRequest,
   CreateInvitationsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5399,9 +5391,8 @@ export const createInvitations: (
 /**
  * Associates an account with an Amazon Macie administrator account.
  */
-export const createMember: (
-  input: CreateMemberRequest,
-) => effect.Effect<
+export const createMember: API.OperationMethod<
+  CreateMemberRequest,
   CreateMemberResponse,
   | AccessDeniedException
   | ConflictException
@@ -5428,9 +5419,8 @@ export const createMember: (
 /**
  * Creates sample findings.
  */
-export const createSampleFindings: (
-  input: CreateSampleFindingsRequest,
-) => effect.Effect<
+export const createSampleFindings: API.OperationMethod<
+  CreateSampleFindingsRequest,
   CreateSampleFindingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5457,9 +5447,8 @@ export const createSampleFindings: (
 /**
  * Declines Amazon Macie membership invitations that were received from specific accounts.
  */
-export const declineInvitations: (
-  input: DeclineInvitationsRequest,
-) => effect.Effect<
+export const declineInvitations: API.OperationMethod<
+  DeclineInvitationsRequest,
   DeclineInvitationsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5486,9 +5475,8 @@ export const declineInvitations: (
 /**
  * Deletes an allow list.
  */
-export const deleteAllowList: (
-  input: DeleteAllowListRequest,
-) => effect.Effect<
+export const deleteAllowList: API.OperationMethod<
+  DeleteAllowListRequest,
   DeleteAllowListResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5511,9 +5499,8 @@ export const deleteAllowList: (
 /**
  * Soft deletes a custom data identifier.
  */
-export const deleteCustomDataIdentifier: (
-  input: DeleteCustomDataIdentifierRequest,
-) => effect.Effect<
+export const deleteCustomDataIdentifier: API.OperationMethod<
+  DeleteCustomDataIdentifierRequest,
   DeleteCustomDataIdentifierResponse,
   | AccessDeniedException
   | ConflictException
@@ -5540,9 +5527,8 @@ export const deleteCustomDataIdentifier: (
 /**
  * Deletes a findings filter.
  */
-export const deleteFindingsFilter: (
-  input: DeleteFindingsFilterRequest,
-) => effect.Effect<
+export const deleteFindingsFilter: API.OperationMethod<
+  DeleteFindingsFilterRequest,
   DeleteFindingsFilterResponse,
   | AccessDeniedException
   | ConflictException
@@ -5569,9 +5555,8 @@ export const deleteFindingsFilter: (
 /**
  * Deletes Amazon Macie membership invitations that were received from specific accounts.
  */
-export const deleteInvitations: (
-  input: DeleteInvitationsRequest,
-) => effect.Effect<
+export const deleteInvitations: API.OperationMethod<
+  DeleteInvitationsRequest,
   DeleteInvitationsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5598,9 +5583,8 @@ export const deleteInvitations: (
 /**
  * Deletes the association between an Amazon Macie administrator account and an account.
  */
-export const deleteMember: (
-  input: DeleteMemberRequest,
-) => effect.Effect<
+export const deleteMember: API.OperationMethod<
+  DeleteMemberRequest,
   DeleteMemberResponse,
   | AccessDeniedException
   | ConflictException
@@ -5627,21 +5611,19 @@ export const deleteMember: (
 /**
  * Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
-export const describeBuckets: {
-  (
-    input: DescribeBucketsRequest,
-  ): effect.Effect<
-    DescribeBucketsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeBuckets: API.OperationMethod<
+  DescribeBucketsRequest,
+  DescribeBucketsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBucketsRequest,
   ) => stream.Stream<
@@ -5692,9 +5674,8 @@ export const describeBuckets: {
 /**
  * Retrieves the status and settings for a classification job.
  */
-export const describeClassificationJob: (
-  input: DescribeClassificationJobRequest,
-) => effect.Effect<
+export const describeClassificationJob: API.OperationMethod<
+  DescribeClassificationJobRequest,
   DescribeClassificationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5721,9 +5702,8 @@ export const describeClassificationJob: (
 /**
  * Retrieves the Amazon Macie configuration settings for an organization in Organizations.
  */
-export const describeOrganizationConfiguration: (
-  input: DescribeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const describeOrganizationConfiguration: API.OperationMethod<
+  DescribeOrganizationConfigurationRequest,
   DescribeOrganizationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5750,9 +5730,8 @@ export const describeOrganizationConfiguration: (
 /**
  * Disables Amazon Macie and deletes all settings and resources for a Macie account.
  */
-export const disableMacie: (
-  input: DisableMacieRequest,
-) => effect.Effect<
+export const disableMacie: API.OperationMethod<
+  DisableMacieRequest,
   DisableMacieResponse,
   | AccessDeniedException
   | ConflictException
@@ -5779,9 +5758,8 @@ export const disableMacie: (
 /**
  * Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
-export const disableOrganizationAdminAccount: (
-  input: DisableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const disableOrganizationAdminAccount: API.OperationMethod<
+  DisableOrganizationAdminAccountRequest,
   DisableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -5808,9 +5786,8 @@ export const disableOrganizationAdminAccount: (
 /**
  * Disassociates a member account from its Amazon Macie administrator account.
  */
-export const disassociateFromAdministratorAccount: (
-  input: DisassociateFromAdministratorAccountRequest,
-) => effect.Effect<
+export const disassociateFromAdministratorAccount: API.OperationMethod<
+  DisassociateFromAdministratorAccountRequest,
   DisassociateFromAdministratorAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -5837,9 +5814,8 @@ export const disassociateFromAdministratorAccount: (
 /**
  * (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
  */
-export const disassociateFromMasterAccount: (
-  input: DisassociateFromMasterAccountRequest,
-) => effect.Effect<
+export const disassociateFromMasterAccount: API.OperationMethod<
+  DisassociateFromMasterAccountRequest,
   DisassociateFromMasterAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -5866,9 +5842,8 @@ export const disassociateFromMasterAccount: (
 /**
  * Disassociates an Amazon Macie administrator account from a member account.
  */
-export const disassociateMember: (
-  input: DisassociateMemberRequest,
-) => effect.Effect<
+export const disassociateMember: API.OperationMethod<
+  DisassociateMemberRequest,
   DisassociateMemberResponse,
   | AccessDeniedException
   | ConflictException
@@ -5895,9 +5870,8 @@ export const disassociateMember: (
 /**
  * Enables Amazon Macie and specifies the configuration settings for a Macie account.
  */
-export const enableMacie: (
-  input: EnableMacieRequest,
-) => effect.Effect<
+export const enableMacie: API.OperationMethod<
+  EnableMacieRequest,
   EnableMacieResponse,
   | AccessDeniedException
   | ConflictException
@@ -5924,9 +5898,8 @@ export const enableMacie: (
 /**
  * Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
  */
-export const enableOrganizationAdminAccount: (
-  input: EnableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const enableOrganizationAdminAccount: API.OperationMethod<
+  EnableOrganizationAdminAccountRequest,
   EnableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -5953,9 +5926,8 @@ export const enableOrganizationAdminAccount: (
 /**
  * Retrieves information about the Amazon Macie administrator account for an account.
  */
-export const getAdministratorAccount: (
-  input: GetAdministratorAccountRequest,
-) => effect.Effect<
+export const getAdministratorAccount: API.OperationMethod<
+  GetAdministratorAccountRequest,
   GetAdministratorAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -5982,9 +5954,8 @@ export const getAdministratorAccount: (
 /**
  * Retrieves the settings and status of an allow list.
  */
-export const getAllowList: (
-  input: GetAllowListRequest,
-) => effect.Effect<
+export const getAllowList: API.OperationMethod<
+  GetAllowListRequest,
   GetAllowListResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6007,9 +5978,8 @@ export const getAllowList: (
 /**
  * Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
-export const getAutomatedDiscoveryConfiguration: (
-  input: GetAutomatedDiscoveryConfigurationRequest,
-) => effect.Effect<
+export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
+  GetAutomatedDiscoveryConfigurationRequest,
   GetAutomatedDiscoveryConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6030,9 +6000,8 @@ export const getAutomatedDiscoveryConfiguration: (
 /**
  * Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
  */
-export const getBucketStatistics: (
-  input: GetBucketStatisticsRequest,
-) => effect.Effect<
+export const getBucketStatistics: API.OperationMethod<
+  GetBucketStatisticsRequest,
   GetBucketStatisticsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6059,9 +6028,8 @@ export const getBucketStatistics: (
 /**
  * Retrieves the configuration settings for storing data classification results.
  */
-export const getClassificationExportConfiguration: (
-  input: GetClassificationExportConfigurationRequest,
-) => effect.Effect<
+export const getClassificationExportConfiguration: API.OperationMethod<
+  GetClassificationExportConfigurationRequest,
   GetClassificationExportConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6088,9 +6056,8 @@ export const getClassificationExportConfiguration: (
 /**
  * Retrieves the classification scope settings for an account.
  */
-export const getClassificationScope: (
-  input: GetClassificationScopeRequest,
-) => effect.Effect<
+export const getClassificationScope: API.OperationMethod<
+  GetClassificationScopeRequest,
   GetClassificationScopeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6113,9 +6080,8 @@ export const getClassificationScope: (
 /**
  * Retrieves the criteria and other settings for a custom data identifier.
  */
-export const getCustomDataIdentifier: (
-  input: GetCustomDataIdentifierRequest,
-) => effect.Effect<
+export const getCustomDataIdentifier: API.OperationMethod<
+  GetCustomDataIdentifierRequest,
   GetCustomDataIdentifierResponse,
   | AccessDeniedException
   | ConflictException
@@ -6142,9 +6108,8 @@ export const getCustomDataIdentifier: (
 /**
  * Retrieves the details of one or more findings.
  */
-export const getFindings: (
-  input: GetFindingsRequest,
-) => effect.Effect<
+export const getFindings: API.OperationMethod<
+  GetFindingsRequest,
   GetFindingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6171,9 +6136,8 @@ export const getFindings: (
 /**
  * Retrieves the criteria and other settings for a findings filter.
  */
-export const getFindingsFilter: (
-  input: GetFindingsFilterRequest,
-) => effect.Effect<
+export const getFindingsFilter: API.OperationMethod<
+  GetFindingsFilterRequest,
   GetFindingsFilterResponse,
   | AccessDeniedException
   | ConflictException
@@ -6200,9 +6164,8 @@ export const getFindingsFilter: (
 /**
  * Retrieves the configuration settings for publishing findings to Security Hub.
  */
-export const getFindingsPublicationConfiguration: (
-  input: GetFindingsPublicationConfigurationRequest,
-) => effect.Effect<
+export const getFindingsPublicationConfiguration: API.OperationMethod<
+  GetFindingsPublicationConfigurationRequest,
   GetFindingsPublicationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6229,9 +6192,8 @@ export const getFindingsPublicationConfiguration: (
 /**
  * Retrieves (queries) aggregated statistical data about findings.
  */
-export const getFindingStatistics: (
-  input: GetFindingStatisticsRequest,
-) => effect.Effect<
+export const getFindingStatistics: API.OperationMethod<
+  GetFindingStatisticsRequest,
   GetFindingStatisticsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6258,9 +6220,8 @@ export const getFindingStatistics: (
 /**
  * Retrieves the count of Amazon Macie membership invitations that were received by an account.
  */
-export const getInvitationsCount: (
-  input: GetInvitationsCountRequest,
-) => effect.Effect<
+export const getInvitationsCount: API.OperationMethod<
+  GetInvitationsCountRequest,
   GetInvitationsCountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6287,9 +6248,8 @@ export const getInvitationsCount: (
 /**
  * Retrieves the status and configuration settings for an Amazon Macie account.
  */
-export const getMacieSession: (
-  input: GetMacieSessionRequest,
-) => effect.Effect<
+export const getMacieSession: API.OperationMethod<
+  GetMacieSessionRequest,
   GetMacieSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6316,9 +6276,8 @@ export const getMacieSession: (
 /**
  * (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
  */
-export const getMasterAccount: (
-  input: GetMasterAccountRequest,
-) => effect.Effect<
+export const getMasterAccount: API.OperationMethod<
+  GetMasterAccountRequest,
   GetMasterAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6345,9 +6304,8 @@ export const getMasterAccount: (
 /**
  * Retrieves information about an account that's associated with an Amazon Macie administrator account.
  */
-export const getMember: (
-  input: GetMemberRequest,
-) => effect.Effect<
+export const getMember: API.OperationMethod<
+  GetMemberRequest,
   GetMemberResponse,
   | AccessDeniedException
   | ConflictException
@@ -6374,9 +6332,8 @@ export const getMember: (
 /**
  * Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
  */
-export const getResourceProfile: (
-  input: GetResourceProfileRequest,
-) => effect.Effect<
+export const getResourceProfile: API.OperationMethod<
+  GetResourceProfileRequest,
   GetResourceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6401,9 +6358,8 @@ export const getResourceProfile: (
 /**
  * Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
-export const getRevealConfiguration: (
-  input: GetRevealConfigurationRequest,
-) => effect.Effect<
+export const getRevealConfiguration: API.OperationMethod<
+  GetRevealConfigurationRequest,
   GetRevealConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6424,9 +6380,8 @@ export const getRevealConfiguration: (
 /**
  * Retrieves occurrences of sensitive data reported by a finding.
  */
-export const getSensitiveDataOccurrences: (
-  input: GetSensitiveDataOccurrencesRequest,
-) => effect.Effect<
+export const getSensitiveDataOccurrences: API.OperationMethod<
+  GetSensitiveDataOccurrencesRequest,
   GetSensitiveDataOccurrencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6451,9 +6406,8 @@ export const getSensitiveDataOccurrences: (
 /**
  * Checks whether occurrences of sensitive data can be retrieved for a finding.
  */
-export const getSensitiveDataOccurrencesAvailability: (
-  input: GetSensitiveDataOccurrencesAvailabilityRequest,
-) => effect.Effect<
+export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
+  GetSensitiveDataOccurrencesAvailabilityRequest,
   GetSensitiveDataOccurrencesAvailabilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6474,9 +6428,8 @@ export const getSensitiveDataOccurrencesAvailability: (
 /**
  * Retrieves the settings for the sensitivity inspection template for an account.
  */
-export const getSensitivityInspectionTemplate: (
-  input: GetSensitivityInspectionTemplateRequest,
-) => effect.Effect<
+export const getSensitivityInspectionTemplate: API.OperationMethod<
+  GetSensitivityInspectionTemplateRequest,
   GetSensitivityInspectionTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6499,21 +6452,19 @@ export const getSensitivityInspectionTemplate: (
 /**
  * Retrieves (queries) quotas and aggregated usage data for one or more accounts.
  */
-export const getUsageStatistics: {
-  (
-    input: GetUsageStatisticsRequest,
-  ): effect.Effect<
-    GetUsageStatisticsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUsageStatistics: API.OperationMethod<
+  GetUsageStatisticsRequest,
+  GetUsageStatisticsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUsageStatisticsRequest,
   ) => stream.Stream<
@@ -6564,9 +6515,8 @@ export const getUsageStatistics: {
 /**
  * Retrieves (queries) aggregated usage data for an account.
  */
-export const getUsageTotals: (
-  input: GetUsageTotalsRequest,
-) => effect.Effect<
+export const getUsageTotals: API.OperationMethod<
+  GetUsageTotalsRequest,
   GetUsageTotalsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6593,18 +6543,16 @@ export const getUsageTotals: (
 /**
  * Retrieves a subset of information about all the allow lists for an account.
  */
-export const listAllowLists: {
-  (
-    input: ListAllowListsRequest,
-  ): effect.Effect<
-    ListAllowListsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAllowLists: API.OperationMethod<
+  ListAllowListsRequest,
+  ListAllowListsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAllowListsRequest,
   ) => stream.Stream<
@@ -6646,19 +6594,17 @@ export const listAllowLists: {
 /**
  * Retrieves the status of automated sensitive data discovery for one or more accounts.
  */
-export const listAutomatedDiscoveryAccounts: {
-  (
-    input: ListAutomatedDiscoveryAccountsRequest,
-  ): effect.Effect<
-    ListAutomatedDiscoveryAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomatedDiscoveryAccounts: API.OperationMethod<
+  ListAutomatedDiscoveryAccountsRequest,
+  ListAutomatedDiscoveryAccountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomatedDiscoveryAccountsRequest,
   ) => stream.Stream<
@@ -6703,21 +6649,19 @@ export const listAutomatedDiscoveryAccounts: {
 /**
  * Retrieves a subset of information about one or more classification jobs.
  */
-export const listClassificationJobs: {
-  (
-    input: ListClassificationJobsRequest,
-  ): effect.Effect<
-    ListClassificationJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClassificationJobs: API.OperationMethod<
+  ListClassificationJobsRequest,
+  ListClassificationJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClassificationJobsRequest,
   ) => stream.Stream<
@@ -6768,18 +6712,16 @@ export const listClassificationJobs: {
 /**
  * Retrieves a subset of information about the classification scope for an account.
  */
-export const listClassificationScopes: {
-  (
-    input: ListClassificationScopesRequest,
-  ): effect.Effect<
-    ListClassificationScopesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClassificationScopes: API.OperationMethod<
+  ListClassificationScopesRequest,
+  ListClassificationScopesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClassificationScopesRequest,
   ) => stream.Stream<
@@ -6820,21 +6762,19 @@ export const listClassificationScopes: {
 /**
  * Retrieves a subset of information about the custom data identifiers for an account.
  */
-export const listCustomDataIdentifiers: {
-  (
-    input: ListCustomDataIdentifiersRequest,
-  ): effect.Effect<
-    ListCustomDataIdentifiersResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomDataIdentifiers: API.OperationMethod<
+  ListCustomDataIdentifiersRequest,
+  ListCustomDataIdentifiersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomDataIdentifiersRequest,
   ) => stream.Stream<
@@ -6885,21 +6825,19 @@ export const listCustomDataIdentifiers: {
 /**
  * Retrieves a subset of information about one or more findings.
  */
-export const listFindings: {
-  (
-    input: ListFindingsRequest,
-  ): effect.Effect<
-    ListFindingsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindings: API.OperationMethod<
+  ListFindingsRequest,
+  ListFindingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
@@ -6950,21 +6888,19 @@ export const listFindings: {
 /**
  * Retrieves a subset of information about all the findings filters for an account.
  */
-export const listFindingsFilters: {
-  (
-    input: ListFindingsFiltersRequest,
-  ): effect.Effect<
-    ListFindingsFiltersResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindingsFilters: API.OperationMethod<
+  ListFindingsFiltersRequest,
+  ListFindingsFiltersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsFiltersRequest,
   ) => stream.Stream<
@@ -7015,21 +6951,19 @@ export const listFindingsFilters: {
 /**
  * Retrieves information about Amazon Macie membership invitations that were received by an account.
  */
-export const listInvitations: {
-  (
-    input: ListInvitationsRequest,
-  ): effect.Effect<
-    ListInvitationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvitations: API.OperationMethod<
+  ListInvitationsRequest,
+  ListInvitationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvitationsRequest,
   ) => stream.Stream<
@@ -7080,14 +7014,12 @@ export const listInvitations: {
 /**
  * Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
  */
-export const listManagedDataIdentifiers: {
-  (
-    input: ListManagedDataIdentifiersRequest,
-  ): effect.Effect<
-    ListManagedDataIdentifiersResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedDataIdentifiers: API.OperationMethod<
+  ListManagedDataIdentifiersRequest,
+  ListManagedDataIdentifiersResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedDataIdentifiersRequest,
   ) => stream.Stream<
@@ -7115,21 +7047,19 @@ export const listManagedDataIdentifiers: {
 /**
  * Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
  */
-export const listMembers: {
-  (
-    input: ListMembersRequest,
-  ): effect.Effect<
-    ListMembersResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersRequest,
+  ListMembersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
@@ -7180,21 +7110,19 @@ export const listMembers: {
 /**
  * Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
  */
-export const listOrganizationAdminAccounts: {
-  (
-    input: ListOrganizationAdminAccountsRequest,
-  ): effect.Effect<
-    ListOrganizationAdminAccountsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizationAdminAccounts: API.OperationMethod<
+  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationAdminAccountsRequest,
   ) => stream.Stream<
@@ -7245,19 +7173,17 @@ export const listOrganizationAdminAccounts: {
 /**
  * Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
  */
-export const listResourceProfileArtifacts: {
-  (
-    input: ListResourceProfileArtifactsRequest,
-  ): effect.Effect<
-    ListResourceProfileArtifactsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceProfileArtifacts: API.OperationMethod<
+  ListResourceProfileArtifactsRequest,
+  ListResourceProfileArtifactsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceProfileArtifactsRequest,
   ) => stream.Stream<
@@ -7301,20 +7227,18 @@ export const listResourceProfileArtifacts: {
 /**
  * Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
  */
-export const listResourceProfileDetections: {
-  (
-    input: ListResourceProfileDetectionsRequest,
-  ): effect.Effect<
-    ListResourceProfileDetectionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceProfileDetections: API.OperationMethod<
+  ListResourceProfileDetectionsRequest,
+  ListResourceProfileDetectionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceProfileDetectionsRequest,
   ) => stream.Stream<
@@ -7362,19 +7286,17 @@ export const listResourceProfileDetections: {
 /**
  * Retrieves a subset of information about the sensitivity inspection template for an account.
  */
-export const listSensitivityInspectionTemplates: {
-  (
-    input: ListSensitivityInspectionTemplatesRequest,
-  ): effect.Effect<
-    ListSensitivityInspectionTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSensitivityInspectionTemplates: API.OperationMethod<
+  ListSensitivityInspectionTemplatesRequest,
+  ListSensitivityInspectionTemplatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSensitivityInspectionTemplatesRequest,
   ) => stream.Stream<
@@ -7419,9 +7341,8 @@ export const listSensitivityInspectionTemplates: {
 /**
  * Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7433,9 +7354,8 @@ export const listTagsForResource: (
 /**
  * Adds or updates the configuration settings for storing data classification results.
  */
-export const putClassificationExportConfiguration: (
-  input: PutClassificationExportConfigurationRequest,
-) => effect.Effect<
+export const putClassificationExportConfiguration: API.OperationMethod<
+  PutClassificationExportConfigurationRequest,
   PutClassificationExportConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7462,9 +7382,8 @@ export const putClassificationExportConfiguration: (
 /**
  * Updates the configuration settings for publishing findings to Security Hub.
  */
-export const putFindingsPublicationConfiguration: (
-  input: PutFindingsPublicationConfigurationRequest,
-) => effect.Effect<
+export const putFindingsPublicationConfiguration: API.OperationMethod<
+  PutFindingsPublicationConfigurationRequest,
   PutFindingsPublicationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7491,21 +7410,19 @@ export const putFindingsPublicationConfiguration: (
 /**
  * Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
  */
-export const searchResources: {
-  (
-    input: SearchResourcesRequest,
-  ): effect.Effect<
-    SearchResourcesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchResources: API.OperationMethod<
+  SearchResourcesRequest,
+  SearchResourcesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchResourcesRequest,
   ) => stream.Stream<
@@ -7556,9 +7473,8 @@ export const searchResources: {
 /**
  * Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7570,9 +7486,8 @@ export const tagResource: (
 /**
  * Tests criteria for a custom data identifier.
  */
-export const testCustomDataIdentifier: (
-  input: TestCustomDataIdentifierRequest,
-) => effect.Effect<
+export const testCustomDataIdentifier: API.OperationMethod<
+  TestCustomDataIdentifierRequest,
   TestCustomDataIdentifierResponse,
   | AccessDeniedException
   | ConflictException
@@ -7599,9 +7514,8 @@ export const testCustomDataIdentifier: (
 /**
  * Removes one or more tags (keys and values) from an Amazon Macie resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7613,9 +7527,8 @@ export const untagResource: (
 /**
  * Updates the settings for an allow list.
  */
-export const updateAllowList: (
-  input: UpdateAllowListRequest,
-) => effect.Effect<
+export const updateAllowList: API.OperationMethod<
+  UpdateAllowListRequest,
   UpdateAllowListResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7638,9 +7551,8 @@ export const updateAllowList: (
 /**
  * Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
  */
-export const updateAutomatedDiscoveryConfiguration: (
-  input: UpdateAutomatedDiscoveryConfigurationRequest,
-) => effect.Effect<
+export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
+  UpdateAutomatedDiscoveryConfigurationRequest,
   UpdateAutomatedDiscoveryConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7661,9 +7573,8 @@ export const updateAutomatedDiscoveryConfiguration: (
 /**
  * Changes the status of a classification job.
  */
-export const updateClassificationJob: (
-  input: UpdateClassificationJobRequest,
-) => effect.Effect<
+export const updateClassificationJob: API.OperationMethod<
+  UpdateClassificationJobRequest,
   UpdateClassificationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7690,9 +7601,8 @@ export const updateClassificationJob: (
 /**
  * Updates the classification scope settings for an account.
  */
-export const updateClassificationScope: (
-  input: UpdateClassificationScopeRequest,
-) => effect.Effect<
+export const updateClassificationScope: API.OperationMethod<
+  UpdateClassificationScopeRequest,
   UpdateClassificationScopeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7715,9 +7625,8 @@ export const updateClassificationScope: (
 /**
  * Updates the criteria and other settings for a findings filter.
  */
-export const updateFindingsFilter: (
-  input: UpdateFindingsFilterRequest,
-) => effect.Effect<
+export const updateFindingsFilter: API.OperationMethod<
+  UpdateFindingsFilterRequest,
   UpdateFindingsFilterResponse,
   | AccessDeniedException
   | ConflictException
@@ -7744,9 +7653,8 @@ export const updateFindingsFilter: (
 /**
  * Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
  */
-export const updateMacieSession: (
-  input: UpdateMacieSessionRequest,
-) => effect.Effect<
+export const updateMacieSession: API.OperationMethod<
+  UpdateMacieSessionRequest,
   UpdateMacieSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7773,9 +7681,8 @@ export const updateMacieSession: (
 /**
  * Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
  */
-export const updateMemberSession: (
-  input: UpdateMemberSessionRequest,
-) => effect.Effect<
+export const updateMemberSession: API.OperationMethod<
+  UpdateMemberSessionRequest,
   UpdateMemberSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7802,9 +7709,8 @@ export const updateMemberSession: (
 /**
  * Updates the Amazon Macie configuration settings for an organization in Organizations.
  */
-export const updateOrganizationConfiguration: (
-  input: UpdateOrganizationConfigurationRequest,
-) => effect.Effect<
+export const updateOrganizationConfiguration: API.OperationMethod<
+  UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7831,9 +7737,8 @@ export const updateOrganizationConfiguration: (
 /**
  * Updates the sensitivity score for an S3 bucket.
  */
-export const updateResourceProfile: (
-  input: UpdateResourceProfileRequest,
-) => effect.Effect<
+export const updateResourceProfile: API.OperationMethod<
+  UpdateResourceProfileRequest,
   UpdateResourceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7858,9 +7763,8 @@ export const updateResourceProfile: (
 /**
  * Updates the sensitivity scoring settings for an S3 bucket.
  */
-export const updateResourceProfileDetections: (
-  input: UpdateResourceProfileDetectionsRequest,
-) => effect.Effect<
+export const updateResourceProfileDetections: API.OperationMethod<
+  UpdateResourceProfileDetectionsRequest,
   UpdateResourceProfileDetectionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7885,9 +7789,8 @@ export const updateResourceProfileDetections: (
 /**
  * Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
  */
-export const updateRevealConfiguration: (
-  input: UpdateRevealConfigurationRequest,
-) => effect.Effect<
+export const updateRevealConfiguration: API.OperationMethod<
+  UpdateRevealConfigurationRequest,
   UpdateRevealConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7908,9 +7811,8 @@ export const updateRevealConfiguration: (
 /**
  * Updates the settings for the sensitivity inspection template for an account.
  */
-export const updateSensitivityInspectionTemplate: (
-  input: UpdateSensitivityInspectionTemplateRequest,
-) => effect.Effect<
+export const updateSensitivityInspectionTemplate: API.OperationMethod<
+  UpdateSensitivityInspectionTemplateRequest,
   UpdateSensitivityInspectionTemplateResponse,
   | AccessDeniedException
   | InternalServerException

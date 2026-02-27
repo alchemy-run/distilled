@@ -617,9 +617,8 @@ export class UnsupportedStreamMediaTypeException extends S.TaggedErrorClass<Unsu
  * Streams Pricing and Amazon Web Services
  * Pricing. Charges for outgoing Amazon Web Services data apply.
  */
-export const getClip: (
-  input: GetClipInput,
-) => effect.Effect<
+export const getClip: API.OperationMethod<
+  GetClipInput,
   GetClipOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -772,9 +771,8 @@ export const getClip: (
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const getDASHStreamingSessionURL: (
-  input: GetDASHStreamingSessionURLInput,
-) => effect.Effect<
+export const getDASHStreamingSessionURL: API.OperationMethod<
+  GetDASHStreamingSessionURLInput,
   GetDASHStreamingSessionURLOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -965,9 +963,8 @@ export const getDASHStreamingSessionURL: (
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const getHLSStreamingSessionURL: (
-  input: GetHLSStreamingSessionURLInput,
-) => effect.Effect<
+export const getHLSStreamingSessionURL: API.OperationMethod<
+  GetHLSStreamingSessionURLInput,
   GetHLSStreamingSessionURLOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -997,19 +994,17 @@ export const getHLSStreamingSessionURL: (
  * Retrieves a list of images corresponding to each timestamp for a given time range,
  * sampling interval, and image format configuration.
  */
-export const getImages: {
-  (
-    input: GetImagesInput,
-  ): effect.Effect<
-    GetImagesOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NoDataRetentionException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getImages: API.OperationMethod<
+  GetImagesInput,
+  GetImagesOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NoDataRetentionException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetImagesInput,
   ) => stream.Stream<
@@ -1081,9 +1076,8 @@ export const getImages: {
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const getMediaForFragmentList: (
-  input: GetMediaForFragmentListInput,
-) => effect.Effect<
+export const getMediaForFragmentList: API.OperationMethod<
+  GetMediaForFragmentListInput,
   GetMediaForFragmentListOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1133,18 +1127,16 @@ export const getMediaForFragmentList: (
  * For more information, see the **Errors** section at
  * the bottom of this topic, as well as Common Errors.
  */
-export const listFragments: {
-  (
-    input: ListFragmentsInput,
-  ): effect.Effect<
-    ListFragmentsOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFragments: API.OperationMethod<
+  ListFragmentsInput,
+  ListFragmentsOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFragmentsInput,
   ) => stream.Stream<

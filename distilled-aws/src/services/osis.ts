@@ -1248,9 +1248,8 @@ export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidP
  * Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const createPipeline: (
-  input: CreatePipelineRequest,
-) => effect.Effect<
+export const createPipeline: API.OperationMethod<
+  CreatePipelineRequest,
   CreatePipelineResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1278,9 +1277,8 @@ export const createPipeline: (
  * Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
  * ingest data from your VPC into pipelines that you have access to.
  */
-export const createPipelineEndpoint: (
-  input: CreatePipelineEndpointRequest,
-) => effect.Effect<
+export const createPipelineEndpoint: API.OperationMethod<
+  CreatePipelineEndpointRequest,
   CreatePipelineEndpointResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1306,9 +1304,8 @@ export const createPipelineEndpoint: (
  * Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const deletePipeline: (
-  input: DeletePipelineRequest,
-) => effect.Effect<
+export const deletePipeline: API.OperationMethod<
+  DeletePipelineRequest,
   DeletePipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1333,9 +1330,8 @@ export const deletePipeline: (
 /**
  * Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
  */
-export const deletePipelineEndpoint: (
-  input: DeletePipelineEndpointRequest,
-) => effect.Effect<
+export const deletePipelineEndpoint: API.OperationMethod<
+  DeletePipelineEndpointRequest,
   DeletePipelineEndpointResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1356,9 +1352,8 @@ export const deletePipelineEndpoint: (
 /**
  * Deletes a resource-based policy from an OpenSearch Ingestion resource.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1383,9 +1378,8 @@ export const deleteResourcePolicy: (
 /**
  * Retrieves information about an OpenSearch Ingestion pipeline.
  */
-export const getPipeline: (
-  input: GetPipelineRequest,
-) => effect.Effect<
+export const getPipeline: API.OperationMethod<
+  GetPipelineRequest,
   GetPipelineResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1411,9 +1405,8 @@ export const getPipeline: (
  * information, see Using
  * blueprints to create a pipeline.
  */
-export const getPipelineBlueprint: (
-  input: GetPipelineBlueprintRequest,
-) => effect.Effect<
+export const getPipelineBlueprint: API.OperationMethod<
+  GetPipelineBlueprintRequest,
   GetPipelineBlueprintResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1440,9 +1433,8 @@ export const getPipelineBlueprint: (
  *
  * For more information, see Tracking the status of pipeline creation.
  */
-export const getPipelineChangeProgress: (
-  input: GetPipelineChangeProgressRequest,
-) => effect.Effect<
+export const getPipelineChangeProgress: API.OperationMethod<
+  GetPipelineChangeProgressRequest,
   GetPipelineChangeProgressResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1465,9 +1457,8 @@ export const getPipelineChangeProgress: (
 /**
  * Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1494,9 +1485,8 @@ export const getResourcePolicy: (
  * Using
  * blueprints to create a pipeline.
  */
-export const listPipelineBlueprints: (
-  input: ListPipelineBlueprintsRequest,
-) => effect.Effect<
+export const listPipelineBlueprints: API.OperationMethod<
+  ListPipelineBlueprintsRequest,
   ListPipelineBlueprintsResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1519,19 +1509,17 @@ export const listPipelineBlueprints: (
 /**
  * Lists the pipeline endpoints connected to pipelines in your account.
  */
-export const listPipelineEndpointConnections: {
-  (
-    input: ListPipelineEndpointConnectionsRequest,
-  ): effect.Effect<
-    ListPipelineEndpointConnectionsResponse,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | LimitExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineEndpointConnections: API.OperationMethod<
+  ListPipelineEndpointConnectionsRequest,
+  ListPipelineEndpointConnectionsResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineEndpointConnectionsRequest,
   ) => stream.Stream<
@@ -1576,19 +1564,17 @@ export const listPipelineEndpointConnections: {
 /**
  * Lists all pipeline endpoints in your account.
  */
-export const listPipelineEndpoints: {
-  (
-    input: ListPipelineEndpointsRequest,
-  ): effect.Effect<
-    ListPipelineEndpointsResponse,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | LimitExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineEndpoints: API.OperationMethod<
+  ListPipelineEndpointsRequest,
+  ListPipelineEndpointsResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineEndpointsRequest,
   ) => stream.Stream<
@@ -1635,19 +1621,17 @@ export const listPipelineEndpoints: {
  * For more information, see Viewing Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const listPipelines: {
-  (
-    input: ListPipelinesRequest,
-  ): effect.Effect<
-    ListPipelinesResponse,
-    | AccessDeniedException
-    | DisabledOperationException
-    | InternalException
-    | InvalidPaginationTokenException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelines: API.OperationMethod<
+  ListPipelinesRequest,
+  ListPipelinesResponse,
+  | AccessDeniedException
+  | DisabledOperationException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelinesRequest,
   ) => stream.Stream<
@@ -1692,9 +1676,8 @@ export const listPipelines: {
  * Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information,
  * see Tagging Amazon OpenSearch Ingestion pipelines.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1718,9 +1701,8 @@ export const listTagsForResource: (
  * Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
  * policies grant permissions to principals to perform actions on the resource.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1745,9 +1727,8 @@ export const putResourcePolicy: (
 /**
  * Revokes pipeline endpoints from specified endpoint IDs.
  */
-export const revokePipelineEndpointConnections: (
-  input: RevokePipelineEndpointConnectionsRequest,
-) => effect.Effect<
+export const revokePipelineEndpointConnections: API.OperationMethod<
+  RevokePipelineEndpointConnectionsRequest,
   RevokePipelineEndpointConnectionsResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1770,9 +1751,8 @@ export const revokePipelineEndpointConnections: (
 /**
  * Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
  */
-export const startPipeline: (
-  input: StartPipelineRequest,
-) => effect.Effect<
+export const startPipeline: API.OperationMethod<
+  StartPipelineRequest,
   StartPipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1798,9 +1778,8 @@ export const startPipeline: (
  * Stops an OpenSearch Ingestion pipeline. For more information, see Stopping
  * an OpenSearch Ingestion pipeline.
  */
-export const stopPipeline: (
-  input: StopPipelineRequest,
-) => effect.Effect<
+export const stopPipeline: API.OperationMethod<
+  StopPipelineRequest,
   StopPipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1826,9 +1805,8 @@ export const stopPipeline: (
  * Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1854,9 +1832,8 @@ export const tagResource: (
  * Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging
  * Amazon OpenSearch Ingestion pipelines.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | DisabledOperationException
@@ -1880,9 +1857,8 @@ export const untagResource: (
  * Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const updatePipeline: (
-  input: UpdatePipelineRequest,
-) => effect.Effect<
+export const updatePipeline: API.OperationMethod<
+  UpdatePipelineRequest,
   UpdatePipelineResponse,
   | AccessDeniedException
   | ConflictException
@@ -1909,9 +1885,8 @@ export const updatePipeline: (
  * more information, see Creating Amazon OpenSearch
  * Ingestion pipelines.
  */
-export const validatePipeline: (
-  input: ValidatePipelineRequest,
-) => effect.Effect<
+export const validatePipeline: API.OperationMethod<
+  ValidatePipelineRequest,
   ValidatePipelineResponse,
   | AccessDeniedException
   | DisabledOperationException

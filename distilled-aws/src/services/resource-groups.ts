@@ -1258,9 +1258,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
  *
  * - `resource-groups:DeleteGroup`
  */
-export const cancelTagSyncTask: (
-  input: CancelTagSyncTaskInput,
-) => effect.Effect<
+export const cancelTagSyncTask: API.OperationMethod<
+  CancelTagSyncTaskInput,
   CancelTagSyncTaskResponse,
   | BadRequestException
   | ForbiddenException
@@ -1295,9 +1294,8 @@ export const cancelTagSyncTask: (
  *
  * - `resource-groups:CreateGroup`
  */
-export const createGroup: (
-  input: CreateGroupInput,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupInput,
   CreateGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1327,9 +1325,8 @@ export const createGroup: (
  *
  * - `resource-groups:DeleteGroup`
  */
-export const deleteGroup: (
-  input: DeleteGroupInput,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupInput,
   DeleteGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1354,9 +1351,8 @@ export const deleteGroup: (
 /**
  * Retrieves the current status of optional features in Resource Groups.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   GetAccountSettingsOutput,
   | BadRequestException
   | ForbiddenException
@@ -1385,9 +1381,8 @@ export const getAccountSettings: (
  *
  * - `resource-groups:GetGroup`
  */
-export const getGroup: (
-  input: GetGroupInput,
-) => effect.Effect<
+export const getGroup: API.OperationMethod<
+  GetGroupInput,
   GetGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -1419,9 +1414,8 @@ export const getGroup: (
  *
  * - `resource-groups:GetGroupConfiguration`
  */
-export const getGroupConfiguration: (
-  input: GetGroupConfigurationInput,
-) => effect.Effect<
+export const getGroupConfiguration: API.OperationMethod<
+  GetGroupConfigurationInput,
   GetGroupConfigurationOutput,
   | BadRequestException
   | ForbiddenException
@@ -1454,9 +1448,8 @@ export const getGroupConfiguration: (
  *
  * - `resource-groups:GetGroupQuery`
  */
-export const getGroupQuery: (
-  input: GetGroupQueryInput,
-) => effect.Effect<
+export const getGroupQuery: API.OperationMethod<
+  GetGroupQueryInput,
   GetGroupQueryOutput,
   | BadRequestException
   | ForbiddenException
@@ -1488,9 +1481,8 @@ export const getGroupQuery: (
  *
  * - `resource-groups:GetTags`
  */
-export const getTags: (
-  input: GetTagsInput,
-) => effect.Effect<
+export const getTags: API.OperationMethod<
+  GetTagsInput,
   GetTagsOutput,
   | BadRequestException
   | ForbiddenException
@@ -1521,9 +1513,8 @@ export const getTags: (
  *
  * - `resource-groups:GetTagSyncTask` on the application group
  */
-export const getTagSyncTask: (
-  input: GetTagSyncTaskInput,
-) => effect.Effect<
+export const getTagSyncTask: API.OperationMethod<
+  GetTagSyncTaskInput,
   GetTagSyncTaskOutput,
   | BadRequestException
   | ForbiddenException
@@ -1567,9 +1558,8 @@ export const getTagSyncTask: (
  *
  * - `resource-groups:GroupResources`
  */
-export const groupResources: (
-  input: GroupResourcesInput,
-) => effect.Effect<
+export const groupResources: API.OperationMethod<
+  GroupResourcesInput,
   GroupResourcesOutput,
   | BadRequestException
   | ForbiddenException
@@ -1595,19 +1585,17 @@ export const groupResources: (
  * Returns the status of the last grouping or ungrouping action for
  * each resource in the specified application group.
  */
-export const listGroupingStatuses: {
-  (
-    input: ListGroupingStatusesInput,
-  ): effect.Effect<
-    ListGroupingStatusesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupingStatuses: API.OperationMethod<
+  ListGroupingStatusesInput,
+  ListGroupingStatusesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupingStatusesInput,
   ) => stream.Stream<
@@ -1665,21 +1653,19 @@ export const listGroupingStatuses: {
  *
  * - `tag:GetResources`
  */
-export const listGroupResources: {
-  (
-    input: ListGroupResourcesInput,
-  ): effect.Effect<
-    ListGroupResourcesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupResources: API.OperationMethod<
+  ListGroupResourcesInput,
+  ListGroupResourcesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupResourcesInput,
   ) => stream.Stream<
@@ -1736,19 +1722,17 @@ export const listGroupResources: {
  *
  * - `resource-groups:ListGroups`
  */
-export const listGroups: {
-  (
-    input: ListGroupsInput,
-  ): effect.Effect<
-    ListGroupsOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsInput,
+  ListGroupsOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsInput,
   ) => stream.Stream<
@@ -1800,20 +1784,18 @@ export const listGroups: {
  * - `resource-groups:ListTagSyncTasks` with the group passed in the filters as the resource
  * or * if using no filters
  */
-export const listTagSyncTasks: {
-  (
-    input: ListTagSyncTasksInput,
-  ): effect.Effect<
-    ListTagSyncTasksOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagSyncTasks: API.OperationMethod<
+  ListTagSyncTasksInput,
+  ListTagSyncTasksOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagSyncTasksInput,
   ) => stream.Stream<
@@ -1869,9 +1851,8 @@ export const listTagSyncTasks: {
  *
  * - `resource-groups:PutGroupConfiguration`
  */
-export const putGroupConfiguration: (
-  input: PutGroupConfigurationInput,
-) => effect.Effect<
+export const putGroupConfiguration: API.OperationMethod<
+  PutGroupConfigurationInput,
   PutGroupConfigurationOutput,
   | BadRequestException
   | ForbiddenException
@@ -1910,20 +1891,18 @@ export const putGroupConfiguration: (
  *
  * - `tag:GetResources`
  */
-export const searchResources: {
-  (
-    input: SearchResourcesInput,
-  ): effect.Effect<
-    SearchResourcesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | MethodNotAllowedException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchResources: API.OperationMethod<
+  SearchResourcesInput,
+  SearchResourcesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | MethodNotAllowedException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchResourcesInput,
   ) => stream.Stream<
@@ -1987,9 +1966,8 @@ export const searchResources: {
  *
  * - `iam:PassRole` on the role provided in the request
  */
-export const startTagSyncTask: (
-  input: StartTagSyncTaskInput,
-) => effect.Effect<
+export const startTagSyncTask: API.OperationMethod<
+  StartTagSyncTaskInput,
   StartTagSyncTaskOutput,
   | BadRequestException
   | ForbiddenException
@@ -2028,9 +2006,8 @@ export const startTagSyncTask: (
  *
  * - `resource-groups:Tag`
  */
-export const tag: (
-  input: TagInput,
-) => effect.Effect<
+export const tag: API.OperationMethod<
+  TagInput,
   TagOutput,
   | BadRequestException
   | ForbiddenException
@@ -2064,9 +2041,8 @@ export const tag: (
  *
  * - `resource-groups:UngroupResources`
  */
-export const ungroupResources: (
-  input: UngroupResourcesInput,
-) => effect.Effect<
+export const ungroupResources: API.OperationMethod<
+  UngroupResourcesInput,
   UngroupResourcesOutput,
   | BadRequestException
   | ForbiddenException
@@ -2097,9 +2073,8 @@ export const ungroupResources: (
  *
  * - `resource-groups:Untag`
  */
-export const untag: (
-  input: UntagInput,
-) => effect.Effect<
+export const untag: API.OperationMethod<
+  UntagInput,
   UntagOutput,
   | BadRequestException
   | ForbiddenException
@@ -2129,9 +2104,8 @@ export const untag: (
  * operation to check for completion by looking for `GroupLifecycleEventsStatus`
  * to change to `ACTIVE`.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsInput,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsInput,
   UpdateAccountSettingsOutput,
   | BadRequestException
   | ForbiddenException
@@ -2161,9 +2135,8 @@ export const updateAccountSettings: (
  *
  * - `resource-groups:UpdateGroup`
  */
-export const updateGroup: (
-  input: UpdateGroupInput,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupInput,
   UpdateGroupOutput,
   | BadRequestException
   | ForbiddenException
@@ -2195,9 +2168,8 @@ export const updateGroup: (
  *
  * - `resource-groups:UpdateGroupQuery`
  */
-export const updateGroupQuery: (
-  input: UpdateGroupQueryInput,
-) => effect.Effect<
+export const updateGroupQuery: API.OperationMethod<
+  UpdateGroupQueryInput,
   UpdateGroupQueryOutput,
   | BadRequestException
   | ForbiddenException

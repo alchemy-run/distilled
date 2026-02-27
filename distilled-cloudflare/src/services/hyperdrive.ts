@@ -43,9 +43,8 @@ export type GetConfigResponse = unknown;
 export const GetConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
 
-export const getConfig: (
-  input: GetConfigRequest,
-) => Effect.Effect<
+export const getConfig: API.OperationMethod<
+  GetConfigRequest,
   GetConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -71,9 +70,8 @@ export type ListConfigsResponse = unknown;
 export const ListConfigsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
 
-export const listConfigs: (
-  input: ListConfigsRequest,
-) => Effect.Effect<
+export const listConfigs: API.OperationMethod<
+  ListConfigsRequest,
   ListConfigsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -145,6 +143,11 @@ export const CreateConfigRequest = Schema.Struct({
       Schema.encodeKeys({
         accessClientId: "access_client_id",
         accessClientSecret: "access_client_secret",
+        database: "database",
+        host: "host",
+        password: "password",
+        scheme: "scheme",
+        user: "user",
       }),
     ),
   ]),
@@ -159,6 +162,7 @@ export const CreateConfigRequest = Schema.Struct({
         staleWhileRevalidate: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          disabled: "disabled",
           maxAge: "max_age",
           staleWhileRevalidate: "stale_while_revalidate",
         }),
@@ -174,12 +178,19 @@ export const CreateConfigRequest = Schema.Struct({
       Schema.encodeKeys({
         caCertificateId: "ca_certificate_id",
         mtlsCertificateId: "mtls_certificate_id",
+        sslmode: "sslmode",
       }),
     ),
   ),
   originConnectionLimit: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ originConnectionLimit: "origin_connection_limit" }),
+  Schema.encodeKeys({
+    name: "name",
+    origin: "origin",
+    caching: "caching",
+    mtls: "mtls",
+    originConnectionLimit: "origin_connection_limit",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/hyperdrive/configs" }),
 ) as unknown as Schema.Schema<CreateConfigRequest>;
 
@@ -188,9 +199,8 @@ export type CreateConfigResponse = unknown;
 export const CreateConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
 
-export const createConfig: (
-  input: CreateConfigRequest,
-) => Effect.Effect<
+export const createConfig: API.OperationMethod<
+  CreateConfigRequest,
   CreateConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -264,6 +274,11 @@ export const UpdateConfigRequest = Schema.Struct({
       Schema.encodeKeys({
         accessClientId: "access_client_id",
         accessClientSecret: "access_client_secret",
+        database: "database",
+        host: "host",
+        password: "password",
+        scheme: "scheme",
+        user: "user",
       }),
     ),
   ]),
@@ -278,6 +293,7 @@ export const UpdateConfigRequest = Schema.Struct({
         staleWhileRevalidate: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          disabled: "disabled",
           maxAge: "max_age",
           staleWhileRevalidate: "stale_while_revalidate",
         }),
@@ -293,12 +309,19 @@ export const UpdateConfigRequest = Schema.Struct({
       Schema.encodeKeys({
         caCertificateId: "ca_certificate_id",
         mtlsCertificateId: "mtls_certificate_id",
+        sslmode: "sslmode",
       }),
     ),
   ),
   originConnectionLimit: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ originConnectionLimit: "origin_connection_limit" }),
+  Schema.encodeKeys({
+    name: "name",
+    origin: "origin",
+    caching: "caching",
+    mtls: "mtls",
+    originConnectionLimit: "origin_connection_limit",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
@@ -310,9 +333,8 @@ export type UpdateConfigResponse = unknown;
 export const UpdateConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
 
-export const updateConfig: (
-  input: UpdateConfigRequest,
-) => Effect.Effect<
+export const updateConfig: API.OperationMethod<
+  UpdateConfigRequest,
   UpdateConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -366,6 +388,7 @@ export const PatchConfigRequest = Schema.Struct({
         staleWhileRevalidate: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          disabled: "disabled",
           maxAge: "max_age",
           staleWhileRevalidate: "stale_while_revalidate",
         }),
@@ -381,6 +404,7 @@ export const PatchConfigRequest = Schema.Struct({
       Schema.encodeKeys({
         caCertificateId: "ca_certificate_id",
         mtlsCertificateId: "mtls_certificate_id",
+        sslmode: "sslmode",
       }),
     ),
   ),
@@ -407,13 +431,20 @@ export const PatchConfigRequest = Schema.Struct({
         Schema.encodeKeys({
           accessClientId: "access_client_id",
           accessClientSecret: "access_client_secret",
+          host: "host",
         }),
       ),
     ]),
   ),
   originConnectionLimit: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ originConnectionLimit: "origin_connection_limit" }),
+  Schema.encodeKeys({
+    caching: "caching",
+    mtls: "mtls",
+    name: "name",
+    origin: "origin",
+    originConnectionLimit: "origin_connection_limit",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
@@ -425,9 +456,8 @@ export type PatchConfigResponse = unknown;
 export const PatchConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
 
-export const patchConfig: (
-  input: PatchConfigRequest,
-) => Effect.Effect<
+export const patchConfig: API.OperationMethod<
+  PatchConfigRequest,
   PatchConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -458,9 +488,8 @@ export type DeleteConfigResponse = unknown;
 export const DeleteConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
 
-export const deleteConfig: (
-  input: DeleteConfigRequest,
-) => Effect.Effect<
+export const deleteConfig: API.OperationMethod<
+  DeleteConfigRequest,
   DeleteConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

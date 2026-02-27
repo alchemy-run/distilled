@@ -3026,9 +3026,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  * Cancels in-progress environment configuration update or application version
  * deployment.
  */
-export const abortEnvironmentUpdate: (
-  input: AbortEnvironmentUpdateMessage,
-) => effect.Effect<
+export const abortEnvironmentUpdate: API.OperationMethod<
+  AbortEnvironmentUpdateMessage,
   AbortEnvironmentUpdateResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3042,9 +3041,8 @@ export const abortEnvironmentUpdate: (
  * its status is `Scheduled`. Get the status and action ID of a managed action with
  * DescribeEnvironmentManagedActions.
  */
-export const applyEnvironmentManagedAction: (
-  input: ApplyEnvironmentManagedActionRequest,
-) => effect.Effect<
+export const applyEnvironmentManagedAction: API.OperationMethod<
+  ApplyEnvironmentManagedActionRequest,
   ApplyEnvironmentManagedActionResult,
   | ElasticBeanstalkServiceException
   | ManagedActionInvalidStateException
@@ -3064,9 +3062,8 @@ export const applyEnvironmentManagedAction: (
  * calls acting on this environment. For more information, see Operations roles in the
  * *AWS Elastic Beanstalk Developer Guide*.
  */
-export const associateEnvironmentOperationsRole: (
-  input: AssociateEnvironmentOperationsRoleMessage,
-) => effect.Effect<
+export const associateEnvironmentOperationsRole: API.OperationMethod<
+  AssociateEnvironmentOperationsRoleMessage,
   AssociateEnvironmentOperationsRoleResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3078,9 +3075,8 @@ export const associateEnvironmentOperationsRole: (
 /**
  * Checks if the specified CNAME is available.
  */
-export const checkDNSAvailability: (
-  input: CheckDNSAvailabilityMessage,
-) => effect.Effect<
+export const checkDNSAvailability: API.OperationMethod<
+  CheckDNSAvailabilityMessage,
   CheckDNSAvailabilityResultMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3097,9 +3093,8 @@ export const checkDNSAvailability: (
  * `env.yaml`. See Compose Environments
  * for details.
  */
-export const composeEnvironments: (
-  input: ComposeEnvironmentsMessage,
-) => effect.Effect<
+export const composeEnvironments: API.OperationMethod<
+  ComposeEnvironmentsMessage,
   EnvironmentDescriptionsMessage,
   InsufficientPrivilegesException | TooManyEnvironmentsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3112,9 +3107,8 @@ export const composeEnvironments: (
  * Creates an application that has one configuration template named `default`
  * and no application versions.
  */
-export const createApplication: (
-  input: CreateApplicationMessage,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationMessage,
   ApplicationDescriptionMessage,
   TooManyApplicationsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3144,9 +3138,8 @@ export const createApplication: (
  * you receive an exception when you attempt to launch an environment from the application
  * version.
  */
-export const createApplicationVersion: (
-  input: CreateApplicationVersionMessage,
-) => effect.Effect<
+export const createApplicationVersion: API.OperationMethod<
+  CreateApplicationVersionMessage,
   ApplicationVersionDescriptionMessage,
   | CodeBuildNotInServiceRegionException
   | InsufficientPrivilegesException
@@ -3183,9 +3176,8 @@ export const createApplicationVersion: (
  *
  * - ListAvailableSolutionStacks
  */
-export const createConfigurationTemplate: (
-  input: CreateConfigurationTemplateMessage,
-) => effect.Effect<
+export const createConfigurationTemplate: API.OperationMethod<
+  CreateConfigurationTemplateMessage,
   ConfigurationSettingsDescription,
   | InsufficientPrivilegesException
   | TooManyBucketsException
@@ -3205,9 +3197,8 @@ export const createConfigurationTemplate: (
  * Launches an AWS Elastic Beanstalk environment for the specified application using the specified
  * configuration.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentMessage,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentMessage,
   EnvironmentDescription,
   InsufficientPrivilegesException | TooManyEnvironmentsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3219,9 +3210,8 @@ export const createEnvironment: (
 /**
  * Create a new version of your custom platform.
  */
-export const createPlatformVersion: (
-  input: CreatePlatformVersionRequest,
-) => effect.Effect<
+export const createPlatformVersion: API.OperationMethod<
+  CreatePlatformVersionRequest,
   CreatePlatformVersionResult,
   | ElasticBeanstalkServiceException
   | InsufficientPrivilegesException
@@ -3244,9 +3234,8 @@ export const createPlatformVersion: (
  * `CreateStorageLocation` still returns the bucket name but does not create a new
  * bucket.
  */
-export const createStorageLocation: (
-  input: CreateStorageLocationRequest,
-) => effect.Effect<
+export const createStorageLocation: API.OperationMethod<
+  CreateStorageLocationRequest,
   CreateStorageLocationResultMessage,
   | InsufficientPrivilegesException
   | S3SubscriptionRequiredException
@@ -3269,9 +3258,8 @@ export const createStorageLocation: (
  *
  * You cannot delete an application that has a running environment.
  */
-export const deleteApplication: (
-  input: DeleteApplicationMessage,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationMessage,
   DeleteApplicationResponse,
   OperationInProgressException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3286,9 +3274,8 @@ export const deleteApplication: (
  * You cannot delete an application version that is associated with a running
  * environment.
  */
-export const deleteApplicationVersion: (
-  input: DeleteApplicationVersionMessage,
-) => effect.Effect<
+export const deleteApplicationVersion: API.OperationMethod<
+  DeleteApplicationVersionMessage,
   DeleteApplicationVersionResponse,
   | InsufficientPrivilegesException
   | OperationInProgressException
@@ -3313,9 +3300,8 @@ export const deleteApplicationVersion: (
  * copy of the template. You can delete or modify the environment's copy of the template
  * without affecting the running environment.
  */
-export const deleteConfigurationTemplate: (
-  input: DeleteConfigurationTemplateMessage,
-) => effect.Effect<
+export const deleteConfigurationTemplate: API.OperationMethod<
+  DeleteConfigurationTemplateMessage,
   DeleteConfigurationTemplateResponse,
   OperationInProgressException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3333,9 +3319,8 @@ export const deleteConfigurationTemplate: (
  * deployment is in process or has failed. The draft configuration remains in existence until it
  * is deleted with this action.
  */
-export const deleteEnvironmentConfiguration: (
-  input: DeleteEnvironmentConfigurationMessage,
-) => effect.Effect<
+export const deleteEnvironmentConfiguration: API.OperationMethod<
+  DeleteEnvironmentConfigurationMessage,
   DeleteEnvironmentConfigurationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3347,9 +3332,8 @@ export const deleteEnvironmentConfiguration: (
 /**
  * Deletes the specified version of a custom platform.
  */
-export const deletePlatformVersion: (
-  input: DeletePlatformVersionRequest,
-) => effect.Effect<
+export const deletePlatformVersion: API.OperationMethod<
+  DeletePlatformVersionRequest,
   DeletePlatformVersionResult,
   | ElasticBeanstalkServiceException
   | InsufficientPrivilegesException
@@ -3373,9 +3357,8 @@ export const deletePlatformVersion: (
  *
  * The result currently has one set of attributes—resource quotas.
  */
-export const describeAccountAttributes: (
-  input: DescribeAccountAttributesRequest,
-) => effect.Effect<
+export const describeAccountAttributes: API.OperationMethod<
+  DescribeAccountAttributesRequest,
   DescribeAccountAttributesResult,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3387,9 +3370,8 @@ export const describeAccountAttributes: (
 /**
  * Returns the descriptions of existing applications.
  */
-export const describeApplications: (
-  input: DescribeApplicationsMessage,
-) => effect.Effect<
+export const describeApplications: API.OperationMethod<
+  DescribeApplicationsMessage,
   ApplicationDescriptionsMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3401,9 +3383,8 @@ export const describeApplications: (
 /**
  * Retrieve a list of application versions.
  */
-export const describeApplicationVersions: (
-  input: DescribeApplicationVersionsMessage,
-) => effect.Effect<
+export const describeApplicationVersions: API.OperationMethod<
+  DescribeApplicationVersionsMessage,
   ApplicationVersionDescriptionsMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3418,9 +3399,8 @@ export const describeApplicationVersions: (
  * the values the options, their default values, and an indication of the required action on a
  * running environment if an option value is changed.
  */
-export const describeConfigurationOptions: (
-  input: DescribeConfigurationOptionsMessage,
-) => effect.Effect<
+export const describeConfigurationOptions: API.OperationMethod<
+  DescribeConfigurationOptionsMessage,
   ConfigurationOptionsDescription,
   TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3443,9 +3423,8 @@ export const describeConfigurationOptions: (
  *
  * - DeleteEnvironmentConfiguration
  */
-export const describeConfigurationSettings: (
-  input: DescribeConfigurationSettingsMessage,
-) => effect.Effect<
+export const describeConfigurationSettings: API.OperationMethod<
+  DescribeConfigurationSettingsMessage,
   ConfigurationSettingsDescriptions,
   TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3459,9 +3438,8 @@ export const describeConfigurationSettings: (
  * **DescribeEnvironmentHealth** operation is only available with
  * AWS Elastic Beanstalk Enhanced Health.
  */
-export const describeEnvironmentHealth: (
-  input: DescribeEnvironmentHealthRequest,
-) => effect.Effect<
+export const describeEnvironmentHealth: API.OperationMethod<
+  DescribeEnvironmentHealthRequest,
   DescribeEnvironmentHealthResult,
   ElasticBeanstalkServiceException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3473,14 +3451,12 @@ export const describeEnvironmentHealth: (
 /**
  * Lists an environment's completed and failed managed actions.
  */
-export const describeEnvironmentManagedActionHistory: {
-  (
-    input: DescribeEnvironmentManagedActionHistoryRequest,
-  ): effect.Effect<
-    DescribeEnvironmentManagedActionHistoryResult,
-    ElasticBeanstalkServiceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEnvironmentManagedActionHistory: API.OperationMethod<
+  DescribeEnvironmentManagedActionHistoryRequest,
+  DescribeEnvironmentManagedActionHistoryResult,
+  ElasticBeanstalkServiceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEnvironmentManagedActionHistoryRequest,
   ) => stream.Stream<
@@ -3509,9 +3485,8 @@ export const describeEnvironmentManagedActionHistory: {
 /**
  * Lists an environment's upcoming and in-progress managed actions.
  */
-export const describeEnvironmentManagedActions: (
-  input: DescribeEnvironmentManagedActionsRequest,
-) => effect.Effect<
+export const describeEnvironmentManagedActions: API.OperationMethod<
+  DescribeEnvironmentManagedActionsRequest,
   DescribeEnvironmentManagedActionsResult,
   ElasticBeanstalkServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3523,9 +3498,8 @@ export const describeEnvironmentManagedActions: (
 /**
  * Returns AWS resources for this environment.
  */
-export const describeEnvironmentResources: (
-  input: DescribeEnvironmentResourcesMessage,
-) => effect.Effect<
+export const describeEnvironmentResources: API.OperationMethod<
+  DescribeEnvironmentResourcesMessage,
   EnvironmentResourceDescriptionsMessage,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3537,9 +3511,8 @@ export const describeEnvironmentResources: (
 /**
  * Returns descriptions for existing environments.
  */
-export const describeEnvironments: (
-  input: DescribeEnvironmentsMessage,
-) => effect.Effect<
+export const describeEnvironments: API.OperationMethod<
+  DescribeEnvironmentsMessage,
   EnvironmentDescriptionsMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3554,14 +3527,12 @@ export const describeEnvironments: (
  * This action returns the most recent 1,000 events from the specified
  * `NextToken`.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    EventDescriptionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  EventDescriptionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -3592,9 +3563,8 @@ export const describeEvents: {
  * Beanstalk. This operation requires enhanced health
  * reporting.
  */
-export const describeInstancesHealth: (
-  input: DescribeInstancesHealthRequest,
-) => effect.Effect<
+export const describeInstancesHealth: API.OperationMethod<
+  DescribeInstancesHealthRequest,
   DescribeInstancesHealthResult,
   ElasticBeanstalkServiceException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3610,9 +3580,8 @@ export const describeInstancesHealth: (
  * For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk
  * Platforms Glossary.
  */
-export const describePlatformVersion: (
-  input: DescribePlatformVersionRequest,
-) => effect.Effect<
+export const describePlatformVersion: API.OperationMethod<
+  DescribePlatformVersionRequest,
   DescribePlatformVersionResult,
   | ElasticBeanstalkServiceException
   | InsufficientPrivilegesException
@@ -3629,9 +3598,8 @@ export const describePlatformVersion: (
  * on this environment. For more information, see Operations roles in the
  * *AWS Elastic Beanstalk Developer Guide*.
  */
-export const disassociateEnvironmentOperationsRole: (
-  input: DisassociateEnvironmentOperationsRoleMessage,
-) => effect.Effect<
+export const disassociateEnvironmentOperationsRole: API.OperationMethod<
+  DisassociateEnvironmentOperationsRoleMessage,
   DisassociateEnvironmentOperationsRoleResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3644,9 +3612,8 @@ export const disassociateEnvironmentOperationsRole: (
  * Returns a list of the available solution stack names, with the public version first and
  * then in reverse chronological order.
  */
-export const listAvailableSolutionStacks: (
-  input: ListAvailableSolutionStacksRequest,
-) => effect.Effect<
+export const listAvailableSolutionStacks: API.OperationMethod<
+  ListAvailableSolutionStacksRequest,
   ListAvailableSolutionStacksResultMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3662,14 +3629,12 @@ export const listAvailableSolutionStacks: (
  * For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk
  * Platforms Glossary.
  */
-export const listPlatformBranches: {
-  (
-    input: ListPlatformBranchesRequest,
-  ): effect.Effect<
-    ListPlatformBranchesResult,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlatformBranches: API.OperationMethod<
+  ListPlatformBranchesRequest,
+  ListPlatformBranchesResult,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlatformBranchesRequest,
   ) => stream.Stream<
@@ -3702,16 +3667,14 @@ export const listPlatformBranches: {
  * For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk
  * Platforms Glossary.
  */
-export const listPlatformVersions: {
-  (
-    input: ListPlatformVersionsRequest,
-  ): effect.Effect<
-    ListPlatformVersionsResult,
-    | ElasticBeanstalkServiceException
-    | InsufficientPrivilegesException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlatformVersions: API.OperationMethod<
+  ListPlatformVersionsRequest,
+  ListPlatformVersionsResult,
+  | ElasticBeanstalkServiceException
+  | InsufficientPrivilegesException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlatformVersionsRequest,
   ) => stream.Stream<
@@ -3748,9 +3711,8 @@ export const listPlatformVersions: {
  * Tagging Application
  * Resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceMessage,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
   ResourceTagsDescriptionMessage,
   | InsufficientPrivilegesException
   | ResourceNotFoundException
@@ -3770,9 +3732,8 @@ export const listTagsForResource: (
  * Deletes and recreates all of the AWS resources (for example: the Auto Scaling group,
  * load balancer, etc.) for a specified environment and forces a restart.
  */
-export const rebuildEnvironment: (
-  input: RebuildEnvironmentMessage,
-) => effect.Effect<
+export const rebuildEnvironment: API.OperationMethod<
+  RebuildEnvironmentMessage,
   RebuildEnvironmentResponse,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3798,9 +3759,8 @@ export const rebuildEnvironment: (
  *
  * - RetrieveEnvironmentInfo
  */
-export const requestEnvironmentInfo: (
-  input: RequestEnvironmentInfoMessage,
-) => effect.Effect<
+export const requestEnvironmentInfo: API.OperationMethod<
+  RequestEnvironmentInfoMessage,
   RequestEnvironmentInfoResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3813,9 +3773,8 @@ export const requestEnvironmentInfo: (
  * Causes the environment to restart the application container server running on each
  * Amazon EC2 instance.
  */
-export const restartAppServer: (
-  input: RestartAppServerMessage,
-) => effect.Effect<
+export const restartAppServer: API.OperationMethod<
+  RestartAppServerMessage,
   RestartAppServerResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3832,9 +3791,8 @@ export const restartAppServer: (
  *
  * - RequestEnvironmentInfo
  */
-export const retrieveEnvironmentInfo: (
-  input: RetrieveEnvironmentInfoMessage,
-) => effect.Effect<
+export const retrieveEnvironmentInfo: API.OperationMethod<
+  RetrieveEnvironmentInfoMessage,
   RetrieveEnvironmentInfoResultMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3846,9 +3804,8 @@ export const retrieveEnvironmentInfo: (
 /**
  * Swaps the CNAMEs of two environments.
  */
-export const swapEnvironmentCNAMEs: (
-  input: SwapEnvironmentCNAMEsMessage,
-) => effect.Effect<
+export const swapEnvironmentCNAMEs: API.OperationMethod<
+  SwapEnvironmentCNAMEsMessage,
   SwapEnvironmentCNAMEsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3860,9 +3817,8 @@ export const swapEnvironmentCNAMEs: (
 /**
  * Terminates the specified environment.
  */
-export const terminateEnvironment: (
-  input: TerminateEnvironmentMessage,
-) => effect.Effect<
+export const terminateEnvironment: API.OperationMethod<
+  TerminateEnvironmentMessage,
   EnvironmentDescription,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3877,9 +3833,8 @@ export const terminateEnvironment: (
  * If a property (for example, `description`) is not provided, the value
  * remains unchanged. To clear these properties, specify an empty string.
  */
-export const updateApplication: (
-  input: UpdateApplicationMessage,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationMessage,
   ApplicationDescriptionMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3891,9 +3846,8 @@ export const updateApplication: (
 /**
  * Modifies lifecycle settings for an application.
  */
-export const updateApplicationResourceLifecycle: (
-  input: UpdateApplicationResourceLifecycleMessage,
-) => effect.Effect<
+export const updateApplicationResourceLifecycle: API.OperationMethod<
+  UpdateApplicationResourceLifecycleMessage,
   ApplicationResourceLifecycleDescriptionMessage,
   InsufficientPrivilegesException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3908,9 +3862,8 @@ export const updateApplicationResourceLifecycle: (
  * If a property (for example, `description`) is not provided, the value
  * remains unchanged. To clear properties, specify an empty string.
  */
-export const updateApplicationVersion: (
-  input: UpdateApplicationVersionMessage,
-) => effect.Effect<
+export const updateApplicationVersion: API.OperationMethod<
+  UpdateApplicationVersionMessage,
   ApplicationVersionDescriptionMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3930,9 +3883,8 @@ export const updateApplicationVersion: (
  *
  * - DescribeConfigurationOptions
  */
-export const updateConfigurationTemplate: (
-  input: UpdateConfigurationTemplateMessage,
-) => effect.Effect<
+export const updateConfigurationTemplate: API.OperationMethod<
+  UpdateConfigurationTemplateMessage,
   ConfigurationSettingsDescription,
   InsufficientPrivilegesException | TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3954,9 +3906,8 @@ export const updateConfigurationTemplate: (
  * environment returns two setting descriptions with different `DeploymentStatus`
  * values.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentMessage,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentMessage,
   EnvironmentDescription,
   InsufficientPrivilegesException | TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3988,9 +3939,8 @@ export const updateEnvironment: (
  *
  * For details about creating a custom user policy, see Creating a Custom User Policy.
  */
-export const updateTagsForResource: (
-  input: UpdateTagsForResourceMessage,
-) => effect.Effect<
+export const updateTagsForResource: API.OperationMethod<
+  UpdateTagsForResourceMessage,
   UpdateTagsForResourceResponse,
   | InsufficientPrivilegesException
   | OperationInProgressException
@@ -4017,9 +3967,8 @@ export const updateTagsForResource: (
  * This action returns a list of messages indicating any errors or warnings associated
  * with the selection of option values.
  */
-export const validateConfigurationSettings: (
-  input: ValidateConfigurationSettingsMessage,
-) => effect.Effect<
+export const validateConfigurationSettings: API.OperationMethod<
+  ValidateConfigurationSettingsMessage,
   ConfigurationSettingsValidationMessages,
   InsufficientPrivilegesException | TooManyBucketsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

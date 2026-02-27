@@ -5252,9 +5252,8 @@ export class TestFailoverNotAvailableFault extends S.TaggedErrorClass<TestFailov
  * Amazon ElastiCache in the ElastiCache User
  * Guide.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceMessage,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceMessage,
   TagListMessage,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -5304,9 +5303,8 @@ export const addTagsToResource: (
  * You cannot authorize ingress from an Amazon EC2 security group in one region to an
  * ElastiCache cluster in another region.
  */
-export const authorizeCacheSecurityGroupIngress: (
-  input: AuthorizeCacheSecurityGroupIngressMessage,
-) => effect.Effect<
+export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
+  AuthorizeCacheSecurityGroupIngressMessage,
   AuthorizeCacheSecurityGroupIngressResult,
   | AuthorizationAlreadyExistsFault
   | CacheSecurityGroupNotFoundFault
@@ -5331,9 +5329,8 @@ export const authorizeCacheSecurityGroupIngress: (
  * see Applying Service
  * Updates.
  */
-export const batchApplyUpdateAction: (
-  input: BatchApplyUpdateActionMessage,
-) => effect.Effect<
+export const batchApplyUpdateAction: API.OperationMethod<
+  BatchApplyUpdateActionMessage,
   UpdateActionResultsMessage,
   InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5347,9 +5344,8 @@ export const batchApplyUpdateAction: (
  * see Stopping
  * Service Updates.
  */
-export const batchStopUpdateAction: (
-  input: BatchStopUpdateActionMessage,
-) => effect.Effect<
+export const batchStopUpdateAction: API.OperationMethod<
+  BatchStopUpdateActionMessage,
   UpdateActionResultsMessage,
   InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5361,9 +5357,8 @@ export const batchStopUpdateAction: (
 /**
  * Complete the migration of data.
  */
-export const completeMigration: (
-  input: CompleteMigrationMessage,
-) => effect.Effect<
+export const completeMigration: API.OperationMethod<
+  CompleteMigrationMessage,
   CompleteMigrationResponse,
   | InvalidReplicationGroupStateFault
   | ReplicationGroupNotFoundFault
@@ -5382,9 +5377,8 @@ export const completeMigration: (
 /**
  * Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
-export const copyServerlessCacheSnapshot: (
-  input: CopyServerlessCacheSnapshotRequest,
-) => effect.Effect<
+export const copyServerlessCacheSnapshot: API.OperationMethod<
+  CopyServerlessCacheSnapshotRequest,
   CopyServerlessCacheSnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -5483,9 +5477,8 @@ export const copyServerlessCacheSnapshot: (
  * For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the
  * ElastiCache User Guide.
  */
-export const copySnapshot: (
-  input: CopySnapshotMessage,
-) => effect.Effect<
+export const copySnapshot: API.OperationMethod<
+  CopySnapshotMessage,
   CopySnapshotResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -5515,9 +5508,8 @@ export const copySnapshot: (
  *
  * This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
  */
-export const createCacheCluster: (
-  input: CreateCacheClusterMessage,
-) => effect.Effect<
+export const createCacheCluster: API.OperationMethod<
+  CreateCacheClusterMessage,
   CreateCacheClusterResult,
   | CacheClusterAlreadyExistsFault
   | CacheParameterGroupNotFoundFault
@@ -5570,9 +5562,8 @@ export const createCacheCluster: (
  * - Parameters and
  * Parameter Groups in the ElastiCache User Guide.
  */
-export const createCacheParameterGroup: (
-  input: CreateCacheParameterGroupMessage,
-) => effect.Effect<
+export const createCacheParameterGroup: API.OperationMethod<
+  CreateCacheParameterGroupMessage,
   CreateCacheParameterGroupResult,
   | CacheParameterGroupAlreadyExistsFault
   | CacheParameterGroupQuotaExceededFault
@@ -5602,9 +5593,8 @@ export const createCacheParameterGroup: (
  * Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a
  * VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
  */
-export const createCacheSecurityGroup: (
-  input: CreateCacheSecurityGroupMessage,
-) => effect.Effect<
+export const createCacheSecurityGroup: API.OperationMethod<
+  CreateCacheSecurityGroupMessage,
   CreateCacheSecurityGroupResult,
   | CacheSecurityGroupAlreadyExistsFault
   | CacheSecurityGroupQuotaExceededFault
@@ -5630,9 +5620,8 @@ export const createCacheSecurityGroup: (
  * Use this parameter only when you are creating a cluster in an Amazon Virtual Private
  * Cloud (Amazon VPC).
  */
-export const createCacheSubnetGroup: (
-  input: CreateCacheSubnetGroupMessage,
-) => effect.Effect<
+export const createCacheSubnetGroup: API.OperationMethod<
+  CreateCacheSubnetGroupMessage,
   CreateCacheSubnetGroupResult,
   | CacheSubnetGroupAlreadyExistsFault
   | CacheSubnetGroupQuotaExceededFault
@@ -5668,9 +5657,8 @@ export const createCacheSubnetGroup: (
  * name of the primary cluster that accepts writes and will replicate updates to
  * the secondary cluster.
  */
-export const createGlobalReplicationGroup: (
-  input: CreateGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const createGlobalReplicationGroup: API.OperationMethod<
+  CreateGlobalReplicationGroupMessage,
   CreateGlobalReplicationGroupResult,
   | GlobalReplicationGroupAlreadyExistsFault
   | InvalidParameterValueException
@@ -5727,9 +5715,8 @@ export const createGlobalReplicationGroup: (
  *
  * This operation is valid for Valkey and Redis OSS only.
  */
-export const createReplicationGroup: (
-  input: CreateReplicationGroupMessage,
-) => effect.Effect<
+export const createReplicationGroup: API.OperationMethod<
+  CreateReplicationGroupMessage,
   CreateReplicationGroupResult,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -5780,9 +5767,8 @@ export const createReplicationGroup: (
 /**
  * Creates a serverless cache.
  */
-export const createServerlessCache: (
-  input: CreateServerlessCacheRequest,
-) => effect.Effect<
+export const createServerlessCache: API.OperationMethod<
+  CreateServerlessCacheRequest,
   CreateServerlessCacheResponse,
   | InvalidCredentialsException
   | InvalidParameterCombinationException
@@ -5817,9 +5803,8 @@ export const createServerlessCache: (
 /**
  * This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
-export const createServerlessCacheSnapshot: (
-  input: CreateServerlessCacheSnapshotRequest,
-) => effect.Effect<
+export const createServerlessCacheSnapshot: API.OperationMethod<
+  CreateServerlessCacheSnapshotRequest,
   CreateServerlessCacheSnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -5851,9 +5836,8 @@ export const createServerlessCacheSnapshot: (
  *
  * This operation is valid for Valkey or Redis OSS only.
  */
-export const createSnapshot: (
-  input: CreateSnapshotMessage,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotMessage,
   CreateSnapshotResult,
   | CacheClusterNotFoundFault
   | InvalidCacheClusterStateFault
@@ -5887,9 +5871,8 @@ export const createSnapshot: (
  * For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more information, see
  * Using Role Based Access Control (RBAC).
  */
-export const createUser: (
-  input: CreateUserMessage,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserMessage,
   User,
   | DuplicateUserNameFault
   | InvalidParameterCombinationException
@@ -5917,9 +5900,8 @@ export const createUser: (
  * For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more
  * information, see Using Role Based Access Control (RBAC)
  */
-export const createUserGroup: (
-  input: CreateUserGroupMessage,
-) => effect.Effect<
+export const createUserGroup: API.OperationMethod<
+  CreateUserGroupMessage,
   UserGroup,
   | DefaultUserRequired
   | DuplicateUserNameFault
@@ -5948,9 +5930,8 @@ export const createUserGroup: (
 /**
  * Decreases the number of node groups in a Global datastore
  */
-export const decreaseNodeGroupsInGlobalReplicationGroup: (
-  input: DecreaseNodeGroupsInGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
+  DecreaseNodeGroupsInGlobalReplicationGroupMessage,
   DecreaseNodeGroupsInGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -5974,9 +5955,8 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: (
  * a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no
  * cluster down time.
  */
-export const decreaseReplicaCount: (
-  input: DecreaseReplicaCountMessage,
-) => effect.Effect<
+export const decreaseReplicaCount: API.OperationMethod<
+  DecreaseReplicaCountMessage,
   DecreaseReplicaCountResult,
   | ClusterQuotaForCustomerExceededFault
   | InsufficientCacheClusterCapacityFault
@@ -6032,9 +6012,8 @@ export const decreaseReplicaCount: (
  *
  * - A cluster that is not in the `available` state
  */
-export const deleteCacheCluster: (
-  input: DeleteCacheClusterMessage,
-) => effect.Effect<
+export const deleteCacheCluster: API.OperationMethod<
+  DeleteCacheClusterMessage,
   DeleteCacheClusterResult,
   | CacheClusterNotFoundFault
   | InvalidCacheClusterStateFault
@@ -6063,9 +6042,8 @@ export const deleteCacheCluster: (
  * if it is associated with any cache clusters. You cannot delete the default cache
  * parameter groups in your account.
  */
-export const deleteCacheParameterGroup: (
-  input: DeleteCacheParameterGroupMessage,
-) => effect.Effect<
+export const deleteCacheParameterGroup: API.OperationMethod<
+  DeleteCacheParameterGroupMessage,
   DeleteCacheParameterGroupResponse,
   | CacheParameterGroupNotFoundFault
   | InvalidCacheParameterGroupStateFault
@@ -6089,9 +6067,8 @@ export const deleteCacheParameterGroup: (
  * You cannot delete a cache security group if it is associated with any
  * clusters.
  */
-export const deleteCacheSecurityGroup: (
-  input: DeleteCacheSecurityGroupMessage,
-) => effect.Effect<
+export const deleteCacheSecurityGroup: API.OperationMethod<
+  DeleteCacheSecurityGroupMessage,
   DeleteCacheSecurityGroupResponse,
   | CacheSecurityGroupNotFoundFault
   | InvalidCacheSecurityGroupStateFault
@@ -6115,9 +6092,8 @@ export const deleteCacheSecurityGroup: (
  * You cannot delete a default cache subnet group or one that is associated with any
  * clusters.
  */
-export const deleteCacheSubnetGroup: (
-  input: DeleteCacheSubnetGroupMessage,
-) => effect.Effect<
+export const deleteCacheSubnetGroup: API.OperationMethod<
+  DeleteCacheSubnetGroupMessage,
   DeleteCacheSubnetGroupResponse,
   CacheSubnetGroupInUse | CacheSubnetGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6147,9 +6123,8 @@ export const deleteCacheSubnetGroup: (
  * immediately begins deleting the selected resources; you cannot cancel or revert this
  * operation.
  */
-export const deleteGlobalReplicationGroup: (
-  input: DeleteGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const deleteGlobalReplicationGroup: API.OperationMethod<
+  DeleteGlobalReplicationGroupMessage,
   DeleteGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -6181,9 +6156,8 @@ export const deleteGlobalReplicationGroup: (
  *
  * - This operation is valid for Redis OSS only.
  */
-export const deleteReplicationGroup: (
-  input: DeleteReplicationGroupMessage,
-) => effect.Effect<
+export const deleteReplicationGroup: API.OperationMethod<
+  DeleteReplicationGroupMessage,
   DeleteReplicationGroupResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -6213,9 +6187,8 @@ export const deleteReplicationGroup: (
  * `CreateServerlessCacheSnapshot` permission is required to create a final snapshot.
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
-export const deleteServerlessCache: (
-  input: DeleteServerlessCacheRequest,
-) => effect.Effect<
+export const deleteServerlessCache: API.OperationMethod<
+  DeleteServerlessCacheRequest,
   DeleteServerlessCacheResponse,
   | InvalidCredentialsException
   | InvalidParameterCombinationException
@@ -6242,9 +6215,8 @@ export const deleteServerlessCache: (
 /**
  * Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
-export const deleteServerlessCacheSnapshot: (
-  input: DeleteServerlessCacheSnapshotRequest,
-) => effect.Effect<
+export const deleteServerlessCacheSnapshot: API.OperationMethod<
+  DeleteServerlessCacheSnapshotRequest,
   DeleteServerlessCacheSnapshotResponse,
   | InvalidParameterValueException
   | InvalidServerlessCacheSnapshotStateFault
@@ -6269,9 +6241,8 @@ export const deleteServerlessCacheSnapshot: (
  *
  * This operation is valid for Valkey or Redis OSS only.
  */
-export const deleteSnapshot: (
-  input: DeleteSnapshotMessage,
-) => effect.Effect<
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotMessage,
   DeleteSnapshotResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -6294,9 +6265,8 @@ export const deleteSnapshot: (
  * all user groups and in turn removed from all replication groups. For more information,
  * see Using Role Based Access Control (RBAC).
  */
-export const deleteUser: (
-  input: DeleteUserMessage,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserMessage,
   User,
   | DefaultUserAssociatedToUserGroupFault
   | InvalidParameterValueException
@@ -6321,9 +6291,8 @@ export const deleteUser: (
  * be disassociated from the replication group before it can be deleted. For more
  * information, see Using Role Based Access Control (RBAC).
  */
-export const deleteUserGroup: (
-  input: DeleteUserGroupMessage,
-) => effect.Effect<
+export const deleteUserGroup: API.OperationMethod<
+  DeleteUserGroupMessage,
   UserGroup,
   | InvalidParameterValueException
   | InvalidUserGroupStateFault
@@ -6364,17 +6333,15 @@ export const deleteUserGroup: (
  * If cache nodes are currently being removed from the cluster, no endpoint information
  * for the removed nodes is displayed.
  */
-export const describeCacheClusters: {
-  (
-    input: DescribeCacheClustersMessage,
-  ): effect.Effect<
-    CacheClusterMessage,
-    | CacheClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCacheClusters: API.OperationMethod<
+  DescribeCacheClustersMessage,
+  CacheClusterMessage,
+  | CacheClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCacheClustersMessage,
   ) => stream.Stream<
@@ -6413,14 +6380,12 @@ export const describeCacheClusters: {
 /**
  * Returns a list of the available cache engines and their versions.
  */
-export const describeCacheEngineVersions: {
-  (
-    input: DescribeCacheEngineVersionsMessage,
-  ): effect.Effect<
-    CacheEngineVersionMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCacheEngineVersions: API.OperationMethod<
+  DescribeCacheEngineVersionsMessage,
+  CacheEngineVersionMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCacheEngineVersionsMessage,
   ) => stream.Stream<
@@ -6450,17 +6415,15 @@ export const describeCacheEngineVersions: {
  * Returns a list of cache parameter group descriptions. If a cache parameter group name
  * is specified, the list contains only the descriptions for that group.
  */
-export const describeCacheParameterGroups: {
-  (
-    input: DescribeCacheParameterGroupsMessage,
-  ): effect.Effect<
-    CacheParameterGroupsMessage,
-    | CacheParameterGroupNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCacheParameterGroups: API.OperationMethod<
+  DescribeCacheParameterGroupsMessage,
+  CacheParameterGroupsMessage,
+  | CacheParameterGroupNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCacheParameterGroupsMessage,
   ) => stream.Stream<
@@ -6499,17 +6462,15 @@ export const describeCacheParameterGroups: {
 /**
  * Returns the detailed parameter list for a particular cache parameter group.
  */
-export const describeCacheParameters: {
-  (
-    input: DescribeCacheParametersMessage,
-  ): effect.Effect<
-    CacheParameterGroupDetails,
-    | CacheParameterGroupNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCacheParameters: API.OperationMethod<
+  DescribeCacheParametersMessage,
+  CacheParameterGroupDetails,
+  | CacheParameterGroupNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCacheParametersMessage,
   ) => stream.Stream<
@@ -6550,17 +6511,15 @@ export const describeCacheParameters: {
  * specified, the list contains only the description of that group. This applicable only
  * when you have ElastiCache in Classic setup
  */
-export const describeCacheSecurityGroups: {
-  (
-    input: DescribeCacheSecurityGroupsMessage,
-  ): effect.Effect<
-    CacheSecurityGroupMessage,
-    | CacheSecurityGroupNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCacheSecurityGroups: API.OperationMethod<
+  DescribeCacheSecurityGroupsMessage,
+  CacheSecurityGroupMessage,
+  | CacheSecurityGroupNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCacheSecurityGroupsMessage,
   ) => stream.Stream<
@@ -6602,14 +6561,12 @@ export const describeCacheSecurityGroups: {
  * when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by
  * default.
  */
-export const describeCacheSubnetGroups: {
-  (
-    input: DescribeCacheSubnetGroupsMessage,
-  ): effect.Effect<
-    CacheSubnetGroupMessage,
-    CacheSubnetGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCacheSubnetGroups: API.OperationMethod<
+  DescribeCacheSubnetGroupsMessage,
+  CacheSubnetGroupMessage,
+  CacheSubnetGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCacheSubnetGroupsMessage,
   ) => stream.Stream<
@@ -6639,16 +6596,14 @@ export const describeCacheSubnetGroups: {
  * Returns the default engine and system parameter information for the specified cache
  * engine.
  */
-export const describeEngineDefaultParameters: {
-  (
-    input: DescribeEngineDefaultParametersMessage,
-  ): effect.Effect<
-    DescribeEngineDefaultParametersResult,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEngineDefaultParameters: API.OperationMethod<
+  DescribeEngineDefaultParametersMessage,
+  DescribeEngineDefaultParametersResult,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
@@ -6689,16 +6644,14 @@ export const describeEngineDefaultParameters: {
  * By default, only the events occurring within the last hour are returned; however, you
  * can retrieve up to 14 days' worth of events if necessary.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    EventsMessage,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  EventsMessage,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -6735,17 +6688,15 @@ export const describeEvents: {
  * Returns information about a particular global replication group. If no identifier is
  * specified, returns information about all Global datastores.
  */
-export const describeGlobalReplicationGroups: {
-  (
-    input: DescribeGlobalReplicationGroupsMessage,
-  ): effect.Effect<
-    DescribeGlobalReplicationGroupsResult,
-    | GlobalReplicationGroupNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGlobalReplicationGroups: API.OperationMethod<
+  DescribeGlobalReplicationGroupsMessage,
+  DescribeGlobalReplicationGroupsResult,
+  | GlobalReplicationGroupNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGlobalReplicationGroupsMessage,
   ) => stream.Stream<
@@ -6788,17 +6739,15 @@ export const describeGlobalReplicationGroups: {
  *
  * This operation is valid for Valkey or Redis OSS only.
  */
-export const describeReplicationGroups: {
-  (
-    input: DescribeReplicationGroupsMessage,
-  ): effect.Effect<
-    ReplicationGroupMessage,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReplicationGroupNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationGroups: API.OperationMethod<
+  DescribeReplicationGroupsMessage,
+  ReplicationGroupMessage,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReplicationGroupNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationGroupsMessage,
   ) => stream.Stream<
@@ -6838,17 +6787,15 @@ export const describeReplicationGroups: {
  * Returns information about reserved cache nodes for this account, or about a specified
  * reserved cache node.
  */
-export const describeReservedCacheNodes: {
-  (
-    input: DescribeReservedCacheNodesMessage,
-  ): effect.Effect<
-    ReservedCacheNodeMessage,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedCacheNodeNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedCacheNodes: API.OperationMethod<
+  DescribeReservedCacheNodesMessage,
+  ReservedCacheNodeMessage,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedCacheNodeNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedCacheNodesMessage,
   ) => stream.Stream<
@@ -6887,17 +6834,15 @@ export const describeReservedCacheNodes: {
 /**
  * Lists available reserved cache node offerings.
  */
-export const describeReservedCacheNodesOfferings: {
-  (
-    input: DescribeReservedCacheNodesOfferingsMessage,
-  ): effect.Effect<
-    ReservedCacheNodesOfferingMessage,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedCacheNodesOfferingNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedCacheNodesOfferings: API.OperationMethod<
+  DescribeReservedCacheNodesOfferingsMessage,
+  ReservedCacheNodesOfferingMessage,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedCacheNodesOfferingNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedCacheNodesOfferingsMessage,
   ) => stream.Stream<
@@ -6938,17 +6883,15 @@ export const describeReservedCacheNodesOfferings: {
  * If no identifier is specified, then the API returns information on all the serverless caches belonging to
  * this Amazon Web Services account.
  */
-export const describeServerlessCaches: {
-  (
-    input: DescribeServerlessCachesRequest,
-  ): effect.Effect<
-    DescribeServerlessCachesResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServerlessCacheNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeServerlessCaches: API.OperationMethod<
+  DescribeServerlessCachesRequest,
+  DescribeServerlessCachesResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServerlessCacheNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeServerlessCachesRequest,
   ) => stream.Stream<
@@ -6990,18 +6933,16 @@ export const describeServerlessCaches: {
  * It can also describe a single serverless cache snapshot, or the snapshots associated with
  * a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
-export const describeServerlessCacheSnapshots: {
-  (
-    input: DescribeServerlessCacheSnapshotsRequest,
-  ): effect.Effect<
-    DescribeServerlessCacheSnapshotsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServerlessCacheNotFoundFault
-    | ServerlessCacheSnapshotNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeServerlessCacheSnapshots: API.OperationMethod<
+  DescribeServerlessCacheSnapshotsRequest,
+  DescribeServerlessCacheSnapshotsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServerlessCacheNotFoundFault
+  | ServerlessCacheSnapshotNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeServerlessCacheSnapshotsRequest,
   ) => stream.Stream<
@@ -7043,17 +6984,15 @@ export const describeServerlessCacheSnapshots: {
 /**
  * Returns details of the service updates
  */
-export const describeServiceUpdates: {
-  (
-    input: DescribeServiceUpdatesMessage,
-  ): effect.Effect<
-    ServiceUpdatesMessage,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceUpdateNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeServiceUpdates: API.OperationMethod<
+  DescribeServiceUpdatesMessage,
+  ServiceUpdatesMessage,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceUpdateNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeServiceUpdatesMessage,
   ) => stream.Stream<
@@ -7097,18 +7036,16 @@ export const describeServiceUpdates: {
  *
  * This operation is valid for Valkey or Redis OSS only.
  */
-export const describeSnapshots: {
-  (
-    input: DescribeSnapshotsMessage,
-  ): effect.Effect<
-    DescribeSnapshotsListMessage,
-    | CacheClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | SnapshotNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSnapshots: API.OperationMethod<
+  DescribeSnapshotsMessage,
+  DescribeSnapshotsListMessage,
+  | CacheClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | SnapshotNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotsMessage,
   ) => stream.Stream<
@@ -7150,16 +7087,14 @@ export const describeSnapshots: {
 /**
  * Returns details of the update actions
  */
-export const describeUpdateActions: {
-  (
-    input: DescribeUpdateActionsMessage,
-  ): effect.Effect<
-    UpdateActionsMessage,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUpdateActions: API.OperationMethod<
+  DescribeUpdateActionsMessage,
+  UpdateActionsMessage,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUpdateActionsMessage,
   ) => stream.Stream<
@@ -7195,17 +7130,15 @@ export const describeUpdateActions: {
 /**
  * Returns a list of user groups.
  */
-export const describeUserGroups: {
-  (
-    input: DescribeUserGroupsMessage,
-  ): effect.Effect<
-    DescribeUserGroupsResult,
-    | InvalidParameterCombinationException
-    | ServiceLinkedRoleNotFoundFault
-    | UserGroupNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUserGroups: API.OperationMethod<
+  DescribeUserGroupsMessage,
+  DescribeUserGroupsResult,
+  | InvalidParameterCombinationException
+  | ServiceLinkedRoleNotFoundFault
+  | UserGroupNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUserGroupsMessage,
   ) => stream.Stream<
@@ -7244,17 +7177,15 @@ export const describeUserGroups: {
 /**
  * Returns a list of users.
  */
-export const describeUsers: {
-  (
-    input: DescribeUsersMessage,
-  ): effect.Effect<
-    DescribeUsersResult,
-    | InvalidParameterCombinationException
-    | ServiceLinkedRoleNotFoundFault
-    | UserNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUsers: API.OperationMethod<
+  DescribeUsersMessage,
+  DescribeUsersResult,
+  | InvalidParameterCombinationException
+  | ServiceLinkedRoleNotFoundFault
+  | UserNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUsersMessage,
   ) => stream.Stream<
@@ -7295,9 +7226,8 @@ export const describeUsers: {
  * The secondary cluster will no longer receive updates from the primary cluster, but will
  * remain as a standalone cluster in that Amazon region.
  */
-export const disassociateGlobalReplicationGroup: (
-  input: DisassociateGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const disassociateGlobalReplicationGroup: API.OperationMethod<
+  DisassociateGlobalReplicationGroupMessage,
   DisassociateGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -7318,9 +7248,8 @@ export const disassociateGlobalReplicationGroup: (
 /**
  * Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
  */
-export const exportServerlessCacheSnapshot: (
-  input: ExportServerlessCacheSnapshotRequest,
-) => effect.Effect<
+export const exportServerlessCacheSnapshot: API.OperationMethod<
+  ExportServerlessCacheSnapshotRequest,
   ExportServerlessCacheSnapshotResponse,
   | InvalidParameterValueException
   | InvalidServerlessCacheSnapshotStateFault
@@ -7342,9 +7271,8 @@ export const exportServerlessCacheSnapshot: (
  * Used to failover the primary region to a secondary region. The secondary region will
  * become primary, and all other clusters will become secondary.
  */
-export const failoverGlobalReplicationGroup: (
-  input: FailoverGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const failoverGlobalReplicationGroup: API.OperationMethod<
+  FailoverGlobalReplicationGroupMessage,
   FailoverGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -7365,9 +7293,8 @@ export const failoverGlobalReplicationGroup: (
 /**
  * Increase the number of node groups in the Global datastore
  */
-export const increaseNodeGroupsInGlobalReplicationGroup: (
-  input: IncreaseNodeGroupsInGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
+  IncreaseNodeGroupsInGlobalReplicationGroupMessage,
   IncreaseNodeGroupsInGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -7389,9 +7316,8 @@ export const increaseNodeGroupsInGlobalReplicationGroup: (
  * a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no
  * cluster down time.
  */
-export const increaseReplicaCount: (
-  input: IncreaseReplicaCountMessage,
-) => effect.Effect<
+export const increaseReplicaCount: API.OperationMethod<
+  IncreaseReplicaCountMessage,
   IncreaseReplicaCountResult,
   | ClusterQuotaForCustomerExceededFault
   | InsufficientCacheClusterCapacityFault
@@ -7434,9 +7360,8 @@ export const increaseReplicaCount: (
  * group, the value of the `CacheNodeType` parameter must be one of the node
  * types returned by this operation.
  */
-export const listAllowedNodeTypeModifications: (
-  input: ListAllowedNodeTypeModificationsMessage,
-) => effect.Effect<
+export const listAllowedNodeTypeModifications: API.OperationMethod<
+  ListAllowedNodeTypeModificationsMessage,
   AllowedNodeTypeModificationsMessage,
   | CacheClusterNotFoundFault
   | InvalidParameterCombinationException
@@ -7466,9 +7391,8 @@ export const listAllowedNodeTypeModifications: (
  * If the cluster is not in the *available* state,
  * `ListTagsForResource` returns an error.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceMessage,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
   TagListMessage,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7512,9 +7436,8 @@ export const listTagsForResource: (
  * Modifies the settings for a cluster. You can use this operation to change one or more
  * cluster configuration parameters by specifying the parameters and the new values.
  */
-export const modifyCacheCluster: (
-  input: ModifyCacheClusterMessage,
-) => effect.Effect<
+export const modifyCacheCluster: API.OperationMethod<
+  ModifyCacheClusterMessage,
   ModifyCacheClusterResult,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7550,9 +7473,8 @@ export const modifyCacheCluster: (
  * Modifies the parameters of a cache parameter group. You can modify up to 20 parameters
  * in a single request by submitting a list parameter name and value pairs.
  */
-export const modifyCacheParameterGroup: (
-  input: ModifyCacheParameterGroupMessage,
-) => effect.Effect<
+export const modifyCacheParameterGroup: API.OperationMethod<
+  ModifyCacheParameterGroupMessage,
   CacheParameterGroupNameMessage,
   | CacheParameterGroupNotFoundFault
   | InvalidCacheParameterGroupStateFault
@@ -7575,9 +7497,8 @@ export const modifyCacheParameterGroup: (
 /**
  * Modifies an existing cache subnet group.
  */
-export const modifyCacheSubnetGroup: (
-  input: ModifyCacheSubnetGroupMessage,
-) => effect.Effect<
+export const modifyCacheSubnetGroup: API.OperationMethod<
+  ModifyCacheSubnetGroupMessage,
   ModifyCacheSubnetGroupResult,
   | CacheSubnetGroupNotFoundFault
   | CacheSubnetQuotaExceededFault
@@ -7600,9 +7521,8 @@ export const modifyCacheSubnetGroup: (
 /**
  * Modifies the settings for a Global datastore.
  */
-export const modifyGlobalReplicationGroup: (
-  input: ModifyGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const modifyGlobalReplicationGroup: API.OperationMethod<
+  ModifyGlobalReplicationGroupMessage,
   ModifyGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -7629,9 +7549,8 @@ export const modifyGlobalReplicationGroup: (
  *
  * This operation is valid for Valkey or Redis OSS only.
  */
-export const modifyReplicationGroup: (
-  input: ModifyReplicationGroupMessage,
-) => effect.Effect<
+export const modifyReplicationGroup: API.OperationMethod<
+  ModifyReplicationGroupMessage,
   ModifyReplicationGroupResult,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7677,9 +7596,8 @@ export const modifyReplicationGroup: (
  * Modifies a replication group's shards (node groups) by allowing you to add shards,
  * remove shards, or rebalance the keyspaces among existing shards.
  */
-export const modifyReplicationGroupShardConfiguration: (
-  input: ModifyReplicationGroupShardConfigurationMessage,
-) => effect.Effect<
+export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
+  ModifyReplicationGroupShardConfigurationMessage,
   ModifyReplicationGroupShardConfigurationResult,
   | InsufficientCacheClusterCapacityFault
   | InvalidCacheClusterStateFault
@@ -7712,9 +7630,8 @@ export const modifyReplicationGroupShardConfiguration: (
 /**
  * This API modifies the attributes of a serverless cache.
  */
-export const modifyServerlessCache: (
-  input: ModifyServerlessCacheRequest,
-) => effect.Effect<
+export const modifyServerlessCache: API.OperationMethod<
+  ModifyServerlessCacheRequest,
   ModifyServerlessCacheResponse,
   | InvalidCredentialsException
   | InvalidParameterCombinationException
@@ -7743,9 +7660,8 @@ export const modifyServerlessCache: (
 /**
  * Changes user password(s) and/or access string.
  */
-export const modifyUser: (
-  input: ModifyUserMessage,
-) => effect.Effect<
+export const modifyUser: API.OperationMethod<
+  ModifyUserMessage,
   User,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -7768,9 +7684,8 @@ export const modifyUser: (
 /**
  * Changes the list of users that belong to the user group.
  */
-export const modifyUserGroup: (
-  input: ModifyUserGroupMessage,
-) => effect.Effect<
+export const modifyUserGroup: API.OperationMethod<
+  ModifyUserGroupMessage,
   UserGroup,
   | DefaultUserRequired
   | DuplicateUserNameFault
@@ -7800,9 +7715,8 @@ export const modifyUserGroup: (
  * Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible
  * for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
  */
-export const purchaseReservedCacheNodesOffering: (
-  input: PurchaseReservedCacheNodesOfferingMessage,
-) => effect.Effect<
+export const purchaseReservedCacheNodesOffering: API.OperationMethod<
+  PurchaseReservedCacheNodesOfferingMessage,
   PurchaseReservedCacheNodesOfferingResult,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -7828,9 +7742,8 @@ export const purchaseReservedCacheNodesOffering: (
  * Redistribute slots to ensure uniform distribution across existing shards in the
  * cluster.
  */
-export const rebalanceSlotsInGlobalReplicationGroup: (
-  input: RebalanceSlotsInGlobalReplicationGroupMessage,
-) => effect.Effect<
+export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
+  RebalanceSlotsInGlobalReplicationGroupMessage,
   RebalanceSlotsInGlobalReplicationGroupResult,
   | GlobalReplicationGroupNotFoundFault
   | InvalidGlobalReplicationGroupStateFault
@@ -7864,9 +7777,8 @@ export const rebalanceSlotsInGlobalReplicationGroup: (
  * If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster
  * reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
  */
-export const rebootCacheCluster: (
-  input: RebootCacheClusterMessage,
-) => effect.Effect<
+export const rebootCacheCluster: API.OperationMethod<
+  RebootCacheClusterMessage,
   RebootCacheClusterResult,
   CacheClusterNotFoundFault | InvalidCacheClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7882,9 +7794,8 @@ export const rebootCacheCluster: (
  * replication group. When you add or remove tags on replication groups, those actions will
  * be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceMessage,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceMessage,
   TagListMessage,
   | CacheClusterNotFoundFault
   | CacheParameterGroupNotFoundFault
@@ -7932,9 +7843,8 @@ export const removeTagsFromResource: (
  * reset the entire cache parameter group, specify the `ResetAllParameters` and
  * `CacheParameterGroupName` parameters.
  */
-export const resetCacheParameterGroup: (
-  input: ResetCacheParameterGroupMessage,
-) => effect.Effect<
+export const resetCacheParameterGroup: API.OperationMethod<
+  ResetCacheParameterGroupMessage,
   CacheParameterGroupNameMessage,
   | CacheParameterGroupNotFoundFault
   | InvalidCacheParameterGroupStateFault
@@ -7958,9 +7868,8 @@ export const resetCacheParameterGroup: (
  * Revokes ingress from a cache security group. Use this operation to disallow access
  * from an Amazon EC2 security group that had been previously authorized.
  */
-export const revokeCacheSecurityGroupIngress: (
-  input: RevokeCacheSecurityGroupIngressMessage,
-) => effect.Effect<
+export const revokeCacheSecurityGroupIngress: API.OperationMethod<
+  RevokeCacheSecurityGroupIngressMessage,
   RevokeCacheSecurityGroupIngressResult,
   | AuthorizationNotFoundFault
   | CacheSecurityGroupNotFoundFault
@@ -7983,9 +7892,8 @@ export const revokeCacheSecurityGroupIngress: (
 /**
  * Start the migration of data.
  */
-export const startMigration: (
-  input: StartMigrationMessage,
-) => effect.Effect<
+export const startMigration: API.OperationMethod<
+  StartMigrationMessage,
   StartMigrationResponse,
   | InvalidParameterValueException
   | InvalidReplicationGroupStateFault
@@ -8056,9 +7964,8 @@ export const startMigration: (
  * Also see, Testing
  * Multi-AZ in the *ElastiCache User Guide*.
  */
-export const testFailover: (
-  input: TestFailoverMessage,
-) => effect.Effect<
+export const testFailover: API.OperationMethod<
+  TestFailoverMessage,
   TestFailoverResult,
   | APICallRateForCustomerExceededFault
   | InvalidCacheClusterStateFault
@@ -8089,9 +7996,8 @@ export const testFailover: (
 /**
  * Async API to test connection between source and target replication group.
  */
-export const testMigration: (
-  input: TestMigrationMessage,
-) => effect.Effect<
+export const testMigration: API.OperationMethod<
+  TestMigrationMessage,
   TestMigrationResponse,
   | InvalidParameterValueException
   | InvalidReplicationGroupStateFault

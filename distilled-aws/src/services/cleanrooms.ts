@@ -6801,9 +6801,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * Lists all of the tags that have been added to a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6815,9 +6814,8 @@ export const listTagsForResource: (
 /**
  * Tags a resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6829,9 +6827,8 @@ export const tagResource: (
 /**
  * Removes a tag or list of tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6843,9 +6840,8 @@ export const untagResource: (
 /**
  * Creates a new analysis template.
  */
-export const createAnalysisTemplate: (
-  input: CreateAnalysisTemplateInput,
-) => effect.Effect<
+export const createAnalysisTemplate: API.OperationMethod<
+  CreateAnalysisTemplateInput,
   CreateAnalysisTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6872,9 +6868,8 @@ export const createAnalysisTemplate: (
 /**
  * Retrieves an analysis template.
  */
-export const getAnalysisTemplate: (
-  input: GetAnalysisTemplateInput,
-) => effect.Effect<
+export const getAnalysisTemplate: API.OperationMethod<
+  GetAnalysisTemplateInput,
   GetAnalysisTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6897,9 +6892,8 @@ export const getAnalysisTemplate: (
 /**
  * Updates the analysis template metadata.
  */
-export const updateAnalysisTemplate: (
-  input: UpdateAnalysisTemplateInput,
-) => effect.Effect<
+export const updateAnalysisTemplate: API.OperationMethod<
+  UpdateAnalysisTemplateInput,
   UpdateAnalysisTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6922,9 +6916,8 @@ export const updateAnalysisTemplate: (
 /**
  * Deletes an analysis template.
  */
-export const deleteAnalysisTemplate: (
-  input: DeleteAnalysisTemplateInput,
-) => effect.Effect<
+export const deleteAnalysisTemplate: API.OperationMethod<
+  DeleteAnalysisTemplateInput,
   DeleteAnalysisTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -6947,19 +6940,17 @@ export const deleteAnalysisTemplate: (
 /**
  * Lists analysis templates that the caller owns.
  */
-export const listAnalysisTemplates: {
-  (
-    input: ListAnalysisTemplatesInput,
-  ): effect.Effect<
-    ListAnalysisTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnalysisTemplates: API.OperationMethod<
+  ListAnalysisTemplatesInput,
+  ListAnalysisTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnalysisTemplatesInput,
   ) => stream.Stream<
@@ -7004,9 +6995,8 @@ export const listAnalysisTemplates: {
 /**
  * Creates a new collaboration.
  */
-export const createCollaboration: (
-  input: CreateCollaborationInput,
-) => effect.Effect<
+export const createCollaboration: API.OperationMethod<
+  CreateCollaborationInput,
   CreateCollaborationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7029,9 +7019,8 @@ export const createCollaboration: (
 /**
  * Returns metadata about a collaboration.
  */
-export const getCollaboration: (
-  input: GetCollaborationInput,
-) => effect.Effect<
+export const getCollaboration: API.OperationMethod<
+  GetCollaborationInput,
   GetCollaborationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7052,9 +7041,8 @@ export const getCollaboration: (
 /**
  * Updates collaboration metadata and can only be called by the collaboration owner.
  */
-export const updateCollaboration: (
-  input: UpdateCollaborationInput,
-) => effect.Effect<
+export const updateCollaboration: API.OperationMethod<
+  UpdateCollaborationInput,
   UpdateCollaborationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7075,9 +7063,8 @@ export const updateCollaboration: (
 /**
  * Deletes a collaboration. It can only be called by the collaboration owner.
  */
-export const deleteCollaboration: (
-  input: DeleteCollaborationInput,
-) => effect.Effect<
+export const deleteCollaboration: API.OperationMethod<
+  DeleteCollaborationInput,
   DeleteCollaborationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7098,18 +7085,16 @@ export const deleteCollaboration: (
 /**
  * Lists collaborations the caller owns, is active in, or has been invited to.
  */
-export const listCollaborations: {
-  (
-    input: ListCollaborationsInput,
-  ): effect.Effect<
-    ListCollaborationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborations: API.OperationMethod<
+  ListCollaborationsInput,
+  ListCollaborationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationsInput,
   ) => stream.Stream<
@@ -7151,9 +7136,8 @@ export const listCollaborations: {
 /**
  * Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
  */
-export const batchGetCollaborationAnalysisTemplate: (
-  input: BatchGetCollaborationAnalysisTemplateInput,
-) => effect.Effect<
+export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
+  BatchGetCollaborationAnalysisTemplateInput,
   BatchGetCollaborationAnalysisTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7176,9 +7160,8 @@ export const batchGetCollaborationAnalysisTemplate: (
 /**
  * Retrieves multiple schemas by their identifiers.
  */
-export const batchGetSchema: (
-  input: BatchGetSchemaInput,
-) => effect.Effect<
+export const batchGetSchema: API.OperationMethod<
+  BatchGetSchemaInput,
   BatchGetSchemaOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7201,9 +7184,8 @@ export const batchGetSchema: (
 /**
  * Retrieves multiple analysis rule schemas.
  */
-export const batchGetSchemaAnalysisRule: (
-  input: BatchGetSchemaAnalysisRuleInput,
-) => effect.Effect<
+export const batchGetSchemaAnalysisRule: API.OperationMethod<
+  BatchGetSchemaAnalysisRuleInput,
   BatchGetSchemaAnalysisRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7226,9 +7208,8 @@ export const batchGetSchemaAnalysisRule: (
 /**
  * Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
  */
-export const createCollaborationChangeRequest: (
-  input: CreateCollaborationChangeRequestInput,
-) => effect.Effect<
+export const createCollaborationChangeRequest: API.OperationMethod<
+  CreateCollaborationChangeRequestInput,
   CreateCollaborationChangeRequestOutput,
   | AccessDeniedException
   | ConflictException
@@ -7255,9 +7236,8 @@ export const createCollaborationChangeRequest: (
 /**
  * Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
  */
-export const deleteMember: (
-  input: DeleteMemberInput,
-) => effect.Effect<
+export const deleteMember: API.OperationMethod<
+  DeleteMemberInput,
   DeleteMemberOutput,
   | AccessDeniedException
   | ConflictException
@@ -7282,9 +7262,8 @@ export const deleteMember: (
 /**
  * Retrieves an analysis template within a collaboration.
  */
-export const getCollaborationAnalysisTemplate: (
-  input: GetCollaborationAnalysisTemplateInput,
-) => effect.Effect<
+export const getCollaborationAnalysisTemplate: API.OperationMethod<
+  GetCollaborationAnalysisTemplateInput,
   GetCollaborationAnalysisTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7307,9 +7286,8 @@ export const getCollaborationAnalysisTemplate: (
 /**
  * Retrieves detailed information about a specific collaboration change request.
  */
-export const getCollaborationChangeRequest: (
-  input: GetCollaborationChangeRequestInput,
-) => effect.Effect<
+export const getCollaborationChangeRequest: API.OperationMethod<
+  GetCollaborationChangeRequestInput,
   GetCollaborationChangeRequestOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7332,9 +7310,8 @@ export const getCollaborationChangeRequest: (
 /**
  * Retrieves a configured audience model association within a collaboration.
  */
-export const getCollaborationConfiguredAudienceModelAssociation: (
-  input: GetCollaborationConfiguredAudienceModelAssociationInput,
-) => effect.Effect<
+export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMethod<
+  GetCollaborationConfiguredAudienceModelAssociationInput,
   GetCollaborationConfiguredAudienceModelAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7357,9 +7334,8 @@ export const getCollaborationConfiguredAudienceModelAssociation: (
 /**
  * Retrieves an ID namespace association from a specific collaboration.
  */
-export const getCollaborationIdNamespaceAssociation: (
-  input: GetCollaborationIdNamespaceAssociationInput,
-) => effect.Effect<
+export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
+  GetCollaborationIdNamespaceAssociationInput,
   GetCollaborationIdNamespaceAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7382,9 +7358,8 @@ export const getCollaborationIdNamespaceAssociation: (
 /**
  * Returns details about a specified privacy budget template.
  */
-export const getCollaborationPrivacyBudgetTemplate: (
-  input: GetCollaborationPrivacyBudgetTemplateInput,
-) => effect.Effect<
+export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
+  GetCollaborationPrivacyBudgetTemplateInput,
   GetCollaborationPrivacyBudgetTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7407,9 +7382,8 @@ export const getCollaborationPrivacyBudgetTemplate: (
 /**
  * Retrieves the schema for a relation within a collaboration.
  */
-export const getSchema: (
-  input: GetSchemaInput,
-) => effect.Effect<
+export const getSchema: API.OperationMethod<
+  GetSchemaInput,
   GetSchemaOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7432,9 +7406,8 @@ export const getSchema: (
 /**
  * Retrieves a schema analysis rule.
  */
-export const getSchemaAnalysisRule: (
-  input: GetSchemaAnalysisRuleInput,
-) => effect.Effect<
+export const getSchemaAnalysisRule: API.OperationMethod<
+  GetSchemaAnalysisRuleInput,
   GetSchemaAnalysisRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7457,19 +7430,17 @@ export const getSchemaAnalysisRule: (
 /**
  * Lists analysis templates within a collaboration.
  */
-export const listCollaborationAnalysisTemplates: {
-  (
-    input: ListCollaborationAnalysisTemplatesInput,
-  ): effect.Effect<
-    ListCollaborationAnalysisTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationAnalysisTemplates: API.OperationMethod<
+  ListCollaborationAnalysisTemplatesInput,
+  ListCollaborationAnalysisTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationAnalysisTemplatesInput,
   ) => stream.Stream<
@@ -7514,19 +7485,17 @@ export const listCollaborationAnalysisTemplates: {
 /**
  * Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
  */
-export const listCollaborationChangeRequests: {
-  (
-    input: ListCollaborationChangeRequestsInput,
-  ): effect.Effect<
-    ListCollaborationChangeRequestsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationChangeRequests: API.OperationMethod<
+  ListCollaborationChangeRequestsInput,
+  ListCollaborationChangeRequestsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationChangeRequestsInput,
   ) => stream.Stream<
@@ -7571,19 +7540,17 @@ export const listCollaborationChangeRequests: {
 /**
  * Lists configured audience model associations within a collaboration.
  */
-export const listCollaborationConfiguredAudienceModelAssociations: {
-  (
-    input: ListCollaborationConfiguredAudienceModelAssociationsInput,
-  ): effect.Effect<
-    ListCollaborationConfiguredAudienceModelAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationConfiguredAudienceModelAssociations: API.OperationMethod<
+  ListCollaborationConfiguredAudienceModelAssociationsInput,
+  ListCollaborationConfiguredAudienceModelAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationConfiguredAudienceModelAssociationsInput,
   ) => stream.Stream<
@@ -7628,19 +7595,17 @@ export const listCollaborationConfiguredAudienceModelAssociations: {
 /**
  * Returns a list of the ID namespace associations in a collaboration.
  */
-export const listCollaborationIdNamespaceAssociations: {
-  (
-    input: ListCollaborationIdNamespaceAssociationsInput,
-  ): effect.Effect<
-    ListCollaborationIdNamespaceAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationIdNamespaceAssociations: API.OperationMethod<
+  ListCollaborationIdNamespaceAssociationsInput,
+  ListCollaborationIdNamespaceAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationIdNamespaceAssociationsInput,
   ) => stream.Stream<
@@ -7685,19 +7650,17 @@ export const listCollaborationIdNamespaceAssociations: {
 /**
  * Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
  */
-export const listCollaborationPrivacyBudgets: {
-  (
-    input: ListCollaborationPrivacyBudgetsInput,
-  ): effect.Effect<
-    ListCollaborationPrivacyBudgetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationPrivacyBudgets: API.OperationMethod<
+  ListCollaborationPrivacyBudgetsInput,
+  ListCollaborationPrivacyBudgetsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationPrivacyBudgetsInput,
   ) => stream.Stream<
@@ -7742,19 +7705,17 @@ export const listCollaborationPrivacyBudgets: {
 /**
  * Returns an array that summarizes each privacy budget template in a specified collaboration.
  */
-export const listCollaborationPrivacyBudgetTemplates: {
-  (
-    input: ListCollaborationPrivacyBudgetTemplatesInput,
-  ): effect.Effect<
-    ListCollaborationPrivacyBudgetTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationPrivacyBudgetTemplates: API.OperationMethod<
+  ListCollaborationPrivacyBudgetTemplatesInput,
+  ListCollaborationPrivacyBudgetTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationPrivacyBudgetTemplatesInput,
   ) => stream.Stream<
@@ -7799,19 +7760,17 @@ export const listCollaborationPrivacyBudgetTemplates: {
 /**
  * Lists all members within a collaboration.
  */
-export const listMembers: {
-  (
-    input: ListMembersInput,
-  ): effect.Effect<
-    ListMembersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersInput,
+  ListMembersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersInput,
   ) => stream.Stream<
@@ -7856,19 +7815,17 @@ export const listMembers: {
 /**
  * Lists the schemas for relations within a collaboration.
  */
-export const listSchemas: {
-  (
-    input: ListSchemasInput,
-  ): effect.Effect<
-    ListSchemasOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemas: API.OperationMethod<
+  ListSchemasInput,
+  ListSchemasOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemasInput,
   ) => stream.Stream<
@@ -7915,9 +7872,8 @@ export const listSchemas: {
  *
  * For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
  */
-export const updateCollaborationChangeRequest: (
-  input: UpdateCollaborationChangeRequestInput,
-) => effect.Effect<
+export const updateCollaborationChangeRequest: API.OperationMethod<
+  UpdateCollaborationChangeRequestInput,
   UpdateCollaborationChangeRequestOutput,
   | AccessDeniedException
   | ConflictException
@@ -7942,9 +7898,8 @@ export const updateCollaborationChangeRequest: (
 /**
  * Provides the details necessary to create a configured audience model association.
  */
-export const createConfiguredAudienceModelAssociation: (
-  input: CreateConfiguredAudienceModelAssociationInput,
-) => effect.Effect<
+export const createConfiguredAudienceModelAssociation: API.OperationMethod<
+  CreateConfiguredAudienceModelAssociationInput,
   CreateConfiguredAudienceModelAssociationOutput,
   | AccessDeniedException
   | ConflictException
@@ -7971,9 +7926,8 @@ export const createConfiguredAudienceModelAssociation: (
 /**
  * Returns information about a configured audience model association.
  */
-export const getConfiguredAudienceModelAssociation: (
-  input: GetConfiguredAudienceModelAssociationInput,
-) => effect.Effect<
+export const getConfiguredAudienceModelAssociation: API.OperationMethod<
+  GetConfiguredAudienceModelAssociationInput,
   GetConfiguredAudienceModelAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -7996,9 +7950,8 @@ export const getConfiguredAudienceModelAssociation: (
 /**
  * Provides the details necessary to update a configured audience model association.
  */
-export const updateConfiguredAudienceModelAssociation: (
-  input: UpdateConfiguredAudienceModelAssociationInput,
-) => effect.Effect<
+export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
+  UpdateConfiguredAudienceModelAssociationInput,
   UpdateConfiguredAudienceModelAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8021,9 +7974,8 @@ export const updateConfiguredAudienceModelAssociation: (
 /**
  * Provides the information necessary to delete a configured audience model association.
  */
-export const deleteConfiguredAudienceModelAssociation: (
-  input: DeleteConfiguredAudienceModelAssociationInput,
-) => effect.Effect<
+export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
+  DeleteConfiguredAudienceModelAssociationInput,
   DeleteConfiguredAudienceModelAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8046,19 +7998,17 @@ export const deleteConfiguredAudienceModelAssociation: (
 /**
  * Lists information about requested configured audience model associations.
  */
-export const listConfiguredAudienceModelAssociations: {
-  (
-    input: ListConfiguredAudienceModelAssociationsInput,
-  ): effect.Effect<
-    ListConfiguredAudienceModelAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfiguredAudienceModelAssociations: API.OperationMethod<
+  ListConfiguredAudienceModelAssociationsInput,
+  ListConfiguredAudienceModelAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfiguredAudienceModelAssociationsInput,
   ) => stream.Stream<
@@ -8103,9 +8053,8 @@ export const listConfiguredAudienceModelAssociations: {
 /**
  * Creates a configured table association. A configured table association links a configured table with a collaboration.
  */
-export const createConfiguredTableAssociation: (
-  input: CreateConfiguredTableAssociationInput,
-) => effect.Effect<
+export const createConfiguredTableAssociation: API.OperationMethod<
+  CreateConfiguredTableAssociationInput,
   CreateConfiguredTableAssociationOutput,
   | AccessDeniedException
   | ConflictException
@@ -8132,9 +8081,8 @@ export const createConfiguredTableAssociation: (
 /**
  * Retrieves a configured table association.
  */
-export const getConfiguredTableAssociation: (
-  input: GetConfiguredTableAssociationInput,
-) => effect.Effect<
+export const getConfiguredTableAssociation: API.OperationMethod<
+  GetConfiguredTableAssociationInput,
   GetConfiguredTableAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8157,9 +8105,8 @@ export const getConfiguredTableAssociation: (
 /**
  * Updates a configured table association.
  */
-export const updateConfiguredTableAssociation: (
-  input: UpdateConfiguredTableAssociationInput,
-) => effect.Effect<
+export const updateConfiguredTableAssociation: API.OperationMethod<
+  UpdateConfiguredTableAssociationInput,
   UpdateConfiguredTableAssociationOutput,
   | AccessDeniedException
   | ConflictException
@@ -8184,9 +8131,8 @@ export const updateConfiguredTableAssociation: (
 /**
  * Deletes a configured table association.
  */
-export const deleteConfiguredTableAssociation: (
-  input: DeleteConfiguredTableAssociationInput,
-) => effect.Effect<
+export const deleteConfiguredTableAssociation: API.OperationMethod<
+  DeleteConfiguredTableAssociationInput,
   DeleteConfiguredTableAssociationOutput,
   | AccessDeniedException
   | ConflictException
@@ -8211,19 +8157,17 @@ export const deleteConfiguredTableAssociation: (
 /**
  * Lists configured table associations for a membership.
  */
-export const listConfiguredTableAssociations: {
-  (
-    input: ListConfiguredTableAssociationsInput,
-  ): effect.Effect<
-    ListConfiguredTableAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfiguredTableAssociations: API.OperationMethod<
+  ListConfiguredTableAssociationsInput,
+  ListConfiguredTableAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfiguredTableAssociationsInput,
   ) => stream.Stream<
@@ -8268,9 +8212,8 @@ export const listConfiguredTableAssociations: {
 /**
  * Creates a new analysis rule for an associated configured table.
  */
-export const createConfiguredTableAssociationAnalysisRule: (
-  input: CreateConfiguredTableAssociationAnalysisRuleInput,
-) => effect.Effect<
+export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
+  CreateConfiguredTableAssociationAnalysisRuleInput,
   CreateConfiguredTableAssociationAnalysisRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -8295,9 +8238,8 @@ export const createConfiguredTableAssociationAnalysisRule: (
 /**
  * Deletes an analysis rule for a configured table association.
  */
-export const deleteConfiguredTableAssociationAnalysisRule: (
-  input: DeleteConfiguredTableAssociationAnalysisRuleInput,
-) => effect.Effect<
+export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
+  DeleteConfiguredTableAssociationAnalysisRuleInput,
   DeleteConfiguredTableAssociationAnalysisRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -8322,9 +8264,8 @@ export const deleteConfiguredTableAssociationAnalysisRule: (
 /**
  * Retrieves the analysis rule for a configured table association.
  */
-export const getConfiguredTableAssociationAnalysisRule: (
-  input: GetConfiguredTableAssociationAnalysisRuleInput,
-) => effect.Effect<
+export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
+  GetConfiguredTableAssociationAnalysisRuleInput,
   GetConfiguredTableAssociationAnalysisRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8347,9 +8288,8 @@ export const getConfiguredTableAssociationAnalysisRule: (
 /**
  * Updates the analysis rule for a configured table association.
  */
-export const updateConfiguredTableAssociationAnalysisRule: (
-  input: UpdateConfiguredTableAssociationAnalysisRuleInput,
-) => effect.Effect<
+export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
+  UpdateConfiguredTableAssociationAnalysisRuleInput,
   UpdateConfiguredTableAssociationAnalysisRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -8374,9 +8314,8 @@ export const updateConfiguredTableAssociationAnalysisRule: (
 /**
  * Creates a new configured table resource.
  */
-export const createConfiguredTable: (
-  input: CreateConfiguredTableInput,
-) => effect.Effect<
+export const createConfiguredTable: API.OperationMethod<
+  CreateConfiguredTableInput,
   CreateConfiguredTableOutput,
   | AccessDeniedException
   | ConflictException
@@ -8403,9 +8342,8 @@ export const createConfiguredTable: (
 /**
  * Retrieves a configured table.
  */
-export const getConfiguredTable: (
-  input: GetConfiguredTableInput,
-) => effect.Effect<
+export const getConfiguredTable: API.OperationMethod<
+  GetConfiguredTableInput,
   GetConfiguredTableOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8428,9 +8366,8 @@ export const getConfiguredTable: (
 /**
  * Updates a configured table.
  */
-export const updateConfiguredTable: (
-  input: UpdateConfiguredTableInput,
-) => effect.Effect<
+export const updateConfiguredTable: API.OperationMethod<
+  UpdateConfiguredTableInput,
   UpdateConfiguredTableOutput,
   | AccessDeniedException
   | ConflictException
@@ -8457,9 +8394,8 @@ export const updateConfiguredTable: (
 /**
  * Deletes a configured table.
  */
-export const deleteConfiguredTable: (
-  input: DeleteConfiguredTableInput,
-) => effect.Effect<
+export const deleteConfiguredTable: API.OperationMethod<
+  DeleteConfiguredTableInput,
   DeleteConfiguredTableOutput,
   | AccessDeniedException
   | ConflictException
@@ -8484,18 +8420,16 @@ export const deleteConfiguredTable: (
 /**
  * Lists configured tables.
  */
-export const listConfiguredTables: {
-  (
-    input: ListConfiguredTablesInput,
-  ): effect.Effect<
-    ListConfiguredTablesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfiguredTables: API.OperationMethod<
+  ListConfiguredTablesInput,
+  ListConfiguredTablesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfiguredTablesInput,
   ) => stream.Stream<
@@ -8537,9 +8471,8 @@ export const listConfiguredTables: {
 /**
  * Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
  */
-export const createConfiguredTableAnalysisRule: (
-  input: CreateConfiguredTableAnalysisRuleInput,
-) => effect.Effect<
+export const createConfiguredTableAnalysisRule: API.OperationMethod<
+  CreateConfiguredTableAnalysisRuleInput,
   CreateConfiguredTableAnalysisRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -8566,9 +8499,8 @@ export const createConfiguredTableAnalysisRule: (
 /**
  * Deletes a configured table analysis rule.
  */
-export const deleteConfiguredTableAnalysisRule: (
-  input: DeleteConfiguredTableAnalysisRuleInput,
-) => effect.Effect<
+export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
+  DeleteConfiguredTableAnalysisRuleInput,
   DeleteConfiguredTableAnalysisRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -8593,9 +8525,8 @@ export const deleteConfiguredTableAnalysisRule: (
 /**
  * Retrieves a configured table analysis rule.
  */
-export const getConfiguredTableAnalysisRule: (
-  input: GetConfiguredTableAnalysisRuleInput,
-) => effect.Effect<
+export const getConfiguredTableAnalysisRule: API.OperationMethod<
+  GetConfiguredTableAnalysisRuleInput,
   GetConfiguredTableAnalysisRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8618,9 +8549,8 @@ export const getConfiguredTableAnalysisRule: (
 /**
  * Updates a configured table analysis rule.
  */
-export const updateConfiguredTableAnalysisRule: (
-  input: UpdateConfiguredTableAnalysisRuleInput,
-) => effect.Effect<
+export const updateConfiguredTableAnalysisRule: API.OperationMethod<
+  UpdateConfiguredTableAnalysisRuleInput,
   UpdateConfiguredTableAnalysisRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -8645,9 +8575,8 @@ export const updateConfiguredTableAnalysisRule: (
 /**
  * Creates an ID mapping table.
  */
-export const createIdMappingTable: (
-  input: CreateIdMappingTableInput,
-) => effect.Effect<
+export const createIdMappingTable: API.OperationMethod<
+  CreateIdMappingTableInput,
   CreateIdMappingTableOutput,
   | AccessDeniedException
   | ConflictException
@@ -8674,9 +8603,8 @@ export const createIdMappingTable: (
 /**
  * Retrieves an ID mapping table.
  */
-export const getIdMappingTable: (
-  input: GetIdMappingTableInput,
-) => effect.Effect<
+export const getIdMappingTable: API.OperationMethod<
+  GetIdMappingTableInput,
   GetIdMappingTableOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8699,9 +8627,8 @@ export const getIdMappingTable: (
 /**
  * Provides the details that are necessary to update an ID mapping table.
  */
-export const updateIdMappingTable: (
-  input: UpdateIdMappingTableInput,
-) => effect.Effect<
+export const updateIdMappingTable: API.OperationMethod<
+  UpdateIdMappingTableInput,
   UpdateIdMappingTableOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8724,9 +8651,8 @@ export const updateIdMappingTable: (
 /**
  * Deletes an ID mapping table.
  */
-export const deleteIdMappingTable: (
-  input: DeleteIdMappingTableInput,
-) => effect.Effect<
+export const deleteIdMappingTable: API.OperationMethod<
+  DeleteIdMappingTableInput,
   DeleteIdMappingTableOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8749,19 +8675,17 @@ export const deleteIdMappingTable: (
 /**
  * Returns a list of ID mapping tables.
  */
-export const listIdMappingTables: {
-  (
-    input: ListIdMappingTablesInput,
-  ): effect.Effect<
-    ListIdMappingTablesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdMappingTables: API.OperationMethod<
+  ListIdMappingTablesInput,
+  ListIdMappingTablesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdMappingTablesInput,
   ) => stream.Stream<
@@ -8806,9 +8730,8 @@ export const listIdMappingTables: {
 /**
  * Defines the information that's necessary to populate an ID mapping table.
  */
-export const populateIdMappingTable: (
-  input: PopulateIdMappingTableInput,
-) => effect.Effect<
+export const populateIdMappingTable: API.OperationMethod<
+  PopulateIdMappingTableInput,
   PopulateIdMappingTableOutput,
   | AccessDeniedException
   | ConflictException
@@ -8835,9 +8758,8 @@ export const populateIdMappingTable: (
 /**
  * Creates an ID namespace association.
  */
-export const createIdNamespaceAssociation: (
-  input: CreateIdNamespaceAssociationInput,
-) => effect.Effect<
+export const createIdNamespaceAssociation: API.OperationMethod<
+  CreateIdNamespaceAssociationInput,
   CreateIdNamespaceAssociationOutput,
   | AccessDeniedException
   | ConflictException
@@ -8864,9 +8786,8 @@ export const createIdNamespaceAssociation: (
 /**
  * Retrieves an ID namespace association.
  */
-export const getIdNamespaceAssociation: (
-  input: GetIdNamespaceAssociationInput,
-) => effect.Effect<
+export const getIdNamespaceAssociation: API.OperationMethod<
+  GetIdNamespaceAssociationInput,
   GetIdNamespaceAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8889,9 +8810,8 @@ export const getIdNamespaceAssociation: (
 /**
  * Provides the details that are necessary to update an ID namespace association.
  */
-export const updateIdNamespaceAssociation: (
-  input: UpdateIdNamespaceAssociationInput,
-) => effect.Effect<
+export const updateIdNamespaceAssociation: API.OperationMethod<
+  UpdateIdNamespaceAssociationInput,
   UpdateIdNamespaceAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8914,9 +8834,8 @@ export const updateIdNamespaceAssociation: (
 /**
  * Deletes an ID namespace association.
  */
-export const deleteIdNamespaceAssociation: (
-  input: DeleteIdNamespaceAssociationInput,
-) => effect.Effect<
+export const deleteIdNamespaceAssociation: API.OperationMethod<
+  DeleteIdNamespaceAssociationInput,
   DeleteIdNamespaceAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -8939,19 +8858,17 @@ export const deleteIdNamespaceAssociation: (
 /**
  * Returns a list of ID namespace associations.
  */
-export const listIdNamespaceAssociations: {
-  (
-    input: ListIdNamespaceAssociationsInput,
-  ): effect.Effect<
-    ListIdNamespaceAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdNamespaceAssociations: API.OperationMethod<
+  ListIdNamespaceAssociationsInput,
+  ListIdNamespaceAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdNamespaceAssociationsInput,
   ) => stream.Stream<
@@ -8996,9 +8913,8 @@ export const listIdNamespaceAssociations: {
 /**
  * Creates a membership for a specific collaboration identifier and joins the collaboration.
  */
-export const createMembership: (
-  input: CreateMembershipInput,
-) => effect.Effect<
+export const createMembership: API.OperationMethod<
+  CreateMembershipInput,
   CreateMembershipOutput,
   | AccessDeniedException
   | ConflictException
@@ -9025,9 +8941,8 @@ export const createMembership: (
 /**
  * Retrieves a specified membership for an identifier.
  */
-export const getMembership: (
-  input: GetMembershipInput,
-) => effect.Effect<
+export const getMembership: API.OperationMethod<
+  GetMembershipInput,
   GetMembershipOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9050,9 +8965,8 @@ export const getMembership: (
 /**
  * Updates a membership.
  */
-export const updateMembership: (
-  input: UpdateMembershipInput,
-) => effect.Effect<
+export const updateMembership: API.OperationMethod<
+  UpdateMembershipInput,
   UpdateMembershipOutput,
   | AccessDeniedException
   | ConflictException
@@ -9077,9 +8991,8 @@ export const updateMembership: (
 /**
  * Deletes a specified membership. All resources under a membership must be deleted.
  */
-export const deleteMembership: (
-  input: DeleteMembershipInput,
-) => effect.Effect<
+export const deleteMembership: API.OperationMethod<
+  DeleteMembershipInput,
   DeleteMembershipOutput,
   | AccessDeniedException
   | ConflictException
@@ -9104,18 +9017,16 @@ export const deleteMembership: (
 /**
  * Lists all memberships resources within the caller's account.
  */
-export const listMemberships: {
-  (
-    input: ListMembershipsInput,
-  ): effect.Effect<
-    ListMembershipsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMemberships: API.OperationMethod<
+  ListMembershipsInput,
+  ListMembershipsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembershipsInput,
   ) => stream.Stream<
@@ -9157,9 +9068,8 @@ export const listMemberships: {
 /**
  * Returns job processing metadata.
  */
-export const getProtectedJob: (
-  input: GetProtectedJobInput,
-) => effect.Effect<
+export const getProtectedJob: API.OperationMethod<
+  GetProtectedJobInput,
   GetProtectedJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9182,9 +9092,8 @@ export const getProtectedJob: (
 /**
  * Returns query processing metadata.
  */
-export const getProtectedQuery: (
-  input: GetProtectedQueryInput,
-) => effect.Effect<
+export const getProtectedQuery: API.OperationMethod<
+  GetProtectedQueryInput,
   GetProtectedQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9207,19 +9116,17 @@ export const getProtectedQuery: (
 /**
  * Returns detailed information about the privacy budgets in a specified membership.
  */
-export const listPrivacyBudgets: {
-  (
-    input: ListPrivacyBudgetsInput,
-  ): effect.Effect<
-    ListPrivacyBudgetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrivacyBudgets: API.OperationMethod<
+  ListPrivacyBudgetsInput,
+  ListPrivacyBudgetsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrivacyBudgetsInput,
   ) => stream.Stream<
@@ -9264,19 +9171,17 @@ export const listPrivacyBudgets: {
 /**
  * Lists protected jobs, sorted by most recent job.
  */
-export const listProtectedJobs: {
-  (
-    input: ListProtectedJobsInput,
-  ): effect.Effect<
-    ListProtectedJobsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProtectedJobs: API.OperationMethod<
+  ListProtectedJobsInput,
+  ListProtectedJobsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectedJobsInput,
   ) => stream.Stream<
@@ -9321,19 +9226,17 @@ export const listProtectedJobs: {
 /**
  * Lists protected queries, sorted by the most recent query.
  */
-export const listProtectedQueries: {
-  (
-    input: ListProtectedQueriesInput,
-  ): effect.Effect<
-    ListProtectedQueriesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProtectedQueries: API.OperationMethod<
+  ListProtectedQueriesInput,
+  ListProtectedQueriesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectedQueriesInput,
   ) => stream.Stream<
@@ -9378,9 +9281,8 @@ export const listProtectedQueries: {
 /**
  * An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
  */
-export const previewPrivacyImpact: (
-  input: PreviewPrivacyImpactInput,
-) => effect.Effect<
+export const previewPrivacyImpact: API.OperationMethod<
+  PreviewPrivacyImpactInput,
   PreviewPrivacyImpactOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9403,9 +9305,8 @@ export const previewPrivacyImpact: (
 /**
  * Creates a protected job that is started by Clean Rooms.
  */
-export const startProtectedJob: (
-  input: StartProtectedJobInput,
-) => effect.Effect<
+export const startProtectedJob: API.OperationMethod<
+  StartProtectedJobInput,
   StartProtectedJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9430,9 +9331,8 @@ export const startProtectedJob: (
 /**
  * Creates a protected query that is started by Clean Rooms.
  */
-export const startProtectedQuery: (
-  input: StartProtectedQueryInput,
-) => effect.Effect<
+export const startProtectedQuery: API.OperationMethod<
+  StartProtectedQueryInput,
   StartProtectedQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9457,9 +9357,8 @@ export const startProtectedQuery: (
 /**
  * Updates the processing of a currently running job.
  */
-export const updateProtectedJob: (
-  input: UpdateProtectedJobInput,
-) => effect.Effect<
+export const updateProtectedJob: API.OperationMethod<
+  UpdateProtectedJobInput,
   UpdateProtectedJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -9484,9 +9383,8 @@ export const updateProtectedJob: (
 /**
  * Updates the processing of a currently running query.
  */
-export const updateProtectedQuery: (
-  input: UpdateProtectedQueryInput,
-) => effect.Effect<
+export const updateProtectedQuery: API.OperationMethod<
+  UpdateProtectedQueryInput,
   UpdateProtectedQueryOutput,
   | AccessDeniedException
   | ConflictException
@@ -9511,9 +9409,8 @@ export const updateProtectedQuery: (
 /**
  * Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the UpdatePrivacyBudgetTemplate operation.
  */
-export const createPrivacyBudgetTemplate: (
-  input: CreatePrivacyBudgetTemplateInput,
-) => effect.Effect<
+export const createPrivacyBudgetTemplate: API.OperationMethod<
+  CreatePrivacyBudgetTemplateInput,
   CreatePrivacyBudgetTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -9540,9 +9437,8 @@ export const createPrivacyBudgetTemplate: (
 /**
  * Returns details for a specified privacy budget template.
  */
-export const getPrivacyBudgetTemplate: (
-  input: GetPrivacyBudgetTemplateInput,
-) => effect.Effect<
+export const getPrivacyBudgetTemplate: API.OperationMethod<
+  GetPrivacyBudgetTemplateInput,
   GetPrivacyBudgetTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9565,9 +9461,8 @@ export const getPrivacyBudgetTemplate: (
 /**
  * Updates the privacy budget template for the specified collaboration.
  */
-export const updatePrivacyBudgetTemplate: (
-  input: UpdatePrivacyBudgetTemplateInput,
-) => effect.Effect<
+export const updatePrivacyBudgetTemplate: API.OperationMethod<
+  UpdatePrivacyBudgetTemplateInput,
   UpdatePrivacyBudgetTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -9592,9 +9487,8 @@ export const updatePrivacyBudgetTemplate: (
 /**
  * Deletes a privacy budget template for a specified collaboration.
  */
-export const deletePrivacyBudgetTemplate: (
-  input: DeletePrivacyBudgetTemplateInput,
-) => effect.Effect<
+export const deletePrivacyBudgetTemplate: API.OperationMethod<
+  DeletePrivacyBudgetTemplateInput,
   DeletePrivacyBudgetTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -9617,19 +9511,17 @@ export const deletePrivacyBudgetTemplate: (
 /**
  * Returns detailed information about the privacy budget templates in a specified membership.
  */
-export const listPrivacyBudgetTemplates: {
-  (
-    input: ListPrivacyBudgetTemplatesInput,
-  ): effect.Effect<
-    ListPrivacyBudgetTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrivacyBudgetTemplates: API.OperationMethod<
+  ListPrivacyBudgetTemplatesInput,
+  ListPrivacyBudgetTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrivacyBudgetTemplatesInput,
   ) => stream.Stream<

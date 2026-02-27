@@ -4781,9 +4781,8 @@ export class EncryptionKeyRequiredException extends S.TaggedErrorClass<Encryptio
  * approval rule that matches the template contents is created for all pull requests in
  * that repository.
  */
-export const associateApprovalRuleTemplateWithRepository: (
-  input: AssociateApprovalRuleTemplateWithRepositoryInput,
-) => effect.Effect<
+export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
+  AssociateApprovalRuleTemplateWithRepositoryInput,
   AssociateApprovalRuleTemplateWithRepositoryResponse,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -4820,9 +4819,8 @@ export const associateApprovalRuleTemplateWithRepository: (
 /**
  * Creates an association between an approval rule template and one or more specified repositories.
  */
-export const batchAssociateApprovalRuleTemplateWithRepositories: (
-  input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
-) => effect.Effect<
+export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMethod<
+  BatchAssociateApprovalRuleTemplateWithRepositoriesInput,
   BatchAssociateApprovalRuleTemplateWithRepositoriesOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -4855,9 +4853,8 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: (
 /**
  * Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
  */
-export const batchDescribeMergeConflicts: (
-  input: BatchDescribeMergeConflictsInput,
-) => effect.Effect<
+export const batchDescribeMergeConflicts: API.OperationMethod<
+  BatchDescribeMergeConflictsInput,
   BatchDescribeMergeConflictsOutput,
   | CommitDoesNotExistException
   | CommitRequiredException
@@ -4912,9 +4909,8 @@ export const batchDescribeMergeConflicts: (
 /**
  * Removes the association between an approval rule template and one or more specified repositories.
  */
-export const batchDisassociateApprovalRuleTemplateFromRepositories: (
-  input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
-) => effect.Effect<
+export const batchDisassociateApprovalRuleTemplateFromRepositories: API.OperationMethod<
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput,
   BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -4947,9 +4943,8 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: (
 /**
  * Returns information about the contents of one or more commits in a repository.
  */
-export const batchGetCommits: (
-  input: BatchGetCommitsInput,
-) => effect.Effect<
+export const batchGetCommits: API.OperationMethod<
+  BatchGetCommitsInput,
   BatchGetCommitsOutput,
   | CommitIdsLimitExceededException
   | CommitIdsListRequiredException
@@ -4988,9 +4983,8 @@ export const batchGetCommits: (
  * HTML-encode the description field in any application that uses this API to display
  * the repository description on a webpage.
  */
-export const batchGetRepositories: (
-  input: BatchGetRepositoriesInput,
-) => effect.Effect<
+export const batchGetRepositories: API.OperationMethod<
+  BatchGetRepositoriesInput,
   BatchGetRepositoriesOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5023,9 +5017,8 @@ export const batchGetRepositories: (
  * pull requests that meet the conditions of the template. For more information, see
  * AssociateApprovalRuleTemplateWithRepository.
  */
-export const createApprovalRuleTemplate: (
-  input: CreateApprovalRuleTemplateInput,
-) => effect.Effect<
+export const createApprovalRuleTemplate: API.OperationMethod<
+  CreateApprovalRuleTemplateInput,
   CreateApprovalRuleTemplateOutput,
   | ApprovalRuleTemplateContentRequiredException
   | ApprovalRuleTemplateNameAlreadyExistsException
@@ -5054,9 +5047,8 @@ export const createApprovalRuleTemplate: (
  *
  * Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
  */
-export const createBranch: (
-  input: CreateBranchInput,
-) => effect.Effect<
+export const createBranch: API.OperationMethod<
+  CreateBranchInput,
   CreateBranchResponse,
   | BranchNameExistsException
   | BranchNameRequiredException
@@ -5097,9 +5089,8 @@ export const createBranch: (
 /**
  * Creates a commit for a repository on the tip of a specified branch.
  */
-export const createCommit: (
-  input: CreateCommitInput,
-) => effect.Effect<
+export const createCommit: API.OperationMethod<
+  CreateCommitInput,
   CreateCommitOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -5188,9 +5179,8 @@ export const createCommit: (
 /**
  * Creates a pull request in the specified repository.
  */
-export const createPullRequest: (
-  input: CreatePullRequestInput,
-) => effect.Effect<
+export const createPullRequest: API.OperationMethod<
+  CreatePullRequestInput,
   CreatePullRequestOutput,
   | ClientRequestTokenRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -5253,9 +5243,8 @@ export const createPullRequest: (
 /**
  * Creates an approval rule for a pull request.
  */
-export const createPullRequestApprovalRule: (
-  input: CreatePullRequestApprovalRuleInput,
-) => effect.Effect<
+export const createPullRequestApprovalRule: API.OperationMethod<
+  CreatePullRequestApprovalRuleInput,
   CreatePullRequestApprovalRuleOutput,
   | ApprovalRuleContentRequiredException
   | ApprovalRuleNameAlreadyExistsException
@@ -5298,9 +5287,8 @@ export const createPullRequestApprovalRule: (
 /**
  * Creates a new, empty repository.
  */
-export const createRepository: (
-  input: CreateRepositoryInput,
-) => effect.Effect<
+export const createRepository: API.OperationMethod<
+  CreateRepositoryInput,
   CreateRepositoryOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5353,9 +5341,8 @@ export const createRepository: (
  * This unreferenced merge commit
  * can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
  */
-export const createUnreferencedMergeCommit: (
-  input: CreateUnreferencedMergeCommitInput,
-) => effect.Effect<
+export const createUnreferencedMergeCommit: API.OperationMethod<
+  CreateUnreferencedMergeCommitInput,
   CreateUnreferencedMergeCommitOutput,
   | CommitDoesNotExistException
   | CommitMessageLengthExceededException
@@ -5440,9 +5427,8 @@ export const createUnreferencedMergeCommit: (
 /**
  * Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
  */
-export const deleteApprovalRuleTemplate: (
-  input: DeleteApprovalRuleTemplateInput,
-) => effect.Effect<
+export const deleteApprovalRuleTemplate: API.OperationMethod<
+  DeleteApprovalRuleTemplateInput,
   DeleteApprovalRuleTemplateOutput,
   | ApprovalRuleTemplateInUseException
   | ApprovalRuleTemplateNameRequiredException
@@ -5461,9 +5447,8 @@ export const deleteApprovalRuleTemplate: (
 /**
  * Deletes a branch from a repository, unless that branch is the default branch for the repository.
  */
-export const deleteBranch: (
-  input: DeleteBranchInput,
-) => effect.Effect<
+export const deleteBranch: API.OperationMethod<
+  DeleteBranchInput,
   DeleteBranchOutput,
   | BranchNameRequiredException
   | DefaultBranchCannotBeDeletedException
@@ -5498,9 +5483,8 @@ export const deleteBranch: (
 /**
  * Deletes the content of a comment made on a change, file, or commit in a repository.
  */
-export const deleteCommentContent: (
-  input: DeleteCommentContentInput,
-) => effect.Effect<
+export const deleteCommentContent: API.OperationMethod<
+  DeleteCommentContentInput,
   DeleteCommentContentOutput,
   | CommentDeletedException
   | CommentDoesNotExistException
@@ -5523,9 +5507,8 @@ export const deleteCommentContent: (
  * that contains the revision. The file still exists in the commits earlier to the commit
  * that contains the deletion.
  */
-export const deleteFile: (
-  input: DeleteFileInput,
-) => effect.Effect<
+export const deleteFile: API.OperationMethod<
+  DeleteFileInput,
   DeleteFileOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -5584,9 +5567,8 @@ export const deleteFile: (
  * approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the
  * pull request was created. You cannot delete an approval rule from a merged or closed pull request.
  */
-export const deletePullRequestApprovalRule: (
-  input: DeletePullRequestApprovalRuleInput,
-) => effect.Effect<
+export const deletePullRequestApprovalRule: API.OperationMethod<
+  DeletePullRequestApprovalRuleInput,
   DeletePullRequestApprovalRuleOutput,
   | ApprovalRuleNameRequiredException
   | CannotDeleteApprovalRuleFromTemplateException
@@ -5627,9 +5609,8 @@ export const deletePullRequestApprovalRule: (
  * Deleting a repository also deletes all associated objects and metadata. After a repository is
  * deleted, all future push calls to the deleted repository fail.
  */
-export const deleteRepository: (
-  input: DeleteRepositoryInput,
-) => effect.Effect<
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryInput,
   DeleteRepositoryOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5658,37 +5639,35 @@ export const deleteRepository: (
  * commit specifiers using the squash or three-way merge strategy. If the merge option for
  * the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
  */
-export const describeMergeConflicts: {
-  (
-    input: DescribeMergeConflictsInput,
-  ): effect.Effect<
-    DescribeMergeConflictsOutput,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | FileDoesNotExistException
-    | InvalidCommitException
-    | InvalidConflictDetailLevelException
-    | InvalidConflictResolutionStrategyException
-    | InvalidContinuationTokenException
-    | InvalidMaxMergeHunksException
-    | InvalidMergeOptionException
-    | InvalidPathException
-    | InvalidRepositoryNameException
-    | MaximumFileContentToLoadExceededException
-    | MaximumItemsToCompareExceededException
-    | MergeOptionRequiredException
-    | PathRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMergeConflicts: API.OperationMethod<
+  DescribeMergeConflictsInput,
+  DescribeMergeConflictsOutput,
+  | CommitDoesNotExistException
+  | CommitRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | FileDoesNotExistException
+  | InvalidCommitException
+  | InvalidConflictDetailLevelException
+  | InvalidConflictResolutionStrategyException
+  | InvalidContinuationTokenException
+  | InvalidMaxMergeHunksException
+  | InvalidMergeOptionException
+  | InvalidPathException
+  | InvalidRepositoryNameException
+  | MaximumFileContentToLoadExceededException
+  | MaximumItemsToCompareExceededException
+  | MergeOptionRequiredException
+  | PathRequiredException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | TipsDivergenceExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMergeConflictsInput,
   ) => stream.Stream<
@@ -5786,27 +5765,25 @@ export const describeMergeConflicts: {
 /**
  * Returns information about one or more pull request events.
  */
-export const describePullRequestEvents: {
-  (
-    input: DescribePullRequestEventsInput,
-  ): effect.Effect<
-    DescribePullRequestEventsOutput,
-    | ActorDoesNotExistException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidActorArnException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestEventTypeException
-    | InvalidPullRequestIdException
-    | PullRequestDoesNotExistException
-    | PullRequestIdRequiredException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePullRequestEvents: API.OperationMethod<
+  DescribePullRequestEventsInput,
+  DescribePullRequestEventsOutput,
+  | ActorDoesNotExistException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidActorArnException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidPullRequestEventTypeException
+  | InvalidPullRequestIdException
+  | PullRequestDoesNotExistException
+  | PullRequestIdRequiredException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePullRequestEventsInput,
   ) => stream.Stream<
@@ -5877,9 +5854,8 @@ export const describePullRequestEvents: {
  * the specified repository. This does not delete any approval rules previously created for
  * pull requests through the template association.
  */
-export const disassociateApprovalRuleTemplateFromRepository: (
-  input: DisassociateApprovalRuleTemplateFromRepositoryInput,
-) => effect.Effect<
+export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod<
+  DisassociateApprovalRuleTemplateFromRepositoryInput,
   DisassociateApprovalRuleTemplateFromRepositoryResponse,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -5914,9 +5890,8 @@ export const disassociateApprovalRuleTemplateFromRepository: (
 /**
  * Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
  */
-export const evaluatePullRequestApprovalRules: (
-  input: EvaluatePullRequestApprovalRulesInput,
-) => effect.Effect<
+export const evaluatePullRequestApprovalRules: API.OperationMethod<
+  EvaluatePullRequestApprovalRulesInput,
   EvaluatePullRequestApprovalRulesOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -5951,9 +5926,8 @@ export const evaluatePullRequestApprovalRules: (
 /**
  * Returns information about a specified approval rule template.
  */
-export const getApprovalRuleTemplate: (
-  input: GetApprovalRuleTemplateInput,
-) => effect.Effect<
+export const getApprovalRuleTemplate: API.OperationMethod<
+  GetApprovalRuleTemplateInput,
   GetApprovalRuleTemplateOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -5972,9 +5946,8 @@ export const getApprovalRuleTemplate: (
 /**
  * Returns the base-64 encoded content of an individual blob in a repository.
  */
-export const getBlob: (
-  input: GetBlobInput,
-) => effect.Effect<
+export const getBlob: API.OperationMethod<
+  GetBlobInput,
   GetBlobOutput,
   | BlobIdDoesNotExistException
   | BlobIdRequiredException
@@ -6011,9 +5984,8 @@ export const getBlob: (
 /**
  * Returns information about a repository branch, including its name and the last commit ID.
  */
-export const getBranch: (
-  input: GetBranchInput,
-) => effect.Effect<
+export const getBranch: API.OperationMethod<
+  GetBranchInput,
   GetBranchOutput,
   | BranchDoesNotExistException
   | BranchNameRequiredException
@@ -6051,9 +6023,8 @@ export const getBranch: (
  * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
  * reactions from active identities, use GetCommentReactions.
  */
-export const getComment: (
-  input: GetCommentInput,
-) => effect.Effect<
+export const getComment: API.OperationMethod<
+  GetCommentInput,
   GetCommentOutput,
   | CommentDeletedException
   | CommentDoesNotExistException
@@ -6084,21 +6055,19 @@ export const getComment: (
 /**
  * Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
  */
-export const getCommentReactions: {
-  (
-    input: GetCommentReactionsInput,
-  ): effect.Effect<
-    GetCommentReactionsOutput,
-    | CommentDeletedException
-    | CommentDoesNotExistException
-    | CommentIdRequiredException
-    | InvalidCommentIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidReactionUserArnException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCommentReactions: API.OperationMethod<
+  GetCommentReactionsInput,
+  GetCommentReactionsOutput,
+  | CommentDeletedException
+  | CommentDoesNotExistException
+  | CommentIdRequiredException
+  | InvalidCommentIdException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidReactionUserArnException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCommentReactionsInput,
   ) => stream.Stream<
@@ -6151,27 +6120,25 @@ export const getCommentReactions: {
  * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
  * reactions from active identities, use GetCommentReactions.
  */
-export const getCommentsForComparedCommit: {
-  (
-    input: GetCommentsForComparedCommitInput,
-  ): effect.Effect<
-    GetCommentsForComparedCommitOutput,
-    | CommitDoesNotExistException
-    | CommitIdRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCommentsForComparedCommit: API.OperationMethod<
+  GetCommentsForComparedCommitInput,
+  GetCommentsForComparedCommitOutput,
+  | CommitDoesNotExistException
+  | CommitIdRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidCommitIdException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCommentsForComparedCommitInput,
   ) => stream.Stream<
@@ -6242,31 +6209,29 @@ export const getCommentsForComparedCommit: {
  * Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of
  * reactions from active identities, use GetCommentReactions.
  */
-export const getCommentsForPullRequest: {
-  (
-    input: GetCommentsForPullRequestInput,
-  ): effect.Effect<
-    GetCommentsForPullRequestOutput,
-    | CommitDoesNotExistException
-    | CommitIdRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestIdException
-    | InvalidRepositoryNameException
-    | PullRequestDoesNotExistException
-    | PullRequestIdRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | RepositoryNotAssociatedWithPullRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCommentsForPullRequest: API.OperationMethod<
+  GetCommentsForPullRequestInput,
+  GetCommentsForPullRequestOutput,
+  | CommitDoesNotExistException
+  | CommitIdRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidCommitIdException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidPullRequestIdException
+  | InvalidRepositoryNameException
+  | PullRequestDoesNotExistException
+  | PullRequestIdRequiredException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | RepositoryNotAssociatedWithPullRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCommentsForPullRequestInput,
   ) => stream.Stream<
@@ -6346,9 +6311,8 @@ export const getCommentsForPullRequest: {
 /**
  * Returns information about a commit, including commit message and committer information.
  */
-export const getCommit: (
-  input: GetCommitInput,
-) => effect.Effect<
+export const getCommit: API.OperationMethod<
+  GetCommitInput,
   GetCommitOutput,
   | CommitIdDoesNotExistException
   | CommitIdRequiredException
@@ -6385,30 +6349,28 @@ export const getCommit: (
  * branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be
  * limited to a specified path.
  */
-export const getDifferences: {
-  (
-    input: GetDifferencesInput,
-  ): effect.Effect<
-    GetDifferencesOutput,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidCommitIdException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPathException
-    | InvalidRepositoryNameException
-    | PathDoesNotExistException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDifferences: API.OperationMethod<
+  GetDifferencesInput,
+  GetDifferencesOutput,
+  | CommitDoesNotExistException
+  | CommitRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidCommitException
+  | InvalidCommitIdException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidPathException
+  | InvalidRepositoryNameException
+  | PathDoesNotExistException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDifferencesInput,
   ) => stream.Stream<
@@ -6485,9 +6447,8 @@ export const getDifferences: {
 /**
  * Returns the base-64 encoded contents of a specified file and its metadata.
  */
-export const getFile: (
-  input: GetFileInput,
-) => effect.Effect<
+export const getFile: API.OperationMethod<
+  GetFileInput,
   GetFileOutput,
   | CommitDoesNotExistException
   | EncryptionIntegrityChecksFailedException
@@ -6528,9 +6489,8 @@ export const getFile: (
 /**
  * Returns the contents of a specified folder in a repository.
  */
-export const getFolder: (
-  input: GetFolderInput,
-) => effect.Effect<
+export const getFolder: API.OperationMethod<
+  GetFolderInput,
   GetFolderOutput,
   | CommitDoesNotExistException
   | EncryptionIntegrityChecksFailedException
@@ -6569,9 +6529,8 @@ export const getFolder: (
 /**
  * Returns information about a specified merge commit.
  */
-export const getMergeCommit: (
-  input: GetMergeCommitInput,
-) => effect.Effect<
+export const getMergeCommit: API.OperationMethod<
+  GetMergeCommitInput,
   GetMergeCommitOutput,
   | CommitDoesNotExistException
   | CommitRequiredException
@@ -6610,36 +6569,34 @@ export const getMergeCommit: (
 /**
  * Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
  */
-export const getMergeConflicts: {
-  (
-    input: GetMergeConflictsInput,
-  ): effect.Effect<
-    GetMergeConflictsOutput,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidConflictDetailLevelException
-    | InvalidConflictResolutionStrategyException
-    | InvalidContinuationTokenException
-    | InvalidDestinationCommitSpecifierException
-    | InvalidMaxConflictFilesException
-    | InvalidMergeOptionException
-    | InvalidRepositoryNameException
-    | InvalidSourceCommitSpecifierException
-    | MaximumFileContentToLoadExceededException
-    | MaximumItemsToCompareExceededException
-    | MergeOptionRequiredException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getMergeConflicts: API.OperationMethod<
+  GetMergeConflictsInput,
+  GetMergeConflictsOutput,
+  | CommitDoesNotExistException
+  | CommitRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidCommitException
+  | InvalidConflictDetailLevelException
+  | InvalidConflictResolutionStrategyException
+  | InvalidContinuationTokenException
+  | InvalidDestinationCommitSpecifierException
+  | InvalidMaxConflictFilesException
+  | InvalidMergeOptionException
+  | InvalidRepositoryNameException
+  | InvalidSourceCommitSpecifierException
+  | MaximumFileContentToLoadExceededException
+  | MaximumItemsToCompareExceededException
+  | MergeOptionRequiredException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | TipsDivergenceExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMergeConflictsInput,
   ) => stream.Stream<
@@ -6736,9 +6693,8 @@ export const getMergeConflicts: {
  * branches. For details about why a merge option is not available, use GetMergeConflicts
  * or DescribeMergeConflicts.
  */
-export const getMergeOptions: (
-  input: GetMergeOptionsInput,
-) => effect.Effect<
+export const getMergeOptions: API.OperationMethod<
+  GetMergeOptionsInput,
   GetMergeOptionsOutput,
   | CommitDoesNotExistException
   | CommitRequiredException
@@ -6783,9 +6739,8 @@ export const getMergeOptions: (
 /**
  * Gets information about a pull request in a specified repository.
  */
-export const getPullRequest: (
-  input: GetPullRequestInput,
-) => effect.Effect<
+export const getPullRequest: API.OperationMethod<
+  GetPullRequestInput,
   GetPullRequestOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6815,9 +6770,8 @@ export const getPullRequest: (
  * Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more
  * approval rules applied to them.
  */
-export const getPullRequestApprovalStates: (
-  input: GetPullRequestApprovalStatesInput,
-) => effect.Effect<
+export const getPullRequestApprovalStates: API.OperationMethod<
+  GetPullRequestApprovalStatesInput,
   GetPullRequestApprovalStatesOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6851,9 +6805,8 @@ export const getPullRequestApprovalStates: (
  * Returns information about whether approval rules have been set aside (overridden) for a
  * pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
  */
-export const getPullRequestOverrideState: (
-  input: GetPullRequestOverrideStateInput,
-) => effect.Effect<
+export const getPullRequestOverrideState: API.OperationMethod<
+  GetPullRequestOverrideStateInput,
   GetPullRequestOverrideStateOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6892,9 +6845,8 @@ export const getPullRequestOverrideState: (
  * HTML-encode the description field in any application that uses this API to display
  * the repository description on a webpage.
  */
-export const getRepository: (
-  input: GetRepositoryInput,
-) => effect.Effect<
+export const getRepository: API.OperationMethod<
+  GetRepositoryInput,
   GetRepositoryOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6923,9 +6875,8 @@ export const getRepository: (
 /**
  * Gets information about triggers configured for a repository.
  */
-export const getRepositoryTriggers: (
-  input: GetRepositoryTriggersInput,
-) => effect.Effect<
+export const getRepositoryTriggers: API.OperationMethod<
+  GetRepositoryTriggersInput,
   GetRepositoryTriggersOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -6955,16 +6906,12 @@ export const getRepositoryTriggers: (
  * Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If
  * an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
  */
-export const listApprovalRuleTemplates: {
-  (
-    input: ListApprovalRuleTemplatesInput,
-  ): effect.Effect<
-    ListApprovalRuleTemplatesOutput,
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApprovalRuleTemplates: API.OperationMethod<
+  ListApprovalRuleTemplatesInput,
+  ListApprovalRuleTemplatesOutput,
+  InvalidContinuationTokenException | InvalidMaxResultsException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApprovalRuleTemplatesInput,
   ) => stream.Stream<
@@ -6996,24 +6943,22 @@ export const listApprovalRuleTemplates: {
 /**
  * Lists all approval rule templates that are associated with a specified repository.
  */
-export const listAssociatedApprovalRuleTemplatesForRepository: {
-  (
-    input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-  ): effect.Effect<
-    ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedApprovalRuleTemplatesForRepository: API.OperationMethod<
+  ListAssociatedApprovalRuleTemplatesForRepositoryInput,
+  ListAssociatedApprovalRuleTemplatesForRepositoryOutput,
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
   ) => stream.Stream<
@@ -7072,23 +7017,21 @@ export const listAssociatedApprovalRuleTemplatesForRepository: {
 /**
  * Gets information about one or more branches in a repository.
  */
-export const listBranches: {
-  (
-    input: ListBranchesInput,
-  ): effect.Effect<
-    ListBranchesOutput,
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidContinuationTokenException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBranches: API.OperationMethod<
+  ListBranchesInput,
+  ListBranchesOutput,
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidContinuationTokenException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBranchesInput,
   ) => stream.Stream<
@@ -7144,28 +7087,26 @@ export const listBranches: {
 /**
  * Retrieves a list of commits and changes to a specified file.
  */
-export const listFileCommitHistory: {
-  (
-    input: ListFileCommitHistoryRequest,
-  ): effect.Effect<
-    ListFileCommitHistoryResponse,
-    | CommitDoesNotExistException
-    | CommitRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidCommitException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | TipsDivergenceExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFileCommitHistory: API.OperationMethod<
+  ListFileCommitHistoryRequest,
+  ListFileCommitHistoryResponse,
+  | CommitDoesNotExistException
+  | CommitRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidCommitException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | TipsDivergenceExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFileCommitHistoryRequest,
   ) => stream.Stream<
@@ -7237,27 +7178,25 @@ export const listFileCommitHistory: {
  * Returns a list of pull requests for a specified repository. The return list can be refined by pull request
  * status or pull request author ARN.
  */
-export const listPullRequests: {
-  (
-    input: ListPullRequestsInput,
-  ): effect.Effect<
-    ListPullRequestsOutput,
-    | AuthorDoesNotExistException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidAuthorArnException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | InvalidPullRequestStatusException
-    | InvalidRepositoryNameException
-    | RepositoryDoesNotExistException
-    | RepositoryNameRequiredException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPullRequests: API.OperationMethod<
+  ListPullRequestsInput,
+  ListPullRequestsOutput,
+  | AuthorDoesNotExistException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidAuthorArnException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | InvalidPullRequestStatusException
+  | InvalidRepositoryNameException
+  | RepositoryDoesNotExistException
+  | RepositoryNameRequiredException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPullRequestsInput,
   ) => stream.Stream<
@@ -7325,17 +7264,15 @@ export const listPullRequests: {
 /**
  * Gets information about one or more repositories.
  */
-export const listRepositories: {
-  (
-    input: ListRepositoriesInput,
-  ): effect.Effect<
-    ListRepositoriesOutput,
-    | InvalidContinuationTokenException
-    | InvalidOrderException
-    | InvalidSortByException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositories: API.OperationMethod<
+  ListRepositoriesInput,
+  ListRepositoriesOutput,
+  | InvalidContinuationTokenException
+  | InvalidOrderException
+  | InvalidSortByException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoriesInput,
   ) => stream.Stream<
@@ -7373,24 +7310,22 @@ export const listRepositories: {
 /**
  * Lists all repositories associated with the specified approval rule template.
  */
-export const listRepositoriesForApprovalRuleTemplate: {
-  (
-    input: ListRepositoriesForApprovalRuleTemplateInput,
-  ): effect.Effect<
-    ListRepositoriesForApprovalRuleTemplateOutput,
-    | ApprovalRuleTemplateDoesNotExistException
-    | ApprovalRuleTemplateNameRequiredException
-    | EncryptionIntegrityChecksFailedException
-    | EncryptionKeyAccessDeniedException
-    | EncryptionKeyDisabledException
-    | EncryptionKeyNotFoundException
-    | EncryptionKeyUnavailableException
-    | InvalidApprovalRuleTemplateNameException
-    | InvalidContinuationTokenException
-    | InvalidMaxResultsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositoriesForApprovalRuleTemplate: API.OperationMethod<
+  ListRepositoriesForApprovalRuleTemplateInput,
+  ListRepositoriesForApprovalRuleTemplateOutput,
+  | ApprovalRuleTemplateDoesNotExistException
+  | ApprovalRuleTemplateNameRequiredException
+  | EncryptionIntegrityChecksFailedException
+  | EncryptionKeyAccessDeniedException
+  | EncryptionKeyDisabledException
+  | EncryptionKeyNotFoundException
+  | EncryptionKeyUnavailableException
+  | InvalidApprovalRuleTemplateNameException
+  | InvalidContinuationTokenException
+  | InvalidMaxResultsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoriesForApprovalRuleTemplateInput,
   ) => stream.Stream<
@@ -7450,9 +7385,8 @@ export const listRepositoriesForApprovalRuleTemplate: {
  * Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
  * Guide.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InvalidRepositoryNameException
   | InvalidResourceArnException
@@ -7473,9 +7407,8 @@ export const listTagsForResource: (
 /**
  * Merges two branches using the fast-forward merge strategy.
  */
-export const mergeBranchesByFastForward: (
-  input: MergeBranchesByFastForwardInput,
-) => effect.Effect<
+export const mergeBranchesByFastForward: API.OperationMethod<
+  MergeBranchesByFastForwardInput,
   MergeBranchesByFastForwardOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -7526,9 +7459,8 @@ export const mergeBranchesByFastForward: (
 /**
  * Merges two branches using the squash merge strategy.
  */
-export const mergeBranchesBySquash: (
-  input: MergeBranchesBySquashInput,
-) => effect.Effect<
+export const mergeBranchesBySquash: API.OperationMethod<
+  MergeBranchesBySquashInput,
   MergeBranchesBySquashOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -7619,9 +7551,8 @@ export const mergeBranchesBySquash: (
 /**
  * Merges two specified branches using the three-way merge strategy.
  */
-export const mergeBranchesByThreeWay: (
-  input: MergeBranchesByThreeWayInput,
-) => effect.Effect<
+export const mergeBranchesByThreeWay: API.OperationMethod<
+  MergeBranchesByThreeWayInput,
   MergeBranchesByThreeWayOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -7713,9 +7644,8 @@ export const mergeBranchesByThreeWay: (
  * Attempts to merge the source commit of a pull request into the specified destination
  * branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
  */
-export const mergePullRequestByFastForward: (
-  input: MergePullRequestByFastForwardInput,
-) => effect.Effect<
+export const mergePullRequestByFastForward: API.OperationMethod<
+  MergePullRequestByFastForwardInput,
   MergePullRequestByFastForwardOutput,
   | ConcurrentReferenceUpdateException
   | EncryptionIntegrityChecksFailedException
@@ -7767,9 +7697,8 @@ export const mergePullRequestByFastForward: (
  * Attempts to merge the source commit of a pull request into the specified destination
  * branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
  */
-export const mergePullRequestBySquash: (
-  input: MergePullRequestBySquashInput,
-) => effect.Effect<
+export const mergePullRequestBySquash: API.OperationMethod<
+  MergePullRequestBySquashInput,
   MergePullRequestBySquashOutput,
   | CommitMessageLengthExceededException
   | ConcurrentReferenceUpdateException
@@ -7859,9 +7788,8 @@ export const mergePullRequestBySquash: (
  * Attempts to merge the source commit of a pull request into the specified destination
  * branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
  */
-export const mergePullRequestByThreeWay: (
-  input: MergePullRequestByThreeWayInput,
-) => effect.Effect<
+export const mergePullRequestByThreeWay: API.OperationMethod<
+  MergePullRequestByThreeWayInput,
   MergePullRequestByThreeWayOutput,
   | CommitMessageLengthExceededException
   | ConcurrentReferenceUpdateException
@@ -7950,9 +7878,8 @@ export const mergePullRequestByThreeWay: (
 /**
  * Sets aside (overrides) all approval rule requirements for a specified pull request.
  */
-export const overridePullRequestApprovalRules: (
-  input: OverridePullRequestApprovalRulesInput,
-) => effect.Effect<
+export const overridePullRequestApprovalRules: API.OperationMethod<
+  OverridePullRequestApprovalRulesInput,
   OverridePullRequestApprovalRulesResponse,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -7995,9 +7922,8 @@ export const overridePullRequestApprovalRules: (
 /**
  * Posts a comment on the comparison between two commits.
  */
-export const postCommentForComparedCommit: (
-  input: PostCommentForComparedCommitInput,
-) => effect.Effect<
+export const postCommentForComparedCommit: API.OperationMethod<
+  PostCommentForComparedCommitInput,
   PostCommentForComparedCommitOutput,
   | BeforeCommitIdAndAfterCommitIdAreSameException
   | ClientRequestTokenRequiredException
@@ -8056,9 +7982,8 @@ export const postCommentForComparedCommit: (
 /**
  * Posts a comment on a pull request.
  */
-export const postCommentForPullRequest: (
-  input: PostCommentForPullRequestInput,
-) => effect.Effect<
+export const postCommentForPullRequest: API.OperationMethod<
+  PostCommentForPullRequestInput,
   PostCommentForPullRequestOutput,
   | BeforeCommitIdAndAfterCommitIdAreSameException
   | ClientRequestTokenRequiredException
@@ -8125,9 +8050,8 @@ export const postCommentForPullRequest: (
 /**
  * Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
  */
-export const postCommentReply: (
-  input: PostCommentReplyInput,
-) => effect.Effect<
+export const postCommentReply: API.OperationMethod<
+  PostCommentReplyInput,
   PostCommentReplyOutput,
   | ClientRequestTokenRequiredException
   | CommentContentRequiredException
@@ -8157,9 +8081,8 @@ export const postCommentReply: (
  * Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or
  * update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
  */
-export const putCommentReaction: (
-  input: PutCommentReactionInput,
-) => effect.Effect<
+export const putCommentReaction: API.OperationMethod<
+  PutCommentReactionInput,
   PutCommentReactionResponse,
   | CommentDeletedException
   | CommentDoesNotExistException
@@ -8186,9 +8109,8 @@ export const putCommentReaction: (
 /**
  * Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
  */
-export const putFile: (
-  input: PutFileInput,
-) => effect.Effect<
+export const putFile: API.OperationMethod<
+  PutFileInput,
   PutFileOutput,
   | BranchDoesNotExistException
   | BranchNameIsTagNameException
@@ -8261,9 +8183,8 @@ export const putFile: (
 /**
  * Replaces all triggers for a repository. Used to create or delete triggers.
  */
-export const putRepositoryTriggers: (
-  input: PutRepositoryTriggersInput,
-) => effect.Effect<
+export const putRepositoryTriggers: API.OperationMethod<
+  PutRepositoryTriggersInput,
   PutRepositoryTriggersOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8320,9 +8241,8 @@ export const putRepositoryTriggers: (
  * in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
  * Guide.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | InvalidRepositoryNameException
   | InvalidResourceArnException
@@ -8355,9 +8275,8 @@ export const tagResource: (
  * target. If real data is available in the repository, the test sends data from the last
  * commit. If no data is available, sample data is generated.
  */
-export const testRepositoryTriggers: (
-  input: TestRepositoryTriggersInput,
-) => effect.Effect<
+export const testRepositoryTriggers: API.OperationMethod<
+  TestRepositoryTriggersInput,
   TestRepositoryTriggersOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8413,9 +8332,8 @@ export const testRepositoryTriggers: (
  * Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User
  * Guide.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | InvalidRepositoryNameException
   | InvalidResourceArnException
@@ -8448,9 +8366,8 @@ export const untagResource: (
  * required approvals, the membership of the approval rule, and whether an approval pool is
  * defined.
  */
-export const updateApprovalRuleTemplateContent: (
-  input: UpdateApprovalRuleTemplateContentInput,
-) => effect.Effect<
+export const updateApprovalRuleTemplateContent: API.OperationMethod<
+  UpdateApprovalRuleTemplateContentInput,
   UpdateApprovalRuleTemplateContentOutput,
   | ApprovalRuleTemplateContentRequiredException
   | ApprovalRuleTemplateDoesNotExistException
@@ -8475,9 +8392,8 @@ export const updateApprovalRuleTemplateContent: (
 /**
  * Updates the description for a specified approval rule template.
  */
-export const updateApprovalRuleTemplateDescription: (
-  input: UpdateApprovalRuleTemplateDescriptionInput,
-) => effect.Effect<
+export const updateApprovalRuleTemplateDescription: API.OperationMethod<
+  UpdateApprovalRuleTemplateDescriptionInput,
   UpdateApprovalRuleTemplateDescriptionOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameRequiredException
@@ -8498,9 +8414,8 @@ export const updateApprovalRuleTemplateDescription: (
 /**
  * Updates the name of a specified approval rule template.
  */
-export const updateApprovalRuleTemplateName: (
-  input: UpdateApprovalRuleTemplateNameInput,
-) => effect.Effect<
+export const updateApprovalRuleTemplateName: API.OperationMethod<
+  UpdateApprovalRuleTemplateNameInput,
   UpdateApprovalRuleTemplateNameOutput,
   | ApprovalRuleTemplateDoesNotExistException
   | ApprovalRuleTemplateNameAlreadyExistsException
@@ -8521,9 +8436,8 @@ export const updateApprovalRuleTemplateName: (
 /**
  * Replaces the contents of a comment.
  */
-export const updateComment: (
-  input: UpdateCommentInput,
-) => effect.Effect<
+export const updateComment: API.OperationMethod<
+  UpdateCommentInput,
   UpdateCommentOutput,
   | CommentContentRequiredException
   | CommentContentSizeLimitExceededException
@@ -8552,9 +8466,8 @@ export const updateComment: (
  *
  * If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
  */
-export const updateDefaultBranch: (
-  input: UpdateDefaultBranchInput,
-) => effect.Effect<
+export const updateDefaultBranch: API.OperationMethod<
+  UpdateDefaultBranchInput,
   UpdateDefaultBranchResponse,
   | BranchDoesNotExistException
   | BranchNameRequiredException
@@ -8590,9 +8503,8 @@ export const updateDefaultBranch: (
  * Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and
  * the approval pool for approvers.
  */
-export const updatePullRequestApprovalRuleContent: (
-  input: UpdatePullRequestApprovalRuleContentInput,
-) => effect.Effect<
+export const updatePullRequestApprovalRuleContent: API.OperationMethod<
+  UpdatePullRequestApprovalRuleContentInput,
   UpdatePullRequestApprovalRuleContentOutput,
   | ApprovalRuleContentRequiredException
   | ApprovalRuleDoesNotExistException
@@ -8637,9 +8549,8 @@ export const updatePullRequestApprovalRuleContent: (
 /**
  * Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
  */
-export const updatePullRequestApprovalState: (
-  input: UpdatePullRequestApprovalStateInput,
-) => effect.Effect<
+export const updatePullRequestApprovalState: API.OperationMethod<
+  UpdatePullRequestApprovalStateInput,
   UpdatePullRequestApprovalStateResponse,
   | ApprovalStateRequiredException
   | EncryptionIntegrityChecksFailedException
@@ -8684,9 +8595,8 @@ export const updatePullRequestApprovalState: (
 /**
  * Replaces the contents of the description of a pull request.
  */
-export const updatePullRequestDescription: (
-  input: UpdatePullRequestDescriptionInput,
-) => effect.Effect<
+export const updatePullRequestDescription: API.OperationMethod<
+  UpdatePullRequestDescriptionInput,
   UpdatePullRequestDescriptionOutput,
   | InvalidDescriptionException
   | InvalidPullRequestIdException
@@ -8709,9 +8619,8 @@ export const updatePullRequestDescription: (
 /**
  * Updates the status of a pull request.
  */
-export const updatePullRequestStatus: (
-  input: UpdatePullRequestStatusInput,
-) => effect.Effect<
+export const updatePullRequestStatus: API.OperationMethod<
+  UpdatePullRequestStatusInput,
   UpdatePullRequestStatusOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8746,9 +8655,8 @@ export const updatePullRequestStatus: (
 /**
  * Replaces the title of a pull request.
  */
-export const updatePullRequestTitle: (
-  input: UpdatePullRequestTitleInput,
-) => effect.Effect<
+export const updatePullRequestTitle: API.OperationMethod<
+  UpdatePullRequestTitleInput,
   UpdatePullRequestTitleOutput,
   | InvalidPullRequestIdException
   | InvalidTitleException
@@ -8779,9 +8687,8 @@ export const updatePullRequestTitle: (
  * HTML-encode the description field in any application that uses this API to display
  * the repository description on a webpage.
  */
-export const updateRepositoryDescription: (
-  input: UpdateRepositoryDescriptionInput,
-) => effect.Effect<
+export const updateRepositoryDescription: API.OperationMethod<
+  UpdateRepositoryDescriptionInput,
   UpdateRepositoryDescriptionResponse,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8812,9 +8719,8 @@ export const updateRepositoryDescription: (
 /**
  * Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
  */
-export const updateRepositoryEncryptionKey: (
-  input: UpdateRepositoryEncryptionKeyInput,
-) => effect.Effect<
+export const updateRepositoryEncryptionKey: API.OperationMethod<
+  UpdateRepositoryEncryptionKeyInput,
   UpdateRepositoryEncryptionKeyOutput,
   | EncryptionIntegrityChecksFailedException
   | EncryptionKeyAccessDeniedException
@@ -8853,9 +8759,8 @@ export const updateRepositoryEncryptionKey: (
  * more information about the limits on repository names, see Quotas in the CodeCommit
  * User Guide.
  */
-export const updateRepositoryName: (
-  input: UpdateRepositoryNameInput,
-) => effect.Effect<
+export const updateRepositoryName: API.OperationMethod<
+  UpdateRepositoryNameInput,
   UpdateRepositoryNameResponse,
   | InvalidRepositoryNameException
   | RepositoryDoesNotExistException

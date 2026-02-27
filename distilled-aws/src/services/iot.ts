@@ -14554,9 +14554,8 @@ export class TransferConflictException extends S.TaggedErrorClass<TransferConfli
  *
  * Requires permission to access the AcceptCertificateTransfer action.
  */
-export const acceptCertificateTransfer: (
-  input: AcceptCertificateTransferRequest,
-) => effect.Effect<
+export const acceptCertificateTransfer: API.OperationMethod<
+  AcceptCertificateTransferRequest,
   AcceptCertificateTransferResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14585,9 +14584,8 @@ export const acceptCertificateTransfer: (
  *
  * Requires permission to access the AddThingToBillingGroup action.
  */
-export const addThingToBillingGroup: (
-  input: AddThingToBillingGroupRequest,
-) => effect.Effect<
+export const addThingToBillingGroup: API.OperationMethod<
+  AddThingToBillingGroupRequest,
   AddThingToBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14610,9 +14608,8 @@ export const addThingToBillingGroup: (
  *
  * Requires permission to access the AddThingToThingGroup action.
  */
-export const addThingToThingGroup: (
-  input: AddThingToThingGroupRequest,
-) => effect.Effect<
+export const addThingToThingGroup: API.OperationMethod<
+  AddThingToThingGroupRequest,
   AddThingToThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14635,9 +14632,8 @@ export const addThingToThingGroup: (
  *
  * Requires permission to access the AssociateSbomWithPackageVersion action.
  */
-export const associateSbomWithPackageVersion: (
-  input: AssociateSbomWithPackageVersionRequest,
-) => effect.Effect<
+export const associateSbomWithPackageVersion: API.OperationMethod<
+  AssociateSbomWithPackageVersionRequest,
   AssociateSbomWithPackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -14672,9 +14668,8 @@ export const associateSbomWithPackageVersion: (
  *
  * Requires permission to access the AssociateTargetsWithJob action.
  */
-export const associateTargetsWithJob: (
-  input: AssociateTargetsWithJobRequest,
-) => effect.Effect<
+export const associateTargetsWithJob: API.OperationMethod<
+  AssociateTargetsWithJobRequest,
   AssociateTargetsWithJobResponse,
   | InvalidRequestException
   | LimitExceededException
@@ -14700,9 +14695,8 @@ export const associateTargetsWithJob: (
  *
  * Requires permission to access the AttachPolicy action.
  */
-export const attachPolicy: (
-  input: AttachPolicyRequest,
-) => effect.Effect<
+export const attachPolicy: API.OperationMethod<
+  AttachPolicyRequest,
   AttachPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14735,9 +14729,8 @@ export const attachPolicy: (
  *
  * Requires permission to access the AttachPrincipalPolicy action.
  */
-export const attachPrincipalPolicy: (
-  input: AttachPrincipalPolicyRequest,
-) => effect.Effect<
+export const attachPrincipalPolicy: API.OperationMethod<
+  AttachPrincipalPolicyRequest,
   AttachPrincipalPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14767,9 +14760,8 @@ export const attachPrincipalPolicy: (
  *
  * Requires permission to access the AttachSecurityProfile action.
  */
-export const attachSecurityProfile: (
-  input: AttachSecurityProfileRequest,
-) => effect.Effect<
+export const attachSecurityProfile: API.OperationMethod<
+  AttachSecurityProfileRequest,
   AttachSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14797,9 +14789,8 @@ export const attachSecurityProfile: (
  *
  * Requires permission to access the AttachThingPrincipal action.
  */
-export const attachThingPrincipal: (
-  input: AttachThingPrincipalRequest,
-) => effect.Effect<
+export const attachThingPrincipal: API.OperationMethod<
+  AttachThingPrincipalRequest,
   AttachThingPrincipalResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14828,9 +14819,8 @@ export const attachThingPrincipal: (
  *
  * Requires permission to access the CancelAuditMitigationActionsTask action.
  */
-export const cancelAuditMitigationActionsTask: (
-  input: CancelAuditMitigationActionsTaskRequest,
-) => effect.Effect<
+export const cancelAuditMitigationActionsTask: API.OperationMethod<
+  CancelAuditMitigationActionsTaskRequest,
   CancelAuditMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14853,9 +14843,8 @@ export const cancelAuditMitigationActionsTask: (
  *
  * Requires permission to access the CancelAuditTask action.
  */
-export const cancelAuditTask: (
-  input: CancelAuditTaskRequest,
-) => effect.Effect<
+export const cancelAuditTask: API.OperationMethod<
+  CancelAuditTaskRequest,
   CancelAuditTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14886,9 +14875,8 @@ export const cancelAuditTask: (
  *
  * Requires permission to access the CancelCertificateTransfer action.
  */
-export const cancelCertificateTransfer: (
-  input: CancelCertificateTransferRequest,
-) => effect.Effect<
+export const cancelCertificateTransfer: API.OperationMethod<
+  CancelCertificateTransferRequest,
   CancelCertificateTransferResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14917,9 +14905,8 @@ export const cancelCertificateTransfer: (
  *
  * Requires permission to access the CancelDetectMitigationActionsTask action.
  */
-export const cancelDetectMitigationActionsTask: (
-  input: CancelDetectMitigationActionsTaskRequest,
-) => effect.Effect<
+export const cancelDetectMitigationActionsTask: API.OperationMethod<
+  CancelDetectMitigationActionsTaskRequest,
   CancelDetectMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -14942,9 +14929,8 @@ export const cancelDetectMitigationActionsTask: (
  *
  * Requires permission to access the CancelJob action.
  */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
   CancelJobResponse,
   | InvalidRequestException
   | LimitExceededException
@@ -14969,9 +14955,8 @@ export const cancelJob: (
  *
  * Requires permission to access the CancelJobExecution action.
  */
-export const cancelJobExecution: (
-  input: CancelJobExecutionRequest,
-) => effect.Effect<
+export const cancelJobExecution: API.OperationMethod<
+  CancelJobExecutionRequest,
   CancelJobExecutionResponse,
   | InvalidRequestException
   | InvalidStateTransitionException
@@ -14998,9 +14983,8 @@ export const cancelJobExecution: (
  *
  * Requires permission to access the ClearDefaultAuthorizer action.
  */
-export const clearDefaultAuthorizer: (
-  input: ClearDefaultAuthorizerRequest,
-) => effect.Effect<
+export const clearDefaultAuthorizer: API.OperationMethod<
+  ClearDefaultAuthorizerRequest,
   ClearDefaultAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15030,9 +15014,8 @@ export const clearDefaultAuthorizer: (
  *
  * Requires permission to access the ConfirmTopicRuleDestination action.
  */
-export const confirmTopicRuleDestination: (
-  input: ConfirmTopicRuleDestinationRequest,
-) => effect.Effect<
+export const confirmTopicRuleDestination: API.OperationMethod<
+  ConfirmTopicRuleDestinationRequest,
   ConfirmTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -15057,9 +15040,8 @@ export const confirmTopicRuleDestination: (
  *
  * Requires permission to access the CreateAuditSuppression action.
  */
-export const createAuditSuppression: (
-  input: CreateAuditSuppressionRequest,
-) => effect.Effect<
+export const createAuditSuppression: API.OperationMethod<
+  CreateAuditSuppressionRequest,
   CreateAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15084,9 +15066,8 @@ export const createAuditSuppression: (
  *
  * Requires permission to access the CreateAuthorizer action.
  */
-export const createAuthorizer: (
-  input: CreateAuthorizerRequest,
-) => effect.Effect<
+export const createAuthorizer: API.OperationMethod<
+  CreateAuthorizerRequest,
   CreateAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15117,9 +15098,8 @@ export const createAuthorizer: (
  *
  * Requires permission to access the CreateBillingGroup action.
  */
-export const createBillingGroup: (
-  input: CreateBillingGroupRequest,
-) => effect.Effect<
+export const createBillingGroup: API.OperationMethod<
+  CreateBillingGroupRequest,
   CreateBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15183,9 +15163,8 @@ export const createBillingGroup: (
  * > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr
  * --certificate-signing-request file://@path"
  */
-export const createCertificateFromCsr: (
-  input: CreateCertificateFromCsrRequest,
-) => effect.Effect<
+export const createCertificateFromCsr: API.OperationMethod<
+  CreateCertificateFromCsrRequest,
   CreateCertificateFromCsrResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15220,9 +15199,8 @@ export const createCertificateFromCsr: (
  * certificate provider to create the certificates. It can take up to a few minutes for
  * this behavior to change after a certificate provider is created.
  */
-export const createCertificateProvider: (
-  input: CreateCertificateProviderRequest,
-) => effect.Effect<
+export const createCertificateProvider: API.OperationMethod<
+  CreateCertificateProviderRequest,
   CreateCertificateProviderResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15250,9 +15228,8 @@ export const createCertificateProvider: (
  * Creates a command. A command contains reusable configurations that can be applied
  * before they are sent to the devices.
  */
-export const createCommand: (
-  input: CreateCommandRequest,
-) => effect.Effect<
+export const createCommand: API.OperationMethod<
+  CreateCommandRequest,
   CreateCommandResponse,
   | ConflictException
   | InternalServerException
@@ -15280,9 +15257,8 @@ export const createCommand: (
  *
  * Requires permission to access the CreateCustomMetric action.
  */
-export const createCustomMetric: (
-  input: CreateCustomMetricRequest,
-) => effect.Effect<
+export const createCustomMetric: API.OperationMethod<
+  CreateCustomMetricRequest,
   CreateCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15308,9 +15284,8 @@ export const createCustomMetric: (
  *
  * Requires permission to access the CreateDimension action.
  */
-export const createDimension: (
-  input: CreateDimensionRequest,
-) => effect.Effect<
+export const createDimension: API.OperationMethod<
+  CreateDimensionRequest,
   CreateDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15335,9 +15310,8 @@ export const createDimension: (
  *
  * Requires permission to access the CreateDomainConfiguration action.
  */
-export const createDomainConfiguration: (
-  input: CreateDomainConfigurationRequest,
-) => effect.Effect<
+export const createDomainConfiguration: API.OperationMethod<
+  CreateDomainConfigurationRequest,
   CreateDomainConfigurationResponse,
   | CertificateValidationException
   | InternalFailureException
@@ -15368,9 +15342,8 @@ export const createDomainConfiguration: (
  *
  * Requires permission to access the CreateDynamicThingGroup action.
  */
-export const createDynamicThingGroup: (
-  input: CreateDynamicThingGroupRequest,
-) => effect.Effect<
+export const createDynamicThingGroup: API.OperationMethod<
+  CreateDynamicThingGroupRequest,
   CreateDynamicThingGroupResponse,
   | InternalFailureException
   | InvalidQueryException
@@ -15399,9 +15372,8 @@ export const createDynamicThingGroup: (
  *
  * Requires permission to access the CreateFleetMetric action.
  */
-export const createFleetMetric: (
-  input: CreateFleetMetricRequest,
-) => effect.Effect<
+export const createFleetMetric: API.OperationMethod<
+  CreateFleetMetricRequest,
   CreateFleetMetricResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -15438,9 +15410,8 @@ export const createFleetMetric: (
  *
  * Requires permission to access the CreateJob action.
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   | InvalidRequestException
   | LimitExceededException
@@ -15467,9 +15438,8 @@ export const createJob: (
  *
  * Requires permission to access the CreateJobTemplate action.
  */
-export const createJobTemplate: (
-  input: CreateJobTemplateRequest,
-) => effect.Effect<
+export const createJobTemplate: API.OperationMethod<
+  CreateJobTemplateRequest,
   CreateJobTemplateResponse,
   | ConflictException
   | InternalFailureException
@@ -15501,9 +15471,8 @@ export const createJobTemplate: (
  *
  * Requires permission to access the CreateKeysAndCertificate action.
  */
-export const createKeysAndCertificate: (
-  input: CreateKeysAndCertificateRequest,
-) => effect.Effect<
+export const createKeysAndCertificate: API.OperationMethod<
+  CreateKeysAndCertificateRequest,
   CreateKeysAndCertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15529,9 +15498,8 @@ export const createKeysAndCertificate: (
  *
  * Requires permission to access the CreateMitigationAction action.
  */
-export const createMitigationAction: (
-  input: CreateMitigationActionRequest,
-) => effect.Effect<
+export const createMitigationAction: API.OperationMethod<
+  CreateMitigationActionRequest,
   CreateMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15556,9 +15524,8 @@ export const createMitigationAction: (
  *
  * Requires permission to access the CreateOTAUpdate action.
  */
-export const createOTAUpdate: (
-  input: CreateOTAUpdateRequest,
-) => effect.Effect<
+export const createOTAUpdate: API.OperationMethod<
+  CreateOTAUpdateRequest,
   CreateOTAUpdateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15589,9 +15556,8 @@ export const createOTAUpdate: (
  *
  * Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
  */
-export const createPackage: (
-  input: CreatePackageRequest,
-) => effect.Effect<
+export const createPackage: API.OperationMethod<
+  CreatePackageRequest,
   CreatePackageResponse,
   | ConflictException
   | InternalServerException
@@ -15616,9 +15582,8 @@ export const createPackage: (
  *
  * Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
  */
-export const createPackageVersion: (
-  input: CreatePackageVersionRequest,
-) => effect.Effect<
+export const createPackageVersion: API.OperationMethod<
+  CreatePackageVersionRequest,
   CreatePackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -15647,9 +15612,8 @@ export const createPackageVersion: (
  *
  * Requires permission to access the CreatePolicy action.
  */
-export const createPolicy: (
-  input: CreatePolicyRequest,
-) => effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
   CreatePolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15685,9 +15649,8 @@ export const createPolicy: (
  *
  * Requires permission to access the CreatePolicyVersion action.
  */
-export const createPolicyVersion: (
-  input: CreatePolicyVersionRequest,
-) => effect.Effect<
+export const createPolicyVersion: API.OperationMethod<
+  CreatePolicyVersionRequest,
   CreatePolicyVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15718,9 +15681,8 @@ export const createPolicyVersion: (
  *
  * Requires permission to access the CreateProvisioningClaim action.
  */
-export const createProvisioningClaim: (
-  input: CreateProvisioningClaimRequest,
-) => effect.Effect<
+export const createProvisioningClaim: API.OperationMethod<
+  CreateProvisioningClaimRequest,
   CreateProvisioningClaimResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15747,9 +15709,8 @@ export const createProvisioningClaim: (
  *
  * Requires permission to access the CreateProvisioningTemplate action.
  */
-export const createProvisioningTemplate: (
-  input: CreateProvisioningTemplateRequest,
-) => effect.Effect<
+export const createProvisioningTemplate: API.OperationMethod<
+  CreateProvisioningTemplateRequest,
   CreateProvisioningTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15776,9 +15737,8 @@ export const createProvisioningTemplate: (
  *
  * Requires permission to access the CreateProvisioningTemplateVersion action.
  */
-export const createProvisioningTemplateVersion: (
-  input: CreateProvisioningTemplateVersionRequest,
-) => effect.Effect<
+export const createProvisioningTemplateVersion: API.OperationMethod<
+  CreateProvisioningTemplateVersionRequest,
   CreateProvisioningTemplateVersionResponse,
   | ConflictingResourceUpdateException
   | InternalFailureException
@@ -15814,9 +15774,8 @@ export const createProvisioningTemplateVersion: (
  *
  * Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
  */
-export const createRoleAlias: (
-  input: CreateRoleAliasRequest,
-) => effect.Effect<
+export const createRoleAlias: API.OperationMethod<
+  CreateRoleAliasRequest,
   CreateRoleAliasResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15846,9 +15805,8 @@ export const createRoleAlias: (
  *
  * Requires permission to access the CreateScheduledAudit action.
  */
-export const createScheduledAudit: (
-  input: CreateScheduledAuditRequest,
-) => effect.Effect<
+export const createScheduledAudit: API.OperationMethod<
+  CreateScheduledAuditRequest,
   CreateScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15873,9 +15831,8 @@ export const createScheduledAudit: (
  *
  * Requires permission to access the CreateSecurityProfile action.
  */
-export const createSecurityProfile: (
-  input: CreateSecurityProfileRequest,
-) => effect.Effect<
+export const createSecurityProfile: API.OperationMethod<
+  CreateSecurityProfileRequest,
   CreateSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15900,9 +15857,8 @@ export const createSecurityProfile: (
  *
  * Requires permission to access the CreateStream action.
  */
-export const createStream: (
-  input: CreateStreamRequest,
-) => effect.Effect<
+export const createStream: API.OperationMethod<
+  CreateStreamRequest,
   CreateStreamResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15939,9 +15895,8 @@ export const createStream: (
  *
  * Requires permission to access the CreateThing action.
  */
-export const createThing: (
-  input: CreateThingRequest,
-) => effect.Effect<
+export const createThing: API.OperationMethod<
+  CreateThingRequest,
   CreateThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -15976,9 +15931,8 @@ export const createThing: (
  *
  * Requires permission to access the CreateThingGroup action.
  */
-export const createThingGroup: (
-  input: CreateThingGroupRequest,
-) => effect.Effect<
+export const createThingGroup: API.OperationMethod<
+  CreateThingGroupRequest,
   CreateThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16003,9 +15957,8 @@ export const createThingGroup: (
  *
  * Requires permission to access the CreateThingType action.
  */
-export const createThingType: (
-  input: CreateThingTypeRequest,
-) => effect.Effect<
+export const createThingType: API.OperationMethod<
+  CreateThingTypeRequest,
   CreateThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16033,9 +15986,8 @@ export const createThingType: (
  *
  * Requires permission to access the CreateTopicRule action.
  */
-export const createTopicRule: (
-  input: CreateTopicRuleRequest,
-) => effect.Effect<
+export const createTopicRule: API.OperationMethod<
+  CreateTopicRuleRequest,
   CreateTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -16064,9 +16016,8 @@ export const createTopicRule: (
  *
  * Requires permission to access the CreateTopicRuleDestination action.
  */
-export const createTopicRuleDestination: (
-  input: CreateTopicRuleDestinationRequest,
-) => effect.Effect<
+export const createTopicRuleDestination: API.OperationMethod<
+  CreateTopicRuleDestinationRequest,
   CreateTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -16095,9 +16046,8 @@ export const createTopicRuleDestination: (
  *
  * Requires permission to access the DeleteAccountAuditConfiguration action.
  */
-export const deleteAccountAuditConfiguration: (
-  input: DeleteAccountAuditConfigurationRequest,
-) => effect.Effect<
+export const deleteAccountAuditConfiguration: API.OperationMethod<
+  DeleteAccountAuditConfigurationRequest,
   DeleteAccountAuditConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16120,9 +16070,8 @@ export const deleteAccountAuditConfiguration: (
  *
  * Requires permission to access the DeleteAuditSuppression action.
  */
-export const deleteAuditSuppression: (
-  input: DeleteAuditSuppressionRequest,
-) => effect.Effect<
+export const deleteAuditSuppression: API.OperationMethod<
+  DeleteAuditSuppressionRequest,
   DeleteAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16143,9 +16092,8 @@ export const deleteAuditSuppression: (
  *
  * Requires permission to access the DeleteAuthorizer action.
  */
-export const deleteAuthorizer: (
-  input: DeleteAuthorizerRequest,
-) => effect.Effect<
+export const deleteAuthorizer: API.OperationMethod<
+  DeleteAuthorizerRequest,
   DeleteAuthorizerResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16174,9 +16122,8 @@ export const deleteAuthorizer: (
  *
  * Requires permission to access the DeleteBillingGroup action.
  */
-export const deleteBillingGroup: (
-  input: DeleteBillingGroupRequest,
-) => effect.Effect<
+export const deleteBillingGroup: API.OperationMethod<
+  DeleteBillingGroupRequest,
   DeleteBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16199,9 +16146,8 @@ export const deleteBillingGroup: (
  *
  * Requires permission to access the DeleteCACertificate action.
  */
-export const deleteCACertificate: (
-  input: DeleteCACertificateRequest,
-) => effect.Effect<
+export const deleteCACertificate: API.OperationMethod<
+  DeleteCACertificateRequest,
   DeleteCACertificateResponse,
   | CertificateStateException
   | InternalFailureException
@@ -16234,9 +16180,8 @@ export const deleteCACertificate: (
  *
  * Requires permission to access the DeleteCertificate action.
  */
-export const deleteCertificate: (
-  input: DeleteCertificateRequest,
-) => effect.Effect<
+export const deleteCertificate: API.OperationMethod<
+  DeleteCertificateRequest,
   DeleteCertificateResponse,
   | CertificateStateException
   | DeleteConflictException
@@ -16271,9 +16216,8 @@ export const deleteCertificate: (
  * `CreateCertificateFromCsr` will resume, and IoT will create
  * certificates signed by IoT from a certificate signing request (CSR).
  */
-export const deleteCertificateProvider: (
-  input: DeleteCertificateProviderRequest,
-) => effect.Effect<
+export const deleteCertificateProvider: API.OperationMethod<
+  DeleteCertificateProviderRequest,
   DeleteCertificateProviderResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16300,9 +16244,8 @@ export const deleteCertificateProvider: (
 /**
  * Delete a command resource.
  */
-export const deleteCommand: (
-  input: DeleteCommandRequest,
-) => effect.Effect<
+export const deleteCommand: API.OperationMethod<
+  DeleteCommandRequest,
   DeleteCommandResponse,
   | ConflictException
   | InternalServerException
@@ -16326,9 +16269,8 @@ export const deleteCommand: (
  * Only command executions that enter a terminal state can be deleted from
  * your account.
  */
-export const deleteCommandExecution: (
-  input: DeleteCommandExecutionRequest,
-) => effect.Effect<
+export const deleteCommandExecution: API.OperationMethod<
+  DeleteCommandExecutionRequest,
   DeleteCommandExecutionResponse,
   | ConflictException
   | InternalServerException
@@ -16358,9 +16300,8 @@ export const deleteCommandExecution: (
  * profile associated with the custom metric can be found using the ListSecurityProfiles
  * API with `metricName` set to your custom metric name.
  */
-export const deleteCustomMetric: (
-  input: DeleteCustomMetricRequest,
-) => effect.Effect<
+export const deleteCustomMetric: API.OperationMethod<
+  DeleteCustomMetricRequest,
   DeleteCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16381,9 +16322,8 @@ export const deleteCustomMetric: (
  *
  * Requires permission to access the DeleteDimension action.
  */
-export const deleteDimension: (
-  input: DeleteDimensionRequest,
-) => effect.Effect<
+export const deleteDimension: API.OperationMethod<
+  DeleteDimensionRequest,
   DeleteDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16404,9 +16344,8 @@ export const deleteDimension: (
  *
  * Requires permission to access the DeleteDomainConfiguration action.
  */
-export const deleteDomainConfiguration: (
-  input: DeleteDomainConfigurationRequest,
-) => effect.Effect<
+export const deleteDomainConfiguration: API.OperationMethod<
+  DeleteDomainConfigurationRequest,
   DeleteDomainConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16433,9 +16372,8 @@ export const deleteDomainConfiguration: (
  *
  * Requires permission to access the DeleteDynamicThingGroup action.
  */
-export const deleteDynamicThingGroup: (
-  input: DeleteDynamicThingGroupRequest,
-) => effect.Effect<
+export const deleteDynamicThingGroup: API.OperationMethod<
+  DeleteDynamicThingGroupRequest,
   DeleteDynamicThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16459,9 +16397,8 @@ export const deleteDynamicThingGroup: (
  *
  * Requires permission to access the DeleteFleetMetric action.
  */
-export const deleteFleetMetric: (
-  input: DeleteFleetMetricRequest,
-) => effect.Effect<
+export const deleteFleetMetric: API.OperationMethod<
+  DeleteFleetMetricRequest,
   DeleteFleetMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16496,9 +16433,8 @@ export const deleteFleetMetric: (
  *
  * Requires permission to access the DeleteJob action.
  */
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResponse,
   | InvalidRequestException
   | InvalidStateTransitionException
@@ -16525,9 +16461,8 @@ export const deleteJob: (
  *
  * Requires permission to access the DeleteJobExecution action.
  */
-export const deleteJobExecution: (
-  input: DeleteJobExecutionRequest,
-) => effect.Effect<
+export const deleteJobExecution: API.OperationMethod<
+  DeleteJobExecutionRequest,
   DeleteJobExecutionResponse,
   | InvalidRequestException
   | InvalidStateTransitionException
@@ -16550,9 +16485,8 @@ export const deleteJobExecution: (
 /**
  * Deletes the specified job template.
  */
-export const deleteJobTemplate: (
-  input: DeleteJobTemplateRequest,
-) => effect.Effect<
+export const deleteJobTemplate: API.OperationMethod<
+  DeleteJobTemplateRequest,
   DeleteJobTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16575,9 +16509,8 @@ export const deleteJobTemplate: (
  *
  * Requires permission to access the DeleteMitigationAction action.
  */
-export const deleteMitigationAction: (
-  input: DeleteMitigationActionRequest,
-) => effect.Effect<
+export const deleteMitigationAction: API.OperationMethod<
+  DeleteMitigationActionRequest,
   DeleteMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16598,9 +16531,8 @@ export const deleteMitigationAction: (
  *
  * Requires permission to access the DeleteOTAUpdate action.
  */
-export const deleteOTAUpdate: (
-  input: DeleteOTAUpdateRequest,
-) => effect.Effect<
+export const deleteOTAUpdate: API.OperationMethod<
+  DeleteOTAUpdateRequest,
   DeleteOTAUpdateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16631,9 +16563,8 @@ export const deleteOTAUpdate: (
  *
  * Requires permission to access the DeletePackageVersion action.
  */
-export const deletePackage: (
-  input: DeletePackageRequest,
-) => effect.Effect<
+export const deletePackage: API.OperationMethod<
+  DeletePackageRequest,
   DeletePackageResponse,
   | InternalServerException
   | ThrottlingException
@@ -16650,9 +16581,8 @@ export const deletePackage: (
  *
  * **Note:** If a package version is designated as default, you must remove the designation from the software package using the UpdatePackage action.
  */
-export const deletePackageVersion: (
-  input: DeletePackageVersionRequest,
-) => effect.Effect<
+export const deletePackageVersion: API.OperationMethod<
+  DeletePackageVersionRequest,
   DeletePackageVersionResponse,
   | InternalServerException
   | ThrottlingException
@@ -16682,9 +16612,8 @@ export const deletePackageVersion: (
  *
  * Requires permission to access the DeletePolicy action.
  */
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16715,9 +16644,8 @@ export const deletePolicy: (
  *
  * Requires permission to access the DeletePolicyVersion action.
  */
-export const deletePolicyVersion: (
-  input: DeletePolicyVersionRequest,
-) => effect.Effect<
+export const deletePolicyVersion: API.OperationMethod<
+  DeletePolicyVersionRequest,
   DeletePolicyVersionResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16746,9 +16674,8 @@ export const deletePolicyVersion: (
  *
  * Requires permission to access the DeleteProvisioningTemplate action.
  */
-export const deleteProvisioningTemplate: (
-  input: DeleteProvisioningTemplateRequest,
-) => effect.Effect<
+export const deleteProvisioningTemplate: API.OperationMethod<
+  DeleteProvisioningTemplateRequest,
   DeleteProvisioningTemplateResponse,
   | ConflictingResourceUpdateException
   | DeleteConflictException
@@ -16777,9 +16704,8 @@ export const deleteProvisioningTemplate: (
  *
  * Requires permission to access the DeleteProvisioningTemplateVersion action.
  */
-export const deleteProvisioningTemplateVersion: (
-  input: DeleteProvisioningTemplateVersionRequest,
-) => effect.Effect<
+export const deleteProvisioningTemplateVersion: API.OperationMethod<
+  DeleteProvisioningTemplateVersionRequest,
   DeleteProvisioningTemplateVersionResponse,
   | ConflictingResourceUpdateException
   | DeleteConflictException
@@ -16808,9 +16734,8 @@ export const deleteProvisioningTemplateVersion: (
  *
  * Requires permission to access the DeleteRegistrationCode action.
  */
-export const deleteRegistrationCode: (
-  input: DeleteRegistrationCodeRequest,
-) => effect.Effect<
+export const deleteRegistrationCode: API.OperationMethod<
+  DeleteRegistrationCodeRequest,
   DeleteRegistrationCodeResponse,
   | InternalFailureException
   | ResourceNotFoundException
@@ -16835,9 +16760,8 @@ export const deleteRegistrationCode: (
  *
  * Requires permission to access the DeleteRoleAlias action.
  */
-export const deleteRoleAlias: (
-  input: DeleteRoleAliasRequest,
-) => effect.Effect<
+export const deleteRoleAlias: API.OperationMethod<
+  DeleteRoleAliasRequest,
   DeleteRoleAliasResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16866,9 +16790,8 @@ export const deleteRoleAlias: (
  *
  * Requires permission to access the DeleteScheduledAudit action.
  */
-export const deleteScheduledAudit: (
-  input: DeleteScheduledAuditRequest,
-) => effect.Effect<
+export const deleteScheduledAudit: API.OperationMethod<
+  DeleteScheduledAuditRequest,
   DeleteScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16891,9 +16814,8 @@ export const deleteScheduledAudit: (
  *
  * Requires permission to access the DeleteSecurityProfile action.
  */
-export const deleteSecurityProfile: (
-  input: DeleteSecurityProfileRequest,
-) => effect.Effect<
+export const deleteSecurityProfile: API.OperationMethod<
+  DeleteSecurityProfileRequest,
   DeleteSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16916,9 +16838,8 @@ export const deleteSecurityProfile: (
  *
  * Requires permission to access the DeleteStream action.
  */
-export const deleteStream: (
-  input: DeleteStreamRequest,
-) => effect.Effect<
+export const deleteStream: API.OperationMethod<
+  DeleteStreamRequest,
   DeleteStreamResponse,
   | DeleteConflictException
   | InternalFailureException
@@ -16948,9 +16869,8 @@ export const deleteStream: (
  *
  * Requires permission to access the DeleteThing action.
  */
-export const deleteThing: (
-  input: DeleteThingRequest,
-) => effect.Effect<
+export const deleteThing: API.OperationMethod<
+  DeleteThingRequest,
   DeleteThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -16979,9 +16899,8 @@ export const deleteThing: (
  *
  * Requires permission to access the DeleteThingGroup action.
  */
-export const deleteThingGroup: (
-  input: DeleteThingGroupRequest,
-) => effect.Effect<
+export const deleteThingGroup: API.OperationMethod<
+  DeleteThingGroupRequest,
   DeleteThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17006,9 +16925,8 @@ export const deleteThingGroup: (
  *
  * Requires permission to access the DeleteThingType action.
  */
-export const deleteThingType: (
-  input: DeleteThingTypeRequest,
-) => effect.Effect<
+export const deleteThingType: API.OperationMethod<
+  DeleteThingTypeRequest,
   DeleteThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17035,9 +16953,8 @@ export const deleteThingType: (
  *
  * Requires permission to access the DeleteTopicRule action.
  */
-export const deleteTopicRule: (
-  input: DeleteTopicRuleRequest,
-) => effect.Effect<
+export const deleteTopicRule: API.OperationMethod<
+  DeleteTopicRuleRequest,
   DeleteTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -17062,9 +16979,8 @@ export const deleteTopicRule: (
  *
  * Requires permission to access the DeleteTopicRuleDestination action.
  */
-export const deleteTopicRuleDestination: (
-  input: DeleteTopicRuleDestinationRequest,
-) => effect.Effect<
+export const deleteTopicRuleDestination: API.OperationMethod<
+  DeleteTopicRuleDestinationRequest,
   DeleteTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -17089,9 +17005,8 @@ export const deleteTopicRuleDestination: (
  *
  * Requires permission to access the DeleteV2LoggingLevel action.
  */
-export const deleteV2LoggingLevel: (
-  input: DeleteV2LoggingLevelRequest,
-) => effect.Effect<
+export const deleteV2LoggingLevel: API.OperationMethod<
+  DeleteV2LoggingLevelRequest,
   DeleteV2LoggingLevelResponse,
   | InternalException
   | InvalidRequestException
@@ -17113,9 +17028,8 @@ export const deleteV2LoggingLevel: (
  *
  * Requires permission to access the DeprecateThingType action.
  */
-export const deprecateThingType: (
-  input: DeprecateThingTypeRequest,
-) => effect.Effect<
+export const deprecateThingType: API.OperationMethod<
+  DeprecateThingTypeRequest,
   DeprecateThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17144,9 +17058,8 @@ export const deprecateThingType: (
  *
  * Requires permission to access the DescribeAccountAuditConfiguration action.
  */
-export const describeAccountAuditConfiguration: (
-  input: DescribeAccountAuditConfigurationRequest,
-) => effect.Effect<
+export const describeAccountAuditConfiguration: API.OperationMethod<
+  DescribeAccountAuditConfigurationRequest,
   DescribeAccountAuditConfigurationResponse,
   InternalFailureException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -17164,9 +17077,8 @@ export const describeAccountAuditConfiguration: (
  *
  * Requires permission to access the DescribeAuditFinding action.
  */
-export const describeAuditFinding: (
-  input: DescribeAuditFindingRequest,
-) => effect.Effect<
+export const describeAuditFinding: API.OperationMethod<
+  DescribeAuditFindingRequest,
   DescribeAuditFindingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17187,9 +17099,8 @@ export const describeAuditFinding: (
 /**
  * Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
  */
-export const describeAuditMitigationActionsTask: (
-  input: DescribeAuditMitigationActionsTaskRequest,
-) => effect.Effect<
+export const describeAuditMitigationActionsTask: API.OperationMethod<
+  DescribeAuditMitigationActionsTaskRequest,
   DescribeAuditMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17210,9 +17121,8 @@ export const describeAuditMitigationActionsTask: (
 /**
  * Gets information about a Device Defender audit suppression.
  */
-export const describeAuditSuppression: (
-  input: DescribeAuditSuppressionRequest,
-) => effect.Effect<
+export const describeAuditSuppression: API.OperationMethod<
+  DescribeAuditSuppressionRequest,
   DescribeAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17235,9 +17145,8 @@ export const describeAuditSuppression: (
  *
  * Requires permission to access the DescribeAuditTask action.
  */
-export const describeAuditTask: (
-  input: DescribeAuditTaskRequest,
-) => effect.Effect<
+export const describeAuditTask: API.OperationMethod<
+  DescribeAuditTaskRequest,
   DescribeAuditTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17260,9 +17169,8 @@ export const describeAuditTask: (
  *
  * Requires permission to access the DescribeAuthorizer action.
  */
-export const describeAuthorizer: (
-  input: DescribeAuthorizerRequest,
-) => effect.Effect<
+export const describeAuthorizer: API.OperationMethod<
+  DescribeAuthorizerRequest,
   DescribeAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17289,9 +17197,8 @@ export const describeAuthorizer: (
  *
  * Requires permission to access the DescribeBillingGroup action.
  */
-export const describeBillingGroup: (
-  input: DescribeBillingGroupRequest,
-) => effect.Effect<
+export const describeBillingGroup: API.OperationMethod<
+  DescribeBillingGroupRequest,
   DescribeBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17314,9 +17221,8 @@ export const describeBillingGroup: (
  *
  * Requires permission to access the DescribeCACertificate action.
  */
-export const describeCACertificate: (
-  input: DescribeCACertificateRequest,
-) => effect.Effect<
+export const describeCACertificate: API.OperationMethod<
+  DescribeCACertificateRequest,
   DescribeCACertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17343,9 +17249,8 @@ export const describeCACertificate: (
  *
  * Requires permission to access the DescribeCertificate action.
  */
-export const describeCertificate: (
-  input: DescribeCertificateRequest,
-) => effect.Effect<
+export const describeCertificate: API.OperationMethod<
+  DescribeCertificateRequest,
   DescribeCertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17372,9 +17277,8 @@ export const describeCertificate: (
  *
  * Requires permission to access the DescribeCertificateProvider action.
  */
-export const describeCertificateProvider: (
-  input: DescribeCertificateProviderRequest,
-) => effect.Effect<
+export const describeCertificateProvider: API.OperationMethod<
+  DescribeCertificateProviderRequest,
   DescribeCertificateProviderResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17401,9 +17305,8 @@ export const describeCertificateProvider: (
  *
  * Requires permission to access the DescribeCustomMetric action.
  */
-export const describeCustomMetric: (
-  input: DescribeCustomMetricRequest,
-) => effect.Effect<
+export const describeCustomMetric: API.OperationMethod<
+  DescribeCustomMetricRequest,
   DescribeCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17426,9 +17329,8 @@ export const describeCustomMetric: (
  *
  * Requires permission to access the DescribeDefaultAuthorizer action.
  */
-export const describeDefaultAuthorizer: (
-  input: DescribeDefaultAuthorizerRequest,
-) => effect.Effect<
+export const describeDefaultAuthorizer: API.OperationMethod<
+  DescribeDefaultAuthorizerRequest,
   DescribeDefaultAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17455,9 +17357,8 @@ export const describeDefaultAuthorizer: (
  *
  * Requires permission to access the DescribeDetectMitigationActionsTask action.
  */
-export const describeDetectMitigationActionsTask: (
-  input: DescribeDetectMitigationActionsTaskRequest,
-) => effect.Effect<
+export const describeDetectMitigationActionsTask: API.OperationMethod<
+  DescribeDetectMitigationActionsTaskRequest,
   DescribeDetectMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17480,9 +17381,8 @@ export const describeDetectMitigationActionsTask: (
  *
  * Requires permission to access the DescribeDimension action.
  */
-export const describeDimension: (
-  input: DescribeDimensionRequest,
-) => effect.Effect<
+export const describeDimension: API.OperationMethod<
+  DescribeDimensionRequest,
   DescribeDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17505,9 +17405,8 @@ export const describeDimension: (
  *
  * Requires permission to access the DescribeDomainConfiguration action.
  */
-export const describeDomainConfiguration: (
-  input: DescribeDomainConfigurationRequest,
-) => effect.Effect<
+export const describeDomainConfiguration: API.OperationMethod<
+  DescribeDomainConfigurationRequest,
   DescribeDomainConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17534,9 +17433,8 @@ export const describeDomainConfiguration: (
  * Amazon Web Services IoT Core. For more information, see Data encryption at rest in
  * the *Amazon Web Services IoT Core Developer Guide*.
  */
-export const describeEncryptionConfiguration: (
-  input: DescribeEncryptionConfigurationRequest,
-) => effect.Effect<
+export const describeEncryptionConfiguration: API.OperationMethod<
+  DescribeEncryptionConfigurationRequest,
   DescribeEncryptionConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17564,9 +17462,8 @@ export const describeEncryptionConfiguration: (
  *
  * Requires permission to access the DescribeEndpoint action.
  */
-export const describeEndpoint: (
-  input: DescribeEndpointRequest,
-) => effect.Effect<
+export const describeEndpoint: API.OperationMethod<
+  DescribeEndpointRequest,
   DescribeEndpointResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17589,9 +17486,8 @@ export const describeEndpoint: (
  *
  * Requires permission to access the DescribeEventConfigurations action.
  */
-export const describeEventConfigurations: (
-  input: DescribeEventConfigurationsRequest,
-) => effect.Effect<
+export const describeEventConfigurations: API.OperationMethod<
+  DescribeEventConfigurationsRequest,
   DescribeEventConfigurationsResponse,
   InternalFailureException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -17605,9 +17501,8 @@ export const describeEventConfigurations: (
  *
  * Requires permission to access the DescribeFleetMetric action.
  */
-export const describeFleetMetric: (
-  input: DescribeFleetMetricRequest,
-) => effect.Effect<
+export const describeFleetMetric: API.OperationMethod<
+  DescribeFleetMetricRequest,
   DescribeFleetMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17634,9 +17529,8 @@ export const describeFleetMetric: (
  *
  * Requires permission to access the DescribeIndex action.
  */
-export const describeIndex: (
-  input: DescribeIndexRequest,
-) => effect.Effect<
+export const describeIndex: API.OperationMethod<
+  DescribeIndexRequest,
   DescribeIndexResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17663,9 +17557,8 @@ export const describeIndex: (
  *
  * Requires permission to access the DescribeJob action.
  */
-export const describeJob: (
-  input: DescribeJobRequest,
-) => effect.Effect<
+export const describeJob: API.OperationMethod<
+  DescribeJobRequest,
   DescribeJobResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -17688,9 +17581,8 @@ export const describeJob: (
  *
  * Requires permission to access the DescribeJobExecution action.
  */
-export const describeJobExecution: (
-  input: DescribeJobExecutionRequest,
-) => effect.Effect<
+export const describeJobExecution: API.OperationMethod<
+  DescribeJobExecutionRequest,
   DescribeJobExecutionResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -17711,9 +17603,8 @@ export const describeJobExecution: (
 /**
  * Returns information about a job template.
  */
-export const describeJobTemplate: (
-  input: DescribeJobTemplateRequest,
-) => effect.Effect<
+export const describeJobTemplate: API.OperationMethod<
+  DescribeJobTemplateRequest,
   DescribeJobTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17734,9 +17625,8 @@ export const describeJobTemplate: (
 /**
  * View details of a managed job template.
  */
-export const describeManagedJobTemplate: (
-  input: DescribeManagedJobTemplateRequest,
-) => effect.Effect<
+export const describeManagedJobTemplate: API.OperationMethod<
+  DescribeManagedJobTemplateRequest,
   DescribeManagedJobTemplateResponse,
   | InternalServerException
   | InvalidRequestException
@@ -17759,9 +17649,8 @@ export const describeManagedJobTemplate: (
  *
  * Requires permission to access the DescribeMitigationAction action.
  */
-export const describeMitigationAction: (
-  input: DescribeMitigationActionRequest,
-) => effect.Effect<
+export const describeMitigationAction: API.OperationMethod<
+  DescribeMitigationActionRequest,
   DescribeMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17784,9 +17673,8 @@ export const describeMitigationAction: (
  *
  * Requires permission to access the DescribeProvisioningTemplate action.
  */
-export const describeProvisioningTemplate: (
-  input: DescribeProvisioningTemplateRequest,
-) => effect.Effect<
+export const describeProvisioningTemplate: API.OperationMethod<
+  DescribeProvisioningTemplateRequest,
   DescribeProvisioningTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17811,9 +17699,8 @@ export const describeProvisioningTemplate: (
  *
  * Requires permission to access the DescribeProvisioningTemplateVersion action.
  */
-export const describeProvisioningTemplateVersion: (
-  input: DescribeProvisioningTemplateVersionRequest,
-) => effect.Effect<
+export const describeProvisioningTemplateVersion: API.OperationMethod<
+  DescribeProvisioningTemplateVersionRequest,
   DescribeProvisioningTemplateVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17838,9 +17725,8 @@ export const describeProvisioningTemplateVersion: (
  *
  * Requires permission to access the DescribeRoleAlias action.
  */
-export const describeRoleAlias: (
-  input: DescribeRoleAliasRequest,
-) => effect.Effect<
+export const describeRoleAlias: API.OperationMethod<
+  DescribeRoleAliasRequest,
   DescribeRoleAliasResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17867,9 +17753,8 @@ export const describeRoleAlias: (
  *
  * Requires permission to access the DescribeScheduledAudit action.
  */
-export const describeScheduledAudit: (
-  input: DescribeScheduledAuditRequest,
-) => effect.Effect<
+export const describeScheduledAudit: API.OperationMethod<
+  DescribeScheduledAuditRequest,
   DescribeScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17892,9 +17777,8 @@ export const describeScheduledAudit: (
  *
  * Requires permission to access the DescribeSecurityProfile action.
  */
-export const describeSecurityProfile: (
-  input: DescribeSecurityProfileRequest,
-) => effect.Effect<
+export const describeSecurityProfile: API.OperationMethod<
+  DescribeSecurityProfileRequest,
   DescribeSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17917,9 +17801,8 @@ export const describeSecurityProfile: (
  *
  * Requires permission to access the DescribeStream action.
  */
-export const describeStream: (
-  input: DescribeStreamRequest,
-) => effect.Effect<
+export const describeStream: API.OperationMethod<
+  DescribeStreamRequest,
   DescribeStreamResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17946,9 +17829,8 @@ export const describeStream: (
  *
  * Requires permission to access the DescribeThing action.
  */
-export const describeThing: (
-  input: DescribeThingRequest,
-) => effect.Effect<
+export const describeThing: API.OperationMethod<
+  DescribeThingRequest,
   DescribeThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -17975,9 +17857,8 @@ export const describeThing: (
  *
  * Requires permission to access the DescribeThingGroup action.
  */
-export const describeThingGroup: (
-  input: DescribeThingGroupRequest,
-) => effect.Effect<
+export const describeThingGroup: API.OperationMethod<
+  DescribeThingGroupRequest,
   DescribeThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18000,9 +17881,8 @@ export const describeThingGroup: (
  *
  * Requires permission to access the DescribeThingRegistrationTask action.
  */
-export const describeThingRegistrationTask: (
-  input: DescribeThingRegistrationTaskRequest,
-) => effect.Effect<
+export const describeThingRegistrationTask: API.OperationMethod<
+  DescribeThingRegistrationTaskRequest,
   DescribeThingRegistrationTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18027,9 +17907,8 @@ export const describeThingRegistrationTask: (
  *
  * Requires permission to access the DescribeThingType action.
  */
-export const describeThingType: (
-  input: DescribeThingTypeRequest,
-) => effect.Effect<
+export const describeThingType: API.OperationMethod<
+  DescribeThingTypeRequest,
   DescribeThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18059,9 +17938,8 @@ export const describeThingType: (
  *
  * Requires permission to access the DetachPolicy action.
  */
-export const detachPolicy: (
-  input: DetachPolicyRequest,
-) => effect.Effect<
+export const detachPolicy: API.OperationMethod<
+  DetachPolicyRequest,
   DetachPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18091,9 +17969,8 @@ export const detachPolicy: (
  *
  * Requires permission to access the DetachPrincipalPolicy action.
  */
-export const detachPrincipalPolicy: (
-  input: DetachPrincipalPolicyRequest,
-) => effect.Effect<
+export const detachPrincipalPolicy: API.OperationMethod<
+  DetachPrincipalPolicyRequest,
   DetachPrincipalPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18120,9 +17997,8 @@ export const detachPrincipalPolicy: (
  *
  * Requires permission to access the DetachSecurityProfile action.
  */
-export const detachSecurityProfile: (
-  input: DetachSecurityProfileRequest,
-) => effect.Effect<
+export const detachSecurityProfile: API.OperationMethod<
+  DetachSecurityProfileRequest,
   DetachSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18150,9 +18026,8 @@ export const detachSecurityProfile: (
  *
  * Requires permission to access the DetachThingPrincipal action.
  */
-export const detachThingPrincipal: (
-  input: DetachThingPrincipalRequest,
-) => effect.Effect<
+export const detachThingPrincipal: API.OperationMethod<
+  DetachThingPrincipalRequest,
   DetachThingPrincipalResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18179,9 +18054,8 @@ export const detachThingPrincipal: (
  *
  * Requires permission to access the DisableTopicRule action.
  */
-export const disableTopicRule: (
-  input: DisableTopicRuleRequest,
-) => effect.Effect<
+export const disableTopicRule: API.OperationMethod<
+  DisableTopicRuleRequest,
   DisableTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -18206,9 +18080,8 @@ export const disableTopicRule: (
  *
  * Requires permission to access the DisassociateSbomWithPackageVersion action.
  */
-export const disassociateSbomFromPackageVersion: (
-  input: DisassociateSbomFromPackageVersionRequest,
-) => effect.Effect<
+export const disassociateSbomFromPackageVersion: API.OperationMethod<
+  DisassociateSbomFromPackageVersionRequest,
   DisassociateSbomFromPackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -18233,9 +18106,8 @@ export const disassociateSbomFromPackageVersion: (
  *
  * Requires permission to access the EnableTopicRule action.
  */
-export const enableTopicRule: (
-  input: EnableTopicRuleRequest,
-) => effect.Effect<
+export const enableTopicRule: API.OperationMethod<
+  EnableTopicRuleRequest,
   EnableTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -18260,18 +18132,16 @@ export const enableTopicRule: (
  *
  * Requires permission to access the GetBehaviorModelTrainingSummaries action.
  */
-export const getBehaviorModelTrainingSummaries: {
-  (
-    input: GetBehaviorModelTrainingSummariesRequest,
-  ): effect.Effect<
-    GetBehaviorModelTrainingSummariesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBehaviorModelTrainingSummaries: API.OperationMethod<
+  GetBehaviorModelTrainingSummariesRequest,
+  GetBehaviorModelTrainingSummariesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBehaviorModelTrainingSummariesRequest,
   ) => stream.Stream<
@@ -18315,9 +18185,8 @@ export const getBehaviorModelTrainingSummaries: {
  *
  * Requires permission to access the GetBucketsAggregation action.
  */
-export const getBucketsAggregation: (
-  input: GetBucketsAggregationRequest,
-) => effect.Effect<
+export const getBucketsAggregation: API.OperationMethod<
+  GetBucketsAggregationRequest,
   GetBucketsAggregationResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -18350,9 +18219,8 @@ export const getBucketsAggregation: (
  *
  * Requires permission to access the GetCardinality action.
  */
-export const getCardinality: (
-  input: GetCardinalityRequest,
-) => effect.Effect<
+export const getCardinality: API.OperationMethod<
+  GetCardinalityRequest,
   GetCardinalityResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -18383,9 +18251,8 @@ export const getCardinality: (
 /**
  * Gets information about the specified command.
  */
-export const getCommand: (
-  input: GetCommandRequest,
-) => effect.Effect<
+export const getCommand: API.OperationMethod<
+  GetCommandRequest,
   GetCommandResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -18406,9 +18273,8 @@ export const getCommand: (
 /**
  * Gets information about the specific command execution on a single device.
  */
-export const getCommandExecution: (
-  input: GetCommandExecutionRequest,
-) => effect.Effect<
+export const getCommandExecution: API.OperationMethod<
+  GetCommandExecutionRequest,
   GetCommandExecutionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -18432,9 +18298,8 @@ export const getCommandExecution: (
  *
  * Requires permission to access the GetEffectivePolicies action.
  */
-export const getEffectivePolicies: (
-  input: GetEffectivePoliciesRequest,
-) => effect.Effect<
+export const getEffectivePolicies: API.OperationMethod<
+  GetEffectivePoliciesRequest,
   GetEffectivePoliciesResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18463,9 +18328,8 @@ export const getEffectivePolicies: (
  *
  * Requires permission to access the GetIndexingConfiguration action.
  */
-export const getIndexingConfiguration: (
-  input: GetIndexingConfigurationRequest,
-) => effect.Effect<
+export const getIndexingConfiguration: API.OperationMethod<
+  GetIndexingConfigurationRequest,
   GetIndexingConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18490,9 +18354,8 @@ export const getIndexingConfiguration: (
  *
  * Requires permission to access the GetJobDocument action.
  */
-export const getJobDocument: (
-  input: GetJobDocumentRequest,
-) => effect.Effect<
+export const getJobDocument: API.OperationMethod<
+  GetJobDocumentRequest,
   GetJobDocumentResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -18518,9 +18381,8 @@ export const getJobDocument: (
  *
  * Requires permission to access the GetLoggingOptions action.
  */
-export const getLoggingOptions: (
-  input: GetLoggingOptionsRequest,
-) => effect.Effect<
+export const getLoggingOptions: API.OperationMethod<
+  GetLoggingOptionsRequest,
   GetLoggingOptionsResponse,
   | InternalException
   | InvalidRequestException
@@ -18541,9 +18403,8 @@ export const getLoggingOptions: (
  *
  * Requires permission to access the GetOTAUpdate action.
  */
-export const getOTAUpdate: (
-  input: GetOTAUpdateRequest,
-) => effect.Effect<
+export const getOTAUpdate: API.OperationMethod<
+  GetOTAUpdateRequest,
   GetOTAUpdateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18570,9 +18431,8 @@ export const getOTAUpdate: (
  *
  * Requires permission to access the GetPackage action.
  */
-export const getPackage: (
-  input: GetPackageRequest,
-) => effect.Effect<
+export const getPackage: API.OperationMethod<
+  GetPackageRequest,
   GetPackageResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -18595,9 +18455,8 @@ export const getPackage: (
  *
  * Requires permission to access the GetPackageConfiguration action.
  */
-export const getPackageConfiguration: (
-  input: GetPackageConfigurationRequest,
-) => effect.Effect<
+export const getPackageConfiguration: API.OperationMethod<
+  GetPackageConfigurationRequest,
   GetPackageConfigurationResponse,
   InternalServerException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -18611,9 +18470,8 @@ export const getPackageConfiguration: (
  *
  * Requires permission to access the GetPackageVersion action.
  */
-export const getPackageVersion: (
-  input: GetPackageVersionRequest,
-) => effect.Effect<
+export const getPackageVersion: API.OperationMethod<
+  GetPackageVersionRequest,
   GetPackageVersionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -18644,9 +18502,8 @@ export const getPackageVersion: (
  *
  * Requires permission to access the GetPercentiles action.
  */
-export const getPercentiles: (
-  input: GetPercentilesRequest,
-) => effect.Effect<
+export const getPercentiles: API.OperationMethod<
+  GetPercentilesRequest,
   GetPercentilesResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -18680,9 +18537,8 @@ export const getPercentiles: (
  *
  * Requires permission to access the GetPolicy action.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18709,9 +18565,8 @@ export const getPolicy: (
  *
  * Requires permission to access the GetPolicyVersion action.
  */
-export const getPolicyVersion: (
-  input: GetPolicyVersionRequest,
-) => effect.Effect<
+export const getPolicyVersion: API.OperationMethod<
+  GetPolicyVersionRequest,
   GetPolicyVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18742,9 +18597,8 @@ export const getPolicyVersion: (
  *
  * Requires permission to access the GetRegistrationCode action.
  */
-export const getRegistrationCode: (
-  input: GetRegistrationCodeRequest,
-) => effect.Effect<
+export const getRegistrationCode: API.OperationMethod<
+  GetRegistrationCodeRequest,
   GetRegistrationCodeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -18771,9 +18625,8 @@ export const getRegistrationCode: (
  *
  * Requires permission to access the GetStatistics action.
  */
-export const getStatistics: (
-  input: GetStatisticsRequest,
-) => effect.Effect<
+export const getStatistics: API.OperationMethod<
+  GetStatisticsRequest,
   GetStatisticsResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -18804,9 +18657,8 @@ export const getStatistics: (
 /**
  * Retrieves the live connectivity status per device.
  */
-export const getThingConnectivityData: (
-  input: GetThingConnectivityDataRequest,
-) => effect.Effect<
+export const getThingConnectivityData: API.OperationMethod<
+  GetThingConnectivityDataRequest,
   GetThingConnectivityDataResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -18835,9 +18687,8 @@ export const getThingConnectivityData: (
  *
  * Requires permission to access the GetTopicRule action.
  */
-export const getTopicRule: (
-  input: GetTopicRuleRequest,
-) => effect.Effect<
+export const getTopicRule: API.OperationMethod<
+  GetTopicRuleRequest,
   GetTopicRuleResponse,
   | InternalException
   | InvalidRequestException
@@ -18860,9 +18711,8 @@ export const getTopicRule: (
  *
  * Requires permission to access the GetTopicRuleDestination action.
  */
-export const getTopicRuleDestination: (
-  input: GetTopicRuleDestinationRequest,
-) => effect.Effect<
+export const getTopicRuleDestination: API.OperationMethod<
+  GetTopicRuleDestinationRequest,
   GetTopicRuleDestinationResponse,
   | InternalException
   | InvalidRequestException
@@ -18885,9 +18735,8 @@ export const getTopicRuleDestination: (
  *
  * Requires permission to access the GetV2LoggingOptions action.
  */
-export const getV2LoggingOptions: (
-  input: GetV2LoggingOptionsRequest,
-) => effect.Effect<
+export const getV2LoggingOptions: API.OperationMethod<
+  GetV2LoggingOptionsRequest,
   GetV2LoggingOptionsResponse,
   | InternalException
   | NotConfiguredException
@@ -18908,18 +18757,16 @@ export const getV2LoggingOptions: (
  *
  * Requires permission to access the ListActiveViolations action.
  */
-export const listActiveViolations: {
-  (
-    input: ListActiveViolationsRequest,
-  ): effect.Effect<
-    ListActiveViolationsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActiveViolations: API.OperationMethod<
+  ListActiveViolationsRequest,
+  ListActiveViolationsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActiveViolationsRequest,
   ) => stream.Stream<
@@ -18963,21 +18810,19 @@ export const listActiveViolations: {
  *
  * Requires permission to access the ListAttachedPolicies action.
  */
-export const listAttachedPolicies: {
-  (
-    input: ListAttachedPoliciesRequest,
-  ): effect.Effect<
-    ListAttachedPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachedPolicies: API.OperationMethod<
+  ListAttachedPoliciesRequest,
+  ListAttachedPoliciesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachedPoliciesRequest,
   ) => stream.Stream<
@@ -19031,17 +18876,15 @@ export const listAttachedPolicies: {
  *
  * Requires permission to access the ListAuditFindings action.
  */
-export const listAuditFindings: {
-  (
-    input: ListAuditFindingsRequest,
-  ): effect.Effect<
-    ListAuditFindingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAuditFindings: API.OperationMethod<
+  ListAuditFindingsRequest,
+  ListAuditFindingsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuditFindingsRequest,
   ) => stream.Stream<
@@ -19083,17 +18926,15 @@ export const listAuditFindings: {
  *
  * Requires permission to access the ListAuditMitigationActionsExecutions action.
  */
-export const listAuditMitigationActionsExecutions: {
-  (
-    input: ListAuditMitigationActionsExecutionsRequest,
-  ): effect.Effect<
-    ListAuditMitigationActionsExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAuditMitigationActionsExecutions: API.OperationMethod<
+  ListAuditMitigationActionsExecutionsRequest,
+  ListAuditMitigationActionsExecutionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuditMitigationActionsExecutionsRequest,
   ) => stream.Stream<
@@ -19134,17 +18975,15 @@ export const listAuditMitigationActionsExecutions: {
  *
  * Requires permission to access the ListAuditMitigationActionsTasks action.
  */
-export const listAuditMitigationActionsTasks: {
-  (
-    input: ListAuditMitigationActionsTasksRequest,
-  ): effect.Effect<
-    ListAuditMitigationActionsTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAuditMitigationActionsTasks: API.OperationMethod<
+  ListAuditMitigationActionsTasksRequest,
+  ListAuditMitigationActionsTasksResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuditMitigationActionsTasksRequest,
   ) => stream.Stream<
@@ -19185,17 +19024,15 @@ export const listAuditMitigationActionsTasks: {
  *
  * Requires permission to access the ListAuditSuppressions action.
  */
-export const listAuditSuppressions: {
-  (
-    input: ListAuditSuppressionsRequest,
-  ): effect.Effect<
-    ListAuditSuppressionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAuditSuppressions: API.OperationMethod<
+  ListAuditSuppressionsRequest,
+  ListAuditSuppressionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuditSuppressionsRequest,
   ) => stream.Stream<
@@ -19237,17 +19074,15 @@ export const listAuditSuppressions: {
  *
  * Requires permission to access the ListAuditTasks action.
  */
-export const listAuditTasks: {
-  (
-    input: ListAuditTasksRequest,
-  ): effect.Effect<
-    ListAuditTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAuditTasks: API.OperationMethod<
+  ListAuditTasksRequest,
+  ListAuditTasksResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuditTasksRequest,
   ) => stream.Stream<
@@ -19288,19 +19123,17 @@ export const listAuditTasks: {
  *
  * Requires permission to access the ListAuthorizers action.
  */
-export const listAuthorizers: {
-  (
-    input: ListAuthorizersRequest,
-  ): effect.Effect<
-    ListAuthorizersResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAuthorizers: API.OperationMethod<
+  ListAuthorizersRequest,
+  ListAuthorizersResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuthorizersRequest,
   ) => stream.Stream<
@@ -19347,18 +19180,16 @@ export const listAuthorizers: {
  *
  * Requires permission to access the ListBillingGroups action.
  */
-export const listBillingGroups: {
-  (
-    input: ListBillingGroupsRequest,
-  ): effect.Effect<
-    ListBillingGroupsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillingGroups: API.OperationMethod<
+  ListBillingGroupsRequest,
+  ListBillingGroupsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillingGroupsRequest,
   ) => stream.Stream<
@@ -19405,19 +19236,17 @@ export const listBillingGroups: {
  *
  * Requires permission to access the ListCACertificates action.
  */
-export const listCACertificates: {
-  (
-    input: ListCACertificatesRequest,
-  ): effect.Effect<
-    ListCACertificatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCACertificates: API.OperationMethod<
+  ListCACertificatesRequest,
+  ListCACertificatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCACertificatesRequest,
   ) => stream.Stream<
@@ -19464,9 +19293,8 @@ export const listCACertificates: {
  *
  * Requires permission to access the ListCertificateProviders action.
  */
-export const listCertificateProviders: (
-  input: ListCertificateProvidersRequest,
-) => effect.Effect<
+export const listCertificateProviders: API.OperationMethod<
+  ListCertificateProvidersRequest,
   ListCertificateProvidersResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -19494,19 +19322,17 @@ export const listCertificateProviders: (
  *
  * Requires permission to access the ListCertificates action.
  */
-export const listCertificates: {
-  (
-    input: ListCertificatesRequest,
-  ): effect.Effect<
-    ListCertificatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCertificates: API.OperationMethod<
+  ListCertificatesRequest,
+  ListCertificatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
@@ -19553,19 +19379,17 @@ export const listCertificates: {
  *
  * Requires permission to access the ListCertificatesByCA action.
  */
-export const listCertificatesByCA: {
-  (
-    input: ListCertificatesByCARequest,
-  ): effect.Effect<
-    ListCertificatesByCAResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCertificatesByCA: API.OperationMethod<
+  ListCertificatesByCARequest,
+  ListCertificatesByCAResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCertificatesByCARequest,
   ) => stream.Stream<
@@ -19625,18 +19449,16 @@ export const listCertificatesByCA: {
  * List
  * command executions in your account (CLI).
  */
-export const listCommandExecutions: {
-  (
-    input: ListCommandExecutionsRequest,
-  ): effect.Effect<
-    ListCommandExecutionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCommandExecutions: API.OperationMethod<
+  ListCommandExecutionsRequest,
+  ListCommandExecutionsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommandExecutionsRequest,
   ) => stream.Stream<
@@ -19678,17 +19500,15 @@ export const listCommandExecutions: {
 /**
  * List all commands in your account.
  */
-export const listCommands: {
-  (
-    input: ListCommandsRequest,
-  ): effect.Effect<
-    ListCommandsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCommands: API.OperationMethod<
+  ListCommandsRequest,
+  ListCommandsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommandsRequest,
   ) => stream.Stream<
@@ -19725,17 +19545,15 @@ export const listCommands: {
  *
  * Requires permission to access the ListCustomMetrics action.
  */
-export const listCustomMetrics: {
-  (
-    input: ListCustomMetricsRequest,
-  ): effect.Effect<
-    ListCustomMetricsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomMetrics: API.OperationMethod<
+  ListCustomMetricsRequest,
+  ListCustomMetricsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomMetricsRequest,
   ) => stream.Stream<
@@ -19776,17 +19594,15 @@ export const listCustomMetrics: {
  *
  * Requires permission to access the ListDetectMitigationActionsExecutions action.
  */
-export const listDetectMitigationActionsExecutions: {
-  (
-    input: ListDetectMitigationActionsExecutionsRequest,
-  ): effect.Effect<
-    ListDetectMitigationActionsExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDetectMitigationActionsExecutions: API.OperationMethod<
+  ListDetectMitigationActionsExecutionsRequest,
+  ListDetectMitigationActionsExecutionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDetectMitigationActionsExecutionsRequest,
   ) => stream.Stream<
@@ -19827,17 +19643,15 @@ export const listDetectMitigationActionsExecutions: {
  *
  * Requires permission to access the ListDetectMitigationActionsTasks action.
  */
-export const listDetectMitigationActionsTasks: {
-  (
-    input: ListDetectMitigationActionsTasksRequest,
-  ): effect.Effect<
-    ListDetectMitigationActionsTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDetectMitigationActionsTasks: API.OperationMethod<
+  ListDetectMitigationActionsTasksRequest,
+  ListDetectMitigationActionsTasksResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDetectMitigationActionsTasksRequest,
   ) => stream.Stream<
@@ -19878,17 +19692,15 @@ export const listDetectMitigationActionsTasks: {
  *
  * Requires permission to access the ListDimensions action.
  */
-export const listDimensions: {
-  (
-    input: ListDimensionsRequest,
-  ): effect.Effect<
-    ListDimensionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDimensions: API.OperationMethod<
+  ListDimensionsRequest,
+  ListDimensionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDimensionsRequest,
   ) => stream.Stream<
@@ -19930,19 +19742,17 @@ export const listDimensions: {
  *
  * Requires permission to access the ListDomainConfigurations action.
  */
-export const listDomainConfigurations: {
-  (
-    input: ListDomainConfigurationsRequest,
-  ): effect.Effect<
-    ListDomainConfigurationsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainConfigurations: API.OperationMethod<
+  ListDomainConfigurationsRequest,
+  ListDomainConfigurationsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainConfigurationsRequest,
   ) => stream.Stream<
@@ -19989,19 +19799,17 @@ export const listDomainConfigurations: {
  *
  * Requires permission to access the ListFleetMetrics action.
  */
-export const listFleetMetrics: {
-  (
-    input: ListFleetMetricsRequest,
-  ): effect.Effect<
-    ListFleetMetricsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleetMetrics: API.OperationMethod<
+  ListFleetMetricsRequest,
+  ListFleetMetricsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetMetricsRequest,
   ) => stream.Stream<
@@ -20048,19 +19856,17 @@ export const listFleetMetrics: {
  *
  * Requires permission to access the ListIndices action.
  */
-export const listIndices: {
-  (
-    input: ListIndicesRequest,
-  ): effect.Effect<
-    ListIndicesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndices: API.OperationMethod<
+  ListIndicesRequest,
+  ListIndicesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndicesRequest,
   ) => stream.Stream<
@@ -20107,18 +19913,16 @@ export const listIndices: {
  *
  * Requires permission to access the ListJobExecutionsForJob action.
  */
-export const listJobExecutionsForJob: {
-  (
-    input: ListJobExecutionsForJobRequest,
-  ): effect.Effect<
-    ListJobExecutionsForJobResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobExecutionsForJob: API.OperationMethod<
+  ListJobExecutionsForJobRequest,
+  ListJobExecutionsForJobResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobExecutionsForJobRequest,
   ) => stream.Stream<
@@ -20162,18 +19966,16 @@ export const listJobExecutionsForJob: {
  *
  * Requires permission to access the ListJobExecutionsForThing action.
  */
-export const listJobExecutionsForThing: {
-  (
-    input: ListJobExecutionsForThingRequest,
-  ): effect.Effect<
-    ListJobExecutionsForThingResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobExecutionsForThing: API.OperationMethod<
+  ListJobExecutionsForThingRequest,
+  ListJobExecutionsForThingResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobExecutionsForThingRequest,
   ) => stream.Stream<
@@ -20217,18 +20019,16 @@ export const listJobExecutionsForThing: {
  *
  * Requires permission to access the ListJobs action.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -20272,17 +20072,15 @@ export const listJobs: {
  *
  * Requires permission to access the ListJobTemplates action.
  */
-export const listJobTemplates: {
-  (
-    input: ListJobTemplatesRequest,
-  ): effect.Effect<
-    ListJobTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobTemplates: API.OperationMethod<
+  ListJobTemplatesRequest,
+  ListJobTemplatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
@@ -20321,18 +20119,16 @@ export const listJobTemplates: {
 /**
  * Returns a list of managed job templates.
  */
-export const listManagedJobTemplates: {
-  (
-    input: ListManagedJobTemplatesRequest,
-  ): effect.Effect<
-    ListManagedJobTemplatesResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedJobTemplates: API.OperationMethod<
+  ListManagedJobTemplatesRequest,
+  ListManagedJobTemplatesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedJobTemplatesRequest,
   ) => stream.Stream<
@@ -20375,18 +20171,16 @@ export const listManagedJobTemplates: {
  * Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)
  * by the given thing during the specified time period.
  */
-export const listMetricValues: {
-  (
-    input: ListMetricValuesRequest,
-  ): effect.Effect<
-    ListMetricValuesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetricValues: API.OperationMethod<
+  ListMetricValuesRequest,
+  ListMetricValuesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetricValuesRequest,
   ) => stream.Stream<
@@ -20430,17 +20224,15 @@ export const listMetricValues: {
  *
  * Requires permission to access the ListMitigationActions action.
  */
-export const listMitigationActions: {
-  (
-    input: ListMitigationActionsRequest,
-  ): effect.Effect<
-    ListMitigationActionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMitigationActions: API.OperationMethod<
+  ListMitigationActionsRequest,
+  ListMitigationActionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMitigationActionsRequest,
   ) => stream.Stream<
@@ -20481,19 +20273,17 @@ export const listMitigationActions: {
  *
  * Requires permission to access the ListOTAUpdates action.
  */
-export const listOTAUpdates: {
-  (
-    input: ListOTAUpdatesRequest,
-  ): effect.Effect<
-    ListOTAUpdatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOTAUpdates: API.OperationMethod<
+  ListOTAUpdatesRequest,
+  ListOTAUpdatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOTAUpdatesRequest,
   ) => stream.Stream<
@@ -20540,19 +20330,17 @@ export const listOTAUpdates: {
  *
  * Requires permission to access the ListOutgoingCertificates action.
  */
-export const listOutgoingCertificates: {
-  (
-    input: ListOutgoingCertificatesRequest,
-  ): effect.Effect<
-    ListOutgoingCertificatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOutgoingCertificates: API.OperationMethod<
+  ListOutgoingCertificatesRequest,
+  ListOutgoingCertificatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOutgoingCertificatesRequest,
   ) => stream.Stream<
@@ -20599,17 +20387,15 @@ export const listOutgoingCertificates: {
  *
  * Requires permission to access the ListPackages action.
  */
-export const listPackages: {
-  (
-    input: ListPackagesRequest,
-  ): effect.Effect<
-    ListPackagesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackages: API.OperationMethod<
+  ListPackagesRequest,
+  ListPackagesResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagesRequest,
   ) => stream.Stream<
@@ -20646,17 +20432,15 @@ export const listPackages: {
  *
  * Requires permission to access the ListPackageVersions action.
  */
-export const listPackageVersions: {
-  (
-    input: ListPackageVersionsRequest,
-  ): effect.Effect<
-    ListPackageVersionsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackageVersions: API.OperationMethod<
+  ListPackageVersionsRequest,
+  ListPackageVersionsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackageVersionsRequest,
   ) => stream.Stream<
@@ -20693,19 +20477,17 @@ export const listPackageVersions: {
  *
  * Requires permission to access the ListPolicies action.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesRequest,
-  ): effect.Effect<
-    ListPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  ListPoliciesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
@@ -20755,20 +20537,18 @@ export const listPolicies: {
  *
  * Requires permission to access the ListPolicyPrincipals action.
  */
-export const listPolicyPrincipals: {
-  (
-    input: ListPolicyPrincipalsRequest,
-  ): effect.Effect<
-    ListPolicyPrincipalsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyPrincipals: API.OperationMethod<
+  ListPolicyPrincipalsRequest,
+  ListPolicyPrincipalsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyPrincipalsRequest,
   ) => stream.Stream<
@@ -20819,9 +20599,8 @@ export const listPolicyPrincipals: {
  *
  * Requires permission to access the ListPolicyVersions action.
  */
-export const listPolicyVersions: (
-  input: ListPolicyVersionsRequest,
-) => effect.Effect<
+export const listPolicyVersions: API.OperationMethod<
+  ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -20852,20 +20631,18 @@ export const listPolicyVersions: (
  *
  * Requires permission to access the ListPrincipalPolicies action.
  */
-export const listPrincipalPolicies: {
-  (
-    input: ListPrincipalPoliciesRequest,
-  ): effect.Effect<
-    ListPrincipalPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrincipalPolicies: API.OperationMethod<
+  ListPrincipalPoliciesRequest,
+  ListPrincipalPoliciesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrincipalPoliciesRequest,
   ) => stream.Stream<
@@ -20917,20 +20694,18 @@ export const listPrincipalPolicies: {
  *
  * Requires permission to access the ListPrincipalThings action.
  */
-export const listPrincipalThings: {
-  (
-    input: ListPrincipalThingsRequest,
-  ): effect.Effect<
-    ListPrincipalThingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrincipalThings: API.OperationMethod<
+  ListPrincipalThingsRequest,
+  ListPrincipalThingsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrincipalThingsRequest,
   ) => stream.Stream<
@@ -20981,20 +20756,18 @@ export const listPrincipalThings: {
  *
  * Requires permission to access the ListPrincipalThings action.
  */
-export const listPrincipalThingsV2: {
-  (
-    input: ListPrincipalThingsV2Request,
-  ): effect.Effect<
-    ListPrincipalThingsV2Response,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrincipalThingsV2: API.OperationMethod<
+  ListPrincipalThingsV2Request,
+  ListPrincipalThingsV2Response,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrincipalThingsV2Request,
   ) => stream.Stream<
@@ -21044,18 +20817,16 @@ export const listPrincipalThingsV2: {
  *
  * Requires permission to access the ListProvisioningTemplates action.
  */
-export const listProvisioningTemplates: {
-  (
-    input: ListProvisioningTemplatesRequest,
-  ): effect.Effect<
-    ListProvisioningTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProvisioningTemplates: API.OperationMethod<
+  ListProvisioningTemplatesRequest,
+  ListProvisioningTemplatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProvisioningTemplatesRequest,
   ) => stream.Stream<
@@ -21099,19 +20870,17 @@ export const listProvisioningTemplates: {
  *
  * Requires permission to access the ListProvisioningTemplateVersions action.
  */
-export const listProvisioningTemplateVersions: {
-  (
-    input: ListProvisioningTemplateVersionsRequest,
-  ): effect.Effect<
-    ListProvisioningTemplateVersionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProvisioningTemplateVersions: API.OperationMethod<
+  ListProvisioningTemplateVersionsRequest,
+  ListProvisioningTemplateVersionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProvisioningTemplateVersionsRequest,
   ) => stream.Stream<
@@ -21180,18 +20949,16 @@ export const listProvisioningTemplateVersions: {
  * When calling DescribeAuditFinding for the intermediate CA revoked for
  * active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
  */
-export const listRelatedResourcesForAuditFinding: {
-  (
-    input: ListRelatedResourcesForAuditFindingRequest,
-  ): effect.Effect<
-    ListRelatedResourcesForAuditFindingResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRelatedResourcesForAuditFinding: API.OperationMethod<
+  ListRelatedResourcesForAuditFindingRequest,
+  ListRelatedResourcesForAuditFindingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRelatedResourcesForAuditFindingRequest,
   ) => stream.Stream<
@@ -21235,19 +21002,17 @@ export const listRelatedResourcesForAuditFinding: {
  *
  * Requires permission to access the ListRoleAliases action.
  */
-export const listRoleAliases: {
-  (
-    input: ListRoleAliasesRequest,
-  ): effect.Effect<
-    ListRoleAliasesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoleAliases: API.OperationMethod<
+  ListRoleAliasesRequest,
+  ListRoleAliasesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoleAliasesRequest,
   ) => stream.Stream<
@@ -21294,18 +21059,16 @@ export const listRoleAliases: {
  *
  * Requires permission to access the ListSbomValidationResults action.
  */
-export const listSbomValidationResults: {
-  (
-    input: ListSbomValidationResultsRequest,
-  ): effect.Effect<
-    ListSbomValidationResultsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSbomValidationResults: API.OperationMethod<
+  ListSbomValidationResultsRequest,
+  ListSbomValidationResultsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSbomValidationResultsRequest,
   ) => stream.Stream<
@@ -21349,17 +21112,15 @@ export const listSbomValidationResults: {
  *
  * Requires permission to access the ListScheduledAudits action.
  */
-export const listScheduledAudits: {
-  (
-    input: ListScheduledAuditsRequest,
-  ): effect.Effect<
-    ListScheduledAuditsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScheduledAudits: API.OperationMethod<
+  ListScheduledAuditsRequest,
+  ListScheduledAuditsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScheduledAuditsRequest,
   ) => stream.Stream<
@@ -21404,18 +21165,16 @@ export const listScheduledAudits: {
  *
  * `dimensionName` and `metricName` cannot be used in the same request.
  */
-export const listSecurityProfiles: {
-  (
-    input: ListSecurityProfilesRequest,
-  ): effect.Effect<
-    ListSecurityProfilesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityProfiles: API.OperationMethod<
+  ListSecurityProfilesRequest,
+  ListSecurityProfilesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityProfilesRequest,
   ) => stream.Stream<
@@ -21459,18 +21218,16 @@ export const listSecurityProfiles: {
  *
  * Requires permission to access the ListSecurityProfilesForTarget action.
  */
-export const listSecurityProfilesForTarget: {
-  (
-    input: ListSecurityProfilesForTargetRequest,
-  ): effect.Effect<
-    ListSecurityProfilesForTargetResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityProfilesForTarget: API.OperationMethod<
+  ListSecurityProfilesForTargetRequest,
+  ListSecurityProfilesForTargetResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityProfilesForTargetRequest,
   ) => stream.Stream<
@@ -21514,19 +21271,17 @@ export const listSecurityProfilesForTarget: {
  *
  * Requires permission to access the ListStreams action.
  */
-export const listStreams: {
-  (
-    input: ListStreamsRequest,
-  ): effect.Effect<
-    ListStreamsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreams: API.OperationMethod<
+  ListStreamsRequest,
+  ListStreamsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamsRequest,
   ) => stream.Stream<
@@ -21573,18 +21328,16 @@ export const listStreams: {
  *
  * Requires permission to access the ListTagsForResource action.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -21627,21 +21380,19 @@ export const listTagsForResource: {
  *
  * Requires permission to access the ListTargetsForPolicy action.
  */
-export const listTargetsForPolicy: {
-  (
-    input: ListTargetsForPolicyRequest,
-  ): effect.Effect<
-    ListTargetsForPolicyResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetsForPolicy: API.OperationMethod<
+  ListTargetsForPolicyRequest,
+  ListTargetsForPolicyResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetsForPolicyRequest,
   ) => stream.Stream<
@@ -21694,18 +21445,16 @@ export const listTargetsForPolicy: {
  *
  * Requires permission to access the ListTargetsForSecurityProfile action.
  */
-export const listTargetsForSecurityProfile: {
-  (
-    input: ListTargetsForSecurityProfileRequest,
-  ): effect.Effect<
-    ListTargetsForSecurityProfileResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetsForSecurityProfile: API.OperationMethod<
+  ListTargetsForSecurityProfileRequest,
+  ListTargetsForSecurityProfileResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetsForSecurityProfileRequest,
   ) => stream.Stream<
@@ -21749,18 +21498,16 @@ export const listTargetsForSecurityProfile: {
  *
  * Requires permission to access the ListThingGroups action.
  */
-export const listThingGroups: {
-  (
-    input: ListThingGroupsRequest,
-  ): effect.Effect<
-    ListThingGroupsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingGroups: API.OperationMethod<
+  ListThingGroupsRequest,
+  ListThingGroupsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingGroupsRequest,
   ) => stream.Stream<
@@ -21804,18 +21551,16 @@ export const listThingGroups: {
  *
  * Requires permission to access the ListThingGroupsForThing action.
  */
-export const listThingGroupsForThing: {
-  (
-    input: ListThingGroupsForThingRequest,
-  ): effect.Effect<
-    ListThingGroupsForThingResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingGroupsForThing: API.OperationMethod<
+  ListThingGroupsForThingRequest,
+  ListThingGroupsForThingResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingGroupsForThingRequest,
   ) => stream.Stream<
@@ -21861,20 +21606,18 @@ export const listThingGroupsForThing: {
  *
  * Requires permission to access the ListThingPrincipals action.
  */
-export const listThingPrincipals: {
-  (
-    input: ListThingPrincipalsRequest,
-  ): effect.Effect<
-    ListThingPrincipalsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingPrincipals: API.OperationMethod<
+  ListThingPrincipalsRequest,
+  ListThingPrincipalsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingPrincipalsRequest,
   ) => stream.Stream<
@@ -21925,20 +21668,18 @@ export const listThingPrincipals: {
  *
  * Requires permission to access the ListThingPrincipals action.
  */
-export const listThingPrincipalsV2: {
-  (
-    input: ListThingPrincipalsV2Request,
-  ): effect.Effect<
-    ListThingPrincipalsV2Response,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingPrincipalsV2: API.OperationMethod<
+  ListThingPrincipalsV2Request,
+  ListThingPrincipalsV2Response,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingPrincipalsV2Request,
   ) => stream.Stream<
@@ -21986,18 +21727,16 @@ export const listThingPrincipalsV2: {
 /**
  * Information about the thing registration tasks.
  */
-export const listThingRegistrationTaskReports: {
-  (
-    input: ListThingRegistrationTaskReportsRequest,
-  ): effect.Effect<
-    ListThingRegistrationTaskReportsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingRegistrationTaskReports: API.OperationMethod<
+  ListThingRegistrationTaskReportsRequest,
+  ListThingRegistrationTaskReportsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingRegistrationTaskReportsRequest,
   ) => stream.Stream<
@@ -22041,18 +21780,16 @@ export const listThingRegistrationTaskReports: {
  *
  * Requires permission to access the ListThingRegistrationTasks action.
  */
-export const listThingRegistrationTasks: {
-  (
-    input: ListThingRegistrationTasksRequest,
-  ): effect.Effect<
-    ListThingRegistrationTasksResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingRegistrationTasks: API.OperationMethod<
+  ListThingRegistrationTasksRequest,
+  ListThingRegistrationTasksResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingRegistrationTasksRequest,
   ) => stream.Stream<
@@ -22102,19 +21839,17 @@ export const listThingRegistrationTasks: {
  *
  * You will not be charged for calling this API if an `Access denied` error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
  */
-export const listThings: {
-  (
-    input: ListThingsRequest,
-  ): effect.Effect<
-    ListThingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThings: API.OperationMethod<
+  ListThingsRequest,
+  ListThingsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingsRequest,
   ) => stream.Stream<
@@ -22161,18 +21896,16 @@ export const listThings: {
  *
  * Requires permission to access the ListThingsInBillingGroup action.
  */
-export const listThingsInBillingGroup: {
-  (
-    input: ListThingsInBillingGroupRequest,
-  ): effect.Effect<
-    ListThingsInBillingGroupResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingsInBillingGroup: API.OperationMethod<
+  ListThingsInBillingGroupRequest,
+  ListThingsInBillingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingsInBillingGroupRequest,
   ) => stream.Stream<
@@ -22216,18 +21949,16 @@ export const listThingsInBillingGroup: {
  *
  * Requires permission to access the ListThingsInThingGroup action.
  */
-export const listThingsInThingGroup: {
-  (
-    input: ListThingsInThingGroupRequest,
-  ): effect.Effect<
-    ListThingsInThingGroupResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingsInThingGroup: API.OperationMethod<
+  ListThingsInThingGroupRequest,
+  ListThingsInThingGroupResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingsInThingGroupRequest,
   ) => stream.Stream<
@@ -22271,19 +22002,17 @@ export const listThingsInThingGroup: {
  *
  * Requires permission to access the ListThingTypes action.
  */
-export const listThingTypes: {
-  (
-    input: ListThingTypesRequest,
-  ): effect.Effect<
-    ListThingTypesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThingTypes: API.OperationMethod<
+  ListThingTypesRequest,
+  ListThingTypesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThingTypesRequest,
   ) => stream.Stream<
@@ -22330,18 +22059,16 @@ export const listThingTypes: {
  *
  * Requires permission to access the ListTopicRuleDestinations action.
  */
-export const listTopicRuleDestinations: {
-  (
-    input: ListTopicRuleDestinationsRequest,
-  ): effect.Effect<
-    ListTopicRuleDestinationsResponse,
-    | InternalException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTopicRuleDestinations: API.OperationMethod<
+  ListTopicRuleDestinationsRequest,
+  ListTopicRuleDestinationsResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTopicRuleDestinationsRequest,
   ) => stream.Stream<
@@ -22385,18 +22112,16 @@ export const listTopicRuleDestinations: {
  *
  * Requires permission to access the ListTopicRules action.
  */
-export const listTopicRules: {
-  (
-    input: ListTopicRulesRequest,
-  ): effect.Effect<
-    ListTopicRulesResponse,
-    | InternalException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTopicRules: API.OperationMethod<
+  ListTopicRulesRequest,
+  ListTopicRulesResponse,
+  | InternalException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTopicRulesRequest,
   ) => stream.Stream<
@@ -22440,18 +22165,16 @@ export const listTopicRules: {
  *
  * Requires permission to access the ListV2LoggingLevels action.
  */
-export const listV2LoggingLevels: {
-  (
-    input: ListV2LoggingLevelsRequest,
-  ): effect.Effect<
-    ListV2LoggingLevelsResponse,
-    | InternalException
-    | InvalidRequestException
-    | NotConfiguredException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listV2LoggingLevels: API.OperationMethod<
+  ListV2LoggingLevelsRequest,
+  ListV2LoggingLevelsResponse,
+  | InternalException
+  | InvalidRequestException
+  | NotConfiguredException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListV2LoggingLevelsRequest,
   ) => stream.Stream<
@@ -22497,17 +22220,15 @@ export const listV2LoggingLevels: {
  *
  * Requires permission to access the ListViolationEvents action.
  */
-export const listViolationEvents: {
-  (
-    input: ListViolationEventsRequest,
-  ): effect.Effect<
-    ListViolationEventsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listViolationEvents: API.OperationMethod<
+  ListViolationEventsRequest,
+  ListViolationEventsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListViolationEventsRequest,
   ) => stream.Stream<
@@ -22546,9 +22267,8 @@ export const listViolationEvents: {
 /**
  * Set a verification state and provide a description of that verification state on a violation (detect alarm).
  */
-export const putVerificationStateOnViolation: (
-  input: PutVerificationStateOnViolationRequest,
-) => effect.Effect<
+export const putVerificationStateOnViolation: API.OperationMethod<
+  PutVerificationStateOnViolationRequest,
   PutVerificationStateOnViolationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22571,9 +22291,8 @@ export const putVerificationStateOnViolation: (
  *
  * Requires permission to access the RegisterCACertificate action.
  */
-export const registerCACertificate: (
-  input: RegisterCACertificateRequest,
-) => effect.Effect<
+export const registerCACertificate: API.OperationMethod<
+  RegisterCACertificateRequest,
   RegisterCACertificateResponse,
   | CertificateValidationException
   | InternalFailureException
@@ -22610,9 +22329,8 @@ export const registerCACertificate: (
  *
  * Requires permission to access the RegisterCertificate action.
  */
-export const registerCertificate: (
-  input: RegisterCertificateRequest,
-) => effect.Effect<
+export const registerCertificate: API.OperationMethod<
+  RegisterCertificateRequest,
   RegisterCertificateResponse,
   | CertificateConflictException
   | CertificateStateException
@@ -22645,9 +22363,8 @@ export const registerCertificate: (
  * For supported certificates, consult
  * Certificate signing algorithms supported by IoT.
  */
-export const registerCertificateWithoutCA: (
-  input: RegisterCertificateWithoutCARequest,
-) => effect.Effect<
+export const registerCertificateWithoutCA: API.OperationMethod<
+  RegisterCertificateWithoutCARequest,
   RegisterCertificateWithoutCAResponse,
   | CertificateStateException
   | CertificateValidationException
@@ -22681,9 +22398,8 @@ export const registerCertificateWithoutCA: (
  *
  * Requires permission to access the RegisterThing action.
  */
-export const registerThing: (
-  input: RegisterThingRequest,
-) => effect.Effect<
+export const registerThing: API.OperationMethod<
+  RegisterThingRequest,
   RegisterThingResponse,
   | ConflictingResourceUpdateException
   | InternalFailureException
@@ -22720,9 +22436,8 @@ export const registerThing: (
  *
  * Requires permission to access the RejectCertificateTransfer action.
  */
-export const rejectCertificateTransfer: (
-  input: RejectCertificateTransferRequest,
-) => effect.Effect<
+export const rejectCertificateTransfer: API.OperationMethod<
+  RejectCertificateTransferRequest,
   RejectCertificateTransferResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22753,9 +22468,8 @@ export const rejectCertificateTransfer: (
  *
  * This call is asynchronous. It might take several seconds for the detachment to propagate.
  */
-export const removeThingFromBillingGroup: (
-  input: RemoveThingFromBillingGroupRequest,
-) => effect.Effect<
+export const removeThingFromBillingGroup: API.OperationMethod<
+  RemoveThingFromBillingGroupRequest,
   RemoveThingFromBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22783,9 +22497,8 @@ export const removeThingFromBillingGroup: (
  *
  * Requires permission to access the RemoveThingFromThingGroup action.
  */
-export const removeThingFromThingGroup: (
-  input: RemoveThingFromThingGroupRequest,
-) => effect.Effect<
+export const removeThingFromThingGroup: API.OperationMethod<
+  RemoveThingFromThingGroupRequest,
   RemoveThingFromThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22810,9 +22523,8 @@ export const removeThingFromThingGroup: (
  *
  * Requires permission to access the ReplaceTopicRule action.
  */
-export const replaceTopicRule: (
-  input: ReplaceTopicRuleRequest,
-) => effect.Effect<
+export const replaceTopicRule: API.OperationMethod<
+  ReplaceTopicRuleRequest,
   ReplaceTopicRuleResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -22839,9 +22551,8 @@ export const replaceTopicRule: (
  *
  * Requires permission to access the SearchIndex action.
  */
-export const searchIndex: (
-  input: SearchIndexRequest,
-) => effect.Effect<
+export const searchIndex: API.OperationMethod<
+  SearchIndexRequest,
   SearchIndexResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -22873,9 +22584,8 @@ export const searchIndex: (
  *
  * Requires permission to access the SetDefaultAuthorizer action.
  */
-export const setDefaultAuthorizer: (
-  input: SetDefaultAuthorizerRequest,
-) => effect.Effect<
+export const setDefaultAuthorizer: API.OperationMethod<
+  SetDefaultAuthorizerRequest,
   SetDefaultAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22907,9 +22617,8 @@ export const setDefaultAuthorizer: (
  *
  * Requires permission to access the SetDefaultPolicyVersion action.
  */
-export const setDefaultPolicyVersion: (
-  input: SetDefaultPolicyVersionRequest,
-) => effect.Effect<
+export const setDefaultPolicyVersion: API.OperationMethod<
+  SetDefaultPolicyVersionRequest,
   SetDefaultPolicyVersionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -22939,9 +22648,8 @@ export const setDefaultPolicyVersion: (
  *
  * Requires permission to access the SetLoggingOptions action.
  */
-export const setLoggingOptions: (
-  input: SetLoggingOptionsRequest,
-) => effect.Effect<
+export const setLoggingOptions: API.OperationMethod<
+  SetLoggingOptionsRequest,
   SetLoggingOptionsResponse,
   | InternalException
   | InvalidRequestException
@@ -22962,9 +22670,8 @@ export const setLoggingOptions: (
  *
  * Requires permission to access the SetV2LoggingLevel action.
  */
-export const setV2LoggingLevel: (
-  input: SetV2LoggingLevelRequest,
-) => effect.Effect<
+export const setV2LoggingLevel: API.OperationMethod<
+  SetV2LoggingLevelRequest,
   SetV2LoggingLevelResponse,
   | InternalException
   | InvalidRequestException
@@ -22989,9 +22696,8 @@ export const setV2LoggingLevel: (
  *
  * Requires permission to access the SetV2LoggingOptions action.
  */
-export const setV2LoggingOptions: (
-  input: SetV2LoggingOptionsRequest,
-) => effect.Effect<
+export const setV2LoggingOptions: API.OperationMethod<
+  SetV2LoggingOptionsRequest,
   SetV2LoggingOptionsResponse,
   | InternalException
   | InvalidRequestException
@@ -23012,9 +22718,8 @@ export const setV2LoggingOptions: (
  *
  * Requires permission to access the StartAuditMitigationActionsTask action.
  */
-export const startAuditMitigationActionsTask: (
-  input: StartAuditMitigationActionsTaskRequest,
-) => effect.Effect<
+export const startAuditMitigationActionsTask: API.OperationMethod<
+  StartAuditMitigationActionsTaskRequest,
   StartAuditMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23039,9 +22744,8 @@ export const startAuditMitigationActionsTask: (
  *
  * Requires permission to access the StartDetectMitigationActionsTask action.
  */
-export const startDetectMitigationActionsTask: (
-  input: StartDetectMitigationActionsTaskRequest,
-) => effect.Effect<
+export const startDetectMitigationActionsTask: API.OperationMethod<
+  StartDetectMitigationActionsTaskRequest,
   StartDetectMitigationActionsTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23066,9 +22770,8 @@ export const startDetectMitigationActionsTask: (
  *
  * Requires permission to access the StartOnDemandAuditTask action.
  */
-export const startOnDemandAuditTask: (
-  input: StartOnDemandAuditTaskRequest,
-) => effect.Effect<
+export const startOnDemandAuditTask: API.OperationMethod<
+  StartOnDemandAuditTaskRequest,
   StartOnDemandAuditTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23091,9 +22794,8 @@ export const startOnDemandAuditTask: (
  *
  * Requires permission to access the StartThingRegistrationTask action.
  */
-export const startThingRegistrationTask: (
-  input: StartThingRegistrationTaskRequest,
-) => effect.Effect<
+export const startThingRegistrationTask: API.OperationMethod<
+  StartThingRegistrationTaskRequest,
   StartThingRegistrationTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23116,9 +22818,8 @@ export const startThingRegistrationTask: (
  *
  * Requires permission to access the StopThingRegistrationTask action.
  */
-export const stopThingRegistrationTask: (
-  input: StopThingRegistrationTaskRequest,
-) => effect.Effect<
+export const stopThingRegistrationTask: API.OperationMethod<
+  StopThingRegistrationTaskRequest,
   StopThingRegistrationTaskResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23144,9 +22845,8 @@ export const stopThingRegistrationTask: (
  *
  * Requires permission to access the TagResource action.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23173,9 +22873,8 @@ export const tagResource: (
  *
  * Requires permission to access the TestAuthorization action.
  */
-export const testAuthorization: (
-  input: TestAuthorizationRequest,
-) => effect.Effect<
+export const testAuthorization: API.OperationMethod<
+  TestAuthorizationRequest,
   TestAuthorizationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23206,9 +22905,8 @@ export const testAuthorization: (
  *
  * Requires permission to access the TestInvokeAuthorizer action.
  */
-export const testInvokeAuthorizer: (
-  input: TestInvokeAuthorizerRequest,
-) => effect.Effect<
+export const testInvokeAuthorizer: API.OperationMethod<
+  TestInvokeAuthorizerRequest,
   TestInvokeAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23261,9 +22959,8 @@ export const testInvokeAuthorizer: (
  *
  * - If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
  */
-export const transferCertificate: (
-  input: TransferCertificateRequest,
-) => effect.Effect<
+export const transferCertificate: API.OperationMethod<
+  TransferCertificateRequest,
   TransferCertificateResponse,
   | CertificateStateException
   | InternalFailureException
@@ -23294,9 +22991,8 @@ export const transferCertificate: (
  *
  * Requires permission to access the UntagResource action.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23321,9 +23017,8 @@ export const untagResource: (
  *
  * Requires permission to access the UpdateAccountAuditConfiguration action.
  */
-export const updateAccountAuditConfiguration: (
-  input: UpdateAccountAuditConfigurationRequest,
-) => effect.Effect<
+export const updateAccountAuditConfiguration: API.OperationMethod<
+  UpdateAccountAuditConfigurationRequest,
   UpdateAccountAuditConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23342,9 +23037,8 @@ export const updateAccountAuditConfiguration: (
 /**
  * Updates a Device Defender audit suppression.
  */
-export const updateAuditSuppression: (
-  input: UpdateAuditSuppressionRequest,
-) => effect.Effect<
+export const updateAuditSuppression: API.OperationMethod<
+  UpdateAuditSuppressionRequest,
   UpdateAuditSuppressionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23367,9 +23061,8 @@ export const updateAuditSuppression: (
  *
  * Requires permission to access the UpdateAuthorizer action.
  */
-export const updateAuthorizer: (
-  input: UpdateAuthorizerRequest,
-) => effect.Effect<
+export const updateAuthorizer: API.OperationMethod<
+  UpdateAuthorizerRequest,
   UpdateAuthorizerResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23398,9 +23091,8 @@ export const updateAuthorizer: (
  *
  * Requires permission to access the UpdateBillingGroup action.
  */
-export const updateBillingGroup: (
-  input: UpdateBillingGroupRequest,
-) => effect.Effect<
+export const updateBillingGroup: API.OperationMethod<
+  UpdateBillingGroupRequest,
   UpdateBillingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23425,9 +23117,8 @@ export const updateBillingGroup: (
  *
  * Requires permission to access the UpdateCACertificate action.
  */
-export const updateCACertificate: (
-  input: UpdateCACertificateRequest,
-) => effect.Effect<
+export const updateCACertificate: API.OperationMethod<
+  UpdateCACertificateRequest,
   UpdateCACertificateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23462,9 +23153,8 @@ export const updateCACertificate: (
  * state, IoT disconnects all devices that used that certificate to connect. Devices cannot
  * use a certificate that is not in the ACTIVE state to reconnect.
  */
-export const updateCertificate: (
-  input: UpdateCertificateRequest,
-) => effect.Effect<
+export const updateCertificate: API.OperationMethod<
+  UpdateCertificateRequest,
   UpdateCertificateResponse,
   | CertificateStateException
   | InternalFailureException
@@ -23493,9 +23183,8 @@ export const updateCertificate: (
  *
  * Requires permission to access the UpdateCertificateProvider action.
  */
-export const updateCertificateProvider: (
-  input: UpdateCertificateProviderRequest,
-) => effect.Effect<
+export const updateCertificateProvider: API.OperationMethod<
+  UpdateCertificateProviderRequest,
   UpdateCertificateProviderResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23520,9 +23209,8 @@ export const updateCertificateProvider: (
 /**
  * Update information about a command or mark a command for deprecation.
  */
-export const updateCommand: (
-  input: UpdateCommandRequest,
-) => effect.Effect<
+export const updateCommand: API.OperationMethod<
+  UpdateCommandRequest,
   UpdateCommandResponse,
   | ConflictException
   | InternalServerException
@@ -23548,9 +23236,8 @@ export const updateCommand: (
  *
  * Requires permission to access the UpdateCustomMetric action.
  */
-export const updateCustomMetric: (
-  input: UpdateCustomMetricRequest,
-) => effect.Effect<
+export const updateCustomMetric: API.OperationMethod<
+  UpdateCustomMetricRequest,
   UpdateCustomMetricResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23578,9 +23265,8 @@ export const updateCustomMetric: (
  *
  * Requires permission to access the UpdateDimension action.
  */
-export const updateDimension: (
-  input: UpdateDimensionRequest,
-) => effect.Effect<
+export const updateDimension: API.OperationMethod<
+  UpdateDimensionRequest,
   UpdateDimensionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23604,9 +23290,8 @@ export const updateDimension: (
  *
  * Requires permission to access the UpdateDomainConfiguration action.
  */
-export const updateDomainConfiguration: (
-  input: UpdateDomainConfigurationRequest,
-) => effect.Effect<
+export const updateDomainConfiguration: API.OperationMethod<
+  UpdateDomainConfigurationRequest,
   UpdateDomainConfigurationResponse,
   | CertificateValidationException
   | InternalFailureException
@@ -23635,9 +23320,8 @@ export const updateDomainConfiguration: (
  *
  * Requires permission to access the UpdateDynamicThingGroup action.
  */
-export const updateDynamicThingGroup: (
-  input: UpdateDynamicThingGroupRequest,
-) => effect.Effect<
+export const updateDynamicThingGroup: API.OperationMethod<
+  UpdateDynamicThingGroupRequest,
   UpdateDynamicThingGroupResponse,
   | InternalFailureException
   | InvalidQueryException
@@ -23666,9 +23350,8 @@ export const updateDynamicThingGroup: (
  *
  * Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see Data encryption at rest in the *Amazon Web Services IoT Core Developer Guide*.
  */
-export const updateEncryptionConfiguration: (
-  input: UpdateEncryptionConfigurationRequest,
-) => effect.Effect<
+export const updateEncryptionConfiguration: API.OperationMethod<
+  UpdateEncryptionConfigurationRequest,
   UpdateEncryptionConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23693,9 +23376,8 @@ export const updateEncryptionConfiguration: (
  *
  * Requires permission to access the UpdateEventConfigurations action.
  */
-export const updateEventConfigurations: (
-  input: UpdateEventConfigurationsRequest,
-) => effect.Effect<
+export const updateEventConfigurations: API.OperationMethod<
+  UpdateEventConfigurationsRequest,
   UpdateEventConfigurationsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23716,9 +23398,8 @@ export const updateEventConfigurations: (
  *
  * Requires permission to access the UpdateFleetMetric action.
  */
-export const updateFleetMetric: (
-  input: UpdateFleetMetricRequest,
-) => effect.Effect<
+export const updateFleetMetric: API.OperationMethod<
+  UpdateFleetMetricRequest,
   UpdateFleetMetricResponse,
   | IndexNotReadyException
   | InternalFailureException
@@ -23753,9 +23434,8 @@ export const updateFleetMetric: (
  *
  * Requires permission to access the UpdateIndexingConfiguration action.
  */
-export const updateIndexingConfiguration: (
-  input: UpdateIndexingConfigurationRequest,
-) => effect.Effect<
+export const updateIndexingConfiguration: API.OperationMethod<
+  UpdateIndexingConfigurationRequest,
   UpdateIndexingConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23780,9 +23460,8 @@ export const updateIndexingConfiguration: (
  *
  * Requires permission to access the UpdateJob action.
  */
-export const updateJob: (
-  input: UpdateJobRequest,
-) => effect.Effect<
+export const updateJob: API.OperationMethod<
+  UpdateJobRequest,
   UpdateJobResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -23805,9 +23484,8 @@ export const updateJob: (
  *
  * Requires permission to access the UpdateMitigationAction action.
  */
-export const updateMitigationAction: (
-  input: UpdateMitigationActionRequest,
-) => effect.Effect<
+export const updateMitigationAction: API.OperationMethod<
+  UpdateMitigationActionRequest,
   UpdateMitigationActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23830,9 +23508,8 @@ export const updateMitigationAction: (
  *
  * Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
  */
-export const updatePackage: (
-  input: UpdatePackageRequest,
-) => effect.Effect<
+export const updatePackage: API.OperationMethod<
+  UpdatePackageRequest,
   UpdatePackageResponse,
   | ConflictException
   | InternalServerException
@@ -23857,9 +23534,8 @@ export const updatePackage: (
  *
  * Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
  */
-export const updatePackageConfiguration: (
-  input: UpdatePackageConfigurationRequest,
-) => effect.Effect<
+export const updatePackageConfiguration: API.OperationMethod<
+  UpdatePackageConfigurationRequest,
   UpdatePackageConfigurationResponse,
   | ConflictException
   | InternalServerException
@@ -23882,9 +23558,8 @@ export const updatePackageConfiguration: (
  *
  * Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
  */
-export const updatePackageVersion: (
-  input: UpdatePackageVersionRequest,
-) => effect.Effect<
+export const updatePackageVersion: API.OperationMethod<
+  UpdatePackageVersionRequest,
   UpdatePackageVersionResponse,
   | ConflictException
   | InternalServerException
@@ -23909,9 +23584,8 @@ export const updatePackageVersion: (
  *
  * Requires permission to access the UpdateProvisioningTemplate action.
  */
-export const updateProvisioningTemplate: (
-  input: UpdateProvisioningTemplateRequest,
-) => effect.Effect<
+export const updateProvisioningTemplate: API.OperationMethod<
+  UpdateProvisioningTemplateRequest,
   UpdateProvisioningTemplateResponse,
   | ConflictingResourceUpdateException
   | InternalFailureException
@@ -23943,9 +23617,8 @@ export const updateProvisioningTemplate: (
  * information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services
  * Identity and Access Management User Guide.
  */
-export const updateRoleAlias: (
-  input: UpdateRoleAliasRequest,
-) => effect.Effect<
+export const updateRoleAlias: API.OperationMethod<
+  UpdateRoleAliasRequest,
   UpdateRoleAliasResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23973,9 +23646,8 @@ export const updateRoleAlias: (
  *
  * Requires permission to access the UpdateScheduledAudit action.
  */
-export const updateScheduledAudit: (
-  input: UpdateScheduledAuditRequest,
-) => effect.Effect<
+export const updateScheduledAudit: API.OperationMethod<
+  UpdateScheduledAuditRequest,
   UpdateScheduledAuditResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -23998,9 +23670,8 @@ export const updateScheduledAudit: (
  *
  * Requires permission to access the UpdateSecurityProfile action.
  */
-export const updateSecurityProfile: (
-  input: UpdateSecurityProfileRequest,
-) => effect.Effect<
+export const updateSecurityProfile: API.OperationMethod<
+  UpdateSecurityProfileRequest,
   UpdateSecurityProfileResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -24025,9 +23696,8 @@ export const updateSecurityProfile: (
  *
  * Requires permission to access the UpdateStream action.
  */
-export const updateStream: (
-  input: UpdateStreamRequest,
-) => effect.Effect<
+export const updateStream: API.OperationMethod<
+  UpdateStreamRequest,
   UpdateStreamResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -24056,9 +23726,8 @@ export const updateStream: (
  *
  * Requires permission to access the UpdateThing action.
  */
-export const updateThing: (
-  input: UpdateThingRequest,
-) => effect.Effect<
+export const updateThing: API.OperationMethod<
+  UpdateThingRequest,
   UpdateThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -24087,9 +23756,8 @@ export const updateThing: (
  *
  * Requires permission to access the UpdateThingGroup action.
  */
-export const updateThingGroup: (
-  input: UpdateThingGroupRequest,
-) => effect.Effect<
+export const updateThingGroup: API.OperationMethod<
+  UpdateThingGroupRequest,
   UpdateThingGroupResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -24114,9 +23782,8 @@ export const updateThingGroup: (
  *
  * Requires permission to access the UpdateThingGroupsForThing action.
  */
-export const updateThingGroupsForThing: (
-  input: UpdateThingGroupsForThingRequest,
-) => effect.Effect<
+export const updateThingGroupsForThing: API.OperationMethod<
+  UpdateThingGroupsForThingRequest,
   UpdateThingGroupsForThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -24137,9 +23804,8 @@ export const updateThingGroupsForThing: (
 /**
  * Updates a thing type.
  */
-export const updateThingType: (
-  input: UpdateThingTypeRequest,
-) => effect.Effect<
+export const updateThingType: API.OperationMethod<
+  UpdateThingTypeRequest,
   UpdateThingTypeResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -24167,9 +23833,8 @@ export const updateThingType: (
  *
  * Requires permission to access the UpdateTopicRuleDestination action.
  */
-export const updateTopicRuleDestination: (
-  input: UpdateTopicRuleDestinationRequest,
-) => effect.Effect<
+export const updateTopicRuleDestination: API.OperationMethod<
+  UpdateTopicRuleDestinationRequest,
   UpdateTopicRuleDestinationResponse,
   | ConflictingResourceUpdateException
   | InternalException
@@ -24194,9 +23859,8 @@ export const updateTopicRuleDestination: (
  *
  * Requires permission to access the ValidateSecurityProfileBehaviors action.
  */
-export const validateSecurityProfileBehaviors: (
-  input: ValidateSecurityProfileBehaviorsRequest,
-) => effect.Effect<
+export const validateSecurityProfileBehaviors: API.OperationMethod<
+  ValidateSecurityProfileBehaviorsRequest,
   ValidateSecurityProfileBehaviorsResponse,
   | InternalFailureException
   | InvalidRequestException

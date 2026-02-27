@@ -694,9 +694,8 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
  * notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive
  * them.
  */
-export const createNotificationRule: (
-  input: CreateNotificationRuleRequest,
-) => effect.Effect<
+export const createNotificationRule: API.OperationMethod<
+  CreateNotificationRuleRequest,
   CreateNotificationRuleResult,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -721,9 +720,8 @@ export const createNotificationRule: (
 /**
  * Deletes a notification rule for a resource.
  */
-export const deleteNotificationRule: (
-  input: DeleteNotificationRuleRequest,
-) => effect.Effect<
+export const deleteNotificationRule: API.OperationMethod<
+  DeleteNotificationRuleRequest,
   DeleteNotificationRuleResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -742,9 +740,8 @@ export const deleteNotificationRule: (
 /**
  * Deletes a specified target for notifications.
  */
-export const deleteTarget: (
-  input: DeleteTargetRequest,
-) => effect.Effect<
+export const deleteTarget: API.OperationMethod<
+  DeleteTargetRequest,
   DeleteTargetResult,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -756,9 +753,8 @@ export const deleteTarget: (
 /**
  * Returns information about a specified notification rule.
  */
-export const describeNotificationRule: (
-  input: DescribeNotificationRuleRequest,
-) => effect.Effect<
+export const describeNotificationRule: API.OperationMethod<
+  DescribeNotificationRuleRequest,
   DescribeNotificationRuleResult,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -770,14 +766,12 @@ export const describeNotificationRule: (
 /**
  * Returns information about the event types available for configuring notifications.
  */
-export const listEventTypes: {
-  (
-    input: ListEventTypesRequest,
-  ): effect.Effect<
-    ListEventTypesResult,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventTypes: API.OperationMethod<
+  ListEventTypesRequest,
+  ListEventTypesResult,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventTypesRequest,
   ) => stream.Stream<
@@ -806,14 +800,12 @@ export const listEventTypes: {
 /**
  * Returns a list of the notification rules for an Amazon Web Services account.
  */
-export const listNotificationRules: {
-  (
-    input: ListNotificationRulesRequest,
-  ): effect.Effect<
-    ListNotificationRulesResult,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNotificationRules: API.OperationMethod<
+  ListNotificationRulesRequest,
+  ListNotificationRulesResult,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationRulesRequest,
   ) => stream.Stream<
@@ -842,9 +834,8 @@ export const listNotificationRules: {
 /**
  * Returns a list of the tags associated with a notification rule.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -856,14 +847,12 @@ export const listTagsForResource: (
 /**
  * Returns a list of the notification rule targets for an Amazon Web Services account.
  */
-export const listTargets: {
-  (
-    input: ListTargetsRequest,
-  ): effect.Effect<
-    ListTargetsResult,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargets: API.OperationMethod<
+  ListTargetsRequest,
+  ListTargetsResult,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetsRequest,
   ) => stream.Stream<
@@ -894,9 +883,8 @@ export const listTargets: {
  * associated target can receive notifications when the events described in the rule are
  * triggered.
  */
-export const subscribe: (
-  input: SubscribeRequest,
-) => effect.Effect<
+export const subscribe: API.OperationMethod<
+  SubscribeRequest,
   SubscribeResult,
   | ConfigurationException
   | ResourceNotFoundException
@@ -915,9 +903,8 @@ export const subscribe: (
 /**
  * Associates a set of provided tags with a notification rule.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -940,9 +927,8 @@ export const tagResource: (
  * subscribers to that topic stop receiving notifications when the events described in the
  * rule are triggered.
  */
-export const unsubscribe: (
-  input: UnsubscribeRequest,
-) => effect.Effect<
+export const unsubscribe: API.OperationMethod<
+  UnsubscribeRequest,
   UnsubscribeResult,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -955,9 +941,8 @@ export const unsubscribe: (
  * Removes the association between one or more provided tags and a notification
  * rule.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -982,9 +967,8 @@ export const untagResource: (
  *
  * To add or remove tags for a notification rule, you must use TagResource and UntagResource.
  */
-export const updateNotificationRule: (
-  input: UpdateNotificationRuleRequest,
-) => effect.Effect<
+export const updateNotificationRule: API.OperationMethod<
+  UpdateNotificationRuleRequest,
   UpdateNotificationRuleResult,
   | ConfigurationException
   | ResourceNotFoundException

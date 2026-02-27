@@ -3479,9 +3479,8 @@ export class InvalidRestoreFault extends S.TaggedErrorClass<InvalidRestoreFault>
  * Adds a source identifier to an existing event notification
  * subscription.
  */
-export const addSourceIdentifierToSubscription: (
-  input: AddSourceIdentifierToSubscriptionMessage,
-) => effect.Effect<
+export const addSourceIdentifierToSubscription: API.OperationMethod<
+  AddSourceIdentifierToSubscriptionMessage,
   AddSourceIdentifierToSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3496,9 +3495,8 @@ export const addSourceIdentifierToSubscription: (
  * with Amazon DocumentDB resources or in a `Condition` statement in
  * an Identity and Access Management (IAM) policy for Amazon DocumentDB.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceMessage,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceMessage,
   AddTagsToResourceResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -3518,9 +3516,8 @@ export const addTagsToResource: (
  * Applies a pending maintenance action to a resource (for example,
  * to an Amazon DocumentDB instance).
  */
-export const applyPendingMaintenanceAction: (
-  input: ApplyPendingMaintenanceActionMessage,
-) => effect.Effect<
+export const applyPendingMaintenanceAction: API.OperationMethod<
+  ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResult,
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
@@ -3539,9 +3536,8 @@ export const applyPendingMaintenanceAction: (
 /**
  * Copies the specified cluster parameter group.
  */
-export const copyDBClusterParameterGroup: (
-  input: CopyDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const copyDBClusterParameterGroup: API.OperationMethod<
+  CopyDBClusterParameterGroupMessage,
   CopyDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -3571,9 +3567,8 @@ export const copyDBClusterParameterGroup: (
  * `TargetDBClusterSnapshotIdentifier` while that cluster
  * snapshot is in the *copying* status.
  */
-export const copyDBClusterSnapshot: (
-  input: CopyDBClusterSnapshotMessage,
-) => effect.Effect<
+export const copyDBClusterSnapshot: API.OperationMethod<
+  CopyDBClusterSnapshotMessage,
   CopyDBClusterSnapshotResult,
   | DBClusterSnapshotAlreadyExistsFault
   | DBClusterSnapshotNotFoundFault
@@ -3598,9 +3593,8 @@ export const copyDBClusterSnapshot: (
 /**
  * Creates a new Amazon DocumentDB cluster.
  */
-export const createDBCluster: (
-  input: CreateDBClusterMessage,
-) => effect.Effect<
+export const createDBCluster: API.OperationMethod<
+  CreateDBClusterMessage,
   CreateDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -3668,9 +3662,8 @@ export const createDBCluster: (
  * see
  * Modifying Amazon DocumentDB Cluster Parameter Groups.
  */
-export const createDBClusterParameterGroup: (
-  input: CreateDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const createDBClusterParameterGroup: API.OperationMethod<
+  CreateDBClusterParameterGroupMessage,
   CreateDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -3687,9 +3680,8 @@ export const createDBClusterParameterGroup: (
 /**
  * Creates a snapshot of a cluster.
  */
-export const createDBClusterSnapshot: (
-  input: CreateDBClusterSnapshotMessage,
-) => effect.Effect<
+export const createDBClusterSnapshot: API.OperationMethod<
+  CreateDBClusterSnapshotMessage,
   CreateDBClusterSnapshotResult,
   | DBClusterNotFoundFault
   | DBClusterSnapshotAlreadyExistsFault
@@ -3712,9 +3704,8 @@ export const createDBClusterSnapshot: (
 /**
  * Creates a new instance.
  */
-export const createDBInstance: (
-  input: CreateDBInstanceMessage,
-) => effect.Effect<
+export const createDBInstance: API.OperationMethod<
+  CreateDBInstanceMessage,
   CreateDBInstanceResult,
   | AuthorizationNotFoundFault
   | DBClusterNotFoundFault
@@ -3758,9 +3749,8 @@ export const createDBInstance: (
  * Creates a new subnet group. subnet groups must contain at least one subnet in at
  * least two Availability Zones in the Amazon Web Services Region.
  */
-export const createDBSubnetGroup: (
-  input: CreateDBSubnetGroupMessage,
-) => effect.Effect<
+export const createDBSubnetGroup: API.OperationMethod<
+  CreateDBSubnetGroupMessage,
   CreateDBSubnetGroupResult,
   | DBSubnetGroupAlreadyExistsFault
   | DBSubnetGroupDoesNotCoverEnoughAZs
@@ -3787,9 +3777,8 @@ export const createDBSubnetGroup: (
  *
  * If you specify both the `SourceType` and `SourceIds` (such as `SourceType = db-instance` and `SourceIdentifier = myDBInstance1`), you are notified of all the `db-instance` events for the specified source. If you specify a `SourceType` but do not specify a `SourceIdentifier`, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the `SourceType` or the `SourceIdentifier`, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
  */
-export const createEventSubscription: (
-  input: CreateEventSubscriptionMessage,
-) => effect.Effect<
+export const createEventSubscription: API.OperationMethod<
+  CreateEventSubscriptionMessage,
   CreateEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -3822,9 +3811,8 @@ export const createEventSubscription: (
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const createGlobalCluster: (
-  input: CreateGlobalClusterMessage,
-) => effect.Effect<
+export const createGlobalCluster: API.OperationMethod<
+  CreateGlobalClusterMessage,
   CreateGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterAlreadyExistsFault
@@ -3845,9 +3833,8 @@ export const createGlobalCluster: (
 /**
  * Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
  */
-export const deleteDBCluster: (
-  input: DeleteDBClusterMessage,
-) => effect.Effect<
+export const deleteDBCluster: API.OperationMethod<
+  DeleteDBClusterMessage,
   DeleteDBClusterResult,
   | DBClusterNotFoundFault
   | DBClusterSnapshotAlreadyExistsFault
@@ -3870,9 +3857,8 @@ export const deleteDBCluster: (
 /**
  * Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
  */
-export const deleteDBClusterParameterGroup: (
-  input: DeleteDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const deleteDBClusterParameterGroup: API.OperationMethod<
+  DeleteDBClusterParameterGroupMessage,
   DeleteDBClusterParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -3888,9 +3874,8 @@ export const deleteDBClusterParameterGroup: (
  *
  * The cluster snapshot must be in the `available` state to be deleted.
  */
-export const deleteDBClusterSnapshot: (
-  input: DeleteDBClusterSnapshotMessage,
-) => effect.Effect<
+export const deleteDBClusterSnapshot: API.OperationMethod<
+  DeleteDBClusterSnapshotMessage,
   DeleteDBClusterSnapshotResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -3904,9 +3889,8 @@ export const deleteDBClusterSnapshot: (
 /**
  * Deletes a previously provisioned instance.
  */
-export const deleteDBInstance: (
-  input: DeleteDBInstanceMessage,
-) => effect.Effect<
+export const deleteDBInstance: API.OperationMethod<
+  DeleteDBInstanceMessage,
   DeleteDBInstanceResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -3932,9 +3916,8 @@ export const deleteDBInstance: (
  * The specified database subnet group must not be associated with any DB
  * instances.
  */
-export const deleteDBSubnetGroup: (
-  input: DeleteDBSubnetGroupMessage,
-) => effect.Effect<
+export const deleteDBSubnetGroup: API.OperationMethod<
+  DeleteDBSubnetGroupMessage,
   DeleteDBSubnetGroupResponse,
   | DBSubnetGroupNotFoundFault
   | InvalidDBSubnetGroupStateFault
@@ -3953,9 +3936,8 @@ export const deleteDBSubnetGroup: (
 /**
  * Deletes an Amazon DocumentDB event notification subscription.
  */
-export const deleteEventSubscription: (
-  input: DeleteEventSubscriptionMessage,
-) => effect.Effect<
+export const deleteEventSubscription: API.OperationMethod<
+  DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResult,
   InvalidEventSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3969,9 +3951,8 @@ export const deleteEventSubscription: (
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const deleteGlobalCluster: (
-  input: DeleteGlobalClusterMessage,
-) => effect.Effect<
+export const deleteGlobalCluster: API.OperationMethod<
+  DeleteGlobalClusterMessage,
   DeleteGlobalClusterResult,
   GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3983,14 +3964,12 @@ export const deleteGlobalCluster: (
 /**
  * Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
  */
-export const describeCertificates: {
-  (
-    input: DescribeCertificatesMessage,
-  ): effect.Effect<
-    CertificateMessage,
-    CertificateNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCertificates: API.OperationMethod<
+  DescribeCertificatesMessage,
+  CertificateMessage,
+  CertificateNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
@@ -4019,14 +3998,12 @@ export const describeCertificates: {
 /**
  * Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName` parameter is specified, the list contains only the description of the specified cluster parameter group.
  */
-export const describeDBClusterParameterGroups: {
-  (
-    input: DescribeDBClusterParameterGroupsMessage,
-  ): effect.Effect<
-    DBClusterParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterParameterGroups: API.OperationMethod<
+  DescribeDBClusterParameterGroupsMessage,
+  DBClusterParameterGroupsMessage,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
@@ -4056,14 +4033,12 @@ export const describeDBClusterParameterGroups: {
  * Returns the detailed parameter list for a particular cluster parameter
  * group.
  */
-export const describeDBClusterParameters: {
-  (
-    input: DescribeDBClusterParametersMessage,
-  ): effect.Effect<
-    DBClusterParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterParameters: API.OperationMethod<
+  DescribeDBClusterParametersMessage,
+  DBClusterParameterGroupDetails,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
@@ -4097,14 +4072,12 @@ export const describeDBClusterParameters: {
  * Neptune. Use the `filterName=engine,Values=docdb` filter
  * parameter to return only Amazon DocumentDB clusters.
  */
-export const describeDBClusters: {
-  (
-    input: DescribeDBClustersMessage,
-  ): effect.Effect<
-    DBClusterMessage,
-    DBClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusters: API.OperationMethod<
+  DescribeDBClustersMessage,
+  DBClusterMessage,
+  DBClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
@@ -4137,9 +4110,8 @@ export const describeDBClusters: {
  * When you share snapshots with other Amazon Web Services accounts,
  * `DescribeDBClusterSnapshotAttributes` returns the `restore` attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If `all` is included in the list of values for the `restore` attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
  */
-export const describeDBClusterSnapshotAttributes: (
-  input: DescribeDBClusterSnapshotAttributesMessage,
-) => effect.Effect<
+export const describeDBClusterSnapshotAttributes: API.OperationMethod<
+  DescribeDBClusterSnapshotAttributesMessage,
   DescribeDBClusterSnapshotAttributesResult,
   DBClusterSnapshotNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4151,14 +4123,12 @@ export const describeDBClusterSnapshotAttributes: (
 /**
  * Returns information about cluster snapshots. This API operation supports pagination.
  */
-export const describeDBClusterSnapshots: {
-  (
-    input: DescribeDBClusterSnapshotsMessage,
-  ): effect.Effect<
-    DBClusterSnapshotMessage,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterSnapshots: API.OperationMethod<
+  DescribeDBClusterSnapshotsMessage,
+  DBClusterSnapshotMessage,
+  DBClusterSnapshotNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
@@ -4187,14 +4157,12 @@ export const describeDBClusterSnapshots: {
 /**
  * Returns a list of the available engines.
  */
-export const describeDBEngineVersions: {
-  (
-    input: DescribeDBEngineVersionsMessage,
-  ): effect.Effect<
-    DBEngineVersionMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBEngineVersions: API.OperationMethod<
+  DescribeDBEngineVersionsMessage,
+  DBEngineVersionMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
@@ -4223,14 +4191,12 @@ export const describeDBEngineVersions: {
 /**
  * Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
  */
-export const describeDBInstances: {
-  (
-    input: DescribeDBInstancesMessage,
-  ): effect.Effect<
-    DBInstanceMessage,
-    DBInstanceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBInstances: API.OperationMethod<
+  DescribeDBInstancesMessage,
+  DBInstanceMessage,
+  DBInstanceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
@@ -4260,14 +4226,12 @@ export const describeDBInstances: {
  * Returns a list of `DBSubnetGroup` descriptions. If a
  * `DBSubnetGroupName` is specified, the list will contain only the descriptions of the specified `DBSubnetGroup`.
  */
-export const describeDBSubnetGroups: {
-  (
-    input: DescribeDBSubnetGroupsMessage,
-  ): effect.Effect<
-    DBSubnetGroupMessage,
-    DBSubnetGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBSubnetGroups: API.OperationMethod<
+  DescribeDBSubnetGroupsMessage,
+  DBSubnetGroupMessage,
+  DBSubnetGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
@@ -4297,9 +4261,8 @@ export const describeDBSubnetGroups: {
  * Returns the default engine and system parameter information for the cluster database
  * engine.
  */
-export const describeEngineDefaultClusterParameters: (
-  input: DescribeEngineDefaultClusterParametersMessage,
-) => effect.Effect<
+export const describeEngineDefaultClusterParameters: API.OperationMethod<
+  DescribeEngineDefaultClusterParametersMessage,
   DescribeEngineDefaultClusterParametersResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4312,9 +4275,8 @@ export const describeEngineDefaultClusterParameters: (
  * Displays a list of categories for all event source types, or, if specified, for a
  * specified source type.
  */
-export const describeEventCategories: (
-  input: DescribeEventCategoriesMessage,
-) => effect.Effect<
+export const describeEventCategories: API.OperationMethod<
+  DescribeEventCategoriesMessage,
   EventCategoriesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4326,14 +4288,12 @@ export const describeEventCategories: (
 /**
  * Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    EventsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  EventsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -4364,14 +4324,12 @@ export const describeEvents: {
  *
  * If you specify a `SubscriptionName`, lists the description for that subscription.
  */
-export const describeEventSubscriptions: {
-  (
-    input: DescribeEventSubscriptionsMessage,
-  ): effect.Effect<
-    EventSubscriptionsMessage,
-    SubscriptionNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEventSubscriptions: API.OperationMethod<
+  DescribeEventSubscriptionsMessage,
+  EventSubscriptionsMessage,
+  SubscriptionNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
@@ -4402,14 +4360,12 @@ export const describeEventSubscriptions: {
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const describeGlobalClusters: {
-  (
-    input: DescribeGlobalClustersMessage,
-  ): effect.Effect<
-    GlobalClustersMessage,
-    GlobalClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGlobalClusters: API.OperationMethod<
+  DescribeGlobalClustersMessage,
+  GlobalClustersMessage,
+  GlobalClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
@@ -4438,14 +4394,12 @@ export const describeGlobalClusters: {
 /**
  * Returns a list of orderable instance options for the specified engine.
  */
-export const describeOrderableDBInstanceOptions: {
-  (
-    input: DescribeOrderableDBInstanceOptionsMessage,
-  ): effect.Effect<
-    OrderableDBInstanceOptionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrderableDBInstanceOptions: API.OperationMethod<
+  DescribeOrderableDBInstanceOptionsMessage,
+  OrderableDBInstanceOptionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
@@ -4475,14 +4429,12 @@ export const describeOrderableDBInstanceOptions: {
  * Returns a list of resources (for example, instances) that have at least one pending
  * maintenance action.
  */
-export const describePendingMaintenanceActions: {
-  (
-    input: DescribePendingMaintenanceActionsMessage,
-  ): effect.Effect<
-    PendingMaintenanceActionsMessage,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePendingMaintenanceActions: API.OperationMethod<
+  DescribePendingMaintenanceActionsMessage,
+  PendingMaintenanceActionsMessage,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
@@ -4515,9 +4467,8 @@ export const describePendingMaintenanceActions: {
  *
  * If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
  */
-export const failoverDBCluster: (
-  input: FailoverDBClusterMessage,
-) => effect.Effect<
+export const failoverDBCluster: API.OperationMethod<
+  FailoverDBClusterMessage,
   FailoverDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -4540,9 +4491,8 @@ export const failoverDBCluster: (
  * Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.
  * However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
  */
-export const failoverGlobalCluster: (
-  input: FailoverGlobalClusterMessage,
-) => effect.Effect<
+export const failoverGlobalCluster: API.OperationMethod<
+  FailoverGlobalClusterMessage,
   FailoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -4563,9 +4513,8 @@ export const failoverGlobalCluster: (
 /**
  * Lists all tags on an Amazon DocumentDB resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceMessage,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
   TagListMessage,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -4586,9 +4535,8 @@ export const listTagsForResource: (
  * configuration parameters by specifying these parameters and the new values in the
  * request.
  */
-export const modifyDBCluster: (
-  input: ModifyDBClusterMessage,
-) => effect.Effect<
+export const modifyDBCluster: API.OperationMethod<
+  ModifyDBClusterMessage,
   ModifyDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -4641,9 +4589,8 @@ export const modifyDBCluster: (
  * database for a cluster, such as the character set for the default database
  * defined by the `character_set_database` parameter.
  */
-export const modifyDBClusterParameterGroup: (
-  input: ModifyDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const modifyDBClusterParameterGroup: API.OperationMethod<
+  ModifyDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -4659,9 +4606,8 @@ export const modifyDBClusterParameterGroup: (
  *
  * To share a manual cluster snapshot with other Amazon Web Services accounts, specify `restore` as the `AttributeName`, and use the `ValuesToAdd` parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value `all` to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the `all` value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the `ValuesToAdd` parameter. You can't use `all` as a value for that parameter in this case.
  */
-export const modifyDBClusterSnapshotAttribute: (
-  input: ModifyDBClusterSnapshotAttributeMessage,
-) => effect.Effect<
+export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
+  ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -4680,9 +4626,8 @@ export const modifyDBClusterSnapshotAttribute: (
 /**
  * Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
  */
-export const modifyDBInstance: (
-  input: ModifyDBInstanceMessage,
-) => effect.Effect<
+export const modifyDBInstance: API.OperationMethod<
+  ModifyDBInstanceMessage,
   ModifyDBInstanceResult,
   | AuthorizationNotFoundFault
   | CertificateNotFoundFault
@@ -4721,9 +4666,8 @@ export const modifyDBInstance: (
 /**
  * Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
  */
-export const modifyDBSubnetGroup: (
-  input: ModifyDBSubnetGroupMessage,
-) => effect.Effect<
+export const modifyDBSubnetGroup: API.OperationMethod<
+  ModifyDBSubnetGroupMessage,
   ModifyDBSubnetGroupResult,
   | DBSubnetGroupDoesNotCoverEnoughAZs
   | DBSubnetGroupNotFoundFault
@@ -4746,9 +4690,8 @@ export const modifyDBSubnetGroup: (
 /**
  * Modifies an existing Amazon DocumentDB event notification subscription.
  */
-export const modifyEventSubscription: (
-  input: ModifyEventSubscriptionMessage,
-) => effect.Effect<
+export const modifyEventSubscription: API.OperationMethod<
+  ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -4775,9 +4718,8 @@ export const modifyEventSubscription: (
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const modifyGlobalCluster: (
-  input: ModifyGlobalClusterMessage,
-) => effect.Effect<
+export const modifyGlobalCluster: API.OperationMethod<
+  ModifyGlobalClusterMessage,
   ModifyGlobalClusterResult,
   GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4796,9 +4738,8 @@ export const modifyGlobalCluster: (
  * results in a momentary outage, during which the instance status is set to
  * *rebooting*.
  */
-export const rebootDBInstance: (
-  input: RebootDBInstanceMessage,
-) => effect.Effect<
+export const rebootDBInstance: API.OperationMethod<
+  RebootDBInstanceMessage,
   RebootDBInstanceResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4812,9 +4753,8 @@ export const rebootDBInstance: (
  *
  * This action only applies to Amazon DocumentDB clusters.
  */
-export const removeFromGlobalCluster: (
-  input: RemoveFromGlobalClusterMessage,
-) => effect.Effect<
+export const removeFromGlobalCluster: API.OperationMethod<
+  RemoveFromGlobalClusterMessage,
   RemoveFromGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -4834,9 +4774,8 @@ export const removeFromGlobalCluster: (
  * Removes a source identifier from an existing Amazon DocumentDB event notification
  * subscription.
  */
-export const removeSourceIdentifierFromSubscription: (
-  input: RemoveSourceIdentifierFromSubscriptionMessage,
-) => effect.Effect<
+export const removeSourceIdentifierFromSubscription: API.OperationMethod<
+  RemoveSourceIdentifierFromSubscriptionMessage,
   RemoveSourceIdentifierFromSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4848,9 +4787,8 @@ export const removeSourceIdentifierFromSubscription: (
 /**
  * Removes metadata tags from an Amazon DocumentDB resource.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceMessage,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceMessage,
   RemoveTagsFromResourceResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -4877,9 +4815,8 @@ export const removeTagsFromResource: (
  * static parameters are set to `pending-reboot` to take effect on the next DB
  * instance reboot.
  */
-export const resetDBClusterParameterGroup: (
-  input: ResetDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const resetDBClusterParameterGroup: API.OperationMethod<
+  ResetDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -4897,9 +4834,8 @@ export const resetDBClusterParameterGroup: (
  *
  * If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
  */
-export const restoreDBClusterFromSnapshot: (
-  input: RestoreDBClusterFromSnapshotMessage,
-) => effect.Effect<
+export const restoreDBClusterFromSnapshot: API.OperationMethod<
+  RestoreDBClusterFromSnapshotMessage,
   RestoreDBClusterFromSnapshotResult,
   | DBClusterAlreadyExistsFault
   | DBClusterQuotaExceededFault
@@ -4946,9 +4882,8 @@ export const restoreDBClusterFromSnapshot: (
  * source cluster with the same configuration as the original cluster, except that
  * the new cluster is created with the default security group.
  */
-export const restoreDBClusterToPointInTime: (
-  input: RestoreDBClusterToPointInTimeMessage,
-) => effect.Effect<
+export const restoreDBClusterToPointInTime: API.OperationMethod<
+  RestoreDBClusterToPointInTimeMessage,
   RestoreDBClusterToPointInTimeResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -4995,9 +4930,8 @@ export const restoreDBClusterToPointInTime: (
  * For more information, see Stopping and
  * Starting an Amazon DocumentDB Cluster.
  */
-export const startDBCluster: (
-  input: StartDBClusterMessage,
-) => effect.Effect<
+export const startDBCluster: API.OperationMethod<
+  StartDBClusterMessage,
   StartDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -5019,9 +4953,8 @@ export const startDBCluster: (
  * Stopping and
  * Starting an Amazon DocumentDB Cluster.
  */
-export const stopDBCluster: (
-  input: StopDBClusterMessage,
-) => effect.Effect<
+export const stopDBCluster: API.OperationMethod<
+  StopDBClusterMessage,
   StopDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -5040,9 +4973,8 @@ export const stopDBCluster: (
 /**
  * Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
  */
-export const switchoverGlobalCluster: (
-  input: SwitchoverGlobalClusterMessage,
-) => effect.Effect<
+export const switchoverGlobalCluster: API.OperationMethod<
+  SwitchoverGlobalClusterMessage,
   SwitchoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault

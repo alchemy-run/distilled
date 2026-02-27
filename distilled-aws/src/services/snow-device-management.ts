@@ -842,9 +842,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Returns a list of tags for a managed device or task.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -863,9 +862,8 @@ export const listTagsForResource: (
 /**
  * Adds or replaces tags on a device or task.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -884,9 +882,8 @@ export const tagResource: (
 /**
  * Removes a tag from a device or task.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -906,9 +903,8 @@ export const untagResource: (
  * Checks device-specific information, such as the device type, software version, IP
  * addresses, and lock status.
  */
-export const describeDevice: (
-  input: DescribeDeviceInput,
-) => effect.Effect<
+export const describeDevice: API.OperationMethod<
+  DescribeDeviceInput,
   DescribeDeviceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -932,18 +928,16 @@ export const describeDevice: (
  * Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management
  * enabled in the Amazon Web Services Region where the command is run.
  */
-export const listDevices: {
-  (
-    input: ListDevicesInput,
-  ): effect.Effect<
-    ListDevicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevices: API.OperationMethod<
+  ListDevicesInput,
+  ListDevicesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesInput,
   ) => stream.Stream<
@@ -987,9 +981,8 @@ export const listDevices: {
  * `describeDevice`, but the results are sourced from the device cache in the
  * Amazon Web Services Cloud and include a subset of the available fields.
  */
-export const describeDeviceEc2Instances: (
-  input: DescribeDeviceEc2Input,
-) => effect.Effect<
+export const describeDeviceEc2Instances: API.OperationMethod<
+  DescribeDeviceEc2Input,
   DescribeDeviceEc2Output,
   | AccessDeniedException
   | InternalServerException
@@ -1012,19 +1005,17 @@ export const describeDeviceEc2Instances: (
 /**
  * Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
  */
-export const listDeviceResources: {
-  (
-    input: ListDeviceResourcesInput,
-  ): effect.Effect<
-    ListDeviceResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeviceResources: API.OperationMethod<
+  ListDeviceResourcesInput,
+  ListDeviceResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeviceResourcesInput,
   ) => stream.Stream<
@@ -1069,9 +1060,8 @@ export const listDeviceResources: {
 /**
  * Instructs one or more devices to start a task, such as unlocking or rebooting.
  */
-export const createTask: (
-  input: CreateTaskInput,
-) => effect.Effect<
+export const createTask: API.OperationMethod<
+  CreateTaskInput,
   CreateTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1096,9 +1086,8 @@ export const createTask: (
 /**
  * Checks the metadata for a given task on a device.
  */
-export const describeTask: (
-  input: DescribeTaskInput,
-) => effect.Effect<
+export const describeTask: API.OperationMethod<
+  DescribeTaskInput,
   DescribeTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1121,18 +1110,16 @@ export const describeTask: (
 /**
  * Returns a list of tasks that can be filtered by state.
  */
-export const listTasks: {
-  (
-    input: ListTasksInput,
-  ): effect.Effect<
-    ListTasksOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTasks: API.OperationMethod<
+  ListTasksInput,
+  ListTasksOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTasksInput,
   ) => stream.Stream<
@@ -1178,9 +1165,8 @@ export const listTasks: {
  * A task might still run if it's processed from the queue before the
  * `CancelTask` operation changes the task's state.
  */
-export const cancelTask: (
-  input: CancelTaskInput,
-) => effect.Effect<
+export const cancelTask: API.OperationMethod<
+  CancelTaskInput,
   CancelTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1203,9 +1189,8 @@ export const cancelTask: (
 /**
  * Checks the status of a remote task running on one or more target devices.
  */
-export const describeExecution: (
-  input: DescribeExecutionInput,
-) => effect.Effect<
+export const describeExecution: API.OperationMethod<
+  DescribeExecutionInput,
   DescribeExecutionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1228,19 +1213,17 @@ export const describeExecution: (
 /**
  * Returns the status of tasks for one or more target devices.
  */
-export const listExecutions: {
-  (
-    input: ListExecutionsInput,
-  ): effect.Effect<
-    ListExecutionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExecutions: API.OperationMethod<
+  ListExecutionsInput,
+  ListExecutionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExecutionsInput,
   ) => stream.Stream<

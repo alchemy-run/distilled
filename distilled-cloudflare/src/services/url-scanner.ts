@@ -43,9 +43,8 @@ export type GetResponsResponse = unknown;
 export const GetResponsResponse =
   Schema.Unknown as unknown as Schema.Schema<GetResponsResponse>;
 
-export const getRespons: (
-  input: GetResponsRequest,
-) => Effect.Effect<
+export const getRespons: API.OperationMethod<
+  GetResponsRequest,
   GetResponsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -483,7 +482,16 @@ export const GetScanResponse = Schema.Struct({
             geonameId: Schema.String,
             ll: Schema.Array(Schema.Number),
             region: Schema.String,
-          }).pipe(Schema.encodeKeys({ countryName: "country_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              city: "city",
+              country: "country",
+              countryName: "country_name",
+              geonameId: "geonameId",
+              ll: "ll",
+              region: "region",
+            }),
+          ),
           hasExtraInfo: Schema.Boolean,
           requestId: Schema.String,
           response: Schema.Struct({
@@ -594,7 +602,14 @@ export const GetScanResponse = Schema.Struct({
             dnssecValid: Schema.Boolean,
             name: Schema.String,
             type: Schema.String,
-          }).pipe(Schema.encodeKeys({ dnssecValid: "dnssec_valid" })),
+          }).pipe(
+            Schema.encodeKeys({
+              address: "address",
+              dnssecValid: "dnssec_valid",
+              name: "name",
+              type: "type",
+            }),
+          ),
         ),
       }),
       domainCategories: Schema.Struct({
@@ -615,7 +630,15 @@ export const GetScanResponse = Schema.Struct({
               countryName: Schema.String,
               ll: Schema.Array(Schema.Number),
               region: Schema.String,
-            }).pipe(Schema.encodeKeys({ countryName: "country_name" })),
+            }).pipe(
+              Schema.encodeKeys({
+                city: "city",
+                country: "country",
+                countryName: "country_name",
+                ll: "ll",
+                region: "region",
+              }),
+            ),
             ip: Schema.String,
           }),
         ),
@@ -666,7 +689,11 @@ export const GetScanResponse = Schema.Struct({
                   name: Schema.String,
                   superCategoryId: Schema.Number,
                 }).pipe(
-                  Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                  Schema.encodeKeys({
+                    id: "id",
+                    name: "name",
+                    superCategoryId: "super_category_id",
+                  }),
                 ),
               ),
               inherited: Schema.Struct({
@@ -676,7 +703,11 @@ export const GetScanResponse = Schema.Struct({
                     name: Schema.String,
                     superCategoryId: Schema.Number,
                   }).pipe(
-                    Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                    Schema.encodeKeys({
+                      id: "id",
+                      name: "name",
+                      superCategoryId: "super_category_id",
+                    }),
                   ),
                 ),
                 from: Schema.String,
@@ -686,7 +717,11 @@ export const GetScanResponse = Schema.Struct({
                     name: Schema.String,
                     superCategoryId: Schema.Number,
                   }).pipe(
-                    Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                    Schema.encodeKeys({
+                      id: "id",
+                      name: "name",
+                      superCategoryId: "super_category_id",
+                    }),
                   ),
                 ),
               }),
@@ -697,7 +732,11 @@ export const GetScanResponse = Schema.Struct({
                   name: Schema.String,
                   superCategoryId: Schema.Number,
                 }).pipe(
-                  Schema.encodeKeys({ superCategoryId: "super_category_id" }),
+                  Schema.encodeKeys({
+                    id: "id",
+                    name: "name",
+                    superCategoryId: "super_category_id",
+                  }),
                 ),
               ),
             }),
@@ -769,7 +808,15 @@ export const GetScanResponse = Schema.Struct({
           countryName: Schema.String,
           ll: Schema.Array(Schema.Number),
           region: Schema.String,
-        }).pipe(Schema.encodeKeys({ countryName: "country_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            city: "city",
+            country: "country",
+            countryName: "country_name",
+            ll: "ll",
+            region: "region",
+          }),
+        ),
         index: Schema.Number,
         ip: Schema.String,
         ipv6: Schema.Boolean,
@@ -831,7 +878,23 @@ export const GetScanResponse = Schema.Struct({
     totalLinks: Schema.Number,
     uniqASNs: Schema.Number,
     uniqCountries: Schema.Number,
-  }).pipe(Schema.encodeKeys({ iPv6Percentage: "IPv6Percentage" })),
+  }).pipe(
+    Schema.encodeKeys({
+      domainStats: "domainStats",
+      ipStats: "ipStats",
+      iPv6Percentage: "IPv6Percentage",
+      malicious: "malicious",
+      protocolStats: "protocolStats",
+      resourceStats: "resourceStats",
+      securePercentage: "securePercentage",
+      secureRequests: "secureRequests",
+      serverStats: "serverStats",
+      tlsStats: "tlsStats",
+      totalLinks: "totalLinks",
+      uniqASNs: "uniqASNs",
+      uniqCountries: "uniqCountries",
+    }),
+  ),
   task: Schema.Struct({
     apexDomain: Schema.String,
     domain: Schema.String,
@@ -860,9 +923,8 @@ export const GetScanResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetScanResponse>;
 
-export const getScan: (
-  input: GetScanRequest,
-) => Effect.Effect<
+export const getScan: API.OperationMethod<
+  GetScanRequest,
   GetScanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -934,13 +996,21 @@ export const ListScansResponse = Schema.Struct({
       verdicts: Schema.Struct({
         malicious: Schema.Boolean,
       }),
-    }).pipe(Schema.encodeKeys({ id: "_id" })),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "_id",
+        page: "page",
+        result: "result",
+        stats: "stats",
+        task: "task",
+        verdicts: "verdicts",
+      }),
+    ),
   ),
 }) as unknown as Schema.Schema<ListScansResponse>;
 
-export const listScans: (
-  input: ListScansRequest,
-) => Effect.Effect<
+export const listScans: API.OperationMethod<
+  ListScansRequest,
   ListScansResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1406,9 +1476,8 @@ export const CreateScanResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateScanResponse>;
 
-export const createScan: (
-  input: CreateScanRequest,
-) => Effect.Effect<
+export const createScan: API.OperationMethod<
+  CreateScanRequest,
   CreateScanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1476,9 +1545,8 @@ export const BulkCreateScansResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkCreateScansResponse>;
 
-export const bulkCreateScans: (
-  input: BulkCreateScansRequest,
-) => Effect.Effect<
+export const bulkCreateScans: API.OperationMethod<
+  BulkCreateScansRequest,
   BulkCreateScansResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1509,9 +1577,8 @@ export type DomScanResponse = unknown;
 export const DomScanResponse =
   Schema.Unknown as unknown as Schema.Schema<DomScanResponse>;
 
-export const domScan: (
-  input: DomScanRequest,
-) => Effect.Effect<
+export const domScan: API.OperationMethod<
+  DomScanRequest,
   DomScanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1633,7 +1700,19 @@ export const HarScanResponse = Schema.Struct({
           redirectURL: Schema.String,
           status: Schema.Number,
           statusText: Schema.String,
-        }).pipe(Schema.encodeKeys({ transferSize: "_transferSize" })),
+        }).pipe(
+          Schema.encodeKeys({
+            transferSize: "_transferSize",
+            bodySize: "bodySize",
+            content: "content",
+            headers: "headers",
+            headersSize: "headersSize",
+            httpVersion: "httpVersion",
+            redirectURL: "redirectURL",
+            status: "status",
+            statusText: "statusText",
+          }),
+        ),
         serverIPAddress: Schema.String,
         startedDateTime: Schema.String,
         time: Schema.Number,
@@ -1645,6 +1724,14 @@ export const HarScanResponse = Schema.Struct({
           requestId: "_requestId",
           requestTime: "_requestTime",
           resourceType: "_resourceType",
+          cache: "cache",
+          connection: "connection",
+          pageref: "pageref",
+          request: "request",
+          response: "response",
+          serverIPAddress: "serverIPAddress",
+          startedDateTime: "startedDateTime",
+          time: "time",
         }),
       ),
     ),
@@ -1663,9 +1750,8 @@ export const HarScanResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HarScanResponse>;
 
-export const harScan: (
-  input: HarScanRequest,
-) => Effect.Effect<
+export const harScan: API.OperationMethod<
+  HarScanRequest,
   HarScanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1701,9 +1787,8 @@ export type ScreenshotScanResponse = unknown;
 export const ScreenshotScanResponse =
   Schema.Unknown as unknown as Schema.Schema<ScreenshotScanResponse>;
 
-export const screenshotScan: (
-  input: ScreenshotScanRequest,
-) => Effect.Effect<
+export const screenshotScan: API.OperationMethod<
+  ScreenshotScanRequest,
   ScreenshotScanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

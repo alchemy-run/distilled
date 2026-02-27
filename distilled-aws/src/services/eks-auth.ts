@@ -207,9 +207,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * credentials from an EKS Pod Identity association are available in the pod, the latest versions of the
  * SDKs use them automatically.
  */
-export const assumeRoleForPodIdentity: (
-  input: AssumeRoleForPodIdentityRequest,
-) => effect.Effect<
+export const assumeRoleForPodIdentity: API.OperationMethod<
+  AssumeRoleForPodIdentityRequest,
   AssumeRoleForPodIdentityResponse,
   | AccessDeniedException
   | ExpiredTokenException

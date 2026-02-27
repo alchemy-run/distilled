@@ -2221,9 +2221,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Cancels a specified query.
  */
-export const cancelQuery: (
-  input: CancelQueryInput,
-) => effect.Effect<
+export const cancelQuery: API.OperationMethod<
+  CancelQueryInput,
   CancelQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2254,9 +2253,8 @@ export const cancelQuery: (
  *
  * - neptune-graph:DeleteDataViaQuery
  */
-export const executeQuery: (
-  input: ExecuteQueryInput,
-) => effect.Effect<
+export const executeQuery: API.OperationMethod<
+  ExecuteQueryInput,
   ExecuteQueryOutput,
   | AccessDeniedException
   | ConflictException
@@ -2281,9 +2279,8 @@ export const executeQuery: (
 /**
  * Gets a graph summary for a property graph.
  */
-export const getGraphSummary: (
-  input: GetGraphSummaryInput,
-) => effect.Effect<
+export const getGraphSummary: API.OperationMethod<
+  GetGraphSummaryInput,
   GetGraphSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2308,9 +2305,8 @@ export const getGraphSummary: (
  *
  * When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the `neptune-graph:GetQueryStatus` IAM action attached.
  */
-export const getQuery: (
-  input: GetQueryInput,
-) => effect.Effect<
+export const getQuery: API.OperationMethod<
+  GetQueryInput,
   GetQueryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2333,9 +2329,8 @@ export const getQuery: (
 /**
  * Lists active openCypher queries.
  */
-export const listQueries: (
-  input: ListQueriesInput,
-) => effect.Effect<
+export const listQueries: API.OperationMethod<
+  ListQueriesInput,
   ListQueriesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2356,9 +2351,8 @@ export const listQueries: (
 /**
  * Lists tags associated with a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2379,9 +2373,8 @@ export const listTagsForResource: (
 /**
  * Adds tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2402,9 +2395,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2425,9 +2417,8 @@ export const untagResource: (
 /**
  * Creates a new Neptune Analytics graph.
  */
-export const createGraph: (
-  input: CreateGraphInput,
-) => effect.Effect<
+export const createGraph: API.OperationMethod<
+  CreateGraphInput,
   CreateGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2450,9 +2441,8 @@ export const createGraph: (
 /**
  * Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
  */
-export const deleteGraph: (
-  input: DeleteGraphInput,
-) => effect.Effect<
+export const deleteGraph: API.OperationMethod<
+  DeleteGraphInput,
   DeleteGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2475,9 +2465,8 @@ export const deleteGraph: (
 /**
  * Gets information about a specified graph.
  */
-export const getGraph: (
-  input: GetGraphInput,
-) => effect.Effect<
+export const getGraph: API.OperationMethod<
+  GetGraphInput,
   GetGraphOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2498,17 +2487,15 @@ export const getGraph: (
 /**
  * Lists available Neptune Analytics graphs.
  */
-export const listGraphs: {
-  (
-    input: ListGraphsInput,
-  ): effect.Effect<
-    ListGraphsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGraphs: API.OperationMethod<
+  ListGraphsInput,
+  ListGraphsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGraphsInput,
   ) => stream.Stream<
@@ -2547,9 +2534,8 @@ export const listGraphs: {
 /**
  * Empties the data from a specified Neptune Analytics graph.
  */
-export const resetGraph: (
-  input: ResetGraphInput,
-) => effect.Effect<
+export const resetGraph: API.OperationMethod<
+  ResetGraphInput,
   ResetGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2572,9 +2558,8 @@ export const resetGraph: (
 /**
  * Restores a graph from a snapshot.
  */
-export const restoreGraphFromSnapshot: (
-  input: RestoreGraphFromSnapshotInput,
-) => effect.Effect<
+export const restoreGraphFromSnapshot: API.OperationMethod<
+  RestoreGraphFromSnapshotInput,
   RestoreGraphFromSnapshotOutput,
   | ConflictException
   | InternalServerException
@@ -2599,9 +2584,8 @@ export const restoreGraphFromSnapshot: (
 /**
  * Starts the specific graph.
  */
-export const startGraph: (
-  input: StartGraphInput,
-) => effect.Effect<
+export const startGraph: API.OperationMethod<
+  StartGraphInput,
   StartGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2624,9 +2608,8 @@ export const startGraph: (
 /**
  * Stops the specific graph.
  */
-export const stopGraph: (
-  input: StopGraphInput,
-) => effect.Effect<
+export const stopGraph: API.OperationMethod<
+  StopGraphInput,
   StopGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2649,9 +2632,8 @@ export const stopGraph: (
 /**
  * Updates the configuration of a specified Neptune Analytics graph
  */
-export const updateGraph: (
-  input: UpdateGraphInput,
-) => effect.Effect<
+export const updateGraph: API.OperationMethod<
+  UpdateGraphInput,
   UpdateGraphOutput,
   | ConflictException
   | InternalServerException
@@ -2676,9 +2658,8 @@ export const updateGraph: (
  *
  * VPC endpoint charges apply.
  */
-export const createPrivateGraphEndpoint: (
-  input: CreatePrivateGraphEndpointInput,
-) => effect.Effect<
+export const createPrivateGraphEndpoint: API.OperationMethod<
+  CreatePrivateGraphEndpointInput,
   CreatePrivateGraphEndpointOutput,
   | ConflictException
   | InternalServerException
@@ -2703,9 +2684,8 @@ export const createPrivateGraphEndpoint: (
 /**
  * Deletes a private graph endpoint.
  */
-export const deletePrivateGraphEndpoint: (
-  input: DeletePrivateGraphEndpointInput,
-) => effect.Effect<
+export const deletePrivateGraphEndpoint: API.OperationMethod<
+  DeletePrivateGraphEndpointInput,
   DeletePrivateGraphEndpointOutput,
   | ConflictException
   | InternalServerException
@@ -2728,9 +2708,8 @@ export const deletePrivateGraphEndpoint: (
 /**
  * Retrieves information about a specified private endpoint.
  */
-export const getPrivateGraphEndpoint: (
-  input: GetPrivateGraphEndpointInput,
-) => effect.Effect<
+export const getPrivateGraphEndpoint: API.OperationMethod<
+  GetPrivateGraphEndpointInput,
   GetPrivateGraphEndpointOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2751,18 +2730,16 @@ export const getPrivateGraphEndpoint: (
 /**
  * Lists private endpoints for a specified Neptune Analytics graph.
  */
-export const listPrivateGraphEndpoints: {
-  (
-    input: ListPrivateGraphEndpointsInput,
-  ): effect.Effect<
-    ListPrivateGraphEndpointsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrivateGraphEndpoints: API.OperationMethod<
+  ListPrivateGraphEndpointsInput,
+  ListPrivateGraphEndpointsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrivateGraphEndpointsInput,
   ) => stream.Stream<
@@ -2804,9 +2781,8 @@ export const listPrivateGraphEndpoints: {
 /**
  * Creates a snapshot of the specific graph.
  */
-export const createGraphSnapshot: (
-  input: CreateGraphSnapshotInput,
-) => effect.Effect<
+export const createGraphSnapshot: API.OperationMethod<
+  CreateGraphSnapshotInput,
   CreateGraphSnapshotOutput,
   | ConflictException
   | InternalServerException
@@ -2831,9 +2807,8 @@ export const createGraphSnapshot: (
 /**
  * Deletes the specified graph snapshot.
  */
-export const deleteGraphSnapshot: (
-  input: DeleteGraphSnapshotInput,
-) => effect.Effect<
+export const deleteGraphSnapshot: API.OperationMethod<
+  DeleteGraphSnapshotInput,
   DeleteGraphSnapshotOutput,
   | ConflictException
   | InternalServerException
@@ -2856,9 +2831,8 @@ export const deleteGraphSnapshot: (
 /**
  * Retrieves a specified graph snapshot.
  */
-export const getGraphSnapshot: (
-  input: GetGraphSnapshotInput,
-) => effect.Effect<
+export const getGraphSnapshot: API.OperationMethod<
+  GetGraphSnapshotInput,
   GetGraphSnapshotOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2879,18 +2853,16 @@ export const getGraphSnapshot: (
 /**
  * Lists available snapshots of a specified Neptune Analytics graph.
  */
-export const listGraphSnapshots: {
-  (
-    input: ListGraphSnapshotsInput,
-  ): effect.Effect<
-    ListGraphSnapshotsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGraphSnapshots: API.OperationMethod<
+  ListGraphSnapshotsInput,
+  ListGraphSnapshotsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGraphSnapshotsInput,
   ) => stream.Stream<
@@ -2932,9 +2904,8 @@ export const listGraphSnapshots: {
 /**
  * Cancel the specified export task.
  */
-export const cancelExportTask: (
-  input: CancelExportTaskInput,
-) => effect.Effect<
+export const cancelExportTask: API.OperationMethod<
+  CancelExportTaskInput,
   CancelExportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -2957,9 +2928,8 @@ export const cancelExportTask: (
 /**
  * Deletes the specified import task.
  */
-export const cancelImportTask: (
-  input: CancelImportTaskInput,
-) => effect.Effect<
+export const cancelImportTask: API.OperationMethod<
+  CancelImportTaskInput,
   CancelImportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -2984,9 +2954,8 @@ export const cancelImportTask: (
  *
  * The data can be loaded from files in S3 that in either the Gremlin CSV format or the openCypher load format.
  */
-export const createGraphUsingImportTask: (
-  input: CreateGraphUsingImportTaskInput,
-) => effect.Effect<
+export const createGraphUsingImportTask: API.OperationMethod<
+  CreateGraphUsingImportTaskInput,
   CreateGraphUsingImportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -3009,9 +2978,8 @@ export const createGraphUsingImportTask: (
 /**
  * Retrieves a specified export task.
  */
-export const getExportTask: (
-  input: GetExportTaskInput,
-) => effect.Effect<
+export const getExportTask: API.OperationMethod<
+  GetExportTaskInput,
   GetExportTaskOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -3032,9 +3000,8 @@ export const getExportTask: (
 /**
  * Retrieves a specified import task.
  */
-export const getImportTask: (
-  input: GetImportTaskInput,
-) => effect.Effect<
+export const getImportTask: API.OperationMethod<
+  GetImportTaskInput,
   GetImportTaskOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -3055,18 +3022,16 @@ export const getImportTask: (
 /**
  * Retrieves a list of export tasks.
  */
-export const listExportTasks: {
-  (
-    input: ListExportTasksInput,
-  ): effect.Effect<
-    ListExportTasksOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExportTasks: API.OperationMethod<
+  ListExportTasksInput,
+  ListExportTasksOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportTasksInput,
   ) => stream.Stream<
@@ -3108,18 +3073,16 @@ export const listExportTasks: {
 /**
  * Lists import tasks.
  */
-export const listImportTasks: {
-  (
-    input: ListImportTasksInput,
-  ): effect.Effect<
-    ListImportTasksOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImportTasks: API.OperationMethod<
+  ListImportTasksInput,
+  ListImportTasksOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportTasksInput,
   ) => stream.Stream<
@@ -3161,9 +3124,8 @@ export const listImportTasks: {
 /**
  * Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be `AVAILABLE`.
  */
-export const startExportTask: (
-  input: StartExportTaskInput,
-) => effect.Effect<
+export const startExportTask: API.OperationMethod<
+  StartExportTaskInput,
   StartExportTaskOutput,
   | ConflictException
   | InternalServerException
@@ -3186,9 +3148,8 @@ export const startExportTask: (
 /**
  * Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
  */
-export const startImportTask: (
-  input: StartImportTaskInput,
-) => effect.Effect<
+export const startImportTask: API.OperationMethod<
+  StartImportTaskInput,
   StartImportTaskOutput,
   | ConflictException
   | InternalServerException

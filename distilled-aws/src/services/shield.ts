@@ -1636,9 +1636,8 @@ export class InvalidPaginationTokenException extends S.TaggedErrorClass<InvalidP
  *
  * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
-export const associateDRTLogBucket: (
-  input: AssociateDRTLogBucketRequest,
-) => effect.Effect<
+export const associateDRTLogBucket: API.OperationMethod<
+  AssociateDRTLogBucketRequest,
   AssociateDRTLogBucketResponse,
   | AccessDeniedForDependencyException
   | InternalErrorException
@@ -1678,9 +1677,8 @@ export const associateDRTLogBucket: (
  *
  * To use the services of the SRT and make an `AssociateDRTRole` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
-export const associateDRTRole: (
-  input: AssociateDRTRoleRequest,
-) => effect.Effect<
+export const associateDRTRole: API.OperationMethod<
+  AssociateDRTRoleRequest,
   AssociateDRTRoleResponse,
   | AccessDeniedForDependencyException
   | InternalErrorException
@@ -1707,9 +1705,8 @@ export const associateDRTRole: (
  *
  * You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
-export const associateHealthCheck: (
-  input: AssociateHealthCheckRequest,
-) => effect.Effect<
+export const associateHealthCheck: API.OperationMethod<
+  AssociateHealthCheckRequest,
   AssociateHealthCheckResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1740,9 +1737,8 @@ export const associateHealthCheck: (
  *
  * The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using `DescribeEmergencyContactSettings` and then provide it to this call.
  */
-export const associateProactiveEngagementDetails: (
-  input: AssociateProactiveEngagementDetailsRequest,
-) => effect.Effect<
+export const associateProactiveEngagementDetails: API.OperationMethod<
+  AssociateProactiveEngagementDetailsRequest,
   AssociateProactiveEngagementDetailsResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -1771,9 +1767,8 @@ export const associateProactiveEngagementDetails: (
  * Getting Started with Shield Advanced
  * and Adding Shield Advanced protection to Amazon Web Services resources.
  */
-export const createProtection: (
-  input: CreateProtectionRequest,
-) => effect.Effect<
+export const createProtection: API.OperationMethod<
+  CreateProtectionRequest,
   CreateProtectionResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -1802,9 +1797,8 @@ export const createProtection: (
 /**
  * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
-export const createProtectionGroup: (
-  input: CreateProtectionGroupRequest,
-) => effect.Effect<
+export const createProtectionGroup: API.OperationMethod<
+  CreateProtectionGroupRequest,
   CreateProtectionGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1834,9 +1828,8 @@ export const createProtectionGroup: (
  *
  * When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an `UpdateSubscription` request.
  */
-export const createSubscription: (
-  input: CreateSubscriptionRequest,
-) => effect.Effect<
+export const createSubscription: API.OperationMethod<
+  CreateSubscriptionRequest,
   CreateSubscriptionResponse,
   InternalErrorException | ResourceAlreadyExistsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1848,9 +1841,8 @@ export const createSubscription: (
 /**
  * Deletes an Shield Advanced Protection.
  */
-export const deleteProtection: (
-  input: DeleteProtectionRequest,
-) => effect.Effect<
+export const deleteProtection: API.OperationMethod<
+  DeleteProtectionRequest,
   DeleteProtectionResponse,
   | InternalErrorException
   | OptimisticLockException
@@ -1869,9 +1861,8 @@ export const deleteProtection: (
 /**
  * Removes the specified protection group.
  */
-export const deleteProtectionGroup: (
-  input: DeleteProtectionGroupRequest,
-) => effect.Effect<
+export const deleteProtectionGroup: API.OperationMethod<
+  DeleteProtectionGroupRequest,
   DeleteProtectionGroupResponse,
   | InternalErrorException
   | OptimisticLockException
@@ -1890,9 +1881,8 @@ export const deleteProtectionGroup: (
 /**
  * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
  */
-export const deleteSubscription: (
-  input: DeleteSubscriptionRequest,
-) => effect.Effect<
+export const deleteSubscription: API.OperationMethod<
+  DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
   | InternalErrorException
   | LockedSubscriptionException
@@ -1911,9 +1901,8 @@ export const deleteSubscription: (
 /**
  * Describes the details of a DDoS attack.
  */
-export const describeAttack: (
-  input: DescribeAttackRequest,
-) => effect.Effect<
+export const describeAttack: API.OperationMethod<
+  DescribeAttackRequest,
   DescribeAttackResponse,
   AccessDeniedException | InternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1929,9 +1918,8 @@ export const describeAttack: (
  *
  * The time range indicates the period covered by the attack statistics data items.
  */
-export const describeAttackStatistics: (
-  input: DescribeAttackStatisticsRequest,
-) => effect.Effect<
+export const describeAttackStatistics: API.OperationMethod<
+  DescribeAttackStatisticsRequest,
   DescribeAttackStatisticsResponse,
   InternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1943,9 +1931,8 @@ export const describeAttackStatistics: (
 /**
  * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
  */
-export const describeDRTAccess: (
-  input: DescribeDRTAccessRequest,
-) => effect.Effect<
+export const describeDRTAccess: API.OperationMethod<
+  DescribeDRTAccessRequest,
   DescribeDRTAccessResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1957,9 +1944,8 @@ export const describeDRTAccess: (
 /**
  * A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
-export const describeEmergencyContactSettings: (
-  input: DescribeEmergencyContactSettingsRequest,
-) => effect.Effect<
+export const describeEmergencyContactSettings: API.OperationMethod<
+  DescribeEmergencyContactSettingsRequest,
   DescribeEmergencyContactSettingsResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1971,9 +1957,8 @@ export const describeEmergencyContactSettings: (
 /**
  * Lists the details of a Protection object.
  */
-export const describeProtection: (
-  input: DescribeProtectionRequest,
-) => effect.Effect<
+export const describeProtection: API.OperationMethod<
+  DescribeProtectionRequest,
   DescribeProtectionResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1992,9 +1977,8 @@ export const describeProtection: (
 /**
  * Returns the specification for the specified protection group.
  */
-export const describeProtectionGroup: (
-  input: DescribeProtectionGroupRequest,
-) => effect.Effect<
+export const describeProtectionGroup: API.OperationMethod<
+  DescribeProtectionGroupRequest,
   DescribeProtectionGroupResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2006,9 +1990,8 @@ export const describeProtectionGroup: (
 /**
  * Provides details about the Shield Advanced subscription for an account.
  */
-export const describeSubscription: (
-  input: DescribeSubscriptionRequest,
-) => effect.Effect<
+export const describeSubscription: API.OperationMethod<
+  DescribeSubscriptionRequest,
   DescribeSubscriptionResponse,
   InternalErrorException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2021,9 +2004,8 @@ export const describeSubscription: (
  * Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This
  * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
  */
-export const disableApplicationLayerAutomaticResponse: (
-  input: DisableApplicationLayerAutomaticResponseRequest,
-) => effect.Effect<
+export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
+  DisableApplicationLayerAutomaticResponseRequest,
   DisableApplicationLayerAutomaticResponseResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2046,9 +2028,8 @@ export const disableApplicationLayerAutomaticResponse: (
 /**
  * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
-export const disableProactiveEngagement: (
-  input: DisableProactiveEngagementRequest,
-) => effect.Effect<
+export const disableProactiveEngagement: API.OperationMethod<
+  DisableProactiveEngagementRequest,
   DisableProactiveEngagementResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2071,9 +2052,8 @@ export const disableProactiveEngagement: (
 /**
  * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
  */
-export const disassociateDRTLogBucket: (
-  input: DisassociateDRTLogBucketRequest,
-) => effect.Effect<
+export const disassociateDRTLogBucket: API.OperationMethod<
+  DisassociateDRTLogBucketRequest,
   DisassociateDRTLogBucketResponse,
   | AccessDeniedForDependencyException
   | InternalErrorException
@@ -2098,9 +2078,8 @@ export const disassociateDRTLogBucket: (
 /**
  * Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
  */
-export const disassociateDRTRole: (
-  input: DisassociateDRTRoleRequest,
-) => effect.Effect<
+export const disassociateDRTRole: API.OperationMethod<
+  DisassociateDRTRoleRequest,
   DisassociateDRTRoleResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2123,9 +2102,8 @@ export const disassociateDRTRole: (
  *
  * You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
-export const disassociateHealthCheck: (
-  input: DisassociateHealthCheckRequest,
-) => effect.Effect<
+export const disassociateHealthCheck: API.OperationMethod<
+  DisassociateHealthCheckRequest,
   DisassociateHealthCheckResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2162,9 +2140,8 @@ export const disassociateHealthCheck: (
  * see Getting Started with Shield Advanced. You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see
  * WAF Developer Guide.
  */
-export const enableApplicationLayerAutomaticResponse: (
-  input: EnableApplicationLayerAutomaticResponseRequest,
-) => effect.Effect<
+export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
+  EnableApplicationLayerAutomaticResponseRequest,
   EnableApplicationLayerAutomaticResponseResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2189,9 +2166,8 @@ export const enableApplicationLayerAutomaticResponse: (
 /**
  * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
-export const enableProactiveEngagement: (
-  input: EnableProactiveEngagementRequest,
-) => effect.Effect<
+export const enableProactiveEngagement: API.OperationMethod<
+  EnableProactiveEngagementRequest,
   EnableProactiveEngagementResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2214,9 +2190,8 @@ export const enableProactiveEngagement: (
 /**
  * Returns the `SubscriptionState`, either `Active` or `Inactive`.
  */
-export const getSubscriptionState: (
-  input: GetSubscriptionStateRequest,
-) => effect.Effect<
+export const getSubscriptionState: API.OperationMethod<
+  GetSubscriptionStateRequest,
   GetSubscriptionStateResponse,
   InternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2229,17 +2204,15 @@ export const getSubscriptionState: (
  * Returns all ongoing DDoS attacks or all DDoS attacks during a specified time
  * period.
  */
-export const listAttacks: {
-  (
-    input: ListAttacksRequest,
-  ): effect.Effect<
-    ListAttacksResponse,
-    | InternalErrorException
-    | InvalidOperationException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttacks: API.OperationMethod<
+  ListAttacksRequest,
+  ListAttacksResponse,
+  | InternalErrorException
+  | InvalidOperationException
+  | InvalidParameterException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttacksRequest,
   ) => stream.Stream<
@@ -2279,17 +2252,15 @@ export const listAttacks: {
  * Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide
  * filtering criteria and retrieve just the subset of protection groups that match the criteria.
  */
-export const listProtectionGroups: {
-  (
-    input: ListProtectionGroupsRequest,
-  ): effect.Effect<
-    ListProtectionGroupsResponse,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProtectionGroups: API.OperationMethod<
+  ListProtectionGroupsRequest,
+  ListProtectionGroupsResponse,
+  | InternalErrorException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectionGroupsRequest,
   ) => stream.Stream<
@@ -2328,17 +2299,15 @@ export const listProtectionGroups: {
  * Retrieves Protection objects for the account. You can retrieve all protections or you can provide
  * filtering criteria and retrieve just the subset of protections that match the criteria.
  */
-export const listProtections: {
-  (
-    input: ListProtectionsRequest,
-  ): effect.Effect<
-    ListProtectionsResponse,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProtections: API.OperationMethod<
+  ListProtectionsRequest,
+  ListProtectionsResponse,
+  | InternalErrorException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectionsRequest,
   ) => stream.Stream<
@@ -2377,17 +2346,15 @@ export const listProtections: {
 /**
  * Retrieves the resources that are included in the protection group.
  */
-export const listResourcesInProtectionGroup: {
-  (
-    input: ListResourcesInProtectionGroupRequest,
-  ): effect.Effect<
-    ListResourcesInProtectionGroupResponse,
-    | InternalErrorException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourcesInProtectionGroup: API.OperationMethod<
+  ListResourcesInProtectionGroupRequest,
+  ListResourcesInProtectionGroupResponse,
+  | InternalErrorException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesInProtectionGroupRequest,
   ) => stream.Stream<
@@ -2425,9 +2392,8 @@ export const listResourcesInProtectionGroup: {
 /**
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidResourceException
@@ -2446,9 +2412,8 @@ export const listTagsForResource: (
 /**
  * Adds or updates tags for a resource in Shield.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2469,9 +2434,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource in Shield.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2492,9 +2456,8 @@ export const untagResource: (
 /**
  * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
  */
-export const updateApplicationLayerAutomaticResponse: (
-  input: UpdateApplicationLayerAutomaticResponseRequest,
-) => effect.Effect<
+export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
+  UpdateApplicationLayerAutomaticResponseRequest,
   UpdateApplicationLayerAutomaticResponseResponse,
   | InternalErrorException
   | InvalidOperationException
@@ -2517,9 +2480,8 @@ export const updateApplicationLayerAutomaticResponse: (
 /**
  * Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
-export const updateEmergencyContactSettings: (
-  input: UpdateEmergencyContactSettingsRequest,
-) => effect.Effect<
+export const updateEmergencyContactSettings: API.OperationMethod<
+  UpdateEmergencyContactSettingsRequest,
   UpdateEmergencyContactSettingsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2540,9 +2502,8 @@ export const updateEmergencyContactSettings: (
 /**
  * Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
-export const updateProtectionGroup: (
-  input: UpdateProtectionGroupRequest,
-) => effect.Effect<
+export const updateProtectionGroup: API.OperationMethod<
+  UpdateProtectionGroupRequest,
   UpdateProtectionGroupResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -2566,9 +2527,8 @@ export const updateProtectionGroup: (
  * For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account,
  * regardless of whether the payer account itself is subscribed.
  */
-export const updateSubscription: (
-  input: UpdateSubscriptionRequest,
-) => effect.Effect<
+export const updateSubscription: API.OperationMethod<
+  UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
   | InternalErrorException
   | InvalidParameterException

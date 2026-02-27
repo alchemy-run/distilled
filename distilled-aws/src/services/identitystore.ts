@@ -1008,9 +1008,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const getGroupId: (
-  input: GetGroupIdRequest,
-) => effect.Effect<
+export const getGroupId: API.OperationMethod<
+  GetGroupIdRequest,
   GetGroupIdResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1024,9 +1023,8 @@ export const getGroupId: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const getGroupMembershipId: (
-  input: GetGroupMembershipIdRequest,
-) => effect.Effect<
+export const getGroupMembershipId: API.OperationMethod<
+  GetGroupMembershipIdRequest,
   GetGroupMembershipIdResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1040,9 +1038,8 @@ export const getGroupMembershipId: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const getUserId: (
-  input: GetUserIdRequest,
-) => effect.Effect<
+export const getUserId: API.OperationMethod<
+  GetUserIdRequest,
   GetUserIdResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1056,9 +1053,8 @@ export const getUserId: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const isMemberInGroups: (
-  input: IsMemberInGroupsRequest,
-) => effect.Effect<
+export const isMemberInGroups: API.OperationMethod<
+  IsMemberInGroupsRequest,
   IsMemberInGroupsResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1072,14 +1068,12 @@ export const isMemberInGroups: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listGroupMembershipsForMember: {
-  (
-    input: ListGroupMembershipsForMemberRequest,
-  ): effect.Effect<
-    ListGroupMembershipsForMemberResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupMembershipsForMember: API.OperationMethod<
+  ListGroupMembershipsForMemberRequest,
+  ListGroupMembershipsForMemberResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupMembershipsForMemberRequest,
   ) => stream.Stream<
@@ -1108,9 +1102,8 @@ export const listGroupMembershipsForMember: {
 /**
  * Creates a relationship between a member and a group. The following identifiers must be specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
  */
-export const createGroupMembership: (
-  input: CreateGroupMembershipRequest,
-) => effect.Effect<
+export const createGroupMembership: API.OperationMethod<
+  CreateGroupMembershipRequest,
   CreateGroupMembershipResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1133,9 +1126,8 @@ export const createGroupMembership: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const describeGroupMembership: (
-  input: DescribeGroupMembershipRequest,
-) => effect.Effect<
+export const describeGroupMembership: API.OperationMethod<
+  DescribeGroupMembershipRequest,
   DescribeGroupMembershipResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1147,9 +1139,8 @@ export const describeGroupMembership: (
 /**
  * Delete a membership within a group given `MembershipId`.
  */
-export const deleteGroupMembership: (
-  input: DeleteGroupMembershipRequest,
-) => effect.Effect<
+export const deleteGroupMembership: API.OperationMethod<
+  DeleteGroupMembershipRequest,
   DeleteGroupMembershipResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1166,14 +1157,12 @@ export const deleteGroupMembership: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listGroupMemberships: {
-  (
-    input: ListGroupMembershipsRequest,
-  ): effect.Effect<
-    ListGroupMembershipsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupMemberships: API.OperationMethod<
+  ListGroupMembershipsRequest,
+  ListGroupMembershipsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupMembershipsRequest,
   ) => stream.Stream<
@@ -1202,9 +1191,8 @@ export const listGroupMemberships: {
 /**
  * Creates a group within the specified identity store.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1227,9 +1215,8 @@ export const createGroup: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const describeGroup: (
-  input: DescribeGroupRequest,
-) => effect.Effect<
+export const describeGroup: API.OperationMethod<
+  DescribeGroupRequest,
   DescribeGroupResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1241,9 +1228,8 @@ export const describeGroup: (
 /**
  * Updates the specified group metadata and attributes in the specified identity store.
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1264,9 +1250,8 @@ export const updateGroup: (
 /**
  * Delete a group within an identity store given `GroupId`.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1283,14 +1268,12 @@ export const deleteGroup: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -1319,9 +1302,8 @@ export const listGroups: {
 /**
  * Creates a user within the specified identity store.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1344,9 +1326,8 @@ export const createUser: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1358,9 +1339,8 @@ export const describeUser: (
 /**
  * Updates the specified user metadata and attributes in the specified identity store.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1381,9 +1361,8 @@ export const updateUser: (
 /**
  * Deletes a user within an identity store given `UserId`.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -1400,14 +1379,12 @@ export const deleteUser: (
  *
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<

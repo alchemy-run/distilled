@@ -247,9 +247,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * This API sets up the home region for the calling account only.
  */
-export const createHomeRegionControl: (
-  input: CreateHomeRegionControlRequest,
-) => effect.Effect<
+export const createHomeRegionControl: API.OperationMethod<
+  CreateHomeRegionControlRequest,
   CreateHomeRegionControlResult,
   | AccessDeniedException
   | DryRunOperation
@@ -274,9 +273,8 @@ export const createHomeRegionControl: (
 /**
  * This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
  */
-export const deleteHomeRegionControl: (
-  input: DeleteHomeRegionControlRequest,
-) => effect.Effect<
+export const deleteHomeRegionControl: API.OperationMethod<
+  DeleteHomeRegionControlRequest,
   DeleteHomeRegionControlResult,
   | AccessDeniedException
   | InternalServerError
@@ -300,19 +298,17 @@ export const deleteHomeRegionControl: (
  * This API permits filtering on the `ControlId` and `HomeRegion`
  * fields.
  */
-export const describeHomeRegionControls: {
-  (
-    input: DescribeHomeRegionControlsRequest,
-  ): effect.Effect<
-    DescribeHomeRegionControlsResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeHomeRegionControls: API.OperationMethod<
+  DescribeHomeRegionControlsRequest,
+  DescribeHomeRegionControlsResult,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeHomeRegionControlsRequest,
   ) => stream.Stream<
@@ -360,9 +356,8 @@ export const describeHomeRegionControls: {
  * other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's
  * Migration Hub home region.
  */
-export const getHomeRegion: (
-  input: GetHomeRegionRequest,
-) => effect.Effect<
+export const getHomeRegion: API.OperationMethod<
+  GetHomeRegionRequest,
   GetHomeRegionResult,
   | AccessDeniedException
   | InternalServerError

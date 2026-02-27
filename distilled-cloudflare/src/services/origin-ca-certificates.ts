@@ -71,15 +71,18 @@ export const GetOriginCACertificateResponse = Schema.Struct({
   expiresOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    csr: "csr",
+    hostnames: "hostnames",
     requestType: "request_type",
     requestedValidity: "requested_validity",
+    id: "id",
+    certificate: "certificate",
     expiresOn: "expires_on",
   }),
 ) as unknown as Schema.Schema<GetOriginCACertificateResponse>;
 
-export const getOriginCACertificate: (
-  input: GetOriginCACertificateRequest,
-) => Effect.Effect<
+export const getOriginCACertificate: API.OperationMethod<
+  GetOriginCACertificateRequest,
   GetOriginCACertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -103,7 +106,7 @@ export const ListOriginCACertificatesRequest = Schema.Struct({
   limit: Schema.optional(Schema.Number),
   offset: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ zoneId: "zone_id" }),
+  Schema.encodeKeys({ zoneId: "zone_id", limit: "limit", offset: "offset" }),
   T.Http({ method: "GET", path: "/certificates" }),
 ) as unknown as Schema.Schema<ListOriginCACertificatesRequest>;
 
@@ -140,16 +143,19 @@ export const ListOriginCACertificatesResponse = Schema.Array(
     expiresOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      csr: "csr",
+      hostnames: "hostnames",
       requestType: "request_type",
       requestedValidity: "requested_validity",
+      id: "id",
+      certificate: "certificate",
       expiresOn: "expires_on",
     }),
   ),
 ) as unknown as Schema.Schema<ListOriginCACertificatesResponse>;
 
-export const listOriginCACertificates: (
-  input: ListOriginCACertificatesRequest,
-) => Effect.Effect<
+export const listOriginCACertificates: API.OperationMethod<
+  ListOriginCACertificatesRequest,
   ListOriginCACertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -183,6 +189,8 @@ export const CreateOriginCACertificateRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    csr: "csr",
+    hostnames: "hostnames",
     requestType: "request_type",
     requestedValidity: "requested_validity",
   }),
@@ -228,15 +236,18 @@ export const CreateOriginCACertificateResponse = Schema.Struct({
   expiresOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    csr: "csr",
+    hostnames: "hostnames",
     requestType: "request_type",
     requestedValidity: "requested_validity",
+    id: "id",
+    certificate: "certificate",
     expiresOn: "expires_on",
   }),
 ) as unknown as Schema.Schema<CreateOriginCACertificateResponse>;
 
-export const createOriginCACertificate: (
-  input: CreateOriginCACertificateRequest,
-) => Effect.Effect<
+export const createOriginCACertificate: API.OperationMethod<
+  CreateOriginCACertificateRequest,
   CreateOriginCACertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -267,12 +278,11 @@ export const DeleteOriginCACertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   revokedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ revokedAt: "revoked_at" }),
+  Schema.encodeKeys({ id: "id", revokedAt: "revoked_at" }),
 ) as unknown as Schema.Schema<DeleteOriginCACertificateResponse>;
 
-export const deleteOriginCACertificate: (
-  input: DeleteOriginCACertificateRequest,
-) => Effect.Effect<
+export const deleteOriginCACertificate: API.OperationMethod<
+  DeleteOriginCACertificateRequest,
   DeleteOriginCACertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

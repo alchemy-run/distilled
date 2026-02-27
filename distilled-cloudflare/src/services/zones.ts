@@ -42,9 +42,8 @@ export const TriggerActivationCheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<TriggerActivationCheckResponse>;
 
-export const triggerActivationCheck: (
-  input: TriggerActivationCheckRequest,
-) => Effect.Effect<
+export const triggerActivationCheck: API.OperationMethod<
+  TriggerActivationCheckRequest,
   TriggerActivationCheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -107,7 +106,14 @@ export const GetCustomNameserverResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -119,7 +125,14 @@ export const GetCustomNameserverResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
   enabled: Schema.optional(Schema.Boolean),
@@ -131,16 +144,27 @@ export const GetCustomNameserverResponse = Schema.Struct({
       perPage: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ nsSet: "ns_set", resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    errors: "errors",
+    messages: "messages",
+    success: "success",
+    enabled: "enabled",
+    nsSet: "ns_set",
+    resultInfo: "result_info",
+  }),
 ) as unknown as Schema.Schema<GetCustomNameserverResponse>;
 
-export const getCustomNameserver: (
-  input: GetCustomNameserverRequest,
-) => Effect.Effect<
+export const getCustomNameserver: API.OperationMethod<
+  GetCustomNameserverRequest,
   GetCustomNameserverResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -164,7 +188,7 @@ export const UpdateCustomNameserverRequest = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   nsSet: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ nsSet: "ns_set" }),
+  Schema.encodeKeys({ enabled: "enabled", nsSet: "ns_set" }),
   T.Http({ method: "GET", path: "/zones/{zone_id}/custom_ns" }),
 ) as unknown as Schema.Schema<UpdateCustomNameserverRequest>;
 
@@ -174,9 +198,8 @@ export const UpdateCustomNameserverResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<UpdateCustomNameserverResponse>;
 
-export const updateCustomNameserver: (
-  input: UpdateCustomNameserverRequest,
-) => Effect.Effect<
+export const updateCustomNameserver: API.OperationMethod<
+  UpdateCustomNameserverRequest,
   UpdateCustomNameserverResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -213,14 +236,14 @@ export const GetHoldResponse = Schema.Struct({
   includeSubdomains: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    hold: "hold",
     holdAfter: "hold_after",
     includeSubdomains: "include_subdomains",
   }),
 ) as unknown as Schema.Schema<GetHoldResponse>;
 
-export const getHold: (
-  input: GetHoldRequest,
-) => Effect.Effect<
+export const getHold: API.OperationMethod<
+  GetHoldRequest,
   GetHoldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -258,14 +281,14 @@ export const CreateHoldResponse = Schema.Struct({
   includeSubdomains: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    hold: "hold",
     holdAfter: "hold_after",
     includeSubdomains: "include_subdomains",
   }),
 ) as unknown as Schema.Schema<CreateHoldResponse>;
 
-export const createHold: (
-  input: CreateHoldRequest,
-) => Effect.Effect<
+export const createHold: API.OperationMethod<
+  CreateHoldRequest,
   CreateHoldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -308,14 +331,14 @@ export const PatchHoldResponse = Schema.Struct({
   includeSubdomains: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    hold: "hold",
     holdAfter: "hold_after",
     includeSubdomains: "include_subdomains",
   }),
 ) as unknown as Schema.Schema<PatchHoldResponse>;
 
-export const patchHold: (
-  input: PatchHoldRequest,
-) => Effect.Effect<
+export const patchHold: API.OperationMethod<
+  PatchHoldRequest,
   PatchHoldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -351,14 +374,14 @@ export const DeleteHoldResponse = Schema.Struct({
   includeSubdomains: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    hold: "hold",
     holdAfter: "hold_after",
     includeSubdomains: "include_subdomains",
   }),
 ) as unknown as Schema.Schema<DeleteHoldResponse>;
 
-export const deleteHold: (
-  input: DeleteHoldRequest,
-) => Effect.Effect<
+export const deleteHold: API.OperationMethod<
+  DeleteHoldRequest,
   DeleteHoldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -426,17 +449,21 @@ export const GetPlanResponse = Schema.Struct({
   price: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canSubscribe: "can_subscribe",
+    currency: "currency",
     externallyManaged: "externally_managed",
+    frequency: "frequency",
     isSubscribed: "is_subscribed",
     legacyDiscount: "legacy_discount",
     legacyId: "legacy_id",
+    name: "name",
+    price: "price",
   }),
 ) as unknown as Schema.Schema<GetPlanResponse>;
 
-export const getPlan: (
-  input: GetPlanRequest,
-) => Effect.Effect<
+export const getPlan: API.OperationMethod<
+  GetPlanRequest,
   GetPlanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -486,18 +513,22 @@ export const ListPlansResponse = Schema.Array(
     price: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       canSubscribe: "can_subscribe",
+      currency: "currency",
       externallyManaged: "externally_managed",
+      frequency: "frequency",
       isSubscribed: "is_subscribed",
       legacyDiscount: "legacy_discount",
       legacyId: "legacy_id",
+      name: "name",
+      price: "price",
     }),
   ),
 ) as unknown as Schema.Schema<ListPlansResponse>;
 
-export const listPlans: (
-  input: ListPlansRequest,
-) => Effect.Effect<
+export const listPlans: API.OperationMethod<
+  ListPlansRequest,
   ListPlansResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -555,7 +586,13 @@ export const GetRatePlanResponse = Schema.Array(
             ]),
           ),
           unitPrice: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ unitPrice: "unit_price" })),
+        }).pipe(
+          Schema.encodeKeys({
+            default: "default",
+            name: "name",
+            unitPrice: "unit_price",
+          }),
+        ),
       ),
     ),
     currency: Schema.optional(Schema.String),
@@ -567,9 +604,8 @@ export const GetRatePlanResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetRatePlanResponse>;
 
-export const getRatePlan: (
-  input: GetRatePlanRequest,
-) => Effect.Effect<
+export const getRatePlan: API.OperationMethod<
+  GetRatePlanRequest,
   GetRatePlanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1020,13 +1056,27 @@ export const GetSettingResponse = Schema.Union([
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("advanced_ddos"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("aegis"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1034,51 +1084,102 @@ export const GetSettingResponse = Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         poolId: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ poolId: "pool_id" })),
+      }).pipe(Schema.encodeKeys({ enabled: "enabled", poolId: "pool_id" })),
     ),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
+  ),
   Schema.Struct({
     id: Schema.Literal("always_online"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("always_use_https"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("automatic_https_rewrites"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("brotli"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("browser_cache_ttl"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("browser_check"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("cache_level"),
     value: Schema.Literals(["aggressive", "basic", "simplified"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("challenge_ttl"),
     value: Schema.Literals([
@@ -1099,25 +1200,53 @@ export const GetSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("china_network_enabled"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ciphers"),
     value: Schema.Array(Schema.String),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("cname_flattening"),
     value: Schema.Literals(["flatten_at_root", "flatten_all"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("development_mode"),
     value: Schema.Literals(["on", "off"]),
@@ -1126,6 +1255,9 @@ export const GetSettingResponse = Schema.Union([
     timeRemaining: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
       modifiedOn: "modified_on",
       timeRemaining: "time_remaining",
     }),
@@ -1135,7 +1267,14 @@ export const GetSettingResponse = Schema.Union([
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("edge_cache_ttl"),
     value: Schema.Literals([
@@ -1163,55 +1302,118 @@ export const GetSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("email_obfuscation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("h2_prioritization"),
     value: Schema.Literals(["on", "off", "custom"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("hotlink_protection"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("http2"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("http3"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("image_resizing"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ip_geolocation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ipv6"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("max_upload"),
     value: Schema.Literals([
@@ -1236,19 +1438,40 @@ export const GetSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("min_tls_version"),
     value: Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("mirage"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("nel"),
     value: Schema.Struct({
@@ -1256,95 +1479,197 @@ export const GetSettingResponse = Schema.Union([
     }),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("opportunistic_encryption"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("opportunistic_onion"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("orange_to_orange"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("origin_error_page_pass_thru"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("origin_h2_max_streams"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
+  ),
   Schema.Struct({
     id: Schema.Literal("origin_max_http_version"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Literals(["2", "1"])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
+  ),
   Schema.Struct({
     id: Schema.Literal("polish"),
     value: Schema.Literals(["off", "lossless", "lossy"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("prefetch_preload"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("privacy_pass"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("proxy_read_timeout"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("pseudo_ipv4"),
     value: Schema.Literals(["off", "add_header", "overwrite_header"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("replace_insecure_js"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("response_buffering"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("rocket_loader"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("automatic_platform_optimization"),
     value: Schema.Unknown,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("security_header"),
     value: Schema.Struct({
@@ -1357,8 +1682,11 @@ export const GetSettingResponse = Schema.Union([
           preload: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            enabled: "enabled",
             includeSubdomains: "include_subdomains",
             maxAge: "max_age",
+            nosniff: "nosniff",
+            preload: "preload",
           }),
         ),
       ),
@@ -1369,7 +1697,14 @@ export const GetSettingResponse = Schema.Union([
     ),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("security_level"),
     value: Schema.Literals([
@@ -1382,31 +1717,66 @@ export const GetSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("server_side_exclude"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("sha1_support"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("sort_query_string_for_cache"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ssl"),
     value: Schema.Literals(["off", "flexible", "full", "strict"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.Literal("ssl_recommender")),
     enabled: Schema.optional(Schema.Boolean),
@@ -1416,60 +1786,122 @@ export const GetSettingResponse = Schema.Union([
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("tls_1_3"),
     value: Schema.Literals(["on", "off", "zrt"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("tls_client_auth"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("transformations"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("transformations_allowed_origins"),
     value: Schema.String,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("true_client_ip_header"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("waf"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("webp"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("websockets"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
 ]) as unknown as Schema.Schema<GetSettingResponse>;
 
-export const getSetting: (
-  input: GetSettingRequest,
-) => Effect.Effect<
+export const getSetting: API.OperationMethod<
+  GetSettingRequest,
   GetSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1919,13 +2351,27 @@ export const PatchSettingResponse = Schema.Union([
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("advanced_ddos"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("aegis"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1933,51 +2379,102 @@ export const PatchSettingResponse = Schema.Union([
       Schema.Struct({
         enabled: Schema.optional(Schema.Boolean),
         poolId: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ poolId: "pool_id" })),
+      }).pipe(Schema.encodeKeys({ enabled: "enabled", poolId: "pool_id" })),
     ),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
+  ),
   Schema.Struct({
     id: Schema.Literal("always_online"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("always_use_https"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("automatic_https_rewrites"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("brotli"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("browser_cache_ttl"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("browser_check"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("cache_level"),
     value: Schema.Literals(["aggressive", "basic", "simplified"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("challenge_ttl"),
     value: Schema.Literals([
@@ -1998,25 +2495,53 @@ export const PatchSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("china_network_enabled"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ciphers"),
     value: Schema.Array(Schema.String),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("cname_flattening"),
     value: Schema.Literals(["flatten_at_root", "flatten_all"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("development_mode"),
     value: Schema.Literals(["on", "off"]),
@@ -2025,6 +2550,9 @@ export const PatchSettingResponse = Schema.Union([
     timeRemaining: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
       modifiedOn: "modified_on",
       timeRemaining: "time_remaining",
     }),
@@ -2034,7 +2562,14 @@ export const PatchSettingResponse = Schema.Union([
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("edge_cache_ttl"),
     value: Schema.Literals([
@@ -2062,55 +2597,118 @@ export const PatchSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("email_obfuscation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("h2_prioritization"),
     value: Schema.Literals(["on", "off", "custom"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("hotlink_protection"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("http2"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("http3"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("image_resizing"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ip_geolocation"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ipv6"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("max_upload"),
     value: Schema.Literals([
@@ -2135,19 +2733,40 @@ export const PatchSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("min_tls_version"),
     value: Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("mirage"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("nel"),
     value: Schema.Struct({
@@ -2155,95 +2774,197 @@ export const PatchSettingResponse = Schema.Union([
     }),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("opportunistic_encryption"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("opportunistic_onion"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("orange_to_orange"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("origin_error_page_pass_thru"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("origin_h2_max_streams"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
+  ),
   Schema.Struct({
     id: Schema.Literal("origin_max_http_version"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Literals(["2", "1"])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
+  ),
   Schema.Struct({
     id: Schema.Literal("polish"),
     value: Schema.Literals(["off", "lossless", "lossy"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("prefetch_preload"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("privacy_pass"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("proxy_read_timeout"),
     value: Schema.Number,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("pseudo_ipv4"),
     value: Schema.Literals(["off", "add_header", "overwrite_header"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("replace_insecure_js"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("response_buffering"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("rocket_loader"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("automatic_platform_optimization"),
     value: Schema.Unknown,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("security_header"),
     value: Schema.Struct({
@@ -2256,8 +2977,11 @@ export const PatchSettingResponse = Schema.Union([
           preload: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            enabled: "enabled",
             includeSubdomains: "include_subdomains",
             maxAge: "max_age",
+            nosniff: "nosniff",
+            preload: "preload",
           }),
         ),
       ),
@@ -2268,7 +2992,14 @@ export const PatchSettingResponse = Schema.Union([
     ),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("security_level"),
     value: Schema.Literals([
@@ -2281,31 +3012,66 @@ export const PatchSettingResponse = Schema.Union([
     ]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("server_side_exclude"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("sha1_support"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("sort_query_string_for_cache"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("ssl"),
     value: Schema.Literals(["off", "flexible", "full", "strict"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.optional(Schema.Literal("ssl_recommender")),
     enabled: Schema.optional(Schema.Boolean),
@@ -2315,60 +3081,122 @@ export const PatchSettingResponse = Schema.Union([
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("tls_1_3"),
     value: Schema.Literals(["on", "off", "zrt"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("tls_client_auth"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("transformations"),
     value: Schema.Literals(["on", "off", "open"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("transformations_allowed_origins"),
     value: Schema.String,
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("true_client_ip_header"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("waf"),
     value: Schema.Literals(["on", "off"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("webp"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
   Schema.Struct({
     id: Schema.Literal("websockets"),
     value: Schema.Literals(["off", "on"]),
     editable: Schema.optional(Schema.Literals([true, false])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ modifiedOn: "modified_on" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      value: "value",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ),
 ]) as unknown as Schema.Schema<PatchSettingResponse>;
 
-export const patchSetting: (
-  input: PatchSettingRequest,
-) => Effect.Effect<
+export const patchSetting: API.OperationMethod<
+  PatchSettingRequest,
   PatchSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2448,15 +3276,19 @@ export const GetSubscriptionResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    currency: "currency",
     currentPeriodEnd: "current_period_end",
     currentPeriodStart: "current_period_start",
+    frequency: "frequency",
+    price: "price",
     ratePlan: "rate_plan",
+    state: "state",
   }),
 ) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
-export const getSubscription: (
-  input: GetSubscriptionRequest,
-) => Effect.Effect<
+export const getSubscription: API.OperationMethod<
+  GetSubscriptionRequest,
   GetSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2482,7 +3314,7 @@ export const CreateSubscriptionRequest = Schema.Struct({
   ),
   ratePlan: Schema.optional(Schema.Unknown),
 }).pipe(
-  Schema.encodeKeys({ ratePlan: "rate_plan" }),
+  Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/subscription" }),
 ) as unknown as Schema.Schema<CreateSubscriptionRequest>;
 
@@ -2541,15 +3373,19 @@ export const CreateSubscriptionResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    currency: "currency",
     currentPeriodEnd: "current_period_end",
     currentPeriodStart: "current_period_start",
+    frequency: "frequency",
+    price: "price",
     ratePlan: "rate_plan",
+    state: "state",
   }),
 ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
-export const createSubscription: (
-  input: CreateSubscriptionRequest,
-) => Effect.Effect<
+export const createSubscription: API.OperationMethod<
+  CreateSubscriptionRequest,
   CreateSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2575,7 +3411,7 @@ export const UpdateSubscriptionRequest = Schema.Struct({
   ),
   ratePlan: Schema.optional(Schema.Unknown),
 }).pipe(
-  Schema.encodeKeys({ ratePlan: "rate_plan" }),
+  Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/subscription" }),
 ) as unknown as Schema.Schema<UpdateSubscriptionRequest>;
 
@@ -2634,15 +3470,19 @@ export const UpdateSubscriptionResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    currency: "currency",
     currentPeriodEnd: "current_period_end",
     currentPeriodStart: "current_period_start",
+    frequency: "frequency",
+    price: "price",
     ratePlan: "rate_plan",
+    state: "state",
   }),
 ) as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
-export const updateSubscription: (
-  input: UpdateSubscriptionRequest,
-) => Effect.Effect<
+export const updateSubscription: API.OperationMethod<
+  UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2760,6 +3600,7 @@ export const GetZoneResponse = Schema.Struct({
       foundationDns: "foundation_dns",
       pageRuleQuota: "page_rule_quota",
       phishingDetected: "phishing_detected",
+      step: "step",
     }),
   ),
   modifiedOn: Schema.String,
@@ -2786,11 +3627,16 @@ export const GetZoneResponse = Schema.Struct({
     price: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       canSubscribe: "can_subscribe",
+      currency: "currency",
       externallyManaged: "externally_managed",
+      frequency: "frequency",
       isSubscribed: "is_subscribed",
       legacyDiscount: "legacy_discount",
       legacyId: "legacy_id",
+      name: "name",
+      price: "price",
     }),
   ),
   cnameSuffix: Schema.optional(Schema.String),
@@ -2817,24 +3663,34 @@ export const GetZoneResponse = Schema.Struct({
   verificationKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    account: "account",
     activatedOn: "activated_on",
     createdOn: "created_on",
     developmentMode: "development_mode",
+    meta: "meta",
     modifiedOn: "modified_on",
+    name: "name",
     nameServers: "name_servers",
     originalDnshost: "original_dnshost",
     originalNameServers: "original_name_servers",
     originalRegistrar: "original_registrar",
+    owner: "owner",
+    plan: "plan",
     cnameSuffix: "cname_suffix",
+    paused: "paused",
+    permissions: "permissions",
+    status: "status",
+    tenant: "tenant",
     tenantUnit: "tenant_unit",
+    type: "type",
     vanityNameServers: "vanity_name_servers",
     verificationKey: "verification_key",
   }),
 ) as unknown as Schema.Schema<GetZoneResponse>;
 
-export const getZone: (
-  input: GetZoneRequest,
-) => Effect.Effect<
+export const getZone: API.OperationMethod<
+  GetZoneRequest,
   GetZoneResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2921,6 +3777,7 @@ export const ListZonesResponse = Schema.Array(
         foundationDns: "foundation_dns",
         pageRuleQuota: "page_rule_quota",
         phishingDetected: "phishing_detected",
+        step: "step",
       }),
     ),
     modifiedOn: Schema.String,
@@ -2950,11 +3807,16 @@ export const ListZonesResponse = Schema.Array(
       price: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         canSubscribe: "can_subscribe",
+        currency: "currency",
         externallyManaged: "externally_managed",
+        frequency: "frequency",
         isSubscribed: "is_subscribed",
         legacyDiscount: "legacy_discount",
         legacyId: "legacy_id",
+        name: "name",
+        price: "price",
       }),
     ),
     cnameSuffix: Schema.optional(Schema.String),
@@ -2981,25 +3843,35 @@ export const ListZonesResponse = Schema.Array(
     verificationKey: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      account: "account",
       activatedOn: "activated_on",
       createdOn: "created_on",
       developmentMode: "development_mode",
+      meta: "meta",
       modifiedOn: "modified_on",
+      name: "name",
       nameServers: "name_servers",
       originalDnshost: "original_dnshost",
       originalNameServers: "original_name_servers",
       originalRegistrar: "original_registrar",
+      owner: "owner",
+      plan: "plan",
       cnameSuffix: "cname_suffix",
+      paused: "paused",
+      permissions: "permissions",
+      status: "status",
+      tenant: "tenant",
       tenantUnit: "tenant_unit",
+      type: "type",
       vanityNameServers: "vanity_name_servers",
       verificationKey: "verification_key",
     }),
   ),
 ) as unknown as Schema.Schema<ListZonesResponse>;
 
-export const listZones: (
-  input: ListZonesRequest,
-) => Effect.Effect<
+export const listZones: API.OperationMethod<
+  ListZonesRequest,
   ListZonesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3122,6 +3994,7 @@ export const CreateZoneResponse = Schema.Struct({
       foundationDns: "foundation_dns",
       pageRuleQuota: "page_rule_quota",
       phishingDetected: "phishing_detected",
+      step: "step",
     }),
   ),
   modifiedOn: Schema.String,
@@ -3148,11 +4021,16 @@ export const CreateZoneResponse = Schema.Struct({
     price: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       canSubscribe: "can_subscribe",
+      currency: "currency",
       externallyManaged: "externally_managed",
+      frequency: "frequency",
       isSubscribed: "is_subscribed",
       legacyDiscount: "legacy_discount",
       legacyId: "legacy_id",
+      name: "name",
+      price: "price",
     }),
   ),
   cnameSuffix: Schema.optional(Schema.String),
@@ -3179,24 +4057,34 @@ export const CreateZoneResponse = Schema.Struct({
   verificationKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    account: "account",
     activatedOn: "activated_on",
     createdOn: "created_on",
     developmentMode: "development_mode",
+    meta: "meta",
     modifiedOn: "modified_on",
+    name: "name",
     nameServers: "name_servers",
     originalDnshost: "original_dnshost",
     originalNameServers: "original_name_servers",
     originalRegistrar: "original_registrar",
+    owner: "owner",
+    plan: "plan",
     cnameSuffix: "cname_suffix",
+    paused: "paused",
+    permissions: "permissions",
+    status: "status",
+    tenant: "tenant",
     tenantUnit: "tenant_unit",
+    type: "type",
     vanityNameServers: "vanity_name_servers",
     verificationKey: "verification_key",
   }),
 ) as unknown as Schema.Schema<CreateZoneResponse>;
 
-export const createZone: (
-  input: CreateZoneRequest,
-) => Effect.Effect<
+export const createZone: API.OperationMethod<
+  CreateZoneRequest,
   CreateZoneResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3225,7 +4113,11 @@ export const PatchZoneRequest = Schema.Struct({
   ),
   vanityNameServers: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ vanityNameServers: "vanity_name_servers" }),
+  Schema.encodeKeys({
+    paused: "paused",
+    type: "type",
+    vanityNameServers: "vanity_name_servers",
+  }),
   T.Http({ method: "PATCH", path: "/zones/{zone_id}" }),
 ) as unknown as Schema.Schema<PatchZoneRequest>;
 
@@ -3322,6 +4214,7 @@ export const PatchZoneResponse = Schema.Struct({
       foundationDns: "foundation_dns",
       pageRuleQuota: "page_rule_quota",
       phishingDetected: "phishing_detected",
+      step: "step",
     }),
   ),
   modifiedOn: Schema.String,
@@ -3348,11 +4241,16 @@ export const PatchZoneResponse = Schema.Struct({
     price: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       canSubscribe: "can_subscribe",
+      currency: "currency",
       externallyManaged: "externally_managed",
+      frequency: "frequency",
       isSubscribed: "is_subscribed",
       legacyDiscount: "legacy_discount",
       legacyId: "legacy_id",
+      name: "name",
+      price: "price",
     }),
   ),
   cnameSuffix: Schema.optional(Schema.String),
@@ -3379,24 +4277,34 @@ export const PatchZoneResponse = Schema.Struct({
   verificationKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    account: "account",
     activatedOn: "activated_on",
     createdOn: "created_on",
     developmentMode: "development_mode",
+    meta: "meta",
     modifiedOn: "modified_on",
+    name: "name",
     nameServers: "name_servers",
     originalDnshost: "original_dnshost",
     originalNameServers: "original_name_servers",
     originalRegistrar: "original_registrar",
+    owner: "owner",
+    plan: "plan",
     cnameSuffix: "cname_suffix",
+    paused: "paused",
+    permissions: "permissions",
+    status: "status",
+    tenant: "tenant",
     tenantUnit: "tenant_unit",
+    type: "type",
     vanityNameServers: "vanity_name_servers",
     verificationKey: "verification_key",
   }),
 ) as unknown as Schema.Schema<PatchZoneResponse>;
 
-export const patchZone: (
-  input: PatchZoneRequest,
-) => Effect.Effect<
+export const patchZone: API.OperationMethod<
+  PatchZoneRequest,
   PatchZoneResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3426,9 +4334,8 @@ export const DeleteZoneResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteZoneResponse>;
 
-export const deleteZone: (
-  input: DeleteZoneRequest,
-) => Effect.Effect<
+export const deleteZone: API.OperationMethod<
+  DeleteZoneRequest,
   DeleteZoneResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -38,7 +38,10 @@ export const CreateAnalyzeRequest = Schema.Struct({
   ),
   certificate: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ bundleMethod: "bundle_method" }),
+  Schema.encodeKeys({
+    bundleMethod: "bundle_method",
+    certificate: "certificate",
+  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/ssl/analyze" }),
 ) as unknown as Schema.Schema<CreateAnalyzeRequest>;
 
@@ -47,9 +50,8 @@ export type CreateAnalyzeResponse = unknown;
 export const CreateAnalyzeResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateAnalyzeResponse>;
 
-export const createAnalyze: (
-  input: CreateAnalyzeRequest,
-) => Effect.Effect<
+export const createAnalyze: API.OperationMethod<
+  CreateAnalyzeRequest,
   CreateAnalyzeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -101,7 +103,6 @@ export interface GetCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -110,6 +111,7 @@ export interface GetCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -178,10 +180,16 @@ export const GetCertificatePackResponse = Schema.Struct({
       zoneId: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        hosts: "hosts",
+        status: "status",
         bundleMethod: "bundle_method",
         expiresOn: "expires_on",
         geoRestrictions: "geo_restrictions",
+        issuer: "issuer",
         modifiedOn: "modified_on",
+        priority: "priority",
+        signature: "signature",
         uploadedOn: "uploaded_on",
         zoneId: "zone_id",
       }),
@@ -189,7 +197,6 @@ export const GetCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
-    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -198,6 +205,7 @@ export const GetCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
+    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -244,6 +252,7 @@ export const GetCertificatePackResponse = Schema.Struct({
         txtValue: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          emails: "emails",
           httpBody: "http_body",
           httpUrl: "http_url",
           txtName: "txt_name",
@@ -255,6 +264,11 @@ export const GetCertificatePackResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificates: "certificates",
+    hosts: "hosts",
+    status: "status",
+    type: "type",
     certificateAuthority: "certificate_authority",
     cloudflareBranding: "cloudflare_branding",
     primaryCertificate: "primary_certificate",
@@ -265,9 +279,8 @@ export const GetCertificatePackResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCertificatePackResponse>;
 
-export const getCertificatePack: (
-  input: GetCertificatePackRequest,
-) => Effect.Effect<
+export const getCertificatePack: API.OperationMethod<
+  GetCertificatePackRequest,
   GetCertificatePackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -309,7 +322,6 @@ export type ListCertificatePacksResponse = {
   }[];
   hosts: string[];
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -318,6 +330,7 @@ export type ListCertificatePacksResponse = {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -379,10 +392,16 @@ export const ListCertificatePacksResponse = Schema.Array(
         zoneId: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          hosts: "hosts",
+          status: "status",
           bundleMethod: "bundle_method",
           expiresOn: "expires_on",
           geoRestrictions: "geo_restrictions",
+          issuer: "issuer",
           modifiedOn: "modified_on",
+          priority: "priority",
+          signature: "signature",
           uploadedOn: "uploaded_on",
           zoneId: "zone_id",
         }),
@@ -390,7 +409,6 @@ export const ListCertificatePacksResponse = Schema.Array(
     ),
     hosts: Schema.Array(Schema.String),
     status: Schema.Literals([
-      "active",
       "initializing",
       "pending_validation",
       "deleted",
@@ -399,6 +417,7 @@ export const ListCertificatePacksResponse = Schema.Array(
       "pending_deletion",
       "pending_expiration",
       "expired",
+      "active",
       "initializing_timed_out",
       "validation_timed_out",
       "issuance_timed_out",
@@ -447,6 +466,7 @@ export const ListCertificatePacksResponse = Schema.Array(
           txtValue: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            emails: "emails",
             httpBody: "http_body",
             httpUrl: "http_url",
             txtName: "txt_name",
@@ -458,6 +478,11 @@ export const ListCertificatePacksResponse = Schema.Array(
     validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      certificates: "certificates",
+      hosts: "hosts",
+      status: "status",
+      type: "type",
       certificateAuthority: "certificate_authority",
       cloudflareBranding: "cloudflare_branding",
       primaryCertificate: "primary_certificate",
@@ -469,9 +494,8 @@ export const ListCertificatePacksResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCertificatePacksResponse>;
 
-export const listCertificatePacks: (
-  input: ListCertificatePacksRequest,
-) => Effect.Effect<
+export const listCertificatePacks: API.OperationMethod<
+  ListCertificatePacksRequest,
   ListCertificatePacksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -509,6 +533,8 @@ export const CreateCertificatePackRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
+    hosts: "hosts",
+    type: "type",
     validationMethod: "validation_method",
     validityDays: "validity_days",
     cloudflareBranding: "cloudflare_branding",
@@ -541,7 +567,6 @@ export interface CreateCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -550,6 +575,7 @@ export interface CreateCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -618,10 +644,16 @@ export const CreateCertificatePackResponse = Schema.Struct({
       zoneId: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        hosts: "hosts",
+        status: "status",
         bundleMethod: "bundle_method",
         expiresOn: "expires_on",
         geoRestrictions: "geo_restrictions",
+        issuer: "issuer",
         modifiedOn: "modified_on",
+        priority: "priority",
+        signature: "signature",
         uploadedOn: "uploaded_on",
         zoneId: "zone_id",
       }),
@@ -629,7 +661,6 @@ export const CreateCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
-    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -638,6 +669,7 @@ export const CreateCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
+    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -684,6 +716,7 @@ export const CreateCertificatePackResponse = Schema.Struct({
         txtValue: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          emails: "emails",
           httpBody: "http_body",
           httpUrl: "http_url",
           txtName: "txt_name",
@@ -695,6 +728,11 @@ export const CreateCertificatePackResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificates: "certificates",
+    hosts: "hosts",
+    status: "status",
+    type: "type",
     certificateAuthority: "certificate_authority",
     cloudflareBranding: "cloudflare_branding",
     primaryCertificate: "primary_certificate",
@@ -705,9 +743,8 @@ export const CreateCertificatePackResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateCertificatePackResponse>;
 
-export const createCertificatePack: (
-  input: CreateCertificatePackRequest,
-) => Effect.Effect<
+export const createCertificatePack: API.OperationMethod<
+  CreateCertificatePackRequest,
   CreateCertificatePackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -759,7 +796,6 @@ export interface PatchCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -768,6 +804,7 @@ export interface PatchCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -836,10 +873,16 @@ export const PatchCertificatePackResponse = Schema.Struct({
       zoneId: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        hosts: "hosts",
+        status: "status",
         bundleMethod: "bundle_method",
         expiresOn: "expires_on",
         geoRestrictions: "geo_restrictions",
+        issuer: "issuer",
         modifiedOn: "modified_on",
+        priority: "priority",
+        signature: "signature",
         uploadedOn: "uploaded_on",
         zoneId: "zone_id",
       }),
@@ -847,7 +890,6 @@ export const PatchCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
-    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -856,6 +898,7 @@ export const PatchCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
+    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -902,6 +945,7 @@ export const PatchCertificatePackResponse = Schema.Struct({
         txtValue: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          emails: "emails",
           httpBody: "http_body",
           httpUrl: "http_url",
           txtName: "txt_name",
@@ -913,6 +957,11 @@ export const PatchCertificatePackResponse = Schema.Struct({
   validityDays: Schema.optional(Schema.Literals(["14", "30", "90", "365"])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    certificates: "certificates",
+    hosts: "hosts",
+    status: "status",
+    type: "type",
     certificateAuthority: "certificate_authority",
     cloudflareBranding: "cloudflare_branding",
     primaryCertificate: "primary_certificate",
@@ -923,9 +972,8 @@ export const PatchCertificatePackResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchCertificatePackResponse>;
 
-export const patchCertificatePack: (
-  input: PatchCertificatePackRequest,
-) => Effect.Effect<
+export const patchCertificatePack: API.OperationMethod<
+  PatchCertificatePackRequest,
   PatchCertificatePackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -960,9 +1008,8 @@ export const DeleteCertificatePackResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteCertificatePackResponse>;
 
-export const deleteCertificatePack: (
-  input: DeleteCertificatePackRequest,
-) => Effect.Effect<
+export const deleteCertificatePack: API.OperationMethod<
+  DeleteCertificatePackRequest,
   DeleteCertificatePackResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1003,9 +1050,8 @@ export const GetCertificatePackQuotaResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetCertificatePackQuotaResponse>;
 
-export const getCertificatePackQuota: (
-  input: GetCertificatePackQuotaRequest,
-) => Effect.Effect<
+export const getCertificatePackQuota: API.OperationMethod<
+  GetCertificatePackQuotaRequest,
   GetCertificatePackQuotaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1051,14 +1097,16 @@ export const GetRecommendationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
     modifiedOn: "modified_on",
+    value: "value",
     nextScheduledScan: "next_scheduled_scan",
   }),
 ) as unknown as Schema.Schema<GetRecommendationResponse>;
 
-export const getRecommendation: (
-  input: GetRecommendationRequest,
-) => Effect.Effect<
+export const getRecommendation: API.OperationMethod<
+  GetRecommendationRequest,
   GetRecommendationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1092,9 +1140,8 @@ export const GetUniversalSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetUniversalSettingResponse>;
 
-export const getUniversalSetting: (
-  input: GetUniversalSettingRequest,
-) => Effect.Effect<
+export const getUniversalSetting: API.OperationMethod<
+  GetUniversalSettingRequest,
   GetUniversalSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1127,9 +1174,8 @@ export const PatchUniversalSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PatchUniversalSettingResponse>;
 
-export const patchUniversalSetting: (
-  input: PatchUniversalSettingRequest,
-) => Effect.Effect<
+export const patchUniversalSetting: API.OperationMethod<
+  PatchUniversalSettingRequest,
   PatchUniversalSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1169,7 +1215,7 @@ export type GetVerificationResponse = {
   brandCheck?: boolean;
   certPackUuid?: string;
   signature?: "ECDSAWithSHA256" | "SHA1WithRSA" | "SHA256WithRSA";
-  validationMethod?: "http" | "txt" | "cname";
+  validationMethod?: "http" | "cname" | "txt";
   verificationInfo?: {
     recordName?: "record_name" | "http_url" | "cname" | "txt_name";
     recordTarget?: "record_value" | "http_body" | "cname_target" | "txt_value";
@@ -1195,7 +1241,7 @@ export const GetVerificationResponse = Schema.Array(
       Schema.Literals(["ECDSAWithSHA256", "SHA1WithRSA", "SHA256WithRSA"]),
     ),
     validationMethod: Schema.optional(
-      Schema.Literals(["http", "txt", "cname"]),
+      Schema.Literals(["http", "cname", "txt"]),
     ),
     verificationInfo: Schema.optional(
       Schema.Struct({
@@ -1224,6 +1270,7 @@ export const GetVerificationResponse = Schema.Array(
       certificateStatus: "certificate_status",
       brandCheck: "brand_check",
       certPackUuid: "cert_pack_uuid",
+      signature: "signature",
       validationMethod: "validation_method",
       verificationInfo: "verification_info",
       verificationStatus: "verification_status",
@@ -1232,9 +1279,8 @@ export const GetVerificationResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetVerificationResponse>;
 
-export const getVerification: (
-  input: GetVerificationRequest,
-) => Effect.Effect<
+export const getVerification: API.OperationMethod<
+  GetVerificationRequest,
   GetVerificationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1277,12 +1323,14 @@ export const PatchVerificationResponse = Schema.Struct({
     Schema.Literals(["http", "cname", "txt", "email"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ validationMethod: "validation_method" }),
+  Schema.encodeKeys({
+    status: "status",
+    validationMethod: "validation_method",
+  }),
 ) as unknown as Schema.Schema<PatchVerificationResponse>;
 
-export const patchVerification: (
-  input: PatchVerificationRequest,
-) => Effect.Effect<
+export const patchVerification: API.OperationMethod<
+  PatchVerificationRequest,
   PatchVerificationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

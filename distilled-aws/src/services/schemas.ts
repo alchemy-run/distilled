@@ -1424,9 +1424,8 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
 /**
  * Creates a discoverer.
  */
-export const createDiscoverer: (
-  input: CreateDiscovererRequest,
-) => effect.Effect<
+export const createDiscoverer: API.OperationMethod<
+  CreateDiscovererRequest,
   CreateDiscovererResponse,
   | BadRequestException
   | ConflictException
@@ -1451,9 +1450,8 @@ export const createDiscoverer: (
 /**
  * Creates a registry.
  */
-export const createRegistry: (
-  input: CreateRegistryRequest,
-) => effect.Effect<
+export const createRegistry: API.OperationMethod<
+  CreateRegistryRequest,
   CreateRegistryResponse,
   | BadRequestException
   | ConflictException
@@ -1480,9 +1478,8 @@ export const createRegistry: (
  *
  * Inactive schemas will be deleted after two years.
  */
-export const createSchema: (
-  input: CreateSchemaRequest,
-) => effect.Effect<
+export const createSchema: API.OperationMethod<
+  CreateSchemaRequest,
   CreateSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1503,9 +1500,8 @@ export const createSchema: (
 /**
  * Deletes a discoverer.
  */
-export const deleteDiscoverer: (
-  input: DeleteDiscovererRequest,
-) => effect.Effect<
+export const deleteDiscoverer: API.OperationMethod<
+  DeleteDiscovererRequest,
   DeleteDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -1530,9 +1526,8 @@ export const deleteDiscoverer: (
 /**
  * Deletes a Registry.
  */
-export const deleteRegistry: (
-  input: DeleteRegistryRequest,
-) => effect.Effect<
+export const deleteRegistry: API.OperationMethod<
+  DeleteRegistryRequest,
   DeleteRegistryResponse,
   | BadRequestException
   | ForbiddenException
@@ -1557,9 +1552,8 @@ export const deleteRegistry: (
 /**
  * Delete the resource-based policy attached to the specified registry.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1584,9 +1578,8 @@ export const deleteResourcePolicy: (
 /**
  * Delete a schema definition.
  */
-export const deleteSchema: (
-  input: DeleteSchemaRequest,
-) => effect.Effect<
+export const deleteSchema: API.OperationMethod<
+  DeleteSchemaRequest,
   DeleteSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1611,9 +1604,8 @@ export const deleteSchema: (
 /**
  * Delete the schema version definition
  */
-export const deleteSchemaVersion: (
-  input: DeleteSchemaVersionRequest,
-) => effect.Effect<
+export const deleteSchemaVersion: API.OperationMethod<
+  DeleteSchemaVersionRequest,
   DeleteSchemaVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -1638,9 +1630,8 @@ export const deleteSchemaVersion: (
 /**
  * Describe the code binding URI.
  */
-export const describeCodeBinding: (
-  input: DescribeCodeBindingRequest,
-) => effect.Effect<
+export const describeCodeBinding: API.OperationMethod<
+  DescribeCodeBindingRequest,
   DescribeCodeBindingResponse,
   | BadRequestException
   | ForbiddenException
@@ -1665,9 +1656,8 @@ export const describeCodeBinding: (
 /**
  * Describes the discoverer.
  */
-export const describeDiscoverer: (
-  input: DescribeDiscovererRequest,
-) => effect.Effect<
+export const describeDiscoverer: API.OperationMethod<
+  DescribeDiscovererRequest,
   DescribeDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -1692,9 +1682,8 @@ export const describeDiscoverer: (
 /**
  * Describes the registry.
  */
-export const describeRegistry: (
-  input: DescribeRegistryRequest,
-) => effect.Effect<
+export const describeRegistry: API.OperationMethod<
+  DescribeRegistryRequest,
   DescribeRegistryResponse,
   | BadRequestException
   | ForbiddenException
@@ -1719,9 +1708,8 @@ export const describeRegistry: (
 /**
  * Retrieve the schema definition.
  */
-export const describeSchema: (
-  input: DescribeSchemaRequest,
-) => effect.Effect<
+export const describeSchema: API.OperationMethod<
+  DescribeSchemaRequest,
   DescribeSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1746,9 +1734,8 @@ export const describeSchema: (
 /**
  *
  */
-export const exportSchema: (
-  input: ExportSchemaRequest,
-) => effect.Effect<
+export const exportSchema: API.OperationMethod<
+  ExportSchemaRequest,
   ExportSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1775,9 +1762,8 @@ export const exportSchema: (
 /**
  * Get the code binding source URI.
  */
-export const getCodeBindingSource: (
-  input: GetCodeBindingSourceRequest,
-) => effect.Effect<
+export const getCodeBindingSource: API.OperationMethod<
+  GetCodeBindingSourceRequest,
   GetCodeBindingSourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1802,9 +1788,8 @@ export const getCodeBindingSource: (
 /**
  * Get the discovered schema that was generated based on sampled events.
  */
-export const getDiscoveredSchema: (
-  input: GetDiscoveredSchemaRequest,
-) => effect.Effect<
+export const getDiscoveredSchema: API.OperationMethod<
+  GetDiscoveredSchemaRequest,
   GetDiscoveredSchemaResponse,
   | BadRequestException
   | ForbiddenException
@@ -1827,9 +1812,8 @@ export const getDiscoveredSchema: (
 /**
  * Retrieves the resource-based policy attached to a given registry.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1854,19 +1838,17 @@ export const getResourcePolicy: (
 /**
  * List the discoverers.
  */
-export const listDiscoverers: {
-  (
-    input: ListDiscoverersRequest,
-  ): effect.Effect<
-    ListDiscoverersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDiscoverers: API.OperationMethod<
+  ListDiscoverersRequest,
+  ListDiscoverersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDiscoverersRequest,
   ) => stream.Stream<
@@ -1911,19 +1893,17 @@ export const listDiscoverers: {
 /**
  * List the registries.
  */
-export const listRegistries: {
-  (
-    input: ListRegistriesRequest,
-  ): effect.Effect<
-    ListRegistriesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRegistries: API.OperationMethod<
+  ListRegistriesRequest,
+  ListRegistriesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegistriesRequest,
   ) => stream.Stream<
@@ -1968,19 +1948,17 @@ export const listRegistries: {
 /**
  * List the schemas.
  */
-export const listSchemas: {
-  (
-    input: ListSchemasRequest,
-  ): effect.Effect<
-    ListSchemasResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemas: API.OperationMethod<
+  ListSchemasRequest,
+  ListSchemasResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemasRequest,
   ) => stream.Stream<
@@ -2025,20 +2003,18 @@ export const listSchemas: {
 /**
  * Provides a list of the schema versions and related information.
  */
-export const listSchemaVersions: {
-  (
-    input: ListSchemaVersionsRequest,
-  ): effect.Effect<
-    ListSchemaVersionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemaVersions: API.OperationMethod<
+  ListSchemaVersionsRequest,
+  ListSchemaVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemaVersionsRequest,
   ) => stream.Stream<
@@ -2086,9 +2062,8 @@ export const listSchemaVersions: {
 /**
  * Get tags for resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2109,9 +2084,8 @@ export const listTagsForResource: (
 /**
  * Put code binding URI
  */
-export const putCodeBinding: (
-  input: PutCodeBindingRequest,
-) => effect.Effect<
+export const putCodeBinding: API.OperationMethod<
+  PutCodeBindingRequest,
   PutCodeBindingResponse,
   | BadRequestException
   | ForbiddenException
@@ -2138,9 +2112,8 @@ export const putCodeBinding: (
 /**
  * The name of the policy.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -2167,19 +2140,17 @@ export const putResourcePolicy: (
 /**
  * Search the schemas
  */
-export const searchSchemas: {
-  (
-    input: SearchSchemasRequest,
-  ): effect.Effect<
-    SearchSchemasResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchSchemas: API.OperationMethod<
+  SearchSchemasRequest,
+  SearchSchemasResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSchemasRequest,
   ) => stream.Stream<
@@ -2224,9 +2195,8 @@ export const searchSchemas: {
 /**
  * Starts the discoverer
  */
-export const startDiscoverer: (
-  input: StartDiscovererRequest,
-) => effect.Effect<
+export const startDiscoverer: API.OperationMethod<
+  StartDiscovererRequest,
   StartDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -2251,9 +2221,8 @@ export const startDiscoverer: (
 /**
  * Stops the discoverer
  */
-export const stopDiscoverer: (
-  input: StopDiscovererRequest,
-) => effect.Effect<
+export const stopDiscoverer: API.OperationMethod<
+  StopDiscovererRequest,
   StopDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -2278,9 +2247,8 @@ export const stopDiscoverer: (
 /**
  * Add tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2301,9 +2269,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2324,9 +2291,8 @@ export const untagResource: (
 /**
  * Updates the discoverer
  */
-export const updateDiscoverer: (
-  input: UpdateDiscovererRequest,
-) => effect.Effect<
+export const updateDiscoverer: API.OperationMethod<
+  UpdateDiscovererRequest,
   UpdateDiscovererResponse,
   | BadRequestException
   | ForbiddenException
@@ -2351,9 +2317,8 @@ export const updateDiscoverer: (
 /**
  * Updates a registry.
  */
-export const updateRegistry: (
-  input: UpdateRegistryRequest,
-) => effect.Effect<
+export const updateRegistry: API.OperationMethod<
+  UpdateRegistryRequest,
   UpdateRegistryResponse,
   | BadRequestException
   | ForbiddenException
@@ -2380,9 +2345,8 @@ export const updateRegistry: (
  *
  * Inactive schemas will be deleted after two years.
  */
-export const updateSchema: (
-  input: UpdateSchemaRequest,
-) => effect.Effect<
+export const updateSchema: API.OperationMethod<
+  UpdateSchemaRequest,
   UpdateSchemaResponse,
   | BadRequestException
   | ForbiddenException

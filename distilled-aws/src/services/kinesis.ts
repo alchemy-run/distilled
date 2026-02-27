@@ -2716,9 +2716,8 @@ export class ExpiredNextTokenException extends S.TaggedErrorClass<ExpiredNextTok
  * AddTagsToStream has a limit of five transactions per second per
  * account.
  */
-export const addTagsToStream: (
-  input: AddTagsToStreamInput,
-) => effect.Effect<
+export const addTagsToStream: API.OperationMethod<
+  AddTagsToStreamInput,
   AddTagsToStreamResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2779,9 +2778,8 @@ export const addTagsToStream: (
  *
  * You can add tags to the stream when making a `CreateStream` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:CreateStream` permission, you must also have the `kinesis:AddTagsToStream` permission for the stream that will be created. The `kinesis:TagResource` permission won’t work to tag streams on creation. Tags will take effect from the `CREATING` status of the stream, but you can't make any updates to the tags until the stream is in `ACTIVE` state.
  */
-export const createStream: (
-  input: CreateStreamInput,
-) => effect.Effect<
+export const createStream: API.OperationMethod<
+  CreateStreamInput,
   CreateStreamResponse,
   | InvalidArgumentException
   | LimitExceededException
@@ -2812,9 +2810,8 @@ export const createStream: (
  * is 48 hours and is decreased to 24 hours, any data already in the stream that is older
  * than 24 hours is inaccessible.
  */
-export const decreaseStreamRetentionPeriod: (
-  input: DecreaseStreamRetentionPeriodInput,
-) => effect.Effect<
+export const decreaseStreamRetentionPeriod: API.OperationMethod<
+  DecreaseStreamRetentionPeriodInput,
   DecreaseStreamRetentionPeriodResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2841,9 +2838,8 @@ export const decreaseStreamRetentionPeriod: (
  *
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyInput,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyInput,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2891,9 +2887,8 @@ export const deleteResourcePolicy: (
  * DeleteStream has a limit of five transactions per second per
  * account.
  */
-export const deleteStream: (
-  input: DeleteStreamInput,
-) => effect.Effect<
+export const deleteStream: API.OperationMethod<
+  DeleteStreamInput,
   DeleteStreamResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -2924,9 +2919,8 @@ export const deleteStream: (
  *
  * This operation has a limit of five transactions per second per stream.
  */
-export const deregisterStreamConsumer: (
-  input: DeregisterStreamConsumerInput,
-) => effect.Effect<
+export const deregisterStreamConsumer: API.OperationMethod<
+  DeregisterStreamConsumerInput,
   DeregisterStreamConsumerResponse,
   | InvalidArgumentException
   | LimitExceededException
@@ -2947,9 +2941,8 @@ export const deregisterStreamConsumer: (
  *
  * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
  */
-export const describeAccountSettings: (
-  input: DescribeAccountSettingsInput,
-) => effect.Effect<
+export const describeAccountSettings: API.OperationMethod<
+  DescribeAccountSettingsInput,
   DescribeAccountSettingsOutput,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2966,9 +2959,8 @@ export const describeAccountSettings: (
  *
  * This operation has a limit of one transaction per second per account.
  */
-export const describeLimits: (
-  input: DescribeLimitsInput,
-) => effect.Effect<
+export const describeLimits: API.OperationMethod<
+  DescribeLimitsInput,
   DescribeLimitsOutput,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3006,9 +2998,8 @@ export const describeLimits: (
  *
  * This operation has a limit of 10 transactions per second per account.
  */
-export const describeStream: (
-  input: DescribeStreamInput,
-) => effect.Effect<
+export const describeStream: API.OperationMethod<
+  DescribeStreamInput,
   DescribeStreamOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3039,9 +3030,8 @@ export const describeStream: (
  *
  * When making a cross-account call with `DescribeStreamConsumer`, make sure to provide the ARN of the consumer.
  */
-export const describeStreamConsumer: (
-  input: DescribeStreamConsumerInput,
-) => effect.Effect<
+export const describeStreamConsumer: API.OperationMethod<
+  DescribeStreamConsumerInput,
   DescribeStreamConsumerOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3072,9 +3062,8 @@ export const describeStreamConsumer: (
  * DescribeStreamSummary has a limit of 20 transactions per second per
  * account.
  */
-export const describeStreamSummary: (
-  input: DescribeStreamSummaryInput,
-) => effect.Effect<
+export const describeStreamSummary: API.OperationMethod<
+  DescribeStreamSummaryInput,
   DescribeStreamSummaryOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3099,9 +3088,8 @@ export const describeStreamSummary: (
  * `StreamName` parameter, or both. It is recommended that you use the
  * `StreamARN` input parameter when you invoke this API.
  */
-export const disableEnhancedMonitoring: (
-  input: DisableEnhancedMonitoringInput,
-) => effect.Effect<
+export const disableEnhancedMonitoring: API.OperationMethod<
+  DisableEnhancedMonitoringInput,
   EnhancedMonitoringOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3128,9 +3116,8 @@ export const disableEnhancedMonitoring: (
  * `StreamName` parameter, or both. It is recommended that you use the
  * `StreamARN` input parameter when you invoke this API.
  */
-export const enableEnhancedMonitoring: (
-  input: EnableEnhancedMonitoringInput,
-) => effect.Effect<
+export const enableEnhancedMonitoring: API.OperationMethod<
+  EnableEnhancedMonitoringInput,
   EnhancedMonitoringOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3211,9 +3198,8 @@ export const enableEnhancedMonitoring: (
  *
  * This operation has a limit of five transactions per second per shard.
  */
-export const getRecords: (
-  input: GetRecordsInput,
-) => effect.Effect<
+export const getRecords: API.OperationMethod<
+  GetRecordsInput,
   GetRecordsOutput,
   | AccessDeniedException
   | ExpiredIteratorException
@@ -3254,9 +3240,8 @@ export const getRecords: (
  *
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyInput,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyInput,
   GetResourcePolicyOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3321,9 +3306,8 @@ export const getResourcePolicy: (
  * GetShardIterator has a limit of five transactions per second per
  * account per open shard.
  */
-export const getShardIterator: (
-  input: GetShardIteratorInput,
-) => effect.Effect<
+export const getShardIterator: API.OperationMethod<
+  GetShardIteratorInput,
   GetShardIteratorOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -3359,9 +3343,8 @@ export const getShardIterator: (
  * period is set to 24 hours and is increased to 168 hours, any data that is older than 24
  * hours remains inaccessible to consumer applications.
  */
-export const increaseStreamRetentionPeriod: (
-  input: IncreaseStreamRetentionPeriodInput,
-) => effect.Effect<
+export const increaseStreamRetentionPeriod: API.OperationMethod<
+  IncreaseStreamRetentionPeriodInput,
   IncreaseStreamRetentionPeriodResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3398,9 +3381,8 @@ export const increaseStreamRetentionPeriod: (
  * Controlling Access to Amazon Kinesis Data Streams Resources Using
  * IAM.
  */
-export const listShards: (
-  input: ListShardsInput,
-) => effect.Effect<
+export const listShards: API.OperationMethod<
+  ListShardsInput,
   ListShardsOutput,
   | AccessDeniedException
   | ExpiredNextTokenException
@@ -3428,19 +3410,17 @@ export const listShards: (
  *
  * This operation has a limit of 5 transactions per second per stream.
  */
-export const listStreamConsumers: {
-  (
-    input: ListStreamConsumersInput,
-  ): effect.Effect<
-    ListStreamConsumersOutput,
-    | ExpiredNextTokenException
-    | InvalidArgumentException
-    | LimitExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreamConsumers: API.OperationMethod<
+  ListStreamConsumersInput,
+  ListStreamConsumersOutput,
+  | ExpiredNextTokenException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamConsumersInput,
   ) => stream.Stream<
@@ -3501,17 +3481,15 @@ export const listStreamConsumers: {
  * ListStreams has a limit of five transactions per second per
  * account.
  */
-export const listStreams: {
-  (
-    input: ListStreamsInput,
-  ): effect.Effect<
-    ListStreamsOutput,
-    | ExpiredNextTokenException
-    | InvalidArgumentException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreams: API.OperationMethod<
+  ListStreamsInput,
+  ListStreamsOutput,
+  | ExpiredNextTokenException
+  | InvalidArgumentException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamsInput,
   ) => stream.Stream<
@@ -3551,9 +3529,8 @@ export const listStreams: {
  *
  * For more information about tagging Kinesis resources, see Tag your Amazon Kinesis Data Streams resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3581,9 +3558,8 @@ export const listTagsForResource: (
  * `StreamName` parameter, or both. It is recommended that you use the
  * `StreamARN` input parameter when you invoke this API.
  */
-export const listTagsForStream: (
-  input: ListTagsForStreamInput,
-) => effect.Effect<
+export const listTagsForStream: API.OperationMethod<
+  ListTagsForStreamInput,
   ListTagsForStreamOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3648,9 +3624,8 @@ export const listTagsForStream: (
  *
  * `MergeShards` has a limit of five transactions per second per account.
  */
-export const mergeShards: (
-  input: MergeShardsInput,
-) => effect.Effect<
+export const mergeShards: API.OperationMethod<
+  MergeShardsInput,
   MergeShardsResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3720,9 +3695,8 @@ export const mergeShards: (
  * By default, data records are accessible for 24 hours from the time that they are added
  * to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
  */
-export const putRecord: (
-  input: PutRecordInput,
-) => effect.Effect<
+export const putRecord: API.OperationMethod<
+  PutRecordInput,
   PutRecordOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -3825,9 +3799,8 @@ export const putRecord: (
  * By default, data records are accessible for 24 hours from the time that they are added
  * to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
  */
-export const putRecords: (
-  input: PutRecordsInput,
-) => effect.Effect<
+export const putRecords: API.OperationMethod<
+  PutRecordsInput,
   PutRecordsOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -3874,9 +3847,8 @@ export const putRecords: (
  *
  * For more information, see Controlling Access to Amazon Kinesis Data Streams Resources Using IAM.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyInput,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyInput,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -3917,9 +3889,8 @@ export const putResourcePolicy: (
  * 6th consumer while there are 5 in a `CREATING` status results in a
  * `LimitExceededException`.
  */
-export const registerStreamConsumer: (
-  input: RegisterStreamConsumerInput,
-) => effect.Effect<
+export const registerStreamConsumer: API.OperationMethod<
+  RegisterStreamConsumerInput,
   RegisterStreamConsumerOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3950,9 +3921,8 @@ export const registerStreamConsumer: (
  * RemoveTagsFromStream has a limit of five transactions per second per
  * account.
  */
-export const removeTagsFromStream: (
-  input: RemoveTagsFromStreamInput,
-) => effect.Effect<
+export const removeTagsFromStream: API.OperationMethod<
+  RemoveTagsFromStreamInput,
   RemoveTagsFromStreamResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4025,9 +3995,8 @@ export const removeTagsFromStream: (
  *
  * `SplitShard` has a limit of five transactions per second per account.
  */
-export const splitShard: (
-  input: SplitShardInput,
-) => effect.Effect<
+export const splitShard: API.OperationMethod<
+  SplitShardInput,
   SplitShardResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4074,9 +4043,8 @@ export const splitShard: (
  * can verify that encryption is applied by inspecting the API response from
  * `PutRecord` or `PutRecords`.
  */
-export const startStreamEncryption: (
-  input: StartStreamEncryptionInput,
-) => effect.Effect<
+export const startStreamEncryption: API.OperationMethod<
+  StartStreamEncryptionInput,
   StartStreamEncryptionResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4132,9 +4100,8 @@ export const startStreamEncryption: (
  * disabled encryption, you can verify that encryption is not applied by inspecting the API
  * response from `PutRecord` or `PutRecords`.
  */
-export const stopStreamEncryption: (
-  input: StopStreamEncryptionInput,
-) => effect.Effect<
+export const stopStreamEncryption: API.OperationMethod<
+  StopStreamEncryptionInput,
   StopStreamEncryptionResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4183,9 +4150,8 @@ export const stopStreamEncryption: (
  * For an example of how to use this operation, see Enhanced Fan-Out
  * Using the Kinesis Data Streams API.
  */
-export const subscribeToShard: (
-  input: SubscribeToShardInput,
-) => effect.Effect<
+export const subscribeToShard: API.OperationMethod<
+  SubscribeToShardInput,
   SubscribeToShardOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4208,9 +4174,8 @@ export const subscribeToShard: (
 /**
  * Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4233,9 +4198,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4266,9 +4230,8 @@ export const untagResource: (
  *
  * - This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the `LimitExceededException`.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsInput,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsInput,
   UpdateAccountSettingsOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -4287,9 +4250,8 @@ export const updateAccountSettings: (
 /**
  * This allows you to update the `MaxRecordSize` of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
  */
-export const updateMaxRecordSize: (
-  input: UpdateMaxRecordSizeInput,
-) => effect.Effect<
+export const updateMaxRecordSize: API.OperationMethod<
+  UpdateMaxRecordSizeInput,
   UpdateMaxRecordSizeResponse,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4360,9 +4322,8 @@ export const updateMaxRecordSize: (
  * Guide. To request an increase in the call rate limit, the shard limit for
  * this API, or your overall shard limit, use the limits form.
  */
-export const updateShardCount: (
-  input: UpdateShardCountInput,
-) => effect.Effect<
+export const updateShardCount: API.OperationMethod<
+  UpdateShardCountInput,
   UpdateShardCountOutput,
   | AccessDeniedException
   | InvalidArgumentException
@@ -4391,9 +4352,8 @@ export const updateShardCount: (
  *
  * If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
  */
-export const updateStreamMode: (
-  input: UpdateStreamModeInput,
-) => effect.Effect<
+export const updateStreamMode: API.OperationMethod<
+  UpdateStreamModeInput,
   UpdateStreamModeResponse,
   | InvalidArgumentException
   | LimitExceededException
@@ -4431,9 +4391,8 @@ export const updateStreamMode: (
  * For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer
  * Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
  */
-export const updateStreamWarmThroughput: (
-  input: UpdateStreamWarmThroughputInput,
-) => effect.Effect<
+export const updateStreamWarmThroughput: API.OperationMethod<
+  UpdateStreamWarmThroughputInput,
   UpdateStreamWarmThroughputOutput,
   | AccessDeniedException
   | InvalidArgumentException

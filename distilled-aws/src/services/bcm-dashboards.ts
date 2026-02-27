@@ -693,9 +693,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.
  */
-export const createDashboard: (
-  input: CreateDashboardRequest,
-) => effect.Effect<
+export const createDashboard: API.OperationMethod<
+  CreateDashboardRequest,
   CreateDashboardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -718,9 +717,8 @@ export const createDashboard: (
 /**
  * Deletes a specified dashboard. This action cannot be undone.
  */
-export const deleteDashboard: (
-  input: DeleteDashboardRequest,
-) => effect.Effect<
+export const deleteDashboard: API.OperationMethod<
+  DeleteDashboardRequest,
   DeleteDashboardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -741,9 +739,8 @@ export const deleteDashboard: (
 /**
  * Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
  */
-export const getDashboard: (
-  input: GetDashboardRequest,
-) => effect.Effect<
+export const getDashboard: API.OperationMethod<
+  GetDashboardRequest,
   GetDashboardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -766,9 +763,8 @@ export const getDashboard: (
 /**
  * Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -791,18 +787,16 @@ export const getResourcePolicy: (
 /**
  * Returns a list of all dashboards in your account.
  */
-export const listDashboards: {
-  (
-    input: ListDashboardsRequest,
-  ): effect.Effect<
-    ListDashboardsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDashboards: API.OperationMethod<
+  ListDashboardsRequest,
+  ListDashboardsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
@@ -844,9 +838,8 @@ export const listDashboards: {
 /**
  * Returns a list of all tags associated with a specified dashboard resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -867,9 +860,8 @@ export const listTagsForResource: (
 /**
  * Adds or updates tags for a specified dashboard resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -890,9 +882,8 @@ export const tagResource: (
 /**
  * Removes specified tags from a dashboard resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -913,9 +904,8 @@ export const untagResource: (
 /**
  * Updates an existing dashboard's properties, including its name, description, and widget configurations.
  */
-export const updateDashboard: (
-  input: UpdateDashboardRequest,
-) => effect.Effect<
+export const updateDashboard: API.OperationMethod<
+  UpdateDashboardRequest,
   UpdateDashboardResponse,
   | AccessDeniedException
   | InternalServerException

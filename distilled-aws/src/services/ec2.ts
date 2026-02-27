@@ -71589,9 +71589,8 @@ export class IdempotentParameterMismatch extends S.TaggedErrorClass<IdempotentPa
 /**
  * Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the *Amazon VPC User Guide*.
  */
-export const acceptAddressTransfer: (
-  input: AcceptAddressTransferRequest,
-) => effect.Effect<
+export const acceptAddressTransfer: API.OperationMethod<
+  AcceptAddressTransferRequest,
   AcceptAddressTransferResult,
   | RequestLimitExceeded
   | InvalidAddressMalformed
@@ -71612,9 +71611,8 @@ export const acceptAddressTransfer: (
  * Reservation to your account. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const acceptCapacityReservationBillingOwnership: (
-  input: AcceptCapacityReservationBillingOwnershipRequest,
-) => effect.Effect<
+export const acceptCapacityReservationBillingOwnership: API.OperationMethod<
+  AcceptCapacityReservationBillingOwnershipRequest,
   AcceptCapacityReservationBillingOwnershipResult,
   RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71626,9 +71624,8 @@ export const acceptCapacityReservationBillingOwnership: (
 /**
  * Accepts the Convertible Reserved Instance exchange quote described in the GetReservedInstancesExchangeQuote call.
  */
-export const acceptReservedInstancesExchangeQuote: (
-  input: AcceptReservedInstancesExchangeQuoteRequest,
-) => effect.Effect<
+export const acceptReservedInstancesExchangeQuote: API.OperationMethod<
+  AcceptReservedInstancesExchangeQuoteRequest,
   AcceptReservedInstancesExchangeQuoteResult,
   RequestLimitExceeded | InvalidReservedInstancesIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71640,9 +71637,8 @@ export const acceptReservedInstancesExchangeQuote: (
 /**
  * Accepts a request to associate subnets with a transit gateway multicast domain.
  */
-export const acceptTransitGatewayMulticastDomainAssociations: (
-  input: AcceptTransitGatewayMulticastDomainAssociationsRequest,
-) => effect.Effect<
+export const acceptTransitGatewayMulticastDomainAssociations: API.OperationMethod<
+  AcceptTransitGatewayMulticastDomainAssociationsRequest,
   AcceptTransitGatewayMulticastDomainAssociationsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71655,9 +71651,8 @@ export const acceptTransitGatewayMulticastDomainAssociations: (
  * Accepts a transit gateway peering attachment request. The peering attachment must be
  * in the `pendingAcceptance` state.
  */
-export const acceptTransitGatewayPeeringAttachment: (
-  input: AcceptTransitGatewayPeeringAttachmentRequest,
-) => effect.Effect<
+export const acceptTransitGatewayPeeringAttachment: API.OperationMethod<
+  AcceptTransitGatewayPeeringAttachmentRequest,
   AcceptTransitGatewayPeeringAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -71675,9 +71670,8 @@ export const acceptTransitGatewayPeeringAttachment: (
  * Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests.
  * Use RejectTransitGatewayVpcAttachment to reject a VPC attachment request.
  */
-export const acceptTransitGatewayVpcAttachment: (
-  input: AcceptTransitGatewayVpcAttachmentRequest,
-) => effect.Effect<
+export const acceptTransitGatewayVpcAttachment: API.OperationMethod<
+  AcceptTransitGatewayVpcAttachmentRequest,
   AcceptTransitGatewayVpcAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -71691,9 +71685,8 @@ export const acceptTransitGatewayVpcAttachment: (
 /**
  * Accepts connection requests to your VPC endpoint service.
  */
-export const acceptVpcEndpointConnections: (
-  input: AcceptVpcEndpointConnectionsRequest,
-) => effect.Effect<
+export const acceptVpcEndpointConnections: API.OperationMethod<
+  AcceptVpcEndpointConnectionsRequest,
   AcceptVpcEndpointConnectionsResult,
   | RequestLimitExceeded
   | InvalidParameter
@@ -71718,9 +71711,8 @@ export const acceptVpcEndpointConnections: (
  * For an inter-Region VPC peering connection request, you must accept the VPC peering
  * connection in the Region of the accepter VPC.
  */
-export const acceptVpcPeeringConnection: (
-  input: AcceptVpcPeeringConnectionRequest,
-) => effect.Effect<
+export const acceptVpcPeeringConnection: API.OperationMethod<
+  AcceptVpcPeeringConnectionRequest,
   AcceptVpcPeeringConnectionResult,
   | RequestLimitExceeded
   | InvalidVpcPeeringConnectionIDNotFound
@@ -71751,9 +71743,8 @@ export const acceptVpcPeeringConnection: (
  * It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services
  * because of BGP propagation delays.
  */
-export const advertiseByoipCidr: (
-  input: AdvertiseByoipCidrRequest,
-) => effect.Effect<
+export const advertiseByoipCidr: API.OperationMethod<
+  AdvertiseByoipCidrRequest,
   AdvertiseByoipCidrResult,
   RequestLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71789,9 +71780,8 @@ export const advertiseByoipCidr: (
  * You can allocate a carrier IP address which is a public IP address from a telecommunication carrier,
  * to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
  */
-export const allocateAddress: (
-  input: AllocateAddressRequest,
-) => effect.Effect<
+export const allocateAddress: API.OperationMethod<
+  AllocateAddressRequest,
   AllocateAddressResult,
   RequestLimitExceeded | AddressLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71805,9 +71795,8 @@ export const allocateAddress: (
  * instance type or instance family, the Availability Zone in which to allocate the host,
  * and the number of hosts to allocate.
  */
-export const allocateHosts: (
-  input: AllocateHostsRequest,
-) => effect.Effect<
+export const allocateHosts: API.OperationMethod<
+  AllocateHostsRequest,
   AllocateHostsResult,
   | RequestLimitExceeded
   | InvalidHostConfiguration
@@ -71826,9 +71815,8 @@ export const allocateHosts: (
  *
  * This action creates an allocation with strong consistency. The returned CIDR will not overlap with any other allocations from the same pool.
  */
-export const allocateIpamPoolCidr: (
-  input: AllocateIpamPoolCidrRequest,
-) => effect.Effect<
+export const allocateIpamPoolCidr: API.OperationMethod<
+  AllocateIpamPoolCidrRequest,
   AllocateIpamPoolCidrResult,
   RequestLimitExceeded | InvalidIpamPoolIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71841,9 +71829,8 @@ export const allocateIpamPoolCidr: (
  * Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing
  * security groups with the specified security groups.
  */
-export const applySecurityGroupsToClientVpnTargetNetwork: (
-  input: ApplySecurityGroupsToClientVpnTargetNetworkRequest,
-) => effect.Effect<
+export const applySecurityGroupsToClientVpnTargetNetwork: API.OperationMethod<
+  ApplySecurityGroupsToClientVpnTargetNetworkRequest,
   ApplySecurityGroupsToClientVpnTargetNetworkResult,
   RequestLimitExceeded | InvalidVpcIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71866,9 +71853,8 @@ export const applySecurityGroupsToClientVpnTargetNetwork: (
  * information, see Assigning prefixes to network
  * interfaces in the *Amazon EC2 User Guide*.
  */
-export const assignIpv6Addresses: (
-  input: AssignIpv6AddressesRequest,
-) => effect.Effect<
+export const assignIpv6Addresses: API.OperationMethod<
+  AssignIpv6AddressesRequest,
   AssignIpv6AddressesResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -71910,9 +71896,8 @@ export const assignIpv6Addresses: (
  * information, see Assigning prefixes to network
  * interfaces in the *Amazon EC2 User Guide*.
  */
-export const assignPrivateIpAddresses: (
-  input: AssignPrivateIpAddressesRequest,
-) => effect.Effect<
+export const assignPrivateIpAddresses: API.OperationMethod<
+  AssignPrivateIpAddressesRequest,
   AssignPrivateIpAddressesResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -71934,9 +71919,8 @@ export const assignPrivateIpAddresses: (
  * Assigns private IPv4 addresses to a private NAT gateway. For more information, see
  * Work with NAT gateways in the *Amazon VPC User Guide*.
  */
-export const assignPrivateNatGatewayAddress: (
-  input: AssignPrivateNatGatewayAddressRequest,
-) => effect.Effect<
+export const assignPrivateNatGatewayAddress: API.OperationMethod<
+  AssignPrivateNatGatewayAddressRequest,
   AssignPrivateNatGatewayAddressResult,
   RequestLimitExceeded | NatGatewayNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -71967,9 +71951,8 @@ export const assignPrivateNatGatewayAddress: (
  * Addresses section of Amazon EC2
  * Pricing.
  */
-export const associateAddress: (
-  input: AssociateAddressRequest,
-) => effect.Effect<
+export const associateAddress: API.OperationMethod<
+  AssociateAddressRequest,
   AssociateAddressResult,
   | RequestLimitExceeded
   | AuthFailure
@@ -71995,9 +71978,8 @@ export const associateAddress: (
  * organizations payer account. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const associateCapacityReservationBillingOwner: (
-  input: AssociateCapacityReservationBillingOwnerRequest,
-) => effect.Effect<
+export const associateCapacityReservationBillingOwner: API.OperationMethod<
+  AssociateCapacityReservationBillingOwnerRequest,
   AssociateCapacityReservationBillingOwnerResult,
   | RequestLimitExceeded
   | InvalidCapacityReservationIdMalformed
@@ -72018,9 +72000,8 @@ export const associateCapacityReservationBillingOwner: (
  *
  * If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint (ModifyClientVpnEndpoint) and change the VPC that's associated with it.
  */
-export const associateClientVpnTargetNetwork: (
-  input: AssociateClientVpnTargetNetworkRequest,
-) => effect.Effect<
+export const associateClientVpnTargetNetwork: API.OperationMethod<
+  AssociateClientVpnTargetNetworkRequest,
   AssociateClientVpnTargetNetworkResult,
   | RequestLimitExceeded
   | InvalidSubnetIDMalformed
@@ -72040,9 +72021,8 @@ export const associateClientVpnTargetNetwork: (
  * For more information, see DHCP option sets
  * in the *Amazon VPC User Guide*.
  */
-export const associateDhcpOptions: (
-  input: AssociateDhcpOptionsRequest,
-) => effect.Effect<
+export const associateDhcpOptions: API.OperationMethod<
+  AssociateDhcpOptionsRequest,
   AssociateDhcpOptionsResponse,
   | RequestLimitExceeded
   | InvalidDhcpOptionsIdMalformed
@@ -72077,9 +72057,8 @@ export const associateDhcpOptions: (
  * Grant the role permission to access the certificate and encryption key in the
  * *Amazon Web Services Nitro Enclaves User Guide*.
  */
-export const associateEnclaveCertificateIamRole: (
-  input: AssociateEnclaveCertificateIamRoleRequest,
-) => effect.Effect<
+export const associateEnclaveCertificateIamRole: API.OperationMethod<
+  AssociateEnclaveCertificateIamRoleRequest,
   AssociateEnclaveCertificateIamRoleResult,
   | RequestLimitExceeded
   | InvalidCertificateArnMalformed
@@ -72099,9 +72078,8 @@ export const associateEnclaveCertificateIamRole: (
  * Associates an IAM instance profile with a running or stopped instance. You cannot
  * associate more than one IAM instance profile with an instance.
  */
-export const associateIamInstanceProfile: (
-  input: AssociateIamInstanceProfileRequest,
-) => effect.Effect<
+export const associateIamInstanceProfile: API.OperationMethod<
+  AssociateIamInstanceProfileRequest,
   AssociateIamInstanceProfileResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72117,9 +72095,8 @@ export const associateIamInstanceProfile: (
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const associateInstanceEventWindow: (
-  input: AssociateInstanceEventWindowRequest,
-) => effect.Effect<
+export const associateInstanceEventWindow: API.OperationMethod<
+  AssociateInstanceEventWindowRequest,
   AssociateInstanceEventWindowResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72135,9 +72112,8 @@ export const associateInstanceEventWindow: (
  * After the association succeeds, the ASN is eligible for
  * advertisement. You can view the association with DescribeByoipCidrs. You can advertise the CIDR with AdvertiseByoipCidr.
  */
-export const associateIpamByoasn: (
-  input: AssociateIpamByoasnRequest,
-) => effect.Effect<
+export const associateIpamByoasn: API.OperationMethod<
+  AssociateIpamByoasnRequest,
   AssociateIpamByoasnResult,
   RequestLimitExceeded | InvalidCidrNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72149,9 +72125,8 @@ export const associateIpamByoasn: (
 /**
  * Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const associateIpamResourceDiscovery: (
-  input: AssociateIpamResourceDiscoveryRequest,
-) => effect.Effect<
+export const associateIpamResourceDiscovery: API.OperationMethod<
+  AssociateIpamResourceDiscoveryRequest,
   AssociateIpamResourceDiscoveryResult,
   | RequestLimitExceeded
   | InvalidIpamResourceDiscoveryIdMalformed
@@ -72180,9 +72155,8 @@ export const associateIpamResourceDiscovery: (
  * Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information
  * about network border groups and EIPs, see Allocate an Elastic IP address in the *Amazon VPC User Guide*.
  */
-export const associateNatGatewayAddress: (
-  input: AssociateNatGatewayAddressRequest,
-) => effect.Effect<
+export const associateNatGatewayAddress: API.OperationMethod<
+  AssociateNatGatewayAddressRequest,
   AssociateNatGatewayAddressResult,
   | RequestLimitExceeded
   | MissingParameter
@@ -72207,9 +72181,8 @@ export const associateNatGatewayAddress: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const associateRouteServer: (
-  input: AssociateRouteServerRequest,
-) => effect.Effect<
+export const associateRouteServer: API.OperationMethod<
+  AssociateRouteServerRequest,
   AssociateRouteServerResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72228,9 +72201,8 @@ export const associateRouteServer: (
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const associateRouteTable: (
-  input: AssociateRouteTableRequest,
-) => effect.Effect<
+export const associateRouteTable: API.OperationMethod<
+  AssociateRouteTableRequest,
   AssociateRouteTableResult,
   | RequestLimitExceeded
   | DryRunOperation
@@ -72271,9 +72243,8 @@ export const associateRouteTable: (
  *
  * - You cannot use this feature with the default VPC.
  */
-export const associateSecurityGroupVpc: (
-  input: AssociateSecurityGroupVpcRequest,
-) => effect.Effect<
+export const associateSecurityGroupVpc: API.OperationMethod<
+  AssociateSecurityGroupVpcRequest,
   AssociateSecurityGroupVpcResult,
   | RequestLimitExceeded
   | InvalidGroupIdMalformed
@@ -72289,9 +72260,8 @@ export const associateSecurityGroupVpc: (
  * Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR
  * block with your subnet.
  */
-export const associateSubnetCidrBlock: (
-  input: AssociateSubnetCidrBlockRequest,
-) => effect.Effect<
+export const associateSubnetCidrBlock: API.OperationMethod<
+  AssociateSubnetCidrBlockRequest,
   AssociateSubnetCidrBlockResult,
   | RequestLimitExceeded
   | InvalidSubnetIDNotFound
@@ -72309,9 +72279,8 @@ export const associateSubnetCidrBlock: (
  * The transit gateway attachment must be in the available state before you can add a resource. Use DescribeTransitGatewayAttachments
  * to see the state of the attachment.
  */
-export const associateTransitGatewayMulticastDomain: (
-  input: AssociateTransitGatewayMulticastDomainRequest,
-) => effect.Effect<
+export const associateTransitGatewayMulticastDomain: API.OperationMethod<
+  AssociateTransitGatewayMulticastDomainRequest,
   AssociateTransitGatewayMulticastDomainResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMulticastDomainIdNotFound
@@ -72328,9 +72297,8 @@ export const associateTransitGatewayMulticastDomain: (
 /**
  * Associates the specified transit gateway attachment with a transit gateway policy table.
  */
-export const associateTransitGatewayPolicyTable: (
-  input: AssociateTransitGatewayPolicyTableRequest,
-) => effect.Effect<
+export const associateTransitGatewayPolicyTable: API.OperationMethod<
+  AssociateTransitGatewayPolicyTableRequest,
   AssociateTransitGatewayPolicyTableResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayPolicyTableIdMalformed
@@ -72350,9 +72318,8 @@ export const associateTransitGatewayPolicyTable: (
  * Associates the specified attachment with the specified transit gateway route table. You can
  * associate only one route table with an attachment.
  */
-export const associateTransitGatewayRouteTable: (
-  input: AssociateTransitGatewayRouteTableRequest,
-) => effect.Effect<
+export const associateTransitGatewayRouteTable: API.OperationMethod<
+  AssociateTransitGatewayRouteTableRequest,
   AssociateTransitGatewayRouteTableResult,
   RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72369,9 +72336,8 @@ export const associateTransitGatewayRouteTable: (
  * each branch network interface that you want to associate with the trunk
  * network interface.
  */
-export const associateTrunkInterface: (
-  input: AssociateTrunkInterfaceRequest,
-) => effect.Effect<
+export const associateTrunkInterface: API.OperationMethod<
+  AssociateTrunkInterfaceRequest,
   AssociateTrunkInterfaceResult,
   RequestLimitExceeded | OperationNotPermitted | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72392,9 +72358,8 @@ export const associateTrunkInterface: (
  * restrictions, see IP addressing for your VPCs and subnets
  * in the *Amazon VPC User Guide*.
  */
-export const associateVpcCidrBlock: (
-  input: AssociateVpcCidrBlockRequest,
-) => effect.Effect<
+export const associateVpcCidrBlock: API.OperationMethod<
+  AssociateVpcCidrBlockRequest,
   AssociateVpcCidrBlockResult,
   | RequestLimitExceeded
   | CidrConflict
@@ -72429,9 +72394,8 @@ export const associateVpcCidrBlock: (
  *
  * Linking your instance to a VPC is sometimes referred to as *attaching* your instance.
  */
-export const attachClassicLinkVpc: (
-  input: AttachClassicLinkVpcRequest,
-) => effect.Effect<
+export const attachClassicLinkVpc: API.OperationMethod<
+  AttachClassicLinkVpcRequest,
   AttachClassicLinkVpcResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -72448,9 +72412,8 @@ export const attachClassicLinkVpc: (
  * between the internet and the VPC. For more information, see Internet gateways in the
  * *Amazon VPC User Guide*.
  */
-export const attachInternetGateway: (
-  input: AttachInternetGatewayRequest,
-) => effect.Effect<
+export const attachInternetGateway: API.OperationMethod<
+  AttachInternetGatewayRequest,
   AttachInternetGatewayResponse,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -72473,9 +72436,8 @@ export const attachInternetGateway: (
 /**
  * Attaches a network interface to an instance.
  */
-export const attachNetworkInterface: (
-  input: AttachNetworkInterfaceRequest,
-) => effect.Effect<
+export const attachNetworkInterface: API.OperationMethod<
+  AttachNetworkInterfaceRequest,
   AttachNetworkInterfaceResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -72496,9 +72458,8 @@ export const attachNetworkInterface: (
 /**
  * Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
  */
-export const attachVerifiedAccessTrustProvider: (
-  input: AttachVerifiedAccessTrustProviderRequest,
-) => effect.Effect<
+export const attachVerifiedAccessTrustProvider: API.OperationMethod<
+  AttachVerifiedAccessTrustProviderRequest,
   AttachVerifiedAccessTrustProviderResult,
   RequestLimitExceeded | InvalidVerifiedAccessInstanceIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72536,9 +72497,8 @@ export const attachVerifiedAccessTrustProvider: (
  * For more information, see Attach an Amazon EBS volume to an instance in the
  * *Amazon EBS User Guide*.
  */
-export const attachVolume: (
-  input: AttachVolumeRequest,
-) => effect.Effect<
+export const attachVolume: API.OperationMethod<
+  AttachVolumeRequest,
   VolumeAttachment,
   | RequestLimitExceeded
   | InvalidInstanceIDNotFound
@@ -72563,9 +72523,8 @@ export const attachVolume: (
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const attachVpnGateway: (
-  input: AttachVpnGatewayRequest,
-) => effect.Effect<
+export const attachVpnGateway: API.OperationMethod<
+  AttachVpnGatewayRequest,
   AttachVpnGatewayResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -72586,9 +72545,8 @@ export const attachVpnGateway: (
  * firewall rules that grant access to networks. You must configure ingress authorization rules to
  * enable clients to access resources in Amazon Web Services or on-premises networks.
  */
-export const authorizeClientVpnIngress: (
-  input: AuthorizeClientVpnIngressRequest,
-) => effect.Effect<
+export const authorizeClientVpnIngress: API.OperationMethod<
+  AuthorizeClientVpnIngressRequest,
   AuthorizeClientVpnIngressResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72617,9 +72575,8 @@ export const authorizeClientVpnIngress: (
  *
  * For information about security group quotas, see Amazon VPC quotas in the *Amazon VPC User Guide*.
  */
-export const authorizeSecurityGroupEgress: (
-  input: AuthorizeSecurityGroupEgressRequest,
-) => effect.Effect<
+export const authorizeSecurityGroupEgress: API.OperationMethod<
+  AuthorizeSecurityGroupEgressRequest,
   AuthorizeSecurityGroupEgressResult,
   | RequestLimitExceeded
   | InvalidGroupNotFound
@@ -72657,9 +72614,8 @@ export const authorizeSecurityGroupEgress: (
  *
  * For more information about security group quotas, see Amazon VPC quotas in the *Amazon VPC User Guide*.
  */
-export const authorizeSecurityGroupIngress: (
-  input: AuthorizeSecurityGroupIngressRequest,
-) => effect.Effect<
+export const authorizeSecurityGroupIngress: API.OperationMethod<
+  AuthorizeSecurityGroupIngressRequest,
   AuthorizeSecurityGroupIngressResult,
   | RequestLimitExceeded
   | InvalidGroupNotFound
@@ -72686,9 +72642,8 @@ export const authorizeSecurityGroupIngress: (
  * This action is not applicable for Linux/Unix instances or Windows instances that are
  * backed by Amazon EBS.
  */
-export const bundleInstance: (
-  input: BundleInstanceRequest,
-) => effect.Effect<
+export const bundleInstance: API.OperationMethod<
+  BundleInstanceRequest,
   BundleInstanceResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72700,9 +72655,8 @@ export const bundleInstance: (
 /**
  * Cancels a bundling operation for an instance store-backed Windows instance.
  */
-export const cancelBundleTask: (
-  input: CancelBundleTaskRequest,
-) => effect.Effect<
+export const cancelBundleTask: API.OperationMethod<
+  CancelBundleTaskRequest,
   CancelBundleTaskResult,
   | RequestLimitExceeded
   | InvalidBundleIDNotFound
@@ -72742,9 +72696,8 @@ export const cancelBundleTask: (
  * Instance capacity, or run in any open Capacity Reservation that has matching attributes
  * and sufficient capacity.
  */
-export const cancelCapacityReservation: (
-  input: CancelCapacityReservationRequest,
-) => effect.Effect<
+export const cancelCapacityReservation: API.OperationMethod<
+  CancelCapacityReservationRequest,
   CancelCapacityReservationResult,
   | RequestLimitExceeded
   | InvalidCapacityReservationIdMalformed
@@ -72773,9 +72726,8 @@ export const cancelCapacityReservation: (
  *
  * - The Fleet stops creating new Capacity Reservations.
  */
-export const cancelCapacityReservationFleets: (
-  input: CancelCapacityReservationFleetsRequest,
-) => effect.Effect<
+export const cancelCapacityReservationFleets: API.OperationMethod<
+  CancelCapacityReservationFleetsRequest,
   CancelCapacityReservationFleetsResult,
   | RequestLimitExceeded
   | InvalidCapacityReservationFleetIdMalformed
@@ -72791,9 +72743,8 @@ export const cancelCapacityReservationFleets: (
  * artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is
  * in the process of transferring the final disk image, the command fails and returns an exception.
  */
-export const cancelConversionTask: (
-  input: CancelConversionRequest,
-) => effect.Effect<
+export const cancelConversionTask: API.OperationMethod<
+  CancelConversionRequest,
   CancelConversionTaskResponse,
   RequestLimitExceeded | InvalidAction | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72812,9 +72763,8 @@ export const cancelConversionTask: (
  * For more information, see Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const cancelDeclarativePoliciesReport: (
-  input: CancelDeclarativePoliciesReportRequest,
-) => effect.Effect<
+export const cancelDeclarativePoliciesReport: API.OperationMethod<
+  CancelDeclarativePoliciesReportRequest,
   CancelDeclarativePoliciesReportResult,
   | RequestLimitExceeded
   | InvalidDeclarativePoliciesReportIdMalformed
@@ -72830,9 +72780,8 @@ export const cancelDeclarativePoliciesReport: (
  * Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the
  * command fails and returns an error.
  */
-export const cancelExportTask: (
-  input: CancelExportTaskRequest,
-) => effect.Effect<
+export const cancelExportTask: API.OperationMethod<
+  CancelExportTaskRequest,
   CancelExportTaskResponse,
   RequestLimitExceeded | InvalidID | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72846,9 +72795,8 @@ export const cancelExportTask: (
  * For more information, see Cancel having an AMI shared with
  * your Amazon Web Services account in the *Amazon EC2 User Guide*.
  */
-export const cancelImageLaunchPermission: (
-  input: CancelImageLaunchPermissionRequest,
-) => effect.Effect<
+export const cancelImageLaunchPermission: API.OperationMethod<
+  CancelImageLaunchPermissionRequest,
   CancelImageLaunchPermissionResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72860,9 +72808,8 @@ export const cancelImageLaunchPermission: (
 /**
  * Cancels an in-process import virtual machine or import snapshot task.
  */
-export const cancelImportTask: (
-  input: CancelImportTaskRequest,
-) => effect.Effect<
+export const cancelImportTask: API.OperationMethod<
+  CancelImportTaskRequest,
   CancelImportTaskResult,
   RequestLimitExceeded | InvalidConversionTaskIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72878,9 +72825,8 @@ export const cancelImportTask: (
  * For more information, see Sell in the Reserved Instance
  * Marketplace in the *Amazon EC2 User Guide*.
  */
-export const cancelReservedInstancesListing: (
-  input: CancelReservedInstancesListingRequest,
-) => effect.Effect<
+export const cancelReservedInstancesListing: API.OperationMethod<
+  CancelReservedInstancesListingRequest,
   CancelReservedInstancesListingResult,
   RequestLimitExceeded | InvalidInput | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72916,9 +72862,8 @@ export const cancelReservedInstancesListing: (
  * - You can delete up to 100 fleets in a single request. If you exceed the specified
  * number, no fleets are deleted.
  */
-export const cancelSpotFleetRequests: (
-  input: CancelSpotFleetRequestsRequest,
-) => effect.Effect<
+export const cancelSpotFleetRequests: API.OperationMethod<
+  CancelSpotFleetRequestsRequest,
   CancelSpotFleetRequestsResponse,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -72936,9 +72881,8 @@ export const cancelSpotFleetRequests: (
  * Canceling a Spot Instance request does not terminate running Spot Instances
  * associated with the request.
  */
-export const cancelSpotInstanceRequests: (
-  input: CancelSpotInstanceRequestsRequest,
-) => effect.Effect<
+export const cancelSpotInstanceRequests: API.OperationMethod<
+  CancelSpotInstanceRequestsRequest,
   CancelSpotInstanceRequestsResult,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -72959,9 +72903,8 @@ export const cancelSpotInstanceRequests: (
  * be used by the owner of the product code. It is useful when a product code owner must
  * verify whether another user's instance is eligible for support.
  */
-export const confirmProductInstance: (
-  input: ConfirmProductInstanceRequest,
-) => effect.Effect<
+export const confirmProductInstance: API.OperationMethod<
+  ConfirmProductInstanceRequest,
   ConfirmProductInstanceResult,
   RequestLimitExceeded | AuthFailure | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -72973,9 +72916,8 @@ export const confirmProductInstance: (
 /**
  * Copies the specified Amazon FPGA Image (AFI) to the current Region.
  */
-export const copyFpgaImage: (
-  input: CopyFpgaImageRequest,
-) => effect.Effect<
+export const copyFpgaImage: API.OperationMethod<
+  CopyFpgaImageRequest,
   CopyFpgaImageResult,
   RequestLimitExceeded | InvalidFpgaImageIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73048,9 +72990,8 @@ export const copyFpgaImage: (
  * For more information, including the required permissions for copying an AMI, see Copy an Amazon EC2 AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const copyImage: (
-  input: CopyImageRequest,
-) => effect.Effect<
+export const copyImage: API.OperationMethod<
+  CopyImageRequest,
   CopyImageResult,
   | RequestLimitExceeded
   | InvalidAMIIDMalformed
@@ -73101,9 +73042,8 @@ export const copyImage: (
  * For more information, see Copy an Amazon EBS snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const copySnapshot: (
-  input: CopySnapshotRequest,
-) => effect.Effect<
+export const copySnapshot: API.OperationMethod<
+  CopySnapshotRequest,
   CopySnapshotResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -73126,9 +73066,8 @@ export const copySnapshot: (
  * Availability Zone. The volume copy can be attached to an Amazon EC2 instance once it reaches the
  * `available` state. For more information, see Copy an Amazon EBS volume.
  */
-export const copyVolumes: (
-  input: CopyVolumesRequest,
-) => effect.Effect<
+export const copyVolumes: API.OperationMethod<
+  CopyVolumesRequest,
   CopyVolumesResult,
   RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73141,9 +73080,8 @@ export const copyVolumes: (
  * Creates a new data export configuration for EC2 Capacity Manager. This allows you to automatically export capacity usage data to an S3 bucket on a scheduled basis.
  * The exported data includes metrics for On-Demand, Spot, and Capacity Reservations usage across your organization.
  */
-export const createCapacityManagerDataExport: (
-  input: CreateCapacityManagerDataExportRequest,
-) => effect.Effect<
+export const createCapacityManagerDataExport: API.OperationMethod<
+  CreateCapacityManagerDataExportRequest,
   CreateCapacityManagerDataExportResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73178,9 +73116,8 @@ export const createCapacityManagerDataExport: (
  * Amazon EC2 Service Quotas in the
  * *Amazon EC2 User Guide*.
  */
-export const createCapacityReservation: (
-  input: CreateCapacityReservationRequest,
-) => effect.Effect<
+export const createCapacityReservation: API.OperationMethod<
+  CreateCapacityReservationRequest,
   CreateCapacityReservationResult,
   RequestLimitExceeded | Unsupported | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73195,9 +73132,8 @@ export const createCapacityReservation: (
  * Capacity Reservation except for tags. The source Capacity Reservation must be
  * `active` and owned by your Amazon Web Services account.
  */
-export const createCapacityReservationBySplitting: (
-  input: CreateCapacityReservationBySplittingRequest,
-) => effect.Effect<
+export const createCapacityReservationBySplitting: API.OperationMethod<
+  CreateCapacityReservationBySplittingRequest,
   CreateCapacityReservationBySplittingResult,
   | RequestLimitExceeded
   | InvalidCapacityReservationIdMalformed
@@ -73218,9 +73154,8 @@ export const createCapacityReservationBySplitting: (
  * Capacity Reservation Fleet in the
  * *Amazon EC2 User Guide*.
  */
-export const createCapacityReservationFleet: (
-  input: CreateCapacityReservationFleetRequest,
-) => effect.Effect<
+export const createCapacityReservationFleet: API.OperationMethod<
+  CreateCapacityReservationFleetRequest,
   CreateCapacityReservationFleetResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73232,9 +73167,8 @@ export const createCapacityReservationFleet: (
 /**
  * Creates a carrier gateway. For more information about carrier gateways, see Carrier gateways in the *Amazon Web Services Wavelength Developer Guide*.
  */
-export const createCarrierGateway: (
-  input: CreateCarrierGatewayRequest,
-) => effect.Effect<
+export const createCarrierGateway: API.OperationMethod<
+  CreateCarrierGatewayRequest,
   CreateCarrierGatewayResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -73259,9 +73193,8 @@ export const createCarrierGateway: (
  * enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions
  * are terminated.
  */
-export const createClientVpnEndpoint: (
-  input: CreateClientVpnEndpointRequest,
-) => effect.Effect<
+export const createClientVpnEndpoint: API.OperationMethod<
+  CreateClientVpnEndpointRequest,
   CreateClientVpnEndpointResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73274,9 +73207,8 @@ export const createClientVpnEndpoint: (
  * Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the
  * available destination network routes. Each route in the route table specifies the path for traﬃc to speciﬁc resources or networks.
  */
-export const createClientVpnRoute: (
-  input: CreateClientVpnRouteRequest,
-) => effect.Effect<
+export const createClientVpnRoute: API.OperationMethod<
+  CreateClientVpnRouteRequest,
   CreateClientVpnRouteResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73288,9 +73220,8 @@ export const createClientVpnRoute: (
 /**
  * Creates a range of customer-owned IP addresses.
  */
-export const createCoipCidr: (
-  input: CreateCoipCidrRequest,
-) => effect.Effect<
+export const createCoipCidr: API.OperationMethod<
+  CreateCoipCidrRequest,
   CreateCoipCidrResult,
   | RequestLimitExceeded
   | InvalidPoolIDMalformed
@@ -73311,9 +73242,8 @@ export const createCoipCidr: (
 /**
  * Creates a pool of customer-owned IP (CoIP) addresses.
  */
-export const createCoipPool: (
-  input: CreateCoipPoolRequest,
-) => effect.Effect<
+export const createCoipPool: API.OperationMethod<
+  CreateCoipPoolRequest,
   CreateCoipPoolResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayRouteTableIDMalformed
@@ -73349,9 +73279,8 @@ export const createCoipPool: (
  * returns information about the existing customer gateway; it doesn't create a new customer
  * gateway.
  */
-export const createCustomerGateway: (
-  input: CreateCustomerGatewayRequest,
-) => effect.Effect<
+export const createCustomerGateway: API.OperationMethod<
+  CreateCustomerGatewayRequest,
   CreateCustomerGatewayResult,
   RequestLimitExceeded | MissingParameter | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73366,9 +73295,8 @@ export const createCustomerGateway: (
  * per Availability Zone. For more information, see Create a default
  * subnet in the *Amazon VPC User Guide*.
  */
-export const createDefaultSubnet: (
-  input: CreateDefaultSubnetRequest,
-) => effect.Effect<
+export const createDefaultSubnet: API.OperationMethod<
+  CreateDefaultSubnetRequest,
   CreateDefaultSubnetResult,
   | RequestLimitExceeded
   | DefaultSubnetAlreadyExistsInAvailabilityZone
@@ -73394,9 +73322,8 @@ export const createDefaultSubnet: (
  * If you deleted your previous default VPC, you can create a default VPC. You cannot have
  * more than one default VPC per Region.
  */
-export const createDefaultVpc: (
-  input: CreateDefaultVpcRequest,
-) => effect.Effect<
+export const createDefaultVpc: API.OperationMethod<
+  CreateDefaultVpcRequest,
   CreateDefaultVpcResult,
   RequestLimitExceeded | DefaultVpcAlreadyExists | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73409,9 +73336,8 @@ export const createDefaultVpc: (
  * Delegates ownership of the Amazon EBS root volume for an Apple silicon
  * Mac instance to an administrative user.
  */
-export const createDelegateMacVolumeOwnershipTask: (
-  input: CreateDelegateMacVolumeOwnershipTaskRequest,
-) => effect.Effect<
+export const createDelegateMacVolumeOwnershipTask: API.OperationMethod<
+  CreateDelegateMacVolumeOwnershipTaskRequest,
   CreateDelegateMacVolumeOwnershipTaskResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73460,9 +73386,8 @@ export const createDelegateMacVolumeOwnershipTask: (
  * Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent
  * lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
  */
-export const createDhcpOptions: (
-  input: CreateDhcpOptionsRequest,
-) => effect.Effect<
+export const createDhcpOptions: API.OperationMethod<
+  CreateDhcpOptionsRequest,
   CreateDhcpOptionsResult,
   RequestLimitExceeded | MissingParameter | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73477,9 +73402,8 @@ export const createDhcpOptions: (
  * your VPC to the internet, and prevents hosts outside of your VPC from initiating an IPv6
  * connection with your instance.
  */
-export const createEgressOnlyInternetGateway: (
-  input: CreateEgressOnlyInternetGatewayRequest,
-) => effect.Effect<
+export const createEgressOnlyInternetGateway: API.OperationMethod<
+  CreateEgressOnlyInternetGatewayRequest,
   CreateEgressOnlyInternetGatewayResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -73508,9 +73432,8 @@ export const createEgressOnlyInternetGateway: (
  *
  * For more information, see EC2 Fleet in the *Amazon EC2 User Guide*.
  */
-export const createFleet: (
-  input: CreateFleetRequest,
-) => effect.Effect<
+export const createFleet: API.OperationMethod<
+  CreateFleetRequest,
   CreateFleetResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73536,9 +73459,8 @@ export const createFleet: (
  * For more information, see VPC Flow Logs
  * in the *Amazon VPC User Guide*.
  */
-export const createFlowLogs: (
-  input: CreateFlowLogsRequest,
-) => effect.Effect<
+export const createFlowLogs: API.OperationMethod<
+  CreateFlowLogsRequest,
   CreateFlowLogsResult,
   | RequestLimitExceeded
   | InvalidID
@@ -73566,9 +73488,8 @@ export const createFlowLogs: (
  * You can securely deploy an AFI on multiple FPGA-accelerated instances.
  * For more information, see the Amazon Web Services FPGA Hardware Development Kit.
  */
-export const createFpgaImage: (
-  input: CreateFpgaImageRequest,
-) => effect.Effect<
+export const createFpgaImage: API.OperationMethod<
+  CreateFpgaImageRequest,
   CreateFpgaImageResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73598,9 +73519,8 @@ export const createFpgaImage: (
  * For more information, see Create an Amazon EBS-backed AMI in
  * the *Amazon Elastic Compute Cloud User Guide*.
  */
-export const createImage: (
-  input: CreateImageRequest,
-) => effect.Effect<
+export const createImage: API.OperationMethod<
+  CreateImageRequest,
   CreateImageResult,
   | RequestLimitExceeded
   | InvalidInstanceIDNotFound
@@ -73624,9 +73544,8 @@ export const createImage: (
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const createImageUsageReport: (
-  input: CreateImageUsageReportRequest,
-) => effect.Effect<
+export const createImageUsageReport: API.OperationMethod<
+  CreateImageUsageReportRequest,
   CreateImageUsageReportResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73643,9 +73562,8 @@ export const createImageUsageReport: (
  * information, see Connect to your instances using EC2 Instance Connect Endpoint in the
  * *Amazon EC2 User Guide*.
  */
-export const createInstanceConnectEndpoint: (
-  input: CreateInstanceConnectEndpointRequest,
-) => effect.Effect<
+export const createInstanceConnectEndpoint: API.OperationMethod<
+  CreateInstanceConnectEndpointRequest,
   CreateInstanceConnectEndpointResult,
   | RequestLimitExceeded
   | InvalidGroupNotFound
@@ -73688,9 +73606,8 @@ export const createInstanceConnectEndpoint: (
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const createInstanceEventWindow: (
-  input: CreateInstanceEventWindowRequest,
-) => effect.Effect<
+export const createInstanceEventWindow: API.OperationMethod<
+  CreateInstanceEventWindowRequest,
   CreateInstanceEventWindowResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73706,9 +73623,8 @@ export const createInstanceEventWindow: (
  * image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM
  * Import/Export in the *VM Import/Export User Guide*.
  */
-export const createInstanceExportTask: (
-  input: CreateInstanceExportTaskRequest,
-) => effect.Effect<
+export const createInstanceExportTask: API.OperationMethod<
+  CreateInstanceExportTaskRequest,
   CreateInstanceExportTaskResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73724,9 +73640,8 @@ export const createInstanceExportTask: (
  * For more information, see Internet gateways in the
  * *Amazon VPC User Guide*.
  */
-export const createInternetGateway: (
-  input: CreateInternetGatewayRequest,
-) => effect.Effect<
+export const createInternetGateway: API.OperationMethod<
+  CreateInternetGatewayRequest,
   CreateInternetGatewayResult,
   | RequestLimitExceeded
   | InternetGatewayLimitExceeded
@@ -73741,9 +73656,8 @@ export const createInternetGateway: (
 /**
  * Creates an interruptible Capacity Reservation by specifying the number of unused instances you want to allocate from your source reservation. This helps you make unused capacity available for other workloads within your account while maintaining control to reclaim it.
  */
-export const createInterruptibleCapacityReservationAllocation: (
-  input: CreateInterruptibleCapacityReservationAllocationRequest,
-) => effect.Effect<
+export const createInterruptibleCapacityReservationAllocation: API.OperationMethod<
+  CreateInterruptibleCapacityReservationAllocationRequest,
   CreateInterruptibleCapacityReservationAllocationResult,
   RequestLimitExceeded | InvalidCapacityReservationIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73760,9 +73674,8 @@ export const createInterruptibleCapacityReservationAllocation: (
  *
  * For more information, see Create an IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpam: (
-  input: CreateIpamRequest,
-) => effect.Effect<
+export const createIpam: API.OperationMethod<
+  CreateIpamRequest,
   CreateIpamResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -73785,9 +73698,8 @@ export const createIpam: (
  *
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
-export const createIpamExternalResourceVerificationToken: (
-  input: CreateIpamExternalResourceVerificationTokenRequest,
-) => effect.Effect<
+export const createIpamExternalResourceVerificationToken: API.OperationMethod<
+  CreateIpamExternalResourceVerificationTokenRequest,
   CreateIpamExternalResourceVerificationTokenResult,
   | RequestLimitExceeded
   | InvalidIpamIdNotFound
@@ -73806,9 +73718,8 @@ export const createIpamExternalResourceVerificationToken: (
  *
  * For more information, see Define public IPv4 allocation strategy with IPAM policies in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPolicy: (
-  input: CreateIpamPolicyRequest,
-) => effect.Effect<
+export const createIpamPolicy: API.OperationMethod<
+  CreateIpamPolicyRequest,
   CreateIpamPolicyResult,
   | RequestLimitExceeded
   | InvalidIpamIdNotFound
@@ -73825,9 +73736,8 @@ export const createIpamPolicy: (
  *
  * For more information, see Create a top-level pool in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPool: (
-  input: CreateIpamPoolRequest,
-) => effect.Effect<
+export const createIpamPool: API.OperationMethod<
+  CreateIpamPoolRequest,
   CreateIpamPoolResult,
   | RequestLimitExceeded
   | InvalidIpamScopeIdNotFound
@@ -73846,9 +73756,8 @@ export const createIpamPool: (
  *
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPrefixListResolver: (
-  input: CreateIpamPrefixListResolverRequest,
-) => effect.Effect<
+export const createIpamPrefixListResolver: API.OperationMethod<
+  CreateIpamPrefixListResolverRequest,
   CreateIpamPrefixListResolverResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73864,9 +73773,8 @@ export const createIpamPrefixListResolver: (
  *
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamPrefixListResolverTarget: (
-  input: CreateIpamPrefixListResolverTargetRequest,
-) => effect.Effect<
+export const createIpamPrefixListResolverTarget: API.OperationMethod<
+  CreateIpamPrefixListResolverTargetRequest,
   CreateIpamPrefixListResolverTargetResult,
   | RequestLimitExceeded
   | InvalidIpamPrefixListResolverIdMalformed
@@ -73887,9 +73795,8 @@ export const createIpamPrefixListResolverTarget: (
 /**
  * Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const createIpamResourceDiscovery: (
-  input: CreateIpamResourceDiscoveryRequest,
-) => effect.Effect<
+export const createIpamResourceDiscovery: API.OperationMethod<
+  CreateIpamResourceDiscoveryRequest,
   CreateIpamResourceDiscoveryResult,
   RequestLimitExceeded | ResourceLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73903,9 +73810,8 @@ export const createIpamResourceDiscovery: (
  *
  * For more information, see Add a scope in the *Amazon VPC IPAM User Guide*.
  */
-export const createIpamScope: (
-  input: CreateIpamScopeRequest,
-) => effect.Effect<
+export const createIpamScope: API.OperationMethod<
+  CreateIpamScopeRequest,
   CreateIpamScopeResult,
   | RequestLimitExceeded
   | InvalidIpamIdNotFound
@@ -73933,9 +73839,8 @@ export const createIpamScope: (
  * For more information, see Amazon EC2 key pairs in the
  * *Amazon EC2 User Guide*.
  */
-export const createKeyPair: (
-  input: CreateKeyPairRequest,
-) => effect.Effect<
+export const createKeyPair: API.OperationMethod<
+  CreateKeyPairRequest,
   KeyPair,
   RequestLimitExceeded | InvalidKeyPairDuplicate | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73958,9 +73863,8 @@ export const createKeyPair: (
  * information, see Create a launch template from an existing launch template in the
  * *Amazon EC2 User Guide*.
  */
-export const createLaunchTemplate: (
-  input: CreateLaunchTemplateRequest,
-) => effect.Effect<
+export const createLaunchTemplate: API.OperationMethod<
+  CreateLaunchTemplateRequest,
   CreateLaunchTemplateResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -73985,9 +73889,8 @@ export const createLaunchTemplate: (
  * template (manage launch template versions) in the
  * *Amazon EC2 User Guide*.
  */
-export const createLaunchTemplateVersion: (
-  input: CreateLaunchTemplateVersionRequest,
-) => effect.Effect<
+export const createLaunchTemplateVersion: API.OperationMethod<
+  CreateLaunchTemplateVersionRequest,
   CreateLaunchTemplateVersionResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74004,9 +73907,8 @@ export const createLaunchTemplateVersion: (
  *
  * - `NetworkInterfaceId`
  */
-export const createLocalGatewayRoute: (
-  input: CreateLocalGatewayRouteRequest,
-) => effect.Effect<
+export const createLocalGatewayRoute: API.OperationMethod<
+  CreateLocalGatewayRouteRequest,
   CreateLocalGatewayRouteResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -74021,9 +73923,8 @@ export const createLocalGatewayRoute: (
 /**
  * Creates a local gateway route table.
  */
-export const createLocalGatewayRouteTable: (
-  input: CreateLocalGatewayRouteTableRequest,
-) => effect.Effect<
+export const createLocalGatewayRouteTable: API.OperationMethod<
+  CreateLocalGatewayRouteTableRequest,
   CreateLocalGatewayRouteTableResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayIDMalformed
@@ -74044,9 +73945,8 @@ export const createLocalGatewayRouteTable: (
 /**
  * Creates a local gateway route table virtual interface group association.
  */
-export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
-  input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
-) => effect.Effect<
+export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: API.OperationMethod<
+  CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
   CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayRouteTableIDNotFound
@@ -74067,9 +73967,8 @@ export const createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
 /**
  * Associates the specified VPC with the specified local gateway route table.
  */
-export const createLocalGatewayRouteTableVpcAssociation: (
-  input: CreateLocalGatewayRouteTableVpcAssociationRequest,
-) => effect.Effect<
+export const createLocalGatewayRouteTableVpcAssociation: API.OperationMethod<
+  CreateLocalGatewayRouteTableVpcAssociationRequest,
   CreateLocalGatewayRouteTableVpcAssociationResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayRouteTableIDMalformed
@@ -74092,9 +73991,8 @@ export const createLocalGatewayRouteTableVpcAssociation: (
 /**
  * Create a virtual interface for a local gateway.
  */
-export const createLocalGatewayVirtualInterface: (
-  input: CreateLocalGatewayVirtualInterfaceRequest,
-) => effect.Effect<
+export const createLocalGatewayVirtualInterface: API.OperationMethod<
+  CreateLocalGatewayVirtualInterfaceRequest,
   CreateLocalGatewayVirtualInterfaceResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayVirtualInterfaceGroupIDMalformed
@@ -74115,9 +74013,8 @@ export const createLocalGatewayVirtualInterface: (
 /**
  * Create a local gateway virtual interface group.
  */
-export const createLocalGatewayVirtualInterfaceGroup: (
-  input: CreateLocalGatewayVirtualInterfaceGroupRequest,
-) => effect.Effect<
+export const createLocalGatewayVirtualInterfaceGroup: API.OperationMethod<
+  CreateLocalGatewayVirtualInterfaceGroupRequest,
   CreateLocalGatewayVirtualInterfaceGroupResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayIDNotFound
@@ -74169,9 +74066,8 @@ export const createLocalGatewayVirtualInterfaceGroup: (
  *
  * - `MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"`
  */
-export const createMacSystemIntegrityProtectionModificationTask: (
-  input: CreateMacSystemIntegrityProtectionModificationTaskRequest,
-) => effect.Effect<
+export const createMacSystemIntegrityProtectionModificationTask: API.OperationMethod<
+  CreateMacSystemIntegrityProtectionModificationTaskRequest,
   CreateMacSystemIntegrityProtectionModificationTaskResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74184,9 +74080,8 @@ export const createMacSystemIntegrityProtectionModificationTask: (
  * Creates a managed prefix list. You can specify entries for the prefix list.
  * Each entry consists of a CIDR block and an optional description.
  */
-export const createManagedPrefixList: (
-  input: CreateManagedPrefixListRequest,
-) => effect.Effect<
+export const createManagedPrefixList: API.OperationMethod<
+  CreateManagedPrefixListRequest,
   CreateManagedPrefixListResult,
   RequestLimitExceeded | InvalidParameterValue | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74218,9 +74113,8 @@ export const createManagedPrefixList: (
  * For more information about network border groups and EIPs, see Allocate an Elastic IP address
  * in the *Amazon VPC User Guide*.
  */
-export const createNatGateway: (
-  input: CreateNatGatewayRequest,
-) => effect.Effect<
+export const createNatGateway: API.OperationMethod<
+  CreateNatGatewayRequest,
   CreateNatGatewayResult,
   | RequestLimitExceeded
   | InvalidElasticIpIDNotFound
@@ -74248,9 +74142,8 @@ export const createNatGateway: (
  * For more information, see Network ACLs in the
  * *Amazon VPC User Guide*.
  */
-export const createNetworkAcl: (
-  input: CreateNetworkAclRequest,
-) => effect.Effect<
+export const createNetworkAcl: API.OperationMethod<
+  CreateNetworkAclRequest,
   CreateNetworkAclResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -74282,9 +74175,8 @@ export const createNetworkAcl: (
  * For more information about network ACLs, see Network ACLs
  * in the *Amazon VPC User Guide*.
  */
-export const createNetworkAclEntry: (
-  input: CreateNetworkAclEntryRequest,
-) => effect.Effect<
+export const createNetworkAclEntry: API.OperationMethod<
+  CreateNetworkAclEntryRequest,
   CreateNetworkAclEntryResponse,
   | RequestLimitExceeded
   | InvalidNetworkAclIDNotFound
@@ -74303,9 +74195,8 @@ export const createNetworkAclEntry: (
  * to verify that their networks on Amazon Web Services conform to their network security and governance
  * objectives. For more information, see the Amazon Web Services Network Access Analyzer Guide.
  */
-export const createNetworkInsightsAccessScope: (
-  input: CreateNetworkInsightsAccessScopeRequest,
-) => effect.Effect<
+export const createNetworkInsightsAccessScope: API.OperationMethod<
+  CreateNetworkInsightsAccessScopeRequest,
   CreateNetworkInsightsAccessScopeResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74321,9 +74212,8 @@ export const createNetworkInsightsAccessScope: (
  * two resources in your virtual private cloud (VPC). For more information, see the
  * Reachability Analyzer Guide.
  */
-export const createNetworkInsightsPath: (
-  input: CreateNetworkInsightsPathRequest,
-) => effect.Effect<
+export const createNetworkInsightsPath: API.OperationMethod<
+  CreateNetworkInsightsPathRequest,
   CreateNetworkInsightsPathResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -74344,9 +74234,8 @@ export const createNetworkInsightsPath: (
  * For more information about network interfaces, see Elastic network interfaces in the
  * *Amazon EC2 User Guide*.
  */
-export const createNetworkInterface: (
-  input: CreateNetworkInterfaceRequest,
-) => effect.Effect<
+export const createNetworkInterface: API.OperationMethod<
+  CreateNetworkInterfaceRequest,
   CreateNetworkInterfaceResult,
   | RequestLimitExceeded
   | InvalidSubnetIDNotFound
@@ -74371,9 +74260,8 @@ export const createNetworkInterface: (
  * You can grant permission to a single Amazon Web Services account only, and only one
  * account at a time.
  */
-export const createNetworkInterfacePermission: (
-  input: CreateNetworkInterfacePermissionRequest,
-) => effect.Effect<
+export const createNetworkInterfacePermission: API.OperationMethod<
+  CreateNetworkInterfacePermissionRequest,
   CreateNetworkInterfacePermissionResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74396,9 +74284,8 @@ export const createNetworkInterfacePermission: (
  * For more information, see Placement groups in the
  * *Amazon EC2 User Guide*.
  */
-export const createPlacementGroup: (
-  input: CreatePlacementGroupRequest,
-) => effect.Effect<
+export const createPlacementGroup: API.OperationMethod<
+  CreatePlacementGroupRequest,
   CreatePlacementGroupResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -74413,9 +74300,8 @@ export const createPlacementGroup: (
 /**
  * Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use DescribePublicIpv4Pools.
  */
-export const createPublicIpv4Pool: (
-  input: CreatePublicIpv4PoolRequest,
-) => effect.Effect<
+export const createPublicIpv4Pool: API.OperationMethod<
+  CreatePublicIpv4PoolRequest,
   CreatePublicIpv4PoolResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74432,9 +74318,8 @@ export const createPublicIpv4Pool: (
  *
  * For more information, see Replace a root volume in the *Amazon EC2 User Guide*.
  */
-export const createReplaceRootVolumeTask: (
-  input: CreateReplaceRootVolumeTaskRequest,
-) => effect.Effect<
+export const createReplaceRootVolumeTask: API.OperationMethod<
+  CreateReplaceRootVolumeTaskRequest,
   CreateReplaceRootVolumeTaskResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74466,9 +74351,8 @@ export const createReplaceRootVolumeTask: (
  * For more information, see Sell in the Reserved Instance
  * Marketplace in the *Amazon EC2 User Guide*.
  */
-export const createReservedInstancesListing: (
-  input: CreateReservedInstancesListingRequest,
-) => effect.Effect<
+export const createReservedInstancesListing: API.OperationMethod<
+  CreateReservedInstancesListingRequest,
   CreateReservedInstancesListingResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74487,9 +74371,8 @@ export const createReservedInstancesListing: (
  * For more information, see Store and restore an AMI using
  * S3 in the *Amazon EC2 User Guide*.
  */
-export const createRestoreImageTask: (
-  input: CreateRestoreImageTaskRequest,
-) => effect.Effect<
+export const createRestoreImageTask: API.OperationMethod<
+  CreateRestoreImageTaskRequest,
   CreateRestoreImageTaskResult,
   RequestLimitExceeded | InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74519,9 +74402,8 @@ export const createRestoreImageTask: (
  * For more information about route tables, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const createRoute: (
-  input: CreateRouteRequest,
-) => effect.Effect<
+export const createRoute: API.OperationMethod<
+  CreateRouteRequest,
   CreateRouteResult,
   | RequestLimitExceeded
   | InvalidGatewayIDNotFound
@@ -74567,9 +74449,8 @@ export const createRoute: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const createRouteServer: (
-  input: CreateRouteServerRequest,
-) => effect.Effect<
+export const createRouteServer: API.OperationMethod<
+  CreateRouteServerRequest,
   CreateRouteServerResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74585,9 +74466,8 @@ export const createRouteServer: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const createRouteServerEndpoint: (
-  input: CreateRouteServerEndpointRequest,
-) => effect.Effect<
+export const createRouteServerEndpoint: API.OperationMethod<
+  CreateRouteServerEndpointRequest,
   CreateRouteServerEndpointResult,
   | RequestLimitExceeded
   | InvalidRouteServerIdNotAssociated
@@ -74620,9 +74500,8 @@ export const createRouteServerEndpoint: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const createRouteServerPeer: (
-  input: CreateRouteServerPeerRequest,
-) => effect.Effect<
+export const createRouteServerPeer: API.OperationMethod<
+  CreateRouteServerPeerRequest,
   CreateRouteServerPeerResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74637,9 +74516,8 @@ export const createRouteServerPeer: (
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const createRouteTable: (
-  input: CreateRouteTableRequest,
-) => effect.Effect<
+export const createRouteTable: API.OperationMethod<
+  CreateRouteTableRequest,
   CreateRouteTableResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -74662,9 +74540,8 @@ export const createRouteTable: (
  *
  * The allowed size for a secondary network CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses).
  */
-export const createSecondaryNetwork: (
-  input: CreateSecondaryNetworkRequest,
-) => effect.Effect<
+export const createSecondaryNetwork: API.OperationMethod<
+  CreateSecondaryNetworkRequest,
   CreateSecondaryNetworkResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74680,9 +74557,8 @@ export const createSecondaryNetwork: (
  *
  * The allowed size for a secondary subnet CIDR block is between /28 netmask (16 IP addresses) and /12 netmask (1,048,576 IP addresses). Amazon reserves the first four IP addresses and the last IP address in each secondary subnet for internal use.
  */
-export const createSecondarySubnet: (
-  input: CreateSecondarySubnetRequest,
-) => effect.Effect<
+export const createSecondarySubnet: API.OperationMethod<
+  CreateSecondarySubnetRequest,
   CreateSecondarySubnetResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74717,9 +74593,8 @@ export const createSecondarySubnet: (
  *
  * For more information about VPC security group limits, see Amazon VPC Limits.
  */
-export const createSecurityGroup: (
-  input: CreateSecurityGroupRequest,
-) => effect.Effect<
+export const createSecurityGroup: API.OperationMethod<
+  CreateSecurityGroupRequest,
   CreateSecurityGroupResult,
   | RequestLimitExceeded
   | InvalidGroupDuplicate
@@ -74779,9 +74654,8 @@ export const createSecurityGroup: (
  * and any associated snapshots always remain protected. For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const createSnapshot: (
-  input: CreateSnapshotRequest,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
   Snapshot,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -74817,9 +74691,8 @@ export const createSnapshot: (
  * - If the source instance is on an Outpost, you can create the snapshots on the same
  * Outpost or in its parent Amazon Web Services Region.
  */
-export const createSnapshots: (
-  input: CreateSnapshotsRequest,
-) => effect.Effect<
+export const createSnapshots: API.OperationMethod<
+  CreateSnapshotsRequest,
   CreateSnapshotsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74834,9 +74707,8 @@ export const createSnapshots: (
  * Spot Instance data feed
  * in the *Amazon EC2 User Guide*.
  */
-export const createSpotDatafeedSubscription: (
-  input: CreateSpotDatafeedSubscriptionRequest,
-) => effect.Effect<
+export const createSpotDatafeedSubscription: API.OperationMethod<
+  CreateSpotDatafeedSubscriptionRequest,
   CreateSpotDatafeedSubscriptionResult,
   RequestLimitExceeded | InaccessibleStorageLocation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74854,9 +74726,8 @@ export const createSpotDatafeedSubscription: (
  * For more information, see Store and restore an AMI using
  * S3 in the *Amazon EC2 User Guide*.
  */
-export const createStoreImageTask: (
-  input: CreateStoreImageTaskRequest,
-) => effect.Effect<
+export const createStoreImageTask: API.OperationMethod<
+  CreateStoreImageTaskRequest,
   CreateStoreImageTaskResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74890,9 +74761,8 @@ export const createStoreImageTask: (
  *
  * For more information, see Subnets in the *Amazon VPC User Guide*.
  */
-export const createSubnet: (
-  input: CreateSubnetRequest,
-) => effect.Effect<
+export const createSubnet: API.OperationMethod<
+  CreateSubnetRequest,
   CreateSubnetResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -74917,9 +74787,8 @@ export const createSubnet: (
  * in the *Amazon VPC User Guide* and Manage prefixes
  * for your network interfaces in the *Amazon EC2 User Guide*.
  */
-export const createSubnetCidrReservation: (
-  input: CreateSubnetCidrReservationRequest,
-) => effect.Effect<
+export const createSubnetCidrReservation: API.OperationMethod<
+  CreateSubnetCidrReservationRequest,
   CreateSubnetCidrReservationResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -74949,9 +74818,8 @@ export const createSubnetCidrReservation: (
  * resource-level permissions for Amazon EC2 API actions in the Amazon
  * Elastic Compute Cloud User Guide.
  */
-export const createTags: (
-  input: CreateTagsRequest,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsRequest,
   CreateTagsResponse,
   RequestLimitExceeded | InvalidID | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74969,9 +74837,8 @@ export const createTags: (
  * to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored.
  * You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
  */
-export const createTrafficMirrorFilter: (
-  input: CreateTrafficMirrorFilterRequest,
-) => effect.Effect<
+export const createTrafficMirrorFilter: API.OperationMethod<
+  CreateTrafficMirrorFilterRequest,
   CreateTrafficMirrorFilterResult,
   RequestLimitExceeded | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -74987,9 +74854,8 @@ export const createTrafficMirrorFilter: (
  *
  * You need the Traffic Mirror filter ID when you create the rule.
  */
-export const createTrafficMirrorFilterRule: (
-  input: CreateTrafficMirrorFilterRuleRequest,
-) => effect.Effect<
+export const createTrafficMirrorFilterRule: API.OperationMethod<
+  CreateTrafficMirrorFilterRuleRequest,
   CreateTrafficMirrorFilterRuleResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75010,9 +74876,8 @@ export const createTrafficMirrorFilterRule: (
  * By default, no traffic is mirrored. Use CreateTrafficMirrorFilter to
  * create filter rules that specify the traffic to mirror.
  */
-export const createTrafficMirrorSession: (
-  input: CreateTrafficMirrorSessionRequest,
-) => effect.Effect<
+export const createTrafficMirrorSession: API.OperationMethod<
+  CreateTrafficMirrorSessionRequest,
   CreateTrafficMirrorSessionResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -75041,9 +74906,8 @@ export const createTrafficMirrorSession: (
  *
  * To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession.
  */
-export const createTrafficMirrorTarget: (
-  input: CreateTrafficMirrorTargetRequest,
-) => effect.Effect<
+export const createTrafficMirrorTarget: API.OperationMethod<
+  CreateTrafficMirrorTargetRequest,
   CreateTrafficMirrorTargetResult,
   RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75071,9 +74935,8 @@ export const createTrafficMirrorTarget: (
  * You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource
  * attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
  */
-export const createTransitGateway: (
-  input: CreateTransitGatewayRequest,
-) => effect.Effect<
+export const createTransitGateway: API.OperationMethod<
+  CreateTransitGatewayRequest,
   CreateTransitGatewayResult,
   | RequestLimitExceeded
   | ParseError
@@ -75090,9 +74953,8 @@ export const createTransitGateway: (
  *
  * A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism.
  */
-export const createTransitGatewayConnect: (
-  input: CreateTransitGatewayConnectRequest,
-) => effect.Effect<
+export const createTransitGatewayConnect: API.OperationMethod<
+  CreateTransitGatewayConnectRequest,
   CreateTransitGatewayConnectResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75110,9 +74972,8 @@ export const createTransitGatewayConnect: (
  * For more information, see Connect peers
  * in the *Amazon Web Services Transit Gateways Guide*.
  */
-export const createTransitGatewayConnectPeer: (
-  input: CreateTransitGatewayConnectPeerRequest,
-) => effect.Effect<
+export const createTransitGatewayConnectPeer: API.OperationMethod<
+  CreateTransitGatewayConnectPeerRequest,
   CreateTransitGatewayConnectPeerResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75124,9 +74985,8 @@ export const createTransitGatewayConnectPeer: (
 /**
  * Creates a metering policy for a transit gateway to track and measure network traffic.
  */
-export const createTransitGatewayMeteringPolicy: (
-  input: CreateTransitGatewayMeteringPolicyRequest,
-) => effect.Effect<
+export const createTransitGatewayMeteringPolicy: API.OperationMethod<
+  CreateTransitGatewayMeteringPolicyRequest,
   CreateTransitGatewayMeteringPolicyResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -75147,9 +75007,8 @@ export const createTransitGatewayMeteringPolicy: (
 /**
  * Creates an entry in a transit gateway metering policy to define traffic measurement rules.
  */
-export const createTransitGatewayMeteringPolicyEntry: (
-  input: CreateTransitGatewayMeteringPolicyEntryRequest,
-) => effect.Effect<
+export const createTransitGatewayMeteringPolicyEntry: API.OperationMethod<
+  CreateTransitGatewayMeteringPolicyEntryRequest,
   CreateTransitGatewayMeteringPolicyEntryResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75163,9 +75022,8 @@ export const createTransitGatewayMeteringPolicyEntry: (
  *
  * The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway.
  */
-export const createTransitGatewayMulticastDomain: (
-  input: CreateTransitGatewayMulticastDomainRequest,
-) => effect.Effect<
+export const createTransitGatewayMulticastDomain: API.OperationMethod<
+  CreateTransitGatewayMulticastDomainRequest,
   CreateTransitGatewayMulticastDomainResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -75193,9 +75051,8 @@ export const createTransitGatewayMulticastDomain: (
  * After you create the peering attachment, the owner of the accepter transit gateway
  * must accept the attachment request.
  */
-export const createTransitGatewayPeeringAttachment: (
-  input: CreateTransitGatewayPeeringAttachmentRequest,
-) => effect.Effect<
+export const createTransitGatewayPeeringAttachment: API.OperationMethod<
+  CreateTransitGatewayPeeringAttachmentRequest,
   CreateTransitGatewayPeeringAttachmentResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -75216,9 +75073,8 @@ export const createTransitGatewayPeeringAttachment: (
 /**
  * Creates a transit gateway policy table.
  */
-export const createTransitGatewayPolicyTable: (
-  input: CreateTransitGatewayPolicyTableRequest,
-) => effect.Effect<
+export const createTransitGatewayPolicyTable: API.OperationMethod<
+  CreateTransitGatewayPolicyTableRequest,
   CreateTransitGatewayPolicyTableResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -75239,9 +75095,8 @@ export const createTransitGatewayPolicyTable: (
 /**
  * Creates a reference (route) to a prefix list in a specified transit gateway route table.
  */
-export const createTransitGatewayPrefixListReference: (
-  input: CreateTransitGatewayPrefixListReferenceRequest,
-) => effect.Effect<
+export const createTransitGatewayPrefixListReference: API.OperationMethod<
+  CreateTransitGatewayPrefixListReferenceRequest,
   CreateTransitGatewayPrefixListReferenceResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75253,9 +75108,8 @@ export const createTransitGatewayPrefixListReference: (
 /**
  * Creates a static route for the specified transit gateway route table.
  */
-export const createTransitGatewayRoute: (
-  input: CreateTransitGatewayRouteRequest,
-) => effect.Effect<
+export const createTransitGatewayRoute: API.OperationMethod<
+  CreateTransitGatewayRouteRequest,
   CreateTransitGatewayRouteResult,
   | RequestLimitExceeded
   | InvalidRouteTableIDNotFound
@@ -75270,9 +75124,8 @@ export const createTransitGatewayRoute: (
 /**
  * Creates a route table for the specified transit gateway.
  */
-export const createTransitGatewayRouteTable: (
-  input: CreateTransitGatewayRouteTableRequest,
-) => effect.Effect<
+export const createTransitGatewayRouteTable: API.OperationMethod<
+  CreateTransitGatewayRouteTableRequest,
   CreateTransitGatewayRouteTableResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -75295,9 +75148,8 @@ export const createTransitGatewayRouteTable: (
 /**
  * Advertises a new transit gateway route table.
  */
-export const createTransitGatewayRouteTableAnnouncement: (
-  input: CreateTransitGatewayRouteTableAnnouncementRequest,
-) => effect.Effect<
+export const createTransitGatewayRouteTableAnnouncement: API.OperationMethod<
+  CreateTransitGatewayRouteTableAnnouncementRequest,
   CreateTransitGatewayRouteTableAnnouncementResult,
   | RequestLimitExceeded
   | InvalidRouteTableIDNotFound
@@ -75323,9 +75175,8 @@ export const createTransitGatewayRouteTableAnnouncement: (
  *
  * To send VPC traffic to an attached transit gateway, add a route to the VPC route table using CreateRoute.
  */
-export const createTransitGatewayVpcAttachment: (
-  input: CreateTransitGatewayVpcAttachmentRequest,
-) => effect.Effect<
+export const createTransitGatewayVpcAttachment: API.OperationMethod<
+  CreateTransitGatewayVpcAttachmentRequest,
   CreateTransitGatewayVpcAttachmentResult,
   | RequestLimitExceeded
   | InvalidSubnetIDNotFound
@@ -75346,9 +75197,8 @@ export const createTransitGatewayVpcAttachment: (
 /**
  * An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
  */
-export const createVerifiedAccessEndpoint: (
-  input: CreateVerifiedAccessEndpointRequest,
-) => effect.Effect<
+export const createVerifiedAccessEndpoint: API.OperationMethod<
+  CreateVerifiedAccessEndpointRequest,
   CreateVerifiedAccessEndpointResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75363,9 +75213,8 @@ export const createVerifiedAccessEndpoint: (
  * example, you can group all Verified Access instances associated with "sales" applications together and
  * use one common Verified Access policy.
  */
-export const createVerifiedAccessGroup: (
-  input: CreateVerifiedAccessGroupRequest,
-) => effect.Effect<
+export const createVerifiedAccessGroup: API.OperationMethod<
+  CreateVerifiedAccessGroupRequest,
   CreateVerifiedAccessGroupResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -75387,9 +75236,8 @@ export const createVerifiedAccessGroup: (
  * An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants
  * access only when your security requirements are met.
  */
-export const createVerifiedAccessInstance: (
-  input: CreateVerifiedAccessInstanceRequest,
-) => effect.Effect<
+export const createVerifiedAccessInstance: API.OperationMethod<
+  CreateVerifiedAccessInstanceRequest,
   CreateVerifiedAccessInstanceResult,
   | RequestLimitExceeded
   | ParseError
@@ -75411,9 +75259,8 @@ export const createVerifiedAccessInstance: (
  * information sent by the trust provider is evaluated by Verified Access before allowing or
  * denying the application request.
  */
-export const createVerifiedAccessTrustProvider: (
-  input: CreateVerifiedAccessTrustProviderRequest,
-) => effect.Effect<
+export const createVerifiedAccessTrustProvider: API.OperationMethod<
+  CreateVerifiedAccessTrustProviderRequest,
   CreateVerifiedAccessTrustProviderResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75439,9 +75286,8 @@ export const createVerifiedAccessTrustProvider: (
  * For more information, see Create an Amazon EBS volume in the
  * *Amazon EBS User Guide*.
  */
-export const createVolume: (
-  input: CreateVolumeRequest,
-) => effect.Effect<
+export const createVolume: API.OperationMethod<
+  CreateVolumeRequest,
   Volume,
   RequestLimitExceeded | InvalidZoneNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75468,9 +75314,8 @@ export const createVolume: (
  * the tenancy of a VPC after you create it. For more information, see VPC configuration options in the
  * *Amazon VPC User Guide*.
  */
-export const createVpc: (
-  input: CreateVpcRequest,
-) => effect.Effect<
+export const createVpc: API.OperationMethod<
+  CreateVpcRequest,
   CreateVpcResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -75493,9 +75338,8 @@ export const createVpc: (
 /**
  * Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const createVpcBlockPublicAccessExclusion: (
-  input: CreateVpcBlockPublicAccessExclusionRequest,
-) => effect.Effect<
+export const createVpcBlockPublicAccessExclusion: API.OperationMethod<
+  CreateVpcBlockPublicAccessExclusionRequest,
   CreateVpcBlockPublicAccessExclusionResult,
   | RequestLimitExceeded
   | InvalidVpcIdMalformed
@@ -75512,9 +75356,8 @@ export const createVpcBlockPublicAccessExclusion: (
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const createVpcEncryptionControl: (
-  input: CreateVpcEncryptionControlRequest,
-) => effect.Effect<
+export const createVpcEncryptionControl: API.OperationMethod<
+  CreateVpcEncryptionControlRequest,
   CreateVpcEncryptionControlResult,
   | RequestLimitExceeded
   | InvalidVpcIdMalformed
@@ -75532,9 +75375,8 @@ export const createVpcEncryptionControl: (
  * provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another
  * Amazon Web Services account. For more information, see the Amazon Web Services PrivateLink User Guide.
  */
-export const createVpcEndpoint: (
-  input: CreateVpcEndpointRequest,
-) => effect.Effect<
+export const createVpcEndpoint: API.OperationMethod<
+  CreateVpcEndpointRequest,
   CreateVpcEndpointResult,
   | RequestLimitExceeded
   | InvalidParameter
@@ -75564,9 +75406,8 @@ export const createVpcEndpoint: (
  *
  * You can create a connection notification for interface endpoints only.
  */
-export const createVpcEndpointConnectionNotification: (
-  input: CreateVpcEndpointConnectionNotificationRequest,
-) => effect.Effect<
+export const createVpcEndpointConnectionNotification: API.OperationMethod<
+  CreateVpcEndpointConnectionNotificationRequest,
   CreateVpcEndpointConnectionNotificationResult,
   RequestLimitExceeded | InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75593,9 +75434,8 @@ export const createVpcEndpointConnectionNotification: (
  * For more information, see the Amazon Web Services PrivateLink
  * Guide.
  */
-export const createVpcEndpointServiceConfiguration: (
-  input: CreateVpcEndpointServiceConfigurationRequest,
-) => effect.Effect<
+export const createVpcEndpointServiceConfiguration: API.OperationMethod<
+  CreateVpcEndpointServiceConfigurationRequest,
   CreateVpcEndpointServiceConfigurationResult,
   RequestLimitExceeded | InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75620,9 +75460,8 @@ export const createVpcEndpointServiceConfiguration: (
  * If you create a VPC peering connection request between VPCs with overlapping CIDR
  * blocks, the VPC peering connection has a status of `failed`.
  */
-export const createVpcPeeringConnection: (
-  input: CreateVpcPeeringConnectionRequest,
-) => effect.Effect<
+export const createVpcPeeringConnection: API.OperationMethod<
+  CreateVpcPeeringConnectionRequest,
   CreateVpcPeeringConnectionResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -75645,9 +75484,8 @@ export const createVpcPeeringConnection: (
 /**
  * Creates a VPN concentrator that aggregates multiple VPN connections to a transit gateway.
  */
-export const createVpnConcentrator: (
-  input: CreateVpnConcentratorRequest,
-) => effect.Effect<
+export const createVpnConcentrator: API.OperationMethod<
+  CreateVpnConcentratorRequest,
   CreateVpnConcentratorResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75678,9 +75516,8 @@ export const createVpnConcentrator: (
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const createVpnConnection: (
-  input: CreateVpnConnectionRequest,
-) => effect.Effect<
+export const createVpnConnection: API.OperationMethod<
+  CreateVpnConnectionRequest,
   CreateVpnConnectionResult,
   | RequestLimitExceeded
   | InvalidCustomerGatewayIDNotFound
@@ -75708,9 +75545,8 @@ export const createVpnConnection: (
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const createVpnConnectionRoute: (
-  input: CreateVpnConnectionRouteRequest,
-) => effect.Effect<
+export const createVpnConnectionRoute: API.OperationMethod<
+  CreateVpnConnectionRouteRequest,
   CreateVpnConnectionRouteResponse,
   RequestLimitExceeded | InvalidParameter | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75727,9 +75563,8 @@ export const createVpnConnectionRoute: (
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const createVpnGateway: (
-  input: CreateVpnGatewayRequest,
-) => effect.Effect<
+export const createVpnGateway: API.OperationMethod<
+  CreateVpnGatewayRequest,
   CreateVpnGatewayResult,
   RequestLimitExceeded | MissingParameter | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75741,9 +75576,8 @@ export const createVpnGateway: (
 /**
  * Deletes an existing Capacity Manager data export configuration. This stops future scheduled exports but does not delete previously exported files from S3.
  */
-export const deleteCapacityManagerDataExport: (
-  input: DeleteCapacityManagerDataExportRequest,
-) => effect.Effect<
+export const deleteCapacityManagerDataExport: API.OperationMethod<
+  DeleteCapacityManagerDataExportRequest,
   DeleteCapacityManagerDataExportResult,
   | RequestLimitExceeded
   | InvalidCapacityManagerDataExportIdMalformed
@@ -75766,9 +75600,8 @@ export const deleteCapacityManagerDataExport: (
  * Target, the route is a blackhole route. For information about how to delete a route, see
  * DeleteRoute.
  */
-export const deleteCarrierGateway: (
-  input: DeleteCarrierGatewayRequest,
-) => effect.Effect<
+export const deleteCarrierGateway: API.OperationMethod<
+  DeleteCarrierGatewayRequest,
   DeleteCarrierGatewayResult,
   | RequestLimitExceeded
   | InvalidCarrierGatewayIDMalformed
@@ -75790,9 +75623,8 @@ export const deleteCarrierGateway: (
  * Deletes the specified Client VPN endpoint. You must disassociate all target networks before you
  * can delete a Client VPN endpoint.
  */
-export const deleteClientVpnEndpoint: (
-  input: DeleteClientVpnEndpointRequest,
-) => effect.Effect<
+export const deleteClientVpnEndpoint: API.OperationMethod<
+  DeleteClientVpnEndpointRequest,
   DeleteClientVpnEndpointResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75807,9 +75639,8 @@ export const deleteClientVpnEndpoint: (
  * automatically added when associating a subnet. To remove routes that have been automatically added,
  * disassociate the target subnet from the Client VPN endpoint.
  */
-export const deleteClientVpnRoute: (
-  input: DeleteClientVpnRouteRequest,
-) => effect.Effect<
+export const deleteClientVpnRoute: API.OperationMethod<
+  DeleteClientVpnRouteRequest,
   DeleteClientVpnRouteResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -75821,9 +75652,8 @@ export const deleteClientVpnRoute: (
 /**
  * Deletes a range of customer-owned IP addresses.
  */
-export const deleteCoipCidr: (
-  input: DeleteCoipCidrRequest,
-) => effect.Effect<
+export const deleteCoipCidr: API.OperationMethod<
+  DeleteCoipCidrRequest,
   DeleteCoipCidrResult,
   | RequestLimitExceeded
   | InvalidCidrBlockMalformed
@@ -75844,9 +75674,8 @@ export const deleteCoipCidr: (
 /**
  * Deletes a pool of customer-owned IP (CoIP) addresses.
  */
-export const deleteCoipPool: (
-  input: DeleteCoipPoolRequest,
-) => effect.Effect<
+export const deleteCoipPool: API.OperationMethod<
+  DeleteCoipPoolRequest,
   DeleteCoipPoolResult,
   | RequestLimitExceeded
   | InvalidIpv4PoolCoipIdMalformed
@@ -75868,9 +75697,8 @@ export const deleteCoipPool: (
  * Deletes the specified customer gateway. You must delete the VPN connection before you
  * can delete the customer gateway.
  */
-export const deleteCustomerGateway: (
-  input: DeleteCustomerGatewayRequest,
-) => effect.Effect<
+export const deleteCustomerGateway: API.OperationMethod<
+  DeleteCustomerGatewayRequest,
   DeleteCustomerGatewayResponse,
   | RequestLimitExceeded
   | InvalidCustomerGatewayIDNotFound
@@ -75891,9 +75719,8 @@ export const deleteCustomerGateway: (
 /**
  * Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
  */
-export const deleteDhcpOptions: (
-  input: DeleteDhcpOptionsRequest,
-) => effect.Effect<
+export const deleteDhcpOptions: API.OperationMethod<
+  DeleteDhcpOptionsRequest,
   DeleteDhcpOptionsResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -75916,9 +75743,8 @@ export const deleteDhcpOptions: (
 /**
  * Deletes an egress-only internet gateway.
  */
-export const deleteEgressOnlyInternetGateway: (
-  input: DeleteEgressOnlyInternetGatewayRequest,
-) => effect.Effect<
+export const deleteEgressOnlyInternetGateway: API.OperationMethod<
+  DeleteEgressOnlyInternetGatewayRequest,
   DeleteEgressOnlyInternetGatewayResult,
   | DependencyViolation
   | DryRunOperation
@@ -75987,9 +75813,8 @@ export const deleteEgressOnlyInternetGateway: (
  * For more information, see Delete an EC2 Fleet request and the instances
  * in the fleet in the *Amazon EC2 User Guide*.
  */
-export const deleteFleets: (
-  input: DeleteFleetsRequest,
-) => effect.Effect<
+export const deleteFleets: API.OperationMethod<
+  DeleteFleetsRequest,
   DeleteFleetsResult,
   RequestLimitExceeded | InvalidFleetIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76001,9 +75826,8 @@ export const deleteFleets: (
 /**
  * Deletes one or more flow logs.
  */
-export const deleteFlowLogs: (
-  input: DeleteFlowLogsRequest,
-) => effect.Effect<
+export const deleteFlowLogs: API.OperationMethod<
+  DeleteFlowLogsRequest,
   DeleteFlowLogsResult,
   RequestLimitExceeded | InvalidFlowLogIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76015,9 +75839,8 @@ export const deleteFlowLogs: (
 /**
  * Deletes the specified Amazon FPGA Image (AFI).
  */
-export const deleteFpgaImage: (
-  input: DeleteFpgaImageRequest,
-) => effect.Effect<
+export const deleteFpgaImage: API.OperationMethod<
+  DeleteFpgaImageRequest,
   DeleteFpgaImageResult,
   RequestLimitExceeded | InvalidFpgaImageIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76032,9 +75855,8 @@ export const deleteFpgaImage: (
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const deleteImageUsageReport: (
-  input: DeleteImageUsageReportRequest,
-) => effect.Effect<
+export const deleteImageUsageReport: API.OperationMethod<
+  DeleteImageUsageReportRequest,
   DeleteImageUsageReportResult,
   | RequestLimitExceeded
   | InvalidImageUsageReportIdMalformed
@@ -76053,9 +75875,8 @@ export const deleteImageUsageReport: (
 /**
  * Deletes the specified EC2 Instance Connect Endpoint.
  */
-export const deleteInstanceConnectEndpoint: (
-  input: DeleteInstanceConnectEndpointRequest,
-) => effect.Effect<
+export const deleteInstanceConnectEndpoint: API.OperationMethod<
+  DeleteInstanceConnectEndpointRequest,
   DeleteInstanceConnectEndpointResult,
   | RequestLimitExceeded
   | InvalidInstanceConnectEndpointIdMalformed
@@ -76081,9 +75902,8 @@ export const deleteInstanceConnectEndpoint: (
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const deleteInstanceEventWindow: (
-  input: DeleteInstanceEventWindowRequest,
-) => effect.Effect<
+export const deleteInstanceEventWindow: API.OperationMethod<
+  DeleteInstanceEventWindowRequest,
   DeleteInstanceEventWindowResult,
   | RequestLimitExceeded
   | InvalidInstanceEventWindowIDNotFound
@@ -76103,9 +75923,8 @@ export const deleteInstanceEventWindow: (
  * Deletes the specified internet gateway. You must detach the internet gateway from the
  * VPC before you can delete it.
  */
-export const deleteInternetGateway: (
-  input: DeleteInternetGatewayRequest,
-) => effect.Effect<
+export const deleteInternetGateway: API.OperationMethod<
+  DeleteInternetGatewayRequest,
   DeleteInternetGatewayResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -76128,9 +75947,8 @@ export const deleteInternetGateway: (
  *
  * For more information, see Delete an IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpam: (
-  input: DeleteIpamRequest,
-) => effect.Effect<
+export const deleteIpam: API.OperationMethod<
+  DeleteIpamRequest,
   DeleteIpamResult,
   | RequestLimitExceeded
   | DependencyViolation
@@ -76153,9 +75971,8 @@ export const deleteIpam: (
  *
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
-export const deleteIpamExternalResourceVerificationToken: (
-  input: DeleteIpamExternalResourceVerificationTokenRequest,
-) => effect.Effect<
+export const deleteIpamExternalResourceVerificationToken: API.OperationMethod<
+  DeleteIpamExternalResourceVerificationTokenRequest,
   DeleteIpamExternalResourceVerificationTokenResult,
   | RequestLimitExceeded
   | InvalidIpamExternalResourceVerificationTokenIdMalformed
@@ -76178,9 +75995,8 @@ export const deleteIpamExternalResourceVerificationToken: (
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const deleteIpamPolicy: (
-  input: DeleteIpamPolicyRequest,
-) => effect.Effect<
+export const deleteIpamPolicy: API.OperationMethod<
+  DeleteIpamPolicyRequest,
   DeleteIpamPolicyResult,
   | RequestLimitExceeded
   | InvalidIpamPolicyIdMalformed
@@ -76207,9 +76023,8 @@ export const deleteIpamPolicy: (
  *
  * For more information, see Delete a pool in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpamPool: (
-  input: DeleteIpamPoolRequest,
-) => effect.Effect<
+export const deleteIpamPool: API.OperationMethod<
+  DeleteIpamPoolRequest,
   DeleteIpamPoolResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -76230,9 +76045,8 @@ export const deleteIpamPool: (
 /**
  * Deletes an IPAM prefix list resolver. Before deleting a resolver, you must first delete all resolver targets associated with it.
  */
-export const deleteIpamPrefixListResolver: (
-  input: DeleteIpamPrefixListResolverRequest,
-) => effect.Effect<
+export const deleteIpamPrefixListResolver: API.OperationMethod<
+  DeleteIpamPrefixListResolverRequest,
   DeleteIpamPrefixListResolverResult,
   | RequestLimitExceeded
   | InvalidIpamPrefixListResolverIdMalformed
@@ -76255,9 +76069,8 @@ export const deleteIpamPrefixListResolver: (
  *
  * For more information about IPAM prefix list resolver, see Automate prefix list updates with IPAM in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpamPrefixListResolverTarget: (
-  input: DeleteIpamPrefixListResolverTargetRequest,
-) => effect.Effect<
+export const deleteIpamPrefixListResolverTarget: API.OperationMethod<
+  DeleteIpamPrefixListResolverTargetRequest,
   DeleteIpamPrefixListResolverTargetResult,
   | RequestLimitExceeded
   | InvalidIpamPrefixListResolverTargetIdMalformed
@@ -76276,9 +76089,8 @@ export const deleteIpamPrefixListResolverTarget: (
 /**
  * Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const deleteIpamResourceDiscovery: (
-  input: DeleteIpamResourceDiscoveryRequest,
-) => effect.Effect<
+export const deleteIpamResourceDiscovery: API.OperationMethod<
+  DeleteIpamResourceDiscoveryRequest,
   DeleteIpamResourceDiscoveryResult,
   | RequestLimitExceeded
   | InvalidIpamResourceDiscoveryIdMalformed
@@ -76299,9 +76111,8 @@ export const deleteIpamResourceDiscovery: (
  *
  * For more information, see Delete a scope in the *Amazon VPC IPAM User Guide*.
  */
-export const deleteIpamScope: (
-  input: DeleteIpamScopeRequest,
-) => effect.Effect<
+export const deleteIpamScope: API.OperationMethod<
+  DeleteIpamScopeRequest,
   DeleteIpamScopeResult,
   | RequestLimitExceeded
   | DependencyViolation
@@ -76324,9 +76135,8 @@ export const deleteIpamScope: (
 /**
  * Deletes the specified key pair, by removing the public key from Amazon EC2.
  */
-export const deleteKeyPair: (
-  input: DeleteKeyPairRequest,
-) => effect.Effect<
+export const deleteKeyPair: API.OperationMethod<
+  DeleteKeyPairRequest,
   DeleteKeyPairResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76339,9 +76149,8 @@ export const deleteKeyPair: (
  * Deletes a launch template. Deleting a launch template deletes all of its
  * versions.
  */
-export const deleteLaunchTemplate: (
-  input: DeleteLaunchTemplateRequest,
-) => effect.Effect<
+export const deleteLaunchTemplate: API.OperationMethod<
+  DeleteLaunchTemplateRequest,
   DeleteLaunchTemplateResult,
   | RequestLimitExceeded
   | InvalidLaunchTemplateNameNotFoundException
@@ -76371,9 +76180,8 @@ export const deleteLaunchTemplate: (
  * For more information, see Delete a launch template version in the
  * *Amazon EC2 User Guide*.
  */
-export const deleteLaunchTemplateVersions: (
-  input: DeleteLaunchTemplateVersionsRequest,
-) => effect.Effect<
+export const deleteLaunchTemplateVersions: API.OperationMethod<
+  DeleteLaunchTemplateVersionsRequest,
   DeleteLaunchTemplateVersionsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76385,9 +76193,8 @@ export const deleteLaunchTemplateVersions: (
 /**
  * Deletes the specified route from the specified local gateway route table.
  */
-export const deleteLocalGatewayRoute: (
-  input: DeleteLocalGatewayRouteRequest,
-) => effect.Effect<
+export const deleteLocalGatewayRoute: API.OperationMethod<
+  DeleteLocalGatewayRouteRequest,
   DeleteLocalGatewayRouteResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76399,9 +76206,8 @@ export const deleteLocalGatewayRoute: (
 /**
  * Deletes a local gateway route table.
  */
-export const deleteLocalGatewayRouteTable: (
-  input: DeleteLocalGatewayRouteTableRequest,
-) => effect.Effect<
+export const deleteLocalGatewayRouteTable: API.OperationMethod<
+  DeleteLocalGatewayRouteTableRequest,
   DeleteLocalGatewayRouteTableResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayRouteTableIDNotFound
@@ -76420,9 +76226,8 @@ export const deleteLocalGatewayRouteTable: (
 /**
  * Deletes a local gateway route table virtual interface group association.
  */
-export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
-  input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
-) => effect.Effect<
+export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: API.OperationMethod<
+  DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
   DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationIDMalformed
@@ -76443,9 +76248,8 @@ export const deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
 /**
  * Deletes the specified association between a VPC and local gateway route table.
  */
-export const deleteLocalGatewayRouteTableVpcAssociation: (
-  input: DeleteLocalGatewayRouteTableVpcAssociationRequest,
-) => effect.Effect<
+export const deleteLocalGatewayRouteTableVpcAssociation: API.OperationMethod<
+  DeleteLocalGatewayRouteTableVpcAssociationRequest,
   DeleteLocalGatewayRouteTableVpcAssociationResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayRouteTableVpcAssociationIDMalformed
@@ -76466,9 +76270,8 @@ export const deleteLocalGatewayRouteTableVpcAssociation: (
 /**
  * Deletes the specified local gateway virtual interface.
  */
-export const deleteLocalGatewayVirtualInterface: (
-  input: DeleteLocalGatewayVirtualInterfaceRequest,
-) => effect.Effect<
+export const deleteLocalGatewayVirtualInterface: API.OperationMethod<
+  DeleteLocalGatewayVirtualInterfaceRequest,
   DeleteLocalGatewayVirtualInterfaceResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayVirtualInterfaceIDMalformed
@@ -76489,9 +76292,8 @@ export const deleteLocalGatewayVirtualInterface: (
 /**
  * Delete the specified local gateway interface group.
  */
-export const deleteLocalGatewayVirtualInterfaceGroup: (
-  input: DeleteLocalGatewayVirtualInterfaceGroupRequest,
-) => effect.Effect<
+export const deleteLocalGatewayVirtualInterfaceGroup: API.OperationMethod<
+  DeleteLocalGatewayVirtualInterfaceGroupRequest,
   DeleteLocalGatewayVirtualInterfaceGroupResult,
   | RequestLimitExceeded
   | InvalidLocalGatewayVirtualInterfaceGroupIDMalformed
@@ -76512,9 +76314,8 @@ export const deleteLocalGatewayVirtualInterfaceGroup: (
 /**
  * Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources.
  */
-export const deleteManagedPrefixList: (
-  input: DeleteManagedPrefixListRequest,
-) => effect.Effect<
+export const deleteManagedPrefixList: API.OperationMethod<
+  DeleteManagedPrefixListRequest,
   DeleteManagedPrefixListResult,
   | RequestLimitExceeded
   | InvalidPrefixListIDNotFound
@@ -76537,9 +76338,8 @@ export const deleteManagedPrefixList: (
  * but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway
  * routes in your route tables.
  */
-export const deleteNatGateway: (
-  input: DeleteNatGatewayRequest,
-) => effect.Effect<
+export const deleteNatGateway: API.OperationMethod<
+  DeleteNatGatewayRequest,
   DeleteNatGatewayResult,
   | RequestLimitExceeded
   | DryRunOperation
@@ -76564,9 +76364,8 @@ export const deleteNatGateway: (
 /**
  * Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
  */
-export const deleteNetworkAcl: (
-  input: DeleteNetworkAclRequest,
-) => effect.Effect<
+export const deleteNetworkAcl: API.OperationMethod<
+  DeleteNetworkAclRequest,
   DeleteNetworkAclResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -76593,9 +76392,8 @@ export const deleteNetworkAcl: (
 /**
  * Deletes the specified ingress or egress entry (rule) from the specified network ACL.
  */
-export const deleteNetworkAclEntry: (
-  input: DeleteNetworkAclEntryRequest,
-) => effect.Effect<
+export const deleteNetworkAclEntry: API.OperationMethod<
+  DeleteNetworkAclEntryRequest,
   DeleteNetworkAclEntryResponse,
   | RequestLimitExceeded
   | InvalidNetworkAclEntryNotFound
@@ -76618,9 +76416,8 @@ export const deleteNetworkAclEntry: (
 /**
  * Deletes the specified Network Access Scope.
  */
-export const deleteNetworkInsightsAccessScope: (
-  input: DeleteNetworkInsightsAccessScopeRequest,
-) => effect.Effect<
+export const deleteNetworkInsightsAccessScope: API.OperationMethod<
+  DeleteNetworkInsightsAccessScopeRequest,
   DeleteNetworkInsightsAccessScopeResult,
   | RequestLimitExceeded
   | InvalidNetworkInsightsAccessScopeIdNotFound
@@ -76639,9 +76436,8 @@ export const deleteNetworkInsightsAccessScope: (
 /**
  * Deletes the specified Network Access Scope analysis.
  */
-export const deleteNetworkInsightsAccessScopeAnalysis: (
-  input: DeleteNetworkInsightsAccessScopeAnalysisRequest,
-) => effect.Effect<
+export const deleteNetworkInsightsAccessScopeAnalysis: API.OperationMethod<
+  DeleteNetworkInsightsAccessScopeAnalysisRequest,
   DeleteNetworkInsightsAccessScopeAnalysisResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -76656,9 +76452,8 @@ export const deleteNetworkInsightsAccessScopeAnalysis: (
 /**
  * Deletes the specified network insights analysis.
  */
-export const deleteNetworkInsightsAnalysis: (
-  input: DeleteNetworkInsightsAnalysisRequest,
-) => effect.Effect<
+export const deleteNetworkInsightsAnalysis: API.OperationMethod<
+  DeleteNetworkInsightsAnalysisRequest,
   DeleteNetworkInsightsAnalysisResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -76673,9 +76468,8 @@ export const deleteNetworkInsightsAnalysis: (
 /**
  * Deletes the specified path.
  */
-export const deleteNetworkInsightsPath: (
-  input: DeleteNetworkInsightsPathRequest,
-) => effect.Effect<
+export const deleteNetworkInsightsPath: API.OperationMethod<
+  DeleteNetworkInsightsPathRequest,
   DeleteNetworkInsightsPathResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -76691,9 +76485,8 @@ export const deleteNetworkInsightsPath: (
  * Deletes the specified network interface. You must detach the network interface before
  * you can delete it.
  */
-export const deleteNetworkInterface: (
-  input: DeleteNetworkInterfaceRequest,
-) => effect.Effect<
+export const deleteNetworkInterface: API.OperationMethod<
+  DeleteNetworkInterfaceRequest,
   DeleteNetworkInterfaceResponse,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceInUse
@@ -76721,9 +76514,8 @@ export const deleteNetworkInterface: (
  * network interface to an instance. However, you can force delete the permission,
  * regardless of any attachment.
  */
-export const deleteNetworkInterfacePermission: (
-  input: DeleteNetworkInterfacePermissionRequest,
-) => effect.Effect<
+export const deleteNetworkInterfacePermission: API.OperationMethod<
+  DeleteNetworkInterfacePermissionRequest,
   DeleteNetworkInterfacePermissionResult,
   | RequestLimitExceeded
   | InvalidPermissionIDMalformed
@@ -76746,9 +76538,8 @@ export const deleteNetworkInterfacePermission: (
  * placement group before you can delete the placement group. For more information, see
  * Placement groups in the *Amazon EC2 User Guide*.
  */
-export const deletePlacementGroup: (
-  input: DeletePlacementGroupRequest,
-) => effect.Effect<
+export const deletePlacementGroup: API.OperationMethod<
+  DeletePlacementGroupRequest,
   DeletePlacementGroupResponse,
   RequestLimitExceeded | InvalidPlacementGroupUnknown | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76760,9 +76551,8 @@ export const deletePlacementGroup: (
 /**
  * Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only.
  */
-export const deletePublicIpv4Pool: (
-  input: DeletePublicIpv4PoolRequest,
-) => effect.Effect<
+export const deletePublicIpv4Pool: API.OperationMethod<
+  DeletePublicIpv4PoolRequest,
   DeletePublicIpv4PoolResult,
   | RequestLimitExceeded
   | InvalidPublicIpv4PoolNotFound
@@ -76781,9 +76571,8 @@ export const deletePublicIpv4Pool: (
 /**
  * Deletes the queued purchases for the specified Reserved Instances.
  */
-export const deleteQueuedReservedInstances: (
-  input: DeleteQueuedReservedInstancesRequest,
-) => effect.Effect<
+export const deleteQueuedReservedInstances: API.OperationMethod<
+  DeleteQueuedReservedInstancesRequest,
   DeleteQueuedReservedInstancesResult,
   RequestLimitExceeded | InvalidReservedInstancesIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76795,9 +76584,8 @@ export const deleteQueuedReservedInstances: (
 /**
  * Deletes the specified route from the specified route table.
  */
-export const deleteRoute: (
-  input: DeleteRouteRequest,
-) => effect.Effect<
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteRequest,
   DeleteRouteResponse,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -76839,9 +76627,8 @@ export const deleteRoute: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const deleteRouteServer: (
-  input: DeleteRouteServerRequest,
-) => effect.Effect<
+export const deleteRouteServer: API.OperationMethod<
+  DeleteRouteServerRequest,
   DeleteRouteServerResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -76858,9 +76645,8 @@ export const deleteRouteServer: (
  *
  * A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers.
  */
-export const deleteRouteServerEndpoint: (
-  input: DeleteRouteServerEndpointRequest,
-) => effect.Effect<
+export const deleteRouteServerEndpoint: API.OperationMethod<
+  DeleteRouteServerEndpointRequest,
   DeleteRouteServerEndpointResult,
   | RequestLimitExceeded
   | InvalidRouteServerEndpointIdNotFound
@@ -76887,9 +76673,8 @@ export const deleteRouteServerEndpoint: (
  *
  * - Can initiate BGP sessions
  */
-export const deleteRouteServerPeer: (
-  input: DeleteRouteServerPeerRequest,
-) => effect.Effect<
+export const deleteRouteServerPeer: API.OperationMethod<
+  DeleteRouteServerPeerRequest,
   DeleteRouteServerPeerResult,
   | RequestLimitExceeded
   | InvalidRouteServerPeerIdMalformed
@@ -76910,9 +76695,8 @@ export const deleteRouteServerPeer: (
 /**
  * Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
  */
-export const deleteRouteTable: (
-  input: DeleteRouteTableRequest,
-) => effect.Effect<
+export const deleteRouteTable: API.OperationMethod<
+  DeleteRouteTableRequest,
   DeleteRouteTableResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -76933,9 +76717,8 @@ export const deleteRouteTable: (
 /**
  * Deletes a secondary network. You must delete all secondary subnets in the secondary network before you can delete the secondary network.
  */
-export const deleteSecondaryNetwork: (
-  input: DeleteSecondaryNetworkRequest,
-) => effect.Effect<
+export const deleteSecondaryNetwork: API.OperationMethod<
+  DeleteSecondaryNetworkRequest,
   DeleteSecondaryNetworkResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76947,9 +76730,8 @@ export const deleteSecondaryNetwork: (
 /**
  * Deletes a secondary subnet. A secondary subnet must not contain any secondary interfaces prior to deletion.
  */
-export const deleteSecondarySubnet: (
-  input: DeleteSecondarySubnetRequest,
-) => effect.Effect<
+export const deleteSecondarySubnet: API.OperationMethod<
+  DeleteSecondarySubnetRequest,
   DeleteSecondarySubnetResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -76965,9 +76747,8 @@ export const deleteSecondarySubnet: (
  * referenced by another security group in the same VPC, or has a VPC association, the operation fails with
  * `DependencyViolation`.
  */
-export const deleteSecurityGroup: (
-  input: DeleteSecurityGroupRequest,
-) => effect.Effect<
+export const deleteSecurityGroup: API.OperationMethod<
+  DeleteSecurityGroupRequest,
   DeleteSecurityGroupResult,
   | RequestLimitExceeded
   | CannotDelete
@@ -77006,9 +76787,8 @@ export const deleteSecurityGroup: (
  * For more information, see Delete an Amazon EBS snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const deleteSnapshot: (
-  input: DeleteSnapshotRequest,
-) => effect.Effect<
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotRequest,
   DeleteSnapshotResponse,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77029,9 +76809,8 @@ export const deleteSnapshot: (
 /**
  * Deletes the data feed for Spot Instances.
  */
-export const deleteSpotDatafeedSubscription: (
-  input: DeleteSpotDatafeedSubscriptionRequest,
-) => effect.Effect<
+export const deleteSpotDatafeedSubscription: API.OperationMethod<
+  DeleteSpotDatafeedSubscriptionRequest,
   DeleteSpotDatafeedSubscriptionResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77043,9 +76822,8 @@ export const deleteSpotDatafeedSubscription: (
 /**
  * Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
  */
-export const deleteSubnet: (
-  input: DeleteSubnetRequest,
-) => effect.Effect<
+export const deleteSubnet: API.OperationMethod<
+  DeleteSubnetRequest,
   DeleteSubnetResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -77068,9 +76846,8 @@ export const deleteSubnet: (
 /**
  * Deletes a subnet CIDR reservation.
  */
-export const deleteSubnetCidrReservation: (
-  input: DeleteSubnetCidrReservationRequest,
-) => effect.Effect<
+export const deleteSubnetCidrReservation: API.OperationMethod<
+  DeleteSubnetCidrReservationRequest,
   DeleteSubnetCidrReservationResult,
   | RequestLimitExceeded
   | InvalidSubnetCidrReservationIDMalformed
@@ -77096,9 +76873,8 @@ export const deleteSubnetCidrReservation: (
  * your Amazon EC2 resources in the Amazon Elastic Compute Cloud User
  * Guide.
  */
-export const deleteTags: (
-  input: DeleteTagsRequest,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsRequest,
   DeleteTagsResponse,
   RequestLimitExceeded | InvalidID | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77112,9 +76888,8 @@ export const deleteTags: (
  *
  * You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
  */
-export const deleteTrafficMirrorFilter: (
-  input: DeleteTrafficMirrorFilterRequest,
-) => effect.Effect<
+export const deleteTrafficMirrorFilter: API.OperationMethod<
+  DeleteTrafficMirrorFilterRequest,
   DeleteTrafficMirrorFilterResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77133,9 +76908,8 @@ export const deleteTrafficMirrorFilter: (
 /**
  * Deletes the specified Traffic Mirror rule.
  */
-export const deleteTrafficMirrorFilterRule: (
-  input: DeleteTrafficMirrorFilterRuleRequest,
-) => effect.Effect<
+export const deleteTrafficMirrorFilterRule: API.OperationMethod<
+  DeleteTrafficMirrorFilterRuleRequest,
   DeleteTrafficMirrorFilterRuleResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77156,9 +76930,8 @@ export const deleteTrafficMirrorFilterRule: (
 /**
  * Deletes the specified Traffic Mirror session.
  */
-export const deleteTrafficMirrorSession: (
-  input: DeleteTrafficMirrorSessionRequest,
-) => effect.Effect<
+export const deleteTrafficMirrorSession: API.OperationMethod<
+  DeleteTrafficMirrorSessionRequest,
   DeleteTrafficMirrorSessionResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77181,9 +76954,8 @@ export const deleteTrafficMirrorSession: (
  *
  * You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
  */
-export const deleteTrafficMirrorTarget: (
-  input: DeleteTrafficMirrorTargetRequest,
-) => effect.Effect<
+export const deleteTrafficMirrorTarget: API.OperationMethod<
+  DeleteTrafficMirrorTargetRequest,
   DeleteTrafficMirrorTargetResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77204,9 +76976,8 @@ export const deleteTrafficMirrorTarget: (
 /**
  * Deletes the specified transit gateway.
  */
-export const deleteTransitGateway: (
-  input: DeleteTransitGatewayRequest,
-) => effect.Effect<
+export const deleteTransitGateway: API.OperationMethod<
+  DeleteTransitGatewayRequest,
   DeleteTransitGatewayResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -77232,9 +77003,8 @@ export const deleteTransitGateway: (
  * Deletes the specified Connect attachment. You must first delete any Connect peers for
  * the attachment.
  */
-export const deleteTransitGatewayConnect: (
-  input: DeleteTransitGatewayConnectRequest,
-) => effect.Effect<
+export const deleteTransitGatewayConnect: API.OperationMethod<
+  DeleteTransitGatewayConnectRequest,
   DeleteTransitGatewayConnectResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -77248,9 +77018,8 @@ export const deleteTransitGatewayConnect: (
 /**
  * Deletes the specified Connect peer.
  */
-export const deleteTransitGatewayConnectPeer: (
-  input: DeleteTransitGatewayConnectPeerRequest,
-) => effect.Effect<
+export const deleteTransitGatewayConnectPeer: API.OperationMethod<
+  DeleteTransitGatewayConnectPeerRequest,
   DeleteTransitGatewayConnectPeerResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayConnectPeerIDMalformed
@@ -77269,9 +77038,8 @@ export const deleteTransitGatewayConnectPeer: (
 /**
  * Deletes a transit gateway metering policy.
  */
-export const deleteTransitGatewayMeteringPolicy: (
-  input: DeleteTransitGatewayMeteringPolicyRequest,
-) => effect.Effect<
+export const deleteTransitGatewayMeteringPolicy: API.OperationMethod<
+  DeleteTransitGatewayMeteringPolicyRequest,
   DeleteTransitGatewayMeteringPolicyResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMeteringPolicyIdNotFound
@@ -77292,9 +77060,8 @@ export const deleteTransitGatewayMeteringPolicy: (
 /**
  * Deletes an entry from a transit gateway metering policy.
  */
-export const deleteTransitGatewayMeteringPolicyEntry: (
-  input: DeleteTransitGatewayMeteringPolicyEntryRequest,
-) => effect.Effect<
+export const deleteTransitGatewayMeteringPolicyEntry: API.OperationMethod<
+  DeleteTransitGatewayMeteringPolicyEntryRequest,
   DeleteTransitGatewayMeteringPolicyEntryResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMeteringPolicyIdNotFound
@@ -77315,9 +77082,8 @@ export const deleteTransitGatewayMeteringPolicyEntry: (
 /**
  * Deletes the specified transit gateway multicast domain.
  */
-export const deleteTransitGatewayMulticastDomain: (
-  input: DeleteTransitGatewayMulticastDomainRequest,
-) => effect.Effect<
+export const deleteTransitGatewayMulticastDomain: API.OperationMethod<
+  DeleteTransitGatewayMulticastDomainRequest,
   DeleteTransitGatewayMulticastDomainResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMulticastDomainIdMalformed
@@ -77336,9 +77102,8 @@ export const deleteTransitGatewayMulticastDomain: (
 /**
  * Deletes a transit gateway peering attachment.
  */
-export const deleteTransitGatewayPeeringAttachment: (
-  input: DeleteTransitGatewayPeeringAttachmentRequest,
-) => effect.Effect<
+export const deleteTransitGatewayPeeringAttachment: API.OperationMethod<
+  DeleteTransitGatewayPeeringAttachmentRequest,
   DeleteTransitGatewayPeeringAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -77352,9 +77117,8 @@ export const deleteTransitGatewayPeeringAttachment: (
 /**
  * Deletes the specified transit gateway policy table.
  */
-export const deleteTransitGatewayPolicyTable: (
-  input: DeleteTransitGatewayPolicyTableRequest,
-) => effect.Effect<
+export const deleteTransitGatewayPolicyTable: API.OperationMethod<
+  DeleteTransitGatewayPolicyTableRequest,
   DeleteTransitGatewayPolicyTableResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayPolicyTableIdMalformed
@@ -77375,9 +77139,8 @@ export const deleteTransitGatewayPolicyTable: (
 /**
  * Deletes a reference (route) to a prefix list in a specified transit gateway route table.
  */
-export const deleteTransitGatewayPrefixListReference: (
-  input: DeleteTransitGatewayPrefixListReferenceRequest,
-) => effect.Effect<
+export const deleteTransitGatewayPrefixListReference: API.OperationMethod<
+  DeleteTransitGatewayPrefixListReferenceRequest,
   DeleteTransitGatewayPrefixListReferenceResult,
   | RequestLimitExceeded
   | InvalidRouteTableIDNotFound
@@ -77392,9 +77155,8 @@ export const deleteTransitGatewayPrefixListReference: (
 /**
  * Deletes the specified route from the specified transit gateway route table.
  */
-export const deleteTransitGatewayRoute: (
-  input: DeleteTransitGatewayRouteRequest,
-) => effect.Effect<
+export const deleteTransitGatewayRoute: API.OperationMethod<
+  DeleteTransitGatewayRouteRequest,
   DeleteTransitGatewayRouteResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77410,9 +77172,8 @@ export const deleteTransitGatewayRoute: (
  * Deletes the specified transit gateway route table. If there are any route tables associated with
  * the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
  */
-export const deleteTransitGatewayRouteTable: (
-  input: DeleteTransitGatewayRouteTableRequest,
-) => effect.Effect<
+export const deleteTransitGatewayRouteTable: API.OperationMethod<
+  DeleteTransitGatewayRouteTableRequest,
   DeleteTransitGatewayRouteTableResult,
   | RequestLimitExceeded
   | IncorrectState
@@ -77437,9 +77198,8 @@ export const deleteTransitGatewayRouteTable: (
 /**
  * Advertises to the transit gateway that a transit gateway route table is deleted.
  */
-export const deleteTransitGatewayRouteTableAnnouncement: (
-  input: DeleteTransitGatewayRouteTableAnnouncementRequest,
-) => effect.Effect<
+export const deleteTransitGatewayRouteTableAnnouncement: API.OperationMethod<
+  DeleteTransitGatewayRouteTableAnnouncementRequest,
   DeleteTransitGatewayRouteTableAnnouncementResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayRouteTableAnnouncementIdMalformed
@@ -77458,9 +77218,8 @@ export const deleteTransitGatewayRouteTableAnnouncement: (
 /**
  * Deletes the specified VPC attachment.
  */
-export const deleteTransitGatewayVpcAttachment: (
-  input: DeleteTransitGatewayVpcAttachmentRequest,
-) => effect.Effect<
+export const deleteTransitGatewayVpcAttachment: API.OperationMethod<
+  DeleteTransitGatewayVpcAttachmentRequest,
   DeleteTransitGatewayVpcAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDMalformed
@@ -77479,9 +77238,8 @@ export const deleteTransitGatewayVpcAttachment: (
 /**
  * Delete an Amazon Web Services Verified Access endpoint.
  */
-export const deleteVerifiedAccessEndpoint: (
-  input: DeleteVerifiedAccessEndpointRequest,
-) => effect.Effect<
+export const deleteVerifiedAccessEndpoint: API.OperationMethod<
+  DeleteVerifiedAccessEndpointRequest,
   DeleteVerifiedAccessEndpointResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77502,9 +77260,8 @@ export const deleteVerifiedAccessEndpoint: (
 /**
  * Delete an Amazon Web Services Verified Access group.
  */
-export const deleteVerifiedAccessGroup: (
-  input: DeleteVerifiedAccessGroupRequest,
-) => effect.Effect<
+export const deleteVerifiedAccessGroup: API.OperationMethod<
+  DeleteVerifiedAccessGroupRequest,
   DeleteVerifiedAccessGroupResult,
   | RequestLimitExceeded
   | InvalidVerifiedAccessGroupIdNotFound
@@ -77523,9 +77280,8 @@ export const deleteVerifiedAccessGroup: (
 /**
  * Delete an Amazon Web Services Verified Access instance.
  */
-export const deleteVerifiedAccessInstance: (
-  input: DeleteVerifiedAccessInstanceRequest,
-) => effect.Effect<
+export const deleteVerifiedAccessInstance: API.OperationMethod<
+  DeleteVerifiedAccessInstanceRequest,
   DeleteVerifiedAccessInstanceResult,
   RequestLimitExceeded | InvalidVerifiedAccessInstanceIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77537,9 +77293,8 @@ export const deleteVerifiedAccessInstance: (
 /**
  * Delete an Amazon Web Services Verified Access trust provider.
  */
-export const deleteVerifiedAccessTrustProvider: (
-  input: DeleteVerifiedAccessTrustProviderRequest,
-) => effect.Effect<
+export const deleteVerifiedAccessTrustProvider: API.OperationMethod<
+  DeleteVerifiedAccessTrustProviderRequest,
   DeleteVerifiedAccessTrustProviderResult,
   | RequestLimitExceeded
   | InvalidVerifiedAccessTrustProviderIdNotFound
@@ -77559,9 +77314,8 @@ export const deleteVerifiedAccessTrustProvider: (
  * For more information, see Delete an Amazon EBS volume in the
  * *Amazon EBS User Guide*.
  */
-export const deleteVolume: (
-  input: DeleteVolumeRequest,
-) => effect.Effect<
+export const deleteVolume: API.OperationMethod<
+  DeleteVolumeRequest,
   DeleteVolumeResponse,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -77583,9 +77337,8 @@ export const deleteVolume: (
  * If you created a flow log for the VPC that you are deleting, note that flow logs for deleted
  * VPCs are eventually automatically removed.
  */
-export const deleteVpc: (
-  input: DeleteVpcRequest,
-) => effect.Effect<
+export const deleteVpc: API.OperationMethod<
+  DeleteVpcRequest,
   DeleteVpcResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -77610,9 +77363,8 @@ export const deleteVpc: (
 /**
  * Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const deleteVpcBlockPublicAccessExclusion: (
-  input: DeleteVpcBlockPublicAccessExclusionRequest,
-) => effect.Effect<
+export const deleteVpcBlockPublicAccessExclusion: API.OperationMethod<
+  DeleteVpcBlockPublicAccessExclusionRequest,
   DeleteVpcBlockPublicAccessExclusionResult,
   | RequestLimitExceeded
   | MissingParameter
@@ -77633,9 +77385,8 @@ export const deleteVpcBlockPublicAccessExclusion: (
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const deleteVpcEncryptionControl: (
-  input: DeleteVpcEncryptionControlRequest,
-) => effect.Effect<
+export const deleteVpcEncryptionControl: API.OperationMethod<
+  DeleteVpcEncryptionControlRequest,
   DeleteVpcEncryptionControlResult,
   | RequestLimitExceeded
   | InvalidVpcEncryptionControlIdMalformed
@@ -77656,9 +77407,8 @@ export const deleteVpcEncryptionControl: (
 /**
  * Deletes the specified VPC endpoint connection notifications.
  */
-export const deleteVpcEndpointConnectionNotifications: (
-  input: DeleteVpcEndpointConnectionNotificationsRequest,
-) => effect.Effect<
+export const deleteVpcEndpointConnectionNotifications: API.OperationMethod<
+  DeleteVpcEndpointConnectionNotificationsRequest,
   DeleteVpcEndpointConnectionNotificationsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77677,9 +77427,8 @@ export const deleteVpcEndpointConnectionNotifications: (
  *
  * When you delete an interface endpoint, we delete its endpoint network interfaces.
  */
-export const deleteVpcEndpoints: (
-  input: DeleteVpcEndpointsRequest,
-) => effect.Effect<
+export const deleteVpcEndpoints: API.OperationMethod<
+  DeleteVpcEndpointsRequest,
   DeleteVpcEndpointsResult,
   | RequestLimitExceeded
   | InvalidVpcEndpointIdNotFound
@@ -77697,9 +77446,8 @@ export const deleteVpcEndpoints: (
  * `PendingAcceptance` interface endpoint connections that are attached to
  * the service.
  */
-export const deleteVpcEndpointServiceConfigurations: (
-  input: DeleteVpcEndpointServiceConfigurationsRequest,
-) => effect.Effect<
+export const deleteVpcEndpointServiceConfigurations: API.OperationMethod<
+  DeleteVpcEndpointServiceConfigurationsRequest,
   DeleteVpcEndpointServiceConfigurationsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77715,9 +77463,8 @@ export const deleteVpcEndpointServiceConfigurations: (
  * connection in the `pending-acceptance` state. You cannot delete a VPC peering
  * connection that's in the `failed` or `rejected` state.
  */
-export const deleteVpcPeeringConnection: (
-  input: DeleteVpcPeeringConnectionRequest,
-) => effect.Effect<
+export const deleteVpcPeeringConnection: API.OperationMethod<
+  DeleteVpcPeeringConnectionRequest,
   DeleteVpcPeeringConnectionResult,
   | RequestLimitExceeded
   | InvalidVpcPeeringConnectionIDNotFound
@@ -77738,9 +77485,8 @@ export const deleteVpcPeeringConnection: (
 /**
  * Deletes the specified VPN concentrator.
  */
-export const deleteVpnConcentrator: (
-  input: DeleteVpnConcentratorRequest,
-) => effect.Effect<
+export const deleteVpnConcentrator: API.OperationMethod<
+  DeleteVpnConcentratorRequest,
   DeleteVpnConcentratorResult,
   RequestLimitExceeded | InvalidVpnConcentratorIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77764,9 +77510,8 @@ export const deleteVpnConcentrator: (
  * certificates used for the Amazon Web Services-side tunnel endpoints for the VPN
  * connection before deleting the VPN connection.
  */
-export const deleteVpnConnection: (
-  input: DeleteVpnConnectionRequest,
-) => effect.Effect<
+export const deleteVpnConnection: API.OperationMethod<
+  DeleteVpnConnectionRequest,
   DeleteVpnConnectionResponse,
   | RequestLimitExceeded
   | InvalidVpnConnectionIDNotFound
@@ -77788,9 +77533,8 @@ export const deleteVpnConnection: (
  * traffic to be routed from the virtual private gateway to the VPN customer
  * gateway.
  */
-export const deleteVpnConnectionRoute: (
-  input: DeleteVpnConnectionRouteRequest,
-) => effect.Effect<
+export const deleteVpnConnectionRoute: API.OperationMethod<
+  DeleteVpnConnectionRouteRequest,
   DeleteVpnConnectionRouteResponse,
   | RequestLimitExceeded
   | InvalidRouteMalformed
@@ -77808,9 +77552,8 @@ export const deleteVpnConnectionRoute: (
  * gateway if you plan to delete and recreate the VPN connection between your VPC and your
  * network.
  */
-export const deleteVpnGateway: (
-  input: DeleteVpnGatewayRequest,
-) => effect.Effect<
+export const deleteVpnGateway: API.OperationMethod<
+  DeleteVpnGatewayRequest,
   DeleteVpnGatewayResponse,
   | RequestLimitExceeded
   | IncorrectState
@@ -77829,9 +77572,8 @@ export const deleteVpnGateway: (
  * Before you can release an address range, you must stop advertising it and you must not
  * have any IP addresses allocated from its address range.
  */
-export const deprovisionByoipCidr: (
-  input: DeprovisionByoipCidrRequest,
-) => effect.Effect<
+export const deprovisionByoipCidr: API.OperationMethod<
+  DeprovisionByoipCidrRequest,
   DeprovisionByoipCidrResult,
   RequestLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77844,9 +77586,8 @@ export const deprovisionByoipCidr: (
  * Deprovisions your Autonomous System Number (ASN) from your Amazon Web Services account. This action can only be called after any BYOIP CIDR associations are removed from your Amazon Web Services account with DisassociateIpamByoasn.
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const deprovisionIpamByoasn: (
-  input: DeprovisionIpamByoasnRequest,
-) => effect.Effect<
+export const deprovisionIpamByoasn: API.OperationMethod<
+  DeprovisionIpamByoasnRequest,
   DeprovisionIpamByoasnResult,
   | RequestLimitExceeded
   | InvalidIpamIdNotFound
@@ -77861,9 +77602,8 @@ export const deprovisionIpamByoasn: (
 /**
  * Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see Deprovision pool CIDRs in the *Amazon VPC IPAM User Guide*.
  */
-export const deprovisionIpamPoolCidr: (
-  input: DeprovisionIpamPoolCidrRequest,
-) => effect.Effect<
+export const deprovisionIpamPoolCidr: API.OperationMethod<
+  DeprovisionIpamPoolCidrRequest,
   DeprovisionIpamPoolCidrResult,
   | RequestLimitExceeded
   | InvalidIpamPoolIdNotFound
@@ -77878,9 +77618,8 @@ export const deprovisionIpamPoolCidr: (
 /**
  * Deprovision a CIDR from a public IPv4 pool.
  */
-export const deprovisionPublicIpv4PoolCidr: (
-  input: DeprovisionPublicIpv4PoolCidrRequest,
-) => effect.Effect<
+export const deprovisionPublicIpv4PoolCidr: API.OperationMethod<
+  DeprovisionPublicIpv4PoolCidrRequest,
   DeprovisionPublicIpv4PoolCidrResult,
   | RequestLimitExceeded
   | InvalidPublicIpv4PoolNotFound
@@ -77927,9 +77666,8 @@ export const deprovisionPublicIpv4PoolCidr: (
  * For more information, see Deregister an Amazon EC2 AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const deregisterImage: (
-  input: DeregisterImageRequest,
-) => effect.Effect<
+export const deregisterImage: API.OperationMethod<
+  DeregisterImageRequest,
   DeregisterImageResult,
   | RequestLimitExceeded
   | InvalidAMIIDMalformed
@@ -77951,9 +77689,8 @@ export const deregisterImage: (
  * Deregisters tag keys to prevent tags that have the specified tag keys from being
  * included in scheduled event notifications for resources in the Region.
  */
-export const deregisterInstanceEventNotificationAttributes: (
-  input: DeregisterInstanceEventNotificationAttributesRequest,
-) => effect.Effect<
+export const deregisterInstanceEventNotificationAttributes: API.OperationMethod<
+  DeregisterInstanceEventNotificationAttributesRequest,
   DeregisterInstanceEventNotificationAttributesResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77965,9 +77702,8 @@ export const deregisterInstanceEventNotificationAttributes: (
 /**
  * Deregisters the specified members (network interfaces) from the transit gateway multicast group.
  */
-export const deregisterTransitGatewayMulticastGroupMembers: (
-  input: DeregisterTransitGatewayMulticastGroupMembersRequest,
-) => effect.Effect<
+export const deregisterTransitGatewayMulticastGroupMembers: API.OperationMethod<
+  DeregisterTransitGatewayMulticastGroupMembersRequest,
   DeregisterTransitGatewayMulticastGroupMembersResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -77979,9 +77715,8 @@ export const deregisterTransitGatewayMulticastGroupMembers: (
 /**
  * Deregisters the specified sources (network interfaces) from the transit gateway multicast group.
  */
-export const deregisterTransitGatewayMulticastGroupSources: (
-  input: DeregisterTransitGatewayMulticastGroupSourcesRequest,
-) => effect.Effect<
+export const deregisterTransitGatewayMulticastGroupSources: API.OperationMethod<
+  DeregisterTransitGatewayMulticastGroupSourcesRequest,
   DeregisterTransitGatewayMulticastGroupSourcesResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -78013,9 +77748,8 @@ export const deregisterTransitGatewayMulticastGroupSources: (
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeAccountAttributes: (
-  input: DescribeAccountAttributesRequest,
-) => effect.Effect<
+export const describeAccountAttributes: API.OperationMethod<
+  DescribeAccountAttributesRequest,
   DescribeAccountAttributesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -78027,9 +77761,8 @@ export const describeAccountAttributes: (
 /**
  * Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
  */
-export const describeAddresses: (
-  input: DescribeAddressesRequest,
-) => effect.Effect<
+export const describeAddresses: API.OperationMethod<
+  DescribeAddressesRequest,
   DescribeAddressesResult,
   RequestLimitExceeded | InvalidAllocationIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -78041,14 +77774,12 @@ export const describeAddresses: (
 /**
  * Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications.
  */
-export const describeAddressesAttribute: {
-  (
-    input: DescribeAddressesAttributeRequest,
-  ): effect.Effect<
-    DescribeAddressesAttributeResult,
-    RequestLimitExceeded | InvalidAllocationIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAddressesAttribute: API.OperationMethod<
+  DescribeAddressesAttributeRequest,
+  DescribeAddressesAttributeResult,
+  RequestLimitExceeded | InvalidAllocationIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAddressesAttributeRequest,
   ) => stream.Stream<
@@ -78087,14 +77818,12 @@ export const describeAddressesAttribute: {
  * account. Accepted transfers are visible to the source account for 14 days
  * after the transfers have been accepted.
  */
-export const describeAddressTransfers: {
-  (
-    input: DescribeAddressTransfersRequest,
-  ): effect.Effect<
-    DescribeAddressTransfersResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAddressTransfers: API.OperationMethod<
+  DescribeAddressTransfersRequest,
+  DescribeAddressTransfersResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAddressTransfersRequest,
   ) => stream.Stream<
@@ -78141,9 +77870,8 @@ export const describeAddressTransfers: {
  * `vpc-cidr-block-association` | `vpc-endpoint` |
  * `vpc-peering-connection` | `vpn-connection` | `vpn-gateway`.
  */
-export const describeAggregateIdFormat: (
-  input: DescribeAggregateIdFormatRequest,
-) => effect.Effect<
+export const describeAggregateIdFormat: API.OperationMethod<
+  DescribeAggregateIdFormatRequest,
   DescribeAggregateIdFormatResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -78164,9 +77892,8 @@ export const describeAggregateIdFormat: (
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeAvailabilityZones: (
-  input: DescribeAvailabilityZonesRequest,
-) => effect.Effect<
+export const describeAvailabilityZones: API.OperationMethod<
+  DescribeAvailabilityZonesRequest,
   DescribeAvailabilityZonesResult,
   RequestLimitExceeded | InvalidParameterValue | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -78178,14 +77905,12 @@ export const describeAvailabilityZones: (
 /**
  * Describes the current Infrastructure Performance metric subscriptions.
  */
-export const describeAwsNetworkPerformanceMetricSubscriptions: {
-  (
-    input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
-  ): effect.Effect<
-    DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAwsNetworkPerformanceMetricSubscriptions: API.OperationMethod<
+  DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+  DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
   ) => stream.Stream<
@@ -78222,9 +77947,8 @@ export const describeAwsNetworkPerformanceMetricSubscriptions: {
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeBundleTasks: (
-  input: DescribeBundleTasksRequest,
-) => effect.Effect<
+export const describeBundleTasks: API.OperationMethod<
+  DescribeBundleTasksRequest,
   DescribeBundleTasksResult,
   | RequestLimitExceeded
   | InvalidBundleIDNotFound
@@ -78244,14 +77968,12 @@ export const describeBundleTasks: (
  * Describes the IP address ranges that were provisioned for use with Amazon Web Services resources
  * through through bring your own IP addresses (BYOIP).
  */
-export const describeByoipCidrs: {
-  (
-    input: DescribeByoipCidrsRequest,
-  ): effect.Effect<
-    DescribeByoipCidrsResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeByoipCidrs: API.OperationMethod<
+  DescribeByoipCidrsRequest,
+  DescribeByoipCidrsResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeByoipCidrsRequest,
   ) => stream.Stream<
@@ -78281,14 +78003,12 @@ export const describeByoipCidrs: {
  * Describes the events for the specified Capacity Block extension during the specified
  * time.
  */
-export const describeCapacityBlockExtensionHistory: {
-  (
-    input: DescribeCapacityBlockExtensionHistoryRequest,
-  ): effect.Effect<
-    DescribeCapacityBlockExtensionHistoryResult,
-    RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityBlockExtensionHistory: API.OperationMethod<
+  DescribeCapacityBlockExtensionHistoryRequest,
+  DescribeCapacityBlockExtensionHistoryResult,
+  RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityBlockExtensionHistoryRequest,
   ) => stream.Stream<
@@ -78318,14 +78038,12 @@ export const describeCapacityBlockExtensionHistory: {
  * Describes Capacity Block extension offerings available for purchase in the Amazon Web Services
  * Region that you're currently using.
  */
-export const describeCapacityBlockExtensionOfferings: {
-  (
-    input: DescribeCapacityBlockExtensionOfferingsRequest,
-  ): effect.Effect<
-    DescribeCapacityBlockExtensionOfferingsResult,
-    RequestLimitExceeded | InvalidCapacityReservationIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityBlockExtensionOfferings: API.OperationMethod<
+  DescribeCapacityBlockExtensionOfferingsRequest,
+  DescribeCapacityBlockExtensionOfferingsResult,
+  RequestLimitExceeded | InvalidCapacityReservationIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityBlockExtensionOfferingsRequest,
   ) => stream.Stream<
@@ -78358,14 +78076,12 @@ export const describeCapacityBlockExtensionOfferings: {
  * To search for an available Capacity Block offering, you specify a reservation duration
  * and instance count.
  */
-export const describeCapacityBlockOfferings: {
-  (
-    input: DescribeCapacityBlockOfferingsRequest,
-  ): effect.Effect<
-    DescribeCapacityBlockOfferingsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityBlockOfferings: API.OperationMethod<
+  DescribeCapacityBlockOfferingsRequest,
+  DescribeCapacityBlockOfferingsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityBlockOfferingsRequest,
   ) => stream.Stream<
@@ -78394,14 +78110,12 @@ export const describeCapacityBlockOfferings: {
 /**
  * Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
  */
-export const describeCapacityBlocks: {
-  (
-    input: DescribeCapacityBlocksRequest,
-  ): effect.Effect<
-    DescribeCapacityBlocksResult,
-    RequestLimitExceeded | InvalidCapacityBlockIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityBlocks: API.OperationMethod<
+  DescribeCapacityBlocksRequest,
+  DescribeCapacityBlocksResult,
+  RequestLimitExceeded | InvalidCapacityBlockIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityBlocksRequest,
   ) => stream.Stream<
@@ -78430,14 +78144,12 @@ export const describeCapacityBlocks: {
 /**
  * Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
  */
-export const describeCapacityBlockStatus: {
-  (
-    input: DescribeCapacityBlockStatusRequest,
-  ): effect.Effect<
-    DescribeCapacityBlockStatusResult,
-    RequestLimitExceeded | InvalidCapacityBlockIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityBlockStatus: API.OperationMethod<
+  DescribeCapacityBlockStatusRequest,
+  DescribeCapacityBlockStatusResult,
+  RequestLimitExceeded | InvalidCapacityBlockIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityBlockStatusRequest,
   ) => stream.Stream<
@@ -78466,16 +78178,14 @@ export const describeCapacityBlockStatus: {
 /**
  * Describes one or more Capacity Manager data export configurations. Returns information about export settings, delivery status, and recent export activity.
  */
-export const describeCapacityManagerDataExports: {
-  (
-    input: DescribeCapacityManagerDataExportsRequest,
-  ): effect.Effect<
-    DescribeCapacityManagerDataExportsResult,
-    | RequestLimitExceeded
-    | InvalidCapacityManagerDataExportIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityManagerDataExports: API.OperationMethod<
+  DescribeCapacityManagerDataExportsRequest,
+  DescribeCapacityManagerDataExportsResult,
+  | RequestLimitExceeded
+  | InvalidCapacityManagerDataExportIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityManagerDataExportsRequest,
   ) => stream.Stream<
@@ -78510,14 +78220,12 @@ export const describeCapacityManagerDataExports: {
  * Reservation. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const describeCapacityReservationBillingRequests: {
-  (
-    input: DescribeCapacityReservationBillingRequestsRequest,
-  ): effect.Effect<
-    DescribeCapacityReservationBillingRequestsResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityReservationBillingRequests: API.OperationMethod<
+  DescribeCapacityReservationBillingRequestsRequest,
+  DescribeCapacityReservationBillingRequestsResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityReservationBillingRequestsRequest,
   ) => stream.Stream<
@@ -78546,16 +78254,14 @@ export const describeCapacityReservationBillingRequests: {
 /**
  * Describes one or more Capacity Reservation Fleets.
  */
-export const describeCapacityReservationFleets: {
-  (
-    input: DescribeCapacityReservationFleetsRequest,
-  ): effect.Effect<
-    DescribeCapacityReservationFleetsResult,
-    | RequestLimitExceeded
-    | InvalidCapacityReservationFleetIdMalformed
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityReservationFleets: API.OperationMethod<
+  DescribeCapacityReservationFleetsRequest,
+  DescribeCapacityReservationFleetsResult,
+  | RequestLimitExceeded
+  | InvalidCapacityReservationFleetIdMalformed
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityReservationFleetsRequest,
   ) => stream.Stream<
@@ -78590,14 +78296,12 @@ export const describeCapacityReservationFleets: {
  * Capacity Reservations in the Amazon Web Services Region that you're currently
  * using.
  */
-export const describeCapacityReservations: {
-  (
-    input: DescribeCapacityReservationsRequest,
-  ): effect.Effect<
-    DescribeCapacityReservationsResult,
-    RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCapacityReservations: API.OperationMethod<
+  DescribeCapacityReservationsRequest,
+  DescribeCapacityReservationsResult,
+  RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCapacityReservationsRequest,
   ) => stream.Stream<
@@ -78647,9 +78351,8 @@ export const describeCapacityReservations: {
  * For more information, see Amazon EC2 topology in
  * the *Amazon EC2 User Guide*.
  */
-export const describeCapacityReservationTopology: (
-  input: DescribeCapacityReservationTopologyRequest,
-) => effect.Effect<
+export const describeCapacityReservationTopology: API.OperationMethod<
+  DescribeCapacityReservationTopologyRequest,
   DescribeCapacityReservationTopologyResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -78661,18 +78364,16 @@ export const describeCapacityReservationTopology: (
 /**
  * Describes one or more of your carrier gateways.
  */
-export const describeCarrierGateways: {
-  (
-    input: DescribeCarrierGatewaysRequest,
-  ): effect.Effect<
-    DescribeCarrierGatewaysResult,
-    | RequestLimitExceeded
-    | InvalidCarrierGatewayIDMalformed
-    | InvalidCarrierGatewayIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCarrierGateways: API.OperationMethod<
+  DescribeCarrierGatewaysRequest,
+  DescribeCarrierGatewaysResult,
+  | RequestLimitExceeded
+  | InvalidCarrierGatewayIDMalformed
+  | InvalidCarrierGatewayIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCarrierGatewaysRequest,
   ) => stream.Stream<
@@ -78718,14 +78419,12 @@ export const describeCarrierGateways: {
  * information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
  * use this request to return information about other instances.
  */
-export const describeClassicLinkInstances: {
-  (
-    input: DescribeClassicLinkInstancesRequest,
-  ): effect.Effect<
-    DescribeClassicLinkInstancesResult,
-    RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClassicLinkInstances: API.OperationMethod<
+  DescribeClassicLinkInstancesRequest,
+  DescribeClassicLinkInstancesResult,
+  RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClassicLinkInstancesRequest,
   ) => stream.Stream<
@@ -78754,14 +78453,12 @@ export const describeClassicLinkInstances: {
 /**
  * Describes the authorization rules for a specified Client VPN endpoint.
  */
-export const describeClientVpnAuthorizationRules: {
-  (
-    input: DescribeClientVpnAuthorizationRulesRequest,
-  ): effect.Effect<
-    DescribeClientVpnAuthorizationRulesResult,
-    RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClientVpnAuthorizationRules: API.OperationMethod<
+  DescribeClientVpnAuthorizationRulesRequest,
+  DescribeClientVpnAuthorizationRulesResult,
+  RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClientVpnAuthorizationRulesRequest,
   ) => stream.Stream<
@@ -78791,17 +78488,15 @@ export const describeClientVpnAuthorizationRules: {
  * Describes active client connections and connections that have been terminated within the last 60
  * minutes for the specified Client VPN endpoint.
  */
-export const describeClientVpnConnections: {
-  (
-    input: DescribeClientVpnConnectionsRequest,
-  ): effect.Effect<
-    DescribeClientVpnConnectionsResult,
-    | RequestLimitExceeded
-    | InvalidClientVpnEndpointIdNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClientVpnConnections: API.OperationMethod<
+  DescribeClientVpnConnectionsRequest,
+  DescribeClientVpnConnectionsResult,
+  | RequestLimitExceeded
+  | InvalidClientVpnEndpointIdNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClientVpnConnectionsRequest,
   ) => stream.Stream<
@@ -78840,14 +78535,12 @@ export const describeClientVpnConnections: {
 /**
  * Describes one or more Client VPN endpoints in the account.
  */
-export const describeClientVpnEndpoints: {
-  (
-    input: DescribeClientVpnEndpointsRequest,
-  ): effect.Effect<
-    DescribeClientVpnEndpointsResult,
-    RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClientVpnEndpoints: API.OperationMethod<
+  DescribeClientVpnEndpointsRequest,
+  DescribeClientVpnEndpointsResult,
+  RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClientVpnEndpointsRequest,
   ) => stream.Stream<
@@ -78876,17 +78569,15 @@ export const describeClientVpnEndpoints: {
 /**
  * Describes the routes for the specified Client VPN endpoint.
  */
-export const describeClientVpnRoutes: {
-  (
-    input: DescribeClientVpnRoutesRequest,
-  ): effect.Effect<
-    DescribeClientVpnRoutesResult,
-    | RequestLimitExceeded
-    | InvalidClientVpnEndpointIdNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClientVpnRoutes: API.OperationMethod<
+  DescribeClientVpnRoutesRequest,
+  DescribeClientVpnRoutesResult,
+  | RequestLimitExceeded
+  | InvalidClientVpnEndpointIdNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClientVpnRoutesRequest,
   ) => stream.Stream<
@@ -78925,17 +78616,15 @@ export const describeClientVpnRoutes: {
 /**
  * Describes the target networks associated with the specified Client VPN endpoint.
  */
-export const describeClientVpnTargetNetworks: {
-  (
-    input: DescribeClientVpnTargetNetworksRequest,
-  ): effect.Effect<
-    DescribeClientVpnTargetNetworksResult,
-    | RequestLimitExceeded
-    | InvalidClientVpnEndpointIdNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeClientVpnTargetNetworks: API.OperationMethod<
+  DescribeClientVpnTargetNetworksRequest,
+  DescribeClientVpnTargetNetworksResult,
+  | RequestLimitExceeded
+  | InvalidClientVpnEndpointIdNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClientVpnTargetNetworksRequest,
   ) => stream.Stream<
@@ -78974,14 +78663,12 @@ export const describeClientVpnTargetNetworks: {
 /**
  * Describes the specified customer-owned address pools or all of your customer-owned address pools.
  */
-export const describeCoipPools: {
-  (
-    input: DescribeCoipPoolsRequest,
-  ): effect.Effect<
-    DescribeCoipPoolsResult,
-    RequestLimitExceeded | InvalidPoolIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeCoipPools: API.OperationMethod<
+  DescribeCoipPoolsRequest,
+  DescribeCoipPoolsResult,
+  RequestLimitExceeded | InvalidPoolIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCoipPoolsRequest,
   ) => stream.Stream<
@@ -79013,9 +78700,8 @@ export const describeCoipPools: {
  *
  * For information about the import manifest referenced by this API action, see VM Import Manifest.
  */
-export const describeConversionTasks: (
-  input: DescribeConversionTasksRequest,
-) => effect.Effect<
+export const describeConversionTasks: API.OperationMethod<
+  DescribeConversionTasksRequest,
   DescribeConversionTasksResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79030,9 +78716,8 @@ export const describeConversionTasks: (
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const describeCustomerGateways: (
-  input: DescribeCustomerGatewaysRequest,
-) => effect.Effect<
+export const describeCustomerGateways: API.OperationMethod<
+  DescribeCustomerGatewaysRequest,
   DescribeCustomerGatewaysResult,
   | RequestLimitExceeded
   | InvalidCustomerGatewayIDNotFound
@@ -79058,9 +78743,8 @@ export const describeCustomerGateways: (
  * For more information, see Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const describeDeclarativePoliciesReports: (
-  input: DescribeDeclarativePoliciesReportsRequest,
-) => effect.Effect<
+export const describeDeclarativePoliciesReports: API.OperationMethod<
+  DescribeDeclarativePoliciesReportsRequest,
   DescribeDeclarativePoliciesReportsResult,
   RequestLimitExceeded | InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79077,18 +78761,16 @@ export const describeDeclarativePoliciesReports: (
  * For more information, see DHCP option sets in the
  * *Amazon VPC User Guide*.
  */
-export const describeDhcpOptions: {
-  (
-    input: DescribeDhcpOptionsRequest,
-  ): effect.Effect<
-    DescribeDhcpOptionsResult,
-    | RequestLimitExceeded
-    | InvalidDhcpOptionIDNotFound
-    | InvalidParameterValue
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeDhcpOptions: API.OperationMethod<
+  DescribeDhcpOptionsRequest,
+  DescribeDhcpOptionsResult,
+  | RequestLimitExceeded
+  | InvalidDhcpOptionIDNotFound
+  | InvalidParameterValue
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDhcpOptionsRequest,
   ) => stream.Stream<
@@ -79132,18 +78814,16 @@ export const describeDhcpOptions: {
  * Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to
  * include only the egress-only internet gateways that match specific criteria.
  */
-export const describeEgressOnlyInternetGateways: {
-  (
-    input: DescribeEgressOnlyInternetGatewaysRequest,
-  ): effect.Effect<
-    DescribeEgressOnlyInternetGatewaysResult,
-    | RequestLimitExceeded
-    | InvalidEgressOnlyInternetGatewayIdMalformed
-    | InvalidEgressOnlyInternetGatewayIdNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeEgressOnlyInternetGateways: API.OperationMethod<
+  DescribeEgressOnlyInternetGatewaysRequest,
+  DescribeEgressOnlyInternetGatewaysResult,
+  | RequestLimitExceeded
+  | InvalidEgressOnlyInternetGatewayIdMalformed
+  | InvalidEgressOnlyInternetGatewayIdNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEgressOnlyInternetGatewaysRequest,
   ) => stream.Stream<
@@ -79187,9 +78867,8 @@ export const describeEgressOnlyInternetGateways: {
  *
  * Describes the Elastic Graphics accelerator associated with your instances.
  */
-export const describeElasticGpus: (
-  input: DescribeElasticGpusRequest,
-) => effect.Effect<
+export const describeElasticGpus: API.OperationMethod<
+  DescribeElasticGpusRequest,
   DescribeElasticGpusResult,
   RequestLimitExceeded | UnsupportedOperation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79201,14 +78880,12 @@ export const describeElasticGpus: (
 /**
  * Describes the specified export image tasks or all of your export image tasks.
  */
-export const describeExportImageTasks: {
-  (
-    input: DescribeExportImageTasksRequest,
-  ): effect.Effect<
-    DescribeExportImageTasksResult,
-    RequestLimitExceeded | InvalidExportTaskIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeExportImageTasks: API.OperationMethod<
+  DescribeExportImageTasksRequest,
+  DescribeExportImageTasksResult,
+  RequestLimitExceeded | InvalidExportTaskIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeExportImageTasksRequest,
   ) => stream.Stream<
@@ -79237,9 +78914,8 @@ export const describeExportImageTasks: {
 /**
  * Describes the specified export instance tasks or all of your export instance tasks.
  */
-export const describeExportTasks: (
-  input: DescribeExportTasksRequest,
-) => effect.Effect<
+export const describeExportTasks: API.OperationMethod<
+  DescribeExportTasksRequest,
   DescribeExportTasksResult,
   RequestLimitExceeded | InvalidExportTaskIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79251,14 +78927,12 @@ export const describeExportTasks: (
 /**
  * Describe details for Windows AMIs that are configured for Windows fast launch.
  */
-export const describeFastLaunchImages: {
-  (
-    input: DescribeFastLaunchImagesRequest,
-  ): effect.Effect<
-    DescribeFastLaunchImagesResult,
-    RequestLimitExceeded | InvalidRequest | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFastLaunchImages: API.OperationMethod<
+  DescribeFastLaunchImagesRequest,
+  DescribeFastLaunchImagesResult,
+  RequestLimitExceeded | InvalidRequest | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFastLaunchImagesRequest,
   ) => stream.Stream<
@@ -79287,14 +78961,12 @@ export const describeFastLaunchImages: {
 /**
  * Describes the state of fast snapshot restores for your snapshots.
  */
-export const describeFastSnapshotRestores: {
-  (
-    input: DescribeFastSnapshotRestoresRequest,
-  ): effect.Effect<
-    DescribeFastSnapshotRestoresResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFastSnapshotRestores: API.OperationMethod<
+  DescribeFastSnapshotRestoresRequest,
+  DescribeFastSnapshotRestoresResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFastSnapshotRestoresRequest,
   ) => stream.Stream<
@@ -79330,9 +79002,8 @@ export const describeFastSnapshotRestores: {
  * For more information, see Monitor fleet events using Amazon EventBridge in the
  * *Amazon EC2 User Guide*.
  */
-export const describeFleetHistory: (
-  input: DescribeFleetHistoryRequest,
-) => effect.Effect<
+export const describeFleetHistory: API.OperationMethod<
+  DescribeFleetHistoryRequest,
   DescribeFleetHistoryResult,
   RequestLimitExceeded | InvalidFleetIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79351,9 +79022,8 @@ export const describeFleetHistory: (
  * For more information, see Describe your
  * EC2 Fleet in the *Amazon EC2 User Guide*.
  */
-export const describeFleetInstances: (
-  input: DescribeFleetInstancesRequest,
-) => effect.Effect<
+export const describeFleetInstances: API.OperationMethod<
+  DescribeFleetInstancesRequest,
   DescribeFleetInstancesResult,
   RequestLimitExceeded | InvalidFleetIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79371,14 +79041,12 @@ export const describeFleetInstances: (
  * For more information, see Describe your
  * EC2 Fleet in the *Amazon EC2 User Guide*.
  */
-export const describeFleets: {
-  (
-    input: DescribeFleetsRequest,
-  ): effect.Effect<
-    DescribeFleetsResult,
-    RequestLimitExceeded | InvalidFleetIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFleets: API.OperationMethod<
+  DescribeFleetsRequest,
+  DescribeFleetsResult,
+  RequestLimitExceeded | InvalidFleetIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetsRequest,
   ) => stream.Stream<
@@ -79410,14 +79078,12 @@ export const describeFleets: {
  * To view the published flow log records, you must view the log destination. For example,
  * the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
  */
-export const describeFlowLogs: {
-  (
-    input: DescribeFlowLogsRequest,
-  ): effect.Effect<
-    DescribeFlowLogsResult,
-    RequestLimitExceeded | ParseError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFlowLogs: API.OperationMethod<
+  DescribeFlowLogsRequest,
+  DescribeFlowLogsResult,
+  RequestLimitExceeded | ParseError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFlowLogsRequest,
   ) => stream.Stream<
@@ -79446,9 +79112,8 @@ export const describeFlowLogs: {
 /**
  * Describes the specified attribute of the specified Amazon FPGA Image (AFI).
  */
-export const describeFpgaImageAttribute: (
-  input: DescribeFpgaImageAttributeRequest,
-) => effect.Effect<
+export const describeFpgaImageAttribute: API.OperationMethod<
+  DescribeFpgaImageAttributeRequest,
   DescribeFpgaImageAttributeResult,
   | RequestLimitExceeded
   | InvalidFpgaImageIDMalformed
@@ -79469,14 +79134,12 @@ export const describeFpgaImageAttribute: (
  * private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load
  * permissions.
  */
-export const describeFpgaImages: {
-  (
-    input: DescribeFpgaImagesRequest,
-  ): effect.Effect<
-    DescribeFpgaImagesResult,
-    RequestLimitExceeded | InvalidFpgaImageIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFpgaImages: API.OperationMethod<
+  DescribeFpgaImagesRequest,
+  DescribeFpgaImagesResult,
+  RequestLimitExceeded | InvalidFpgaImageIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFpgaImagesRequest,
   ) => stream.Stream<
@@ -79512,16 +79175,14 @@ export const describeFpgaImages: {
  * information about supported instance types, see Dedicated Hosts
  * in the *Amazon EC2 User Guide*.
  */
-export const describeHostReservationOfferings: {
-  (
-    input: DescribeHostReservationOfferingsRequest,
-  ): effect.Effect<
-    DescribeHostReservationOfferingsResult,
-    | RequestLimitExceeded
-    | InvalidHostReservationOfferingIdMalformed
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeHostReservationOfferings: API.OperationMethod<
+  DescribeHostReservationOfferingsRequest,
+  DescribeHostReservationOfferingsResult,
+  | RequestLimitExceeded
+  | InvalidHostReservationOfferingIdMalformed
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeHostReservationOfferingsRequest,
   ) => stream.Stream<
@@ -79555,14 +79216,12 @@ export const describeHostReservationOfferings: {
  * Describes reservations that are associated with Dedicated Hosts in your
  * account.
  */
-export const describeHostReservations: {
-  (
-    input: DescribeHostReservationsRequest,
-  ): effect.Effect<
-    DescribeHostReservationsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeHostReservations: API.OperationMethod<
+  DescribeHostReservationsRequest,
+  DescribeHostReservationsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeHostReservationsRequest,
   ) => stream.Stream<
@@ -79595,14 +79254,12 @@ export const describeHostReservations: {
  * All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have
  * recently been released are listed with the state `released`.
  */
-export const describeHosts: {
-  (
-    input: DescribeHostsRequest,
-  ): effect.Effect<
-    DescribeHostsResult,
-    RequestLimitExceeded | InvalidHostIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeHosts: API.OperationMethod<
+  DescribeHostsRequest,
+  DescribeHostsResult,
+  RequestLimitExceeded | InvalidHostIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeHostsRequest,
   ) => stream.Stream<
@@ -79631,14 +79288,12 @@ export const describeHosts: {
 /**
  * Describes your IAM instance profile associations.
  */
-export const describeIamInstanceProfileAssociations: {
-  (
-    input: DescribeIamInstanceProfileAssociationsRequest,
-  ): effect.Effect<
-    DescribeIamInstanceProfileAssociationsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIamInstanceProfileAssociations: API.OperationMethod<
+  DescribeIamInstanceProfileAssociationsRequest,
+  DescribeIamInstanceProfileAssociationsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIamInstanceProfileAssociationsRequest,
   ) => stream.Stream<
@@ -79687,9 +79342,8 @@ export const describeIamInstanceProfileAssociations: {
  * These settings apply to the principal specified in the request. They do not apply to the
  * principal that makes the request.
  */
-export const describeIdentityIdFormat: (
-  input: DescribeIdentityIdFormatRequest,
-) => effect.Effect<
+export const describeIdentityIdFormat: API.OperationMethod<
+  DescribeIdentityIdFormatRequest,
   DescribeIdentityIdFormatResult,
   RequestLimitExceeded | InvalidTargetArnUnknown | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79722,9 +79376,8 @@ export const describeIdentityIdFormat: (
  * provided that they have permission to use the relevant `Describe` command for the
  * resource type.
  */
-export const describeIdFormat: (
-  input: DescribeIdFormatRequest,
-) => effect.Effect<
+export const describeIdFormat: API.OperationMethod<
+  DescribeIdFormatRequest,
   DescribeIdFormatResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -79740,9 +79393,8 @@ export const describeIdFormat: (
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeImageAttribute: (
-  input: DescribeImageAttributeRequest,
-) => effect.Effect<
+export const describeImageAttribute: API.OperationMethod<
+  DescribeImageAttributeRequest,
   ImageAttribute,
   | RequestLimitExceeded
   | InvalidAMIIDMalformed
@@ -79760,14 +79412,12 @@ export const describeImageAttribute: (
  * For more information, see Identify your resources referencing
  * specified AMIs in the *Amazon EC2 User Guide*.
  */
-export const describeImageReferences: {
-  (
-    input: DescribeImageReferencesRequest,
-  ): effect.Effect<
-    DescribeImageReferencesResult,
-    RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImageReferences: API.OperationMethod<
+  DescribeImageReferencesRequest,
+  DescribeImageReferencesResult,
+  RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImageReferencesRequest,
   ) => stream.Stream<
@@ -79824,17 +79474,15 @@ export const describeImageReferences: {
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeImages: {
-  (
-    input: DescribeImagesRequest,
-  ): effect.Effect<
-    DescribeImagesResult,
-    | RequestLimitExceeded
-    | InvalidAMIIDMalformed
-    | InvalidAMIIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImages: API.OperationMethod<
+  DescribeImagesRequest,
+  DescribeImagesResult,
+  | RequestLimitExceeded
+  | InvalidAMIIDMalformed
+  | InvalidAMIIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImagesRequest,
   ) => stream.Stream<
@@ -79873,14 +79521,12 @@ export const describeImages: {
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const describeImageUsageReportEntries: {
-  (
-    input: DescribeImageUsageReportEntriesRequest,
-  ): effect.Effect<
-    DescribeImageUsageReportEntriesResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImageUsageReportEntries: API.OperationMethod<
+  DescribeImageUsageReportEntriesRequest,
+  DescribeImageUsageReportEntriesResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImageUsageReportEntriesRequest,
   ) => stream.Stream<
@@ -79913,14 +79559,12 @@ export const describeImageUsageReportEntries: {
  * For more information, see View your AMI usage in the
  * *Amazon EC2 User Guide*.
  */
-export const describeImageUsageReports: {
-  (
-    input: DescribeImageUsageReportsRequest,
-  ): effect.Effect<
-    DescribeImageUsageReportsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImageUsageReports: API.OperationMethod<
+  DescribeImageUsageReportsRequest,
+  DescribeImageUsageReportsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImageUsageReportsRequest,
   ) => stream.Stream<
@@ -79949,14 +79593,12 @@ export const describeImageUsageReports: {
 /**
  * Displays details about an import virtual machine or import snapshot tasks that are already created.
  */
-export const describeImportImageTasks: {
-  (
-    input: DescribeImportImageTasksRequest,
-  ): effect.Effect<
-    DescribeImportImageTasksResult,
-    RequestLimitExceeded | InvalidParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImportImageTasks: API.OperationMethod<
+  DescribeImportImageTasksRequest,
+  DescribeImportImageTasksResult,
+  RequestLimitExceeded | InvalidParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImportImageTasksRequest,
   ) => stream.Stream<
@@ -79985,14 +79627,12 @@ export const describeImportImageTasks: {
 /**
  * Describes your import snapshot tasks.
  */
-export const describeImportSnapshotTasks: {
-  (
-    input: DescribeImportSnapshotTasksRequest,
-  ): effect.Effect<
-    DescribeImportSnapshotTasksResult,
-    RequestLimitExceeded | InvalidParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImportSnapshotTasks: API.OperationMethod<
+  DescribeImportSnapshotTasksRequest,
+  DescribeImportSnapshotTasksResult,
+  RequestLimitExceeded | InvalidParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImportSnapshotTasksRequest,
   ) => stream.Stream<
@@ -80023,9 +79663,8 @@ export const describeImportSnapshotTasks: {
  * attribute at a time. Available attributes include SQL license exemption configuration
  * for instances registered with the SQL LE service.
  */
-export const describeInstanceAttribute: (
-  input: DescribeInstanceAttributeRequest,
-) => effect.Effect<
+export const describeInstanceAttribute: API.OperationMethod<
+  DescribeInstanceAttributeRequest,
   InstanceAttribute,
   | RequestLimitExceeded
   | InvalidInstanceIDNotFound
@@ -80044,16 +79683,14 @@ export const describeInstanceAttribute: (
 /**
  * Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect Endpoints.
  */
-export const describeInstanceConnectEndpoints: {
-  (
-    input: DescribeInstanceConnectEndpointsRequest,
-  ): effect.Effect<
-    DescribeInstanceConnectEndpointsResult,
-    | RequestLimitExceeded
-    | InvalidInstanceConnectEndpointIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceConnectEndpoints: API.OperationMethod<
+  DescribeInstanceConnectEndpointsRequest,
+  DescribeInstanceConnectEndpointsResult,
+  | RequestLimitExceeded
+  | InvalidInstanceConnectEndpointIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceConnectEndpointsRequest,
   ) => stream.Stream<
@@ -80110,14 +79747,12 @@ export const describeInstanceConnectEndpoints: {
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const describeInstanceCreditSpecifications: {
-  (
-    input: DescribeInstanceCreditSpecificationsRequest,
-  ): effect.Effect<
-    DescribeInstanceCreditSpecificationsResult,
-    RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceCreditSpecifications: API.OperationMethod<
+  DescribeInstanceCreditSpecificationsRequest,
+  DescribeInstanceCreditSpecificationsResult,
+  RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceCreditSpecificationsRequest,
   ) => stream.Stream<
@@ -80147,9 +79782,8 @@ export const describeInstanceCreditSpecifications: {
  * Describes the tag keys that are registered to appear in scheduled event notifications
  * for resources in the current Region.
  */
-export const describeInstanceEventNotificationAttributes: (
-  input: DescribeInstanceEventNotificationAttributesRequest,
-) => effect.Effect<
+export const describeInstanceEventNotificationAttributes: API.OperationMethod<
+  DescribeInstanceEventNotificationAttributesRequest,
   DescribeInstanceEventNotificationAttributesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -80171,14 +79805,12 @@ export const describeInstanceEventNotificationAttributes: (
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const describeInstanceEventWindows: {
-  (
-    input: DescribeInstanceEventWindowsRequest,
-  ): effect.Effect<
-    DescribeInstanceEventWindowsResult,
-    RequestLimitExceeded | InvalidInstanceEventWindowIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceEventWindows: API.OperationMethod<
+  DescribeInstanceEventWindowsRequest,
+  DescribeInstanceEventWindowsResult,
+  RequestLimitExceeded | InvalidInstanceEventWindowIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceEventWindowsRequest,
   ) => stream.Stream<
@@ -80229,14 +79861,12 @@ export const describeInstanceEventWindows: {
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeInstanceImageMetadata: {
-  (
-    input: DescribeInstanceImageMetadataRequest,
-  ): effect.Effect<
-    DescribeInstanceImageMetadataResult,
-    RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceImageMetadata: API.OperationMethod<
+  DescribeInstanceImageMetadataRequest,
+  DescribeInstanceImageMetadataResult,
+  RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceImageMetadataRequest,
   ) => stream.Stream<
@@ -80301,18 +79931,16 @@ export const describeInstanceImageMetadata: {
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeInstances: {
-  (
-    input: DescribeInstancesRequest,
-  ): effect.Effect<
-    DescribeInstancesResult,
-    | RequestLimitExceeded
-    | InvalidInstanceIDMalformed
-    | InvalidInstanceIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstances: API.OperationMethod<
+  DescribeInstancesRequest,
+  DescribeInstancesResult,
+  | RequestLimitExceeded
+  | InvalidInstanceIDMalformed
+  | InvalidInstanceIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstancesRequest,
   ) => stream.Stream<
@@ -80355,9 +79983,8 @@ export const describeInstances: {
  * Describes the historical SQL Server High Availability states for Amazon EC2
  * instances that are enabled for Amazon EC2 High Availability for SQL Server monitoring.
  */
-export const describeInstanceSqlHaHistoryStates: (
-  input: DescribeInstanceSqlHaHistoryStatesRequest,
-) => effect.Effect<
+export const describeInstanceSqlHaHistoryStates: API.OperationMethod<
+  DescribeInstanceSqlHaHistoryStatesRequest,
   DescribeInstanceSqlHaHistoryStatesResult,
   RequestLimitExceeded | InvalidInstanceIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -80370,9 +79997,8 @@ export const describeInstanceSqlHaHistoryStates: (
  * Describes the SQL Server High Availability states for Amazon EC2 instances that are
  * enabled for Amazon EC2 High Availability for SQL Server monitoring.
  */
-export const describeInstanceSqlHaStates: (
-  input: DescribeInstanceSqlHaStatesRequest,
-) => effect.Effect<
+export const describeInstanceSqlHaStates: API.OperationMethod<
+  DescribeInstanceSqlHaStatesRequest,
   DescribeInstanceSqlHaStatesResult,
   RequestLimitExceeded | InvalidInstanceIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -80416,17 +80042,15 @@ export const describeInstanceSqlHaStates: (
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeInstanceStatus: {
-  (
-    input: DescribeInstanceStatusRequest,
-  ): effect.Effect<
-    DescribeInstanceStatusResult,
-    | RequestLimitExceeded
-    | InvalidInstanceIDMalformed
-    | InvalidInstanceIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceStatus: API.OperationMethod<
+  DescribeInstanceStatusRequest,
+  DescribeInstanceStatusResult,
+  | RequestLimitExceeded
+  | InvalidInstanceIDMalformed
+  | InvalidInstanceIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceStatusRequest,
   ) => stream.Stream<
@@ -80485,14 +80109,12 @@ export const describeInstanceStatus: {
  * For more information, see Amazon EC2 topology in
  * the *Amazon EC2 User Guide*.
  */
-export const describeInstanceTopology: {
-  (
-    input: DescribeInstanceTopologyRequest,
-  ): effect.Effect<
-    DescribeInstanceTopologyResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceTopology: API.OperationMethod<
+  DescribeInstanceTopologyRequest,
+  DescribeInstanceTopologyResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceTopologyRequest,
   ) => stream.Stream<
@@ -80523,14 +80145,12 @@ export const describeInstanceTopology: {
  * specified, the default is to list the instance types that are offered in the current
  * Region.
  */
-export const describeInstanceTypeOfferings: {
-  (
-    input: DescribeInstanceTypeOfferingsRequest,
-  ): effect.Effect<
-    DescribeInstanceTypeOfferingsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceTypeOfferings: API.OperationMethod<
+  DescribeInstanceTypeOfferingsRequest,
+  DescribeInstanceTypeOfferingsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceTypeOfferingsRequest,
   ) => stream.Stream<
@@ -80560,14 +80180,12 @@ export const describeInstanceTypeOfferings: {
  * Describes the specified instance types. By default, all instance types for the current
  * Region are described. Alternatively, you can filter the results.
  */
-export const describeInstanceTypes: {
-  (
-    input: DescribeInstanceTypesRequest,
-  ): effect.Effect<
-    DescribeInstanceTypesResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceTypes: API.OperationMethod<
+  DescribeInstanceTypesRequest,
+  DescribeInstanceTypesResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceTypesRequest,
   ) => stream.Stream<
@@ -80598,17 +80216,15 @@ export const describeInstanceTypes: {
  * Alternatively, you can specify specific internet gateway IDs or filter the results to
  * include only the internet gateways that match specific criteria.
  */
-export const describeInternetGateways: {
-  (
-    input: DescribeInternetGatewaysRequest,
-  ): effect.Effect<
-    DescribeInternetGatewaysResult,
-    | RequestLimitExceeded
-    | InvalidInternetGatewayIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInternetGateways: API.OperationMethod<
+  DescribeInternetGatewaysRequest,
+  DescribeInternetGatewaysResult,
+  | RequestLimitExceeded
+  | InvalidInternetGatewayIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInternetGatewaysRequest,
   ) => stream.Stream<
@@ -80643,9 +80259,8 @@ export const describeInternetGateways: {
 /**
  * Describes your Autonomous System Numbers (ASNs), their provisioning statuses, and the BYOIP CIDRs with which they are associated. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const describeIpamByoasn: (
-  input: DescribeIpamByoasnRequest,
-) => effect.Effect<
+export const describeIpamByoasn: API.OperationMethod<
+  DescribeIpamByoasnRequest,
   DescribeIpamByoasnResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -80659,9 +80274,8 @@ export const describeIpamByoasn: (
  *
  * A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
  */
-export const describeIpamExternalResourceVerificationTokens: (
-  input: DescribeIpamExternalResourceVerificationTokensRequest,
-) => effect.Effect<
+export const describeIpamExternalResourceVerificationTokens: API.OperationMethod<
+  DescribeIpamExternalResourceVerificationTokensRequest,
   DescribeIpamExternalResourceVerificationTokensResult,
   | RequestLimitExceeded
   | InvalidIpamExternalResourceVerificationTokenIdNotFound
@@ -80680,9 +80294,8 @@ export const describeIpamExternalResourceVerificationTokens: (
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const describeIpamPolicies: (
-  input: DescribeIpamPoliciesRequest,
-) => effect.Effect<
+export const describeIpamPolicies: API.OperationMethod<
+  DescribeIpamPoliciesRequest,
   DescribeIpamPoliciesResult,
   RequestLimitExceeded | InvalidIpamPolicyIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -80694,14 +80307,12 @@ export const describeIpamPolicies: (
 /**
  * Get information about your IPAM pools.
  */
-export const describeIpamPools: {
-  (
-    input: DescribeIpamPoolsRequest,
-  ): effect.Effect<
-    DescribeIpamPoolsResult,
-    RequestLimitExceeded | InvalidIpamPoolIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpamPools: API.OperationMethod<
+  DescribeIpamPoolsRequest,
+  DescribeIpamPoolsResult,
+  RequestLimitExceeded | InvalidIpamPoolIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamPoolsRequest,
   ) => stream.Stream<
@@ -80730,16 +80341,12 @@ export const describeIpamPools: {
 /**
  * Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers.
  */
-export const describeIpamPrefixListResolvers: {
-  (
-    input: DescribeIpamPrefixListResolversRequest,
-  ): effect.Effect<
-    DescribeIpamPrefixListResolversResult,
-    | RequestLimitExceeded
-    | InvalidIpamPrefixListResolverIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpamPrefixListResolvers: API.OperationMethod<
+  DescribeIpamPrefixListResolversRequest,
+  DescribeIpamPrefixListResolversResult,
+  RequestLimitExceeded | InvalidIpamPrefixListResolverIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamPrefixListResolversRequest,
   ) => stream.Stream<
@@ -80772,16 +80379,14 @@ export const describeIpamPrefixListResolvers: {
 /**
  * Describes one or more IPAM prefix list resolver Targets. Use this operation to view the configuration and status of resolver targets.
  */
-export const describeIpamPrefixListResolverTargets: {
-  (
-    input: DescribeIpamPrefixListResolverTargetsRequest,
-  ): effect.Effect<
-    DescribeIpamPrefixListResolverTargetsResult,
-    | RequestLimitExceeded
-    | InvalidIpamPrefixListResolverTargetIdMalformed
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpamPrefixListResolverTargets: API.OperationMethod<
+  DescribeIpamPrefixListResolverTargetsRequest,
+  DescribeIpamPrefixListResolverTargetsResult,
+  | RequestLimitExceeded
+  | InvalidIpamPrefixListResolverTargetIdMalformed
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamPrefixListResolverTargetsRequest,
   ) => stream.Stream<
@@ -80817,16 +80422,12 @@ export const describeIpamPrefixListResolverTargets: {
 /**
  * Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const describeIpamResourceDiscoveries: {
-  (
-    input: DescribeIpamResourceDiscoveriesRequest,
-  ): effect.Effect<
-    DescribeIpamResourceDiscoveriesResult,
-    | RequestLimitExceeded
-    | InvalidIpamResourceDiscoveryIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpamResourceDiscoveries: API.OperationMethod<
+  DescribeIpamResourceDiscoveriesRequest,
+  DescribeIpamResourceDiscoveriesResult,
+  RequestLimitExceeded | InvalidIpamResourceDiscoveryIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamResourceDiscoveriesRequest,
   ) => stream.Stream<
@@ -80859,16 +80460,14 @@ export const describeIpamResourceDiscoveries: {
 /**
  * Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
  */
-export const describeIpamResourceDiscoveryAssociations: {
-  (
-    input: DescribeIpamResourceDiscoveryAssociationsRequest,
-  ): effect.Effect<
-    DescribeIpamResourceDiscoveryAssociationsResult,
-    | RequestLimitExceeded
-    | InvalidIpamResourceDiscoveryAssociationIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpamResourceDiscoveryAssociations: API.OperationMethod<
+  DescribeIpamResourceDiscoveryAssociationsRequest,
+  DescribeIpamResourceDiscoveryAssociationsResult,
+  | RequestLimitExceeded
+  | InvalidIpamResourceDiscoveryAssociationIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamResourceDiscoveryAssociationsRequest,
   ) => stream.Stream<
@@ -80906,14 +80505,12 @@ export const describeIpamResourceDiscoveryAssociations: {
  *
  * For more information, see What is IPAM? in the *Amazon VPC IPAM User Guide*.
  */
-export const describeIpams: {
-  (
-    input: DescribeIpamsRequest,
-  ): effect.Effect<
-    DescribeIpamsResult,
-    RequestLimitExceeded | InvalidIpamIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpams: API.OperationMethod<
+  DescribeIpamsRequest,
+  DescribeIpamsResult,
+  RequestLimitExceeded | InvalidIpamIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamsRequest,
   ) => stream.Stream<
@@ -80942,14 +80539,12 @@ export const describeIpams: {
 /**
  * Get information about your IPAM scopes.
  */
-export const describeIpamScopes: {
-  (
-    input: DescribeIpamScopesRequest,
-  ): effect.Effect<
-    DescribeIpamScopesResult,
-    RequestLimitExceeded | InvalidIpamScopeIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpamScopes: API.OperationMethod<
+  DescribeIpamScopesRequest,
+  DescribeIpamScopesResult,
+  RequestLimitExceeded | InvalidIpamScopeIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpamScopesRequest,
   ) => stream.Stream<
@@ -80978,14 +80573,12 @@ export const describeIpamScopes: {
 /**
  * Describes your IPv6 address pools.
  */
-export const describeIpv6Pools: {
-  (
-    input: DescribeIpv6PoolsRequest,
-  ): effect.Effect<
-    DescribeIpv6PoolsResult,
-    RequestLimitExceeded | InvalidIpv6PoolIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeIpv6Pools: API.OperationMethod<
+  DescribeIpv6PoolsRequest,
+  DescribeIpv6PoolsResult,
+  RequestLimitExceeded | InvalidIpv6PoolIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIpv6PoolsRequest,
   ) => stream.Stream<
@@ -81017,9 +80610,8 @@ export const describeIpv6Pools: {
  * For more information about key pairs, see Amazon EC2 key pairs
  * in the *Amazon EC2 User Guide*.
  */
-export const describeKeyPairs: (
-  input: DescribeKeyPairsRequest,
-) => effect.Effect<
+export const describeKeyPairs: API.OperationMethod<
+  DescribeKeyPairsRequest,
   DescribeKeyPairsResult,
   | RequestLimitExceeded
   | InvalidKeyPairNotFound
@@ -81034,17 +80626,15 @@ export const describeKeyPairs: (
 /**
  * Describes one or more launch templates.
  */
-export const describeLaunchTemplates: {
-  (
-    input: DescribeLaunchTemplatesRequest,
-  ): effect.Effect<
-    DescribeLaunchTemplatesResult,
-    | RequestLimitExceeded
-    | InvalidLaunchTemplateIdMalformed
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLaunchTemplates: API.OperationMethod<
+  DescribeLaunchTemplatesRequest,
+  DescribeLaunchTemplatesResult,
+  | RequestLimitExceeded
+  | InvalidLaunchTemplateIdMalformed
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLaunchTemplatesRequest,
   ) => stream.Stream<
@@ -81082,17 +80672,15 @@ export const describeLaunchTemplates: {
  * latest versions or all the default versions of all the launch templates in your
  * account.
  */
-export const describeLaunchTemplateVersions: {
-  (
-    input: DescribeLaunchTemplateVersionsRequest,
-  ): effect.Effect<
-    DescribeLaunchTemplateVersionsResult,
-    | RequestLimitExceeded
-    | InvalidLaunchTemplateIdMalformed
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLaunchTemplateVersions: API.OperationMethod<
+  DescribeLaunchTemplateVersionsRequest,
+  DescribeLaunchTemplateVersionsResult,
+  | RequestLimitExceeded
+  | InvalidLaunchTemplateIdMalformed
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLaunchTemplateVersionsRequest,
   ) => stream.Stream<
@@ -81132,14 +80720,12 @@ export const describeLaunchTemplateVersions: {
  * Describes one or more local gateway route tables. By default, all local gateway route tables are described.
  * Alternatively, you can filter the results.
  */
-export const describeLocalGatewayRouteTables: {
-  (
-    input: DescribeLocalGatewayRouteTablesRequest,
-  ): effect.Effect<
-    DescribeLocalGatewayRouteTablesResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLocalGatewayRouteTables: API.OperationMethod<
+  DescribeLocalGatewayRouteTablesRequest,
+  DescribeLocalGatewayRouteTablesResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLocalGatewayRouteTablesRequest,
   ) => stream.Stream<
@@ -81168,14 +80754,12 @@ export const describeLocalGatewayRouteTables: {
 /**
  * Describes the associations between virtual interface groups and local gateway route tables.
  */
-export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: {
-  (
-    input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
-  ): effect.Effect<
-    DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: API.OperationMethod<
+  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
   ) => stream.Stream<
@@ -81204,14 +80788,12 @@ export const describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: {
 /**
  * Describes the specified associations between VPCs and local gateway route tables.
  */
-export const describeLocalGatewayRouteTableVpcAssociations: {
-  (
-    input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
-  ): effect.Effect<
-    DescribeLocalGatewayRouteTableVpcAssociationsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLocalGatewayRouteTableVpcAssociations: API.OperationMethod<
+  DescribeLocalGatewayRouteTableVpcAssociationsRequest,
+  DescribeLocalGatewayRouteTableVpcAssociationsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
   ) => stream.Stream<
@@ -81241,14 +80823,12 @@ export const describeLocalGatewayRouteTableVpcAssociations: {
  * Describes one or more local gateways. By default, all local gateways are described.
  * Alternatively, you can filter the results.
  */
-export const describeLocalGateways: {
-  (
-    input: DescribeLocalGatewaysRequest,
-  ): effect.Effect<
-    DescribeLocalGatewaysResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLocalGateways: API.OperationMethod<
+  DescribeLocalGatewaysRequest,
+  DescribeLocalGatewaysResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLocalGatewaysRequest,
   ) => stream.Stream<
@@ -81277,14 +80857,12 @@ export const describeLocalGateways: {
 /**
  * Describes the specified local gateway virtual interface groups.
  */
-export const describeLocalGatewayVirtualInterfaceGroups: {
-  (
-    input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
-  ): effect.Effect<
-    DescribeLocalGatewayVirtualInterfaceGroupsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLocalGatewayVirtualInterfaceGroups: API.OperationMethod<
+  DescribeLocalGatewayVirtualInterfaceGroupsRequest,
+  DescribeLocalGatewayVirtualInterfaceGroupsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
   ) => stream.Stream<
@@ -81313,14 +80891,12 @@ export const describeLocalGatewayVirtualInterfaceGroups: {
 /**
  * Describes the specified local gateway virtual interfaces.
  */
-export const describeLocalGatewayVirtualInterfaces: {
-  (
-    input: DescribeLocalGatewayVirtualInterfacesRequest,
-  ): effect.Effect<
-    DescribeLocalGatewayVirtualInterfacesResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeLocalGatewayVirtualInterfaces: API.OperationMethod<
+  DescribeLocalGatewayVirtualInterfacesRequest,
+  DescribeLocalGatewayVirtualInterfacesResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLocalGatewayVirtualInterfacesRequest,
   ) => stream.Stream<
@@ -81349,9 +80925,8 @@ export const describeLocalGatewayVirtualInterfaces: {
 /**
  * Describes the lock status for a snapshot.
  */
-export const describeLockedSnapshots: (
-  input: DescribeLockedSnapshotsRequest,
-) => effect.Effect<
+export const describeLockedSnapshots: API.OperationMethod<
+  DescribeLockedSnapshotsRequest,
   DescribeLockedSnapshotsResult,
   RequestLimitExceeded | InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -81363,14 +80938,12 @@ export const describeLockedSnapshots: (
 /**
  * Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
  */
-export const describeMacHosts: {
-  (
-    input: DescribeMacHostsRequest,
-  ): effect.Effect<
-    DescribeMacHostsResult,
-    RequestLimitExceeded | InvalidHostIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeMacHosts: API.OperationMethod<
+  DescribeMacHostsRequest,
+  DescribeMacHostsResult,
+  RequestLimitExceeded | InvalidHostIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMacHostsRequest,
   ) => stream.Stream<
@@ -81401,14 +80974,12 @@ export const describeMacHosts: {
  * task for an Amazon EC2 Mac instance. For more information, see Configure
  * SIP for Amazon EC2 instances in the *Amazon EC2 User Guide*.
  */
-export const describeMacModificationTasks: {
-  (
-    input: DescribeMacModificationTasksRequest,
-  ): effect.Effect<
-    DescribeMacModificationTasksResult,
-    RequestLimitExceeded | InvalidParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeMacModificationTasks: API.OperationMethod<
+  DescribeMacModificationTasksRequest,
+  DescribeMacModificationTasksResult,
+  RequestLimitExceeded | InvalidParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMacModificationTasksRequest,
   ) => stream.Stream<
@@ -81437,17 +81008,15 @@ export const describeMacModificationTasks: {
 /**
  * Describes your managed prefix lists and any Amazon Web Services-managed prefix lists.
  */
-export const describeManagedPrefixLists: {
-  (
-    input: DescribeManagedPrefixListsRequest,
-  ): effect.Effect<
-    DescribeManagedPrefixListsResult,
-    | RequestLimitExceeded
-    | InvalidPrefixListIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeManagedPrefixLists: API.OperationMethod<
+  DescribeManagedPrefixListsRequest,
+  DescribeManagedPrefixListsResult,
+  | RequestLimitExceeded
+  | InvalidPrefixListIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeManagedPrefixListsRequest,
   ) => stream.Stream<
@@ -81485,14 +81054,12 @@ export const describeManagedPrefixLists: {
  * Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform.
  * This request does not return information about any other Elastic IP addresses in your account.
  */
-export const describeMovingAddresses: {
-  (
-    input: DescribeMovingAddressesRequest,
-  ): effect.Effect<
-    DescribeMovingAddressesResult,
-    RequestLimitExceeded | UnsupportedOperation | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeMovingAddresses: API.OperationMethod<
+  DescribeMovingAddressesRequest,
+  DescribeMovingAddressesResult,
+  RequestLimitExceeded | UnsupportedOperation | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMovingAddressesRequest,
   ) => stream.Stream<
@@ -81523,21 +81090,19 @@ export const describeMovingAddresses: {
  * Alternatively, you can specify specific NAT gateway IDs or filter the results to
  * include only the NAT gateways that match specific criteria.
  */
-export const describeNatGateways: {
-  (
-    input: DescribeNatGatewaysRequest,
-  ): effect.Effect<
-    DescribeNatGatewaysResult,
-    | RequestLimitExceeded
-    | DryRunOperation
-    | FilterLimitExceeded
-    | InvalidParameter
-    | NatGatewayMalformed
-    | NatGatewayNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNatGateways: API.OperationMethod<
+  DescribeNatGatewaysRequest,
+  DescribeNatGatewaysResult,
+  | RequestLimitExceeded
+  | DryRunOperation
+  | FilterLimitExceeded
+  | InvalidParameter
+  | NatGatewayMalformed
+  | NatGatewayNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNatGatewaysRequest,
   ) => stream.Stream<
@@ -81593,18 +81158,16 @@ export const describeNatGateways: {
  * For more information, see Network ACLs in the
  * *Amazon VPC User Guide*.
  */
-export const describeNetworkAcls: {
-  (
-    input: DescribeNetworkAclsRequest,
-  ): effect.Effect<
-    DescribeNetworkAclsResult,
-    | RequestLimitExceeded
-    | InvalidNetworkAclIDNotFound
-    | InvalidRouteTableIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkAcls: API.OperationMethod<
+  DescribeNetworkAclsRequest,
+  DescribeNetworkAclsResult,
+  | RequestLimitExceeded
+  | InvalidNetworkAclIDNotFound
+  | InvalidRouteTableIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkAclsRequest,
   ) => stream.Stream<
@@ -81646,14 +81209,12 @@ export const describeNetworkAcls: {
 /**
  * Describes the specified Network Access Scope analyses.
  */
-export const describeNetworkInsightsAccessScopeAnalyses: {
-  (
-    input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
-  ): effect.Effect<
-    DescribeNetworkInsightsAccessScopeAnalysesResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkInsightsAccessScopeAnalyses: API.OperationMethod<
+  DescribeNetworkInsightsAccessScopeAnalysesRequest,
+  DescribeNetworkInsightsAccessScopeAnalysesResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
   ) => stream.Stream<
@@ -81682,14 +81243,12 @@ export const describeNetworkInsightsAccessScopeAnalyses: {
 /**
  * Describes the specified Network Access Scopes.
  */
-export const describeNetworkInsightsAccessScopes: {
-  (
-    input: DescribeNetworkInsightsAccessScopesRequest,
-  ): effect.Effect<
-    DescribeNetworkInsightsAccessScopesResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkInsightsAccessScopes: API.OperationMethod<
+  DescribeNetworkInsightsAccessScopesRequest,
+  DescribeNetworkInsightsAccessScopesResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkInsightsAccessScopesRequest,
   ) => stream.Stream<
@@ -81718,14 +81277,12 @@ export const describeNetworkInsightsAccessScopes: {
 /**
  * Describes one or more of your network insights analyses.
  */
-export const describeNetworkInsightsAnalyses: {
-  (
-    input: DescribeNetworkInsightsAnalysesRequest,
-  ): effect.Effect<
-    DescribeNetworkInsightsAnalysesResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkInsightsAnalyses: API.OperationMethod<
+  DescribeNetworkInsightsAnalysesRequest,
+  DescribeNetworkInsightsAnalysesResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkInsightsAnalysesRequest,
   ) => stream.Stream<
@@ -81754,14 +81311,12 @@ export const describeNetworkInsightsAnalyses: {
 /**
  * Describes one or more of your paths.
  */
-export const describeNetworkInsightsPaths: {
-  (
-    input: DescribeNetworkInsightsPathsRequest,
-  ): effect.Effect<
-    DescribeNetworkInsightsPathsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkInsightsPaths: API.OperationMethod<
+  DescribeNetworkInsightsPathsRequest,
+  DescribeNetworkInsightsPathsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkInsightsPathsRequest,
   ) => stream.Stream<
@@ -81791,9 +81346,8 @@ export const describeNetworkInsightsPaths: {
  * Describes a network interface attribute. You can specify only one attribute at a
  * time.
  */
-export const describeNetworkInterfaceAttribute: (
-  input: DescribeNetworkInterfaceAttributeRequest,
-) => effect.Effect<
+export const describeNetworkInterfaceAttribute: API.OperationMethod<
+  DescribeNetworkInterfaceAttributeRequest,
   DescribeNetworkInterfaceAttributeResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -81814,14 +81368,12 @@ export const describeNetworkInterfaceAttribute: (
 /**
  * Describes the permissions for your network interfaces.
  */
-export const describeNetworkInterfacePermissions: {
-  (
-    input: DescribeNetworkInterfacePermissionsRequest,
-  ): effect.Effect<
-    DescribeNetworkInterfacePermissionsResult,
-    RequestLimitExceeded | InvalidPermissionIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkInterfacePermissions: API.OperationMethod<
+  DescribeNetworkInterfacePermissionsRequest,
+  DescribeNetworkInterfacePermissionsResult,
+  RequestLimitExceeded | InvalidPermissionIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkInterfacePermissionsRequest,
   ) => stream.Stream<
@@ -81859,18 +81411,16 @@ export const describeNetworkInterfacePermissions: {
  * We strongly recommend using only paginated requests. Unpaginated requests are
  * susceptible to throttling and timeouts.
  */
-export const describeNetworkInterfaces: {
-  (
-    input: DescribeNetworkInterfacesRequest,
-  ): effect.Effect<
-    DescribeNetworkInterfacesResult,
-    | RequestLimitExceeded
-    | InvalidNetworkInterfaceIDNotFound
-    | InvalidNetworkInterfaceIdMalformed
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeNetworkInterfaces: API.OperationMethod<
+  DescribeNetworkInterfacesRequest,
+  DescribeNetworkInterfacesResult,
+  | RequestLimitExceeded
+  | InvalidNetworkInterfaceIDNotFound
+  | InvalidNetworkInterfaceIdMalformed
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeNetworkInterfacesRequest,
   ) => stream.Stream<
@@ -81914,9 +81464,8 @@ export const describeNetworkInterfaces: {
  *
  * LAGs are only available for second-generation Outposts racks at this time.
  */
-export const describeOutpostLags: (
-  input: DescribeOutpostLagsRequest,
-) => effect.Effect<
+export const describeOutpostLags: API.OperationMethod<
+  DescribeOutpostLagsRequest,
   DescribeOutpostLagsResult,
   RequestLimitExceeded | InvalidOutpostLagIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -81937,9 +81486,8 @@ export const describeOutpostLags: (
  * For more information, see Placement groups in the
  * *Amazon EC2 User Guide*.
  */
-export const describePlacementGroups: (
-  input: DescribePlacementGroupsRequest,
-) => effect.Effect<
+export const describePlacementGroups: API.OperationMethod<
+  DescribePlacementGroupsRequest,
   DescribePlacementGroupsResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -81959,14 +81507,12 @@ export const describePlacementGroups: (
  * Describes available Amazon Web Services services in a prefix list format, which includes the prefix list
  * name and prefix list ID of the service and the IP address range for the service.
  */
-export const describePrefixLists: {
-  (
-    input: DescribePrefixListsRequest,
-  ): effect.Effect<
-    DescribePrefixListsResult,
-    RequestLimitExceeded | InvalidPrefixListIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePrefixLists: API.OperationMethod<
+  DescribePrefixListsRequest,
+  DescribePrefixListsResult,
+  RequestLimitExceeded | InvalidPrefixListIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePrefixListsRequest,
   ) => stream.Stream<
@@ -82014,14 +81560,12 @@ export const describePrefixLists: {
  * | `vpc-cidr-block-association` | `vpc-endpoint` |
  * `vpc-peering-connection` | `vpn-connection` | `vpn-gateway`.
  */
-export const describePrincipalIdFormat: {
-  (
-    input: DescribePrincipalIdFormatRequest,
-  ): effect.Effect<
-    DescribePrincipalIdFormatResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePrincipalIdFormat: API.OperationMethod<
+  DescribePrincipalIdFormatRequest,
+  DescribePrincipalIdFormatResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePrincipalIdFormatRequest,
   ) => stream.Stream<
@@ -82050,14 +81594,12 @@ export const describePrincipalIdFormat: {
 /**
  * Describes the specified IPv4 address pools.
  */
-export const describePublicIpv4Pools: {
-  (
-    input: DescribePublicIpv4PoolsRequest,
-  ): effect.Effect<
-    DescribePublicIpv4PoolsResult,
-    RequestLimitExceeded | InvalidPublicIpv4PoolIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePublicIpv4Pools: API.OperationMethod<
+  DescribePublicIpv4PoolsRequest,
+  DescribePublicIpv4PoolsResult,
+  RequestLimitExceeded | InvalidPublicIpv4PoolIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePublicIpv4PoolsRequest,
   ) => stream.Stream<
@@ -82094,9 +81636,8 @@ export const describePublicIpv4Pools: {
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeRegions: (
-  input: DescribeRegionsRequest,
-) => effect.Effect<
+export const describeRegions: API.OperationMethod<
+  DescribeRegionsRequest,
   DescribeRegionsResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -82109,14 +81650,12 @@ export const describeRegions: (
  * Describes a root volume replacement task. For more information, see
  * Replace a root volume in the *Amazon EC2 User Guide*.
  */
-export const describeReplaceRootVolumeTasks: {
-  (
-    input: DescribeReplaceRootVolumeTasksRequest,
-  ): effect.Effect<
-    DescribeReplaceRootVolumeTasksResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReplaceRootVolumeTasks: API.OperationMethod<
+  DescribeReplaceRootVolumeTasksRequest,
+  DescribeReplaceRootVolumeTasksResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplaceRootVolumeTasksRequest,
   ) => stream.Stream<
@@ -82151,9 +81690,8 @@ export const describeReplaceRootVolumeTasks: {
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstances: (
-  input: DescribeReservedInstancesRequest,
-) => effect.Effect<
+export const describeReservedInstances: API.OperationMethod<
+  DescribeReservedInstancesRequest,
   DescribeReservedInstancesResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -82187,9 +81725,8 @@ export const describeReservedInstances: (
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstancesListings: (
-  input: DescribeReservedInstancesListingsRequest,
-) => effect.Effect<
+export const describeReservedInstancesListings: API.OperationMethod<
+  DescribeReservedInstancesListingsRequest,
   DescribeReservedInstancesListingsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -82210,14 +81747,12 @@ export const describeReservedInstancesListings: (
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstancesModifications: {
-  (
-    input: DescribeReservedInstancesModificationsRequest,
-  ): effect.Effect<
-    DescribeReservedInstancesModificationsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReservedInstancesModifications: API.OperationMethod<
+  DescribeReservedInstancesModificationsRequest,
+  DescribeReservedInstancesModificationsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedInstancesModificationsRequest,
   ) => stream.Stream<
@@ -82258,14 +81793,12 @@ export const describeReservedInstancesModifications: {
  * The order of the elements in the response, including those within nested structures,
  * might vary. Applications should not assume the elements appear in a particular order.
  */
-export const describeReservedInstancesOfferings: {
-  (
-    input: DescribeReservedInstancesOfferingsRequest,
-  ): effect.Effect<
-    DescribeReservedInstancesOfferingsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReservedInstancesOfferings: API.OperationMethod<
+  DescribeReservedInstancesOfferingsRequest,
+  DescribeReservedInstancesOfferingsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedInstancesOfferingsRequest,
   ) => stream.Stream<
@@ -82298,14 +81831,12 @@ export const describeReservedInstancesOfferings: {
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const describeRouteServerEndpoints: {
-  (
-    input: DescribeRouteServerEndpointsRequest,
-  ): effect.Effect<
-    DescribeRouteServerEndpointsResult,
-    RequestLimitExceeded | InvalidRouteServerEndpointIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeRouteServerEndpoints: API.OperationMethod<
+  DescribeRouteServerEndpointsRequest,
+  DescribeRouteServerEndpointsResult,
+  RequestLimitExceeded | InvalidRouteServerEndpointIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRouteServerEndpointsRequest,
   ) => stream.Stream<
@@ -82344,14 +81875,12 @@ export const describeRouteServerEndpoints: {
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const describeRouteServerPeers: {
-  (
-    input: DescribeRouteServerPeersRequest,
-  ): effect.Effect<
-    DescribeRouteServerPeersResult,
-    RequestLimitExceeded | InvalidRouteServerPeerIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeRouteServerPeers: API.OperationMethod<
+  DescribeRouteServerPeersRequest,
+  DescribeRouteServerPeersResult,
+  RequestLimitExceeded | InvalidRouteServerPeerIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRouteServerPeersRequest,
   ) => stream.Stream<
@@ -82395,14 +81924,12 @@ export const describeRouteServerPeers: {
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const describeRouteServers: {
-  (
-    input: DescribeRouteServersRequest,
-  ): effect.Effect<
-    DescribeRouteServersResult,
-    RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeRouteServers: API.OperationMethod<
+  DescribeRouteServersRequest,
+  DescribeRouteServersResult,
+  RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRouteServersRequest,
   ) => stream.Stream<
@@ -82438,17 +81965,15 @@ export const describeRouteServers: {
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const describeRouteTables: {
-  (
-    input: DescribeRouteTablesRequest,
-  ): effect.Effect<
-    DescribeRouteTablesResult,
-    | RequestLimitExceeded
-    | InvalidRouteTableIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeRouteTables: API.OperationMethod<
+  DescribeRouteTablesRequest,
+  DescribeRouteTablesResult,
+  | RequestLimitExceeded
+  | InvalidRouteTableIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRouteTablesRequest,
   ) => stream.Stream<
@@ -82488,14 +82013,12 @@ export const describeRouteTables: {
  * After you find a schedule that meets your needs, call PurchaseScheduledInstances
  * to purchase Scheduled Instances with that schedule.
  */
-export const describeScheduledInstanceAvailability: {
-  (
-    input: DescribeScheduledInstanceAvailabilityRequest,
-  ): effect.Effect<
-    DescribeScheduledInstanceAvailabilityResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeScheduledInstanceAvailability: API.OperationMethod<
+  DescribeScheduledInstanceAvailabilityRequest,
+  DescribeScheduledInstanceAvailabilityResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScheduledInstanceAvailabilityRequest,
   ) => stream.Stream<
@@ -82524,14 +82047,12 @@ export const describeScheduledInstanceAvailability: {
 /**
  * Describes the specified Scheduled Instances or all your Scheduled Instances.
  */
-export const describeScheduledInstances: {
-  (
-    input: DescribeScheduledInstancesRequest,
-  ): effect.Effect<
-    DescribeScheduledInstancesResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeScheduledInstances: API.OperationMethod<
+  DescribeScheduledInstancesRequest,
+  DescribeScheduledInstancesResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScheduledInstancesRequest,
   ) => stream.Stream<
@@ -82560,14 +82081,12 @@ export const describeScheduledInstances: {
 /**
  * Describes one or more of your secondary interfaces.
  */
-export const describeSecondaryInterfaces: {
-  (
-    input: DescribeSecondaryInterfacesRequest,
-  ): effect.Effect<
-    DescribeSecondaryInterfacesResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSecondaryInterfaces: API.OperationMethod<
+  DescribeSecondaryInterfacesRequest,
+  DescribeSecondaryInterfacesResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSecondaryInterfacesRequest,
   ) => stream.Stream<
@@ -82596,14 +82115,12 @@ export const describeSecondaryInterfaces: {
 /**
  * Describes one or more secondary networks.
  */
-export const describeSecondaryNetworks: {
-  (
-    input: DescribeSecondaryNetworksRequest,
-  ): effect.Effect<
-    DescribeSecondaryNetworksResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSecondaryNetworks: API.OperationMethod<
+  DescribeSecondaryNetworksRequest,
+  DescribeSecondaryNetworksResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSecondaryNetworksRequest,
   ) => stream.Stream<
@@ -82632,14 +82149,12 @@ export const describeSecondaryNetworks: {
 /**
  * Describes one or more of your secondary subnets.
  */
-export const describeSecondarySubnets: {
-  (
-    input: DescribeSecondarySubnetsRequest,
-  ): effect.Effect<
-    DescribeSecondarySubnetsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSecondarySubnets: API.OperationMethod<
+  DescribeSecondarySubnetsRequest,
+  DescribeSecondarySubnetsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSecondarySubnetsRequest,
   ) => stream.Stream<
@@ -82668,9 +82183,8 @@ export const describeSecondarySubnets: {
 /**
  * Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
  */
-export const describeSecurityGroupReferences: (
-  input: DescribeSecurityGroupReferencesRequest,
-) => effect.Effect<
+export const describeSecurityGroupReferences: API.OperationMethod<
+  DescribeSecurityGroupReferencesRequest,
   DescribeSecurityGroupReferencesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -82682,14 +82196,12 @@ export const describeSecurityGroupReferences: (
 /**
  * Describes one or more of your security group rules.
  */
-export const describeSecurityGroupRules: {
-  (
-    input: DescribeSecurityGroupRulesRequest,
-  ): effect.Effect<
-    DescribeSecurityGroupRulesResult,
-    RequestLimitExceeded | InvalidSecurityGroupRuleIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSecurityGroupRules: API.OperationMethod<
+  DescribeSecurityGroupRulesRequest,
+  DescribeSecurityGroupRulesResult,
+  RequestLimitExceeded | InvalidSecurityGroupRuleIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSecurityGroupRulesRequest,
   ) => stream.Stream<
@@ -82718,19 +82230,17 @@ export const describeSecurityGroupRules: {
 /**
  * Describes the specified security groups or all of your security groups.
  */
-export const describeSecurityGroups: {
-  (
-    input: DescribeSecurityGroupsRequest,
-  ): effect.Effect<
-    DescribeSecurityGroupsResult,
-    | RequestLimitExceeded
-    | InvalidGroupNotFound
-    | InvalidGroupIdMalformed
-    | ParseError
-    | VPCIdNotSpecified
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSecurityGroups: API.OperationMethod<
+  DescribeSecurityGroupsRequest,
+  DescribeSecurityGroupsResult,
+  | RequestLimitExceeded
+  | InvalidGroupNotFound
+  | InvalidGroupIdMalformed
+  | ParseError
+  | VPCIdNotSpecified
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSecurityGroupsRequest,
   ) => stream.Stream<
@@ -82775,14 +82285,12 @@ export const describeSecurityGroups: {
 /**
  * Describes security group VPC associations made with AssociateSecurityGroupVpc.
  */
-export const describeSecurityGroupVpcAssociations: {
-  (
-    input: DescribeSecurityGroupVpcAssociationsRequest,
-  ): effect.Effect<
-    DescribeSecurityGroupVpcAssociationsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSecurityGroupVpcAssociations: API.OperationMethod<
+  DescribeSecurityGroupVpcAssociationsRequest,
+  DescribeSecurityGroupVpcAssociationsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSecurityGroupVpcAssociationsRequest,
   ) => stream.Stream<
@@ -82811,9 +82319,8 @@ export const describeSecurityGroupVpcAssociations: {
 /**
  * Describes the Outpost service link virtual interfaces.
  */
-export const describeServiceLinkVirtualInterfaces: (
-  input: DescribeServiceLinkVirtualInterfacesRequest,
-) => effect.Effect<
+export const describeServiceLinkVirtualInterfaces: API.OperationMethod<
+  DescribeServiceLinkVirtualInterfacesRequest,
   DescribeServiceLinkVirtualInterfacesResult,
   | RequestLimitExceeded
   | InvalidServiceLinkVirtualInterfaceIDMalformed
@@ -82830,9 +82337,8 @@ export const describeServiceLinkVirtualInterfaces: (
  *
  * For more information about EBS snapshots, see Amazon EBS snapshots in the *Amazon EBS User Guide*.
  */
-export const describeSnapshotAttribute: (
-  input: DescribeSnapshotAttributeRequest,
-) => effect.Effect<
+export const describeSnapshotAttribute: API.OperationMethod<
+  DescribeSnapshotAttributeRequest,
   DescribeSnapshotAttributeResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -82897,17 +82403,15 @@ export const describeSnapshotAttribute: (
  * We strongly recommend using only paginated requests. Unpaginated requests are
  * susceptible to throttling and timeouts.
  */
-export const describeSnapshots: {
-  (
-    input: DescribeSnapshotsRequest,
-  ): effect.Effect<
-    DescribeSnapshotsResult,
-    | RequestLimitExceeded
-    | InvalidSnapshotNotFound
-    | InvalidUserIDMalformed
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSnapshots: API.OperationMethod<
+  DescribeSnapshotsRequest,
+  DescribeSnapshotsResult,
+  | RequestLimitExceeded
+  | InvalidSnapshotNotFound
+  | InvalidUserIDMalformed
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
@@ -82946,14 +82450,12 @@ export const describeSnapshots: {
 /**
  * Describes the storage tier status of one or more Amazon EBS snapshots.
  */
-export const describeSnapshotTierStatus: {
-  (
-    input: DescribeSnapshotTierStatusRequest,
-  ): effect.Effect<
-    DescribeSnapshotTierStatusResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSnapshotTierStatus: API.OperationMethod<
+  DescribeSnapshotTierStatusRequest,
+  DescribeSnapshotTierStatusResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotTierStatusRequest,
   ) => stream.Stream<
@@ -82983,9 +82485,8 @@ export const describeSnapshotTierStatus: {
  * Describes the data feed for Spot Instances. For more information, see Spot
  * Instance data feed in the *Amazon EC2 User Guide*.
  */
-export const describeSpotDatafeedSubscription: (
-  input: DescribeSpotDatafeedSubscriptionRequest,
-) => effect.Effect<
+export const describeSpotDatafeedSubscription: API.OperationMethod<
+  DescribeSpotDatafeedSubscriptionRequest,
   DescribeSpotDatafeedSubscriptionResult,
   RequestLimitExceeded | InvalidSpotDatafeedNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -82997,9 +82498,8 @@ export const describeSpotDatafeedSubscription: (
 /**
  * Describes the running instances for the specified Spot Fleet.
  */
-export const describeSpotFleetInstances: (
-  input: DescribeSpotFleetInstancesRequest,
-) => effect.Effect<
+export const describeSpotFleetInstances: API.OperationMethod<
+  DescribeSpotFleetInstancesRequest,
   DescribeSpotFleetInstancesResponse,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -83019,9 +82519,8 @@ export const describeSpotFleetInstances: (
  * For more information, see Monitor fleet events using Amazon
  * EventBridge in the *Amazon EC2 User Guide*.
  */
-export const describeSpotFleetRequestHistory: (
-  input: DescribeSpotFleetRequestHistoryRequest,
-) => effect.Effect<
+export const describeSpotFleetRequestHistory: API.OperationMethod<
+  DescribeSpotFleetRequestHistoryRequest,
   DescribeSpotFleetRequestHistoryResponse,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -83036,14 +82535,12 @@ export const describeSpotFleetRequestHistory: (
  * Spot Fleet requests are deleted 48 hours after they are canceled and their instances
  * are terminated.
  */
-export const describeSpotFleetRequests: {
-  (
-    input: DescribeSpotFleetRequestsRequest,
-  ): effect.Effect<
-    DescribeSpotFleetRequestsResponse,
-    RequestLimitExceeded | InvalidParameterValue | ParseError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSpotFleetRequests: API.OperationMethod<
+  DescribeSpotFleetRequestsRequest,
+  DescribeSpotFleetRequestsResponse,
+  RequestLimitExceeded | InvalidParameterValue | ParseError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSpotFleetRequestsRequest,
   ) => stream.Stream<
@@ -83090,17 +82587,15 @@ export const describeSpotFleetRequests: {
  * Spot Instance requests are deleted four hours after they are canceled and their instances are
  * terminated.
  */
-export const describeSpotInstanceRequests: {
-  (
-    input: DescribeSpotInstanceRequestsRequest,
-  ): effect.Effect<
-    DescribeSpotInstanceRequestsResult,
-    | RequestLimitExceeded
-    | InvalidSpotInstanceRequestIDMalformed
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSpotInstanceRequests: API.OperationMethod<
+  DescribeSpotInstanceRequestsRequest,
+  DescribeSpotInstanceRequestsResult,
+  | RequestLimitExceeded
+  | InvalidSpotInstanceRequestIDMalformed
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSpotInstanceRequestsRequest,
   ) => stream.Stream<
@@ -83144,14 +82639,12 @@ export const describeSpotInstanceRequests: {
  * instance types within that time range. It also returns the last price change before the
  * start time, which is the effective price as of the start time.
  */
-export const describeSpotPriceHistory: {
-  (
-    input: DescribeSpotPriceHistoryRequest,
-  ): effect.Effect<
-    DescribeSpotPriceHistoryResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSpotPriceHistory: API.OperationMethod<
+  DescribeSpotPriceHistoryRequest,
+  DescribeSpotPriceHistoryResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSpotPriceHistoryRequest,
   ) => stream.Stream<
@@ -83187,14 +82680,12 @@ export const describeSpotPriceHistory: {
  * gateway security group referencing feature has been disabled), or if a
  * security group VPC association has been disassociated.
  */
-export const describeStaleSecurityGroups: {
-  (
-    input: DescribeStaleSecurityGroupsRequest,
-  ): effect.Effect<
-    DescribeStaleSecurityGroupsResult,
-    RequestLimitExceeded | InvalidVpcIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeStaleSecurityGroups: API.OperationMethod<
+  DescribeStaleSecurityGroupsRequest,
+  DescribeStaleSecurityGroupsResult,
+  RequestLimitExceeded | InvalidVpcIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStaleSecurityGroupsRequest,
   ) => stream.Stream<
@@ -83238,14 +82729,12 @@ export const describeStaleSecurityGroups: {
  * For more information, see Store and restore an AMI using
  * S3 in the *Amazon EC2 User Guide*.
  */
-export const describeStoreImageTasks: {
-  (
-    input: DescribeStoreImageTasksRequest,
-  ): effect.Effect<
-    DescribeStoreImageTasksResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeStoreImageTasks: API.OperationMethod<
+  DescribeStoreImageTasksRequest,
+  DescribeStoreImageTasksResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStoreImageTasksRequest,
   ) => stream.Stream<
@@ -83279,14 +82768,12 @@ export const describeStoreImageTasks: {
  * For more information, see Subnets in the
  * *Amazon VPC User Guide*.
  */
-export const describeSubnets: {
-  (
-    input: DescribeSubnetsRequest,
-  ): effect.Effect<
-    DescribeSubnetsResult,
-    RequestLimitExceeded | InvalidSubnetIDNotFound | ParseError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSubnets: API.OperationMethod<
+  DescribeSubnetsRequest,
+  DescribeSubnetsResult,
+  RequestLimitExceeded | InvalidSubnetIDNotFound | ParseError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSubnetsRequest,
   ) => stream.Stream<
@@ -83325,14 +82812,12 @@ export const describeSubnets: {
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeTags: {
-  (
-    input: DescribeTagsRequest,
-  ): effect.Effect<
-    DescribeTagsResult,
-    RequestLimitExceeded | ParseError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTags: API.OperationMethod<
+  DescribeTagsRequest,
+  DescribeTagsResult,
+  RequestLimitExceeded | ParseError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
@@ -83361,9 +82846,8 @@ export const describeTags: {
 /**
  * Describe traffic mirror filters that determine the traffic that is mirrored.
  */
-export const describeTrafficMirrorFilterRules: (
-  input: DescribeTrafficMirrorFilterRulesRequest,
-) => effect.Effect<
+export const describeTrafficMirrorFilterRules: API.OperationMethod<
+  DescribeTrafficMirrorFilterRulesRequest,
   DescribeTrafficMirrorFilterRulesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -83375,14 +82859,12 @@ export const describeTrafficMirrorFilterRules: (
 /**
  * Describes one or more Traffic Mirror filters.
  */
-export const describeTrafficMirrorFilters: {
-  (
-    input: DescribeTrafficMirrorFiltersRequest,
-  ): effect.Effect<
-    DescribeTrafficMirrorFiltersResult,
-    RequestLimitExceeded | InvalidTrafficMirrorFilterIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTrafficMirrorFilters: API.OperationMethod<
+  DescribeTrafficMirrorFiltersRequest,
+  DescribeTrafficMirrorFiltersResult,
+  RequestLimitExceeded | InvalidTrafficMirrorFilterIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrafficMirrorFiltersRequest,
   ) => stream.Stream<
@@ -83411,14 +82893,12 @@ export const describeTrafficMirrorFilters: {
 /**
  * Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
  */
-export const describeTrafficMirrorSessions: {
-  (
-    input: DescribeTrafficMirrorSessionsRequest,
-  ): effect.Effect<
-    DescribeTrafficMirrorSessionsResult,
-    RequestLimitExceeded | InvalidTrafficMirrorSessionIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTrafficMirrorSessions: API.OperationMethod<
+  DescribeTrafficMirrorSessionsRequest,
+  DescribeTrafficMirrorSessionsResult,
+  RequestLimitExceeded | InvalidTrafficMirrorSessionIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrafficMirrorSessionsRequest,
   ) => stream.Stream<
@@ -83447,14 +82927,12 @@ export const describeTrafficMirrorSessions: {
 /**
  * Information about one or more Traffic Mirror targets.
  */
-export const describeTrafficMirrorTargets: {
-  (
-    input: DescribeTrafficMirrorTargetsRequest,
-  ): effect.Effect<
-    DescribeTrafficMirrorTargetsResult,
-    RequestLimitExceeded | InvalidTrafficMirrorTargetIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTrafficMirrorTargets: API.OperationMethod<
+  DescribeTrafficMirrorTargetsRequest,
+  DescribeTrafficMirrorTargetsResult,
+  RequestLimitExceeded | InvalidTrafficMirrorTargetIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrafficMirrorTargetsRequest,
   ) => stream.Stream<
@@ -83484,17 +82962,15 @@ export const describeTrafficMirrorTargets: {
  * Describes one or more attachments between resources and transit gateways. By default, all attachments are described.
  * Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
  */
-export const describeTransitGatewayAttachments: {
-  (
-    input: DescribeTransitGatewayAttachmentsRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayAttachmentsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayAttachmentIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayAttachments: API.OperationMethod<
+  DescribeTransitGatewayAttachmentsRequest,
+  DescribeTransitGatewayAttachmentsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayAttachmentIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayAttachmentsRequest,
   ) => stream.Stream<
@@ -83533,16 +83009,14 @@ export const describeTransitGatewayAttachments: {
 /**
  * Describes one or more Connect peers.
  */
-export const describeTransitGatewayConnectPeers: {
-  (
-    input: DescribeTransitGatewayConnectPeersRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayConnectPeersResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayConnectPeerIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayConnectPeers: API.OperationMethod<
+  DescribeTransitGatewayConnectPeersRequest,
+  DescribeTransitGatewayConnectPeersResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayConnectPeerIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayConnectPeersRequest,
   ) => stream.Stream<
@@ -83575,16 +83049,14 @@ export const describeTransitGatewayConnectPeers: {
 /**
  * Describes one or more Connect attachments.
  */
-export const describeTransitGatewayConnects: {
-  (
-    input: DescribeTransitGatewayConnectsRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayConnectsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayAttachmentIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayConnects: API.OperationMethod<
+  DescribeTransitGatewayConnectsRequest,
+  DescribeTransitGatewayConnectsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayAttachmentIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayConnectsRequest,
   ) => stream.Stream<
@@ -83617,9 +83089,8 @@ export const describeTransitGatewayConnects: {
 /**
  * Describes one or more transit gateway metering policies.
  */
-export const describeTransitGatewayMeteringPolicies: (
-  input: DescribeTransitGatewayMeteringPoliciesRequest,
-) => effect.Effect<
+export const describeTransitGatewayMeteringPolicies: API.OperationMethod<
+  DescribeTransitGatewayMeteringPoliciesRequest,
   DescribeTransitGatewayMeteringPoliciesResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMeteringPolicyIdNotFound
@@ -83633,16 +83104,14 @@ export const describeTransitGatewayMeteringPolicies: (
 /**
  * Describes one or more transit gateway multicast domains.
  */
-export const describeTransitGatewayMulticastDomains: {
-  (
-    input: DescribeTransitGatewayMulticastDomainsRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayMulticastDomainsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayMulticastDomainIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayMulticastDomains: API.OperationMethod<
+  DescribeTransitGatewayMulticastDomainsRequest,
+  DescribeTransitGatewayMulticastDomainsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayMulticastDomainIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayMulticastDomainsRequest,
   ) => stream.Stream<
@@ -83678,16 +83147,14 @@ export const describeTransitGatewayMulticastDomains: {
 /**
  * Describes your transit gateway peering attachments.
  */
-export const describeTransitGatewayPeeringAttachments: {
-  (
-    input: DescribeTransitGatewayPeeringAttachmentsRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayPeeringAttachmentsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayAttachmentIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayPeeringAttachments: API.OperationMethod<
+  DescribeTransitGatewayPeeringAttachmentsRequest,
+  DescribeTransitGatewayPeeringAttachmentsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayAttachmentIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayPeeringAttachmentsRequest,
   ) => stream.Stream<
@@ -83720,16 +83187,14 @@ export const describeTransitGatewayPeeringAttachments: {
 /**
  * Describes one or more transit gateway route policy tables.
  */
-export const describeTransitGatewayPolicyTables: {
-  (
-    input: DescribeTransitGatewayPolicyTablesRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayPolicyTablesResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayPolicyTableIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayPolicyTables: API.OperationMethod<
+  DescribeTransitGatewayPolicyTablesRequest,
+  DescribeTransitGatewayPolicyTablesResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayPolicyTableIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayPolicyTablesRequest,
   ) => stream.Stream<
@@ -83762,16 +83227,14 @@ export const describeTransitGatewayPolicyTables: {
 /**
  * Describes one or more transit gateway route table advertisements.
  */
-export const describeTransitGatewayRouteTableAnnouncements: {
-  (
-    input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayRouteTableAnnouncementsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayRouteTableAnnouncementIdMalformed
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayRouteTableAnnouncements: API.OperationMethod<
+  DescribeTransitGatewayRouteTableAnnouncementsRequest,
+  DescribeTransitGatewayRouteTableAnnouncementsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayRouteTableAnnouncementIdMalformed
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayRouteTableAnnouncementsRequest,
   ) => stream.Stream<
@@ -83808,17 +83271,15 @@ export const describeTransitGatewayRouteTableAnnouncements: {
  * Describes one or more transit gateway route tables. By default, all transit gateway route tables are described.
  * Alternatively, you can filter the results.
  */
-export const describeTransitGatewayRouteTables: {
-  (
-    input: DescribeTransitGatewayRouteTablesRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayRouteTablesResult,
-    | RequestLimitExceeded
-    | InvalidRouteTableIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayRouteTables: API.OperationMethod<
+  DescribeTransitGatewayRouteTablesRequest,
+  DescribeTransitGatewayRouteTablesResult,
+  | RequestLimitExceeded
+  | InvalidRouteTableIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayRouteTablesRequest,
   ) => stream.Stream<
@@ -83854,17 +83315,15 @@ export const describeTransitGatewayRouteTables: {
  * Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can
  * filter the results.
  */
-export const describeTransitGateways: {
-  (
-    input: DescribeTransitGatewaysRequest,
-  ): effect.Effect<
-    DescribeTransitGatewaysResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGateways: API.OperationMethod<
+  DescribeTransitGatewaysRequest,
+  DescribeTransitGatewaysResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewaysRequest,
   ) => stream.Stream<
@@ -83900,16 +83359,14 @@ export const describeTransitGateways: {
  * Describes one or more VPC attachments. By default, all VPC attachments are described.
  * Alternatively, you can filter the results.
  */
-export const describeTransitGatewayVpcAttachments: {
-  (
-    input: DescribeTransitGatewayVpcAttachmentsRequest,
-  ): effect.Effect<
-    DescribeTransitGatewayVpcAttachmentsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayAttachmentIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTransitGatewayVpcAttachments: API.OperationMethod<
+  DescribeTransitGatewayVpcAttachmentsRequest,
+  DescribeTransitGatewayVpcAttachmentsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayAttachmentIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTransitGatewayVpcAttachmentsRequest,
   ) => stream.Stream<
@@ -83942,14 +83399,12 @@ export const describeTransitGatewayVpcAttachments: {
 /**
  * Describes one or more network interface trunk associations.
  */
-export const describeTrunkInterfaceAssociations: {
-  (
-    input: DescribeTrunkInterfaceAssociationsRequest,
-  ): effect.Effect<
-    DescribeTrunkInterfaceAssociationsResult,
-    RequestLimitExceeded | OperationNotPermitted | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeTrunkInterfaceAssociations: API.OperationMethod<
+  DescribeTrunkInterfaceAssociationsRequest,
+  DescribeTrunkInterfaceAssociationsResult,
+  RequestLimitExceeded | OperationNotPermitted | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrunkInterfaceAssociationsRequest,
   ) => stream.Stream<
@@ -83978,14 +83433,12 @@ export const describeTrunkInterfaceAssociations: {
 /**
  * Describes the specified Amazon Web Services Verified Access endpoints.
  */
-export const describeVerifiedAccessEndpoints: {
-  (
-    input: DescribeVerifiedAccessEndpointsRequest,
-  ): effect.Effect<
-    DescribeVerifiedAccessEndpointsResult,
-    RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVerifiedAccessEndpoints: API.OperationMethod<
+  DescribeVerifiedAccessEndpointsRequest,
+  DescribeVerifiedAccessEndpointsResult,
+  RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVerifiedAccessEndpointsRequest,
   ) => stream.Stream<
@@ -84014,14 +83467,12 @@ export const describeVerifiedAccessEndpoints: {
 /**
  * Describes the specified Verified Access groups.
  */
-export const describeVerifiedAccessGroups: {
-  (
-    input: DescribeVerifiedAccessGroupsRequest,
-  ): effect.Effect<
-    DescribeVerifiedAccessGroupsResult,
-    RequestLimitExceeded | InvalidVerifiedAccessGroupIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVerifiedAccessGroups: API.OperationMethod<
+  DescribeVerifiedAccessGroupsRequest,
+  DescribeVerifiedAccessGroupsResult,
+  RequestLimitExceeded | InvalidVerifiedAccessGroupIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVerifiedAccessGroupsRequest,
   ) => stream.Stream<
@@ -84050,16 +83501,12 @@ export const describeVerifiedAccessGroups: {
 /**
  * Describes the specified Amazon Web Services Verified Access instances.
  */
-export const describeVerifiedAccessInstanceLoggingConfigurations: {
-  (
-    input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
-  ): effect.Effect<
-    DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
-    | RequestLimitExceeded
-    | InvalidVerifiedAccessInstanceIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVerifiedAccessInstanceLoggingConfigurations: API.OperationMethod<
+  DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+  DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
+  RequestLimitExceeded | InvalidVerifiedAccessInstanceIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
   ) => stream.Stream<
@@ -84092,16 +83539,12 @@ export const describeVerifiedAccessInstanceLoggingConfigurations: {
 /**
  * Describes the specified Amazon Web Services Verified Access instances.
  */
-export const describeVerifiedAccessInstances: {
-  (
-    input: DescribeVerifiedAccessInstancesRequest,
-  ): effect.Effect<
-    DescribeVerifiedAccessInstancesResult,
-    | RequestLimitExceeded
-    | InvalidVerifiedAccessInstanceIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVerifiedAccessInstances: API.OperationMethod<
+  DescribeVerifiedAccessInstancesRequest,
+  DescribeVerifiedAccessInstancesResult,
+  RequestLimitExceeded | InvalidVerifiedAccessInstanceIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVerifiedAccessInstancesRequest,
   ) => stream.Stream<
@@ -84134,16 +83577,14 @@ export const describeVerifiedAccessInstances: {
 /**
  * Describes the specified Amazon Web Services Verified Access trust providers.
  */
-export const describeVerifiedAccessTrustProviders: {
-  (
-    input: DescribeVerifiedAccessTrustProvidersRequest,
-  ): effect.Effect<
-    DescribeVerifiedAccessTrustProvidersResult,
-    | RequestLimitExceeded
-    | InvalidVerifiedAccessTrustProviderIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVerifiedAccessTrustProviders: API.OperationMethod<
+  DescribeVerifiedAccessTrustProvidersRequest,
+  DescribeVerifiedAccessTrustProvidersResult,
+  | RequestLimitExceeded
+  | InvalidVerifiedAccessTrustProviderIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVerifiedAccessTrustProvidersRequest,
   ) => stream.Stream<
@@ -84179,9 +83620,8 @@ export const describeVerifiedAccessTrustProviders: {
  *
  * For more information about EBS volumes, see Amazon EBS volumes in the *Amazon EBS User Guide*.
  */
-export const describeVolumeAttribute: (
-  input: DescribeVolumeAttributeRequest,
-) => effect.Effect<
+export const describeVolumeAttribute: API.OperationMethod<
+  DescribeVolumeAttributeRequest,
   DescribeVolumeAttributeResult,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -84214,18 +83654,16 @@ export const describeVolumeAttribute: (
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeVolumes: {
-  (
-    input: DescribeVolumesRequest,
-  ): effect.Effect<
-    DescribeVolumesResult,
-    | RequestLimitExceeded
-    | InvalidParameterValue
-    | InvalidVolumeNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVolumes: API.OperationMethod<
+  DescribeVolumesRequest,
+  DescribeVolumesResult,
+  | RequestLimitExceeded
+  | InvalidParameterValue
+  | InvalidVolumeNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVolumesRequest,
   ) => stream.Stream<
@@ -84270,14 +83708,12 @@ export const describeVolumes: {
  * For more information, see
  * Monitor the progress of volume modifications in the *Amazon EBS User Guide*.
  */
-export const describeVolumesModifications: {
-  (
-    input: DescribeVolumesModificationsRequest,
-  ): effect.Effect<
-    DescribeVolumesModificationsResult,
-    RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVolumesModifications: API.OperationMethod<
+  DescribeVolumesModificationsRequest,
+  DescribeVolumesModificationsResult,
+  RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVolumesModificationsRequest,
   ) => stream.Stream<
@@ -84345,14 +83781,12 @@ export const describeVolumesModifications: {
  * structures, might vary. Applications should not assume the elements appear in a
  * particular order.
  */
-export const describeVolumeStatus: {
-  (
-    input: DescribeVolumeStatusRequest,
-  ): effect.Effect<
-    DescribeVolumeStatusResult,
-    RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVolumeStatus: API.OperationMethod<
+  DescribeVolumeStatusRequest,
+  DescribeVolumeStatusResult,
+  RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVolumeStatusRequest,
   ) => stream.Stream<
@@ -84381,9 +83815,8 @@ export const describeVolumeStatus: {
 /**
  * Describes the specified attribute of the specified VPC. You can specify only one attribute at a time.
  */
-export const describeVpcAttribute: (
-  input: DescribeVpcAttributeRequest,
-) => effect.Effect<
+export const describeVpcAttribute: API.OperationMethod<
+  DescribeVpcAttributeRequest,
   DescribeVpcAttributeResult,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -84402,9 +83835,8 @@ export const describeVpcAttribute: (
 /**
  * Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const describeVpcBlockPublicAccessExclusions: (
-  input: DescribeVpcBlockPublicAccessExclusionsRequest,
-) => effect.Effect<
+export const describeVpcBlockPublicAccessExclusions: API.OperationMethod<
+  DescribeVpcBlockPublicAccessExclusionsRequest,
   DescribeVpcBlockPublicAccessExclusionsResult,
   | RequestLimitExceeded
   | MissingParameter
@@ -84423,9 +83855,8 @@ export const describeVpcBlockPublicAccessExclusions: (
 /**
  * Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const describeVpcBlockPublicAccessOptions: (
-  input: DescribeVpcBlockPublicAccessOptionsRequest,
-) => effect.Effect<
+export const describeVpcBlockPublicAccessOptions: API.OperationMethod<
+  DescribeVpcBlockPublicAccessOptionsRequest,
   DescribeVpcBlockPublicAccessOptionsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -84439,9 +83870,8 @@ export const describeVpcBlockPublicAccessOptions: (
  *
  * Describes the ClassicLink status of the specified VPCs.
  */
-export const describeVpcClassicLink: (
-  input: DescribeVpcClassicLinkRequest,
-) => effect.Effect<
+export const describeVpcClassicLink: API.OperationMethod<
+  DescribeVpcClassicLinkRequest,
   DescribeVpcClassicLinkResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -84462,14 +83892,12 @@ export const describeVpcClassicLink: (
  * of an instance in a VPC resolves to its private IP address when addressed from a linked
  * EC2-Classic instance.
  */
-export const describeVpcClassicLinkDnsSupport: {
-  (
-    input: DescribeVpcClassicLinkDnsSupportRequest,
-  ): effect.Effect<
-    DescribeVpcClassicLinkDnsSupportResult,
-    RequestLimitExceeded | InvalidVpcIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcClassicLinkDnsSupport: API.OperationMethod<
+  DescribeVpcClassicLinkDnsSupportRequest,
+  DescribeVpcClassicLinkDnsSupportResult,
+  RequestLimitExceeded | InvalidVpcIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcClassicLinkDnsSupportRequest,
   ) => stream.Stream<
@@ -84500,9 +83928,8 @@ export const describeVpcClassicLinkDnsSupport: {
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const describeVpcEncryptionControls: (
-  input: DescribeVpcEncryptionControlsRequest,
-) => effect.Effect<
+export const describeVpcEncryptionControls: API.OperationMethod<
+  DescribeVpcEncryptionControlsRequest,
   DescribeVpcEncryptionControlsResult,
   RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -84515,9 +83942,8 @@ export const describeVpcEncryptionControls: (
  * Describes the VPC resources, VPC endpoint services, Amazon Lattice services, or service networks
  * associated with the VPC endpoint.
  */
-export const describeVpcEndpointAssociations: (
-  input: DescribeVpcEndpointAssociationsRequest,
-) => effect.Effect<
+export const describeVpcEndpointAssociations: API.OperationMethod<
+  DescribeVpcEndpointAssociationsRequest,
   DescribeVpcEndpointAssociationsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -84530,14 +83956,12 @@ export const describeVpcEndpointAssociations: (
  * Describes the connection notifications for VPC endpoints and VPC endpoint
  * services.
  */
-export const describeVpcEndpointConnectionNotifications: {
-  (
-    input: DescribeVpcEndpointConnectionNotificationsRequest,
-  ): effect.Effect<
-    DescribeVpcEndpointConnectionNotificationsResult,
-    RequestLimitExceeded | InvalidConnectionNotification | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcEndpointConnectionNotifications: API.OperationMethod<
+  DescribeVpcEndpointConnectionNotificationsRequest,
+  DescribeVpcEndpointConnectionNotificationsResult,
+  RequestLimitExceeded | InvalidConnectionNotification | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcEndpointConnectionNotificationsRequest,
   ) => stream.Stream<
@@ -84567,14 +83991,12 @@ export const describeVpcEndpointConnectionNotifications: {
  * Describes the VPC endpoint connections to your VPC endpoint services, including any
  * endpoints that are pending your acceptance.
  */
-export const describeVpcEndpointConnections: {
-  (
-    input: DescribeVpcEndpointConnectionsRequest,
-  ): effect.Effect<
-    DescribeVpcEndpointConnectionsResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcEndpointConnections: API.OperationMethod<
+  DescribeVpcEndpointConnectionsRequest,
+  DescribeVpcEndpointConnectionsResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcEndpointConnectionsRequest,
   ) => stream.Stream<
@@ -84605,17 +84027,15 @@ export const describeVpcEndpointConnections: {
  * Alternatively, you can specify specific VPC endpoint IDs or filter the results to
  * include only the VPC endpoints that match specific criteria.
  */
-export const describeVpcEndpoints: {
-  (
-    input: DescribeVpcEndpointsRequest,
-  ): effect.Effect<
-    DescribeVpcEndpointsResult,
-    | RequestLimitExceeded
-    | InvalidVpcEndpointIdNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcEndpoints: API.OperationMethod<
+  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsResult,
+  | RequestLimitExceeded
+  | InvalidVpcEndpointIdNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcEndpointsRequest,
   ) => stream.Stream<
@@ -84650,14 +84070,12 @@ export const describeVpcEndpoints: {
 /**
  * Describes the VPC endpoint service configurations in your account (your services).
  */
-export const describeVpcEndpointServiceConfigurations: {
-  (
-    input: DescribeVpcEndpointServiceConfigurationsRequest,
-  ): effect.Effect<
-    DescribeVpcEndpointServiceConfigurationsResult,
-    RequestLimitExceeded | InvalidVpcEndpointServiceIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcEndpointServiceConfigurations: API.OperationMethod<
+  DescribeVpcEndpointServiceConfigurationsRequest,
+  DescribeVpcEndpointServiceConfigurationsResult,
+  RequestLimitExceeded | InvalidVpcEndpointServiceIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcEndpointServiceConfigurationsRequest,
   ) => stream.Stream<
@@ -84687,17 +84105,15 @@ export const describeVpcEndpointServiceConfigurations: {
  * Describes the principals (service consumers) that are permitted to discover your VPC
  * endpoint service. Principal ARNs with path components aren't supported.
  */
-export const describeVpcEndpointServicePermissions: {
-  (
-    input: DescribeVpcEndpointServicePermissionsRequest,
-  ): effect.Effect<
-    DescribeVpcEndpointServicePermissionsResult,
-    | RequestLimitExceeded
-    | InvalidVpcEndpointServiceIdMalformed
-    | InvalidVpcEndpointServiceIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcEndpointServicePermissions: API.OperationMethod<
+  DescribeVpcEndpointServicePermissionsRequest,
+  DescribeVpcEndpointServicePermissionsResult,
+  | RequestLimitExceeded
+  | InvalidVpcEndpointServiceIdMalformed
+  | InvalidVpcEndpointServiceIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcEndpointServicePermissionsRequest,
   ) => stream.Stream<
@@ -84744,9 +84160,8 @@ export const describeVpcEndpointServicePermissions: {
  * the VPC endpoint services in the common Availability Zone,
  * `us-east-1a`.
  */
-export const describeVpcEndpointServices: (
-  input: DescribeVpcEndpointServicesRequest,
-) => effect.Effect<
+export const describeVpcEndpointServices: API.OperationMethod<
+  DescribeVpcEndpointServicesRequest,
   DescribeVpcEndpointServicesResult,
   RequestLimitExceeded | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -84760,17 +84175,15 @@ export const describeVpcEndpointServices: (
  * Alternatively, you can specify specific VPC peering connection IDs or filter the results to
  * include only the VPC peering connections that match specific criteria.
  */
-export const describeVpcPeeringConnections: {
-  (
-    input: DescribeVpcPeeringConnectionsRequest,
-  ): effect.Effect<
-    DescribeVpcPeeringConnectionsResult,
-    | RequestLimitExceeded
-    | InvalidVpcPeeringConnectionIDNotFound
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcPeeringConnections: API.OperationMethod<
+  DescribeVpcPeeringConnectionsRequest,
+  DescribeVpcPeeringConnectionsResult,
+  | RequestLimitExceeded
+  | InvalidVpcPeeringConnectionIDNotFound
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcPeeringConnectionsRequest,
   ) => stream.Stream<
@@ -84811,18 +84224,16 @@ export const describeVpcPeeringConnections: {
  * Alternatively, you can specify specific VPC IDs or filter the results to
  * include only the VPCs that match specific criteria.
  */
-export const describeVpcs: {
-  (
-    input: DescribeVpcsRequest,
-  ): effect.Effect<
-    DescribeVpcsResult,
-    | RequestLimitExceeded
-    | InvalidVpcIDNotFound
-    | ParseError
-    | RequestError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpcs: API.OperationMethod<
+  DescribeVpcsRequest,
+  DescribeVpcsResult,
+  | RequestLimitExceeded
+  | InvalidVpcIDNotFound
+  | ParseError
+  | RequestError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpcsRequest,
   ) => stream.Stream<
@@ -84864,14 +84275,12 @@ export const describeVpcs: {
 /**
  * Describes one or more of your VPN concentrators.
  */
-export const describeVpnConcentrators: {
-  (
-    input: DescribeVpnConcentratorsRequest,
-  ): effect.Effect<
-    DescribeVpnConcentratorsResult,
-    RequestLimitExceeded | InvalidVpnConcentratorIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVpnConcentrators: API.OperationMethod<
+  DescribeVpnConcentratorsRequest,
+  DescribeVpnConcentratorsResult,
+  RequestLimitExceeded | InvalidVpnConcentratorIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVpnConcentratorsRequest,
   ) => stream.Stream<
@@ -84903,9 +84312,8 @@ export const describeVpnConcentrators: {
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const describeVpnConnections: (
-  input: DescribeVpnConnectionsRequest,
-) => effect.Effect<
+export const describeVpnConnections: API.OperationMethod<
+  DescribeVpnConnectionsRequest,
   DescribeVpnConnectionsResult,
   RequestLimitExceeded | InvalidVpnConnectionIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -84920,9 +84328,8 @@ export const describeVpnConnections: (
  * For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN
  * User Guide.
  */
-export const describeVpnGateways: (
-  input: DescribeVpnGatewaysRequest,
-) => effect.Effect<
+export const describeVpnGateways: API.OperationMethod<
+  DescribeVpnGatewaysRequest,
   DescribeVpnGatewaysResult,
   | RequestLimitExceeded
   | InvalidVpnGatewayIDNotFound
@@ -84941,9 +84348,8 @@ export const describeVpnGateways: (
  * the VPC security groups are no longer associated with it. An instance is automatically unlinked from
  * a VPC when it's stopped.
  */
-export const detachClassicLinkVpc: (
-  input: DetachClassicLinkVpcRequest,
-) => effect.Effect<
+export const detachClassicLinkVpc: API.OperationMethod<
+  DetachClassicLinkVpcRequest,
   DetachClassicLinkVpcResult,
   | RequestLimitExceeded
   | DependencyViolation
@@ -84968,9 +84374,8 @@ export const detachClassicLinkVpc: (
  * and the VPC. The VPC must not contain any running instances with Elastic IP addresses or
  * public IPv4 addresses.
  */
-export const detachInternetGateway: (
-  input: DetachInternetGatewayRequest,
-) => effect.Effect<
+export const detachInternetGateway: API.OperationMethod<
+  DetachInternetGatewayRequest,
   DetachInternetGatewayResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -84995,9 +84400,8 @@ export const detachInternetGateway: (
 /**
  * Detaches a network interface from an instance.
  */
-export const detachNetworkInterface: (
-  input: DetachNetworkInterfaceRequest,
-) => effect.Effect<
+export const detachNetworkInterface: API.OperationMethod<
+  DetachNetworkInterfaceRequest,
   DetachNetworkInterfaceResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -85018,9 +84422,8 @@ export const detachNetworkInterface: (
 /**
  * Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
  */
-export const detachVerifiedAccessTrustProvider: (
-  input: DetachVerifiedAccessTrustProviderRequest,
-) => effect.Effect<
+export const detachVerifiedAccessTrustProvider: API.OperationMethod<
+  DetachVerifiedAccessTrustProviderRequest,
   DetachVerifiedAccessTrustProviderResult,
   | RequestLimitExceeded
   | DependencyViolation
@@ -85055,9 +84458,8 @@ export const detachVerifiedAccessTrustProvider: (
  * For more information, see Detach an Amazon EBS volume in the
  * *Amazon EBS User Guide*.
  */
-export const detachVolume: (
-  input: DetachVolumeRequest,
-) => effect.Effect<
+export const detachVolume: API.OperationMethod<
+  DetachVolumeRequest,
   VolumeAttachment,
   | RequestLimitExceeded
   | DependencyViolation
@@ -85086,9 +84488,8 @@ export const detachVolume: (
  * You must wait for the attachment's state to switch to `detached` before you
  * can delete the VPC or attach a different VPC to the virtual private gateway.
  */
-export const detachVpnGateway: (
-  input: DetachVpnGatewayRequest,
-) => effect.Effect<
+export const detachVpnGateway: API.OperationMethod<
+  DetachVpnGatewayRequest,
   DetachVpnGatewayResponse,
   | RequestLimitExceeded
   | DependencyViolation
@@ -85111,9 +84512,8 @@ export const detachVpnGateway: (
 /**
  * Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  */
-export const disableAddressTransfer: (
-  input: DisableAddressTransferRequest,
-) => effect.Effect<
+export const disableAddressTransfer: API.OperationMethod<
+  DisableAddressTransferRequest,
   DisableAddressTransferResult,
   RequestLimitExceeded | InvalidElasticIpIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85136,9 +84536,8 @@ export const disableAddressTransfer: (
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const disableAllowedImagesSettings: (
-  input: DisableAllowedImagesSettingsRequest,
-) => effect.Effect<
+export const disableAllowedImagesSettings: API.OperationMethod<
+  DisableAllowedImagesSettingsRequest,
   DisableAllowedImagesSettingsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85150,9 +84549,8 @@ export const disableAllowedImagesSettings: (
 /**
  * Disables Infrastructure Performance metric subscriptions.
  */
-export const disableAwsNetworkPerformanceMetricSubscription: (
-  input: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
-) => effect.Effect<
+export const disableAwsNetworkPerformanceMetricSubscription: API.OperationMethod<
+  DisableAwsNetworkPerformanceMetricSubscriptionRequest,
   DisableAwsNetworkPerformanceMetricSubscriptionResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85165,9 +84563,8 @@ export const disableAwsNetworkPerformanceMetricSubscription: (
  * Disables EC2 Capacity Manager for your account. This stops data ingestion and removes access to capacity analytics and optimization recommendations.
  * Previously collected data is retained but no new data will be processed.
  */
-export const disableCapacityManager: (
-  input: DisableCapacityManagerRequest,
-) => effect.Effect<
+export const disableCapacityManager: API.OperationMethod<
+  DisableCapacityManagerRequest,
   DisableCapacityManagerResult,
   RequestLimitExceeded | CapacityManagerDisabled | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85188,9 +84585,8 @@ export const disableCapacityManager: (
  * For more information, see Amazon EBS encryption in the
  * *Amazon EBS User Guide*.
  */
-export const disableEbsEncryptionByDefault: (
-  input: DisableEbsEncryptionByDefaultRequest,
-) => effect.Effect<
+export const disableEbsEncryptionByDefault: API.OperationMethod<
+  DisableEbsEncryptionByDefaultRequest,
   DisableEbsEncryptionByDefaultResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85208,9 +84604,8 @@ export const disableEbsEncryptionByDefault: (
  * You can only change these settings for Windows AMIs that you own or that have been
  * shared with you.
  */
-export const disableFastLaunch: (
-  input: DisableFastLaunchRequest,
-) => effect.Effect<
+export const disableFastLaunch: API.OperationMethod<
+  DisableFastLaunchRequest,
   DisableFastLaunchResult,
   RequestLimitExceeded | InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85222,9 +84617,8 @@ export const disableFastLaunch: (
 /**
  * Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
  */
-export const disableFastSnapshotRestores: (
-  input: DisableFastSnapshotRestoresRequest,
-) => effect.Effect<
+export const disableFastSnapshotRestores: API.OperationMethod<
+  DisableFastSnapshotRestoresRequest,
   DisableFastSnapshotRestoresResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85251,9 +84645,8 @@ export const disableFastSnapshotRestores: (
  * For more information, see Disable an AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const disableImage: (
-  input: DisableImageRequest,
-) => effect.Effect<
+export const disableImage: API.OperationMethod<
+  DisableImageRequest,
   DisableImageResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85271,9 +84664,8 @@ export const disableImage: (
  * For more information, see Block
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
-export const disableImageBlockPublicAccess: (
-  input: DisableImageBlockPublicAccessRequest,
-) => effect.Effect<
+export const disableImageBlockPublicAccess: API.OperationMethod<
+  DisableImageBlockPublicAccessRequest,
   DisableImageBlockPublicAccessResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85288,9 +84680,8 @@ export const disableImageBlockPublicAccess: (
  * For more information, see Deprecate an Amazon EC2 AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const disableImageDeprecation: (
-  input: DisableImageDeprecationRequest,
-) => effect.Effect<
+export const disableImageDeprecation: API.OperationMethod<
+  DisableImageDeprecationRequest,
   DisableImageDeprecationResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85310,9 +84701,8 @@ export const disableImageDeprecation: (
  * For more information, see Protect an Amazon EC2 AMI from
  * deregistration in the *Amazon EC2 User Guide*.
  */
-export const disableImageDeregistrationProtection: (
-  input: DisableImageDeregistrationProtectionRequest,
-) => effect.Effect<
+export const disableImageDeregistrationProtection: API.OperationMethod<
+  DisableImageDeregistrationProtectionRequest,
   DisableImageDeregistrationProtectionResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85327,9 +84717,8 @@ export const disableImageDeregistrationProtection: (
  * metadata for the instances to determine whether they are active or standby nodes in the
  * SQL Server High Availability cluster.
  */
-export const disableInstanceSqlHaStandbyDetections: (
-  input: DisableInstanceSqlHaStandbyDetectionsRequest,
-) => effect.Effect<
+export const disableInstanceSqlHaStandbyDetections: API.OperationMethod<
+  DisableInstanceSqlHaStandbyDetectionsRequest,
   DisableInstanceSqlHaStandbyDetectionsResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85341,9 +84730,8 @@ export const disableInstanceSqlHaStandbyDetections: (
 /**
  * Disable the IPAM account. For more information, see Enable integration with Organizations in the *Amazon VPC IPAM User Guide*.
  */
-export const disableIpamOrganizationAdminAccount: (
-  input: DisableIpamOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const disableIpamOrganizationAdminAccount: API.OperationMethod<
+  DisableIpamOrganizationAdminAccountRequest,
   DisableIpamOrganizationAdminAccountResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85357,9 +84745,8 @@ export const disableIpamOrganizationAdminAccount: (
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const disableIpamPolicy: (
-  input: DisableIpamPolicyRequest,
-) => effect.Effect<
+export const disableIpamPolicy: API.OperationMethod<
+  DisableIpamPolicyRequest,
   DisableIpamPolicyResult,
   | RequestLimitExceeded
   | InvalidIpamPolicyIdMalformed
@@ -85395,9 +84782,8 @@ export const disableIpamPolicy: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const disableRouteServerPropagation: (
-  input: DisableRouteServerPropagationRequest,
-) => effect.Effect<
+export const disableRouteServerPropagation: API.OperationMethod<
+  DisableRouteServerPropagationRequest,
   DisableRouteServerPropagationResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85412,9 +84798,8 @@ export const disableRouteServerPropagation: (
  * Manage account access to the EC2 serial console in the Amazon EC2
  * User Guide.
  */
-export const disableSerialConsoleAccess: (
-  input: DisableSerialConsoleAccessRequest,
-) => effect.Effect<
+export const disableSerialConsoleAccess: API.OperationMethod<
+  DisableSerialConsoleAccessRequest,
   DisableSerialConsoleAccessResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85440,9 +84825,8 @@ export const disableSerialConsoleAccess: (
  * For more information, see
  * Block public access for snapshots in the *Amazon EBS User Guide* .
  */
-export const disableSnapshotBlockPublicAccess: (
-  input: DisableSnapshotBlockPublicAccessRequest,
-) => effect.Effect<
+export const disableSnapshotBlockPublicAccess: API.OperationMethod<
+  DisableSnapshotBlockPublicAccessRequest,
   DisableSnapshotBlockPublicAccessResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85455,9 +84839,8 @@ export const disableSnapshotBlockPublicAccess: (
  * Disables the specified resource attachment from propagating routes to the specified
  * propagation route table.
  */
-export const disableTransitGatewayRouteTablePropagation: (
-  input: DisableTransitGatewayRouteTablePropagationRequest,
-) => effect.Effect<
+export const disableTransitGatewayRouteTablePropagation: API.OperationMethod<
+  DisableTransitGatewayRouteTablePropagationRequest,
   DisableTransitGatewayRouteTablePropagationResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85470,9 +84853,8 @@ export const disableTransitGatewayRouteTablePropagation: (
  * Disables a virtual private gateway (VGW) from propagating routes to a specified route
  * table of a VPC.
  */
-export const disableVgwRoutePropagation: (
-  input: DisableVgwRoutePropagationRequest,
-) => effect.Effect<
+export const disableVgwRoutePropagation: API.OperationMethod<
+  DisableVgwRoutePropagationRequest,
   DisableVgwRoutePropagationResponse,
   RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85487,9 +84869,8 @@ export const disableVgwRoutePropagation: (
  * Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances
  * linked to it.
  */
-export const disableVpcClassicLink: (
-  input: DisableVpcClassicLinkRequest,
-) => effect.Effect<
+export const disableVpcClassicLink: API.OperationMethod<
+  DisableVpcClassicLinkRequest,
   DisableVpcClassicLinkResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -85510,9 +84891,8 @@ export const disableVpcClassicLink: (
  *
  * You must specify a VPC ID in the request.
  */
-export const disableVpcClassicLinkDnsSupport: (
-  input: DisableVpcClassicLinkDnsSupportRequest,
-) => effect.Effect<
+export const disableVpcClassicLinkDnsSupport: API.OperationMethod<
+  DisableVpcClassicLinkDnsSupportRequest,
   DisableVpcClassicLinkDnsSupportResult,
   RequestLimitExceeded | InvalidVpcIDNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85534,9 +84914,8 @@ export const disableVpcClassicLinkDnsSupport: (
  *
  * - Network interface only has one remaining public IPv4 address
  */
-export const disassociateAddress: (
-  input: DisassociateAddressRequest,
-) => effect.Effect<
+export const disassociateAddress: API.OperationMethod<
+  DisassociateAddressRequest,
   DisassociateAddressResponse,
   | RequestLimitExceeded
   | InvalidAssociationIDNotFound
@@ -85558,9 +84937,8 @@ export const disassociateAddress: (
  * For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const disassociateCapacityReservationBillingOwner: (
-  input: DisassociateCapacityReservationBillingOwnerRequest,
-) => effect.Effect<
+export const disassociateCapacityReservationBillingOwner: API.OperationMethod<
+  DisassociateCapacityReservationBillingOwnerRequest,
   DisassociateCapacityReservationBillingOwnerResult,
   | RequestLimitExceeded
   | InvalidCapacityReservationIdMalformed
@@ -85588,9 +84966,8 @@ export const disassociateCapacityReservationBillingOwner: (
  *
  * - The Client VPN endpoint's status changes to `pending-associate`
  */
-export const disassociateClientVpnTargetNetwork: (
-  input: DisassociateClientVpnTargetNetworkRequest,
-) => effect.Effect<
+export const disassociateClientVpnTargetNetwork: API.OperationMethod<
+  DisassociateClientVpnTargetNetworkRequest,
   DisassociateClientVpnTargetNetworkResult,
   | RequestLimitExceeded
   | InvalidClientVpnEndpointIdNotFound
@@ -85613,9 +84990,8 @@ export const disassociateClientVpnTargetNetwork: (
  * KMS key used to encrypt the private key. This effectively revokes the role's permission
  * to use the certificate.
  */
-export const disassociateEnclaveCertificateIamRole: (
-  input: DisassociateEnclaveCertificateIamRoleRequest,
-) => effect.Effect<
+export const disassociateEnclaveCertificateIamRole: API.OperationMethod<
+  DisassociateEnclaveCertificateIamRoleRequest,
   DisassociateEnclaveCertificateIamRoleResult,
   | RequestLimitExceeded
   | InvalidCertificateArnMalformed
@@ -85637,9 +85013,8 @@ export const disassociateEnclaveCertificateIamRole: (
  * Use DescribeIamInstanceProfileAssociations to get the association
  * ID.
  */
-export const disassociateIamInstanceProfile: (
-  input: DisassociateIamInstanceProfileRequest,
-) => effect.Effect<
+export const disassociateIamInstanceProfile: API.OperationMethod<
+  DisassociateIamInstanceProfileRequest,
   DisassociateIamInstanceProfileResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85654,9 +85029,8 @@ export const disassociateIamInstanceProfile: (
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const disassociateInstanceEventWindow: (
-  input: DisassociateInstanceEventWindowRequest,
-) => effect.Effect<
+export const disassociateInstanceEventWindow: API.OperationMethod<
+  DisassociateInstanceEventWindowRequest,
   DisassociateInstanceEventWindowResult,
   RequestLimitExceeded | DependencyViolation | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85669,9 +85043,8 @@ export const disassociateInstanceEventWindow: (
  * Remove the association between your Autonomous System Number (ASN) and your BYOIP CIDR. You may want to use this action to disassociate an ASN from a CIDR or if you want to swap ASNs.
  * For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const disassociateIpamByoasn: (
-  input: DisassociateIpamByoasnRequest,
-) => effect.Effect<
+export const disassociateIpamByoasn: API.OperationMethod<
+  DisassociateIpamByoasnRequest,
   DisassociateIpamByoasnResult,
   RequestLimitExceeded | InvalidCidrNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85683,9 +85056,8 @@ export const disassociateIpamByoasn: (
 /**
  * Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const disassociateIpamResourceDiscovery: (
-  input: DisassociateIpamResourceDiscoveryRequest,
-) => effect.Effect<
+export const disassociateIpamResourceDiscovery: API.OperationMethod<
+  DisassociateIpamResourceDiscoveryRequest,
   DisassociateIpamResourceDiscoveryResult,
   | RequestLimitExceeded
   | InvalidIpamResourceDiscoveryAssociationIdMalformed
@@ -85713,9 +85085,8 @@ export const disassociateIpamResourceDiscovery: (
  * connections drain out, the EIPs (and the corresponding private IP addresses mapped to them)
  * are released.
  */
-export const disassociateNatGatewayAddress: (
-  input: DisassociateNatGatewayAddressRequest,
-) => effect.Effect<
+export const disassociateNatGatewayAddress: API.OperationMethod<
+  DisassociateNatGatewayAddressRequest,
   DisassociateNatGatewayAddressResult,
   | RequestLimitExceeded
   | MissingParameter
@@ -85740,9 +85111,8 @@ export const disassociateNatGatewayAddress: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const disassociateRouteServer: (
-  input: DisassociateRouteServerRequest,
-) => effect.Effect<
+export const disassociateRouteServer: API.OperationMethod<
+  DisassociateRouteServerRequest,
   DisassociateRouteServerResult,
   | RequestLimitExceeded
   | InvalidRouteServerIdNotFound
@@ -85768,9 +85138,8 @@ export const disassociateRouteServer: (
  * about route tables, see Route
  * tables in the *Amazon VPC User Guide*.
  */
-export const disassociateRouteTable: (
-  input: DisassociateRouteTableRequest,
-) => effect.Effect<
+export const disassociateRouteTable: API.OperationMethod<
+  DisassociateRouteTableRequest,
   DisassociateRouteTableResponse,
   | RequestLimitExceeded
   | InvalidAssociationIDNotFound
@@ -85791,9 +85160,8 @@ export const disassociateRouteTable: (
  *
  * Note that the disassociation is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations.
  */
-export const disassociateSecurityGroupVpc: (
-  input: DisassociateSecurityGroupVpcRequest,
-) => effect.Effect<
+export const disassociateSecurityGroupVpc: API.OperationMethod<
+  DisassociateSecurityGroupVpcRequest,
   DisassociateSecurityGroupVpcResult,
   | RequestLimitExceeded
   | InvalidGroupIdMalformed
@@ -85808,9 +85176,8 @@ export const disassociateSecurityGroupVpc: (
 /**
  * Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
  */
-export const disassociateSubnetCidrBlock: (
-  input: DisassociateSubnetCidrBlockRequest,
-) => effect.Effect<
+export const disassociateSubnetCidrBlock: API.OperationMethod<
+  DisassociateSubnetCidrBlockRequest,
   DisassociateSubnetCidrBlockResult,
   | RequestLimitExceeded
   | InvalidSubnetCidrBlockAssociationIDNotFound
@@ -85829,9 +85196,8 @@ export const disassociateSubnetCidrBlock: (
 /**
  * Disassociates the specified subnets from the transit gateway multicast domain.
  */
-export const disassociateTransitGatewayMulticastDomain: (
-  input: DisassociateTransitGatewayMulticastDomainRequest,
-) => effect.Effect<
+export const disassociateTransitGatewayMulticastDomain: API.OperationMethod<
+  DisassociateTransitGatewayMulticastDomainRequest,
   DisassociateTransitGatewayMulticastDomainResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMulticastDomainIdNotFound
@@ -85850,9 +85216,8 @@ export const disassociateTransitGatewayMulticastDomain: (
 /**
  * Removes the association between an an attachment and a policy table.
  */
-export const disassociateTransitGatewayPolicyTable: (
-  input: DisassociateTransitGatewayPolicyTableRequest,
-) => effect.Effect<
+export const disassociateTransitGatewayPolicyTable: API.OperationMethod<
+  DisassociateTransitGatewayPolicyTableRequest,
   DisassociateTransitGatewayPolicyTableResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayPolicyTableIdMalformed
@@ -85873,9 +85238,8 @@ export const disassociateTransitGatewayPolicyTable: (
 /**
  * Disassociates a resource attachment from a transit gateway route table.
  */
-export const disassociateTransitGatewayRouteTable: (
-  input: DisassociateTransitGatewayRouteTableRequest,
-) => effect.Effect<
+export const disassociateTransitGatewayRouteTable: API.OperationMethod<
+  DisassociateTransitGatewayRouteTableRequest,
   DisassociateTransitGatewayRouteTableResult,
   | RequestLimitExceeded
   | InvalidRouteTableIDNotFound
@@ -85890,9 +85254,8 @@ export const disassociateTransitGatewayRouteTable: (
 /**
  * Removes an association between a branch network interface with a trunk network interface.
  */
-export const disassociateTrunkInterface: (
-  input: DisassociateTrunkInterfaceRequest,
-) => effect.Effect<
+export const disassociateTrunkInterface: API.OperationMethod<
+  DisassociateTrunkInterfaceRequest,
   DisassociateTrunkInterfaceResult,
   RequestLimitExceeded | OperationNotPermitted | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85910,9 +85273,8 @@ export const disassociateTrunkInterface: (
  * You cannot disassociate the CIDR block with which you originally created the VPC (the
  * primary CIDR block).
  */
-export const disassociateVpcCidrBlock: (
-  input: DisassociateVpcCidrBlockRequest,
-) => effect.Effect<
+export const disassociateVpcCidrBlock: API.OperationMethod<
+  DisassociateVpcCidrBlockRequest,
   DisassociateVpcCidrBlockResult,
   | RequestLimitExceeded
   | InvalidVpcCidrBlockAssociationIDNotFound
@@ -85935,9 +85297,8 @@ export const disassociateVpcCidrBlock: (
 /**
  * Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the *Amazon VPC User Guide*.
  */
-export const enableAddressTransfer: (
-  input: EnableAddressTransferRequest,
-) => effect.Effect<
+export const enableAddressTransfer: API.OperationMethod<
+  EnableAddressTransferRequest,
   EnableAddressTransferResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85972,9 +85333,8 @@ export const enableAddressTransfer: (
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const enableAllowedImagesSettings: (
-  input: EnableAllowedImagesSettingsRequest,
-) => effect.Effect<
+export const enableAllowedImagesSettings: API.OperationMethod<
+  EnableAllowedImagesSettingsRequest,
   EnableAllowedImagesSettingsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -85986,9 +85346,8 @@ export const enableAllowedImagesSettings: (
 /**
  * Enables Infrastructure Performance subscriptions.
  */
-export const enableAwsNetworkPerformanceMetricSubscription: (
-  input: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
-) => effect.Effect<
+export const enableAwsNetworkPerformanceMetricSubscription: API.OperationMethod<
+  EnableAwsNetworkPerformanceMetricSubscriptionRequest,
   EnableAwsNetworkPerformanceMetricSubscriptionResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86001,9 +85360,8 @@ export const enableAwsNetworkPerformanceMetricSubscription: (
  * Enables EC2 Capacity Manager for your account. This starts data ingestion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations.
  * Initial data processing may take several hours to complete.
  */
-export const enableCapacityManager: (
-  input: EnableCapacityManagerRequest,
-) => effect.Effect<
+export const enableCapacityManager: API.OperationMethod<
+  EnableCapacityManagerRequest,
   EnableCapacityManagerResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86027,9 +85385,8 @@ export const enableCapacityManager: (
  * using instance types that do not support encryption. For more information, see Supported
  * instance types.
  */
-export const enableEbsEncryptionByDefault: (
-  input: EnableEbsEncryptionByDefaultRequest,
-) => effect.Effect<
+export const enableEbsEncryptionByDefault: API.OperationMethod<
+  EnableEbsEncryptionByDefaultRequest,
   EnableEbsEncryptionByDefaultResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86049,9 +85406,8 @@ export const enableEbsEncryptionByDefault: (
  * You can only change these settings for Windows AMIs that you own or that have been
  * shared with you.
  */
-export const enableFastLaunch: (
-  input: EnableFastLaunchRequest,
-) => effect.Effect<
+export const enableFastLaunch: API.OperationMethod<
+  EnableFastLaunchRequest,
   EnableFastLaunchResult,
   RequestLimitExceeded | InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86068,9 +85424,8 @@ export const enableFastLaunch: (
  * For more information, see Amazon EBS fast snapshot
  * restore in the *Amazon EBS User Guide*.
  */
-export const enableFastSnapshotRestores: (
-  input: EnableFastSnapshotRestoresRequest,
-) => effect.Effect<
+export const enableFastSnapshotRestores: API.OperationMethod<
+  EnableFastSnapshotRestoresRequest,
   EnableFastSnapshotRestoresResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86091,9 +85446,8 @@ export const enableFastSnapshotRestores: (
  * For more information, see Disable an Amazon EC2 AMI
  * in the *Amazon EC2 User Guide*.
  */
-export const enableImage: (
-  input: EnableImageRequest,
-) => effect.Effect<
+export const enableImage: API.OperationMethod<
+  EnableImageRequest,
   EnableImageResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86115,9 +85469,8 @@ export const enableImage: (
  * For more information, see Block
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
-export const enableImageBlockPublicAccess: (
-  input: EnableImageBlockPublicAccessRequest,
-) => effect.Effect<
+export const enableImageBlockPublicAccess: API.OperationMethod<
+  EnableImageBlockPublicAccessRequest,
   EnableImageBlockPublicAccessResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86132,9 +85485,8 @@ export const enableImageBlockPublicAccess: (
  * For more information, see Deprecate an AMI in the
  * *Amazon EC2 User Guide*.
  */
-export const enableImageDeprecation: (
-  input: EnableImageDeprecationRequest,
-) => effect.Effect<
+export const enableImageDeprecation: API.OperationMethod<
+  EnableImageDeprecationRequest,
   EnableImageDeprecationResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86152,9 +85504,8 @@ export const enableImageDeprecation: (
  * For more information, see Protect an
  * Amazon EC2 AMI from deregistration in the *Amazon EC2 User Guide*.
  */
-export const enableImageDeregistrationProtection: (
-  input: EnableImageDeregistrationProtectionRequest,
-) => effect.Effect<
+export const enableImageDeregistrationProtection: API.OperationMethod<
+  EnableImageDeregistrationProtectionRequest,
   EnableImageDeregistrationProtectionResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86176,9 +85527,8 @@ export const enableImageDeregistrationProtection: (
  * information, see
  * Prerequisites for using SQL Server High Availability instance standby detection.
  */
-export const enableInstanceSqlHaStandbyDetections: (
-  input: EnableInstanceSqlHaStandbyDetectionsRequest,
-) => effect.Effect<
+export const enableInstanceSqlHaStandbyDetections: API.OperationMethod<
+  EnableInstanceSqlHaStandbyDetectionsRequest,
   EnableInstanceSqlHaStandbyDetectionsResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86190,9 +85540,8 @@ export const enableInstanceSqlHaStandbyDetections: (
 /**
  * Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the *Amazon VPC IPAM User Guide*.
  */
-export const enableIpamOrganizationAdminAccount: (
-  input: EnableIpamOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const enableIpamOrganizationAdminAccount: API.OperationMethod<
+  EnableIpamOrganizationAdminAccountRequest,
   EnableIpamOrganizationAdminAccountResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86208,9 +85557,8 @@ export const enableIpamOrganizationAdminAccount: (
  *
  * For more information, see Define public IPv4 allocation strategy with IPAM policies in the *Amazon VPC IPAM User Guide*.
  */
-export const enableIpamPolicy: (
-  input: EnableIpamPolicyRequest,
-) => effect.Effect<
+export const enableIpamPolicy: API.OperationMethod<
+  EnableIpamPolicyRequest,
   EnableIpamPolicyResult,
   | RequestLimitExceeded
   | InvalidIpamPolicyIdMalformed
@@ -86234,9 +85582,8 @@ export const enableIpamPolicy: (
  * a delegated administrator account can run a cross-account analysis using resources
  * from the member accounts.
  */
-export const enableReachabilityAnalyzerOrganizationSharing: (
-  input: EnableReachabilityAnalyzerOrganizationSharingRequest,
-) => effect.Effect<
+export const enableReachabilityAnalyzerOrganizationSharing: API.OperationMethod<
+  EnableReachabilityAnalyzerOrganizationSharingRequest,
   EnableReachabilityAnalyzerOrganizationSharingResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86252,9 +85599,8 @@ export const enableReachabilityAnalyzerOrganizationSharing: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const enableRouteServerPropagation: (
-  input: EnableRouteServerPropagationRequest,
-) => effect.Effect<
+export const enableRouteServerPropagation: API.OperationMethod<
+  EnableRouteServerPropagationRequest,
   EnableRouteServerPropagationResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86268,9 +85614,8 @@ export const enableRouteServerPropagation: (
  * access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console
  * in the *Amazon EC2 User Guide*.
  */
-export const enableSerialConsoleAccess: (
-  input: EnableSerialConsoleAccessRequest,
-) => effect.Effect<
+export const enableSerialConsoleAccess: API.OperationMethod<
+  EnableSerialConsoleAccessRequest,
   EnableSerialConsoleAccessResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86299,9 +85644,8 @@ export const enableSerialConsoleAccess: (
  * For more information, see
  * Block public access for snapshots in the *Amazon EBS User Guide*.
  */
-export const enableSnapshotBlockPublicAccess: (
-  input: EnableSnapshotBlockPublicAccessRequest,
-) => effect.Effect<
+export const enableSnapshotBlockPublicAccess: API.OperationMethod<
+  EnableSnapshotBlockPublicAccessRequest,
   EnableSnapshotBlockPublicAccessResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86314,9 +85658,8 @@ export const enableSnapshotBlockPublicAccess: (
  * Enables the specified attachment to propagate routes to the specified
  * propagation route table.
  */
-export const enableTransitGatewayRouteTablePropagation: (
-  input: EnableTransitGatewayRouteTablePropagationRequest,
-) => effect.Effect<
+export const enableTransitGatewayRouteTablePropagation: API.OperationMethod<
+  EnableTransitGatewayRouteTablePropagationRequest,
   EnableTransitGatewayRouteTablePropagationResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86329,9 +85672,8 @@ export const enableTransitGatewayRouteTablePropagation: (
  * Enables a virtual private gateway (VGW) to propagate routes to the specified route
  * table of a VPC.
  */
-export const enableVgwRoutePropagation: (
-  input: EnableVgwRoutePropagationRequest,
-) => effect.Effect<
+export const enableVgwRoutePropagation: API.OperationMethod<
+  EnableVgwRoutePropagationRequest,
   EnableVgwRoutePropagationResponse,
   RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86344,9 +85686,8 @@ export const enableVgwRoutePropagation: (
  * Enables I/O operations for a volume that had I/O operations disabled because the data on
  * the volume was potentially inconsistent.
  */
-export const enableVolumeIO: (
-  input: EnableVolumeIORequest,
-) => effect.Effect<
+export const enableVolumeIO: API.OperationMethod<
+  EnableVolumeIORequest,
   EnableVolumeIOResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86365,9 +85706,8 @@ export const enableVolumeIO: (
  * routes for VPCs in the `10.0.0.0/16` and `10.1.0.0/16` IP address
  * ranges.
  */
-export const enableVpcClassicLink: (
-  input: EnableVpcClassicLinkRequest,
-) => effect.Effect<
+export const enableVpcClassicLink: API.OperationMethod<
+  EnableVpcClassicLinkRequest,
   EnableVpcClassicLinkResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -86390,9 +85730,8 @@ export const enableVpcClassicLink: (
  *
  * You must specify a VPC ID in the request.
  */
-export const enableVpcClassicLinkDnsSupport: (
-  input: EnableVpcClassicLinkDnsSupportRequest,
-) => effect.Effect<
+export const enableVpcClassicLinkDnsSupport: API.OperationMethod<
+  EnableVpcClassicLinkDnsSupportRequest,
   EnableVpcClassicLinkDnsSupportResult,
   RequestLimitExceeded | InvalidVpcIDNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86404,9 +85743,8 @@ export const enableVpcClassicLinkDnsSupport: (
 /**
  * Downloads the client certificate revocation list for the specified Client VPN endpoint.
  */
-export const exportClientVpnClientCertificateRevocationList: (
-  input: ExportClientVpnClientCertificateRevocationListRequest,
-) => effect.Effect<
+export const exportClientVpnClientCertificateRevocationList: API.OperationMethod<
+  ExportClientVpnClientCertificateRevocationListRequest,
   ExportClientVpnClientCertificateRevocationListResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86420,9 +85758,8 @@ export const exportClientVpnClientCertificateRevocationList: (
  * file includes the Client VPN endpoint and certificate information clients need to establish a connection
  * with the Client VPN endpoint.
  */
-export const exportClientVpnClientConfiguration: (
-  input: ExportClientVpnClientConfigurationRequest,
-) => effect.Effect<
+export const exportClientVpnClientConfiguration: API.OperationMethod<
+  ExportClientVpnClientConfigurationRequest,
   ExportClientVpnClientConfigurationResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86436,9 +85773,8 @@ export const exportClientVpnClientConfiguration: (
  * directly from an Amazon Machine Image (AMI) in the
  * *VM Import/Export User Guide*.
  */
-export const exportImage: (
-  input: ExportImageRequest,
-) => effect.Effect<
+export const exportImage: API.OperationMethod<
+  ExportImageRequest,
   ExportImageResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86455,9 +85791,8 @@ export const exportImage: (
  * Export route tables
  * to Amazon S3 in the *Amazon Web Services Transit Gateways Guide*.
  */
-export const exportTransitGatewayRoutes: (
-  input: ExportTransitGatewayRoutesRequest,
-) => effect.Effect<
+export const exportTransitGatewayRoutes: API.OperationMethod<
+  ExportTransitGatewayRoutesRequest,
   ExportTransitGatewayRoutesResult,
   RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86469,9 +85804,8 @@ export const exportTransitGatewayRoutes: (
 /**
  * Exports the client configuration for a Verified Access instance.
  */
-export const exportVerifiedAccessInstanceClientConfiguration: (
-  input: ExportVerifiedAccessInstanceClientConfigurationRequest,
-) => effect.Effect<
+export const exportVerifiedAccessInstanceClientConfiguration: API.OperationMethod<
+  ExportVerifiedAccessInstanceClientConfigurationRequest,
   ExportVerifiedAccessInstanceClientConfigurationResult,
   RequestLimitExceeded | InvalidVerifiedAccessInstanceIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86483,9 +85817,8 @@ export const exportVerifiedAccessInstanceClientConfiguration: (
 /**
  * Returns the currently negotiated security parameters for an active VPN tunnel, including IKE version, DH groups, encryption algorithms, and integrity algorithms.
  */
-export const getActiveVpnTunnelStatus: (
-  input: GetActiveVpnTunnelStatusRequest,
-) => effect.Effect<
+export const getActiveVpnTunnelStatus: API.OperationMethod<
+  GetActiveVpnTunnelStatusRequest,
   GetActiveVpnTunnelStatusResult,
   RequestLimitExceeded | InvalidVpnConnectionIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86506,9 +85839,8 @@ export const getActiveVpnTunnelStatus: (
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const getAllowedImagesSettings: (
-  input: GetAllowedImagesSettingsRequest,
-) => effect.Effect<
+export const getAllowedImagesSettings: API.OperationMethod<
+  GetAllowedImagesSettingsRequest,
   GetAllowedImagesSettingsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86523,9 +85855,8 @@ export const getAllowedImagesSettings: (
  * certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key
  * that's used to encrypt the private key.
  */
-export const getAssociatedEnclaveCertificateIamRoles: (
-  input: GetAssociatedEnclaveCertificateIamRolesRequest,
-) => effect.Effect<
+export const getAssociatedEnclaveCertificateIamRoles: API.OperationMethod<
+  GetAssociatedEnclaveCertificateIamRolesRequest,
   GetAssociatedEnclaveCertificateIamRolesResult,
   | RequestLimitExceeded
   | InvalidCertificateArnMalformed
@@ -86544,14 +85875,12 @@ export const getAssociatedEnclaveCertificateIamRoles: (
 /**
  * Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
  */
-export const getAssociatedIpv6PoolCidrs: {
-  (
-    input: GetAssociatedIpv6PoolCidrsRequest,
-  ): effect.Effect<
-    GetAssociatedIpv6PoolCidrsResult,
-    RequestLimitExceeded | InvalidIpv6PoolIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getAssociatedIpv6PoolCidrs: API.OperationMethod<
+  GetAssociatedIpv6PoolCidrsRequest,
+  GetAssociatedIpv6PoolCidrsResult,
+  RequestLimitExceeded | InvalidIpv6PoolIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAssociatedIpv6PoolCidrsRequest,
   ) => stream.Stream<
@@ -86580,14 +85909,12 @@ export const getAssociatedIpv6PoolCidrs: {
 /**
  * Gets network performance data.
  */
-export const getAwsNetworkPerformanceData: {
-  (
-    input: GetAwsNetworkPerformanceDataRequest,
-  ): effect.Effect<
-    GetAwsNetworkPerformanceDataResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getAwsNetworkPerformanceData: API.OperationMethod<
+  GetAwsNetworkPerformanceDataRequest,
+  GetAwsNetworkPerformanceDataResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAwsNetworkPerformanceDataRequest,
   ) => stream.Stream<
@@ -86616,9 +85943,8 @@ export const getAwsNetworkPerformanceData: {
 /**
  * Retrieves the current configuration and status of EC2 Capacity Manager for your account, including enablement status, Organizations access settings, and data ingestion status.
  */
-export const getCapacityManagerAttributes: (
-  input: GetCapacityManagerAttributesRequest,
-) => effect.Effect<
+export const getCapacityManagerAttributes: API.OperationMethod<
+  GetCapacityManagerAttributesRequest,
   GetCapacityManagerAttributesResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86631,14 +85957,12 @@ export const getCapacityManagerAttributes: (
  * Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs
  * across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family.
  */
-export const getCapacityManagerMetricData: {
-  (
-    input: GetCapacityManagerMetricDataRequest,
-  ): effect.Effect<
-    GetCapacityManagerMetricDataResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getCapacityManagerMetricData: API.OperationMethod<
+  GetCapacityManagerMetricDataRequest,
+  GetCapacityManagerMetricDataResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCapacityManagerMetricDataRequest,
   ) => stream.Stream<
@@ -86668,14 +85992,12 @@ export const getCapacityManagerMetricData: {
  * Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts,
  * regions, instance families, and other dimensions have data available for filtering and grouping.
  */
-export const getCapacityManagerMetricDimensions: {
-  (
-    input: GetCapacityManagerMetricDimensionsRequest,
-  ): effect.Effect<
-    GetCapacityManagerMetricDimensionsResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getCapacityManagerMetricDimensions: API.OperationMethod<
+  GetCapacityManagerMetricDimensionsRequest,
+  GetCapacityManagerMetricDimensionsResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCapacityManagerMetricDimensionsRequest,
   ) => stream.Stream<
@@ -86706,9 +86028,8 @@ export const getCapacityManagerMetricDimensions: {
  * shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity
  * Reservation is not shared, it shows only the Capacity Reservation owner's usage.
  */
-export const getCapacityReservationUsage: (
-  input: GetCapacityReservationUsageRequest,
-) => effect.Effect<
+export const getCapacityReservationUsage: API.OperationMethod<
+  GetCapacityReservationUsageRequest,
   GetCapacityReservationUsageResult,
   RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86720,9 +86041,8 @@ export const getCapacityReservationUsage: (
 /**
  * Describes the allocations from the specified customer-owned address pool.
  */
-export const getCoipPoolUsage: (
-  input: GetCoipPoolUsageRequest,
-) => effect.Effect<
+export const getCoipPoolUsage: API.OperationMethod<
+  GetCoipPoolUsageRequest,
   GetCoipPoolUsageResult,
   RequestLimitExceeded | InvalidPoolIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86740,9 +86060,8 @@ export const getCoipPoolUsage: (
  * For more information, see Instance
  * console output in the *Amazon EC2 User Guide*.
  */
-export const getConsoleOutput: (
-  input: GetConsoleOutputRequest,
-) => effect.Effect<
+export const getConsoleOutput: API.OperationMethod<
+  GetConsoleOutputRequest,
   GetConsoleOutputResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -86766,9 +86085,8 @@ export const getConsoleOutput: (
  *
  * For more information, see Instance console output in the *Amazon EC2 User Guide*.
  */
-export const getConsoleScreenshot: (
-  input: GetConsoleScreenshotRequest,
-) => effect.Effect<
+export const getConsoleScreenshot: API.OperationMethod<
+  GetConsoleScreenshotRequest,
   GetConsoleScreenshotResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -86797,9 +86115,8 @@ export const getConsoleScreenshot: (
  * For more information, see Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const getDeclarativePoliciesReportSummary: (
-  input: GetDeclarativePoliciesReportSummaryRequest,
-) => effect.Effect<
+export const getDeclarativePoliciesReportSummary: API.OperationMethod<
+  GetDeclarativePoliciesReportSummaryRequest,
   GetDeclarativePoliciesReportSummaryResult,
   | RequestLimitExceeded
   | InvalidDeclarativePoliciesReportIdMalformed
@@ -86817,9 +86134,8 @@ export const getDeclarativePoliciesReportSummary: (
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const getDefaultCreditSpecification: (
-  input: GetDefaultCreditSpecificationRequest,
-) => effect.Effect<
+export const getDefaultCreditSpecification: API.OperationMethod<
+  GetDefaultCreditSpecificationRequest,
   GetDefaultCreditSpecificationResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86834,9 +86150,8 @@ export const getDefaultCreditSpecification: (
  * For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const getEbsDefaultKmsKeyId: (
-  input: GetEbsDefaultKmsKeyIdRequest,
-) => effect.Effect<
+export const getEbsDefaultKmsKeyId: API.OperationMethod<
+  GetEbsDefaultKmsKeyIdRequest,
   GetEbsDefaultKmsKeyIdResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86852,9 +86167,8 @@ export const getEbsDefaultKmsKeyId: (
  * For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const getEbsEncryptionByDefault: (
-  input: GetEbsEncryptionByDefaultRequest,
-) => effect.Effect<
+export const getEbsEncryptionByDefault: API.OperationMethod<
+  GetEbsEncryptionByDefaultRequest,
   GetEbsEncryptionByDefaultResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86868,9 +86182,8 @@ export const getEbsEncryptionByDefault: (
  *
  * An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
  */
-export const getEnabledIpamPolicy: (
-  input: GetEnabledIpamPolicyRequest,
-) => effect.Effect<
+export const getEnabledIpamPolicy: API.OperationMethod<
+  GetEnabledIpamPolicyRequest,
   GetEnabledIpamPolicyResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86896,9 +86209,8 @@ export const getEnabledIpamPolicy: (
  * `GetFlowLogsIntegrationTemplate` does not support integration between
  * Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
  */
-export const getFlowLogsIntegrationTemplate: (
-  input: GetFlowLogsIntegrationTemplateRequest,
-) => effect.Effect<
+export const getFlowLogsIntegrationTemplate: API.OperationMethod<
+  GetFlowLogsIntegrationTemplateRequest,
   GetFlowLogsIntegrationTemplateResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86910,14 +86222,12 @@ export const getFlowLogsIntegrationTemplate: (
 /**
  * Lists the resource groups to which a Capacity Reservation has been added.
  */
-export const getGroupsForCapacityReservation: {
-  (
-    input: GetGroupsForCapacityReservationRequest,
-  ): effect.Effect<
-    GetGroupsForCapacityReservationResult,
-    RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getGroupsForCapacityReservation: API.OperationMethod<
+  GetGroupsForCapacityReservationRequest,
+  GetGroupsForCapacityReservationResult,
+  RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetGroupsForCapacityReservationRequest,
   ) => stream.Stream<
@@ -86951,9 +86261,8 @@ export const getGroupsForCapacityReservation: {
  * This is a preview of the PurchaseHostReservation action and does not
  * result in the offering being purchased.
  */
-export const getHostReservationPurchasePreview: (
-  input: GetHostReservationPurchasePreviewRequest,
-) => effect.Effect<
+export const getHostReservationPurchasePreview: API.OperationMethod<
+  GetHostReservationPurchasePreviewRequest,
   GetHostReservationPurchasePreviewResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86967,9 +86276,8 @@ export const getHostReservationPurchasePreview: (
  * AMI. For more information, see AMI ancestry in
  * *Amazon EC2 User Guide*.
  */
-export const getImageAncestry: (
-  input: GetImageAncestryRequest,
-) => effect.Effect<
+export const getImageAncestry: API.OperationMethod<
+  GetImageAncestryRequest,
   GetImageAncestryResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -86985,9 +86293,8 @@ export const getImageAncestry: (
  * For more information, see Block
  * public access to your AMIs in the *Amazon EC2 User Guide*.
  */
-export const getImageBlockPublicAccessState: (
-  input: GetImageBlockPublicAccessStateRequest,
-) => effect.Effect<
+export const getImageBlockPublicAccessState: API.OperationMethod<
+  GetImageBlockPublicAccessStateRequest,
   GetImageBlockPublicAccessStateResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87004,9 +86311,8 @@ export const getImageBlockPublicAccessState: (
  * For more information, see Order of precedence for instance metadata options in the
  * *Amazon EC2 User Guide*.
  */
-export const getInstanceMetadataDefaults: (
-  input: GetInstanceMetadataDefaultsRequest,
-) => effect.Effect<
+export const getInstanceMetadataDefaults: API.OperationMethod<
+  GetInstanceMetadataDefaultsRequest,
   GetInstanceMetadataDefaultsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87019,9 +86325,8 @@ export const getInstanceMetadataDefaults: (
  * Gets the public endorsement key associated with the Nitro Trusted
  * Platform Module (NitroTPM) for the specified instance.
  */
-export const getInstanceTpmEkPub: (
-  input: GetInstanceTpmEkPubRequest,
-) => effect.Effect<
+export const getInstanceTpmEkPub: API.OperationMethod<
+  GetInstanceTpmEkPubRequest,
   GetInstanceTpmEkPubResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87044,14 +86349,12 @@ export const getInstanceTpmEkPub: (
  * mixed instance groups using attribute-based instance type selection in the
  * *Amazon EC2 Auto Scaling User Guide*.
  */
-export const getInstanceTypesFromInstanceRequirements: {
-  (
-    input: GetInstanceTypesFromInstanceRequirementsRequest,
-  ): effect.Effect<
-    GetInstanceTypesFromInstanceRequirementsResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getInstanceTypesFromInstanceRequirements: API.OperationMethod<
+  GetInstanceTypesFromInstanceRequirementsRequest,
+  GetInstanceTypesFromInstanceRequirementsResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetInstanceTypesFromInstanceRequirementsRequest,
   ) => stream.Stream<
@@ -87092,9 +86395,8 @@ export const getInstanceTypesFromInstanceRequirements: {
  * For more information, see UEFI Secure Boot in the
  * *Amazon EC2 User Guide*.
  */
-export const getInstanceUefiData: (
-  input: GetInstanceUefiDataRequest,
-) => effect.Effect<
+export const getInstanceUefiData: API.OperationMethod<
+  GetInstanceUefiDataRequest,
   GetInstanceUefiDataResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87106,14 +86408,12 @@ export const getInstanceUefiData: (
 /**
  * Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the *Amazon VPC IPAM User Guide*.
  */
-export const getIpamAddressHistory: {
-  (
-    input: GetIpamAddressHistoryRequest,
-  ): effect.Effect<
-    GetIpamAddressHistoryResult,
-    RequestLimitExceeded | InvalidIpamScopeIdNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamAddressHistory: API.OperationMethod<
+  GetIpamAddressHistoryRequest,
+  GetIpamAddressHistoryResult,
+  RequestLimitExceeded | InvalidIpamScopeIdNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamAddressHistoryRequest,
   ) => stream.Stream<
@@ -87142,17 +86442,15 @@ export const getIpamAddressHistory: {
 /**
  * Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
  */
-export const getIpamDiscoveredAccounts: {
-  (
-    input: GetIpamDiscoveredAccountsRequest,
-  ): effect.Effect<
-    GetIpamDiscoveredAccountsResult,
-    | RequestLimitExceeded
-    | InvalidIpamResourceDiscoveryIdMalformed
-    | InvalidIpamResourceDiscoveryIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamDiscoveredAccounts: API.OperationMethod<
+  GetIpamDiscoveredAccountsRequest,
+  GetIpamDiscoveredAccountsResult,
+  | RequestLimitExceeded
+  | InvalidIpamResourceDiscoveryIdMalformed
+  | InvalidIpamResourceDiscoveryIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamDiscoveredAccountsRequest,
   ) => stream.Stream<
@@ -87191,9 +86489,8 @@ export const getIpamDiscoveredAccounts: {
 /**
  * Gets the public IP addresses that have been discovered by IPAM.
  */
-export const getIpamDiscoveredPublicAddresses: (
-  input: GetIpamDiscoveredPublicAddressesRequest,
-) => effect.Effect<
+export const getIpamDiscoveredPublicAddresses: API.OperationMethod<
+  GetIpamDiscoveredPublicAddressesRequest,
   GetIpamDiscoveredPublicAddressesResult,
   | RequestLimitExceeded
   | InvalidIpamResourceDiscoveryIdMalformed
@@ -87212,17 +86509,15 @@ export const getIpamDiscoveredPublicAddresses: (
 /**
  * Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
  */
-export const getIpamDiscoveredResourceCidrs: {
-  (
-    input: GetIpamDiscoveredResourceCidrsRequest,
-  ): effect.Effect<
-    GetIpamDiscoveredResourceCidrsResult,
-    | RequestLimitExceeded
-    | InvalidIpamResourceDiscoveryIdMalformed
-    | InvalidIpamResourceDiscoveryIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamDiscoveredResourceCidrs: API.OperationMethod<
+  GetIpamDiscoveredResourceCidrsRequest,
+  GetIpamDiscoveredResourceCidrsResult,
+  | RequestLimitExceeded
+  | InvalidIpamResourceDiscoveryIdMalformed
+  | InvalidIpamResourceDiscoveryIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamDiscoveredResourceCidrsRequest,
   ) => stream.Stream<
@@ -87265,9 +86560,8 @@ export const getIpamDiscoveredResourceCidrs: {
  *
  * Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
  */
-export const getIpamPolicyAllocationRules: (
-  input: GetIpamPolicyAllocationRulesRequest,
-) => effect.Effect<
+export const getIpamPolicyAllocationRules: API.OperationMethod<
+  GetIpamPolicyAllocationRulesRequest,
   GetIpamPolicyAllocationRulesResult,
   | RequestLimitExceeded
   | InvalidIpamPolicyIdMalformed
@@ -87290,9 +86584,8 @@ export const getIpamPolicyAllocationRules: (
  *
  * A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied.
  */
-export const getIpamPolicyOrganizationTargets: (
-  input: GetIpamPolicyOrganizationTargetsRequest,
-) => effect.Effect<
+export const getIpamPolicyOrganizationTargets: API.OperationMethod<
+  GetIpamPolicyOrganizationTargetsRequest,
   GetIpamPolicyOrganizationTargetsResult,
   | RequestLimitExceeded
   | InvalidIpamPolicyIdMalformed
@@ -87313,17 +86606,15 @@ export const getIpamPolicyOrganizationTargets: (
  *
  * If you use this action after AllocateIpamPoolCidr or ReleaseIpamPoolAllocation, note that all EC2 API actions follow an eventual consistency model.
  */
-export const getIpamPoolAllocations: {
-  (
-    input: GetIpamPoolAllocationsRequest,
-  ): effect.Effect<
-    GetIpamPoolAllocationsResult,
-    | RequestLimitExceeded
-    | InvalidIpamPoolIdNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamPoolAllocations: API.OperationMethod<
+  GetIpamPoolAllocationsRequest,
+  GetIpamPoolAllocationsResult,
+  | RequestLimitExceeded
+  | InvalidIpamPoolIdNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamPoolAllocationsRequest,
   ) => stream.Stream<
@@ -87358,17 +86649,15 @@ export const getIpamPoolAllocations: {
 /**
  * Get the CIDRs provisioned to an IPAM pool.
  */
-export const getIpamPoolCidrs: {
-  (
-    input: GetIpamPoolCidrsRequest,
-  ): effect.Effect<
-    GetIpamPoolCidrsResult,
-    | RequestLimitExceeded
-    | InvalidIpamPoolIdNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamPoolCidrs: API.OperationMethod<
+  GetIpamPoolCidrsRequest,
+  GetIpamPoolCidrsResult,
+  | RequestLimitExceeded
+  | InvalidIpamPoolIdNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamPoolCidrsRequest,
   ) => stream.Stream<
@@ -87403,17 +86692,15 @@ export const getIpamPoolCidrs: {
 /**
  * Retrieves the CIDR selection rules for an IPAM prefix list resolver. Use this operation to view the business logic that determines which CIDRs are selected for synchronization with prefix lists.
  */
-export const getIpamPrefixListResolverRules: {
-  (
-    input: GetIpamPrefixListResolverRulesRequest,
-  ): effect.Effect<
-    GetIpamPrefixListResolverRulesResult,
-    | RequestLimitExceeded
-    | InvalidIpamPrefixListResolverIdMalformed
-    | InvalidIpamPrefixListResolverIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamPrefixListResolverRules: API.OperationMethod<
+  GetIpamPrefixListResolverRulesRequest,
+  GetIpamPrefixListResolverRulesResult,
+  | RequestLimitExceeded
+  | InvalidIpamPrefixListResolverIdMalformed
+  | InvalidIpamPrefixListResolverIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamPrefixListResolverRulesRequest,
   ) => stream.Stream<
@@ -87452,14 +86739,12 @@ export const getIpamPrefixListResolverRules: {
 /**
  * Retrieves the CIDR entries for a specific version of an IPAM prefix list resolver. This shows the actual CIDRs that were selected and synchronized at a particular point in time.
  */
-export const getIpamPrefixListResolverVersionEntries: {
-  (
-    input: GetIpamPrefixListResolverVersionEntriesRequest,
-  ): effect.Effect<
-    GetIpamPrefixListResolverVersionEntriesResult,
-    RequestLimitExceeded | MissingParameter | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamPrefixListResolverVersionEntries: API.OperationMethod<
+  GetIpamPrefixListResolverVersionEntriesRequest,
+  GetIpamPrefixListResolverVersionEntriesResult,
+  RequestLimitExceeded | MissingParameter | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamPrefixListResolverVersionEntriesRequest,
   ) => stream.Stream<
@@ -87515,17 +86800,15 @@ export const getIpamPrefixListResolverVersionEntries: {
  *
  * **Version 2 CIDRs:** 10.1.0.0/16, 10.2.0.0/16, 10.3.0.0/16
  */
-export const getIpamPrefixListResolverVersions: {
-  (
-    input: GetIpamPrefixListResolverVersionsRequest,
-  ): effect.Effect<
-    GetIpamPrefixListResolverVersionsResult,
-    | RequestLimitExceeded
-    | InvalidIpamPrefixListResolverIdMalformed
-    | InvalidIpamPrefixListResolverIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamPrefixListResolverVersions: API.OperationMethod<
+  GetIpamPrefixListResolverVersionsRequest,
+  GetIpamPrefixListResolverVersionsResult,
+  | RequestLimitExceeded
+  | InvalidIpamPrefixListResolverIdMalformed
+  | InvalidIpamPrefixListResolverIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamPrefixListResolverVersionsRequest,
   ) => stream.Stream<
@@ -87564,17 +86847,15 @@ export const getIpamPrefixListResolverVersions: {
 /**
  * Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const getIpamResourceCidrs: {
-  (
-    input: GetIpamResourceCidrsRequest,
-  ): effect.Effect<
-    GetIpamResourceCidrsResult,
-    | RequestLimitExceeded
-    | InvalidIpamPoolIdNotFound
-    | InvalidIpamScopeIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getIpamResourceCidrs: API.OperationMethod<
+  GetIpamResourceCidrsRequest,
+  GetIpamResourceCidrsResult,
+  | RequestLimitExceeded
+  | InvalidIpamPoolIdNotFound
+  | InvalidIpamScopeIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetIpamResourceCidrsRequest,
   ) => stream.Stream<
@@ -87621,9 +86902,8 @@ export const getIpamResourceCidrs: {
  * `DescribeInstanceAttribute`.
  * Or, you can allow `describe*` depending on your instance requirements.
  */
-export const getLaunchTemplateData: (
-  input: GetLaunchTemplateDataRequest,
-) => effect.Effect<
+export const getLaunchTemplateData: API.OperationMethod<
+  GetLaunchTemplateDataRequest,
   GetLaunchTemplateDataResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87635,17 +86915,15 @@ export const getLaunchTemplateData: (
 /**
  * Gets information about the resources that are associated with the specified managed prefix list.
  */
-export const getManagedPrefixListAssociations: {
-  (
-    input: GetManagedPrefixListAssociationsRequest,
-  ): effect.Effect<
-    GetManagedPrefixListAssociationsResult,
-    | RequestLimitExceeded
-    | InvalidPrefixListIDNotFound
-    | InvalidPrefixListIdMalformed
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getManagedPrefixListAssociations: API.OperationMethod<
+  GetManagedPrefixListAssociationsRequest,
+  GetManagedPrefixListAssociationsResult,
+  | RequestLimitExceeded
+  | InvalidPrefixListIDNotFound
+  | InvalidPrefixListIdMalformed
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetManagedPrefixListAssociationsRequest,
   ) => stream.Stream<
@@ -87684,18 +86962,16 @@ export const getManagedPrefixListAssociations: {
 /**
  * Gets information about the entries for a specified managed prefix list.
  */
-export const getManagedPrefixListEntries: {
-  (
-    input: GetManagedPrefixListEntriesRequest,
-  ): effect.Effect<
-    GetManagedPrefixListEntriesResult,
-    | RequestLimitExceeded
-    | InvalidPrefixListIDNotFound
-    | InvalidPrefixListIdMalformed
-    | ParseError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getManagedPrefixListEntries: API.OperationMethod<
+  GetManagedPrefixListEntriesRequest,
+  GetManagedPrefixListEntriesResult,
+  | RequestLimitExceeded
+  | InvalidPrefixListIDNotFound
+  | InvalidPrefixListIdMalformed
+  | ParseError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetManagedPrefixListEntriesRequest,
   ) => stream.Stream<
@@ -87737,14 +87013,12 @@ export const getManagedPrefixListEntries: {
 /**
  * Gets the findings for the specified Network Access Scope analysis.
  */
-export const getNetworkInsightsAccessScopeAnalysisFindings: {
-  (
-    input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
-  ): effect.Effect<
-    GetNetworkInsightsAccessScopeAnalysisFindingsResult,
-    RequestLimitExceeded | InvalidParameterValue | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getNetworkInsightsAccessScopeAnalysisFindings: API.OperationMethod<
+  GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+  GetNetworkInsightsAccessScopeAnalysisFindingsResult,
+  RequestLimitExceeded | InvalidParameterValue | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
   ) => stream.Stream<
@@ -87773,9 +87047,8 @@ export const getNetworkInsightsAccessScopeAnalysisFindings: {
 /**
  * Gets the content for the specified Network Access Scope.
  */
-export const getNetworkInsightsAccessScopeContent: (
-  input: GetNetworkInsightsAccessScopeContentRequest,
-) => effect.Effect<
+export const getNetworkInsightsAccessScopeContent: API.OperationMethod<
+  GetNetworkInsightsAccessScopeContentRequest,
   GetNetworkInsightsAccessScopeContentResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87803,9 +87076,8 @@ export const getNetworkInsightsAccessScopeContent: (
  * an empty string. We recommend that you wait up to 15 minutes after launching an instance
  * before trying to retrieve the generated password.
  */
-export const getPasswordData: (
-  input: GetPasswordDataRequest,
-) => effect.Effect<
+export const getPasswordData: API.OperationMethod<
+  GetPasswordDataRequest,
   GetPasswordDataResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -87826,9 +87098,8 @@ export const getPasswordData: (
  * Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be
  * performed, the reason is returned in the response. Use AcceptReservedInstancesExchangeQuote to perform the exchange.
  */
-export const getReservedInstancesExchangeQuote: (
-  input: GetReservedInstancesExchangeQuoteRequest,
-) => effect.Effect<
+export const getReservedInstancesExchangeQuote: API.OperationMethod<
+  GetReservedInstancesExchangeQuoteRequest,
   GetReservedInstancesExchangeQuoteResult,
   RequestLimitExceeded | InvalidReservedInstancesIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87844,9 +87115,8 @@ export const getReservedInstancesExchangeQuote: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const getRouteServerAssociations: (
-  input: GetRouteServerAssociationsRequest,
-) => effect.Effect<
+export const getRouteServerAssociations: API.OperationMethod<
+  GetRouteServerAssociationsRequest,
   GetRouteServerAssociationsResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87873,9 +87143,8 @@ export const getRouteServerAssociations: (
  *
  * Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
  */
-export const getRouteServerPropagations: (
-  input: GetRouteServerPropagationsRequest,
-) => effect.Effect<
+export const getRouteServerPropagations: API.OperationMethod<
+  GetRouteServerPropagationsRequest,
   GetRouteServerPropagationsResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87900,9 +87169,8 @@ export const getRouteServerPropagations: (
  *
  * Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
  */
-export const getRouteServerRoutingDatabase: (
-  input: GetRouteServerRoutingDatabaseRequest,
-) => effect.Effect<
+export const getRouteServerRoutingDatabase: API.OperationMethod<
+  GetRouteServerRoutingDatabaseRequest,
   GetRouteServerRoutingDatabaseResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87914,14 +87182,12 @@ export const getRouteServerRoutingDatabase: (
 /**
  * Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
  */
-export const getSecurityGroupsForVpc: {
-  (
-    input: GetSecurityGroupsForVpcRequest,
-  ): effect.Effect<
-    GetSecurityGroupsForVpcResult,
-    RequestLimitExceeded | InvalidVpcIdMalformed | ParseError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getSecurityGroupsForVpc: API.OperationMethod<
+  GetSecurityGroupsForVpcRequest,
+  GetSecurityGroupsForVpcResult,
+  RequestLimitExceeded | InvalidVpcIdMalformed | ParseError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSecurityGroupsForVpcRequest,
   ) => stream.Stream<
@@ -87953,9 +87219,8 @@ export const getSecurityGroupsForVpc: {
  * information, see Manage account access to the EC2 serial console in the Amazon EC2
  * User Guide.
  */
-export const getSerialConsoleAccessStatus: (
-  input: GetSerialConsoleAccessStatusRequest,
-) => effect.Effect<
+export const getSerialConsoleAccessStatus: API.OperationMethod<
+  GetSerialConsoleAccessStatusRequest,
   GetSerialConsoleAccessStatusResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87971,9 +87236,8 @@ export const getSerialConsoleAccessStatus: (
  * For more information, see
  * Block public access for snapshots in the *Amazon EBS User Guide*.
  */
-export const getSnapshotBlockPublicAccessState: (
-  input: GetSnapshotBlockPublicAccessStateRequest,
-) => effect.Effect<
+export const getSnapshotBlockPublicAccessState: API.OperationMethod<
+  GetSnapshotBlockPublicAccessStateRequest,
   GetSnapshotBlockPublicAccessStateResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -87994,14 +87258,12 @@ export const getSnapshotBlockPublicAccessState: (
  * For more information, see Spot placement score in
  * the *Amazon EC2 User Guide*.
  */
-export const getSpotPlacementScores: {
-  (
-    input: GetSpotPlacementScoresRequest,
-  ): effect.Effect<
-    GetSpotPlacementScoresResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getSpotPlacementScores: API.OperationMethod<
+  GetSpotPlacementScoresRequest,
+  GetSpotPlacementScoresResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSpotPlacementScoresRequest,
   ) => stream.Stream<
@@ -88030,9 +87292,8 @@ export const getSpotPlacementScores: {
 /**
  * Gets information about the subnet CIDR reservations.
  */
-export const getSubnetCidrReservations: (
-  input: GetSubnetCidrReservationsRequest,
-) => effect.Effect<
+export const getSubnetCidrReservations: API.OperationMethod<
+  GetSubnetCidrReservationsRequest,
   GetSubnetCidrReservationsResult,
   | RequestLimitExceeded
   | InvalidSubnetIDNotFound
@@ -88047,16 +87308,14 @@ export const getSubnetCidrReservations: (
 /**
  * Lists the route tables to which the specified resource attachment propagates routes.
  */
-export const getTransitGatewayAttachmentPropagations: {
-  (
-    input: GetTransitGatewayAttachmentPropagationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayAttachmentPropagationsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayAttachmentIDNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTransitGatewayAttachmentPropagations: API.OperationMethod<
+  GetTransitGatewayAttachmentPropagationsRequest,
+  GetTransitGatewayAttachmentPropagationsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayAttachmentIDNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayAttachmentPropagationsRequest,
   ) => stream.Stream<
@@ -88089,9 +87348,8 @@ export const getTransitGatewayAttachmentPropagations: {
 /**
  * Retrieves the entries for a transit gateway metering policy.
  */
-export const getTransitGatewayMeteringPolicyEntries: (
-  input: GetTransitGatewayMeteringPolicyEntriesRequest,
-) => effect.Effect<
+export const getTransitGatewayMeteringPolicyEntries: API.OperationMethod<
+  GetTransitGatewayMeteringPolicyEntriesRequest,
   GetTransitGatewayMeteringPolicyEntriesResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMeteringPolicyIdNotFound
@@ -88110,18 +87368,16 @@ export const getTransitGatewayMeteringPolicyEntries: (
 /**
  * Gets information about the associations for the transit gateway multicast domain.
  */
-export const getTransitGatewayMulticastDomainAssociations: {
-  (
-    input: GetTransitGatewayMulticastDomainAssociationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayMulticastDomainAssociationsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayMulticastDomainIdMalformed
-    | InvalidTransitGatewayMulticastDomainIdNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTransitGatewayMulticastDomainAssociations: API.OperationMethod<
+  GetTransitGatewayMulticastDomainAssociationsRequest,
+  GetTransitGatewayMulticastDomainAssociationsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayMulticastDomainIdMalformed
+  | InvalidTransitGatewayMulticastDomainIdNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayMulticastDomainAssociationsRequest,
   ) => stream.Stream<
@@ -88163,17 +87419,15 @@ export const getTransitGatewayMulticastDomainAssociations: {
 /**
  * Gets a list of the transit gateway policy table associations.
  */
-export const getTransitGatewayPolicyTableAssociations: {
-  (
-    input: GetTransitGatewayPolicyTableAssociationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayPolicyTableAssociationsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayPolicyTableIdMalformed
-    | InvalidTransitGatewayPolicyTableIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTransitGatewayPolicyTableAssociations: API.OperationMethod<
+  GetTransitGatewayPolicyTableAssociationsRequest,
+  GetTransitGatewayPolicyTableAssociationsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayPolicyTableIdMalformed
+  | InvalidTransitGatewayPolicyTableIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayPolicyTableAssociationsRequest,
   ) => stream.Stream<
@@ -88212,9 +87466,8 @@ export const getTransitGatewayPolicyTableAssociations: {
 /**
  * Returns a list of transit gateway policy table entries.
  */
-export const getTransitGatewayPolicyTableEntries: (
-  input: GetTransitGatewayPolicyTableEntriesRequest,
-) => effect.Effect<
+export const getTransitGatewayPolicyTableEntries: API.OperationMethod<
+  GetTransitGatewayPolicyTableEntriesRequest,
   GetTransitGatewayPolicyTableEntriesResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayPolicyTableIdMalformed
@@ -88233,17 +87486,15 @@ export const getTransitGatewayPolicyTableEntries: (
 /**
  * Gets information about the prefix list references in a specified transit gateway route table.
  */
-export const getTransitGatewayPrefixListReferences: {
-  (
-    input: GetTransitGatewayPrefixListReferencesRequest,
-  ): effect.Effect<
-    GetTransitGatewayPrefixListReferencesResult,
-    | RequestLimitExceeded
-    | InvalidRouteTableIDNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTransitGatewayPrefixListReferences: API.OperationMethod<
+  GetTransitGatewayPrefixListReferencesRequest,
+  GetTransitGatewayPrefixListReferencesResult,
+  | RequestLimitExceeded
+  | InvalidRouteTableIDNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayPrefixListReferencesRequest,
   ) => stream.Stream<
@@ -88278,14 +87529,12 @@ export const getTransitGatewayPrefixListReferences: {
 /**
  * Gets information about the associations for the specified transit gateway route table.
  */
-export const getTransitGatewayRouteTableAssociations: {
-  (
-    input: GetTransitGatewayRouteTableAssociationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayRouteTableAssociationsResult,
-    RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTransitGatewayRouteTableAssociations: API.OperationMethod<
+  GetTransitGatewayRouteTableAssociationsRequest,
+  GetTransitGatewayRouteTableAssociationsResult,
+  RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayRouteTableAssociationsRequest,
   ) => stream.Stream<
@@ -88314,14 +87563,12 @@ export const getTransitGatewayRouteTableAssociations: {
 /**
  * Gets information about the route table propagations for the specified transit gateway route table.
  */
-export const getTransitGatewayRouteTablePropagations: {
-  (
-    input: GetTransitGatewayRouteTablePropagationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayRouteTablePropagationsResult,
-    RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTransitGatewayRouteTablePropagations: API.OperationMethod<
+  GetTransitGatewayRouteTablePropagationsRequest,
+  GetTransitGatewayRouteTablePropagationsResult,
+  RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayRouteTablePropagationsRequest,
   ) => stream.Stream<
@@ -88350,9 +87597,8 @@ export const getTransitGatewayRouteTablePropagations: {
 /**
  * Get the Verified Access policy associated with the endpoint.
  */
-export const getVerifiedAccessEndpointPolicy: (
-  input: GetVerifiedAccessEndpointPolicyRequest,
-) => effect.Effect<
+export const getVerifiedAccessEndpointPolicy: API.OperationMethod<
+  GetVerifiedAccessEndpointPolicyRequest,
   GetVerifiedAccessEndpointPolicyResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -88371,9 +87617,8 @@ export const getVerifiedAccessEndpointPolicy: (
 /**
  * Gets the targets for the specified network CIDR endpoint for Verified Access.
  */
-export const getVerifiedAccessEndpointTargets: (
-  input: GetVerifiedAccessEndpointTargetsRequest,
-) => effect.Effect<
+export const getVerifiedAccessEndpointTargets: API.OperationMethod<
+  GetVerifiedAccessEndpointTargetsRequest,
   GetVerifiedAccessEndpointTargetsResult,
   RequestLimitExceeded | InvalidVerifiedAccessEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88385,9 +87630,8 @@ export const getVerifiedAccessEndpointTargets: (
 /**
  * Shows the contents of the Verified Access policy associated with the group.
  */
-export const getVerifiedAccessGroupPolicy: (
-  input: GetVerifiedAccessGroupPolicyRequest,
-) => effect.Effect<
+export const getVerifiedAccessGroupPolicy: API.OperationMethod<
+  GetVerifiedAccessGroupPolicyRequest,
   GetVerifiedAccessGroupPolicyResult,
   RequestLimitExceeded | InvalidVerifiedAccessGroupIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88401,9 +87645,8 @@ export const getVerifiedAccessGroupPolicy: (
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const getVpcResourcesBlockingEncryptionEnforcement: (
-  input: GetVpcResourcesBlockingEncryptionEnforcementRequest,
-) => effect.Effect<
+export const getVpcResourcesBlockingEncryptionEnforcement: API.OperationMethod<
+  GetVpcResourcesBlockingEncryptionEnforcementRequest,
   GetVpcResourcesBlockingEncryptionEnforcementResult,
   RequestLimitExceeded | InvalidVpcIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88416,9 +87659,8 @@ export const getVpcResourcesBlockingEncryptionEnforcement: (
  * Download an Amazon Web Services-provided sample configuration file to be used with the customer
  * gateway device specified for your Site-to-Site VPN connection.
  */
-export const getVpnConnectionDeviceSampleConfiguration: (
-  input: GetVpnConnectionDeviceSampleConfigurationRequest,
-) => effect.Effect<
+export const getVpnConnectionDeviceSampleConfiguration: API.OperationMethod<
+  GetVpnConnectionDeviceSampleConfigurationRequest,
   GetVpnConnectionDeviceSampleConfigurationResult,
   | RequestLimitExceeded
   | InvalidVpnConnectionDeviceTypeIdNotFound
@@ -88435,14 +87677,12 @@ export const getVpnConnectionDeviceSampleConfiguration: (
  * list of device types with sample configuration files available under Your customer gateway
  * device in the *Amazon Web Services Site-to-Site VPN User Guide*.
  */
-export const getVpnConnectionDeviceTypes: {
-  (
-    input: GetVpnConnectionDeviceTypesRequest,
-  ): effect.Effect<
-    GetVpnConnectionDeviceTypesResult,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getVpnConnectionDeviceTypes: API.OperationMethod<
+  GetVpnConnectionDeviceTypesRequest,
+  GetVpnConnectionDeviceTypesResult,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetVpnConnectionDeviceTypesRequest,
   ) => stream.Stream<
@@ -88471,9 +87711,8 @@ export const getVpnConnectionDeviceTypes: {
 /**
  * Get details of available tunnel endpoint maintenance.
  */
-export const getVpnTunnelReplacementStatus: (
-  input: GetVpnTunnelReplacementStatusRequest,
-) => effect.Effect<
+export const getVpnTunnelReplacementStatus: API.OperationMethod<
+  GetVpnTunnelReplacementStatusRequest,
   GetVpnTunnelReplacementStatusResult,
   RequestLimitExceeded | InvalidVpnConnectionId | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88487,9 +87726,8 @@ export const getVpnTunnelReplacementStatus: (
  *
  * Uploading a client certificate revocation list resets existing client connections.
  */
-export const importClientVpnClientCertificateRevocationList: (
-  input: ImportClientVpnClientCertificateRevocationListRequest,
-) => effect.Effect<
+export const importClientVpnClientCertificateRevocationList: API.OperationMethod<
+  ImportClientVpnClientCertificateRevocationListRequest,
   ImportClientVpnClientCertificateRevocationListResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88515,9 +87753,8 @@ export const importClientVpnClientCertificateRevocationList: (
  * For more information, see Importing a
  * VM as an image using VM Import/Export in the *VM Import/Export User Guide*.
  */
-export const importImage: (
-  input: ImportImageRequest,
-) => effect.Effect<
+export const importImage: API.OperationMethod<
+  ImportImageRequest,
   ImportImageResult,
   RequestLimitExceeded | MissingRequiredParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88542,9 +87779,8 @@ export const importImage: (
  *
  * This API action is not supported by the Command Line Interface (CLI).
  */
-export const importInstance: (
-  input: ImportInstanceRequest,
-) => effect.Effect<
+export const importInstance: API.OperationMethod<
+  ImportInstanceRequest,
   ImportInstanceResult,
   RequestLimitExceeded | InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88559,9 +87795,8 @@ export const importInstance: (
  *
  * For more information about the requirements for importing a key pair, see Create a key pair and import the public key to Amazon EC2 in the *Amazon EC2 User Guide*.
  */
-export const importKeyPair: (
-  input: ImportKeyPairRequest,
-) => effect.Effect<
+export const importKeyPair: API.OperationMethod<
+  ImportKeyPairRequest,
   ImportKeyPairResult,
   RequestLimitExceeded | InvalidKeyPairDuplicate | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88576,9 +87811,8 @@ export const importKeyPair: (
  * For more information, see Importing a disk as a snapshot using VM Import/Export in the
  * *VM Import/Export User Guide*.
  */
-export const importSnapshot: (
-  input: ImportSnapshotRequest,
-) => effect.Effect<
+export const importSnapshot: API.OperationMethod<
+  ImportSnapshotRequest,
   ImportSnapshotResult,
   RequestLimitExceeded | InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88598,9 +87832,8 @@ export const importSnapshot: (
  *
  * This API action is not supported by the Command Line Interface (CLI).
  */
-export const importVolume: (
-  input: ImportVolumeRequest,
-) => effect.Effect<
+export const importVolume: API.OperationMethod<
+  ImportVolumeRequest,
   ImportVolumeResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88614,14 +87847,12 @@ export const importVolume: (
  * Recycle
  * Bin in the *Amazon EC2 User Guide*.
  */
-export const listImagesInRecycleBin: {
-  (
-    input: ListImagesInRecycleBinRequest,
-  ): effect.Effect<
-    ListImagesInRecycleBinResult,
-    RequestLimitExceeded | InvalidAMIIDNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listImagesInRecycleBin: API.OperationMethod<
+  ListImagesInRecycleBinRequest,
+  ListImagesInRecycleBinResult,
+  RequestLimitExceeded | InvalidAMIIDNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagesInRecycleBinRequest,
   ) => stream.Stream<
@@ -88650,14 +87881,12 @@ export const listImagesInRecycleBin: {
 /**
  * Lists one or more snapshots that are currently in the Recycle Bin.
  */
-export const listSnapshotsInRecycleBin: {
-  (
-    input: ListSnapshotsInRecycleBinRequest,
-  ): effect.Effect<
-    ListSnapshotsInRecycleBinResult,
-    RequestLimitExceeded | InvalidSnapshotIDMalformed | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSnapshotsInRecycleBin: API.OperationMethod<
+  ListSnapshotsInRecycleBinRequest,
+  ListSnapshotsInRecycleBinResult,
+  RequestLimitExceeded | InvalidSnapshotIDMalformed | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSnapshotsInRecycleBinRequest,
   ) => stream.Stream<
@@ -88686,9 +87915,8 @@ export const listSnapshotsInRecycleBin: {
 /**
  * Lists one or more volumes that are currently in the Recycle Bin.
  */
-export const listVolumesInRecycleBin: (
-  input: ListVolumesInRecycleBinRequest,
-) => effect.Effect<
+export const listVolumesInRecycleBin: API.OperationMethod<
+  ListVolumesInRecycleBinRequest,
   ListVolumesInRecycleBinResult,
   RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88714,9 +87942,8 @@ export const listVolumesInRecycleBin: (
  * - If the snapshot is locked in compliance mode and the cooling-off period has lapsed, you can
  * only increase the lock duration or extend the lock expiration date.
  */
-export const lockSnapshot: (
-  input: LockSnapshotRequest,
-) => effect.Effect<
+export const lockSnapshot: API.OperationMethod<
+  LockSnapshotRequest,
   LockSnapshotResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88728,9 +87955,8 @@ export const lockSnapshot: (
 /**
  * Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications.
  */
-export const modifyAddressAttribute: (
-  input: ModifyAddressAttributeRequest,
-) => effect.Effect<
+export const modifyAddressAttribute: API.OperationMethod<
+  ModifyAddressAttributeRequest,
   ModifyAddressAttributeResult,
   | RequestLimitExceeded
   | InvalidAllocationIDNotFound
@@ -88749,9 +87975,8 @@ export const modifyAddressAttribute: (
 /**
  * Changes the opt-in status of the specified zone group for your account.
  */
-export const modifyAvailabilityZoneGroup: (
-  input: ModifyAvailabilityZoneGroupRequest,
-) => effect.Effect<
+export const modifyAvailabilityZoneGroup: API.OperationMethod<
+  ModifyAvailabilityZoneGroupRequest,
   ModifyAvailabilityZoneGroupResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88788,9 +88013,8 @@ export const modifyAvailabilityZoneGroup: (
  * `failed` state - You can't modify the Capacity Reservation in any
  * way.
  */
-export const modifyCapacityReservation: (
-  input: ModifyCapacityReservationRequest,
-) => effect.Effect<
+export const modifyCapacityReservation: API.OperationMethod<
+  ModifyCapacityReservationRequest,
   ModifyCapacityReservationResult,
   RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88808,9 +88032,8 @@ export const modifyCapacityReservation: (
  * modify the end date for the Fleet, the end dates for all of the individual Capacity
  * Reservations in the Fleet are updated accordingly.
  */
-export const modifyCapacityReservationFleet: (
-  input: ModifyCapacityReservationFleetRequest,
-) => effect.Effect<
+export const modifyCapacityReservationFleet: API.OperationMethod<
+  ModifyCapacityReservationFleetRequest,
   ModifyCapacityReservationFleetResult,
   | RequestLimitExceeded
   | InvalidCapacityReservationFleetIdMalformed
@@ -88824,9 +88047,8 @@ export const modifyCapacityReservationFleet: (
 /**
  * Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections.
  */
-export const modifyClientVpnEndpoint: (
-  input: ModifyClientVpnEndpointRequest,
-) => effect.Effect<
+export const modifyClientVpnEndpoint: API.OperationMethod<
+  ModifyClientVpnEndpointRequest,
   ModifyClientVpnEndpointResult,
   RequestLimitExceeded | InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88852,9 +88074,8 @@ export const modifyClientVpnEndpoint: (
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const modifyDefaultCreditSpecification: (
-  input: ModifyDefaultCreditSpecificationRequest,
-) => effect.Effect<
+export const modifyDefaultCreditSpecification: API.OperationMethod<
+  ModifyDefaultCreditSpecificationRequest,
   ModifyDefaultCreditSpecificationResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88876,9 +88097,8 @@ export const modifyDefaultCreditSpecification: (
  * For more information, see Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const modifyEbsDefaultKmsKeyId: (
-  input: ModifyEbsDefaultKmsKeyIdRequest,
-) => effect.Effect<
+export const modifyEbsDefaultKmsKeyId: API.OperationMethod<
+  ModifyEbsDefaultKmsKeyIdRequest,
   ModifyEbsDefaultKmsKeyIdResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88916,9 +88136,8 @@ export const modifyEbsDefaultKmsKeyId: (
  * If you are finished with your EC2 Fleet for now, but will use it again later, you can set the
  * target capacity to 0.
  */
-export const modifyFleet: (
-  input: ModifyFleetRequest,
-) => effect.Effect<
+export const modifyFleet: API.OperationMethod<
+  ModifyFleetRequest,
   ModifyFleetResult,
   RequestLimitExceeded | InvalidFleetIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88930,9 +88149,8 @@ export const modifyFleet: (
 /**
  * Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
  */
-export const modifyFpgaImageAttribute: (
-  input: ModifyFpgaImageAttributeRequest,
-) => effect.Effect<
+export const modifyFpgaImageAttribute: API.OperationMethod<
+  ModifyFpgaImageAttributeRequest,
   ModifyFpgaImageAttributeResult,
   | RequestLimitExceeded
   | InvalidFpgaImageIDMalformed
@@ -88960,9 +88178,8 @@ export const modifyFpgaImageAttribute: (
  * instance types in an instance family, or to support a specific instance type
  * only.
  */
-export const modifyHosts: (
-  input: ModifyHostsRequest,
-) => effect.Effect<
+export const modifyHosts: API.OperationMethod<
+  ModifyHostsRequest,
   ModifyHostsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -88999,9 +88216,8 @@ export const modifyHosts: (
  * settings and provided that they have permission to use the relevant `Describe`
  * command for the resource type.
  */
-export const modifyIdentityIdFormat: (
-  input: ModifyIdentityIdFormatRequest,
-) => effect.Effect<
+export const modifyIdentityIdFormat: API.OperationMethod<
+  ModifyIdentityIdFormatRequest,
   ModifyIdentityIdFormatResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89039,9 +88255,8 @@ export const modifyIdentityIdFormat: (
  * of these settings and provided that they have permission to use the relevant
  * `Describe` command for the resource type.
  */
-export const modifyIdFormat: (
-  input: ModifyIdFormatRequest,
-) => effect.Effect<
+export const modifyIdFormat: API.OperationMethod<
+  ModifyIdFormatRequest,
   ModifyIdFormatResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89063,9 +88278,8 @@ export const modifyIdFormat: (
  * To enable the SriovNetSupport enhanced networking attribute of an image, enable
  * SriovNetSupport on an instance and create an AMI from the instance.
  */
-export const modifyImageAttribute: (
-  input: ModifyImageAttributeRequest,
-) => effect.Effect<
+export const modifyImageAttribute: API.OperationMethod<
+  ModifyImageAttributeRequest,
   ModifyImageAttributeResponse,
   | RequestLimitExceeded
   | InvalidAMIIDMalformed
@@ -89097,9 +88311,8 @@ export const modifyImageAttribute: (
  * Modify a stopped instance in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceAttribute: (
-  input: ModifyInstanceAttributeRequest,
-) => effect.Effect<
+export const modifyInstanceAttribute: API.OperationMethod<
+  ModifyInstanceAttributeRequest,
   ModifyInstanceAttributeResponse,
   | RequestLimitExceeded
   | InvalidInstanceIDNotFound
@@ -89121,9 +88334,8 @@ export const modifyInstanceAttribute: (
  * `open` Capacity Reservation with matching attributes, run in On-Demand
  * Instance capacity, or only run in a Capacity Reservation.
  */
-export const modifyInstanceCapacityReservationAttributes: (
-  input: ModifyInstanceCapacityReservationAttributesRequest,
-) => effect.Effect<
+export const modifyInstanceCapacityReservationAttributes: API.OperationMethod<
+  ModifyInstanceCapacityReservationAttributesRequest,
   ModifyInstanceCapacityReservationAttributesResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89139,9 +88351,8 @@ export const modifyInstanceCapacityReservationAttributes: (
  * EC2 Instance Connect Endpoint in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceConnectEndpoint: (
-  input: ModifyInstanceConnectEndpointRequest,
-) => effect.Effect<
+export const modifyInstanceConnectEndpoint: API.OperationMethod<
+  ModifyInstanceConnectEndpointRequest,
   ModifyInstanceConnectEndpointResult,
   | RequestLimitExceeded
   | InvalidInstanceConnectEndpointIdMalformed
@@ -89169,9 +88380,8 @@ export const modifyInstanceConnectEndpoint: (
  * Supported CPU
  * options in the *Amazon EC2 User Guide*.
  */
-export const modifyInstanceCpuOptions: (
-  input: ModifyInstanceCpuOptionsRequest,
-) => effect.Effect<
+export const modifyInstanceCpuOptions: API.OperationMethod<
+  ModifyInstanceCpuOptionsRequest,
   ModifyInstanceCpuOptionsResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89188,9 +88398,8 @@ export const modifyInstanceCpuOptions: (
  * For more information, see Burstable
  * performance instances in the *Amazon EC2 User Guide*.
  */
-export const modifyInstanceCreditSpecification: (
-  input: ModifyInstanceCreditSpecificationRequest,
-) => effect.Effect<
+export const modifyInstanceCreditSpecification: API.OperationMethod<
+  ModifyInstanceCreditSpecificationRequest,
   ModifyInstanceCreditSpecificationResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89202,9 +88411,8 @@ export const modifyInstanceCreditSpecification: (
 /**
  * Modifies the start time for a scheduled Amazon EC2 instance event.
  */
-export const modifyInstanceEventStartTime: (
-  input: ModifyInstanceEventStartTimeRequest,
-) => effect.Effect<
+export const modifyInstanceEventStartTime: API.OperationMethod<
+  ModifyInstanceEventStartTimeRequest,
   ModifyInstanceEventStartTimeResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89227,9 +88435,8 @@ export const modifyInstanceEventStartTime: (
  * For more information, see Define event windows for scheduled
  * events in the *Amazon EC2 User Guide*.
  */
-export const modifyInstanceEventWindow: (
-  input: ModifyInstanceEventWindowRequest,
-) => effect.Effect<
+export const modifyInstanceEventWindow: API.OperationMethod<
+  ModifyInstanceEventWindowRequest,
   ModifyInstanceEventWindowResult,
   | RequestLimitExceeded
   | InvalidInstanceEventWindowIDNotFound
@@ -89254,9 +88461,8 @@ export const modifyInstanceEventWindow: (
  * Modifies the reboot migration behavior during a user-initiated reboot of an instance
  * that has a pending `system-reboot` event. For more information, see Enable or disable reboot migration.
  */
-export const modifyInstanceMaintenanceOptions: (
-  input: ModifyInstanceMaintenanceOptionsRequest,
-) => effect.Effect<
+export const modifyInstanceMaintenanceOptions: API.OperationMethod<
+  ModifyInstanceMaintenanceOptionsRequest,
   ModifyInstanceMaintenanceOptionsResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89276,9 +88482,8 @@ export const modifyInstanceMaintenanceOptions: (
  * instance metadata settings. For more information, see Order of precedence for instance metadata options in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceMetadataDefaults: (
-  input: ModifyInstanceMetadataDefaultsRequest,
-) => effect.Effect<
+export const modifyInstanceMetadataDefaults: API.OperationMethod<
+  ModifyInstanceMetadataDefaultsRequest,
   ModifyInstanceMetadataDefaultsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89296,9 +88501,8 @@ export const modifyInstanceMetadataDefaults: (
  * subsequent describe-instances API calls. For more information, see Instance metadata and user data in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyInstanceMetadataOptions: (
-  input: ModifyInstanceMetadataOptionsRequest,
-) => effect.Effect<
+export const modifyInstanceMetadataOptions: API.OperationMethod<
+  ModifyInstanceMetadataOptionsRequest,
   ModifyInstanceMetadataOptionsResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89311,9 +88515,8 @@ export const modifyInstanceMetadataOptions: (
  * Change the configuration of the network performance options for an existing
  * instance.
  */
-export const modifyInstanceNetworkPerformanceOptions: (
-  input: ModifyInstanceNetworkPerformanceRequest,
-) => effect.Effect<
+export const modifyInstanceNetworkPerformanceOptions: API.OperationMethod<
+  ModifyInstanceNetworkPerformanceRequest,
   ModifyInstanceNetworkPerformanceResult,
   RequestLimitExceeded | InvalidAction | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89346,9 +88549,8 @@ export const modifyInstanceNetworkPerformanceOptions: (
  * To modify the host ID, tenancy, placement group, or partition for an instance, the
  * instance must be in the `stopped` state.
  */
-export const modifyInstancePlacement: (
-  input: ModifyInstancePlacementRequest,
-) => effect.Effect<
+export const modifyInstancePlacement: API.OperationMethod<
+  ModifyInstancePlacementRequest,
   ModifyInstancePlacementResult,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89360,9 +88562,8 @@ export const modifyInstancePlacement: (
 /**
  * Modify the configurations of an IPAM.
  */
-export const modifyIpam: (
-  input: ModifyIpamRequest,
-) => effect.Effect<
+export const modifyIpam: API.OperationMethod<
+  ModifyIpamRequest,
   ModifyIpamResult,
   RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89378,9 +88579,8 @@ export const modifyIpam: (
  *
  * Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
  */
-export const modifyIpamPolicyAllocationRules: (
-  input: ModifyIpamPolicyAllocationRulesRequest,
-) => effect.Effect<
+export const modifyIpamPolicyAllocationRules: API.OperationMethod<
+  ModifyIpamPolicyAllocationRulesRequest,
   ModifyIpamPolicyAllocationRulesResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89394,9 +88594,8 @@ export const modifyIpamPolicyAllocationRules: (
  *
  * For more information, see Modify a pool in the *Amazon VPC IPAM User Guide*.
  */
-export const modifyIpamPool: (
-  input: ModifyIpamPoolRequest,
-) => effect.Effect<
+export const modifyIpamPool: API.OperationMethod<
+  ModifyIpamPoolRequest,
   ModifyIpamPoolResult,
   RequestLimitExceeded | InvalidIpamPoolIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89408,9 +88607,8 @@ export const modifyIpamPool: (
 /**
  * Modifies an IPAM prefix list resolver. You can update the description and CIDR selection rules. Changes to rules will trigger re-evaluation and potential updates to associated prefix lists.
  */
-export const modifyIpamPrefixListResolver: (
-  input: ModifyIpamPrefixListResolverRequest,
-) => effect.Effect<
+export const modifyIpamPrefixListResolver: API.OperationMethod<
+  ModifyIpamPrefixListResolverRequest,
   ModifyIpamPrefixListResolverResult,
   | RequestLimitExceeded
   | InvalidIpamPrefixListResolverIdMalformed
@@ -89429,9 +88627,8 @@ export const modifyIpamPrefixListResolver: (
 /**
  * Modifies an IPAM prefix list resolver target. You can update version tracking settings and the desired version of the target prefix list.
  */
-export const modifyIpamPrefixListResolverTarget: (
-  input: ModifyIpamPrefixListResolverTargetRequest,
-) => effect.Effect<
+export const modifyIpamPrefixListResolverTarget: API.OperationMethod<
+  ModifyIpamPrefixListResolverTargetRequest,
   ModifyIpamPrefixListResolverTargetResult,
   | RequestLimitExceeded
   | InvalidIpamPrefixListResolverTargetIdMalformed
@@ -89450,9 +88647,8 @@ export const modifyIpamPrefixListResolverTarget: (
  *
  * For more information, see Move resource CIDRs between scopes and Change the monitoring state of resource CIDRs in the *Amazon VPC IPAM User Guide*.
  */
-export const modifyIpamResourceCidr: (
-  input: ModifyIpamResourceCidrRequest,
-) => effect.Effect<
+export const modifyIpamResourceCidr: API.OperationMethod<
+  ModifyIpamResourceCidrRequest,
   ModifyIpamResourceCidrResult,
   | RequestLimitExceeded
   | InvalidIpamScopeIdMalformed
@@ -89471,9 +88667,8 @@ export const modifyIpamResourceCidr: (
 /**
  * Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
  */
-export const modifyIpamResourceDiscovery: (
-  input: ModifyIpamResourceDiscoveryRequest,
-) => effect.Effect<
+export const modifyIpamResourceDiscovery: API.OperationMethod<
+  ModifyIpamResourceDiscoveryRequest,
   ModifyIpamResourceDiscoveryResult,
   | RequestLimitExceeded
   | InvalidIpamResourceDiscoveryIdMalformed
@@ -89492,9 +88687,8 @@ export const modifyIpamResourceDiscovery: (
 /**
  * Modify an IPAM scope.
  */
-export const modifyIpamScope: (
-  input: ModifyIpamScopeRequest,
-) => effect.Effect<
+export const modifyIpamScope: API.OperationMethod<
+  ModifyIpamScopeRequest,
   ModifyIpamScopeResult,
   RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89508,9 +88702,8 @@ export const modifyIpamScope: (
  * set as the default version. When launching an instance, the default version applies when
  * a launch template version is not specified.
  */
-export const modifyLaunchTemplate: (
-  input: ModifyLaunchTemplateRequest,
-) => effect.Effect<
+export const modifyLaunchTemplate: API.OperationMethod<
+  ModifyLaunchTemplateRequest,
   ModifyLaunchTemplateResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89522,9 +88715,8 @@ export const modifyLaunchTemplate: (
 /**
  * Modifies the specified local gateway route.
  */
-export const modifyLocalGatewayRoute: (
-  input: ModifyLocalGatewayRouteRequest,
-) => effect.Effect<
+export const modifyLocalGatewayRoute: API.OperationMethod<
+  ModifyLocalGatewayRouteRequest,
   ModifyLocalGatewayRouteResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89542,9 +88734,8 @@ export const modifyLocalGatewayRoute: (
  * If you specify a current version number that does not match the true current version
  * number, the request fails.
  */
-export const modifyManagedPrefixList: (
-  input: ModifyManagedPrefixListRequest,
-) => effect.Effect<
+export const modifyManagedPrefixList: API.OperationMethod<
+  ModifyManagedPrefixListRequest,
   ModifyManagedPrefixListResult,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -89567,9 +88758,8 @@ export const modifyManagedPrefixList: (
  * at a time. You can use this action to attach and detach security groups from an existing
  * EC2 instance.
  */
-export const modifyNetworkInterfaceAttribute: (
-  input: ModifyNetworkInterfaceAttributeRequest,
-) => effect.Effect<
+export const modifyNetworkInterfaceAttribute: API.OperationMethod<
+  ModifyNetworkInterfaceAttributeRequest,
   ModifyNetworkInterfaceAttributeResponse,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -89590,9 +88780,8 @@ export const modifyNetworkInterfaceAttribute: (
 /**
  * Modifies the options for instance hostnames for the specified instance.
  */
-export const modifyPrivateDnsNameOptions: (
-  input: ModifyPrivateDnsNameOptionsRequest,
-) => effect.Effect<
+export const modifyPrivateDnsNameOptions: API.OperationMethod<
+  ModifyPrivateDnsNameOptionsRequest,
   ModifyPrivateDnsNameOptionsResult,
   RequestLimitExceeded | UnknownResource | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89604,9 +88793,8 @@ export const modifyPrivateDnsNameOptions: (
 /**
  * Modify public hostname options for a network interface. For more information, see EC2 instance hostnames, DNS names, and domains in the *Amazon EC2 User Guide*.
  */
-export const modifyPublicIpDnsNameOptions: (
-  input: ModifyPublicIpDnsNameOptionsRequest,
-) => effect.Effect<
+export const modifyPublicIpDnsNameOptions: API.OperationMethod<
+  ModifyPublicIpDnsNameOptionsRequest,
   ModifyPublicIpDnsNameOptionsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89623,9 +88811,8 @@ export const modifyPublicIpDnsNameOptions: (
  * For more information, see Modify Reserved Instances in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyReservedInstances: (
-  input: ModifyReservedInstancesRequest,
-) => effect.Effect<
+export const modifyReservedInstances: API.OperationMethod<
+  ModifyReservedInstancesRequest,
   ModifyReservedInstancesResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89652,9 +88839,8 @@ export const modifyReservedInstances: (
  *
  * For more information see Dynamic routing in your VPC with VPC Route Server in the *Amazon VPC User Guide*.
  */
-export const modifyRouteServer: (
-  input: ModifyRouteServerRequest,
-) => effect.Effect<
+export const modifyRouteServer: API.OperationMethod<
+  ModifyRouteServerRequest,
   ModifyRouteServerResult,
   RequestLimitExceeded | InvalidRouteServerIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89666,9 +88852,8 @@ export const modifyRouteServer: (
 /**
  * Modifies the rules of a security group.
  */
-export const modifySecurityGroupRules: (
-  input: ModifySecurityGroupRulesRequest,
-) => effect.Effect<
+export const modifySecurityGroupRules: API.OperationMethod<
+  ModifySecurityGroupRulesRequest,
   ModifySecurityGroupRulesResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89689,9 +88874,8 @@ export const modifySecurityGroupRules: (
  * For more information about modifying snapshot permissions, see Share a snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const modifySnapshotAttribute: (
-  input: ModifySnapshotAttributeRequest,
-) => effect.Effect<
+export const modifySnapshotAttribute: API.OperationMethod<
+  ModifySnapshotAttributeRequest,
   ModifySnapshotAttributeResponse,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -89714,9 +88898,8 @@ export const modifySnapshotAttribute: (
  * tier. For more information, see Archive Amazon EBS snapshots
  * in the *Amazon EBS User Guide*.
  */
-export const modifySnapshotTier: (
-  input: ModifySnapshotTierRequest,
-) => effect.Effect<
+export const modifySnapshotTier: API.OperationMethod<
+  ModifySnapshotTierRequest,
   ModifySnapshotTierResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89757,9 +88940,8 @@ export const modifySnapshotTier: (
  * If you are finished with your Spot Fleet for now, but will use it again later, you can
  * set the target capacity to 0.
  */
-export const modifySpotFleetRequest: (
-  input: ModifySpotFleetRequestRequest,
-) => effect.Effect<
+export const modifySpotFleetRequest: API.OperationMethod<
+  ModifySpotFleetRequestRequest,
   ModifySpotFleetRequestResponse,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89788,9 +88970,8 @@ export const modifySpotFleetRequest: (
  *
  * - Outpost racks
  */
-export const modifySubnetAttribute: (
-  input: ModifySubnetAttributeRequest,
-) => effect.Effect<
+export const modifySubnetAttribute: API.OperationMethod<
+  ModifySubnetAttributeRequest,
   ModifySubnetAttributeResponse,
   | RequestLimitExceeded
   | InvalidSubnetIDNotFound
@@ -89808,9 +88989,8 @@ export const modifySubnetAttribute: (
  * By default, Amazon DNS network services are not eligible for Traffic Mirror. Use `AddNetworkServices` to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored.
  * When you no longer want to mirror network services, use `RemoveNetworkServices` to remove the network services from the Traffic Mirror filter.
  */
-export const modifyTrafficMirrorFilterNetworkServices: (
-  input: ModifyTrafficMirrorFilterNetworkServicesRequest,
-) => effect.Effect<
+export const modifyTrafficMirrorFilterNetworkServices: API.OperationMethod<
+  ModifyTrafficMirrorFilterNetworkServicesRequest,
   ModifyTrafficMirrorFilterNetworkServicesResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89825,9 +89005,8 @@ export const modifyTrafficMirrorFilterNetworkServices: (
  * `DestinationCidrBlock` and `SourceCidrBlock` must both be an IPv4
  * range or an IPv6 range.
  */
-export const modifyTrafficMirrorFilterRule: (
-  input: ModifyTrafficMirrorFilterRuleRequest,
-) => effect.Effect<
+export const modifyTrafficMirrorFilterRule: API.OperationMethod<
+  ModifyTrafficMirrorFilterRuleRequest,
   ModifyTrafficMirrorFilterRuleResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -89846,9 +89025,8 @@ export const modifyTrafficMirrorFilterRule: (
 /**
  * Modifies a Traffic Mirror session.
  */
-export const modifyTrafficMirrorSession: (
-  input: ModifyTrafficMirrorSessionRequest,
-) => effect.Effect<
+export const modifyTrafficMirrorSession: API.OperationMethod<
+  ModifyTrafficMirrorSessionRequest,
   ModifyTrafficMirrorSessionResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89860,9 +89038,8 @@ export const modifyTrafficMirrorSession: (
 /**
  * Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
  */
-export const modifyTransitGateway: (
-  input: ModifyTransitGatewayRequest,
-) => effect.Effect<
+export const modifyTransitGateway: API.OperationMethod<
+  ModifyTransitGatewayRequest,
   ModifyTransitGatewayResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89874,9 +89051,8 @@ export const modifyTransitGateway: (
 /**
  * Modifies a transit gateway metering policy.
  */
-export const modifyTransitGatewayMeteringPolicy: (
-  input: ModifyTransitGatewayMeteringPolicyRequest,
-) => effect.Effect<
+export const modifyTransitGatewayMeteringPolicy: API.OperationMethod<
+  ModifyTransitGatewayMeteringPolicyRequest,
   ModifyTransitGatewayMeteringPolicyResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayMeteringPolicyIdMalformedException
@@ -89895,9 +89071,8 @@ export const modifyTransitGatewayMeteringPolicy: (
 /**
  * Modifies a reference (route) to a prefix list in a specified transit gateway route table.
  */
-export const modifyTransitGatewayPrefixListReference: (
-  input: ModifyTransitGatewayPrefixListReferenceRequest,
-) => effect.Effect<
+export const modifyTransitGatewayPrefixListReference: API.OperationMethod<
+  ModifyTransitGatewayPrefixListReferenceRequest,
   ModifyTransitGatewayPrefixListReferenceResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89909,9 +89084,8 @@ export const modifyTransitGatewayPrefixListReference: (
 /**
  * Modifies the specified VPC attachment.
  */
-export const modifyTransitGatewayVpcAttachment: (
-  input: ModifyTransitGatewayVpcAttachmentRequest,
-) => effect.Effect<
+export const modifyTransitGatewayVpcAttachment: API.OperationMethod<
+  ModifyTransitGatewayVpcAttachmentRequest,
   ModifyTransitGatewayVpcAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -89925,9 +89099,8 @@ export const modifyTransitGatewayVpcAttachment: (
 /**
  * Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
  */
-export const modifyVerifiedAccessEndpoint: (
-  input: ModifyVerifiedAccessEndpointRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessEndpoint: API.OperationMethod<
+  ModifyVerifiedAccessEndpointRequest,
   ModifyVerifiedAccessEndpointResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -89946,9 +89119,8 @@ export const modifyVerifiedAccessEndpoint: (
 /**
  * Modifies the specified Amazon Web Services Verified Access endpoint policy.
  */
-export const modifyVerifiedAccessEndpointPolicy: (
-  input: ModifyVerifiedAccessEndpointPolicyRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessEndpointPolicy: API.OperationMethod<
+  ModifyVerifiedAccessEndpointPolicyRequest,
   ModifyVerifiedAccessEndpointPolicyResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -89967,9 +89139,8 @@ export const modifyVerifiedAccessEndpointPolicy: (
 /**
  * Modifies the specified Amazon Web Services Verified Access group configuration.
  */
-export const modifyVerifiedAccessGroup: (
-  input: ModifyVerifiedAccessGroupRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessGroup: API.OperationMethod<
+  ModifyVerifiedAccessGroupRequest,
   ModifyVerifiedAccessGroupResult,
   RequestLimitExceeded | InvalidVerifiedAccessGroupIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89981,9 +89152,8 @@ export const modifyVerifiedAccessGroup: (
 /**
  * Modifies the specified Amazon Web Services Verified Access group policy.
  */
-export const modifyVerifiedAccessGroupPolicy: (
-  input: ModifyVerifiedAccessGroupPolicyRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessGroupPolicy: API.OperationMethod<
+  ModifyVerifiedAccessGroupPolicyRequest,
   ModifyVerifiedAccessGroupPolicyResult,
   RequestLimitExceeded | InvalidVerifiedAccessGroupIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -89995,9 +89165,8 @@ export const modifyVerifiedAccessGroupPolicy: (
 /**
  * Modifies the configuration of the specified Amazon Web Services Verified Access instance.
  */
-export const modifyVerifiedAccessInstance: (
-  input: ModifyVerifiedAccessInstanceRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessInstance: API.OperationMethod<
+  ModifyVerifiedAccessInstanceRequest,
   ModifyVerifiedAccessInstanceResult,
   RequestLimitExceeded | InvalidVerifiedAccessInstanceIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90009,9 +89178,8 @@ export const modifyVerifiedAccessInstance: (
 /**
  * Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
  */
-export const modifyVerifiedAccessInstanceLoggingConfiguration: (
-  input: ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessInstanceLoggingConfiguration: API.OperationMethod<
+  ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
   ModifyVerifiedAccessInstanceLoggingConfigurationResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90023,9 +89191,8 @@ export const modifyVerifiedAccessInstanceLoggingConfiguration: (
 /**
  * Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
  */
-export const modifyVerifiedAccessTrustProvider: (
-  input: ModifyVerifiedAccessTrustProviderRequest,
-) => effect.Effect<
+export const modifyVerifiedAccessTrustProvider: API.OperationMethod<
+  ModifyVerifiedAccessTrustProviderRequest,
   ModifyVerifiedAccessTrustProviderResult,
   | RequestLimitExceeded
   | InvalidVerifiedAccessTrustProviderIdNotFound
@@ -90058,9 +89225,8 @@ export const modifyVerifiedAccessTrustProvider: (
  * for that volume are `completed`. If you exceed this limit, you get an error message
  * that indicates when you can perform your next modification.
  */
-export const modifyVolume: (
-  input: ModifyVolumeRequest,
-) => effect.Effect<
+export const modifyVolume: API.OperationMethod<
+  ModifyVolumeRequest,
   ModifyVolumeResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -90089,9 +89255,8 @@ export const modifyVolume: (
  * You can change the default behavior to resume I/O operations. We recommend that you change
  * this only for boot volumes or for volumes that are stateless or disposable.
  */
-export const modifyVolumeAttribute: (
-  input: ModifyVolumeAttributeRequest,
-) => effect.Effect<
+export const modifyVolumeAttribute: API.OperationMethod<
+  ModifyVolumeAttributeRequest,
   ModifyVolumeAttributeResponse,
   | RequestLimitExceeded
   | InvalidVolumeNotFound
@@ -90110,9 +89275,8 @@ export const modifyVolumeAttribute: (
 /**
  * Modifies the specified attribute of the specified VPC.
  */
-export const modifyVpcAttribute: (
-  input: ModifyVpcAttributeRequest,
-) => effect.Effect<
+export const modifyVpcAttribute: API.OperationMethod<
+  ModifyVpcAttributeRequest,
   ModifyVpcAttributeResponse,
   | RequestLimitExceeded
   | InvalidParameterCombination
@@ -90131,9 +89295,8 @@ export const modifyVpcAttribute: (
 /**
  * Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
  */
-export const modifyVpcBlockPublicAccessExclusion: (
-  input: ModifyVpcBlockPublicAccessExclusionRequest,
-) => effect.Effect<
+export const modifyVpcBlockPublicAccessExclusion: API.OperationMethod<
+  ModifyVpcBlockPublicAccessExclusionRequest,
   ModifyVpcBlockPublicAccessExclusionResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90145,9 +89308,8 @@ export const modifyVpcBlockPublicAccessExclusion: (
 /**
  * Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const modifyVpcBlockPublicAccessOptions: (
-  input: ModifyVpcBlockPublicAccessOptionsRequest,
-) => effect.Effect<
+export const modifyVpcBlockPublicAccessOptions: API.OperationMethod<
+  ModifyVpcBlockPublicAccessOptionsRequest,
   ModifyVpcBlockPublicAccessOptionsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90161,9 +89323,8 @@ export const modifyVpcBlockPublicAccessOptions: (
  *
  * For more information, see Enforce VPC encryption in transit in the *Amazon VPC User Guide*.
  */
-export const modifyVpcEncryptionControl: (
-  input: ModifyVpcEncryptionControlRequest,
-) => effect.Effect<
+export const modifyVpcEncryptionControl: API.OperationMethod<
+  ModifyVpcEncryptionControlRequest,
   ModifyVpcEncryptionControlResult,
   | RequestLimitExceeded
   | InvalidVpcEncryptionControlIdMalformed
@@ -90185,9 +89346,8 @@ export const modifyVpcEncryptionControl: (
  * see the Amazon Web Services PrivateLink
  * Guide.
  */
-export const modifyVpcEndpoint: (
-  input: ModifyVpcEndpointRequest,
-) => effect.Effect<
+export const modifyVpcEndpoint: API.OperationMethod<
+  ModifyVpcEndpointRequest,
   ModifyVpcEndpointResult,
   RequestLimitExceeded | InvalidVpcEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90200,9 +89360,8 @@ export const modifyVpcEndpoint: (
  * Modifies a connection notification for VPC endpoint or VPC endpoint service. You
  * can change the SNS topic for the notification, or the events for which to be notified.
  */
-export const modifyVpcEndpointConnectionNotification: (
-  input: ModifyVpcEndpointConnectionNotificationRequest,
-) => effect.Effect<
+export const modifyVpcEndpointConnectionNotification: API.OperationMethod<
+  ModifyVpcEndpointConnectionNotificationRequest,
   ModifyVpcEndpointConnectionNotificationResult,
   | RequestLimitExceeded
   | InvalidConnectionNotification
@@ -90224,9 +89383,8 @@ export const modifyVpcEndpointConnectionNotification: (
  * If you set or modify the private DNS name, you must prove that you own the private DNS
  * domain name.
  */
-export const modifyVpcEndpointServiceConfiguration: (
-  input: ModifyVpcEndpointServiceConfigurationRequest,
-) => effect.Effect<
+export const modifyVpcEndpointServiceConfiguration: API.OperationMethod<
+  ModifyVpcEndpointServiceConfigurationRequest,
   ModifyVpcEndpointServiceConfigurationResult,
   | RequestLimitExceeded
   | InvalidVpcEndpointServiceIdMalformed
@@ -90245,9 +89403,8 @@ export const modifyVpcEndpointServiceConfiguration: (
 /**
  * Modifies the payer responsibility for your VPC endpoint service.
  */
-export const modifyVpcEndpointServicePayerResponsibility: (
-  input: ModifyVpcEndpointServicePayerResponsibilityRequest,
-) => effect.Effect<
+export const modifyVpcEndpointServicePayerResponsibility: API.OperationMethod<
+  ModifyVpcEndpointServicePayerResponsibilityRequest,
   ModifyVpcEndpointServicePayerResponsibilityResult,
   RequestLimitExceeded | UnsupportedOperation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90265,9 +89422,8 @@ export const modifyVpcEndpointServicePayerResponsibility: (
  * public service can send a request to attach an endpoint. If the service does not require manual approval,
  * attachments are automatically approved.
  */
-export const modifyVpcEndpointServicePermissions: (
-  input: ModifyVpcEndpointServicePermissionsRequest,
-) => effect.Effect<
+export const modifyVpcEndpointServicePermissions: API.OperationMethod<
+  ModifyVpcEndpointServicePermissionsRequest,
   ModifyVpcEndpointServicePermissionsResult,
   | RequestLimitExceeded
   | InvalidVpcEndpointServiceIdMalformed
@@ -90297,9 +89453,8 @@ export const modifyVpcEndpointServicePermissions: (
  * the accepter VPC peering options. To verify which VPCs are the accepter and the
  * requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
  */
-export const modifyVpcPeeringConnectionOptions: (
-  input: ModifyVpcPeeringConnectionOptionsRequest,
-) => effect.Effect<
+export const modifyVpcPeeringConnectionOptions: API.OperationMethod<
+  ModifyVpcPeeringConnectionOptionsRequest,
   ModifyVpcPeeringConnectionOptionsResult,
   | RequestLimitExceeded
   | InvalidVpcPeeringConnectionIDNotFound
@@ -90327,9 +89482,8 @@ export const modifyVpcPeeringConnectionOptions: (
  * For more information, see Dedicated Instances in the
  * *Amazon EC2 User Guide*.
  */
-export const modifyVpcTenancy: (
-  input: ModifyVpcTenancyRequest,
-) => effect.Effect<
+export const modifyVpcTenancy: API.OperationMethod<
+  ModifyVpcTenancyRequest,
   ModifyVpcTenancyResult,
   | RequestLimitExceeded
   | InvalidVpcIDNotFound
@@ -90381,9 +89535,8 @@ export const modifyVpcTenancy: (
  * be temporarily unavailable for a brief period while we provision the new
  * endpoints.
  */
-export const modifyVpnConnection: (
-  input: ModifyVpnConnectionRequest,
-) => effect.Effect<
+export const modifyVpnConnection: API.OperationMethod<
+  ModifyVpnConnectionRequest,
   ModifyVpnConnectionResult,
   RequestLimitExceeded | InvalidVpnConnectionId | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90400,9 +89553,8 @@ export const modifyVpnConnection: (
  * VPN connection will be temporarily unavailable for a brief period while the VPN
  * connection is updated.
  */
-export const modifyVpnConnectionOptions: (
-  input: ModifyVpnConnectionOptionsRequest,
-) => effect.Effect<
+export const modifyVpnConnectionOptions: API.OperationMethod<
+  ModifyVpnConnectionOptionsRequest,
   ModifyVpnConnectionOptionsResult,
   RequestLimitExceeded | InvalidVpnConnectionIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90414,9 +89566,8 @@ export const modifyVpnConnectionOptions: (
 /**
  * Modifies the VPN tunnel endpoint certificate.
  */
-export const modifyVpnTunnelCertificate: (
-  input: ModifyVpnTunnelCertificateRequest,
-) => effect.Effect<
+export const modifyVpnTunnelCertificate: API.OperationMethod<
+  ModifyVpnTunnelCertificateRequest,
   ModifyVpnTunnelCertificateResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90431,9 +89582,8 @@ export const modifyVpnTunnelCertificate: (
  * a time. For more information, see Site-to-Site VPN tunnel options for your Site-to-Site VPN
  * connection in the *Amazon Web Services Site-to-Site VPN User Guide*.
  */
-export const modifyVpnTunnelOptions: (
-  input: ModifyVpnTunnelOptionsRequest,
-) => effect.Effect<
+export const modifyVpnTunnelOptions: API.OperationMethod<
+  ModifyVpnTunnelOptionsRequest,
   ModifyVpnTunnelOptionsResult,
   RequestLimitExceeded | InvalidVpnConnectionId | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90449,9 +89599,8 @@ export const modifyVpnTunnelOptions: (
  *
  * To disable detailed monitoring, see UnmonitorInstances.
  */
-export const monitorInstances: (
-  input: MonitorInstancesRequest,
-) => effect.Effect<
+export const monitorInstances: API.OperationMethod<
+  MonitorInstancesRequest,
   MonitorInstancesResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -90472,9 +89621,8 @@ export const monitorInstances: (
  * available for use in the EC2-Classic platform. You cannot move an Elastic IP address that was
  * originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
  */
-export const moveAddressToVpc: (
-  input: MoveAddressToVpcRequest,
-) => effect.Effect<
+export const moveAddressToVpc: API.OperationMethod<
+  MoveAddressToVpcRequest,
   MoveAddressToVpcResult,
   RequestLimitExceeded | UnsupportedOperation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90488,9 +89636,8 @@ export const moveAddressToVpc: (
  *
  * If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM.
  */
-export const moveByoipCidrToIpam: (
-  input: MoveByoipCidrToIpamRequest,
-) => effect.Effect<
+export const moveByoipCidrToIpam: API.OperationMethod<
+  MoveByoipCidrToIpamRequest,
   MoveByoipCidrToIpamResult,
   RequestLimitExceeded | InvalidIpamPoolIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90517,9 +89664,8 @@ export const moveByoipCidrToIpam: (
  * - Capacity Reservation end time - `At specific time` or
  * `Manually`.
  */
-export const moveCapacityReservationInstances: (
-  input: MoveCapacityReservationInstancesRequest,
-) => effect.Effect<
+export const moveCapacityReservationInstances: API.OperationMethod<
+  MoveCapacityReservationInstancesRequest,
   MoveCapacityReservationInstancesResult,
   RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90542,9 +89688,8 @@ export const moveCapacityReservationInstances: (
  * but the address range is not ready to use until its status changes from `pending-provision`
  * to `provisioned`. For more information, see Onboard your address range.
  */
-export const provisionByoipCidr: (
-  input: ProvisionByoipCidrRequest,
-) => effect.Effect<
+export const provisionByoipCidr: API.OperationMethod<
+  ProvisionByoipCidrRequest,
   ProvisionByoipCidrResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90556,9 +89701,8 @@ export const provisionByoipCidr: (
 /**
  * Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
  */
-export const provisionIpamByoasn: (
-  input: ProvisionIpamByoasnRequest,
-) => effect.Effect<
+export const provisionIpamByoasn: API.OperationMethod<
+  ProvisionIpamByoasnRequest,
   ProvisionIpamByoasnResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90572,9 +89716,8 @@ export const provisionIpamByoasn: (
  *
  * For more information, see Provision CIDRs to pools in the *Amazon VPC IPAM User Guide*.
  */
-export const provisionIpamPoolCidr: (
-  input: ProvisionIpamPoolCidrRequest,
-) => effect.Effect<
+export const provisionIpamPoolCidr: API.OperationMethod<
+  ProvisionIpamPoolCidrRequest,
   ProvisionIpamPoolCidrResult,
   | RequestLimitExceeded
   | InvalidIpamPoolIdNotFound
@@ -90591,9 +89734,8 @@ export const provisionIpamPoolCidr: (
  *
  * For more information about IPAM, see What is IPAM? in the *Amazon VPC IPAM User Guide*.
  */
-export const provisionPublicIpv4PoolCidr: (
-  input: ProvisionPublicIpv4PoolCidrRequest,
-) => effect.Effect<
+export const provisionPublicIpv4PoolCidr: API.OperationMethod<
+  ProvisionPublicIpv4PoolCidrRequest,
   ProvisionPublicIpv4PoolCidrResult,
   | RequestLimitExceeded
   | InvalidIpamPoolIdNotFound
@@ -90610,9 +89752,8 @@ export const provisionPublicIpv4PoolCidr: (
  * GPU capacity is available for machine learning (ML) workloads. You must specify the ID
  * of the Capacity Block offering you are purchasing.
  */
-export const purchaseCapacityBlock: (
-  input: PurchaseCapacityBlockRequest,
-) => effect.Effect<
+export const purchaseCapacityBlock: API.OperationMethod<
+  PurchaseCapacityBlockRequest,
   PurchaseCapacityBlockResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90625,9 +89766,8 @@ export const purchaseCapacityBlock: (
  * Purchase the Capacity Block extension for use with your account. You must specify the
  * ID of the Capacity Block extension offering you are purchasing.
  */
-export const purchaseCapacityBlockExtension: (
-  input: PurchaseCapacityBlockExtensionRequest,
-) => effect.Effect<
+export const purchaseCapacityBlockExtension: API.OperationMethod<
+  PurchaseCapacityBlockExtensionRequest,
   PurchaseCapacityBlockExtensionResult,
   RequestLimitExceeded | InvalidCapacityReservationIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90642,9 +89782,8 @@ export const purchaseCapacityBlockExtension: (
  * This action results in the specified reservation being purchased and charged to your
  * account.
  */
-export const purchaseHostReservation: (
-  input: PurchaseHostReservationRequest,
-) => effect.Effect<
+export const purchaseHostReservation: API.OperationMethod<
+  PurchaseHostReservationRequest,
   PurchaseHostReservationResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90668,9 +89807,8 @@ export const purchaseHostReservation: (
  * Instances and Sell in the Reserved Instance
  * Marketplace in the *Amazon EC2 User Guide*.
  */
-export const purchaseReservedInstancesOffering: (
-  input: PurchaseReservedInstancesOfferingRequest,
-) => effect.Effect<
+export const purchaseReservedInstancesOffering: API.OperationMethod<
+  PurchaseReservedInstancesOfferingRequest,
   PurchaseReservedInstancesOfferingResult,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90691,9 +89829,8 @@ export const purchaseReservedInstancesOffering: (
  *
  * After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
  */
-export const purchaseScheduledInstances: (
-  input: PurchaseScheduledInstancesRequest,
-) => effect.Effect<
+export const purchaseScheduledInstances: API.OperationMethod<
+  PurchaseScheduledInstancesRequest,
   PurchaseScheduledInstancesResult,
   RequestLimitExceeded | InvalidPurchaseTokenMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90714,9 +89851,8 @@ export const purchaseScheduledInstances: (
  * For more information about troubleshooting, see Troubleshoot an unreachable
  * instance in the *Amazon EC2 User Guide*.
  */
-export const rebootInstances: (
-  input: RebootInstancesRequest,
-) => effect.Effect<
+export const rebootInstances: API.OperationMethod<
+  RebootInstancesRequest,
   RebootInstancesResponse,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -90778,9 +89914,8 @@ export const rebootInstances: (
  * about how to obtain the platform details and billing information of an AMI, see Understand AMI
  * billing information in the *Amazon EC2 User Guide*.
  */
-export const registerImage: (
-  input: RegisterImageRequest,
-) => effect.Effect<
+export const registerImage: API.OperationMethod<
+  RegisterImageRequest,
   RegisterImageResult,
   RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90795,9 +89930,8 @@ export const registerImage: (
  *
  * To remove tags, use DeregisterInstanceEventNotificationAttributes.
  */
-export const registerInstanceEventNotificationAttributes: (
-  input: RegisterInstanceEventNotificationAttributesRequest,
-) => effect.Effect<
+export const registerInstanceEventNotificationAttributes: API.OperationMethod<
+  RegisterInstanceEventNotificationAttributesRequest,
   RegisterInstanceEventNotificationAttributesResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90815,9 +89949,8 @@ export const registerInstanceEventNotificationAttributes: (
  * After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added
  * to the transit gateway multicast group.
  */
-export const registerTransitGatewayMulticastGroupMembers: (
-  input: RegisterTransitGatewayMulticastGroupMembersRequest,
-) => effect.Effect<
+export const registerTransitGatewayMulticastGroupMembers: API.OperationMethod<
+  RegisterTransitGatewayMulticastGroupMembersRequest,
   RegisterTransitGatewayMulticastGroupMembersResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIdMalformed
@@ -90843,9 +89976,8 @@ export const registerTransitGatewayMulticastGroupMembers: (
  * After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast
  * group.
  */
-export const registerTransitGatewayMulticastGroupSources: (
-  input: RegisterTransitGatewayMulticastGroupSourcesRequest,
-) => effect.Effect<
+export const registerTransitGatewayMulticastGroupSources: API.OperationMethod<
+  RegisterTransitGatewayMulticastGroupSourcesRequest,
   RegisterTransitGatewayMulticastGroupSourcesResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIdMalformed
@@ -90866,9 +89998,8 @@ export const registerTransitGatewayMulticastGroupSources: (
  * Reservation to your account. For more information, see Billing assignment for shared
  * Amazon EC2 Capacity Reservations.
  */
-export const rejectCapacityReservationBillingOwnership: (
-  input: RejectCapacityReservationBillingOwnershipRequest,
-) => effect.Effect<
+export const rejectCapacityReservationBillingOwnership: API.OperationMethod<
+  RejectCapacityReservationBillingOwnershipRequest,
   RejectCapacityReservationBillingOwnershipResult,
   RequestLimitExceeded | InvalidCapacityReservationIdMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90880,9 +90011,8 @@ export const rejectCapacityReservationBillingOwnership: (
 /**
  * Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
  */
-export const rejectTransitGatewayMulticastDomainAssociations: (
-  input: RejectTransitGatewayMulticastDomainAssociationsRequest,
-) => effect.Effect<
+export const rejectTransitGatewayMulticastDomainAssociations: API.OperationMethod<
+  RejectTransitGatewayMulticastDomainAssociationsRequest,
   RejectTransitGatewayMulticastDomainAssociationsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -90894,9 +90024,8 @@ export const rejectTransitGatewayMulticastDomainAssociations: (
 /**
  * Rejects a transit gateway peering attachment request.
  */
-export const rejectTransitGatewayPeeringAttachment: (
-  input: RejectTransitGatewayPeeringAttachmentRequest,
-) => effect.Effect<
+export const rejectTransitGatewayPeeringAttachment: API.OperationMethod<
+  RejectTransitGatewayPeeringAttachmentRequest,
   RejectTransitGatewayPeeringAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -90919,9 +90048,8 @@ export const rejectTransitGatewayPeeringAttachment: (
  * Use DescribeTransitGatewayVpcAttachments to view your pending VPC attachment requests.
  * Use AcceptTransitGatewayVpcAttachment to accept a VPC attachment request.
  */
-export const rejectTransitGatewayVpcAttachment: (
-  input: RejectTransitGatewayVpcAttachmentRequest,
-) => effect.Effect<
+export const rejectTransitGatewayVpcAttachment: API.OperationMethod<
+  RejectTransitGatewayVpcAttachmentRequest,
   RejectTransitGatewayVpcAttachmentResult,
   | RequestLimitExceeded
   | InvalidTransitGatewayAttachmentIDNotFound
@@ -90940,9 +90068,8 @@ export const rejectTransitGatewayVpcAttachment: (
 /**
  * Rejects VPC endpoint connection requests to your VPC endpoint service.
  */
-export const rejectVpcEndpointConnections: (
-  input: RejectVpcEndpointConnectionsRequest,
-) => effect.Effect<
+export const rejectVpcEndpointConnections: API.OperationMethod<
+  RejectVpcEndpointConnectionsRequest,
   RejectVpcEndpointConnectionsResult,
   | RequestLimitExceeded
   | InvalidParameter
@@ -90964,9 +90091,8 @@ export const rejectVpcEndpointConnections: (
  * to view your outstanding VPC peering connection requests. To delete an active VPC peering
  * connection, or to delete a VPC peering connection request that you initiated, use DeleteVpcPeeringConnection.
  */
-export const rejectVpcPeeringConnection: (
-  input: RejectVpcPeeringConnectionRequest,
-) => effect.Effect<
+export const rejectVpcPeeringConnection: API.OperationMethod<
+  RejectVpcPeeringConnectionRequest,
   RejectVpcPeeringConnectionResult,
   | RequestLimitExceeded
   | InvalidVpcPeeringConnectionIDNotFound
@@ -91002,9 +90128,8 @@ export const rejectVpcPeeringConnection: (
  * After you release an Elastic IP address, you might be able to recover it.
  * For more information, see Release an Elastic IP address.
  */
-export const releaseAddress: (
-  input: ReleaseAddressRequest,
-) => effect.Effect<
+export const releaseAddress: API.OperationMethod<
+  ReleaseAddressRequest,
   ReleaseAddressResponse,
   | RequestLimitExceeded
   | AuthFailure
@@ -91045,9 +90170,8 @@ export const releaseAddress: (
  *
  * Released hosts still appear in a DescribeHosts response.
  */
-export const releaseHosts: (
-  input: ReleaseHostsRequest,
-) => effect.Effect<
+export const releaseHosts: API.OperationMethod<
+  ReleaseHostsRequest,
   ReleaseHostsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91061,9 +90185,8 @@ export const releaseHosts: (
  *
  * All EC2 API actions follow an eventual consistency model.
  */
-export const releaseIpamPoolAllocation: (
-  input: ReleaseIpamPoolAllocationRequest,
-) => effect.Effect<
+export const releaseIpamPoolAllocation: API.OperationMethod<
+  ReleaseIpamPoolAllocationRequest,
   ReleaseIpamPoolAllocationResult,
   RequestLimitExceeded | InvalidIpamPoolIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91080,9 +90203,8 @@ export const releaseIpamPoolAllocation: (
  * Use DescribeIamInstanceProfileAssociations to get the association
  * ID.
  */
-export const replaceIamInstanceProfileAssociation: (
-  input: ReplaceIamInstanceProfileAssociationRequest,
-) => effect.Effect<
+export const replaceIamInstanceProfileAssociation: API.OperationMethod<
+  ReplaceIamInstanceProfileAssociationRequest,
   ReplaceIamInstanceProfileAssociationResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91102,9 +90224,8 @@ export const replaceIamInstanceProfileAssociation: (
  * Amazon EC2 with Allowed AMIs in
  * *Amazon EC2 User Guide*.
  */
-export const replaceImageCriteriaInAllowedImagesSettings: (
-  input: ReplaceImageCriteriaInAllowedImagesSettingsRequest,
-) => effect.Effect<
+export const replaceImageCriteriaInAllowedImagesSettings: API.OperationMethod<
+  ReplaceImageCriteriaInAllowedImagesSettingsRequest,
   ReplaceImageCriteriaInAllowedImagesSettingsResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91120,9 +90241,8 @@ export const replaceImageCriteriaInAllowedImagesSettings: (
  *
  * This is an idempotent operation.
  */
-export const replaceNetworkAclAssociation: (
-  input: ReplaceNetworkAclAssociationRequest,
-) => effect.Effect<
+export const replaceNetworkAclAssociation: API.OperationMethod<
+  ReplaceNetworkAclAssociationRequest,
   ReplaceNetworkAclAssociationResult,
   | RequestLimitExceeded
   | DryRunOperation
@@ -91144,9 +90264,8 @@ export const replaceNetworkAclAssociation: (
  * Replaces an entry (rule) in a network ACL. For more information, see Network ACLs in the
  * *Amazon VPC User Guide*.
  */
-export const replaceNetworkAclEntry: (
-  input: ReplaceNetworkAclEntryRequest,
-) => effect.Effect<
+export const replaceNetworkAclEntry: API.OperationMethod<
+  ReplaceNetworkAclEntryRequest,
   ReplaceNetworkAclEntryResponse,
   | RequestLimitExceeded
   | InvalidNetworkAclIDNotFound
@@ -91172,9 +90291,8 @@ export const replaceNetworkAclEntry: (
  * For more information, see Route tables in the
  * *Amazon VPC User Guide*.
  */
-export const replaceRoute: (
-  input: ReplaceRouteRequest,
-) => effect.Effect<
+export const replaceRoute: API.OperationMethod<
+  ReplaceRouteRequest,
   ReplaceRouteResponse,
   | RequestLimitExceeded
   | InvalidRouteTableIDNotFound
@@ -91194,9 +90312,8 @@ export const replaceRoute: (
  *
  * You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
  */
-export const replaceRouteTableAssociation: (
-  input: ReplaceRouteTableAssociationRequest,
-) => effect.Effect<
+export const replaceRouteTableAssociation: API.OperationMethod<
+  ReplaceRouteTableAssociationRequest,
   ReplaceRouteTableAssociationResult,
   | RequestLimitExceeded
   | InvalidRouteTableAssociationIdMalformed
@@ -91215,9 +90332,8 @@ export const replaceRouteTableAssociation: (
 /**
  * Replaces the specified route in the specified transit gateway route table.
  */
-export const replaceTransitGatewayRoute: (
-  input: ReplaceTransitGatewayRouteRequest,
-) => effect.Effect<
+export const replaceTransitGatewayRoute: API.OperationMethod<
+  ReplaceTransitGatewayRouteRequest,
   ReplaceTransitGatewayRouteResult,
   RequestLimitExceeded | InvalidRouteTableIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91229,9 +90345,8 @@ export const replaceTransitGatewayRoute: (
 /**
  * Trigger replacement of specified VPN tunnel.
  */
-export const replaceVpnTunnel: (
-  input: ReplaceVpnTunnelRequest,
-) => effect.Effect<
+export const replaceVpnTunnel: API.OperationMethod<
+  ReplaceVpnTunnelRequest,
   ReplaceVpnTunnelResult,
   RequestLimitExceeded | InvalidVpnConnectionId | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91248,9 +90363,8 @@ export const replaceVpnTunnel: (
  *
  * Use of this action does not change the value returned by DescribeInstanceStatus.
  */
-export const reportInstanceStatus: (
-  input: ReportInstanceStatusRequest,
-) => effect.Effect<
+export const reportInstanceStatus: API.OperationMethod<
+  ReportInstanceStatusRequest,
   ReportInstanceStatusResponse,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91293,9 +90407,8 @@ export const reportInstanceStatus: (
  * is the best Spot request method to use? in the
  * *Amazon EC2 User Guide*.
  */
-export const requestSpotFleet: (
-  input: RequestSpotFleetRequest,
-) => effect.Effect<
+export const requestSpotFleet: API.OperationMethod<
+  RequestSpotFleetRequest,
   RequestSpotFleetResponse,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91316,9 +90429,8 @@ export const requestSpotFleet: (
  * is the best Spot request method to use? in the
  * *Amazon EC2 User Guide*.
  */
-export const requestSpotInstances: (
-  input: RequestSpotInstancesRequest,
-) => effect.Effect<
+export const requestSpotInstances: API.OperationMethod<
+  RequestSpotInstancesRequest,
   RequestSpotInstancesResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91330,9 +90442,8 @@ export const requestSpotInstances: (
 /**
  * Resets the attribute of the specified IP address. For requirements, see Using reverse DNS for email applications.
  */
-export const resetAddressAttribute: (
-  input: ResetAddressAttributeRequest,
-) => effect.Effect<
+export const resetAddressAttribute: API.OperationMethod<
+  ResetAddressAttributeRequest,
   ResetAddressAttributeResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91350,9 +90461,8 @@ export const resetAddressAttribute: (
  * Amazon EBS encryption
  * in the *Amazon EBS User Guide*.
  */
-export const resetEbsDefaultKmsKeyId: (
-  input: ResetEbsDefaultKmsKeyIdRequest,
-) => effect.Effect<
+export const resetEbsDefaultKmsKeyId: API.OperationMethod<
+  ResetEbsDefaultKmsKeyIdRequest,
   ResetEbsDefaultKmsKeyIdResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91365,9 +90475,8 @@ export const resetEbsDefaultKmsKeyId: (
  * Resets the specified attribute of the specified Amazon FPGA Image (AFI) to its default value.
  * You can only reset the load permission attribute.
  */
-export const resetFpgaImageAttribute: (
-  input: ResetFpgaImageAttributeRequest,
-) => effect.Effect<
+export const resetFpgaImageAttribute: API.OperationMethod<
+  ResetFpgaImageAttributeRequest,
   ResetFpgaImageAttributeResult,
   RequestLimitExceeded | InvalidFpgaImageIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91379,9 +90488,8 @@ export const resetFpgaImageAttribute: (
 /**
  * Resets an attribute of an AMI to its default value.
  */
-export const resetImageAttribute: (
-  input: ResetImageAttributeRequest,
-) => effect.Effect<
+export const resetImageAttribute: API.OperationMethod<
+  ResetImageAttributeRequest,
   ResetImageAttributeResponse,
   | RequestLimitExceeded
   | InvalidAMIIDMalformed
@@ -91411,9 +90519,8 @@ export const resetImageAttribute: (
  * more information, see NAT instances in the
  * *Amazon VPC User Guide*.
  */
-export const resetInstanceAttribute: (
-  input: ResetInstanceAttributeRequest,
-) => effect.Effect<
+export const resetInstanceAttribute: API.OperationMethod<
+  ResetInstanceAttributeRequest,
   ResetInstanceAttributeResponse,
   RequestLimitExceeded | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91426,9 +90533,8 @@ export const resetInstanceAttribute: (
  * Resets a network interface attribute. You can specify only one attribute at a
  * time.
  */
-export const resetNetworkInterfaceAttribute: (
-  input: ResetNetworkInterfaceAttributeRequest,
-) => effect.Effect<
+export const resetNetworkInterfaceAttribute: API.OperationMethod<
+  ResetNetworkInterfaceAttributeRequest,
   ResetNetworkInterfaceAttributeResponse,
   RequestLimitExceeded | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91443,9 +90549,8 @@ export const resetNetworkInterfaceAttribute: (
  * For more information about modifying snapshot permissions, see Share a snapshot in the
  * *Amazon EBS User Guide*.
  */
-export const resetSnapshotAttribute: (
-  input: ResetSnapshotAttributeRequest,
-) => effect.Effect<
+export const resetSnapshotAttribute: API.OperationMethod<
+  ResetSnapshotAttributeRequest,
   ResetSnapshotAttributeResponse,
   | RequestLimitExceeded
   | InvalidSnapshotNotFound
@@ -91468,9 +90573,8 @@ export const resetSnapshotAttribute: (
  *
  * Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
  */
-export const restoreAddressToClassic: (
-  input: RestoreAddressToClassicRequest,
-) => effect.Effect<
+export const restoreAddressToClassic: API.OperationMethod<
+  RestoreAddressToClassicRequest,
   RestoreAddressToClassicResult,
   RequestLimitExceeded | UnsupportedOperation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91484,9 +90588,8 @@ export const restoreAddressToClassic: (
  * snapshots and EBS-back AMIs with Recycle Bin in the
  * *Amazon EC2 User Guide*.
  */
-export const restoreImageFromRecycleBin: (
-  input: RestoreImageFromRecycleBinRequest,
-) => effect.Effect<
+export const restoreImageFromRecycleBin: API.OperationMethod<
+  RestoreImageFromRecycleBinRequest,
   RestoreImageFromRecycleBinResult,
   RequestLimitExceeded | InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91498,9 +90601,8 @@ export const restoreImageFromRecycleBin: (
 /**
  * Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.
  */
-export const restoreManagedPrefixListVersion: (
-  input: RestoreManagedPrefixListVersionRequest,
-) => effect.Effect<
+export const restoreManagedPrefixListVersion: API.OperationMethod<
+  RestoreManagedPrefixListVersionRequest,
   RestoreManagedPrefixListVersionResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91513,9 +90615,8 @@ export const restoreManagedPrefixListVersion: (
  * Restores a snapshot from the Recycle Bin. For more information, see Restore
  * snapshots from the Recycle Bin in the *Amazon EBS User Guide*.
  */
-export const restoreSnapshotFromRecycleBin: (
-  input: RestoreSnapshotFromRecycleBinRequest,
-) => effect.Effect<
+export const restoreSnapshotFromRecycleBin: API.OperationMethod<
+  RestoreSnapshotFromRecycleBinRequest,
   RestoreSnapshotFromRecycleBinResult,
   RequestLimitExceeded | InvalidSnapshotIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91532,9 +90633,8 @@ export const restoreSnapshotFromRecycleBin: (
  * Restore an archived snapshot and
  * modify the restore period or restore type for a temporarily restored snapshot in the *Amazon EBS User Guide*.
  */
-export const restoreSnapshotTier: (
-  input: RestoreSnapshotTierRequest,
-) => effect.Effect<
+export const restoreSnapshotTier: API.OperationMethod<
+  RestoreSnapshotTierRequest,
   RestoreSnapshotTierResult,
   RequestLimitExceeded | InvalidSnapshotIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91547,9 +90647,8 @@ export const restoreSnapshotTier: (
  * Restores a volume from the Recycle Bin. For more information, see Restore
  * volumes from the Recycle Bin in the *Amazon EBS User Guide*.
  */
-export const restoreVolumeFromRecycleBin: (
-  input: RestoreVolumeFromRecycleBinRequest,
-) => effect.Effect<
+export const restoreVolumeFromRecycleBin: API.OperationMethod<
+  RestoreVolumeFromRecycleBinRequest,
   RestoreVolumeFromRecycleBinResult,
   RequestLimitExceeded | InvalidVolumeIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91561,9 +90660,8 @@ export const restoreVolumeFromRecycleBin: (
 /**
  * Removes an ingress authorization rule from a Client VPN endpoint.
  */
-export const revokeClientVpnIngress: (
-  input: RevokeClientVpnIngressRequest,
-) => effect.Effect<
+export const revokeClientVpnIngress: API.OperationMethod<
+  RevokeClientVpnIngressRequest,
   RevokeClientVpnIngressResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91591,9 +90689,8 @@ export const revokeClientVpnIngress: (
  * Rule changes are propagated to instances within the security group as quickly as possible. However,
  * a small delay might occur.
  */
-export const revokeSecurityGroupEgress: (
-  input: RevokeSecurityGroupEgressRequest,
-) => effect.Effect<
+export const revokeSecurityGroupEgress: API.OperationMethod<
+  RevokeSecurityGroupEgressRequest,
   RevokeSecurityGroupEgressResult,
   | RequestLimitExceeded
   | InvalidGroupNotFound
@@ -91645,9 +90742,8 @@ export const revokeSecurityGroupEgress: (
  * Rule changes are propagated to instances within the security group as quickly as possible.
  * However, a small delay might occur.
  */
-export const revokeSecurityGroupIngress: (
-  input: RevokeSecurityGroupIngressRequest,
-) => effect.Effect<
+export const revokeSecurityGroupIngress: API.OperationMethod<
+  RevokeSecurityGroupIngressRequest,
   RevokeSecurityGroupIngressResult,
   | RequestLimitExceeded
   | InvalidGroupNotFound
@@ -91721,9 +90817,8 @@ export const revokeSecurityGroupIngress: (
  * For troubleshooting, see What to do if
  * an instance immediately terminates, and Troubleshooting connecting to your instance.
  */
-export const runInstances: (
-  input: RunInstancesRequest,
-) => effect.Effect<
+export const runInstances: API.OperationMethod<
+  RunInstancesRequest,
   Reservation,
   | RequestLimitExceeded
   | InvalidAMIIDMalformed
@@ -91753,9 +90848,8 @@ export const runInstances: (
  * Scheduled Instance before the current scheduled time period ends, you can launch it again
  * after a few minutes.
  */
-export const runScheduledInstances: (
-  input: RunScheduledInstancesRequest,
-) => effect.Effect<
+export const runScheduledInstances: API.OperationMethod<
+  RunScheduledInstancesRequest,
   RunScheduledInstancesResult,
   RequestLimitExceeded | InvalidScheduledInstance | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91767,17 +90861,15 @@ export const runScheduledInstances: (
 /**
  * Searches for routes in the specified local gateway route table.
  */
-export const searchLocalGatewayRoutes: {
-  (
-    input: SearchLocalGatewayRoutesRequest,
-  ): effect.Effect<
-    SearchLocalGatewayRoutesResult,
-    | RequestLimitExceeded
-    | InvalidLocalGatewayRouteTableIDNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchLocalGatewayRoutes: API.OperationMethod<
+  SearchLocalGatewayRoutesRequest,
+  SearchLocalGatewayRoutesResult,
+  | RequestLimitExceeded
+  | InvalidLocalGatewayRouteTableIDNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchLocalGatewayRoutesRequest,
   ) => stream.Stream<
@@ -91816,17 +90908,15 @@ export const searchLocalGatewayRoutes: {
 /**
  * Searches one or more transit gateway multicast groups and returns the group membership information.
  */
-export const searchTransitGatewayMulticastGroups: {
-  (
-    input: SearchTransitGatewayMulticastGroupsRequest,
-  ): effect.Effect<
-    SearchTransitGatewayMulticastGroupsResult,
-    | RequestLimitExceeded
-    | InvalidTransitGatewayMulticastDomainIdMalformed
-    | InvalidTransitGatewayMulticastDomainIdNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchTransitGatewayMulticastGroups: API.OperationMethod<
+  SearchTransitGatewayMulticastGroupsRequest,
+  SearchTransitGatewayMulticastGroupsResult,
+  | RequestLimitExceeded
+  | InvalidTransitGatewayMulticastDomainIdMalformed
+  | InvalidTransitGatewayMulticastDomainIdNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTransitGatewayMulticastGroupsRequest,
   ) => stream.Stream<
@@ -91865,17 +90955,15 @@ export const searchTransitGatewayMulticastGroups: {
 /**
  * Searches for routes in the specified transit gateway route table.
  */
-export const searchTransitGatewayRoutes: {
-  (
-    input: SearchTransitGatewayRoutesRequest,
-  ): effect.Effect<
-    SearchTransitGatewayRoutesResult,
-    | RequestLimitExceeded
-    | InvalidRouteTableIDNotFound
-    | MissingParameter
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchTransitGatewayRoutes: API.OperationMethod<
+  SearchTransitGatewayRoutesRequest,
+  SearchTransitGatewayRoutesResult,
+  | RequestLimitExceeded
+  | InvalidRouteTableIDNotFound
+  | MissingParameter
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTransitGatewayRoutesRequest,
   ) => stream.Stream<
@@ -91926,9 +91014,8 @@ export const searchTransitGatewayRoutes: {
  * when a kernel panic or stop error occurs, see Send a diagnostic interrupt
  * (for advanced users) in the *Amazon EC2 User Guide*.
  */
-export const sendDiagnosticInterrupt: (
-  input: SendDiagnosticInterruptRequest,
-) => effect.Effect<
+export const sendDiagnosticInterrupt: API.OperationMethod<
+  SendDiagnosticInterruptRequest,
   SendDiagnosticInterruptResponse,
   RequestLimitExceeded | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -91978,9 +91065,8 @@ export const sendDiagnosticInterrupt: (
  * Generating the account status report for declarative policies in the
  * *Amazon Web Services Organizations User Guide*.
  */
-export const startDeclarativePoliciesReport: (
-  input: StartDeclarativePoliciesReportRequest,
-) => effect.Effect<
+export const startDeclarativePoliciesReport: API.OperationMethod<
+  StartDeclarativePoliciesReportRequest,
   StartDeclarativePoliciesReportResult,
   RequestLimitExceeded | DeclarativePoliciesAccessDenied | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92015,9 +91101,8 @@ export const startDeclarativePoliciesReport: (
  * For more information, see Stop and start Amazon EC2
  * instances in the *Amazon EC2 User Guide*.
  */
-export const startInstances: (
-  input: StartInstancesRequest,
-) => effect.Effect<
+export const startInstances: API.OperationMethod<
+  StartInstancesRequest,
   StartInstancesResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -92038,9 +91123,8 @@ export const startInstances: (
 /**
  * Starts analyzing the specified Network Access Scope.
  */
-export const startNetworkInsightsAccessScopeAnalysis: (
-  input: StartNetworkInsightsAccessScopeAnalysisRequest,
-) => effect.Effect<
+export const startNetworkInsightsAccessScopeAnalysis: API.OperationMethod<
+  StartNetworkInsightsAccessScopeAnalysisRequest,
   StartNetworkInsightsAccessScopeAnalysisResult,
   | RequestLimitExceeded
   | IdempotentParameterMismatch
@@ -92060,9 +91144,8 @@ export const startNetworkInsightsAccessScopeAnalysis: (
  * Starts analyzing the specified path. If the path is reachable, the
  * operation returns the shortest feasible path.
  */
-export const startNetworkInsightsAnalysis: (
-  input: StartNetworkInsightsAnalysisRequest,
-) => effect.Effect<
+export const startNetworkInsightsAnalysis: API.OperationMethod<
+  StartNetworkInsightsAnalysisRequest,
   StartNetworkInsightsAnalysisResult,
   | RequestLimitExceeded
   | InvalidParameterValue
@@ -92082,9 +91165,8 @@ export const startNetworkInsightsAnalysis: (
  *
  * Before the service provider runs this command, they must add a record to the DNS server.
  */
-export const startVpcEndpointServicePrivateDnsVerification: (
-  input: StartVpcEndpointServicePrivateDnsVerificationRequest,
-) => effect.Effect<
+export const startVpcEndpointServicePrivateDnsVerification: API.OperationMethod<
+  StartVpcEndpointServicePrivateDnsVerificationRequest,
   StartVpcEndpointServicePrivateDnsVerificationResult,
   | RequestLimitExceeded
   | InvalidVpcEndpointServiceIdMalformed
@@ -92139,9 +91221,8 @@ export const startVpcEndpointServicePrivateDnsVerification: (
  *
  * You can't stop or hibernate instance store-backed instances.
  */
-export const stopInstances: (
-  input: StopInstancesRequest,
-) => effect.Effect<
+export const stopInstances: API.OperationMethod<
+  StopInstancesRequest,
   StopInstancesResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -92162,9 +91243,8 @@ export const stopInstances: (
 /**
  * Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user.
  */
-export const terminateClientVpnConnections: (
-  input: TerminateClientVpnConnectionsRequest,
-) => effect.Effect<
+export const terminateClientVpnConnections: API.OperationMethod<
+  TerminateClientVpnConnectionsRequest,
   TerminateClientVpnConnectionsResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92248,9 +91328,8 @@ export const terminateClientVpnConnections: (
  * Troubleshooting terminating your instance in the
  * *Amazon EC2 User Guide*.
  */
-export const terminateInstances: (
-  input: TerminateInstancesRequest,
-) => effect.Effect<
+export const terminateInstances: API.OperationMethod<
+  TerminateInstancesRequest,
   TerminateInstancesResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -92272,9 +91351,8 @@ export const terminateInstances: (
  * Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network
  * interface.
  */
-export const unassignIpv6Addresses: (
-  input: UnassignIpv6AddressesRequest,
-) => effect.Effect<
+export const unassignIpv6Addresses: API.OperationMethod<
+  UnassignIpv6AddressesRequest,
   UnassignIpv6AddressesResult,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -92294,9 +91372,8 @@ export const unassignIpv6Addresses: (
  * Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation
  * prefixes from a network interface.
  */
-export const unassignPrivateIpAddresses: (
-  input: UnassignPrivateIpAddressesRequest,
-) => effect.Effect<
+export const unassignPrivateIpAddresses: API.OperationMethod<
+  UnassignPrivateIpAddressesRequest,
   UnassignPrivateIpAddressesResponse,
   | RequestLimitExceeded
   | InvalidNetworkInterfaceIDNotFound
@@ -92327,9 +91404,8 @@ export const unassignPrivateIpAddresses: (
  * assigned private IP address). After the existing connections drain out, the private IP
  * addresses are released.
  */
-export const unassignPrivateNatGatewayAddress: (
-  input: UnassignPrivateNatGatewayAddressRequest,
-) => effect.Effect<
+export const unassignPrivateNatGatewayAddress: API.OperationMethod<
+  UnassignPrivateNatGatewayAddressRequest,
   UnassignPrivateNatGatewayAddressResult,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92343,9 +91419,8 @@ export const unassignPrivateNatGatewayAddress: (
  * but still in the cooling-off period. You can't unlock a snapshot that is locked in compliance
  * mode after the cooling-off period has expired.
  */
-export const unlockSnapshot: (
-  input: UnlockSnapshotRequest,
-) => effect.Effect<
+export const unlockSnapshot: API.OperationMethod<
+  UnlockSnapshotRequest,
   UnlockSnapshotResult,
   RequestLimitExceeded | InvalidSnapshotIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92359,9 +91434,8 @@ export const unlockSnapshot: (
  * your instances and volumes in the
  * *Amazon EC2 User Guide*.
  */
-export const unmonitorInstances: (
-  input: UnmonitorInstancesRequest,
-) => effect.Effect<
+export const unmonitorInstances: API.OperationMethod<
+  UnmonitorInstancesRequest,
   UnmonitorInstancesResult,
   | RequestLimitExceeded
   | InvalidInstanceIDMalformed
@@ -92377,9 +91451,8 @@ export const unmonitorInstances: (
  * Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate
  * data from all accounts in your Amazon Web Services Organization or only from the current account.
  */
-export const updateCapacityManagerOrganizationsAccess: (
-  input: UpdateCapacityManagerOrganizationsAccessRequest,
-) => effect.Effect<
+export const updateCapacityManagerOrganizationsAccess: API.OperationMethod<
+  UpdateCapacityManagerOrganizationsAccessRequest,
   UpdateCapacityManagerOrganizationsAccessResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92391,9 +91464,8 @@ export const updateCapacityManagerOrganizationsAccess: (
 /**
  * Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation.
  */
-export const updateInterruptibleCapacityReservationAllocation: (
-  input: UpdateInterruptibleCapacityReservationAllocationRequest,
-) => effect.Effect<
+export const updateInterruptibleCapacityReservationAllocation: API.OperationMethod<
+  UpdateInterruptibleCapacityReservationAllocationRequest,
   UpdateInterruptibleCapacityReservationAllocationResult,
   RequestLimitExceeded | InvalidCapacityReservationIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92408,9 +91480,8 @@ export const updateInterruptibleCapacityReservationAllocation: (
  * previously. You can remove a description for a security group rule by omitting the
  * description parameter in the request.
  */
-export const updateSecurityGroupRuleDescriptionsEgress: (
-  input: UpdateSecurityGroupRuleDescriptionsEgressRequest,
-) => effect.Effect<
+export const updateSecurityGroupRuleDescriptionsEgress: API.OperationMethod<
+  UpdateSecurityGroupRuleDescriptionsEgressRequest,
   UpdateSecurityGroupRuleDescriptionsEgressResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92425,9 +91496,8 @@ export const updateSecurityGroupRuleDescriptionsEgress: (
  * You can remove a description for a security group rule by omitting the description
  * parameter in the request.
  */
-export const updateSecurityGroupRuleDescriptionsIngress: (
-  input: UpdateSecurityGroupRuleDescriptionsIngressRequest,
-) => effect.Effect<
+export const updateSecurityGroupRuleDescriptionsIngress: API.OperationMethod<
+  UpdateSecurityGroupRuleDescriptionsIngressRequest,
   UpdateSecurityGroupRuleDescriptionsIngressResult,
   RequestLimitExceeded | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -92445,9 +91515,8 @@ export const updateSecurityGroupRuleDescriptionsIngress: (
  * It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services
  * because of BGP propagation delays.
  */
-export const withdrawByoipCidr: (
-  input: WithdrawByoipCidrRequest,
-) => effect.Effect<
+export const withdrawByoipCidr: API.OperationMethod<
+  WithdrawByoipCidrRequest,
   WithdrawByoipCidrResult,
   RequestLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

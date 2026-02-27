@@ -874,9 +874,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
  *
  * Requires permission to access the CreateSuiteDefinition action.
  */
-export const createSuiteDefinition: (
-  input: CreateSuiteDefinitionRequest,
-) => effect.Effect<
+export const createSuiteDefinition: API.OperationMethod<
+  CreateSuiteDefinitionRequest,
   CreateSuiteDefinitionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -890,9 +889,8 @@ export const createSuiteDefinition: (
  *
  * Requires permission to access the DeleteSuiteDefinition action.
  */
-export const deleteSuiteDefinition: (
-  input: DeleteSuiteDefinitionRequest,
-) => effect.Effect<
+export const deleteSuiteDefinition: API.OperationMethod<
+  DeleteSuiteDefinitionRequest,
   DeleteSuiteDefinitionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -904,9 +902,8 @@ export const deleteSuiteDefinition: (
 /**
  * Gets information about an Device Advisor endpoint.
  */
-export const getEndpoint: (
-  input: GetEndpointRequest,
-) => effect.Effect<
+export const getEndpoint: API.OperationMethod<
+  GetEndpointRequest,
   GetEndpointResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -927,9 +924,8 @@ export const getEndpoint: (
  *
  * Requires permission to access the GetSuiteDefinition action.
  */
-export const getSuiteDefinition: (
-  input: GetSuiteDefinitionRequest,
-) => effect.Effect<
+export const getSuiteDefinition: API.OperationMethod<
+  GetSuiteDefinitionRequest,
   GetSuiteDefinitionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -950,9 +946,8 @@ export const getSuiteDefinition: (
  *
  * Requires permission to access the GetSuiteRun action.
  */
-export const getSuiteRun: (
-  input: GetSuiteRunRequest,
-) => effect.Effect<
+export const getSuiteRun: API.OperationMethod<
+  GetSuiteRunRequest,
   GetSuiteRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -973,9 +968,8 @@ export const getSuiteRun: (
  *
  * Requires permission to access the GetSuiteRunReport action.
  */
-export const getSuiteRunReport: (
-  input: GetSuiteRunReportRequest,
-) => effect.Effect<
+export const getSuiteRunReport: API.OperationMethod<
+  GetSuiteRunReportRequest,
   GetSuiteRunReportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -996,14 +990,12 @@ export const getSuiteRunReport: (
  *
  * Requires permission to access the ListSuiteDefinitions action.
  */
-export const listSuiteDefinitions: {
-  (
-    input: ListSuiteDefinitionsRequest,
-  ): effect.Effect<
-    ListSuiteDefinitionsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSuiteDefinitions: API.OperationMethod<
+  ListSuiteDefinitionsRequest,
+  ListSuiteDefinitionsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSuiteDefinitionsRequest,
   ) => stream.Stream<
@@ -1034,14 +1026,12 @@ export const listSuiteDefinitions: {
  *
  * Requires permission to access the ListSuiteRuns action.
  */
-export const listSuiteRuns: {
-  (
-    input: ListSuiteRunsRequest,
-  ): effect.Effect<
-    ListSuiteRunsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSuiteRuns: API.OperationMethod<
+  ListSuiteRunsRequest,
+  ListSuiteRunsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSuiteRunsRequest,
   ) => stream.Stream<
@@ -1071,9 +1061,8 @@ export const listSuiteRuns: {
  *
  * Requires permission to access the ListTagsForResource action.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1094,9 +1083,8 @@ export const listTagsForResource: (
  *
  * Requires permission to access the StartSuiteRun action.
  */
-export const startSuiteRun: (
-  input: StartSuiteRunRequest,
-) => effect.Effect<
+export const startSuiteRun: API.OperationMethod<
+  StartSuiteRunRequest,
   StartSuiteRunResponse,
   | ConflictException
   | InternalServerException
@@ -1113,9 +1101,8 @@ export const startSuiteRun: (
  *
  * Requires permission to access the StopSuiteRun action.
  */
-export const stopSuiteRun: (
-  input: StopSuiteRunRequest,
-) => effect.Effect<
+export const stopSuiteRun: API.OperationMethod<
+  StopSuiteRunRequest,
   StopSuiteRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1136,9 +1123,8 @@ export const stopSuiteRun: (
  *
  * Requires permission to access the TagResource action.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1159,9 +1145,8 @@ export const tagResource: (
  *
  * Requires permission to access the UntagResource action.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1182,9 +1167,8 @@ export const untagResource: (
  *
  * Requires permission to access the UpdateSuiteDefinition action.
  */
-export const updateSuiteDefinition: (
-  input: UpdateSuiteDefinitionRequest,
-) => effect.Effect<
+export const updateSuiteDefinition: API.OperationMethod<
+  UpdateSuiteDefinitionRequest,
   UpdateSuiteDefinitionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

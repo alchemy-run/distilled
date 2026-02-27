@@ -1889,9 +1889,8 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
  * notified when the value is outside a specified range. For more information, see Create an
  * alarm model in the *AWS IoT Events Developer Guide*.
  */
-export const createAlarmModel: (
-  input: CreateAlarmModelRequest,
-) => effect.Effect<
+export const createAlarmModel: API.OperationMethod<
+  CreateAlarmModelRequest,
   CreateAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1918,9 +1917,8 @@ export const createAlarmModel: (
 /**
  * Creates a detector model.
  */
-export const createDetectorModel: (
-  input: CreateDetectorModelRequest,
-) => effect.Effect<
+export const createDetectorModel: API.OperationMethod<
+  CreateDetectorModelRequest,
   CreateDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1947,9 +1945,8 @@ export const createDetectorModel: (
 /**
  * Creates an input.
  */
-export const createInput: (
-  input: CreateInputRequest,
-) => effect.Effect<
+export const createInput: API.OperationMethod<
+  CreateInputRequest,
   CreateInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1973,9 +1970,8 @@ export const createInput: (
  * Deletes an alarm model. Any alarm instances that were created based on this alarm model
  * are also deleted. This action can't be undone.
  */
-export const deleteAlarmModel: (
-  input: DeleteAlarmModelRequest,
-) => effect.Effect<
+export const deleteAlarmModel: API.OperationMethod<
+  DeleteAlarmModelRequest,
   DeleteAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2001,9 +1997,8 @@ export const deleteAlarmModel: (
  * Deletes a detector model. Any active instances of the detector model are also
  * deleted.
  */
-export const deleteDetectorModel: (
-  input: DeleteDetectorModelRequest,
-) => effect.Effect<
+export const deleteDetectorModel: API.OperationMethod<
+  DeleteDetectorModelRequest,
   DeleteDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2028,9 +2023,8 @@ export const deleteDetectorModel: (
 /**
  * Deletes an input.
  */
-export const deleteInput: (
-  input: DeleteInputRequest,
-) => effect.Effect<
+export const deleteInput: API.OperationMethod<
+  DeleteInputRequest,
   DeleteInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2056,9 +2050,8 @@ export const deleteInput: (
  * Retrieves information about an alarm model. If you don't specify a value for the
  * `alarmModelVersion` parameter, the latest version is returned.
  */
-export const describeAlarmModel: (
-  input: DescribeAlarmModelRequest,
-) => effect.Effect<
+export const describeAlarmModel: API.OperationMethod<
+  DescribeAlarmModelRequest,
   DescribeAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2082,9 +2075,8 @@ export const describeAlarmModel: (
  * Describes a detector model. If the `version` parameter is not specified,
  * information about the latest version is returned.
  */
-export const describeDetectorModel: (
-  input: DescribeDetectorModelRequest,
-) => effect.Effect<
+export const describeDetectorModel: API.OperationMethod<
+  DescribeDetectorModelRequest,
   DescribeDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2109,9 +2101,8 @@ export const describeDetectorModel: (
  *
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
  */
-export const describeDetectorModelAnalysis: (
-  input: DescribeDetectorModelAnalysisRequest,
-) => effect.Effect<
+export const describeDetectorModelAnalysis: API.OperationMethod<
+  DescribeDetectorModelAnalysisRequest,
   DescribeDetectorModelAnalysisResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2134,9 +2125,8 @@ export const describeDetectorModelAnalysis: (
 /**
  * Describes an input.
  */
-export const describeInput: (
-  input: DescribeInputRequest,
-) => effect.Effect<
+export const describeInput: API.OperationMethod<
+  DescribeInputRequest,
   DescribeInputResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2159,9 +2149,8 @@ export const describeInput: (
 /**
  * Retrieves the current settings of the AWS IoT Events logging options.
  */
-export const describeLoggingOptions: (
-  input: DescribeLoggingOptionsRequest,
-) => effect.Effect<
+export const describeLoggingOptions: API.OperationMethod<
+  DescribeLoggingOptionsRequest,
   DescribeLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2188,9 +2177,8 @@ export const describeLoggingOptions: (
  *
  * After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
  */
-export const getDetectorModelAnalysisResults: (
-  input: GetDetectorModelAnalysisResultsRequest,
-) => effect.Effect<
+export const getDetectorModelAnalysisResults: API.OperationMethod<
+  GetDetectorModelAnalysisResultsRequest,
   GetDetectorModelAnalysisResultsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2214,9 +2202,8 @@ export const getDetectorModelAnalysisResults: (
  * Lists the alarm models that you created. The operation returns only the metadata
  * associated with each alarm model.
  */
-export const listAlarmModels: (
-  input: ListAlarmModelsRequest,
-) => effect.Effect<
+export const listAlarmModels: API.OperationMethod<
+  ListAlarmModelsRequest,
   ListAlarmModelsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2238,9 +2225,8 @@ export const listAlarmModels: (
  * Lists all the versions of an alarm model. The operation returns only the metadata
  * associated with each alarm model version.
  */
-export const listAlarmModelVersions: (
-  input: ListAlarmModelVersionsRequest,
-) => effect.Effect<
+export const listAlarmModelVersions: API.OperationMethod<
+  ListAlarmModelVersionsRequest,
   ListAlarmModelVersionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2264,9 +2250,8 @@ export const listAlarmModelVersions: (
  * Lists the detector models you have created. Only the metadata associated with each
  * detector model is returned.
  */
-export const listDetectorModels: (
-  input: ListDetectorModelsRequest,
-) => effect.Effect<
+export const listDetectorModels: API.OperationMethod<
+  ListDetectorModelsRequest,
   ListDetectorModelsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2288,9 +2273,8 @@ export const listDetectorModels: (
  * Lists all the versions of a detector model. Only the metadata associated with each
  * detector model version is returned.
  */
-export const listDetectorModelVersions: (
-  input: ListDetectorModelVersionsRequest,
-) => effect.Effect<
+export const listDetectorModelVersions: API.OperationMethod<
+  ListDetectorModelVersionsRequest,
   ListDetectorModelVersionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2313,9 +2297,8 @@ export const listDetectorModelVersions: (
 /**
  * Lists one or more input routings.
  */
-export const listInputRoutings: (
-  input: ListInputRoutingsRequest,
-) => effect.Effect<
+export const listInputRoutings: API.OperationMethod<
+  ListInputRoutingsRequest,
   ListInputRoutingsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2338,9 +2321,8 @@ export const listInputRoutings: (
 /**
  * Lists the inputs you have created.
  */
-export const listInputs: (
-  input: ListInputsRequest,
-) => effect.Effect<
+export const listInputs: API.OperationMethod<
+  ListInputsRequest,
   ListInputsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2361,9 +2343,8 @@ export const listInputs: (
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2391,9 +2372,8 @@ export const listTagsForResource: (
  * specified in the `roleArn` field (for example, to correct an invalid policy), it
  * takes up to five minutes for that change to take effect.
  */
-export const putLoggingOptions: (
-  input: PutLoggingOptionsRequest,
-) => effect.Effect<
+export const putLoggingOptions: API.OperationMethod<
+  PutLoggingOptionsRequest,
   PutLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2420,9 +2400,8 @@ export const putLoggingOptions: (
  * see Troubleshooting a detector model
  * in the *AWS IoT Events Developer Guide*.
  */
-export const startDetectorModelAnalysis: (
-  input: StartDetectorModelAnalysisRequest,
-) => effect.Effect<
+export const startDetectorModelAnalysis: API.OperationMethod<
+  StartDetectorModelAnalysisRequest,
   StartDetectorModelAnalysisResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2446,9 +2425,8 @@ export const startDetectorModelAnalysis: (
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
  * manage a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2473,9 +2451,8 @@ export const tagResource: (
 /**
  * Removes the given tags (metadata) from the resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2499,9 +2476,8 @@ export const untagResource: (
  * Updates an alarm model. Any alarms that were created based on the previous version are
  * deleted and then created again as new data arrives.
  */
-export const updateAlarmModel: (
-  input: UpdateAlarmModelRequest,
-) => effect.Effect<
+export const updateAlarmModel: API.OperationMethod<
+  UpdateAlarmModelRequest,
   UpdateAlarmModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2527,9 +2503,8 @@ export const updateAlarmModel: (
  * Updates a detector model. Detectors (instances) spawned by the previous version are
  * deleted and then re-created as new inputs arrive.
  */
-export const updateDetectorModel: (
-  input: UpdateDetectorModelRequest,
-) => effect.Effect<
+export const updateDetectorModel: API.OperationMethod<
+  UpdateDetectorModelRequest,
   UpdateDetectorModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2554,9 +2529,8 @@ export const updateDetectorModel: (
 /**
  * Updates an input.
  */
-export const updateInput: (
-  input: UpdateInputRequest,
-) => effect.Effect<
+export const updateInput: API.OperationMethod<
+  UpdateInputRequest,
   UpdateInputResponse,
   | InternalFailureException
   | InvalidRequestException

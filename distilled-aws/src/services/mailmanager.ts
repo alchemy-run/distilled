@@ -3021,9 +3021,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Creates an import job for an address list.
  */
-export const createAddressListImportJob: (
-  input: CreateAddressListImportJobRequest,
-) => effect.Effect<
+export const createAddressListImportJob: API.OperationMethod<
+  CreateAddressListImportJobRequest,
   CreateAddressListImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3044,9 +3043,8 @@ export const createAddressListImportJob: (
 /**
  * Removes a member from an address list.
  */
-export const deregisterMemberFromAddressList: (
-  input: DeregisterMemberFromAddressListRequest,
-) => effect.Effect<
+export const deregisterMemberFromAddressList: API.OperationMethod<
+  DeregisterMemberFromAddressListRequest,
   DeregisterMemberFromAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3067,9 +3065,8 @@ export const deregisterMemberFromAddressList: (
 /**
  * Fetch attributes of an import job.
  */
-export const getAddressListImportJob: (
-  input: GetAddressListImportJobRequest,
-) => effect.Effect<
+export const getAddressListImportJob: API.OperationMethod<
+  GetAddressListImportJobRequest,
   GetAddressListImportJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3090,9 +3087,8 @@ export const getAddressListImportJob: (
 /**
  * Retrieves the details and current status of a specific email archive export job.
  */
-export const getArchiveExport: (
-  input: GetArchiveExportRequest,
-) => effect.Effect<
+export const getArchiveExport: API.OperationMethod<
+  GetArchiveExportRequest,
   GetArchiveExportResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3107,9 +3103,8 @@ export const getArchiveExport: (
 /**
  * Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
  */
-export const getArchiveMessage: (
-  input: GetArchiveMessageRequest,
-) => effect.Effect<
+export const getArchiveMessage: API.OperationMethod<
+  GetArchiveMessageRequest,
   GetArchiveMessageResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3124,9 +3119,8 @@ export const getArchiveMessage: (
 /**
  * Returns the textual content of a specific email message stored in the archive. Attachments are not included.
  */
-export const getArchiveMessageContent: (
-  input: GetArchiveMessageContentRequest,
-) => effect.Effect<
+export const getArchiveMessageContent: API.OperationMethod<
+  GetArchiveMessageContentRequest,
   GetArchiveMessageContentResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3141,9 +3135,8 @@ export const getArchiveMessageContent: (
 /**
  * Retrieves the details and current status of a specific email archive search job.
  */
-export const getArchiveSearch: (
-  input: GetArchiveSearchRequest,
-) => effect.Effect<
+export const getArchiveSearch: API.OperationMethod<
+  GetArchiveSearchRequest,
   GetArchiveSearchResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3158,9 +3151,8 @@ export const getArchiveSearch: (
 /**
  * Returns the results of a completed email archive search job.
  */
-export const getArchiveSearchResults: (
-  input: GetArchiveSearchResultsRequest,
-) => effect.Effect<
+export const getArchiveSearchResults: API.OperationMethod<
+  GetArchiveSearchResultsRequest,
   GetArchiveSearchResultsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3181,9 +3173,8 @@ export const getArchiveSearchResults: (
 /**
  * Fetch attributes of a member in an address list.
  */
-export const getMemberOfAddressList: (
-  input: GetMemberOfAddressListRequest,
-) => effect.Effect<
+export const getMemberOfAddressList: API.OperationMethod<
+  GetMemberOfAddressListRequest,
   GetMemberOfAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3204,18 +3195,16 @@ export const getMemberOfAddressList: (
 /**
  * Lists jobs for an address list.
  */
-export const listAddressListImportJobs: {
-  (
-    input: ListAddressListImportJobsRequest,
-  ): effect.Effect<
-    ListAddressListImportJobsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAddressListImportJobs: API.OperationMethod<
+  ListAddressListImportJobsRequest,
+  ListAddressListImportJobsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAddressListImportJobsRequest,
   ) => stream.Stream<
@@ -3257,18 +3246,16 @@ export const listAddressListImportJobs: {
 /**
  * Returns a list of email archive export jobs.
  */
-export const listArchiveExports: {
-  (
-    input: ListArchiveExportsRequest,
-  ): effect.Effect<
-    ListArchiveExportsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listArchiveExports: API.OperationMethod<
+  ListArchiveExportsRequest,
+  ListArchiveExportsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListArchiveExportsRequest,
   ) => stream.Stream<
@@ -3310,18 +3297,16 @@ export const listArchiveExports: {
 /**
  * Returns a list of email archive search jobs.
  */
-export const listArchiveSearches: {
-  (
-    input: ListArchiveSearchesRequest,
-  ): effect.Effect<
-    ListArchiveSearchesResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listArchiveSearches: API.OperationMethod<
+  ListArchiveSearchesRequest,
+  ListArchiveSearchesResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListArchiveSearchesRequest,
   ) => stream.Stream<
@@ -3363,18 +3348,16 @@ export const listArchiveSearches: {
 /**
  * Lists members of an address list.
  */
-export const listMembersOfAddressList: {
-  (
-    input: ListMembersOfAddressListRequest,
-  ): effect.Effect<
-    ListMembersOfAddressListResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembersOfAddressList: API.OperationMethod<
+  ListMembersOfAddressListRequest,
+  ListMembersOfAddressListResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersOfAddressListRequest,
   ) => stream.Stream<
@@ -3416,9 +3399,8 @@ export const listMembersOfAddressList: {
 /**
  * Retrieves the list of tags (keys and values) assigned to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3430,9 +3412,8 @@ export const listTagsForResource: (
 /**
  * Adds a member to an address list.
  */
-export const registerMemberToAddressList: (
-  input: RegisterMemberToAddressListRequest,
-) => effect.Effect<
+export const registerMemberToAddressList: API.OperationMethod<
+  RegisterMemberToAddressListRequest,
   RegisterMemberToAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3455,9 +3436,8 @@ export const registerMemberToAddressList: (
 /**
  * Starts an import job for an address list.
  */
-export const startAddressListImportJob: (
-  input: StartAddressListImportJobRequest,
-) => effect.Effect<
+export const startAddressListImportJob: API.OperationMethod<
+  StartAddressListImportJobRequest,
   StartAddressListImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3482,9 +3462,8 @@ export const startAddressListImportJob: (
 /**
  * Initiates an export of emails from the specified archive.
  */
-export const startArchiveExport: (
-  input: StartArchiveExportRequest,
-) => effect.Effect<
+export const startArchiveExport: API.OperationMethod<
+  StartArchiveExportRequest,
   StartArchiveExportResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3507,9 +3486,8 @@ export const startArchiveExport: (
 /**
  * Initiates a search across emails in the specified archive.
  */
-export const startArchiveSearch: (
-  input: StartArchiveSearchRequest,
-) => effect.Effect<
+export const startArchiveSearch: API.OperationMethod<
+  StartArchiveSearchRequest,
   StartArchiveSearchResponse,
   | AccessDeniedException
   | ConflictException
@@ -3534,9 +3512,8 @@ export const startArchiveSearch: (
 /**
  * Stops an ongoing import job for an address list.
  */
-export const stopAddressListImportJob: (
-  input: StopAddressListImportJobRequest,
-) => effect.Effect<
+export const stopAddressListImportJob: API.OperationMethod<
+  StopAddressListImportJobRequest,
   StopAddressListImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3559,9 +3536,8 @@ export const stopAddressListImportJob: (
 /**
  * Stops an in-progress export of emails from an archive.
  */
-export const stopArchiveExport: (
-  input: StopArchiveExportRequest,
-) => effect.Effect<
+export const stopArchiveExport: API.OperationMethod<
+  StopArchiveExportRequest,
   StopArchiveExportResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3576,9 +3552,8 @@ export const stopArchiveExport: (
 /**
  * Stops an in-progress archive search job.
  */
-export const stopArchiveSearch: (
-  input: StopArchiveSearchRequest,
-) => effect.Effect<
+export const stopArchiveSearch: API.OperationMethod<
+  StopArchiveSearchRequest,
   StopArchiveSearchResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -3593,9 +3568,8 @@ export const stopArchiveSearch: (
 /**
  * Adds one or more tags (keys and values) to a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3616,9 +3590,8 @@ export const tagResource: (
 /**
  * Remove one or more tags (keys and values) from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3633,9 +3606,8 @@ export const untagResource: (
 /**
  * Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
  */
-export const createAddonInstance: (
-  input: CreateAddonInstanceRequest,
-) => effect.Effect<
+export const createAddonInstance: API.OperationMethod<
+  CreateAddonInstanceRequest,
   CreateAddonInstanceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3656,9 +3628,8 @@ export const createAddonInstance: (
 /**
  * Gets detailed information about an Add On instance.
  */
-export const getAddonInstance: (
-  input: GetAddonInstanceRequest,
-) => effect.Effect<
+export const getAddonInstance: API.OperationMethod<
+  GetAddonInstanceRequest,
   GetAddonInstanceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3670,9 +3641,8 @@ export const getAddonInstance: (
 /**
  * Deletes an Add On instance.
  */
-export const deleteAddonInstance: (
-  input: DeleteAddonInstanceRequest,
-) => effect.Effect<
+export const deleteAddonInstance: API.OperationMethod<
+  DeleteAddonInstanceRequest,
   DeleteAddonInstanceResponse,
   ConflictException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3684,14 +3654,12 @@ export const deleteAddonInstance: (
 /**
  * Lists all Add On instances in your account.
  */
-export const listAddonInstances: {
-  (
-    input: ListAddonInstancesRequest,
-  ): effect.Effect<
-    ListAddonInstancesResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAddonInstances: API.OperationMethod<
+  ListAddonInstancesRequest,
+  ListAddonInstancesResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAddonInstancesRequest,
   ) => stream.Stream<
@@ -3720,9 +3688,8 @@ export const listAddonInstances: {
 /**
  * Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
  */
-export const createAddonSubscription: (
-  input: CreateAddonSubscriptionRequest,
-) => effect.Effect<
+export const createAddonSubscription: API.OperationMethod<
+  CreateAddonSubscriptionRequest,
   CreateAddonSubscriptionResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3741,9 +3708,8 @@ export const createAddonSubscription: (
 /**
  * Gets detailed information about an Add On subscription.
  */
-export const getAddonSubscription: (
-  input: GetAddonSubscriptionRequest,
-) => effect.Effect<
+export const getAddonSubscription: API.OperationMethod<
+  GetAddonSubscriptionRequest,
   GetAddonSubscriptionResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3755,9 +3721,8 @@ export const getAddonSubscription: (
 /**
  * Deletes an Add On subscription.
  */
-export const deleteAddonSubscription: (
-  input: DeleteAddonSubscriptionRequest,
-) => effect.Effect<
+export const deleteAddonSubscription: API.OperationMethod<
+  DeleteAddonSubscriptionRequest,
   DeleteAddonSubscriptionResponse,
   ConflictException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3769,14 +3734,12 @@ export const deleteAddonSubscription: (
 /**
  * Lists all Add On subscriptions in your account.
  */
-export const listAddonSubscriptions: {
-  (
-    input: ListAddonSubscriptionsRequest,
-  ): effect.Effect<
-    ListAddonSubscriptionsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAddonSubscriptions: API.OperationMethod<
+  ListAddonSubscriptionsRequest,
+  ListAddonSubscriptionsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAddonSubscriptionsRequest,
   ) => stream.Stream<
@@ -3805,9 +3768,8 @@ export const listAddonSubscriptions: {
 /**
  * Creates a new address list.
  */
-export const createAddressList: (
-  input: CreateAddressListRequest,
-) => effect.Effect<
+export const createAddressList: API.OperationMethod<
+  CreateAddressListRequest,
   CreateAddressListResponse,
   | AccessDeniedException
   | ConflictException
@@ -3830,9 +3792,8 @@ export const createAddressList: (
 /**
  * Fetch attributes of an address list.
  */
-export const getAddressList: (
-  input: GetAddressListRequest,
-) => effect.Effect<
+export const getAddressList: API.OperationMethod<
+  GetAddressListRequest,
   GetAddressListResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3853,9 +3814,8 @@ export const getAddressList: (
 /**
  * Deletes an address list.
  */
-export const deleteAddressList: (
-  input: DeleteAddressListRequest,
-) => effect.Effect<
+export const deleteAddressList: API.OperationMethod<
+  DeleteAddressListRequest,
   DeleteAddressListResponse,
   | AccessDeniedException
   | ConflictException
@@ -3870,17 +3830,15 @@ export const deleteAddressList: (
 /**
  * Lists address lists for this account.
  */
-export const listAddressLists: {
-  (
-    input: ListAddressListsRequest,
-  ): effect.Effect<
-    ListAddressListsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAddressLists: API.OperationMethod<
+  ListAddressListsRequest,
+  ListAddressListsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAddressListsRequest,
   ) => stream.Stream<
@@ -3915,9 +3873,8 @@ export const listAddressLists: {
 /**
  * Creates a new email archive resource for storing and retaining emails.
  */
-export const createArchive: (
-  input: CreateArchiveRequest,
-) => effect.Effect<
+export const createArchive: API.OperationMethod<
+  CreateArchiveRequest,
   CreateArchiveResponse,
   | AccessDeniedException
   | ConflictException
@@ -3940,9 +3897,8 @@ export const createArchive: (
 /**
  * Retrieves the full details and current state of a specified email archive.
  */
-export const getArchive: (
-  input: GetArchiveRequest,
-) => effect.Effect<
+export const getArchive: API.OperationMethod<
+  GetArchiveRequest,
   GetArchiveResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3963,9 +3919,8 @@ export const getArchive: (
 /**
  * Updates the attributes of an existing email archive.
  */
-export const updateArchive: (
-  input: UpdateArchiveRequest,
-) => effect.Effect<
+export const updateArchive: API.OperationMethod<
+  UpdateArchiveRequest,
   UpdateArchiveResponse,
   | AccessDeniedException
   | ConflictException
@@ -3990,9 +3945,8 @@ export const updateArchive: (
 /**
  * Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
  */
-export const deleteArchive: (
-  input: DeleteArchiveRequest,
-) => effect.Effect<
+export const deleteArchive: API.OperationMethod<
+  DeleteArchiveRequest,
   DeleteArchiveResponse,
   | AccessDeniedException
   | ConflictException
@@ -4013,17 +3967,15 @@ export const deleteArchive: (
 /**
  * Returns a list of all email archives in your account.
  */
-export const listArchives: {
-  (
-    input: ListArchivesRequest,
-  ): effect.Effect<
-    ListArchivesResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listArchives: API.OperationMethod<
+  ListArchivesRequest,
+  ListArchivesResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListArchivesRequest,
   ) => stream.Stream<
@@ -4058,9 +4010,8 @@ export const listArchives: {
 /**
  * Provision a new ingress endpoint resource.
  */
-export const createIngressPoint: (
-  input: CreateIngressPointRequest,
-) => effect.Effect<
+export const createIngressPoint: API.OperationMethod<
+  CreateIngressPointRequest,
   CreateIngressPointResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4079,9 +4030,8 @@ export const createIngressPoint: (
 /**
  * Fetch ingress endpoint resource attributes.
  */
-export const getIngressPoint: (
-  input: GetIngressPointRequest,
-) => effect.Effect<
+export const getIngressPoint: API.OperationMethod<
+  GetIngressPointRequest,
   GetIngressPointResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4093,9 +4043,8 @@ export const getIngressPoint: (
 /**
  * Update attributes of a provisioned ingress endpoint resource.
  */
-export const updateIngressPoint: (
-  input: UpdateIngressPointRequest,
-) => effect.Effect<
+export const updateIngressPoint: API.OperationMethod<
+  UpdateIngressPointRequest,
   UpdateIngressPointResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4110,9 +4059,8 @@ export const updateIngressPoint: (
 /**
  * Delete an ingress endpoint resource.
  */
-export const deleteIngressPoint: (
-  input: DeleteIngressPointRequest,
-) => effect.Effect<
+export const deleteIngressPoint: API.OperationMethod<
+  DeleteIngressPointRequest,
   DeleteIngressPointResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4127,14 +4075,12 @@ export const deleteIngressPoint: (
 /**
  * List all ingress endpoint resources.
  */
-export const listIngressPoints: {
-  (
-    input: ListIngressPointsRequest,
-  ): effect.Effect<
-    ListIngressPointsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIngressPoints: API.OperationMethod<
+  ListIngressPointsRequest,
+  ListIngressPointsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIngressPointsRequest,
   ) => stream.Stream<
@@ -4163,9 +4109,8 @@ export const listIngressPoints: {
 /**
  * Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
  */
-export const createRelay: (
-  input: CreateRelayRequest,
-) => effect.Effect<
+export const createRelay: API.OperationMethod<
+  CreateRelayRequest,
   CreateRelayResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4184,9 +4129,8 @@ export const createRelay: (
 /**
  * Fetch the relay resource and it's attributes.
  */
-export const getRelay: (
-  input: GetRelayRequest,
-) => effect.Effect<
+export const getRelay: API.OperationMethod<
+  GetRelayRequest,
   GetRelayResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4198,9 +4142,8 @@ export const getRelay: (
 /**
  * Updates the attributes of an existing relay resource.
  */
-export const updateRelay: (
-  input: UpdateRelayRequest,
-) => effect.Effect<
+export const updateRelay: API.OperationMethod<
+  UpdateRelayRequest,
   UpdateRelayResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4215,9 +4158,8 @@ export const updateRelay: (
 /**
  * Deletes an existing relay resource.
  */
-export const deleteRelay: (
-  input: DeleteRelayRequest,
-) => effect.Effect<
+export const deleteRelay: API.OperationMethod<
+  DeleteRelayRequest,
   DeleteRelayResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4232,14 +4174,12 @@ export const deleteRelay: (
 /**
  * Lists all the existing relay resources.
  */
-export const listRelays: {
-  (
-    input: ListRelaysRequest,
-  ): effect.Effect<
-    ListRelaysResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRelays: API.OperationMethod<
+  ListRelaysRequest,
+  ListRelaysResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRelaysRequest,
   ) => stream.Stream<
@@ -4268,9 +4208,8 @@ export const listRelays: {
 /**
  * Provision a new rule set.
  */
-export const createRuleSet: (
-  input: CreateRuleSetRequest,
-) => effect.Effect<
+export const createRuleSet: API.OperationMethod<
+  CreateRuleSetRequest,
   CreateRuleSetResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4289,9 +4228,8 @@ export const createRuleSet: (
 /**
  * Fetch attributes of a rule set.
  */
-export const getRuleSet: (
-  input: GetRuleSetRequest,
-) => effect.Effect<
+export const getRuleSet: API.OperationMethod<
+  GetRuleSetRequest,
   GetRuleSetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4303,9 +4241,8 @@ export const getRuleSet: (
 /**
  * Update attributes of an already provisioned rule set.
  */
-export const updateRuleSet: (
-  input: UpdateRuleSetRequest,
-) => effect.Effect<
+export const updateRuleSet: API.OperationMethod<
+  UpdateRuleSetRequest,
   UpdateRuleSetResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4320,9 +4257,8 @@ export const updateRuleSet: (
 /**
  * Delete a rule set.
  */
-export const deleteRuleSet: (
-  input: DeleteRuleSetRequest,
-) => effect.Effect<
+export const deleteRuleSet: API.OperationMethod<
+  DeleteRuleSetRequest,
   DeleteRuleSetResponse,
   ConflictException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4334,14 +4270,12 @@ export const deleteRuleSet: (
 /**
  * List rule sets for this account.
  */
-export const listRuleSets: {
-  (
-    input: ListRuleSetsRequest,
-  ): effect.Effect<
-    ListRuleSetsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuleSets: API.OperationMethod<
+  ListRuleSetsRequest,
+  ListRuleSetsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRuleSetsRequest,
   ) => stream.Stream<
@@ -4370,9 +4304,8 @@ export const listRuleSets: {
 /**
  * Provision a new traffic policy resource.
  */
-export const createTrafficPolicy: (
-  input: CreateTrafficPolicyRequest,
-) => effect.Effect<
+export const createTrafficPolicy: API.OperationMethod<
+  CreateTrafficPolicyRequest,
   CreateTrafficPolicyResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -4391,9 +4324,8 @@ export const createTrafficPolicy: (
 /**
  * Fetch attributes of a traffic policy resource.
  */
-export const getTrafficPolicy: (
-  input: GetTrafficPolicyRequest,
-) => effect.Effect<
+export const getTrafficPolicy: API.OperationMethod<
+  GetTrafficPolicyRequest,
   GetTrafficPolicyResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4405,9 +4337,8 @@ export const getTrafficPolicy: (
 /**
  * Update attributes of an already provisioned traffic policy resource.
  */
-export const updateTrafficPolicy: (
-  input: UpdateTrafficPolicyRequest,
-) => effect.Effect<
+export const updateTrafficPolicy: API.OperationMethod<
+  UpdateTrafficPolicyRequest,
   UpdateTrafficPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4422,9 +4353,8 @@ export const updateTrafficPolicy: (
 /**
  * Delete a traffic policy resource.
  */
-export const deleteTrafficPolicy: (
-  input: DeleteTrafficPolicyRequest,
-) => effect.Effect<
+export const deleteTrafficPolicy: API.OperationMethod<
+  DeleteTrafficPolicyRequest,
   DeleteTrafficPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4439,14 +4369,12 @@ export const deleteTrafficPolicy: (
 /**
  * List traffic policy resources.
  */
-export const listTrafficPolicies: {
-  (
-    input: ListTrafficPoliciesRequest,
-  ): effect.Effect<
-    ListTrafficPoliciesResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrafficPolicies: API.OperationMethod<
+  ListTrafficPoliciesRequest,
+  ListTrafficPoliciesResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrafficPoliciesRequest,
   ) => stream.Stream<

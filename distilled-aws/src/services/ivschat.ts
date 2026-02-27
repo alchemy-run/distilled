@@ -978,9 +978,8 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
  * Encryption keys are owned by Amazon IVS Chat and never used directly by your
  * application.
  */
-export const createChatToken: (
-  input: CreateChatTokenRequest,
-) => effect.Effect<
+export const createChatToken: API.OperationMethod<
+  CreateChatTokenRequest,
   CreateChatTokenResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1002,9 +1001,8 @@ export const createChatToken: (
  * Creates a logging configuration that allows clients to store and record sent
  * messages.
  */
-export const createLoggingConfiguration: (
-  input: CreateLoggingConfigurationRequest,
-) => effect.Effect<
+export const createLoggingConfiguration: API.OperationMethod<
+  CreateLoggingConfigurationRequest,
   CreateLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1029,9 +1027,8 @@ export const createLoggingConfiguration: (
 /**
  * Creates a room that allows clients to connect and pass messages.
  */
-export const createRoom: (
-  input: CreateRoomRequest,
-) => effect.Effect<
+export const createRoom: API.OperationMethod<
+  CreateRoomRequest,
   CreateRoomResponse,
   | AccessDeniedException
   | ConflictException
@@ -1056,9 +1053,8 @@ export const createRoom: (
 /**
  * Deletes the specified logging configuration.
  */
-export const deleteLoggingConfiguration: (
-  input: DeleteLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteLoggingConfiguration: API.OperationMethod<
+  DeleteLoggingConfigurationRequest,
   DeleteLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1084,9 +1080,8 @@ export const deleteLoggingConfiguration: (
  * `EventName` is `aws:DELETE_MESSAGE`. This replicates the
  * DeleteMessage WebSocket operation in the Amazon IVS Chat Messaging API.
  */
-export const deleteMessage: (
-  input: DeleteMessageRequest,
-) => effect.Effect<
+export const deleteMessage: API.OperationMethod<
+  DeleteMessageRequest,
   DeleteMessageResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1109,9 +1104,8 @@ export const deleteMessage: (
 /**
  * Deletes the specified room.
  */
-export const deleteRoom: (
-  input: DeleteRoomRequest,
-) => effect.Effect<
+export const deleteRoom: API.OperationMethod<
+  DeleteRoomRequest,
   DeleteRoomResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1134,9 +1128,8 @@ export const deleteRoom: (
  *
  * DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
  */
-export const disconnectUser: (
-  input: DisconnectUserRequest,
-) => effect.Effect<
+export const disconnectUser: API.OperationMethod<
+  DisconnectUserRequest,
   DisconnectUserResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1159,9 +1152,8 @@ export const disconnectUser: (
 /**
  * Gets the specified logging configuration.
  */
-export const getLoggingConfiguration: (
-  input: GetLoggingConfigurationRequest,
-) => effect.Effect<
+export const getLoggingConfiguration: API.OperationMethod<
+  GetLoggingConfigurationRequest,
   GetLoggingConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1180,9 +1172,8 @@ export const getLoggingConfiguration: (
 /**
  * Gets the specified room.
  */
-export const getRoom: (
-  input: GetRoomRequest,
-) => effect.Effect<
+export const getRoom: API.OperationMethod<
+  GetRoomRequest,
   GetRoomResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1202,14 +1193,12 @@ export const getRoom: (
  * Gets summary information about all your logging configurations in the AWS region where
  * the API request is processed.
  */
-export const listLoggingConfigurations: {
-  (
-    input: ListLoggingConfigurationsRequest,
-  ): effect.Effect<
-    ListLoggingConfigurationsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLoggingConfigurations: API.OperationMethod<
+  ListLoggingConfigurationsRequest,
+  ListLoggingConfigurationsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLoggingConfigurationsRequest,
   ) => stream.Stream<
@@ -1238,17 +1227,15 @@ export const listLoggingConfigurations: {
  * Gets summary information about all your rooms in the AWS region where the API request is
  * processed. Results are sorted in descending order of `updateTime`.
  */
-export const listRooms: {
-  (
-    input: ListRoomsRequest,
-  ): effect.Effect<
-    ListRoomsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRooms: API.OperationMethod<
+  ListRoomsRequest,
+  ListRoomsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoomsRequest,
   ) => stream.Stream<
@@ -1286,9 +1273,8 @@ export const listRooms: {
 /**
  * Gets information about AWS tags for the specified ARN.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1309,9 +1295,8 @@ export const listTagsForResource: (
  * events to clients of a room; e.g., to notify clients to change the way the chat UI is
  * rendered.
  */
-export const sendEvent: (
-  input: SendEventRequest,
-) => effect.Effect<
+export const sendEvent: API.OperationMethod<
+  SendEventRequest,
   SendEventResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1334,9 +1319,8 @@ export const sendEvent: (
 /**
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1355,9 +1339,8 @@ export const tagResource: (
 /**
  * Removes tags from the resource with the specified ARN.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1376,9 +1359,8 @@ export const untagResource: (
 /**
  * Updates a specified logging configuration.
  */
-export const updateLoggingConfiguration: (
-  input: UpdateLoggingConfigurationRequest,
-) => effect.Effect<
+export const updateLoggingConfiguration: API.OperationMethod<
+  UpdateLoggingConfigurationRequest,
   UpdateLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1401,9 +1383,8 @@ export const updateLoggingConfiguration: (
 /**
  * Updates a room’s configuration.
  */
-export const updateRoom: (
-  input: UpdateRoomRequest,
-) => effect.Effect<
+export const updateRoom: API.OperationMethod<
+  UpdateRoomRequest,
   UpdateRoomResponse,
   | AccessDeniedException
   | PendingVerification

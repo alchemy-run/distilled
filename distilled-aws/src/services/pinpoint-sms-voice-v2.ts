@@ -4233,9 +4233,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  *
  * If the origination identity configuration doesn't match the pool's configuration, an error is returned.
  */
-export const associateOriginationIdentity: (
-  input: AssociateOriginationIdentityRequest,
-) => effect.Effect<
+export const associateOriginationIdentity: API.OperationMethod<
+  AssociateOriginationIdentityRequest,
   AssociateOriginationIdentityResult,
   | AccessDeniedException
   | ConflictException
@@ -4262,9 +4261,8 @@ export const associateOriginationIdentity: (
 /**
  * Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
  */
-export const associateProtectConfiguration: (
-  input: AssociateProtectConfigurationRequest,
-) => effect.Effect<
+export const associateProtectConfiguration: API.OperationMethod<
+  AssociateProtectConfigurationRequest,
   AssociateProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -4289,9 +4287,8 @@ export const associateProtectConfiguration: (
 /**
  * Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
  */
-export const carrierLookup: (
-  input: CarrierLookupRequest,
-) => effect.Effect<
+export const carrierLookup: API.OperationMethod<
+  CarrierLookupRequest,
   CarrierLookupResult,
   | AccessDeniedException
   | InternalServerException
@@ -4318,9 +4315,8 @@ export const carrierLookup: (
  *
  * When you send a message, you can optionally specify a single configuration set.
  */
-export const createConfigurationSet: (
-  input: CreateConfigurationSetRequest,
-) => effect.Effect<
+export const createConfigurationSet: API.OperationMethod<
+  CreateConfigurationSetRequest,
   CreateConfigurationSetResult,
   | AccessDeniedException
   | ConflictException
@@ -4351,9 +4347,8 @@ export const createConfigurationSet: (
  *
  * Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
  */
-export const createEventDestination: (
-  input: CreateEventDestinationRequest,
-) => effect.Effect<
+export const createEventDestination: API.OperationMethod<
+  CreateEventDestinationRequest,
   CreateEventDestinationResult,
   | AccessDeniedException
   | ConflictException
@@ -4384,9 +4379,8 @@ export const createEventDestination: (
  *
  * An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see SMS opt out in the End User Messaging SMS User Guide.
  */
-export const createOptOutList: (
-  input: CreateOptOutListRequest,
-) => effect.Effect<
+export const createOptOutList: API.OperationMethod<
+  CreateOptOutListRequest,
   CreateOptOutListResult,
   | AccessDeniedException
   | ConflictException
@@ -4415,9 +4409,8 @@ export const createOptOutList: (
  *
  * If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
  */
-export const createPool: (
-  input: CreatePoolRequest,
-) => effect.Effect<
+export const createPool: API.OperationMethod<
+  CreatePoolRequest,
   CreatePoolResult,
   | AccessDeniedException
   | ConflictException
@@ -4444,9 +4437,8 @@ export const createPool: (
 /**
  * Create a new protect configuration. By default all country rule sets for each capability are set to `ALLOW`. Update the country rule sets using `UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag with the key set to `Name` and value as the name of the protect configuration.
  */
-export const createProtectConfiguration: (
-  input: CreateProtectConfigurationRequest,
-) => effect.Effect<
+export const createProtectConfiguration: API.OperationMethod<
+  CreateProtectConfigurationRequest,
   CreateProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -4471,9 +4463,8 @@ export const createProtectConfiguration: (
 /**
  * Creates a new registration based on the **RegistrationType** field.
  */
-export const createRegistration: (
-  input: CreateRegistrationRequest,
-) => effect.Effect<
+export const createRegistration: API.OperationMethod<
+  CreateRegistrationRequest,
   CreateRegistrationResult,
   | AccessDeniedException
   | ConflictException
@@ -4498,9 +4489,8 @@ export const createRegistration: (
 /**
  * Associate the registration with an origination identity such as a phone number or sender ID.
  */
-export const createRegistrationAssociation: (
-  input: CreateRegistrationAssociationRequest,
-) => effect.Effect<
+export const createRegistrationAssociation: API.OperationMethod<
+  CreateRegistrationAssociationRequest,
   CreateRegistrationAssociationResult,
   | AccessDeniedException
   | ConflictException
@@ -4529,9 +4519,8 @@ export const createRegistrationAssociation: (
  *
  * Use either `AttachmentUrl` or `AttachmentBody` to upload your attachment. If both are specified then an exception is returned.
  */
-export const createRegistrationAttachment: (
-  input: CreateRegistrationAttachmentRequest,
-) => effect.Effect<
+export const createRegistrationAttachment: API.OperationMethod<
+  CreateRegistrationAttachmentRequest,
   CreateRegistrationAttachmentResult,
   | AccessDeniedException
   | ConflictException
@@ -4556,9 +4545,8 @@ export const createRegistrationAttachment: (
 /**
  * Create a new version of the registration and increase the **VersionNumber**. The previous version of the registration becomes read-only.
  */
-export const createRegistrationVersion: (
-  input: CreateRegistrationVersionRequest,
-) => effect.Effect<
+export const createRegistrationVersion: API.OperationMethod<
+  CreateRegistrationVersionRequest,
   CreateRegistrationVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4585,9 +4573,8 @@ export const createRegistrationVersion: (
 /**
  * You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
  */
-export const createVerifiedDestinationNumber: (
-  input: CreateVerifiedDestinationNumberRequest,
-) => effect.Effect<
+export const createVerifiedDestinationNumber: API.OperationMethod<
+  CreateVerifiedDestinationNumberRequest,
   CreateVerifiedDestinationNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -4612,9 +4599,8 @@ export const createVerifiedDestinationNumber: (
 /**
  * Removes the current account default protect configuration.
  */
-export const deleteAccountDefaultProtectConfiguration: (
-  input: DeleteAccountDefaultProtectConfigurationRequest,
-) => effect.Effect<
+export const deleteAccountDefaultProtectConfiguration: API.OperationMethod<
+  DeleteAccountDefaultProtectConfigurationRequest,
   DeleteAccountDefaultProtectConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -4639,9 +4625,8 @@ export const deleteAccountDefaultProtectConfiguration: (
  *
  * A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
  */
-export const deleteConfigurationSet: (
-  input: DeleteConfigurationSetRequest,
-) => effect.Effect<
+export const deleteConfigurationSet: API.OperationMethod<
+  DeleteConfigurationSetRequest,
   DeleteConfigurationSetResult,
   | AccessDeniedException
   | InternalServerException
@@ -4666,9 +4651,8 @@ export const deleteConfigurationSet: (
  *
  * A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
  */
-export const deleteDefaultMessageType: (
-  input: DeleteDefaultMessageTypeRequest,
-) => effect.Effect<
+export const deleteDefaultMessageType: API.OperationMethod<
+  DeleteDefaultMessageTypeRequest,
   DeleteDefaultMessageTypeResult,
   | AccessDeniedException
   | InternalServerException
@@ -4693,9 +4677,8 @@ export const deleteDefaultMessageType: (
  *
  * A default sender ID is the identity that appears on recipients' devices when they receive SMS messages. Support for sender ID capabilities varies by country or region.
  */
-export const deleteDefaultSenderId: (
-  input: DeleteDefaultSenderIdRequest,
-) => effect.Effect<
+export const deleteDefaultSenderId: API.OperationMethod<
+  DeleteDefaultSenderIdRequest,
   DeleteDefaultSenderIdResult,
   | AccessDeniedException
   | InternalServerException
@@ -4720,9 +4703,8 @@ export const deleteDefaultSenderId: (
  *
  * An event destination is a location where you send response information about the messages that you send. For example, when a message is delivered successfully, you can send information about that event to an Amazon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
  */
-export const deleteEventDestination: (
-  input: DeleteEventDestinationRequest,
-) => effect.Effect<
+export const deleteEventDestination: API.OperationMethod<
+  DeleteEventDestinationRequest,
   DeleteEventDestinationResult,
   | AccessDeniedException
   | InternalServerException
@@ -4749,9 +4731,8 @@ export const deleteEventDestination: (
  *
  * Keywords "HELP" and "STOP" can't be deleted or modified.
  */
-export const deleteKeyword: (
-  input: DeleteKeywordRequest,
-) => effect.Effect<
+export const deleteKeyword: API.OperationMethod<
+  DeleteKeywordRequest,
   DeleteKeywordResult,
   | AccessDeniedException
   | ConflictException
@@ -4776,9 +4757,8 @@ export const deleteKeyword: (
 /**
  * Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the *Server Migration Service User Guide*.
  */
-export const deleteMediaMessageSpendLimitOverride: (
-  input: DeleteMediaMessageSpendLimitOverrideRequest,
-) => effect.Effect<
+export const deleteMediaMessageSpendLimitOverride: API.OperationMethod<
+  DeleteMediaMessageSpendLimitOverrideRequest,
   DeleteMediaMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -4803,9 +4783,8 @@ export const deleteMediaMessageSpendLimitOverride: (
  *
  * If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned.
  */
-export const deleteOptedOutNumber: (
-  input: DeleteOptedOutNumberRequest,
-) => effect.Effect<
+export const deleteOptedOutNumber: API.OperationMethod<
+  DeleteOptedOutNumberRequest,
   DeleteOptedOutNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -4832,9 +4811,8 @@ export const deleteOptedOutNumber: (
  *
  * If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
  */
-export const deleteOptOutList: (
-  input: DeleteOptOutListRequest,
-) => effect.Effect<
+export const deleteOptOutList: API.OperationMethod<
+  DeleteOptOutListRequest,
   DeleteOptOutListResult,
   | AccessDeniedException
   | ConflictException
@@ -4863,9 +4841,8 @@ export const deleteOptOutList: (
  *
  * A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
  */
-export const deletePool: (
-  input: DeletePoolRequest,
-) => effect.Effect<
+export const deletePool: API.OperationMethod<
+  DeletePoolRequest,
   DeletePoolResult,
   | AccessDeniedException
   | ConflictException
@@ -4890,9 +4867,8 @@ export const deletePool: (
 /**
  * Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
  */
-export const deleteProtectConfiguration: (
-  input: DeleteProtectConfigurationRequest,
-) => effect.Effect<
+export const deleteProtectConfiguration: API.OperationMethod<
+  DeleteProtectConfigurationRequest,
   DeleteProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -4917,9 +4893,8 @@ export const deleteProtectConfiguration: (
 /**
  * Permanently delete the protect configuration rule set number override.
  */
-export const deleteProtectConfigurationRuleSetNumberOverride: (
-  input: DeleteProtectConfigurationRuleSetNumberOverrideRequest,
-) => effect.Effect<
+export const deleteProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
+  DeleteProtectConfigurationRuleSetNumberOverrideRequest,
   DeleteProtectConfigurationRuleSetNumberOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -4942,9 +4917,8 @@ export const deleteProtectConfigurationRuleSetNumberOverride: (
 /**
  * Permanently delete an existing registration from your account.
  */
-export const deleteRegistration: (
-  input: DeleteRegistrationRequest,
-) => effect.Effect<
+export const deleteRegistration: API.OperationMethod<
+  DeleteRegistrationRequest,
   DeleteRegistrationResult,
   | AccessDeniedException
   | ConflictException
@@ -4969,9 +4943,8 @@ export const deleteRegistration: (
 /**
  * Permanently delete the specified registration attachment.
  */
-export const deleteRegistrationAttachment: (
-  input: DeleteRegistrationAttachmentRequest,
-) => effect.Effect<
+export const deleteRegistrationAttachment: API.OperationMethod<
+  DeleteRegistrationAttachmentRequest,
   DeleteRegistrationAttachmentResult,
   | AccessDeniedException
   | ConflictException
@@ -4996,9 +4969,8 @@ export const deleteRegistrationAttachment: (
 /**
  * Delete the value in a registration form field.
  */
-export const deleteRegistrationFieldValue: (
-  input: DeleteRegistrationFieldValueRequest,
-) => effect.Effect<
+export const deleteRegistrationFieldValue: API.OperationMethod<
+  DeleteRegistrationFieldValueRequest,
   DeleteRegistrationFieldValueResult,
   | AccessDeniedException
   | ConflictException
@@ -5023,9 +4995,8 @@ export const deleteRegistrationFieldValue: (
 /**
  * Deletes the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -5048,9 +5019,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
-export const deleteTextMessageSpendLimitOverride: (
-  input: DeleteTextMessageSpendLimitOverrideRequest,
-) => effect.Effect<
+export const deleteTextMessageSpendLimitOverride: API.OperationMethod<
+  DeleteTextMessageSpendLimitOverrideRequest,
   DeleteTextMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -5071,9 +5041,8 @@ export const deleteTextMessageSpendLimitOverride: (
 /**
  * Delete a verified destination phone number.
  */
-export const deleteVerifiedDestinationNumber: (
-  input: DeleteVerifiedDestinationNumberRequest,
-) => effect.Effect<
+export const deleteVerifiedDestinationNumber: API.OperationMethod<
+  DeleteVerifiedDestinationNumberRequest,
   DeleteVerifiedDestinationNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -5098,9 +5067,8 @@ export const deleteVerifiedDestinationNumber: (
 /**
  * Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas in the *End User Messaging SMS User Guide*.
  */
-export const deleteVoiceMessageSpendLimitOverride: (
-  input: DeleteVoiceMessageSpendLimitOverrideRequest,
-) => effect.Effect<
+export const deleteVoiceMessageSpendLimitOverride: API.OperationMethod<
+  DeleteVoiceMessageSpendLimitOverrideRequest,
   DeleteVoiceMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -5123,18 +5091,16 @@ export const deleteVoiceMessageSpendLimitOverride: (
  *
  * New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse.
  */
-export const describeAccountAttributes: {
-  (
-    input: DescribeAccountAttributesRequest,
-  ): effect.Effect<
-    DescribeAccountAttributesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAccountAttributes: API.OperationMethod<
+  DescribeAccountAttributesRequest,
+  DescribeAccountAttributesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAccountAttributesRequest,
   ) => stream.Stream<
@@ -5178,18 +5144,16 @@ export const describeAccountAttributes: {
  *
  * When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas in the *End User Messaging SMS User Guide*.
  */
-export const describeAccountLimits: {
-  (
-    input: DescribeAccountLimitsRequest,
-  ): effect.Effect<
-    DescribeAccountLimitsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAccountLimits: API.OperationMethod<
+  DescribeAccountLimitsRequest,
+  DescribeAccountLimitsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAccountLimitsRequest,
   ) => stream.Stream<
@@ -5235,19 +5199,17 @@ export const describeAccountLimits: {
  *
  * If you specify a configuration set name that isn't valid, an error is returned.
  */
-export const describeConfigurationSets: {
-  (
-    input: DescribeConfigurationSetsRequest,
-  ): effect.Effect<
-    DescribeConfigurationSetsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConfigurationSets: API.OperationMethod<
+  DescribeConfigurationSetsRequest,
+  DescribeConfigurationSetsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConfigurationSetsRequest,
   ) => stream.Stream<
@@ -5296,19 +5258,17 @@ export const describeConfigurationSets: {
  *
  * If you specify a keyword that isn't valid, an error is returned.
  */
-export const describeKeywords: {
-  (
-    input: DescribeKeywordsRequest,
-  ): effect.Effect<
-    DescribeKeywordsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeKeywords: API.OperationMethod<
+  DescribeKeywordsRequest,
+  DescribeKeywordsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeKeywordsRequest,
   ) => stream.Stream<
@@ -5357,19 +5317,17 @@ export const describeKeywords: {
  *
  * If you specify an opted out number that isn't valid, an exception is returned.
  */
-export const describeOptedOutNumbers: {
-  (
-    input: DescribeOptedOutNumbersRequest,
-  ): effect.Effect<
-    DescribeOptedOutNumbersResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOptedOutNumbers: API.OperationMethod<
+  DescribeOptedOutNumbersRequest,
+  DescribeOptedOutNumbersResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOptedOutNumbersRequest,
   ) => stream.Stream<
@@ -5418,19 +5376,17 @@ export const describeOptedOutNumbers: {
  *
  * If you specify an opt-out list name that isn't valid, an error is returned.
  */
-export const describeOptOutLists: {
-  (
-    input: DescribeOptOutListsRequest,
-  ): effect.Effect<
-    DescribeOptOutListsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOptOutLists: API.OperationMethod<
+  DescribeOptOutListsRequest,
+  DescribeOptOutListsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOptOutListsRequest,
   ) => stream.Stream<
@@ -5479,19 +5435,17 @@ export const describeOptOutLists: {
  *
  * If you specify a phone number ID that isn't valid, an error is returned.
  */
-export const describePhoneNumbers: {
-  (
-    input: DescribePhoneNumbersRequest,
-  ): effect.Effect<
-    DescribePhoneNumbersResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePhoneNumbers: API.OperationMethod<
+  DescribePhoneNumbersRequest,
+  DescribePhoneNumbersResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePhoneNumbersRequest,
   ) => stream.Stream<
@@ -5542,19 +5496,17 @@ export const describePhoneNumbers: {
  *
  * A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
  */
-export const describePools: {
-  (
-    input: DescribePoolsRequest,
-  ): effect.Effect<
-    DescribePoolsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePools: API.OperationMethod<
+  DescribePoolsRequest,
+  DescribePoolsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePoolsRequest,
   ) => stream.Stream<
@@ -5599,19 +5551,17 @@ export const describePools: {
 /**
  * Retrieves the protect configurations that match any of filters. If a filter isn’t provided then all protect configurations are returned.
  */
-export const describeProtectConfigurations: {
-  (
-    input: DescribeProtectConfigurationsRequest,
-  ): effect.Effect<
-    DescribeProtectConfigurationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeProtectConfigurations: API.OperationMethod<
+  DescribeProtectConfigurationsRequest,
+  DescribeProtectConfigurationsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeProtectConfigurationsRequest,
   ) => stream.Stream<
@@ -5656,19 +5606,17 @@ export const describeProtectConfigurations: {
 /**
  * Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
  */
-export const describeRegistrationAttachments: {
-  (
-    input: DescribeRegistrationAttachmentsRequest,
-  ): effect.Effect<
-    DescribeRegistrationAttachmentsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrationAttachments: API.OperationMethod<
+  DescribeRegistrationAttachmentsRequest,
+  DescribeRegistrationAttachmentsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationAttachmentsRequest,
   ) => stream.Stream<
@@ -5713,18 +5661,16 @@ export const describeRegistrationAttachments: {
 /**
  * Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
-export const describeRegistrationFieldDefinitions: {
-  (
-    input: DescribeRegistrationFieldDefinitionsRequest,
-  ): effect.Effect<
-    DescribeRegistrationFieldDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrationFieldDefinitions: API.OperationMethod<
+  DescribeRegistrationFieldDefinitionsRequest,
+  DescribeRegistrationFieldDefinitionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationFieldDefinitionsRequest,
   ) => stream.Stream<
@@ -5766,19 +5712,17 @@ export const describeRegistrationFieldDefinitions: {
 /**
  * Retrieves the specified registration field values.
  */
-export const describeRegistrationFieldValues: {
-  (
-    input: DescribeRegistrationFieldValuesRequest,
-  ): effect.Effect<
-    DescribeRegistrationFieldValuesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrationFieldValues: API.OperationMethod<
+  DescribeRegistrationFieldValuesRequest,
+  DescribeRegistrationFieldValuesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationFieldValuesRequest,
   ) => stream.Stream<
@@ -5823,19 +5767,17 @@ export const describeRegistrationFieldValues: {
 /**
  * Retrieves the specified registrations.
  */
-export const describeRegistrations: {
-  (
-    input: DescribeRegistrationsRequest,
-  ): effect.Effect<
-    DescribeRegistrationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrations: API.OperationMethod<
+  DescribeRegistrationsRequest,
+  DescribeRegistrationsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationsRequest,
   ) => stream.Stream<
@@ -5880,18 +5822,16 @@ export const describeRegistrations: {
 /**
  * Retrieves the specified registration section definitions. You can use DescribeRegistrationSectionDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
-export const describeRegistrationSectionDefinitions: {
-  (
-    input: DescribeRegistrationSectionDefinitionsRequest,
-  ): effect.Effect<
-    DescribeRegistrationSectionDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrationSectionDefinitions: API.OperationMethod<
+  DescribeRegistrationSectionDefinitionsRequest,
+  DescribeRegistrationSectionDefinitionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationSectionDefinitionsRequest,
   ) => stream.Stream<
@@ -5933,18 +5873,16 @@ export const describeRegistrationSectionDefinitions: {
 /**
  * Retrieves the specified registration type definitions. You can use DescribeRegistrationTypeDefinitions to view the requirements for creating, filling out, and submitting each registration type.
  */
-export const describeRegistrationTypeDefinitions: {
-  (
-    input: DescribeRegistrationTypeDefinitionsRequest,
-  ): effect.Effect<
-    DescribeRegistrationTypeDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrationTypeDefinitions: API.OperationMethod<
+  DescribeRegistrationTypeDefinitionsRequest,
+  DescribeRegistrationTypeDefinitionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationTypeDefinitionsRequest,
   ) => stream.Stream<
@@ -5986,19 +5924,17 @@ export const describeRegistrationTypeDefinitions: {
 /**
  * Retrieves the specified registration version.
  */
-export const describeRegistrationVersions: {
-  (
-    input: DescribeRegistrationVersionsRequest,
-  ): effect.Effect<
-    DescribeRegistrationVersionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistrationVersions: API.OperationMethod<
+  DescribeRegistrationVersionsRequest,
+  DescribeRegistrationVersionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistrationVersionsRequest,
   ) => stream.Stream<
@@ -6047,19 +5983,17 @@ export const describeRegistrationVersions: {
  *
  * f you specify a sender ID that isn't valid, an error is returned.
  */
-export const describeSenderIds: {
-  (
-    input: DescribeSenderIdsRequest,
-  ): effect.Effect<
-    DescribeSenderIdsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSenderIds: API.OperationMethod<
+  DescribeSenderIdsRequest,
+  DescribeSenderIdsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSenderIdsRequest,
   ) => stream.Stream<
@@ -6106,18 +6040,16 @@ export const describeSenderIds: {
  *
  * When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see Requesting increases to your monthly SMS, MMS, or Voice spending quota in the *End User Messaging SMS User Guide*.
  */
-export const describeSpendLimits: {
-  (
-    input: DescribeSpendLimitsRequest,
-  ): effect.Effect<
-    DescribeSpendLimitsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSpendLimits: API.OperationMethod<
+  DescribeSpendLimitsRequest,
+  DescribeSpendLimitsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSpendLimitsRequest,
   ) => stream.Stream<
@@ -6159,19 +6091,17 @@ export const describeSpendLimits: {
 /**
  * Retrieves the specified verified destination numbers.
  */
-export const describeVerifiedDestinationNumbers: {
-  (
-    input: DescribeVerifiedDestinationNumbersRequest,
-  ): effect.Effect<
-    DescribeVerifiedDestinationNumbersResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeVerifiedDestinationNumbers: API.OperationMethod<
+  DescribeVerifiedDestinationNumbersRequest,
+  DescribeVerifiedDestinationNumbersResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVerifiedDestinationNumbersRequest,
   ) => stream.Stream<
@@ -6218,9 +6148,8 @@ export const describeVerifiedDestinationNumbers: {
  *
  * If the origination identity isn't associated with the specified pool, an error is returned.
  */
-export const disassociateOriginationIdentity: (
-  input: DisassociateOriginationIdentityRequest,
-) => effect.Effect<
+export const disassociateOriginationIdentity: API.OperationMethod<
+  DisassociateOriginationIdentityRequest,
   DisassociateOriginationIdentityResult,
   | AccessDeniedException
   | ConflictException
@@ -6245,9 +6174,8 @@ export const disassociateOriginationIdentity: (
 /**
  * Disassociate a protect configuration from a configuration set.
  */
-export const disassociateProtectConfiguration: (
-  input: DisassociateProtectConfigurationRequest,
-) => effect.Effect<
+export const disassociateProtectConfiguration: API.OperationMethod<
+  DisassociateProtectConfigurationRequest,
   DisassociateProtectConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -6272,9 +6200,8 @@ export const disassociateProtectConfiguration: (
 /**
  * Discard the current version of the registration.
  */
-export const discardRegistrationVersion: (
-  input: DiscardRegistrationVersionRequest,
-) => effect.Effect<
+export const discardRegistrationVersion: API.OperationMethod<
+  DiscardRegistrationVersionRequest,
   DiscardRegistrationVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -6299,9 +6226,8 @@ export const discardRegistrationVersion: (
 /**
  * Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
  */
-export const getProtectConfigurationCountryRuleSet: (
-  input: GetProtectConfigurationCountryRuleSetRequest,
-) => effect.Effect<
+export const getProtectConfigurationCountryRuleSet: API.OperationMethod<
+  GetProtectConfigurationCountryRuleSetRequest,
   GetProtectConfigurationCountryRuleSetResult,
   | AccessDeniedException
   | InternalServerException
@@ -6324,9 +6250,8 @@ export const getProtectConfigurationCountryRuleSet: (
 /**
  * Retrieves the JSON text of the resource-based policy document attached to the End User Messaging SMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -6351,19 +6276,17 @@ export const getResourcePolicy: (
  *
  * If you specify filters, the output includes information for only those origination identities that meet the filter criteria.
  */
-export const listPoolOriginationIdentities: {
-  (
-    input: ListPoolOriginationIdentitiesRequest,
-  ): effect.Effect<
-    ListPoolOriginationIdentitiesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPoolOriginationIdentities: API.OperationMethod<
+  ListPoolOriginationIdentitiesRequest,
+  ListPoolOriginationIdentitiesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoolOriginationIdentitiesRequest,
   ) => stream.Stream<
@@ -6408,19 +6331,17 @@ export const listPoolOriginationIdentities: {
 /**
  * Retrieve all of the protect configuration rule set number overrides that match the filters.
  */
-export const listProtectConfigurationRuleSetNumberOverrides: {
-  (
-    input: ListProtectConfigurationRuleSetNumberOverridesRequest,
-  ): effect.Effect<
-    ListProtectConfigurationRuleSetNumberOverridesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProtectConfigurationRuleSetNumberOverrides: API.OperationMethod<
+  ListProtectConfigurationRuleSetNumberOverridesRequest,
+  ListProtectConfigurationRuleSetNumberOverridesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectConfigurationRuleSetNumberOverridesRequest,
   ) => stream.Stream<
@@ -6465,19 +6386,17 @@ export const listProtectConfigurationRuleSetNumberOverrides: {
 /**
  * Retrieve all of the origination identities that are associated with a registration.
  */
-export const listRegistrationAssociations: {
-  (
-    input: ListRegistrationAssociationsRequest,
-  ): effect.Effect<
-    ListRegistrationAssociationsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRegistrationAssociations: API.OperationMethod<
+  ListRegistrationAssociationsRequest,
+  ListRegistrationAssociationsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegistrationAssociationsRequest,
   ) => stream.Stream<
@@ -6522,9 +6441,8 @@ export const listRegistrationAssociations: {
 /**
  * List all tags associated with a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -6551,9 +6469,8 @@ export const listTagsForResource: (
  *
  * If you specify a keyword that isn't valid, an error is returned.
  */
-export const putKeyword: (
-  input: PutKeywordRequest,
-) => effect.Effect<
+export const putKeyword: API.OperationMethod<
+  PutKeywordRequest,
   PutKeywordResult,
   | AccessDeniedException
   | ConflictException
@@ -6582,9 +6499,8 @@ export const putKeyword: (
  *
  * If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use `PutMessageFeedback` to set the message feedback record as `RECEIVED`; Otherwise, an hour after the message feedback record is set to `FAILED`.
  */
-export const putMessageFeedback: (
-  input: PutMessageFeedbackRequest,
-) => effect.Effect<
+export const putMessageFeedback: API.OperationMethod<
+  PutMessageFeedbackRequest,
   PutMessageFeedbackResult,
   | AccessDeniedException
   | InternalServerException
@@ -6609,9 +6525,8 @@ export const putMessageFeedback: (
  *
  * If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
  */
-export const putOptedOutNumber: (
-  input: PutOptedOutNumberRequest,
-) => effect.Effect<
+export const putOptedOutNumber: API.OperationMethod<
+  PutOptedOutNumberRequest,
   PutOptedOutNumberResult,
   | AccessDeniedException
   | InternalServerException
@@ -6634,9 +6549,8 @@ export const putOptedOutNumber: (
 /**
  * Create or update a phone number rule override and associate it with a protect configuration.
  */
-export const putProtectConfigurationRuleSetNumberOverride: (
-  input: PutProtectConfigurationRuleSetNumberOverrideRequest,
-) => effect.Effect<
+export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
+  PutProtectConfigurationRuleSetNumberOverrideRequest,
   PutProtectConfigurationRuleSetNumberOverrideResult,
   | AccessDeniedException
   | ConflictException
@@ -6661,9 +6575,8 @@ export const putProtectConfigurationRuleSetNumberOverride: (
 /**
  * Creates or updates a field value for a registration.
  */
-export const putRegistrationFieldValue: (
-  input: PutRegistrationFieldValueRequest,
-) => effect.Effect<
+export const putRegistrationFieldValue: API.OperationMethod<
+  PutRegistrationFieldValueRequest,
   PutRegistrationFieldValueResult,
   | AccessDeniedException
   | ConflictException
@@ -6688,9 +6601,8 @@ export const putRegistrationFieldValue: (
 /**
  * Attaches a resource-based policy to a End User Messaging SMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the *End User Messaging SMS User Guide*.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -6715,9 +6627,8 @@ export const putResourcePolicy: (
  *
  * If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned.
  */
-export const releasePhoneNumber: (
-  input: ReleasePhoneNumberRequest,
-) => effect.Effect<
+export const releasePhoneNumber: API.OperationMethod<
+  ReleasePhoneNumberRequest,
   ReleasePhoneNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6742,9 +6653,8 @@ export const releasePhoneNumber: (
 /**
  * Releases an existing sender ID in your account.
  */
-export const releaseSenderId: (
-  input: ReleaseSenderIdRequest,
-) => effect.Effect<
+export const releaseSenderId: API.OperationMethod<
+  ReleaseSenderIdRequest,
   ReleaseSenderIdResult,
   | AccessDeniedException
   | ConflictException
@@ -6769,9 +6679,8 @@ export const releaseSenderId: (
 /**
  * Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the *End User Messaging SMS User Guide*.
  */
-export const requestPhoneNumber: (
-  input: RequestPhoneNumberRequest,
-) => effect.Effect<
+export const requestPhoneNumber: API.OperationMethod<
+  RequestPhoneNumberRequest,
   RequestPhoneNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -6798,9 +6707,8 @@ export const requestPhoneNumber: (
 /**
  * Request a new sender ID that doesn't require registration.
  */
-export const requestSenderId: (
-  input: RequestSenderIdRequest,
-) => effect.Effect<
+export const requestSenderId: API.OperationMethod<
+  RequestSenderIdRequest,
   RequestSenderIdResult,
   | AccessDeniedException
   | ConflictException
@@ -6825,9 +6733,8 @@ export const requestSenderId: (
 /**
  * Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
  */
-export const sendDestinationNumberVerificationCode: (
-  input: SendDestinationNumberVerificationCodeRequest,
-) => effect.Effect<
+export const sendDestinationNumberVerificationCode: API.OperationMethod<
+  SendDestinationNumberVerificationCodeRequest,
   SendDestinationNumberVerificationCodeResult,
   | AccessDeniedException
   | ConflictException
@@ -6854,9 +6761,8 @@ export const sendDestinationNumberVerificationCode: (
 /**
  * Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
  */
-export const sendMediaMessage: (
-  input: SendMediaMessageRequest,
-) => effect.Effect<
+export const sendMediaMessage: API.OperationMethod<
+  SendMediaMessageRequest,
   SendMediaMessageResult,
   | AccessDeniedException
   | ConflictException
@@ -6885,9 +6791,8 @@ export const sendMediaMessage: (
  *
  * SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the *End User Messaging SMS User Guide*.
  */
-export const sendTextMessage: (
-  input: SendTextMessageRequest,
-) => effect.Effect<
+export const sendTextMessage: API.OperationMethod<
+  SendTextMessageRequest,
   SendTextMessageResult,
   | AccessDeniedException
   | ConflictException
@@ -6914,9 +6819,8 @@ export const sendTextMessage: (
 /**
  * Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
  */
-export const sendVoiceMessage: (
-  input: SendVoiceMessageRequest,
-) => effect.Effect<
+export const sendVoiceMessage: API.OperationMethod<
+  SendVoiceMessageRequest,
   SendVoiceMessageResult,
   | AccessDeniedException
   | ConflictException
@@ -6943,9 +6847,8 @@ export const sendVoiceMessage: (
 /**
  * Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
  */
-export const setAccountDefaultProtectConfiguration: (
-  input: SetAccountDefaultProtectConfigurationRequest,
-) => effect.Effect<
+export const setAccountDefaultProtectConfiguration: API.OperationMethod<
+  SetAccountDefaultProtectConfigurationRequest,
   SetAccountDefaultProtectConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -6968,9 +6871,8 @@ export const setAccountDefaultProtectConfiguration: (
 /**
  * Sets a configuration set's default for message feedback.
  */
-export const setDefaultMessageFeedbackEnabled: (
-  input: SetDefaultMessageFeedbackEnabledRequest,
-) => effect.Effect<
+export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
+  SetDefaultMessageFeedbackEnabledRequest,
   SetDefaultMessageFeedbackEnabledResult,
   | AccessDeniedException
   | InternalServerException
@@ -6995,9 +6897,8 @@ export const setDefaultMessageFeedbackEnabled: (
  *
  * Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If you plan to send messages that contain marketing material or other promotional content, choose **Promotional**. This setting applies to your entire Amazon Web Services account.
  */
-export const setDefaultMessageType: (
-  input: SetDefaultMessageTypeRequest,
-) => effect.Effect<
+export const setDefaultMessageType: API.OperationMethod<
+  SetDefaultMessageTypeRequest,
   SetDefaultMessageTypeResult,
   | AccessDeniedException
   | InternalServerException
@@ -7022,9 +6923,8 @@ export const setDefaultMessageType: (
  *
  * When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account.
  */
-export const setDefaultSenderId: (
-  input: SetDefaultSenderIdRequest,
-) => effect.Effect<
+export const setDefaultSenderId: API.OperationMethod<
+  SetDefaultSenderIdRequest,
   SetDefaultSenderIdResult,
   | AccessDeniedException
   | InternalServerException
@@ -7047,9 +6947,8 @@ export const setDefaultSenderId: (
 /**
  * Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
-export const setMediaMessageSpendLimitOverride: (
-  input: SetMediaMessageSpendLimitOverrideRequest,
-) => effect.Effect<
+export const setMediaMessageSpendLimitOverride: API.OperationMethod<
+  SetMediaMessageSpendLimitOverrideRequest,
   SetMediaMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -7070,9 +6969,8 @@ export const setMediaMessageSpendLimitOverride: (
 /**
  * Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
-export const setTextMessageSpendLimitOverride: (
-  input: SetTextMessageSpendLimitOverrideRequest,
-) => effect.Effect<
+export const setTextMessageSpendLimitOverride: API.OperationMethod<
+  SetTextMessageSpendLimitOverrideRequest,
   SetTextMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -7093,9 +6991,8 @@ export const setTextMessageSpendLimitOverride: (
 /**
  * Sets an account level monthly spend limit override for sending voice messages. The requested spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web Services.
  */
-export const setVoiceMessageSpendLimitOverride: (
-  input: SetVoiceMessageSpendLimitOverrideRequest,
-) => effect.Effect<
+export const setVoiceMessageSpendLimitOverride: API.OperationMethod<
+  SetVoiceMessageSpendLimitOverrideRequest,
   SetVoiceMessageSpendLimitOverrideResult,
   | AccessDeniedException
   | InternalServerException
@@ -7116,9 +7013,8 @@ export const setVoiceMessageSpendLimitOverride: (
 /**
  * Submit the specified registration for review and approval.
  */
-export const submitRegistrationVersion: (
-  input: SubmitRegistrationVersionRequest,
-) => effect.Effect<
+export const submitRegistrationVersion: API.OperationMethod<
+  SubmitRegistrationVersionRequest,
   SubmitRegistrationVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -7143,9 +7039,8 @@ export const submitRegistrationVersion: (
 /**
  * Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags in the *End User Messaging SMS User Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -7170,9 +7065,8 @@ export const tagResource: (
 /**
  * Removes the association of the specified tags from a resource. For more information on tags see Tags in the *End User Messaging SMS User Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   | AccessDeniedException
   | InternalServerException
@@ -7197,9 +7091,8 @@ export const untagResource: (
  *
  * You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS.
  */
-export const updateEventDestination: (
-  input: UpdateEventDestinationRequest,
-) => effect.Effect<
+export const updateEventDestination: API.OperationMethod<
+  UpdateEventDestinationRequest,
   UpdateEventDestinationResult,
   | AccessDeniedException
   | ConflictException
@@ -7226,9 +7119,8 @@ export const updateEventDestination: (
  *
  * If the origination phone number is associated with a pool, an error is returned.
  */
-export const updatePhoneNumber: (
-  input: UpdatePhoneNumberRequest,
-) => effect.Effect<
+export const updatePhoneNumber: API.OperationMethod<
+  UpdatePhoneNumberRequest,
   UpdatePhoneNumberResult,
   | AccessDeniedException
   | ConflictException
@@ -7253,9 +7145,8 @@ export const updatePhoneNumber: (
 /**
  * Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
  */
-export const updatePool: (
-  input: UpdatePoolRequest,
-) => effect.Effect<
+export const updatePool: API.OperationMethod<
+  UpdatePoolRequest,
   UpdatePoolResult,
   | AccessDeniedException
   | ConflictException
@@ -7280,9 +7171,8 @@ export const updatePool: (
 /**
  * Update the setting for an existing protect configuration.
  */
-export const updateProtectConfiguration: (
-  input: UpdateProtectConfigurationRequest,
-) => effect.Effect<
+export const updateProtectConfiguration: API.OperationMethod<
+  UpdateProtectConfigurationRequest,
   UpdateProtectConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -7305,9 +7195,8 @@ export const updateProtectConfiguration: (
 /**
  * Update a country rule set to `ALLOW`, `BLOCK`, `MONITOR`, or `FILTER` messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
  */
-export const updateProtectConfigurationCountryRuleSet: (
-  input: UpdateProtectConfigurationCountryRuleSetRequest,
-) => effect.Effect<
+export const updateProtectConfigurationCountryRuleSet: API.OperationMethod<
+  UpdateProtectConfigurationCountryRuleSetRequest,
   UpdateProtectConfigurationCountryRuleSetResult,
   | AccessDeniedException
   | InternalServerException
@@ -7330,9 +7219,8 @@ export const updateProtectConfigurationCountryRuleSet: (
 /**
  * Updates the configuration of an existing sender ID.
  */
-export const updateSenderId: (
-  input: UpdateSenderIdRequest,
-) => effect.Effect<
+export const updateSenderId: API.OperationMethod<
+  UpdateSenderIdRequest,
   UpdateSenderIdResult,
   | AccessDeniedException
   | InternalServerException
@@ -7355,9 +7243,8 @@ export const updateSenderId: (
 /**
  * Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
  */
-export const verifyDestinationNumber: (
-  input: VerifyDestinationNumberRequest,
-) => effect.Effect<
+export const verifyDestinationNumber: API.OperationMethod<
+  VerifyDestinationNumberRequest,
   VerifyDestinationNumberResult,
   | AccessDeniedException
   | ConflictException

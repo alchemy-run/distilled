@@ -3672,9 +3672,8 @@ export class RequestFailedException extends S.TaggedErrorClass<RequestFailedExce
  * Returns information about a specified job and whether that job has been received by
  * the job worker. Used for custom actions only.
  */
-export const acknowledgeJob: (
-  input: AcknowledgeJobInput,
-) => effect.Effect<
+export const acknowledgeJob: API.OperationMethod<
+  AcknowledgeJobInput,
   AcknowledgeJobOutput,
   | InvalidNonceException
   | JobNotFoundException
@@ -3690,9 +3689,8 @@ export const acknowledgeJob: (
  * Confirms a job worker has received the specified job. Used for partner actions
  * only.
  */
-export const acknowledgeThirdPartyJob: (
-  input: AcknowledgeThirdPartyJobInput,
-) => effect.Effect<
+export const acknowledgeThirdPartyJob: API.OperationMethod<
+  AcknowledgeThirdPartyJobInput,
   AcknowledgeThirdPartyJobOutput,
   | InvalidClientTokenException
   | InvalidNonceException
@@ -3714,9 +3712,8 @@ export const acknowledgeThirdPartyJob: (
  * Creates a new custom action that can be used in all pipelines associated with the
  * Amazon Web Services account. Only used for custom actions.
  */
-export const createCustomActionType: (
-  input: CreateCustomActionTypeInput,
-) => effect.Effect<
+export const createCustomActionType: API.OperationMethod<
+  CreateCustomActionTypeInput,
   CreateCustomActionTypeOutput,
   | ConcurrentModificationException
   | InvalidTagsException
@@ -3744,9 +3741,8 @@ export const createCustomActionType: (
  * create a cross-region action in your pipeline, you must use
  * `artifactStores`.
  */
-export const createPipeline: (
-  input: CreatePipelineInput,
-) => effect.Effect<
+export const createPipeline: API.OperationMethod<
+  CreatePipelineInput,
   CreatePipelineOutput,
   | ConcurrentModificationException
   | InvalidActionDeclarationException
@@ -3786,9 +3782,8 @@ export const createPipeline: (
  * that is identical to the deleted action, including the original string in the
  * version field.
  */
-export const deleteCustomActionType: (
-  input: DeleteCustomActionTypeInput,
-) => effect.Effect<
+export const deleteCustomActionType: API.OperationMethod<
+  DeleteCustomActionTypeInput,
   DeleteCustomActionTypeResponse,
   ConcurrentModificationException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3800,9 +3795,8 @@ export const deleteCustomActionType: (
 /**
  * Deletes the specified pipeline.
  */
-export const deletePipeline: (
-  input: DeletePipelineInput,
-) => effect.Effect<
+export const deletePipeline: API.OperationMethod<
+  DeletePipelineInput,
   DeletePipelineResponse,
   ConcurrentModificationException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3817,9 +3811,8 @@ export const deletePipeline: (
  * deleted webhook is re-created by calling PutWebhook with the same name, it will have a
  * different URL.
  */
-export const deleteWebhook: (
-  input: DeleteWebhookInput,
-) => effect.Effect<
+export const deleteWebhook: API.OperationMethod<
+  DeleteWebhookInput,
   DeleteWebhookOutput,
   ConcurrentModificationException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3833,9 +3826,8 @@ export const deleteWebhook: (
  * and the external tool with events to be detected. Currently supported only for webhooks
  * that target an action type of GitHub.
  */
-export const deregisterWebhookWithThirdParty: (
-  input: DeregisterWebhookWithThirdPartyInput,
-) => effect.Effect<
+export const deregisterWebhookWithThirdParty: API.OperationMethod<
+  DeregisterWebhookWithThirdPartyInput,
   DeregisterWebhookWithThirdPartyOutput,
   ValidationException | WebhookNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3848,9 +3840,8 @@ export const deregisterWebhookWithThirdParty: (
  * Prevents artifacts in a pipeline from transitioning to the next stage in the
  * pipeline.
  */
-export const disableStageTransition: (
-  input: DisableStageTransitionInput,
-) => effect.Effect<
+export const disableStageTransition: API.OperationMethod<
+  DisableStageTransitionInput,
   DisableStageTransitionResponse,
   | PipelineNotFoundException
   | StageNotFoundException
@@ -3869,9 +3860,8 @@ export const disableStageTransition: (
 /**
  * Enables artifacts in a pipeline to transition to a stage in a pipeline.
  */
-export const enableStageTransition: (
-  input: EnableStageTransitionInput,
-) => effect.Effect<
+export const enableStageTransition: API.OperationMethod<
+  EnableStageTransitionInput,
   EnableStageTransitionResponse,
   | PipelineNotFoundException
   | StageNotFoundException
@@ -3892,9 +3882,8 @@ export const enableStageTransition: (
  * action is to be used by customers of the external provider. The action can be created
  * with any supported integration model.
  */
-export const getActionType: (
-  input: GetActionTypeInput,
-) => effect.Effect<
+export const getActionType: API.OperationMethod<
+  GetActionTypeInput,
   GetActionTypeOutput,
   ActionTypeNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3911,9 +3900,8 @@ export const getActionType: (
  * access to that S3 bucket for input or output artifacts. This API also returns any
  * secret values defined for the action.
  */
-export const getJobDetails: (
-  input: GetJobDetailsInput,
-) => effect.Effect<
+export const getJobDetails: API.OperationMethod<
+  GetJobDetailsInput,
   GetJobDetailsOutput,
   JobNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3927,9 +3915,8 @@ export const getJobDetails: (
  * return the entire structure of a pipeline in JSON format, which can then be modified and
  * used to update the pipeline structure with UpdatePipeline.
  */
-export const getPipeline: (
-  input: GetPipelineInput,
-) => effect.Effect<
+export const getPipeline: API.OperationMethod<
+  GetPipelineInput,
   GetPipelineOutput,
   | PipelineNotFoundException
   | PipelineVersionNotFoundException
@@ -3950,9 +3937,8 @@ export const getPipeline: (
  * artifacts, the pipeline execution ID, and the name, version, and status of the
  * pipeline.
  */
-export const getPipelineExecution: (
-  input: GetPipelineExecutionInput,
-) => effect.Effect<
+export const getPipelineExecution: API.OperationMethod<
+  GetPipelineExecutionInput,
   GetPipelineExecutionOutput,
   | PipelineExecutionNotFoundException
   | PipelineNotFoundException
@@ -3976,9 +3962,8 @@ export const getPipelineExecution: (
  * fields indicate the source revision information, such as the commit ID, for the
  * current state.
  */
-export const getPipelineState: (
-  input: GetPipelineStateInput,
-) => effect.Effect<
+export const getPipelineState: API.OperationMethod<
+  GetPipelineStateInput,
   GetPipelineStateOutput,
   PipelineNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3996,9 +3981,8 @@ export const getPipelineState: (
  * access to that S3 bucket for input or output artifacts. This API also returns any
  * secret values defined for the action.
  */
-export const getThirdPartyJobDetails: (
-  input: GetThirdPartyJobDetailsInput,
-) => effect.Effect<
+export const getThirdPartyJobDetails: API.OperationMethod<
+  GetThirdPartyJobDetailsInput,
   GetThirdPartyJobDetailsOutput,
   | InvalidClientTokenException
   | InvalidJobException
@@ -4019,18 +4003,16 @@ export const getThirdPartyJobDetails: (
 /**
  * Lists the action executions that have occurred in a pipeline.
  */
-export const listActionExecutions: {
-  (
-    input: ListActionExecutionsInput,
-  ): effect.Effect<
-    ListActionExecutionsOutput,
-    | InvalidNextTokenException
-    | PipelineExecutionNotFoundException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActionExecutions: API.OperationMethod<
+  ListActionExecutionsInput,
+  ListActionExecutionsOutput,
+  | InvalidNextTokenException
+  | PipelineExecutionNotFoundException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActionExecutionsInput,
   ) => stream.Stream<
@@ -4073,14 +4055,12 @@ export const listActionExecutions: {
  * Gets a summary of all CodePipeline action types associated with your
  * account.
  */
-export const listActionTypes: {
-  (
-    input: ListActionTypesInput,
-  ): effect.Effect<
-    ListActionTypesOutput,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActionTypes: API.OperationMethod<
+  ListActionTypesInput,
+  ListActionTypesOutput,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActionTypesInput,
   ) => stream.Stream<
@@ -4108,18 +4088,16 @@ export const listActionTypes: {
 /**
  * Lists the targets for the deploy action.
  */
-export const listDeployActionExecutionTargets: {
-  (
-    input: ListDeployActionExecutionTargetsInput,
-  ): effect.Effect<
-    ListDeployActionExecutionTargetsOutput,
-    | ActionExecutionNotFoundException
-    | InvalidNextTokenException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployActionExecutionTargets: API.OperationMethod<
+  ListDeployActionExecutionTargetsInput,
+  ListDeployActionExecutionTargetsOutput,
+  | ActionExecutionNotFoundException
+  | InvalidNextTokenException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeployActionExecutionTargetsInput,
   ) => stream.Stream<
@@ -4165,17 +4143,15 @@ export const listDeployActionExecutionTargets: {
  * the operation returns all executions in the current pipeline version beginning on
  * February 1, 2024.
  */
-export const listPipelineExecutions: {
-  (
-    input: ListPipelineExecutionsInput,
-  ): effect.Effect<
-    ListPipelineExecutionsOutput,
-    | InvalidNextTokenException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineExecutions: API.OperationMethod<
+  ListPipelineExecutionsInput,
+  ListPipelineExecutionsOutput,
+  | InvalidNextTokenException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineExecutionsInput,
   ) => stream.Stream<
@@ -4214,14 +4190,12 @@ export const listPipelineExecutions: {
 /**
  * Gets a summary of all of the pipelines associated with your account.
  */
-export const listPipelines: {
-  (
-    input: ListPipelinesInput,
-  ): effect.Effect<
-    ListPipelinesOutput,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelines: API.OperationMethod<
+  ListPipelinesInput,
+  ListPipelinesOutput,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelinesInput,
   ) => stream.Stream<
@@ -4251,18 +4225,16 @@ export const listPipelines: {
  * Lists the rule executions that have occurred in a pipeline configured for conditions
  * with rules.
  */
-export const listRuleExecutions: {
-  (
-    input: ListRuleExecutionsInput,
-  ): effect.Effect<
-    ListRuleExecutionsOutput,
-    | InvalidNextTokenException
-    | PipelineExecutionNotFoundException
-    | PipelineNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuleExecutions: API.OperationMethod<
+  ListRuleExecutionsInput,
+  ListRuleExecutionsOutput,
+  | InvalidNextTokenException
+  | PipelineExecutionNotFoundException
+  | PipelineNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRuleExecutionsInput,
   ) => stream.Stream<
@@ -4306,9 +4278,8 @@ export const listRuleExecutions: {
  * conditions and How do
  * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
  */
-export const listRuleTypes: (
-  input: ListRuleTypesInput,
-) => effect.Effect<
+export const listRuleTypes: API.OperationMethod<
+  ListRuleTypesInput,
   ListRuleTypesOutput,
   InvalidNextTokenException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4321,18 +4292,16 @@ export const listRuleTypes: (
  * Gets the set of key-value pairs (metadata) that are used to manage the
  * resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceInput,
-  ): effect.Effect<
-    ListTagsForResourceOutput,
-    | InvalidArnException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  | InvalidArnException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
@@ -4378,14 +4347,12 @@ export const listTagsForResource: {
  *
  * If a secret token was provided, it will be redacted in the response.
  */
-export const listWebhooks: {
-  (
-    input: ListWebhooksInput,
-  ): effect.Effect<
-    ListWebhooksOutput,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWebhooks: API.OperationMethod<
+  ListWebhooksInput,
+  ListWebhooksOutput,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWebhooksInput,
   ) => stream.Stream<
@@ -4416,9 +4383,8 @@ export const listWebhooks: {
  * conditions and How do
  * stage conditions work?.
  */
-export const overrideStageCondition: (
-  input: OverrideStageConditionInput,
-) => effect.Effect<
+export const overrideStageCondition: API.OperationMethod<
+  OverrideStageConditionInput,
   OverrideStageConditionResponse,
   | ConcurrentPipelineExecutionsLimitExceededException
   | ConditionNotOverridableException
@@ -4453,9 +4419,8 @@ export const overrideStageCondition: (
  * access to that S3 bucket for input or output artifacts. This API also returns any
  * secret values defined for the action.
  */
-export const pollForJobs: (
-  input: PollForJobsInput,
-) => effect.Effect<
+export const pollForJobs: API.OperationMethod<
+  PollForJobsInput,
   PollForJobsOutput,
   ActionTypeNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4472,9 +4437,8 @@ export const pollForJobs: (
  * the S3 bucket used to store artifacts for the pipeline, if the action requires
  * access to that S3 bucket for input or output artifacts.
  */
-export const pollForThirdPartyJobs: (
-  input: PollForThirdPartyJobsInput,
-) => effect.Effect<
+export const pollForThirdPartyJobs: API.OperationMethod<
+  PollForThirdPartyJobsInput,
   PollForThirdPartyJobsOutput,
   ActionTypeNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4487,9 +4451,8 @@ export const pollForThirdPartyJobs: (
  * Provides information to CodePipeline about new revisions to a
  * source.
  */
-export const putActionRevision: (
-  input: PutActionRevisionInput,
-) => effect.Effect<
+export const putActionRevision: API.OperationMethod<
+  PutActionRevisionInput,
   PutActionRevisionOutput,
   | ActionNotFoundException
   | ConcurrentPipelineExecutionsLimitExceededException
@@ -4513,9 +4476,8 @@ export const putActionRevision: (
  * Provides the response to a manual approval request to CodePipeline. Valid
  * responses include Approved and Rejected.
  */
-export const putApprovalResult: (
-  input: PutApprovalResultInput,
-) => effect.Effect<
+export const putApprovalResult: API.OperationMethod<
+  PutApprovalResultInput,
   PutApprovalResultOutput,
   | ActionNotFoundException
   | ApprovalAlreadyCompletedException
@@ -4541,9 +4503,8 @@ export const putApprovalResult: (
  * Represents the failure of a job as returned to the pipeline by a job worker. Used
  * for custom actions only.
  */
-export const putJobFailureResult: (
-  input: PutJobFailureResultInput,
-) => effect.Effect<
+export const putJobFailureResult: API.OperationMethod<
+  PutJobFailureResultInput,
   PutJobFailureResultResponse,
   | InvalidJobStateException
   | JobNotFoundException
@@ -4559,9 +4520,8 @@ export const putJobFailureResult: (
  * Represents the success of a job as returned to the pipeline by a job worker. Used
  * for custom actions only.
  */
-export const putJobSuccessResult: (
-  input: PutJobSuccessResultInput,
-) => effect.Effect<
+export const putJobSuccessResult: API.OperationMethod<
+  PutJobSuccessResultInput,
   PutJobSuccessResultResponse,
   | InvalidJobStateException
   | JobNotFoundException
@@ -4583,9 +4543,8 @@ export const putJobSuccessResult: (
  * Represents the failure of a third party job as returned to the pipeline by a job
  * worker. Used for partner actions only.
  */
-export const putThirdPartyJobFailureResult: (
-  input: PutThirdPartyJobFailureResultInput,
-) => effect.Effect<
+export const putThirdPartyJobFailureResult: API.OperationMethod<
+  PutThirdPartyJobFailureResultInput,
   PutThirdPartyJobFailureResultResponse,
   | InvalidClientTokenException
   | InvalidJobStateException
@@ -4607,9 +4566,8 @@ export const putThirdPartyJobFailureResult: (
  * Represents the success of a third party job as returned to the pipeline by a job
  * worker. Used for partner actions only.
  */
-export const putThirdPartyJobSuccessResult: (
-  input: PutThirdPartyJobSuccessResultInput,
-) => effect.Effect<
+export const putThirdPartyJobSuccessResult: API.OperationMethod<
+  PutThirdPartyJobSuccessResultInput,
   PutThirdPartyJobSuccessResultResponse,
   | InvalidClientTokenException
   | InvalidJobStateException
@@ -4647,9 +4605,8 @@ export const putThirdPartyJobSuccessResult: (
  *
  * If a secret token was provided, it will be redacted in the response.
  */
-export const putWebhook: (
-  input: PutWebhookInput,
-) => effect.Effect<
+export const putWebhook: API.OperationMethod<
+  PutWebhookInput,
   PutWebhookOutput,
   | ConcurrentModificationException
   | InvalidTagsException
@@ -4679,9 +4636,8 @@ export const putWebhook: (
  * Configures a connection between the webhook that was created and the external tool
  * with events to be detected.
  */
-export const registerWebhookWithThirdParty: (
-  input: RegisterWebhookWithThirdPartyInput,
-) => effect.Effect<
+export const registerWebhookWithThirdParty: API.OperationMethod<
+  RegisterWebhookWithThirdPartyInput,
   RegisterWebhookWithThirdPartyOutput,
   ValidationException | WebhookNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4700,9 +4656,8 @@ export const registerWebhookWithThirdParty: (
  * can be retried, it must either have all actions failed or some actions failed and some
  * succeeded.
  */
-export const retryStageExecution: (
-  input: RetryStageExecutionInput,
-) => effect.Effect<
+export const retryStageExecution: API.OperationMethod<
+  RetryStageExecutionInput,
   RetryStageExecutionOutput,
   | ConcurrentPipelineExecutionsLimitExceededException
   | ConflictException
@@ -4729,9 +4684,8 @@ export const retryStageExecution: (
 /**
  * Rolls back a stage execution.
  */
-export const rollbackStage: (
-  input: RollbackStageInput,
-) => effect.Effect<
+export const rollbackStage: API.OperationMethod<
+  RollbackStageInput,
   RollbackStageOutput,
   | ConflictException
   | PipelineExecutionNotFoundException
@@ -4759,9 +4713,8 @@ export const rollbackStage: (
  * Starts the specified pipeline. Specifically, it begins processing the latest commit
  * to the source location specified as part of the pipeline.
  */
-export const startPipelineExecution: (
-  input: StartPipelineExecutionInput,
-) => effect.Effect<
+export const startPipelineExecution: API.OperationMethod<
+  StartPipelineExecutionInput,
   StartPipelineExecutionOutput,
   | ConcurrentPipelineExecutionsLimitExceededException
   | ConflictException
@@ -4787,9 +4740,8 @@ export const startPipelineExecution: (
  * are completed or abandoned, the pipeline execution is in a `Stopped`
  * state.
  */
-export const stopPipelineExecution: (
-  input: StopPipelineExecutionInput,
-) => effect.Effect<
+export const stopPipelineExecution: API.OperationMethod<
+  StopPipelineExecutionInput,
   StopPipelineExecutionOutput,
   | ConflictException
   | DuplicatedStopRequestException
@@ -4813,9 +4765,8 @@ export const stopPipelineExecution: (
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
  * to manage a resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ConcurrentModificationException
   | InvalidArnException
@@ -4840,9 +4791,8 @@ export const tagResource: (
 /**
  * Removes tags from an Amazon Web Services resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | ConcurrentModificationException
   | InvalidArnException
@@ -4868,9 +4818,8 @@ export const untagResource: (
  * with the action definition and `UpdateActionType` to provide the full
  * structure.
  */
-export const updateActionType: (
-  input: UpdateActionTypeInput,
-) => effect.Effect<
+export const updateActionType: API.OperationMethod<
+  UpdateActionTypeInput,
   UpdateActionTypeResponse,
   | ActionTypeNotFoundException
   | RequestFailedException
@@ -4892,9 +4841,8 @@ export const updateActionType: (
  * structure of the pipeline. Updating the pipeline increases the version number of the
  * pipeline by 1.
  */
-export const updatePipeline: (
-  input: UpdatePipelineInput,
-) => effect.Effect<
+export const updatePipeline: API.OperationMethod<
+  UpdatePipelineInput,
   UpdatePipelineOutput,
   | InvalidActionDeclarationException
   | InvalidBlockerDeclarationException

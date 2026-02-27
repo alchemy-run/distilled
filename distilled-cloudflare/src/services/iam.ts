@@ -58,9 +58,8 @@ export const GetPermissionGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetPermissionGroupResponse>;
 
-export const getPermissionGroup: (
-  input: GetPermissionGroupRequest,
-) => Effect.Effect<
+export const getPermissionGroup: API.OperationMethod<
+  GetPermissionGroupRequest,
   GetPermissionGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -112,9 +111,8 @@ export const ListPermissionGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPermissionGroupsResponse>;
 
-export const listPermissionGroups: (
-  input: ListPermissionGroupsRequest,
-) => Effect.Effect<
+export const listPermissionGroups: API.OperationMethod<
+  ListPermissionGroupsRequest,
   ListPermissionGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -176,9 +174,8 @@ export const GetResourceGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetResourceGroupResponse>;
 
-export const getResourceGroup: (
-  input: GetResourceGroupRequest,
-) => Effect.Effect<
+export const getResourceGroup: API.OperationMethod<
+  GetResourceGroupRequest,
   GetResourceGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -235,9 +232,8 @@ export const ListResourceGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListResourceGroupsResponse>;
 
-export const listResourceGroups: (
-  input: ListResourceGroupsRequest,
-) => Effect.Effect<
+export const listResourceGroups: API.OperationMethod<
+  ListResourceGroupsRequest,
   ListResourceGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -306,9 +302,8 @@ export const CreateResourceGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateResourceGroupResponse>;
 
-export const createResourceGroup: (
-  input: CreateResourceGroupRequest,
-) => Effect.Effect<
+export const createResourceGroup: API.OperationMethod<
+  CreateResourceGroupRequest,
   CreateResourceGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -381,9 +376,8 @@ export const UpdateResourceGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateResourceGroupResponse>;
 
-export const updateResourceGroup: (
-  input: UpdateResourceGroupRequest,
-) => Effect.Effect<
+export const updateResourceGroup: API.OperationMethod<
+  UpdateResourceGroupRequest,
   UpdateResourceGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -418,9 +412,8 @@ export const DeleteResourceGroupResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteResourceGroupResponse>;
 
-export const deleteResourceGroup: (
-  input: DeleteResourceGroupRequest,
-) => Effect.Effect<
+export const deleteResourceGroup: API.OperationMethod<
+  DeleteResourceGroupRequest,
   DeleteResourceGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -484,16 +477,18 @@ export const GetSsoResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     emailDomain: "email_domain",
+    enabled: "enabled",
     updatedOn: "updated_on",
     useFedrampLanguage: "use_fedramp_language",
+    verification: "verification",
   }),
 ) as unknown as Schema.Schema<GetSsoResponse>;
 
-export const getSso: (
-  input: GetSsoRequest,
-) => Effect.Effect<
+export const getSso: API.OperationMethod<
+  GetSsoRequest,
   GetSsoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -545,17 +540,19 @@ export const ListSsosResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
       emailDomain: "email_domain",
+      enabled: "enabled",
       updatedOn: "updated_on",
       useFedrampLanguage: "use_fedramp_language",
+      verification: "verification",
     }),
   ),
 ) as unknown as Schema.Schema<ListSsosResponse>;
 
-export const listSsos: (
-  input: ListSsosRequest,
-) => Effect.Effect<
+export const listSsos: API.OperationMethod<
+  ListSsosRequest,
   ListSsosResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -624,16 +621,18 @@ export const CreateSsoResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     emailDomain: "email_domain",
+    enabled: "enabled",
     updatedOn: "updated_on",
     useFedrampLanguage: "use_fedramp_language",
+    verification: "verification",
   }),
 ) as unknown as Schema.Schema<CreateSsoResponse>;
 
-export const createSso: (
-  input: CreateSsoRequest,
-) => Effect.Effect<
+export const createSso: API.OperationMethod<
+  CreateSsoRequest,
   CreateSsoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -659,7 +658,10 @@ export const PatchSsoRequest = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   useFedrampLanguage: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ useFedrampLanguage: "use_fedramp_language" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    useFedrampLanguage: "use_fedramp_language",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/sso_connectors/{ssoConnectorId}",
@@ -700,16 +702,18 @@ export const PatchSsoResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
     emailDomain: "email_domain",
+    enabled: "enabled",
     updatedOn: "updated_on",
     useFedrampLanguage: "use_fedramp_language",
+    verification: "verification",
   }),
 ) as unknown as Schema.Schema<PatchSsoResponse>;
 
-export const patchSso: (
-  input: PatchSsoRequest,
-) => Effect.Effect<
+export const patchSso: API.OperationMethod<
+  PatchSsoRequest,
   PatchSsoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -744,9 +748,8 @@ export const DeleteSsoResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteSsoResponse>;
 
-export const deleteSso: (
-  input: DeleteSsoRequest,
-) => Effect.Effect<
+export const deleteSso: API.OperationMethod<
+  DeleteSsoRequest,
   DeleteSsoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -820,6 +823,8 @@ export const GetUserGroupResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          access: "access",
           permissionGroups: "permission_groups",
           resourceGroups: "resource_groups",
         }),
@@ -827,12 +832,17 @@ export const GetUserGroupResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    name: "name",
+    policies: "policies",
+  }),
 ) as unknown as Schema.Schema<GetUserGroupResponse>;
 
-export const getUserGroup: (
-  input: GetUserGroupRequest,
-) => Effect.Effect<
+export const getUserGroup: API.OperationMethod<
+  GetUserGroupRequest,
   GetUserGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -905,6 +915,8 @@ export const ListUserGroupsResponse = Schema.Array(
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            access: "access",
             permissionGroups: "permission_groups",
             resourceGroups: "resource_groups",
           }),
@@ -912,13 +924,18 @@ export const ListUserGroupsResponse = Schema.Array(
       ),
     ),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      name: "name",
+      policies: "policies",
+    }),
   ),
 ) as unknown as Schema.Schema<ListUserGroupsResponse>;
 
-export const listUserGroups: (
-  input: ListUserGroupsRequest,
-) => Effect.Effect<
+export const listUserGroups: API.OperationMethod<
+  ListUserGroupsRequest,
   ListUserGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -959,6 +976,7 @@ export const CreateUserGroupRequest = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        access: "access",
         permissionGroups: "permission_groups",
         resourceGroups: "resource_groups",
       }),
@@ -1012,6 +1030,8 @@ export const CreateUserGroupResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          access: "access",
           permissionGroups: "permission_groups",
           resourceGroups: "resource_groups",
         }),
@@ -1019,12 +1039,17 @@ export const CreateUserGroupResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    name: "name",
+    policies: "policies",
+  }),
 ) as unknown as Schema.Schema<CreateUserGroupResponse>;
 
-export const createUserGroup: (
-  input: CreateUserGroupRequest,
-) => Effect.Effect<
+export const createUserGroup: API.OperationMethod<
+  CreateUserGroupRequest,
   CreateUserGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1070,6 +1095,8 @@ export const UpdateUserGroupRequest = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          access: "access",
           permissionGroups: "permission_groups",
           resourceGroups: "resource_groups",
         }),
@@ -1127,6 +1154,8 @@ export const UpdateUserGroupResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          access: "access",
           permissionGroups: "permission_groups",
           resourceGroups: "resource_groups",
         }),
@@ -1134,12 +1163,17 @@ export const UpdateUserGroupResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    name: "name",
+    policies: "policies",
+  }),
 ) as unknown as Schema.Schema<UpdateUserGroupResponse>;
 
-export const updateUserGroup: (
-  input: UpdateUserGroupRequest,
-) => Effect.Effect<
+export const updateUserGroup: API.OperationMethod<
+  UpdateUserGroupRequest,
   UpdateUserGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1174,9 +1208,8 @@ export const DeleteUserGroupResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteUserGroupResponse>;
 
-export const deleteUserGroup: (
-  input: DeleteUserGroupRequest,
-) => Effect.Effect<
+export const deleteUserGroup: API.OperationMethod<
+  DeleteUserGroupRequest,
   DeleteUserGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1220,9 +1253,8 @@ export const ListUserGroupMembersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListUserGroupMembersResponse>;
 
-export const listUserGroupMembers: (
-  input: ListUserGroupMembersRequest,
-) => Effect.Effect<
+export const listUserGroupMembers: API.OperationMethod<
+  ListUserGroupMembersRequest,
   ListUserGroupMembersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1270,9 +1302,8 @@ export const CreateUserGroupMemberResponse = Schema.Struct({
   status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
 
-export const createUserGroupMember: (
-  input: CreateUserGroupMemberRequest,
-) => Effect.Effect<
+export const createUserGroupMember: API.OperationMethod<
+  CreateUserGroupMemberRequest,
   CreateUserGroupMemberResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1319,9 +1350,8 @@ export const UpdateUserGroupMemberResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<UpdateUserGroupMemberResponse>;
 
-export const updateUserGroupMember: (
-  input: UpdateUserGroupMemberRequest,
-) => Effect.Effect<
+export const updateUserGroupMember: API.OperationMethod<
+  UpdateUserGroupMemberRequest,
   UpdateUserGroupMemberResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1364,9 +1394,8 @@ export const DeleteUserGroupMemberResponse = Schema.Struct({
   status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
 
-export const deleteUserGroupMember: (
-  input: DeleteUserGroupMemberRequest,
-) => Effect.Effect<
+export const deleteUserGroupMember: API.OperationMethod<
+  DeleteUserGroupMemberRequest,
   DeleteUserGroupMemberResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1424,7 +1453,14 @@ export const BeginVerificationSsoResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -1436,14 +1472,20 @@ export const BeginVerificationSsoResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<BeginVerificationSsoResponse>;
 
-export const beginVerificationSso: (
-  input: BeginVerificationSsoRequest,
-) => Effect.Effect<
+export const beginVerificationSso: API.OperationMethod<
+  BeginVerificationSsoRequest,
   BeginVerificationSsoResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

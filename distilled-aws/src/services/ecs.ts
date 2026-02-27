@@ -6082,9 +6082,8 @@ export class BlockedException extends S.TaggedErrorClass<BlockedException>()(
 /**
  * Disables an account setting for a specified user, role, or the root user for an account.
  */
-export const deleteAccountSetting: (
-  input: DeleteAccountSettingRequest,
-) => effect.Effect<
+export const deleteAccountSetting: API.OperationMethod<
+  DeleteAccountSettingRequest,
   DeleteAccountSettingResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6102,9 +6101,8 @@ export const deleteAccountSetting: (
  *
  * You must deregister a task definition revision before you delete it. For more information, see DeleteTaskDefinitions.
  */
-export const deregisterTaskDefinition: (
-  input: DeregisterTaskDefinitionRequest,
-) => effect.Effect<
+export const deregisterTaskDefinition: API.OperationMethod<
+  DeregisterTaskDefinitionRequest,
   DeregisterTaskDefinitionResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6118,9 +6116,8 @@ export const deregisterTaskDefinition: (
  *
  * You can only describe `INACTIVE` task definitions while an active task or service references them.
  */
-export const describeTaskDefinition: (
-  input: DescribeTaskDefinitionRequest,
-) => effect.Effect<
+export const describeTaskDefinition: API.OperationMethod<
+  DescribeTaskDefinitionRequest,
   DescribeTaskDefinitionResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6134,9 +6131,8 @@ export const describeTaskDefinition: (
  *
  * Returns an endpoint for the Amazon ECS agent to poll for updates.
  */
-export const discoverPollEndpoint: (
-  input: DiscoverPollEndpointRequest,
-) => effect.Effect<
+export const discoverPollEndpoint: API.OperationMethod<
+  DiscoverPollEndpointRequest,
   DiscoverPollEndpointResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6148,17 +6144,12 @@ export const discoverPollEndpoint: (
 /**
  * Lists the account settings for a specified principal.
  */
-export const listAccountSettings: {
-  (
-    input: ListAccountSettingsRequest,
-  ): effect.Effect<
-    ListAccountSettingsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountSettings: API.OperationMethod<
+  ListAccountSettingsRequest,
+  ListAccountSettingsResponse,
+  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountSettingsRequest,
   ) => stream.Stream<
@@ -6193,18 +6184,16 @@ export const listAccountSettings: {
 /**
  * This operation lists all of the services that are associated with a Cloud Map namespace. This list might include services in different clusters. In contrast, `ListServices` can only list services in one cluster at a time. If you need to filter the list of services in a single cluster by various parameters, use `ListServices`. For more information, see Service Connect in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const listServicesByNamespace: {
-  (
-    input: ListServicesByNamespaceRequest,
-  ): effect.Effect<
-    ListServicesByNamespaceResponse,
-    | ClientException
-    | InvalidParameterException
-    | NamespaceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServicesByNamespace: API.OperationMethod<
+  ListServicesByNamespaceRequest,
+  ListServicesByNamespaceResponse,
+  | ClientException
+  | InvalidParameterException
+  | NamespaceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesByNamespaceRequest,
   ) => stream.Stream<
@@ -6246,9 +6235,8 @@ export const listServicesByNamespace: {
 /**
  * List the tags for an Amazon ECS resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6271,17 +6259,12 @@ export const listTagsForResource: (
  *
  * You can filter out task definition families that don't contain any `ACTIVE` task definition revisions by setting the `status` parameter to `ACTIVE`. You can also filter the results with the `familyPrefix` parameter.
  */
-export const listTaskDefinitionFamilies: {
-  (
-    input: ListTaskDefinitionFamiliesRequest,
-  ): effect.Effect<
-    ListTaskDefinitionFamiliesResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTaskDefinitionFamilies: API.OperationMethod<
+  ListTaskDefinitionFamiliesRequest,
+  ListTaskDefinitionFamiliesResponse,
+  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTaskDefinitionFamiliesRequest,
   ) => stream.Stream<
@@ -6318,9 +6301,8 @@ export const listTaskDefinitionFamilies: {
  *
  * If you change the root user account setting, the default settings are reset for users and roles that do not have specified individual account settings. For more information, see Account Settings in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const putAccountSetting: (
-  input: PutAccountSettingRequest,
-) => effect.Effect<
+export const putAccountSetting: API.OperationMethod<
+  PutAccountSettingRequest,
   PutAccountSettingResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6332,9 +6314,8 @@ export const putAccountSetting: (
 /**
  * Modifies an account setting for all users on an account for whom no individual account setting has been specified. Account settings are set on a per-Region basis.
  */
-export const putAccountSettingDefault: (
-  input: PutAccountSettingDefaultRequest,
-) => effect.Effect<
+export const putAccountSettingDefault: API.OperationMethod<
+  PutAccountSettingDefaultRequest,
   PutAccountSettingDefaultResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6346,9 +6327,8 @@ export const putAccountSettingDefault: (
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6371,9 +6351,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6396,9 +6375,8 @@ export const untagResource: (
 /**
  * Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined `FARGATE` and `FARGATE_SPOT` capacity providers.
  */
-export const createCapacityProvider: (
-  input: CreateCapacityProviderRequest,
-) => effect.Effect<
+export const createCapacityProvider: API.OperationMethod<
+  CreateCapacityProviderRequest,
   CreateCapacityProviderResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6427,9 +6405,8 @@ export const createCapacityProvider: (
  *
  * These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not existing ones.
  */
-export const updateCapacityProvider: (
-  input: UpdateCapacityProviderRequest,
-) => effect.Effect<
+export const updateCapacityProvider: API.OperationMethod<
+  UpdateCapacityProviderRequest,
   UpdateCapacityProviderResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6456,9 +6433,8 @@ export const updateCapacityProvider: (
  *
  * Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The UpdateService API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the `forceNewDeployment` option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
  */
-export const deleteCapacityProvider: (
-  input: DeleteCapacityProviderRequest,
-) => effect.Effect<
+export const deleteCapacityProvider: API.OperationMethod<
+  DeleteCapacityProviderRequest,
   DeleteCapacityProviderResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6481,9 +6457,8 @@ export const deleteCapacityProvider: (
 /**
  * Describes one or more of your capacity providers.
  */
-export const describeCapacityProviders: (
-  input: DescribeCapacityProvidersRequest,
-) => effect.Effect<
+export const describeCapacityProviders: API.OperationMethod<
+  DescribeCapacityProvidersRequest,
   DescribeCapacityProvidersResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6506,9 +6481,8 @@ export const describeCapacityProviders: (
 /**
  * Updates the cluster.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6533,9 +6507,8 @@ export const updateCluster: (
  *
  * You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | ClientException
   | ClusterContainsCapacityProviderException
@@ -6572,9 +6545,8 @@ export const deleteCluster: (
  *
  * Amazon ECS Managed Instances doesn't support this, because when you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
  */
-export const putClusterCapacityProviders: (
-  input: PutClusterCapacityProvidersRequest,
-) => effect.Effect<
+export const putClusterCapacityProviders: API.OperationMethod<
+  PutClusterCapacityProvidersRequest,
   PutClusterCapacityProvidersResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6599,9 +6571,8 @@ export const putClusterCapacityProviders: (
 /**
  * Modifies the settings to use for a cluster.
  */
-export const updateClusterSettings: (
-  input: UpdateClusterSettingsRequest,
-) => effect.Effect<
+export const updateClusterSettings: API.OperationMethod<
+  UpdateClusterSettingsRequest,
   UpdateClusterSettingsResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6624,9 +6595,8 @@ export const updateClusterSettings: (
  *
  * When you call the CreateCluster API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see Using service-linked roles for Amazon ECS in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | ClientException
   | InvalidParameterException
@@ -6653,9 +6623,8 @@ export const createCluster: (
  *
  * If you terminate a running container instance, Amazon ECS automatically deregisters the instance from your cluster (stopped container instances or instances with disconnected agents aren't automatically deregistered when terminated).
  */
-export const deregisterContainerInstance: (
-  input: DeregisterContainerInstanceRequest,
-) => effect.Effect<
+export const deregisterContainerInstance: API.OperationMethod<
+  DeregisterContainerInstanceRequest,
   DeregisterContainerInstanceResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6678,9 +6647,8 @@ export const deregisterContainerInstance: (
  *
  * For CLI examples, see describe-clusters.rst on GitHub.
  */
-export const describeClusters: (
-  input: DescribeClustersRequest,
-) => effect.Effect<
+export const describeClusters: API.OperationMethod<
+  DescribeClustersRequest,
   DescribeClustersResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6696,9 +6664,8 @@ export const describeClusters: (
  *
  * For information about required permissions and considerations, see Using Amazon ECS Exec for debugging in the *Amazon ECS Developer Guide*.
  */
-export const executeCommand: (
-  input: ExecuteCommandRequest,
-) => effect.Effect<
+export const executeCommand: API.OperationMethod<
+  ExecuteCommandRequest,
   ExecuteCommandResponse,
   | AccessDeniedException
   | ClientException
@@ -6723,14 +6690,12 @@ export const executeCommand: (
 /**
  * Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, `ListAttributes` returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value. You can do this, for example, to see which container instances in a cluster are running a Linux AMI (`ecs.os-type=linux`).
  */
-export const listAttributes: {
-  (
-    input: ListAttributesRequest,
-  ): effect.Effect<
-    ListAttributesResponse,
-    ClusterNotFoundException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttributes: API.OperationMethod<
+  ListAttributesRequest,
+  ListAttributesResponse,
+  ClusterNotFoundException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttributesRequest,
   ) => stream.Stream<
@@ -6759,17 +6724,12 @@ export const listAttributes: {
 /**
  * Returns a list of existing clusters.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -6804,18 +6764,16 @@ export const listClusters: {
 /**
  * Returns a list of container instances in a specified cluster. You can filter the results of a `ListContainerInstances` operation with cluster query language statements inside the `filter` parameter. For more information, see Cluster Query Language in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const listContainerInstances: {
-  (
-    input: ListContainerInstancesRequest,
-  ): effect.Effect<
-    ListContainerInstancesResponse,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContainerInstances: API.OperationMethod<
+  ListContainerInstancesRequest,
+  ListContainerInstancesResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContainerInstancesRequest,
   ) => stream.Stream<
@@ -6859,9 +6817,8 @@ export const listContainerInstances: {
  *
  * Sent to acknowledge that an attachment changed states.
  */
-export const submitAttachmentStateChanges: (
-  input: SubmitAttachmentStateChangesRequest,
-) => effect.Effect<
+export const submitAttachmentStateChanges: API.OperationMethod<
+  SubmitAttachmentStateChangesRequest,
   SubmitAttachmentStateChangesResponse,
   | AccessDeniedException
   | ClientException
@@ -6884,9 +6841,8 @@ export const submitAttachmentStateChanges: (
  *
  * Sent to acknowledge that a container changed states.
  */
-export const submitContainerStateChange: (
-  input: SubmitContainerStateChangeRequest,
-) => effect.Effect<
+export const submitContainerStateChange: API.OperationMethod<
+  SubmitContainerStateChangeRequest,
   SubmitContainerStateChangeResponse,
   AccessDeniedException | ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6900,9 +6856,8 @@ export const submitContainerStateChange: (
  *
  * Sent to acknowledge that a task changed states.
  */
-export const submitTaskStateChange: (
-  input: SubmitTaskStateChangeRequest,
-) => effect.Effect<
+export const submitTaskStateChange: API.OperationMethod<
+  SubmitTaskStateChangeRequest,
   SubmitTaskStateChangeResponse,
   | AccessDeniedException
   | ClientException
@@ -6923,9 +6878,8 @@ export const submitTaskStateChange: (
 /**
  * Deletes one or more custom attributes from an Amazon ECS resource.
  */
-export const deleteAttributes: (
-  input: DeleteAttributesRequest,
-) => effect.Effect<
+export const deleteAttributes: API.OperationMethod<
+  DeleteAttributesRequest,
   DeleteAttributesResponse,
   | ClusterNotFoundException
   | InvalidParameterException
@@ -6944,9 +6898,8 @@ export const deleteAttributes: (
 /**
  * Describes one or more container instances. Returns metadata about each container instance requested.
  */
-export const describeContainerInstances: (
-  input: DescribeContainerInstancesRequest,
-) => effect.Effect<
+export const describeContainerInstances: API.OperationMethod<
+  DescribeContainerInstancesRequest,
   DescribeContainerInstancesResponse,
   | ClientException
   | ClusterNotFoundException
@@ -6969,19 +6922,17 @@ export const describeContainerInstances: (
  *
  * Recently stopped tasks might appear in the returned results.
  */
-export const listTasks: {
-  (
-    input: ListTasksRequest,
-  ): effect.Effect<
-    ListTasksResponse,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | ServiceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTasks: API.OperationMethod<
+  ListTasksRequest,
+  ListTasksResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | ServiceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTasksRequest,
   ) => stream.Stream<
@@ -7026,9 +6977,8 @@ export const listTasks: {
 /**
  * Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const putAttributes: (
-  input: PutAttributesRequest,
-) => effect.Effect<
+export const putAttributes: API.OperationMethod<
+  PutAttributesRequest,
   PutAttributesResponse,
   | AttributeLimitExceededException
   | ClusterNotFoundException
@@ -7051,9 +7001,8 @@ export const putAttributes: (
  *
  * Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
  */
-export const registerContainerInstance: (
-  input: RegisterContainerInstanceRequest,
-) => effect.Effect<
+export const registerContainerInstance: API.OperationMethod<
+  RegisterContainerInstanceRequest,
   RegisterContainerInstanceResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7071,9 +7020,8 @@ export const registerContainerInstance: (
  *
  * The `UpdateContainerAgent` API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the `ecs-init` service installed and running. For help updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const updateContainerAgent: (
-  input: UpdateContainerAgentRequest,
-) => effect.Effect<
+export const updateContainerAgent: API.OperationMethod<
+  UpdateContainerAgentRequest,
   UpdateContainerAgentResponse,
   | ClientException
   | ClusterNotFoundException
@@ -7118,9 +7066,8 @@ export const updateContainerAgent: (
  *
  * When a container instance has been drained, you can set a container instance to `ACTIVE` status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
  */
-export const updateContainerInstancesState: (
-  input: UpdateContainerInstancesStateRequest,
-) => effect.Effect<
+export const updateContainerInstancesState: API.OperationMethod<
+  UpdateContainerInstancesStateRequest,
   UpdateContainerInstancesStateResponse,
   | ClientException
   | ClusterNotFoundException
@@ -7143,9 +7090,8 @@ export const updateContainerInstancesState: (
  *
  * A service deployment happens when you release a software update for the service. For more information, see View service history using Amazon ECS service deployments.
  */
-export const describeServiceDeployments: (
-  input: DescribeServiceDeploymentsRequest,
-) => effect.Effect<
+export const describeServiceDeployments: API.OperationMethod<
+  DescribeServiceDeploymentsRequest,
   DescribeServiceDeploymentsResponse,
   | AccessDeniedException
   | ClientException
@@ -7172,9 +7118,8 @@ export const describeServiceDeployments: (
 /**
  * Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const updateServicePrimaryTaskSet: (
-  input: UpdateServicePrimaryTaskSetRequest,
-) => effect.Effect<
+export const updateServicePrimaryTaskSet: API.OperationMethod<
+  UpdateServicePrimaryTaskSetRequest,
   UpdateServicePrimaryTaskSetResponse,
   | AccessDeniedException
   | ClientException
@@ -7209,9 +7154,8 @@ export const updateServicePrimaryTaskSet: (
  *
  * Provide an execution role for task operations and an infrastructure role for managing Amazon Web Services resources on your behalf.
  */
-export const createExpressGatewayService: (
-  input: CreateExpressGatewayServiceRequest,
-) => effect.Effect<
+export const createExpressGatewayService: API.OperationMethod<
+  CreateExpressGatewayServiceRequest,
   CreateExpressGatewayServiceResponse,
   | AccessDeniedException
   | ClientException
@@ -7332,9 +7276,8 @@ export const createExpressGatewayService: (
  *
  * When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see Amazon ECS task placement in the *Amazon Elastic Container Service Developer Guide*
  */
-export const createService: (
-  input: CreateServiceRequest,
-) => effect.Effect<
+export const createService: API.OperationMethod<
+  CreateServiceRequest,
   CreateServiceResponse,
   | AccessDeniedException
   | ClientException
@@ -7369,9 +7312,8 @@ export const createService: (
  *
  * This operation cannot be reversed. Back up important data and verify the service is no longer needed before deletion.
  */
-export const deleteExpressGatewayService: (
-  input: DeleteExpressGatewayServiceRequest,
-) => effect.Effect<
+export const deleteExpressGatewayService: API.OperationMethod<
+  DeleteExpressGatewayServiceRequest,
   DeleteExpressGatewayServiceResponse,
   | AccessDeniedException
   | ClientException
@@ -7404,9 +7346,8 @@ export const deleteExpressGatewayService: (
  *
  * If you attempt to create a new service with the same name as an existing service in either `ACTIVE` or `DRAINING` status, you receive an error.
  */
-export const deleteService: (
-  input: DeleteServiceRequest,
-) => effect.Effect<
+export const deleteService: API.OperationMethod<
+  DeleteServiceRequest,
   DeleteServiceResponse,
   | ClientException
   | ClusterNotFoundException
@@ -7433,9 +7374,8 @@ export const deleteService: (
  *
  * Use the `include` parameter to retrieve additional information such as resource tags.
  */
-export const describeExpressGatewayService: (
-  input: DescribeExpressGatewayServiceRequest,
-) => effect.Effect<
+export const describeExpressGatewayService: API.OperationMethod<
+  DescribeExpressGatewayServiceRequest,
   DescribeExpressGatewayServiceResponse,
   | AccessDeniedException
   | ClientException
@@ -7462,9 +7402,8 @@ export const describeExpressGatewayService: (
 /**
  * Describes the specified services running in your cluster.
  */
-export const describeServices: (
-  input: DescribeServicesRequest,
-) => effect.Effect<
+export const describeServices: API.OperationMethod<
+  DescribeServicesRequest,
   DescribeServicesResponse,
   | ClientException
   | ClusterNotFoundException
@@ -7489,9 +7428,8 @@ export const describeServices: (
  *
  * This API returns the values that you use for the request parameters in DescribeServiceRevisions.
  */
-export const listServiceDeployments: (
-  input: ListServiceDeploymentsRequest,
-) => effect.Effect<
+export const listServiceDeployments: API.OperationMethod<
+  ListServiceDeploymentsRequest,
   ListServiceDeploymentsResponse,
   | AccessDeniedException
   | ClientException
@@ -7516,18 +7454,16 @@ export const listServiceDeployments: (
 /**
  * Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
  */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    | ClientException
-    | ClusterNotFoundException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  | ClientException
+  | ClusterNotFoundException
+  | InvalidParameterException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
@@ -7577,9 +7513,8 @@ export const listServices: {
  *
  * For more information, see Stopping Amazon ECS service deployments in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const stopServiceDeployment: (
-  input: StopServiceDeploymentRequest,
-) => effect.Effect<
+export const stopServiceDeployment: API.OperationMethod<
+  StopServiceDeploymentRequest,
   StopServiceDeploymentResponse,
   | AccessDeniedException
   | ClientException
@@ -7610,9 +7545,8 @@ export const stopServiceDeployment: (
  *
  * Some parameters like the infrastructure role cannot be modified after service creation and require creating a new service.
  */
-export const updateExpressGatewayService: (
-  input: UpdateExpressGatewayServiceRequest,
-) => effect.Effect<
+export const updateExpressGatewayService: API.OperationMethod<
+  UpdateExpressGatewayServiceRequest,
   UpdateExpressGatewayServiceResponse,
   | AccessDeniedException
   | ClientException
@@ -7683,9 +7617,8 @@ export const updateExpressGatewayService: (
  *
  * - Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
  */
-export const updateService: (
-  input: UpdateServiceRequest,
-) => effect.Effect<
+export const updateService: API.OperationMethod<
+  UpdateServiceRequest,
   UpdateServiceResponse,
   | AccessDeniedException
   | ClientException
@@ -7724,9 +7657,8 @@ export const updateService: (
  *
  * You can't describe a service revision that was created before October 25, 2024.
  */
-export const describeServiceRevisions: (
-  input: DescribeServiceRevisionsRequest,
-) => effect.Effect<
+export const describeServiceRevisions: API.OperationMethod<
+  DescribeServiceRevisionsRequest,
   DescribeServiceRevisionsResponse,
   | AccessDeniedException
   | ClientException
@@ -7763,9 +7695,8 @@ export const describeServiceRevisions: (
  *
  * When you delete all `INACTIVE` task definition revisions, the task definition name is not displayed in the console and not returned in the API. If a task definition revisions are in the `DELETE_IN_PROGRESS` state, the task definition name is displayed in the console and returned in the API. The task definition name is retained by Amazon ECS and the revision is incremented the next time you create a task definition with that name.
  */
-export const deleteTaskDefinitions: (
-  input: DeleteTaskDefinitionsRequest,
-) => effect.Effect<
+export const deleteTaskDefinitions: API.OperationMethod<
+  DeleteTaskDefinitionsRequest,
   DeleteTaskDefinitionsResponse,
   | AccessDeniedException
   | ClientException
@@ -7786,17 +7717,12 @@ export const deleteTaskDefinitions: (
 /**
  * Returns a list of task definitions that are registered to your account. You can filter the results by family name with the `familyPrefix` parameter or by status with the `status` parameter.
  */
-export const listTaskDefinitions: {
-  (
-    input: ListTaskDefinitionsRequest,
-  ): effect.Effect<
-    ListTaskDefinitionsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTaskDefinitions: API.OperationMethod<
+  ListTaskDefinitionsRequest,
+  ListTaskDefinitionsResponse,
+  ClientException | InvalidParameterException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTaskDefinitionsRequest,
   ) => stream.Stream<
@@ -7835,9 +7761,8 @@ export const listTaskDefinitions: {
  *
  * You can specify a Docker networking mode for the containers in your task definition with the `networkMode` parameter. If you specify the `awsvpc` network mode, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration when you create a service or run a task with the task definition. For more information, see Task Networking in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const registerTaskDefinition: (
-  input: RegisterTaskDefinitionRequest,
-) => effect.Effect<
+export const registerTaskDefinition: API.OperationMethod<
+  RegisterTaskDefinitionRequest,
   RegisterTaskDefinitionResponse,
   ClientException | InvalidParameterException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7853,9 +7778,8 @@ export const registerTaskDefinition: (
  *
  * If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response.
  */
-export const describeTasks: (
-  input: DescribeTasksRequest,
-) => effect.Effect<
+export const describeTasks: API.OperationMethod<
+  DescribeTasksRequest,
   DescribeTasksResponse,
   | ClientException
   | ClusterNotFoundException
@@ -7876,9 +7800,8 @@ export const describeTasks: (
 /**
  * Retrieves the protection status of tasks in an Amazon ECS service.
  */
-export const getTaskProtection: (
-  input: GetTaskProtectionRequest,
-) => effect.Effect<
+export const getTaskProtection: API.OperationMethod<
+  GetTaskProtectionRequest,
   GetTaskProtectionResponse,
   | AccessDeniedException
   | ClientException
@@ -7933,9 +7856,8 @@ export const getTaskProtection: (
  *
  * If you get a `ClientException`error, the `RunTask` could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the `PROVISIONING` per cluster has been reached. For information about the service quotas, see Amazon ECS service quotas.
  */
-export const runTask: (
-  input: RunTaskRequest,
-) => effect.Effect<
+export const runTask: API.OperationMethod<
+  RunTaskRequest,
   RunTaskResponse,
   | AccessDeniedException
   | BlockedException
@@ -7976,9 +7898,8 @@ export const runTask: (
  *
  * You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more information, see Amazon EBS volumes in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const startTask: (
-  input: StartTaskRequest,
-) => effect.Effect<
+export const startTask: API.OperationMethod<
+  StartTaskRequest,
   StartTaskResponse,
   | ClientException
   | ClusterNotFoundException
@@ -8007,9 +7928,8 @@ export const startTask: (
  *
  * The default 30-second timeout can be configured on the Amazon ECS container agent with the `ECS_CONTAINER_STOP_TIMEOUT` variable. For more information, see Amazon ECS Container Agent Configuration in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const stopTask: (
-  input: StopTaskRequest,
-) => effect.Effect<
+export const stopTask: API.OperationMethod<
+  StopTaskRequest,
   StopTaskResponse,
   | ClientException
   | ClusterNotFoundException
@@ -8040,9 +7960,8 @@ export const stopTask: (
  *
  * If you prefer to set task protection from within the container, we recommend using the Task scale-in protection endpoint.
  */
-export const updateTaskProtection: (
-  input: UpdateTaskProtectionRequest,
-) => effect.Effect<
+export const updateTaskProtection: API.OperationMethod<
+  UpdateTaskProtectionRequest,
   UpdateTaskProtectionResponse,
   | AccessDeniedException
   | ClientException
@@ -8069,9 +7988,8 @@ export const updateTaskProtection: (
 /**
  * Modifies a task set. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const updateTaskSet: (
-  input: UpdateTaskSetRequest,
-) => effect.Effect<
+export const updateTaskSet: API.OperationMethod<
+  UpdateTaskSetRequest,
   UpdateTaskSetResponse,
   | AccessDeniedException
   | ClientException
@@ -8102,9 +8020,8 @@ export const updateTaskSet: (
 /**
  * Deletes a specified task set within a service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS deployment types in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const deleteTaskSet: (
-  input: DeleteTaskSetRequest,
-) => effect.Effect<
+export const deleteTaskSet: API.OperationMethod<
+  DeleteTaskSetRequest,
   DeleteTaskSetResponse,
   | AccessDeniedException
   | ClientException
@@ -8139,9 +8056,8 @@ export const deleteTaskSet: (
  *
  * For information about the maximum number of task sets and other quotas, see Amazon ECS service quotas in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const createTaskSet: (
-  input: CreateTaskSetRequest,
-) => effect.Effect<
+export const createTaskSet: API.OperationMethod<
+  CreateTaskSetRequest,
   CreateTaskSetResponse,
   | AccessDeniedException
   | ClientException
@@ -8176,9 +8092,8 @@ export const createTaskSet: (
 /**
  * Describes the task sets in the specified cluster and service. This is used when a service uses the `EXTERNAL` deployment controller type. For more information, see Amazon ECS Deployment Types in the *Amazon Elastic Container Service Developer Guide*.
  */
-export const describeTaskSets: (
-  input: DescribeTaskSetsRequest,
-) => effect.Effect<
+export const describeTaskSets: API.OperationMethod<
+  DescribeTaskSetsRequest,
   DescribeTaskSetsResponse,
   | AccessDeniedException
   | ClientException

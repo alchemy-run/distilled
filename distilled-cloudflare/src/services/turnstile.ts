@@ -91,14 +91,20 @@ export const RotateSecretWidgetResponse = Schema.Struct({
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     createdOn: "created_on",
+    domains: "domains",
     ephemeralId: "ephemeral_id",
+    mode: "mode",
     modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
   }),
 ) as unknown as Schema.Schema<RotateSecretWidgetResponse>;
 
-export const rotateSecretWidget: (
-  input: RotateSecretWidgetRequest,
-) => Effect.Effect<
+export const rotateSecretWidget: API.OperationMethod<
+  RotateSecretWidgetRequest,
   RotateSecretWidgetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -177,14 +183,20 @@ export const GetWidgetResponse = Schema.Struct({
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     createdOn: "created_on",
+    domains: "domains",
     ephemeralId: "ephemeral_id",
+    mode: "mode",
     modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
   }),
 ) as unknown as Schema.Schema<GetWidgetResponse>;
 
-export const getWidget: (
-  input: GetWidgetRequest,
-) => Effect.Effect<
+export const getWidget: API.OperationMethod<
+  GetWidgetRequest,
   GetWidgetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -252,15 +264,20 @@ export const ListWidgetsResponse = Schema.Array(
       botFightMode: "bot_fight_mode",
       clearanceLevel: "clearance_level",
       createdOn: "created_on",
+      domains: "domains",
       ephemeralId: "ephemeral_id",
+      mode: "mode",
       modifiedOn: "modified_on",
+      name: "name",
+      offlabel: "offlabel",
+      region: "region",
+      sitekey: "sitekey",
     }),
   ),
 ) as unknown as Schema.Schema<ListWidgetsResponse>;
 
-export const listWidgets: (
-  input: ListWidgetsRequest,
-) => Effect.Effect<
+export const listWidgets: API.OperationMethod<
+  ListWidgetsRequest,
   ListWidgetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -321,9 +338,14 @@ export const CreateWidgetRequest = Schema.Struct({
   region: Schema.optional(Schema.Literals(["world", "china"])),
 }).pipe(
   Schema.encodeKeys({
+    domains: "domains",
+    mode: "mode",
+    name: "name",
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     ephemeralId: "ephemeral_id",
+    offlabel: "offlabel",
+    region: "region",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/challenges/widgets" }),
 ) as unknown as Schema.Schema<CreateWidgetRequest>;
@@ -377,14 +399,20 @@ export const CreateWidgetResponse = Schema.Struct({
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     createdOn: "created_on",
+    domains: "domains",
     ephemeralId: "ephemeral_id",
+    mode: "mode",
     modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
   }),
 ) as unknown as Schema.Schema<CreateWidgetResponse>;
 
-export const createWidget: (
-  input: CreateWidgetRequest,
-) => Effect.Effect<
+export const createWidget: API.OperationMethod<
+  CreateWidgetRequest,
   CreateWidgetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -431,9 +459,14 @@ export const UpdateWidgetRequest = Schema.Struct({
   region: Schema.optional(Schema.Literals(["world", "china"])),
 }).pipe(
   Schema.encodeKeys({
+    domains: "domains",
+    mode: "mode",
+    name: "name",
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     ephemeralId: "ephemeral_id",
+    offlabel: "offlabel",
+    region: "region",
   }),
   T.Http({
     method: "PUT",
@@ -490,14 +523,20 @@ export const UpdateWidgetResponse = Schema.Struct({
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     createdOn: "created_on",
+    domains: "domains",
     ephemeralId: "ephemeral_id",
+    mode: "mode",
     modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
   }),
 ) as unknown as Schema.Schema<UpdateWidgetResponse>;
 
-export const updateWidget: (
-  input: UpdateWidgetRequest,
-) => Effect.Effect<
+export const updateWidget: API.OperationMethod<
+  UpdateWidgetRequest,
   UpdateWidgetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -572,14 +611,20 @@ export const DeleteWidgetResponse = Schema.Struct({
     botFightMode: "bot_fight_mode",
     clearanceLevel: "clearance_level",
     createdOn: "created_on",
+    domains: "domains",
     ephemeralId: "ephemeral_id",
+    mode: "mode",
     modifiedOn: "modified_on",
+    name: "name",
+    offlabel: "offlabel",
+    region: "region",
+    secret: "secret",
+    sitekey: "sitekey",
   }),
 ) as unknown as Schema.Schema<DeleteWidgetResponse>;
 
-export const deleteWidget: (
-  input: DeleteWidgetRequest,
-) => Effect.Effect<
+export const deleteWidget: API.OperationMethod<
+  DeleteWidgetRequest,
   DeleteWidgetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

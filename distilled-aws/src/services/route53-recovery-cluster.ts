@@ -327,9 +327,8 @@ export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLim
  * - Working with
  * routing controls in Route 53 ARC
  */
-export const getRoutingControlState: (
-  input: GetRoutingControlStateRequest,
-) => effect.Effect<
+export const getRoutingControlState: API.OperationMethod<
+  GetRoutingControlStateRequest,
   GetRoutingControlStateResponse,
   | AccessDeniedException
   | EndpointTemporarilyUnavailableException
@@ -379,20 +378,18 @@ export const getRoutingControlState: (
  * - Working with
  * routing controls in Route 53 ARC
  */
-export const listRoutingControls: {
-  (
-    input: ListRoutingControlsRequest,
-  ): effect.Effect<
-    ListRoutingControlsResponse,
-    | AccessDeniedException
-    | EndpointTemporarilyUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoutingControls: API.OperationMethod<
+  ListRoutingControlsRequest,
+  ListRoutingControlsResponse,
+  | AccessDeniedException
+  | EndpointTemporarilyUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutingControlsRequest,
   ) => stream.Stream<
@@ -467,9 +464,8 @@ export const listRoutingControls: {
  *
  * - Working with routing controls overall
  */
-export const updateRoutingControlState: (
-  input: UpdateRoutingControlStateRequest,
-) => effect.Effect<
+export const updateRoutingControlState: API.OperationMethod<
+  UpdateRoutingControlStateRequest,
   UpdateRoutingControlStateResponse,
   | AccessDeniedException
   | ConflictException
@@ -523,9 +519,8 @@ export const updateRoutingControlState: (
  *
  * - Working with routing controls overall
  */
-export const updateRoutingControlStates: (
-  input: UpdateRoutingControlStatesRequest,
-) => effect.Effect<
+export const updateRoutingControlStates: API.OperationMethod<
+  UpdateRoutingControlStatesRequest,
   UpdateRoutingControlStatesResponse,
   | AccessDeniedException
   | ConflictException

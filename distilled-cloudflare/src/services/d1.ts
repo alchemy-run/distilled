@@ -102,9 +102,8 @@ export const GetBookmarkDatabaseTimeTravelResponse = Schema.Struct({
   bookmark: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelResponse>;
 
-export const getBookmarkDatabaseTimeTravel: (
-  input: GetBookmarkDatabaseTimeTravelRequest,
-) => Effect.Effect<
+export const getBookmarkDatabaseTimeTravel: API.OperationMethod<
+  GetBookmarkDatabaseTimeTravelRequest,
   GetBookmarkDatabaseTimeTravelResponse,
   | CommonErrors
   | InvalidObjectIdentifier
@@ -154,12 +153,18 @@ export const ListDatabasesResponse = Schema.Array(
     name: Schema.optional(Schema.String),
     uuid: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+  }).pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      name: "name",
+      uuid: "uuid",
+      version: "version",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListDatabasesResponse>;
 
-export const listDatabases: (
-  input: ListDatabasesRequest,
-) => Effect.Effect<
+export const listDatabases: API.OperationMethod<
+  ListDatabasesRequest,
   ListDatabasesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -194,9 +199,8 @@ export type GetDatabaseResponse = unknown;
 export const GetDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatabaseResponse>;
 
-export const getDatabase: (
-  input: GetDatabaseRequest,
-) => Effect.Effect<
+export const getDatabase: API.OperationMethod<
+  GetDatabaseRequest,
   GetDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier | DatabaseNotFound | UnknownError,
   ApiToken | HttpClient.HttpClient
@@ -225,7 +229,11 @@ export const CreateDatabaseRequest = Schema.Struct({
     Schema.Literals(["wnam", "enam", "weur", "eeur", "apac", "oc"]),
   ),
 }).pipe(
-  Schema.encodeKeys({ primaryLocationHint: "primary_location_hint" }),
+  Schema.encodeKeys({
+    name: "name",
+    jurisdiction: "jurisdiction",
+    primaryLocationHint: "primary_location_hint",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/d1/database" }),
 ) as unknown as Schema.Schema<CreateDatabaseRequest>;
 
@@ -234,9 +242,8 @@ export type CreateDatabaseResponse = unknown;
 export const CreateDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateDatabaseResponse>;
 
-export const createDatabase: (
-  input: CreateDatabaseRequest,
-) => Effect.Effect<
+export const createDatabase: API.OperationMethod<
+  CreateDatabaseRequest,
   CreateDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier | InvalidProperty,
   ApiToken | HttpClient.HttpClient
@@ -273,9 +280,8 @@ export type UpdateDatabaseResponse = unknown;
 export const UpdateDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDatabaseResponse>;
 
-export const updateDatabase: (
-  input: UpdateDatabaseRequest,
-) => Effect.Effect<
+export const updateDatabase: API.OperationMethod<
+  UpdateDatabaseRequest,
   UpdateDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier | InternalError | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
@@ -314,9 +320,8 @@ export type PatchDatabaseResponse = unknown;
 export const PatchDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchDatabaseResponse>;
 
-export const patchDatabase: (
-  input: PatchDatabaseRequest,
-) => Effect.Effect<
+export const patchDatabase: API.OperationMethod<
+  PatchDatabaseRequest,
   PatchDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier | InternalError | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
@@ -347,9 +352,8 @@ export type DeleteDatabaseResponse = unknown;
 export const DeleteDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDatabaseResponse>;
 
-export const deleteDatabase: (
-  input: DeleteDatabaseRequest,
-) => Effect.Effect<
+export const deleteDatabase: API.OperationMethod<
+  DeleteDatabaseRequest,
   DeleteDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier | DatabaseNotFound | UnknownError,
   ApiToken | HttpClient.HttpClient
@@ -381,7 +385,13 @@ export const ExportDatabaseRequest = Schema.Struct({
       noData: Schema.optional(Schema.Boolean),
       noSchema: Schema.optional(Schema.Boolean),
       tables: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(Schema.encodeKeys({ noData: "no_data", noSchema: "no_schema" })),
+    }).pipe(
+      Schema.encodeKeys({
+        noData: "no_data",
+        noSchema: "no_schema",
+        tables: "tables",
+      }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -404,7 +414,7 @@ export interface ExportDatabaseResponse {
   messages?: string[];
   /** Only present when status = 'complete' */
   result?: { filename?: string; signedUrl?: string };
-  status?: "complete" | "error";
+  status?: "complete" | "error" | "active";
   success?: boolean;
   type?: "export";
 }
@@ -417,18 +427,27 @@ export const ExportDatabaseResponse = Schema.Struct({
     Schema.Struct({
       filename: Schema.optional(Schema.String),
       signedUrl: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ signedUrl: "signed_url" })),
+    }).pipe(
+      Schema.encodeKeys({ filename: "filename", signedUrl: "signed_url" }),
+    ),
   ),
-  status: Schema.optional(Schema.Literals(["complete", "error"])),
+  status: Schema.optional(Schema.Literals(["complete", "error", "active"])),
   success: Schema.optional(Schema.Boolean),
   type: Schema.optional(Schema.Literal("export")),
 }).pipe(
-  Schema.encodeKeys({ atBookmark: "at_bookmark" }),
+  Schema.encodeKeys({
+    atBookmark: "at_bookmark",
+    error: "error",
+    messages: "messages",
+    result: "result",
+    status: "status",
+    success: "success",
+    type: "type",
+  }),
 ) as unknown as Schema.Schema<ExportDatabaseResponse>;
 
-export const exportDatabase: (
-  input: ExportDatabaseRequest,
-) => Effect.Effect<
+export const exportDatabase: API.OperationMethod<
+  ExportDatabaseRequest,
   ExportDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier | InvalidRequest | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
@@ -524,6 +543,8 @@ export const ImportDatabaseResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             changedDb: "changed_db",
+            changes: "changes",
+            duration: "duration",
             lastRowId: "last_row_id",
             rowsRead: "rows_read",
             rowsWritten: "rows_written",
@@ -531,6 +552,7 @@ export const ImportDatabaseResponse = Schema.Struct({
             servedByPrimary: "served_by_primary",
             servedByRegion: "served_by_region",
             sizeAfter: "size_after",
+            timings: "timings",
           }),
         ),
       ),
@@ -538,6 +560,7 @@ export const ImportDatabaseResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         finalBookmark: "final_bookmark",
+        meta: "meta",
         numQueries: "num_queries",
       }),
     ),
@@ -547,12 +570,21 @@ export const ImportDatabaseResponse = Schema.Struct({
   type: Schema.optional(Schema.Literal("import")),
   uploadUrl: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ atBookmark: "at_bookmark", uploadUrl: "upload_url" }),
+  Schema.encodeKeys({
+    atBookmark: "at_bookmark",
+    error: "error",
+    filename: "filename",
+    messages: "messages",
+    result: "result",
+    status: "status",
+    success: "success",
+    type: "type",
+    uploadUrl: "upload_url",
+  }),
 ) as unknown as Schema.Schema<ImportDatabaseResponse>;
 
-export const importDatabase: (
-  input: ImportDatabaseRequest,
-) => Effect.Effect<
+export const importDatabase: API.OperationMethod<
+  ImportDatabaseRequest,
   ImportDatabaseResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -626,6 +658,8 @@ export const QueryDatabaseResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           changedDb: "changed_db",
+          changes: "changes",
+          duration: "duration",
           lastRowId: "last_row_id",
           rowsRead: "rows_read",
           rowsWritten: "rows_written",
@@ -633,6 +667,7 @@ export const QueryDatabaseResponse = Schema.Array(
           servedByPrimary: "served_by_primary",
           servedByRegion: "served_by_region",
           sizeAfter: "size_after",
+          timings: "timings",
         }),
       ),
     ),
@@ -641,9 +676,8 @@ export const QueryDatabaseResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<QueryDatabaseResponse>;
 
-export const queryDatabase: (
-  input: QueryDatabaseRequest,
-) => Effect.Effect<
+export const queryDatabase: API.OperationMethod<
+  QueryDatabaseRequest,
   QueryDatabaseResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -717,6 +751,8 @@ export const RawDatabaseResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           changedDb: "changed_db",
+          changes: "changes",
+          duration: "duration",
           lastRowId: "last_row_id",
           rowsRead: "rows_read",
           rowsWritten: "rows_written",
@@ -724,6 +760,7 @@ export const RawDatabaseResponse = Schema.Array(
           servedByPrimary: "served_by_primary",
           servedByRegion: "served_by_region",
           sizeAfter: "size_after",
+          timings: "timings",
         }),
       ),
     ),
@@ -741,9 +778,8 @@ export const RawDatabaseResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<RawDatabaseResponse>;
 
-export const rawDatabase: (
-  input: RawDatabaseRequest,
-) => Effect.Effect<
+export const rawDatabase: API.OperationMethod<
+  RawDatabaseRequest,
   RawDatabaseResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -793,12 +829,15 @@ export const RestoreDatabaseTimeTravelResponse = Schema.Struct({
   message: Schema.optional(Schema.String),
   previousBookmark: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ previousBookmark: "previous_bookmark" }),
+  Schema.encodeKeys({
+    bookmark: "bookmark",
+    message: "message",
+    previousBookmark: "previous_bookmark",
+  }),
 ) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
 
-export const restoreDatabaseTimeTravel: (
-  input: RestoreDatabaseTimeTravelRequest,
-) => Effect.Effect<
+export const restoreDatabaseTimeTravel: API.OperationMethod<
+  RestoreDatabaseTimeTravelRequest,
   RestoreDatabaseTimeTravelResponse,
   | CommonErrors
   | InvalidObjectIdentifier

@@ -431,9 +431,8 @@ export class InvalidRedirectUriException extends S.TaggedErrorClass<InvalidRedir
  * client secrets. The access token can be used to fetch short-lived credentials for the assigned
  * AWS accounts or to access application APIs using `bearer` authentication.
  */
-export const createToken: (
-  input: CreateTokenRequest,
-) => effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   | AccessDeniedException
   | AuthorizationPendingException
@@ -474,9 +473,8 @@ export const createToken: (
  * This API is used with Signature Version 4. For more information, see Amazon Web Services Signature
  * Version 4 for API Requests.
  */
-export const createTokenWithIAM: (
-  input: CreateTokenWithIAMRequest,
-) => effect.Effect<
+export const createTokenWithIAM: API.OperationMethod<
+  CreateTokenWithIAMRequest,
   CreateTokenWithIAMResponse,
   | AccessDeniedException
   | AuthorizationPendingException
@@ -515,9 +513,8 @@ export const createTokenWithIAM: (
  * the authorization code grant with Proof Key for Code Exchange (PKCE) or the device
  * code grant.
  */
-export const registerClient: (
-  input: RegisterClientRequest,
-) => effect.Effect<
+export const registerClient: API.OperationMethod<
+  RegisterClientRequest,
   RegisterClientResponse,
   | InternalServerException
   | InvalidClientMetadataException
@@ -545,9 +542,8 @@ export const registerClient: (
  * Initiates device authorization by requesting a pair of verification codes from the
  * authorization service.
  */
-export const startDeviceAuthorization: (
-  input: StartDeviceAuthorizationRequest,
-) => effect.Effect<
+export const startDeviceAuthorization: API.OperationMethod<
+  StartDeviceAuthorizationRequest,
   StartDeviceAuthorizationResponse,
   | InternalServerException
   | InvalidClientException

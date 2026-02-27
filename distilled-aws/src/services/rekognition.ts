@@ -4810,9 +4810,8 @@ export class InvalidManifestException extends S.TaggedErrorClass<InvalidManifest
  * - UPDATING - A UserID is being updated and there are current associations or
  * disassociations of FaceID(s) taking place.
  */
-export const associateFaces: (
-  input: AssociateFacesRequest,
-) => effect.Effect<
+export const associateFaces: API.OperationMethod<
+  AssociateFacesRequest,
   AssociateFacesResponse,
   | AccessDeniedException
   | ConflictException
@@ -4898,9 +4897,8 @@ export const associateFaces: (
  * This operation requires permissions to perform the
  * `rekognition:CompareFaces` action.
  */
-export const compareFaces: (
-  input: CompareFacesRequest,
-) => effect.Effect<
+export const compareFaces: API.OperationMethod<
+  CompareFacesRequest,
   CompareFacesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -4954,9 +4952,8 @@ export const compareFaces: (
  *
  * This operation requires permissions to perform the `rekognition:CopyProjectVersion` action.
  */
-export const copyProjectVersion: (
-  input: CopyProjectVersionRequest,
-) => effect.Effect<
+export const copyProjectVersion: API.OperationMethod<
+  CopyProjectVersionRequest,
   CopyProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5003,9 +5000,8 @@ export const copyProjectVersion: (
  * also require permission to perform the `rekognition:TagResource`
  * operation.
  */
-export const createCollection: (
-  input: CreateCollectionRequest,
-) => effect.Effect<
+export const createCollection: API.OperationMethod<
+  CreateCollectionRequest,
   CreateCollectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5055,9 +5051,8 @@ export const createCollection: (
  * This operation requires permissions to perform the `rekognition:CreateDataset` action.
  * If you want to copy an existing dataset, you also require permission to perform the `rekognition:ListDatasetEntries` action.
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5099,9 +5094,8 @@ export const createDataset: (
  * default, it is set to 0. The limit is best effort and based on the duration of the
  * selfie-video.
  */
-export const createFaceLivenessSession: (
-  input: CreateFaceLivenessSessionRequest,
-) => effect.Effect<
+export const createFaceLivenessSession: API.OperationMethod<
+  CreateFaceLivenessSessionRequest,
   CreateFaceLivenessSessionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5129,9 +5123,8 @@ export const createFaceLivenessSession: (
  * auto update by using the AutoUpdate argument. This operation requires permissions to
  * perform the `rekognition:CreateProject` action.
  */
-export const createProject: (
-  input: CreateProjectRequest,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
   CreateProjectResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5186,9 +5179,8 @@ export const createProject: (
  * we recommend that you use the manifest
  * files to create training and test datasets for the project.
  */
-export const createProjectVersion: (
-  input: CreateProjectVersionRequest,
-) => effect.Effect<
+export const createProjectVersion: API.OperationMethod<
+  CreateProjectVersionRequest,
   CreateProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5247,9 +5239,8 @@ export const createProjectVersion: (
  * This operation requires permissions to perform the
  * `rekognition:CreateStreamProcessor` action. If you want to tag your stream processor, you also require permission to perform the `rekognition:TagResource` operation.
  */
-export const createStreamProcessor: (
-  input: CreateStreamProcessorRequest,
-) => effect.Effect<
+export const createStreamProcessor: API.OperationMethod<
+  CreateStreamProcessorRequest,
   CreateStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5286,9 +5277,8 @@ export const createStreamProcessor: (
  * generates an idempotency token for the requests. This prevents retries after a network error
  * results from making multiple `CreateUser` calls.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -5324,9 +5314,8 @@ export const createUser: (
  * This operation requires permissions to perform the
  * `rekognition:DeleteCollection` action.
  */
-export const deleteCollection: (
-  input: DeleteCollectionRequest,
-) => effect.Effect<
+export const deleteCollection: API.OperationMethod<
+  DeleteCollectionRequest,
   DeleteCollectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5362,9 +5351,8 @@ export const deleteCollection: (
  *
  * This operation requires permissions to perform the `rekognition:DeleteDataset` action.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5397,9 +5385,8 @@ export const deleteDataset: (
  * This operation requires permissions to perform the `rekognition:DeleteFaces`
  * action.
  */
-export const deleteFaces: (
-  input: DeleteFacesRequest,
-) => effect.Effect<
+export const deleteFaces: API.OperationMethod<
+  DeleteFacesRequest,
   DeleteFacesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5433,9 +5420,8 @@ export const deleteFaces: (
  * This operation requires permissions to perform the
  * `rekognition:DeleteProject` action.
  */
-export const deleteProject: (
-  input: DeleteProjectRequest,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest,
   DeleteProjectResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5468,9 +5454,8 @@ export const deleteProject: (
  *
  * This operation requires permissions to perform the `rekognition:DeleteProjectPolicy` action.
  */
-export const deleteProjectPolicy: (
-  input: DeleteProjectPolicyRequest,
-) => effect.Effect<
+export const deleteProjectPolicy: API.OperationMethod<
+  DeleteProjectPolicyRequest,
   DeleteProjectPolicyResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5505,9 +5490,8 @@ export const deleteProjectPolicy: (
  * This operation requires permissions to perform the
  * `rekognition:DeleteProjectVersion` action.
  */
-export const deleteProjectVersion: (
-  input: DeleteProjectVersionRequest,
-) => effect.Effect<
+export const deleteProjectVersion: API.OperationMethod<
+  DeleteProjectVersionRequest,
   DeleteProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5535,9 +5519,8 @@ export const deleteProjectVersion: (
  * Deletes the stream processor identified by `Name`. You assign the value for `Name` when you create the stream processor with
  * CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling `DeleteStreamProcessor`.
  */
-export const deleteStreamProcessor: (
-  input: DeleteStreamProcessorRequest,
-) => effect.Effect<
+export const deleteStreamProcessor: API.OperationMethod<
+  DeleteStreamProcessorRequest,
   DeleteStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5568,9 +5551,8 @@ export const deleteStreamProcessor: (
  * `ResourceNotFoundException` will be thrown. If the action is successful with a
  * 200 response, an empty HTTP body is returned.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -5604,9 +5586,8 @@ export const deleteUser: (
  * For more information, see Describing a Collection in the
  * Amazon Rekognition Developer Guide.
  */
-export const describeCollection: (
-  input: DescribeCollectionRequest,
-) => effect.Effect<
+export const describeCollection: API.OperationMethod<
+  DescribeCollectionRequest,
   DescribeCollectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5636,9 +5617,8 @@ export const describeCollection: (
  *
  * This operation requires permissions to perform the `rekognition:DescribeDataset` action.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5665,20 +5645,18 @@ export const describeDataset: (
  *
  * This operation requires permissions to perform the `rekognition:DescribeProjects` action.
  */
-export const describeProjects: {
-  (
-    input: DescribeProjectsRequest,
-  ): effect.Effect<
-    DescribeProjectsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeProjects: API.OperationMethod<
+  DescribeProjectsRequest,
+  DescribeProjectsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeProjectsRequest,
   ) => stream.Stream<
@@ -5731,21 +5709,19 @@ export const describeProjects: {
  * This operation requires permissions to perform the `rekognition:DescribeProjectVersions`
  * action.
  */
-export const describeProjectVersions: {
-  (
-    input: DescribeProjectVersionsRequest,
-  ): effect.Effect<
-    DescribeProjectVersionsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeProjectVersions: API.OperationMethod<
+  DescribeProjectVersionsRequest,
+  DescribeProjectVersionsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeProjectVersionsRequest,
   ) => stream.Stream<
@@ -5797,9 +5773,8 @@ export const describeProjectVersions: {
  * Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed,
  * and the current status of the stream processor.
  */
-export const describeStreamProcessor: (
-  input: DescribeStreamProcessorRequest,
-) => effect.Effect<
+export const describeStreamProcessor: API.OperationMethod<
+  DescribeStreamProcessorRequest,
   DescribeStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -5865,9 +5840,8 @@ export const describeStreamProcessor: (
  * For more information, see
  * *Analyzing an image* in the Amazon Rekognition Custom Labels Developer Guide.
  */
-export const detectCustomLabels: (
-  input: DetectCustomLabelsRequest,
-) => effect.Effect<
+export const detectCustomLabels: API.OperationMethod<
+  DetectCustomLabelsRequest,
   DetectCustomLabelsResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -5922,9 +5896,8 @@ export const detectCustomLabels: (
  * This operation requires permissions to perform the `rekognition:DetectFaces`
  * action.
  */
-export const detectFaces: (
-  input: DetectFacesRequest,
-) => effect.Effect<
+export const detectFaces: API.OperationMethod<
+  DetectFacesRequest,
   DetectFacesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6056,9 +6029,8 @@ export const detectFaces: (
  * This operation requires permissions to perform the
  * `rekognition:DetectLabels` action.
  */
-export const detectLabels: (
-  input: DetectLabelsRequest,
-) => effect.Effect<
+export const detectLabels: API.OperationMethod<
+  DetectLabelsRequest,
   DetectLabelsResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6105,9 +6077,8 @@ export const detectLabels: (
  * You can specify an adapter to use when retrieving label predictions by providing a
  * `ProjectVersionArn` to the `ProjectVersion` argument.
  */
-export const detectModerationLabels: (
-  input: DetectModerationLabelsRequest,
-) => effect.Effect<
+export const detectModerationLabels: API.OperationMethod<
+  DetectModerationLabelsRequest,
   DetectModerationLabelsResponse,
   | AccessDeniedException
   | HumanLoopQuotaExceededException
@@ -6173,9 +6144,8 @@ export const detectModerationLabels: (
  *
  * This operation requires permissions to perform the `rekognition:DetectProtectiveEquipment` action.
  */
-export const detectProtectiveEquipment: (
-  input: DetectProtectiveEquipmentRequest,
-) => effect.Effect<
+export const detectProtectiveEquipment: API.OperationMethod<
+  DetectProtectiveEquipmentRequest,
   DetectProtectiveEquipmentResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6233,9 +6203,8 @@ export const detectProtectiveEquipment: (
  * For more information, see Detecting text in the Amazon Rekognition Developer
  * Guide.
  */
-export const detectText: (
-  input: DetectTextRequest,
-) => effect.Effect<
+export const detectText: API.OperationMethod<
+  DetectTextRequest,
   DetectTextResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -6271,9 +6240,8 @@ export const detectText: (
  * part of `UnsuccessfulDisassociations`. You can remove 1 - 100 face IDs from a user
  * at one time.
  */
-export const disassociateFaces: (
-  input: DisassociateFacesRequest,
-) => effect.Effect<
+export const disassociateFaces: API.OperationMethod<
+  DisassociateFacesRequest,
   DisassociateFacesResponse,
   | AccessDeniedException
   | ConflictException
@@ -6316,9 +6284,8 @@ export const disassociateFaces: (
  *
  * This operation requires permissions to perform the `rekognition:DistributeDatasetEntries` action.
  */
-export const distributeDatasetEntries: (
-  input: DistributeDatasetEntriesRequest,
-) => effect.Effect<
+export const distributeDatasetEntries: API.OperationMethod<
+  DistributeDatasetEntriesRequest,
   DistributeDatasetEntriesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6353,9 +6320,8 @@ export const distributeDatasetEntries: (
  * This operation requires permissions to perform the
  * `rekognition:GetCelebrityInfo` action.
  */
-export const getCelebrityInfo: (
-  input: GetCelebrityInfoRequest,
-) => effect.Effect<
+export const getCelebrityInfo: API.OperationMethod<
+  GetCelebrityInfoRequest,
   GetCelebrityInfoResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6423,21 +6389,19 @@ export const getCelebrityInfo: (
  * and populate the `NextToken` request parameter with the token
  * value returned from the previous call to `GetCelebrityRecognition`.
  */
-export const getCelebrityRecognition: {
-  (
-    input: GetCelebrityRecognitionRequest,
-  ): effect.Effect<
-    GetCelebrityRecognitionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCelebrityRecognition: API.OperationMethod<
+  GetCelebrityRecognitionRequest,
+  GetCelebrityRecognitionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCelebrityRecognitionRequest,
   ) => stream.Stream<
@@ -6517,21 +6481,19 @@ export const getCelebrityRecognition: {
  *
  * For more information, see moderating content in the Amazon Rekognition Developer Guide.
  */
-export const getContentModeration: {
-  (
-    input: GetContentModerationRequest,
-  ): effect.Effect<
-    GetContentModerationResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getContentModeration: API.OperationMethod<
+  GetContentModerationRequest,
+  GetContentModerationResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetContentModerationRequest,
   ) => stream.Stream<
@@ -6598,21 +6560,19 @@ export const getContentModeration: {
  * Note that for the `GetFaceDetection` operation, the returned values for
  * `FaceOccluded` and `EyeDirection` will always be "null".
  */
-export const getFaceDetection: {
-  (
-    input: GetFaceDetectionRequest,
-  ): effect.Effect<
-    GetFaceDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFaceDetection: API.OperationMethod<
+  GetFaceDetectionRequest,
+  GetFaceDetectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFaceDetectionRequest,
   ) => stream.Stream<
@@ -6671,9 +6631,8 @@ export const getFaceDetection: {
  * `CreateFaceLivenessSession`. Reference images are always returned when
  * possible.
  */
-export const getFaceLivenessSessionResults: (
-  input: GetFaceLivenessSessionResultsRequest,
-) => effect.Effect<
+export const getFaceLivenessSessionResults: API.OperationMethod<
+  GetFaceLivenessSessionResultsRequest,
   GetFaceLivenessSessionResultsResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6728,21 +6687,19 @@ export const getFaceLivenessSessionResults: (
  * You can also sort by persons by specifying `INDEX` for the `SORTBY` input
  * parameter.
  */
-export const getFaceSearch: {
-  (
-    input: GetFaceSearchRequest,
-  ): effect.Effect<
-    GetFaceSearchResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFaceSearch: API.OperationMethod<
+  GetFaceSearchRequest,
+  GetFaceSearchResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFaceSearchRequest,
   ) => stream.Stream<
@@ -6857,21 +6814,19 @@ export const getFaceSearch: {
  * If you are retrieving results while using the Amazon Simple Notification Service, note that you will receive an
  * "ERROR" notification if the job encounters an issue.
  */
-export const getLabelDetection: {
-  (
-    input: GetLabelDetectionRequest,
-  ): effect.Effect<
-    GetLabelDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getLabelDetection: API.OperationMethod<
+  GetLabelDetectionRequest,
+  GetLabelDetectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLabelDetectionRequest,
   ) => stream.Stream<
@@ -6922,9 +6877,8 @@ export const getLabelDetection: {
  * Retrieves the results for a given media analysis job.
  * Takes a `JobId` returned by StartMediaAnalysisJob.
  */
-export const getMediaAnalysisJob: (
-  input: GetMediaAnalysisJobRequest,
-) => effect.Effect<
+export const getMediaAnalysisJob: API.OperationMethod<
+  GetMediaAnalysisJobRequest,
   GetMediaAnalysisJobResponse,
   | AccessDeniedException
   | InternalServerError
@@ -6981,21 +6935,19 @@ export const getMediaAnalysisJob: (
  * of results. To get the next page of results, call `GetPersonTracking` and populate the `NextToken` request parameter with the token
  * value returned from the previous call to `GetPersonTracking`.
  */
-export const getPersonTracking: {
-  (
-    input: GetPersonTrackingRequest,
-  ): effect.Effect<
-    GetPersonTrackingResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getPersonTracking: API.OperationMethod<
+  GetPersonTrackingRequest,
+  GetPersonTrackingResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPersonTrackingRequest,
   ) => stream.Stream<
@@ -7070,21 +7022,19 @@ export const getPersonTracking: {
  *
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
-export const getSegmentDetection: {
-  (
-    input: GetSegmentDetectionRequest,
-  ): effect.Effect<
-    GetSegmentDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSegmentDetection: API.OperationMethod<
+  GetSegmentDetectionRequest,
+  GetSegmentDetectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSegmentDetectionRequest,
   ) => stream.Stream<
@@ -7155,21 +7105,19 @@ export const getSegmentDetection: {
  * and populate the `NextToken` request parameter with the token value returned from the previous
  * call to `GetTextDetection`.
  */
-export const getTextDetection: {
-  (
-    input: GetTextDetectionRequest,
-  ): effect.Effect<
-    GetTextDetectionResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTextDetection: API.OperationMethod<
+  GetTextDetectionRequest,
+  GetTextDetectionResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTextDetectionRequest,
   ) => stream.Stream<
@@ -7310,9 +7258,8 @@ export const getTextDetection: {
  * This operation requires permissions to perform the `rekognition:IndexFaces`
  * action.
  */
-export const indexFaces: (
-  input: IndexFacesRequest,
-) => effect.Effect<
+export const indexFaces: API.OperationMethod<
+  IndexFacesRequest,
   IndexFacesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -7353,21 +7300,19 @@ export const indexFaces: (
  * This operation requires permissions to perform the
  * `rekognition:ListCollections` action.
  */
-export const listCollections: {
-  (
-    input: ListCollectionsRequest,
-  ): effect.Effect<
-    ListCollectionsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollections: API.OperationMethod<
+  ListCollectionsRequest,
+  ListCollectionsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollectionsRequest,
   ) => stream.Stream<
@@ -7433,23 +7378,21 @@ export const listCollections: {
  *
  * This operation requires permissions to perform the `rekognition:ListDatasetEntries` action.
  */
-export const listDatasetEntries: {
-  (
-    input: ListDatasetEntriesRequest,
-  ): effect.Effect<
-    ListDatasetEntriesResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | ResourceNotReadyException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasetEntries: API.OperationMethod<
+  ListDatasetEntriesRequest,
+  ListDatasetEntriesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetEntriesRequest,
   ) => stream.Stream<
@@ -7512,23 +7455,21 @@ export const listDatasetEntries: {
  * Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see Labeling images
  * in the *Amazon Rekognition Custom Labels Developer Guide*.
  */
-export const listDatasetLabels: {
-  (
-    input: ListDatasetLabelsRequest,
-  ): effect.Effect<
-    ListDatasetLabelsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceInUseException
-    | ResourceNotFoundException
-    | ResourceNotReadyException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasetLabels: API.OperationMethod<
+  ListDatasetLabelsRequest,
+  ListDatasetLabelsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ResourceNotReadyException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetLabelsRequest,
   ) => stream.Stream<
@@ -7591,21 +7532,19 @@ export const listDatasetLabels: {
  * This operation requires permissions to perform the `rekognition:ListFaces`
  * action.
  */
-export const listFaces: {
-  (
-    input: ListFacesRequest,
-  ): effect.Effect<
-    ListFacesResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFaces: API.OperationMethod<
+  ListFacesRequest,
+  ListFacesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFacesRequest,
   ) => stream.Stream<
@@ -7656,20 +7595,18 @@ export const listFaces: {
 /**
  * Returns a list of media analysis jobs. Results are sorted by `CreationTimestamp` in descending order.
  */
-export const listMediaAnalysisJobs: {
-  (
-    input: ListMediaAnalysisJobsRequest,
-  ): effect.Effect<
-    ListMediaAnalysisJobsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMediaAnalysisJobs: API.OperationMethod<
+  ListMediaAnalysisJobsRequest,
+  ListMediaAnalysisJobsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMediaAnalysisJobsRequest,
   ) => stream.Stream<
@@ -7722,21 +7659,19 @@ export const listMediaAnalysisJobs: {
  *
  * This operation requires permissions to perform the `rekognition:ListProjectPolicies` action.
  */
-export const listProjectPolicies: {
-  (
-    input: ListProjectPoliciesRequest,
-  ): effect.Effect<
-    ListProjectPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjectPolicies: API.OperationMethod<
+  ListProjectPoliciesRequest,
+  ListProjectPoliciesResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectPoliciesRequest,
   ) => stream.Stream<
@@ -7787,20 +7722,18 @@ export const listProjectPolicies: {
 /**
  * Gets a list of stream processors that you have created with CreateStreamProcessor.
  */
-export const listStreamProcessors: {
-  (
-    input: ListStreamProcessorsRequest,
-  ): effect.Effect<
-    ListStreamProcessorsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreamProcessors: API.OperationMethod<
+  ListStreamProcessorsRequest,
+  ListStreamProcessorsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamProcessorsRequest,
   ) => stream.Stream<
@@ -7851,9 +7784,8 @@ export const listStreamProcessors: {
  * This operation requires permissions to perform the
  * `rekognition:ListTagsForResource` action.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -7882,21 +7814,19 @@ export const listTagsForResource: (
  * truncated, `NextToken` is returned in the response that can be used in the
  * subsequent request to retrieve the next set of identities.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidPaginationTokenException
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidPaginationTokenException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -7967,9 +7897,8 @@ export const listUsers: {
  *
  * This operation requires permissions to perform the `rekognition:PutProjectPolicy` action.
  */
-export const putProjectPolicy: (
-  input: PutProjectPolicyRequest,
-) => effect.Effect<
+export const putProjectPolicy: API.OperationMethod<
+  PutProjectPolicyRequest,
   PutProjectPolicyResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8035,9 +7964,8 @@ export const putProjectPolicy: (
  * This operation requires permissions to perform the
  * `rekognition:RecognizeCelebrities` operation.
  */
-export const recognizeCelebrities: (
-  input: RecognizeCelebritiesRequest,
-) => effect.Effect<
+export const recognizeCelebrities: API.OperationMethod<
+  RecognizeCelebritiesRequest,
   RecognizeCelebritiesResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -8083,9 +8011,8 @@ export const recognizeCelebrities: (
  * This operation requires permissions to perform the `rekognition:SearchFaces`
  * action.
  */
-export const searchFaces: (
-  input: SearchFacesRequest,
-) => effect.Effect<
+export const searchFaces: API.OperationMethod<
+  SearchFacesRequest,
   SearchFacesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8151,9 +8078,8 @@ export const searchFaces: (
  * This operation requires permissions to perform the
  * `rekognition:SearchFacesByImage` action.
  */
-export const searchFacesByImage: (
-  input: SearchFacesByImageRequest,
-) => effect.Effect<
+export const searchFacesByImage: API.OperationMethod<
+  SearchFacesByImageRequest,
   SearchFacesByImageResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -8189,9 +8115,8 @@ export const searchFacesByImage: (
  * `FaceId` or `UserId`, ordered by similarity score with the highest
  * similarity first.
  */
-export const searchUsers: (
-  input: SearchUsersRequest,
-) => effect.Effect<
+export const searchUsers: API.OperationMethod<
+  SearchUsersRequest,
   SearchUsersResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8226,9 +8151,8 @@ export const searchUsers: (
  * the image, the response will contain an empty `UserMatches` list and no
  * `SearchedFace` object.
  */
-export const searchUsersByImage: (
-  input: SearchUsersByImageRequest,
-) => effect.Effect<
+export const searchUsersByImage: API.OperationMethod<
+  SearchUsersByImageRequest,
   SearchUsersByImageResponse,
   | AccessDeniedException
   | ImageTooLargeException
@@ -8271,9 +8195,8 @@ export const searchUsersByImage: (
  *
  * For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
  */
-export const startCelebrityRecognition: (
-  input: StartCelebrityRecognitionRequest,
-) => effect.Effect<
+export const startCelebrityRecognition: API.OperationMethod<
+  StartCelebrityRecognitionRequest,
   StartCelebrityRecognitionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8317,9 +8240,8 @@ export const startCelebrityRecognition: (
  *
  * For more information, see Moderating content in the Amazon Rekognition Developer Guide.
  */
-export const startContentModeration: (
-  input: StartContentModerationRequest,
-) => effect.Effect<
+export const startContentModeration: API.OperationMethod<
+  StartContentModerationRequest,
   StartContentModerationResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8363,9 +8285,8 @@ export const startContentModeration: (
  * For more information, see Detecting faces in a stored video in the
  * Amazon Rekognition Developer Guide.
  */
-export const startFaceDetection: (
-  input: StartFaceDetectionRequest,
-) => effect.Effect<
+export const startFaceDetection: API.OperationMethod<
+  StartFaceDetectionRequest,
   StartFaceDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8406,9 +8327,8 @@ export const startFaceDetection: (
  * (`JobId`) from the initial call to `StartFaceSearch`. For more information, see
  * Searching stored videos for faces.
  */
-export const startFaceSearch: (
-  input: StartFaceSearchRequest,
-) => effect.Effect<
+export const startFaceSearch: API.OperationMethod<
+  StartFaceSearchRequest,
   StartFaceSearchResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8468,9 +8388,8 @@ export const startFaceSearch: (
  * You can specify `MinConfidence` to control the confidence threshold for the
  * labels returned. The default is 50.
  */
-export const startLabelDetection: (
-  input: StartLabelDetectionRequest,
-) => effect.Effect<
+export const startLabelDetection: API.OperationMethod<
+  StartLabelDetectionRequest,
   StartLabelDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8502,9 +8421,8 @@ export const startLabelDetection: (
  * Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The
  * output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
  */
-export const startMediaAnalysisJob: (
-  input: StartMediaAnalysisJobRequest,
-) => effect.Effect<
+export const startMediaAnalysisJob: API.OperationMethod<
+  StartMediaAnalysisJobRequest,
   StartMediaAnalysisJobResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8554,9 +8472,8 @@ export const startMediaAnalysisJob: (
  * topic is `SUCCEEDED`. If so, call GetPersonTracking and pass the job identifier
  * (`JobId`) from the initial call to `StartPersonTracking`.
  */
-export const startPersonTracking: (
-  input: StartPersonTrackingRequest,
-) => effect.Effect<
+export const startPersonTracking: API.OperationMethod<
+  StartPersonTrackingRequest,
   StartPersonTrackingResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8599,9 +8516,8 @@ export const startPersonTracking: (
  * This operation requires permissions to perform the
  * `rekognition:StartProjectVersion` action.
  */
-export const startProjectVersion: (
-  input: StartProjectVersionRequest,
-) => effect.Effect<
+export const startProjectVersion: API.OperationMethod<
+  StartProjectVersionRequest,
   StartProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8647,9 +8563,8 @@ export const startProjectVersion: (
  *
  * For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
  */
-export const startSegmentDetection: (
-  input: StartSegmentDetectionRequest,
-) => effect.Effect<
+export const startSegmentDetection: API.OperationMethod<
+  StartSegmentDetectionRequest,
   StartSegmentDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8684,9 +8599,8 @@ export const startSegmentDetection: (
  *
  * If you are using a label detection stream processor to detect labels, you need to provide a `Start selector` and a `Stop selector` to determine the length of the stream processing time.
  */
-export const startStreamProcessor: (
-  input: StartStreamProcessorRequest,
-) => effect.Effect<
+export const startStreamProcessor: API.OperationMethod<
+  StartStreamProcessorRequest,
   StartStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8722,9 +8636,8 @@ export const startStreamProcessor: (
  * topic is `SUCCEEDED`. if so, call GetTextDetection and pass the job identifier (`JobId`)
  * from the initial call to `StartTextDetection`.
  */
-export const startTextDetection: (
-  input: StartTextDetectionRequest,
-) => effect.Effect<
+export const startTextDetection: API.OperationMethod<
+  StartTextDetectionRequest,
   StartTextDetectionResponse,
   | AccessDeniedException
   | IdempotentParameterMismatchException
@@ -8761,9 +8674,8 @@ export const startTextDetection: (
  *
  * This operation requires permissions to perform the `rekognition:StopProjectVersion` action.
  */
-export const stopProjectVersion: (
-  input: StopProjectVersionRequest,
-) => effect.Effect<
+export const stopProjectVersion: API.OperationMethod<
+  StopProjectVersionRequest,
   StopProjectVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8790,9 +8702,8 @@ export const stopProjectVersion: (
 /**
  * Stops a running stream processor that was created by CreateStreamProcessor.
  */
-export const stopStreamProcessor: (
-  input: StopStreamProcessorRequest,
-) => effect.Effect<
+export const stopStreamProcessor: API.OperationMethod<
+  StopStreamProcessorRequest,
   StopStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8824,9 +8735,8 @@ export const stopStreamProcessor: (
  * This operation requires permissions to perform the `rekognition:TagResource`
  * action.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8857,9 +8767,8 @@ export const tagResource: (
  * This operation requires permissions to perform the
  * `rekognition:UntagResource` action.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8910,9 +8819,8 @@ export const untagResource: (
  *
  * This operation requires permissions to perform the `rekognition:UpdateDatasetEntries` action.
  */
-export const updateDatasetEntries: (
-  input: UpdateDatasetEntriesRequest,
-) => effect.Effect<
+export const updateDatasetEntries: API.OperationMethod<
+  UpdateDatasetEntriesRequest,
   UpdateDatasetEntriesResponse,
   | AccessDeniedException
   | InternalServerError
@@ -8941,9 +8849,8 @@ export const updateDatasetEntries: (
 /**
  * Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
  */
-export const updateStreamProcessor: (
-  input: UpdateStreamProcessorRequest,
-) => effect.Effect<
+export const updateStreamProcessor: API.OperationMethod<
+  UpdateStreamProcessorRequest,
   UpdateStreamProcessorResponse,
   | AccessDeniedException
   | InternalServerError

@@ -579,9 +579,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * List all tags that are on an Elemental Inference resource in the current region.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -604,9 +603,8 @@ export const listTagsForResource: (
 /**
  * Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -631,9 +629,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from the specified resource in the current region.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -658,9 +655,8 @@ export const untagResource: (
 /**
  * Creates a feed. The feed is the target for live streams being sent by the calling application. An example of a calling application is AWS Elemental MediaLive. After you create the feed, you can associate a resource with the feed.
  */
-export const createFeed: (
-  input: CreateFeedRequest,
-) => effect.Effect<
+export const createFeed: API.OperationMethod<
+  CreateFeedRequest,
   CreateFeedResponse,
   | AccessDeniedException
   | ConflictException
@@ -685,9 +681,8 @@ export const createFeed: (
 /**
  * Retrieves information about the specified feed.
  */
-export const getFeed: (
-  input: GetFeedRequest,
-) => effect.Effect<
+export const getFeed: API.OperationMethod<
+  GetFeedRequest,
   GetFeedResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -708,9 +703,8 @@ export const getFeed: (
 /**
  * Updates the name and/or outputs in a feed.
  */
-export const updateFeed: (
-  input: UpdateFeedRequest,
-) => effect.Effect<
+export const updateFeed: API.OperationMethod<
+  UpdateFeedRequest,
   UpdateFeedResponse,
   | AccessDeniedException
   | ConflictException
@@ -737,9 +731,8 @@ export const updateFeed: (
 /**
  * Deletes the specified feed. The feed can be deleted at any time.
  */
-export const deleteFeed: (
-  input: DeleteFeedRequest,
-) => effect.Effect<
+export const deleteFeed: API.OperationMethod<
+  DeleteFeedRequest,
   DeleteFeedResponse,
   | AccessDeniedException
   | ConflictException
@@ -764,19 +757,17 @@ export const deleteFeed: (
 /**
  * Displays a list of feeds that belong to this AWS account.
  */
-export const listFeeds: {
-  (
-    input: ListFeedsRequest,
-  ): effect.Effect<
-    ListFeedsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | TooManyRequestException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFeeds: API.OperationMethod<
+  ListFeedsRequest,
+  ListFeedsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFeedsRequest,
   ) => stream.Stream<
@@ -821,9 +812,8 @@ export const listFeeds: {
 /**
  * Associates a resource with the feed. The resource provides the input that Elemental Inference needs needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed.
  */
-export const associateFeed: (
-  input: AssociateFeedRequest,
-) => effect.Effect<
+export const associateFeed: API.OperationMethod<
+  AssociateFeedRequest,
   AssociateFeedResponse,
   | AccessDeniedException
   | ConflictException
@@ -850,9 +840,8 @@ export const associateFeed: (
 /**
  * Releases the resource (for example, an MediaLive channel) that is associated with this feed. The outputs in the feed become disabled.
  */
-export const disassociateFeed: (
-  input: DisassociateFeedRequest,
-) => effect.Effect<
+export const disassociateFeed: API.OperationMethod<
+  DisassociateFeedRequest,
   DisassociateFeedResponse,
   | AccessDeniedException
   | ConflictException

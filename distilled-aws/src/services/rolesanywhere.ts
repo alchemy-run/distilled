@@ -949,9 +949,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  *
  * **Required permissions: ** `rolesanywhere:ListTagsForResource`.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -974,9 +973,8 @@ export const listTagsForResource: (
  *
  * **Required permissions: ** `rolesanywhere:PutNotificationSettings`.
  */
-export const putNotificationSettings: (
-  input: PutNotificationSettingsRequest,
-) => effect.Effect<
+export const putNotificationSettings: API.OperationMethod<
+  PutNotificationSettingsRequest,
   PutNotificationSettingsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -997,9 +995,8 @@ export const putNotificationSettings: (
  *
  * **Required permissions: ** `rolesanywhere:ResetNotificationSettings`.
  */
-export const resetNotificationSettings: (
-  input: ResetNotificationSettingsRequest,
-) => effect.Effect<
+export const resetNotificationSettings: API.OperationMethod<
+  ResetNotificationSettingsRequest,
   ResetNotificationSettingsResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1020,9 +1017,8 @@ export const resetNotificationSettings: (
  *
  * **Required permissions: ** `rolesanywhere:TagResource`.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1045,9 +1041,8 @@ export const tagResource: (
  *
  * **Required permissions: ** `rolesanywhere:UntagResource`.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1068,9 +1063,8 @@ export const untagResource: (
  *
  * **Required permissions: ** `rolesanywhere:ImportCrl`.
  */
-export const importCrl: (
-  input: ImportCrlRequest,
-) => effect.Effect<
+export const importCrl: API.OperationMethod<
+  ImportCrlRequest,
   CrlDetailResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1084,9 +1078,8 @@ export const importCrl: (
  *
  * **Required permissions: ** `rolesanywhere:GetCrl`.
  */
-export const getCrl: (
-  input: ScalarCrlRequest,
-) => effect.Effect<
+export const getCrl: API.OperationMethod<
+  ScalarCrlRequest,
   CrlDetailResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1100,9 +1093,8 @@ export const getCrl: (
  *
  * **Required permissions: ** `rolesanywhere:UpdateCrl`.
  */
-export const updateCrl: (
-  input: UpdateCrlRequest,
-) => effect.Effect<
+export const updateCrl: API.OperationMethod<
+  UpdateCrlRequest,
   CrlDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1123,9 +1115,8 @@ export const updateCrl: (
  *
  * **Required permissions: ** `rolesanywhere:DeleteCrl`.
  */
-export const deleteCrl: (
-  input: ScalarCrlRequest,
-) => effect.Effect<
+export const deleteCrl: API.OperationMethod<
+  ScalarCrlRequest,
   CrlDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1139,14 +1130,12 @@ export const deleteCrl: (
  *
  * **Required permissions: ** `rolesanywhere:ListCrls`.
  */
-export const listCrls: {
-  (
-    input: ListRequest,
-  ): effect.Effect<
-    ListCrlsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCrls: API.OperationMethod<
+  ListRequest,
+  ListCrlsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
@@ -1176,9 +1165,8 @@ export const listCrls: {
  *
  * **Required permissions: ** `rolesanywhere:DisableCrl`.
  */
-export const disableCrl: (
-  input: ScalarCrlRequest,
-) => effect.Effect<
+export const disableCrl: API.OperationMethod<
+  ScalarCrlRequest,
   CrlDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1192,9 +1180,8 @@ export const disableCrl: (
  *
  * **Required permissions: ** `rolesanywhere:EnableCrl`.
  */
-export const enableCrl: (
-  input: ScalarCrlRequest,
-) => effect.Effect<
+export const enableCrl: API.OperationMethod<
+  ScalarCrlRequest,
   CrlDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1208,9 +1195,8 @@ export const enableCrl: (
  *
  * **Required permissions: ** `rolesanywhere:CreateProfile`.
  */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
+export const createProfile: API.OperationMethod<
+  CreateProfileRequest,
   ProfileDetailResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1224,9 +1210,8 @@ export const createProfile: (
  *
  * **Required permissions: ** `rolesanywhere:GetProfile`.
  */
-export const getProfile: (
-  input: ScalarProfileRequest,
-) => effect.Effect<
+export const getProfile: API.OperationMethod<
+  ScalarProfileRequest,
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1240,9 +1225,8 @@ export const getProfile: (
  *
  * **Required permissions: ** `rolesanywhere:UpdateProfile`.
  */
-export const updateProfile: (
-  input: UpdateProfileRequest,
-) => effect.Effect<
+export const updateProfile: API.OperationMethod<
+  UpdateProfileRequest,
   ProfileDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1263,9 +1247,8 @@ export const updateProfile: (
  *
  * **Required permissions: ** `rolesanywhere:DeleteProfile`.
  */
-export const deleteProfile: (
-  input: ScalarProfileRequest,
-) => effect.Effect<
+export const deleteProfile: API.OperationMethod<
+  ScalarProfileRequest,
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1279,14 +1262,12 @@ export const deleteProfile: (
  *
  * **Required permissions: ** `rolesanywhere:ListProfiles`.
  */
-export const listProfiles: {
-  (
-    input: ListRequest,
-  ): effect.Effect<
-    ListProfilesResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfiles: API.OperationMethod<
+  ListRequest,
+  ListProfilesResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
@@ -1314,9 +1295,8 @@ export const listProfiles: {
 /**
  * Delete an entry from the attribute mapping rules enforced by a given profile.
  */
-export const deleteAttributeMapping: (
-  input: DeleteAttributeMappingRequest,
-) => effect.Effect<
+export const deleteAttributeMapping: API.OperationMethod<
+  DeleteAttributeMappingRequest,
   DeleteAttributeMappingResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1337,9 +1317,8 @@ export const deleteAttributeMapping: (
  *
  * **Required permissions: ** `rolesanywhere:DisableProfile`.
  */
-export const disableProfile: (
-  input: ScalarProfileRequest,
-) => effect.Effect<
+export const disableProfile: API.OperationMethod<
+  ScalarProfileRequest,
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1353,9 +1332,8 @@ export const disableProfile: (
  *
  * **Required permissions: ** `rolesanywhere:EnableProfile`.
  */
-export const enableProfile: (
-  input: ScalarProfileRequest,
-) => effect.Effect<
+export const enableProfile: API.OperationMethod<
+  ScalarProfileRequest,
   ProfileDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1367,9 +1345,8 @@ export const enableProfile: (
 /**
  * Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
  */
-export const putAttributeMapping: (
-  input: PutAttributeMappingRequest,
-) => effect.Effect<
+export const putAttributeMapping: API.OperationMethod<
+  PutAttributeMappingRequest,
   PutAttributeMappingResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1390,9 +1367,8 @@ export const putAttributeMapping: (
  *
  * **Required permissions: ** `rolesanywhere:GetSubject`.
  */
-export const getSubject: (
-  input: ScalarSubjectRequest,
-) => effect.Effect<
+export const getSubject: API.OperationMethod<
+  ScalarSubjectRequest,
   SubjectDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1406,14 +1382,12 @@ export const getSubject: (
  *
  * **Required permissions: ** `rolesanywhere:ListSubjects`.
  */
-export const listSubjects: {
-  (
-    input: ListRequest,
-  ): effect.Effect<
-    ListSubjectsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubjects: API.OperationMethod<
+  ListRequest,
+  ListSubjectsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
@@ -1443,9 +1417,8 @@ export const listSubjects: {
  *
  * **Required permissions: ** `rolesanywhere:CreateTrustAnchor`.
  */
-export const createTrustAnchor: (
-  input: CreateTrustAnchorRequest,
-) => effect.Effect<
+export const createTrustAnchor: API.OperationMethod<
+  CreateTrustAnchorRequest,
   TrustAnchorDetailResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1459,9 +1432,8 @@ export const createTrustAnchor: (
  *
  * **Required permissions: ** `rolesanywhere:GetTrustAnchor`.
  */
-export const getTrustAnchor: (
-  input: ScalarTrustAnchorRequest,
-) => effect.Effect<
+export const getTrustAnchor: API.OperationMethod<
+  ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1482,9 +1454,8 @@ export const getTrustAnchor: (
  *
  * **Required permissions: ** `rolesanywhere:UpdateTrustAnchor`.
  */
-export const updateTrustAnchor: (
-  input: UpdateTrustAnchorRequest,
-) => effect.Effect<
+export const updateTrustAnchor: API.OperationMethod<
+  UpdateTrustAnchorRequest,
   TrustAnchorDetailResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1505,9 +1476,8 @@ export const updateTrustAnchor: (
  *
  * **Required permissions: ** `rolesanywhere:DeleteTrustAnchor`.
  */
-export const deleteTrustAnchor: (
-  input: ScalarTrustAnchorRequest,
-) => effect.Effect<
+export const deleteTrustAnchor: API.OperationMethod<
+  ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1521,14 +1491,12 @@ export const deleteTrustAnchor: (
  *
  * **Required permissions: ** `rolesanywhere:ListTrustAnchors`.
  */
-export const listTrustAnchors: {
-  (
-    input: ListRequest,
-  ): effect.Effect<
-    ListTrustAnchorsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrustAnchors: API.OperationMethod<
+  ListRequest,
+  ListTrustAnchorsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequest,
   ) => stream.Stream<
@@ -1558,9 +1526,8 @@ export const listTrustAnchors: {
  *
  * **Required permissions: ** `rolesanywhere:DisableTrustAnchor`.
  */
-export const disableTrustAnchor: (
-  input: ScalarTrustAnchorRequest,
-) => effect.Effect<
+export const disableTrustAnchor: API.OperationMethod<
+  ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1574,9 +1541,8 @@ export const disableTrustAnchor: (
  *
  * **Required permissions: ** `rolesanywhere:EnableTrustAnchor`.
  */
-export const enableTrustAnchor: (
-  input: ScalarTrustAnchorRequest,
-) => effect.Effect<
+export const enableTrustAnchor: API.OperationMethod<
+  ScalarTrustAnchorRequest,
   TrustAnchorDetailResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

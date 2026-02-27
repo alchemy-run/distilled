@@ -2936,9 +2936,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Create an extended source server in the target Account based on the source server in staging account.
  */
-export const createExtendedSourceServer: (
-  input: CreateExtendedSourceServerRequest,
-) => effect.Effect<
+export const createExtendedSourceServer: API.OperationMethod<
+  CreateExtendedSourceServerRequest,
   CreateExtendedSourceServerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2965,9 +2964,8 @@ export const createExtendedSourceServer: (
 /**
  * Deletes a resource launch action.
  */
-export const deleteLaunchAction: (
-  input: DeleteLaunchActionRequest,
-) => effect.Effect<
+export const deleteLaunchAction: API.OperationMethod<
+  DeleteLaunchActionRequest,
   DeleteLaunchActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2990,9 +2988,8 @@ export const deleteLaunchAction: (
 /**
  * Initialize Elastic Disaster Recovery.
  */
-export const initializeService: (
-  input: InitializeServiceRequest,
-) => effect.Effect<
+export const initializeService: API.OperationMethod<
+  InitializeServiceRequest,
   InitializeServiceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3015,19 +3012,17 @@ export const initializeService: (
  * a. The source server is not already extended into this Account.
  * b. The source server on the Account we’re reading from is not an extension of another source server.
  */
-export const listExtensibleSourceServers: {
-  (
-    input: ListExtensibleSourceServersRequest,
-  ): effect.Effect<
-    ListExtensibleSourceServersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExtensibleSourceServers: API.OperationMethod<
+  ListExtensibleSourceServersRequest,
+  ListExtensibleSourceServersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExtensibleSourceServersRequest,
   ) => stream.Stream<
@@ -3072,19 +3067,17 @@ export const listExtensibleSourceServers: {
 /**
  * Lists resource launch actions.
  */
-export const listLaunchActions: {
-  (
-    input: ListLaunchActionsRequest,
-  ): effect.Effect<
-    ListLaunchActionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | UninitializedAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLaunchActions: API.OperationMethod<
+  ListLaunchActionsRequest,
+  ListLaunchActionsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UninitializedAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLaunchActionsRequest,
   ) => stream.Stream<
@@ -3129,19 +3122,17 @@ export const listLaunchActions: {
 /**
  * Returns an array of staging accounts for existing extended source servers.
  */
-export const listStagingAccounts: {
-  (
-    input: ListStagingAccountsRequest,
-  ): effect.Effect<
-    ListStagingAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStagingAccounts: API.OperationMethod<
+  ListStagingAccountsRequest,
+  ListStagingAccountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStagingAccountsRequest,
   ) => stream.Stream<
@@ -3186,9 +3177,8 @@ export const listStagingAccounts: {
 /**
  * List all tags for your Elastic Disaster Recovery resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3211,9 +3201,8 @@ export const listTagsForResource: (
 /**
  * Puts a resource launch action.
  */
-export const putLaunchAction: (
-  input: PutLaunchActionRequest,
-) => effect.Effect<
+export const putLaunchAction: API.OperationMethod<
+  PutLaunchActionRequest,
   PutLaunchActionResponse,
   | ConflictException
   | InternalServerException
@@ -3238,9 +3227,8 @@ export const putLaunchAction: (
 /**
  * Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3263,9 +3251,8 @@ export const tagResource: (
 /**
  * Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3288,9 +3275,8 @@ export const untagResource: (
 /**
  * Deletes a single Job by ID.
  */
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResponse,
   | ConflictException
   | InternalServerException
@@ -3313,18 +3299,16 @@ export const deleteJob: (
 /**
  * Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
-export const describeJobs: {
-  (
-    input: DescribeJobsRequest,
-  ): effect.Effect<
-    DescribeJobsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeJobs: API.OperationMethod<
+  DescribeJobsRequest,
+  DescribeJobsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeJobsRequest,
   ) => stream.Stream<
@@ -3366,18 +3350,16 @@ export const describeJobs: {
 /**
  * Retrieves a detailed Job log with pagination.
  */
-export const describeJobLogItems: {
-  (
-    input: DescribeJobLogItemsRequest,
-  ): effect.Effect<
-    DescribeJobLogItemsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeJobLogItems: API.OperationMethod<
+  DescribeJobLogItemsRequest,
+  DescribeJobLogItemsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeJobLogItemsRequest,
   ) => stream.Stream<
@@ -3419,9 +3401,8 @@ export const describeJobLogItems: {
 /**
  * Creates a new Launch Configuration Template.
  */
-export const createLaunchConfigurationTemplate: (
-  input: CreateLaunchConfigurationTemplateRequest,
-) => effect.Effect<
+export const createLaunchConfigurationTemplate: API.OperationMethod<
+  CreateLaunchConfigurationTemplateRequest,
   CreateLaunchConfigurationTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3446,9 +3427,8 @@ export const createLaunchConfigurationTemplate: (
 /**
  * Updates an existing Launch Configuration Template by ID.
  */
-export const updateLaunchConfigurationTemplate: (
-  input: UpdateLaunchConfigurationTemplateRequest,
-) => effect.Effect<
+export const updateLaunchConfigurationTemplate: API.OperationMethod<
+  UpdateLaunchConfigurationTemplateRequest,
   UpdateLaunchConfigurationTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3473,9 +3453,8 @@ export const updateLaunchConfigurationTemplate: (
 /**
  * Deletes a single Launch Configuration Template by ID.
  */
-export const deleteLaunchConfigurationTemplate: (
-  input: DeleteLaunchConfigurationTemplateRequest,
-) => effect.Effect<
+export const deleteLaunchConfigurationTemplate: API.OperationMethod<
+  DeleteLaunchConfigurationTemplateRequest,
   DeleteLaunchConfigurationTemplateResponse,
   | ConflictException
   | InternalServerException
@@ -3498,19 +3477,17 @@ export const deleteLaunchConfigurationTemplate: (
 /**
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
-export const describeLaunchConfigurationTemplates: {
-  (
-    input: DescribeLaunchConfigurationTemplatesRequest,
-  ): effect.Effect<
-    DescribeLaunchConfigurationTemplatesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLaunchConfigurationTemplates: API.OperationMethod<
+  DescribeLaunchConfigurationTemplatesRequest,
+  DescribeLaunchConfigurationTemplatesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLaunchConfigurationTemplatesRequest,
   ) => stream.Stream<
@@ -3555,18 +3532,16 @@ export const describeLaunchConfigurationTemplates: {
 /**
  * Lists all Recovery Instances or multiple Recovery Instances by ID.
  */
-export const describeRecoveryInstances: {
-  (
-    input: DescribeRecoveryInstancesRequest,
-  ): effect.Effect<
-    DescribeRecoveryInstancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRecoveryInstances: API.OperationMethod<
+  DescribeRecoveryInstancesRequest,
+  DescribeRecoveryInstancesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRecoveryInstancesRequest,
   ) => stream.Stream<
@@ -3608,9 +3583,8 @@ export const describeRecoveryInstances: {
 /**
  * Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
  */
-export const deleteRecoveryInstance: (
-  input: DeleteRecoveryInstanceRequest,
-) => effect.Effect<
+export const deleteRecoveryInstance: API.OperationMethod<
+  DeleteRecoveryInstanceRequest,
   DeleteRecoveryInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3633,9 +3607,8 @@ export const deleteRecoveryInstance: (
 /**
  * Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const disconnectRecoveryInstance: (
-  input: DisconnectRecoveryInstanceRequest,
-) => effect.Effect<
+export const disconnectRecoveryInstance: API.OperationMethod<
+  DisconnectRecoveryInstanceRequest,
   DisconnectRecoveryInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3660,9 +3633,8 @@ export const disconnectRecoveryInstance: (
 /**
  * Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
  */
-export const getFailbackReplicationConfiguration: (
-  input: GetFailbackReplicationConfigurationRequest,
-) => effect.Effect<
+export const getFailbackReplicationConfiguration: API.OperationMethod<
+  GetFailbackReplicationConfigurationRequest,
   GetFailbackReplicationConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3685,9 +3657,8 @@ export const getFailbackReplicationConfiguration: (
  * For recovery instances on target region - starts replication back to origin region.
  * For failback instances on origin region - starts replication to target region to re-protect them.
  */
-export const reverseReplication: (
-  input: ReverseReplicationRequest,
-) => effect.Effect<
+export const reverseReplication: API.OperationMethod<
+  ReverseReplicationRequest,
   ReverseReplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3714,9 +3685,8 @@ export const reverseReplication: (
 /**
  * Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
  */
-export const stopFailback: (
-  input: StopFailbackRequest,
-) => effect.Effect<
+export const stopFailback: API.OperationMethod<
+  StopFailbackRequest,
   StopFailbackResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3737,9 +3707,8 @@ export const stopFailback: (
 /**
  * Allows you to update the failback replication configuration of a Recovery Instance by ID.
  */
-export const updateFailbackReplicationConfiguration: (
-  input: UpdateFailbackReplicationConfigurationRequest,
-) => effect.Effect<
+export const updateFailbackReplicationConfiguration: API.OperationMethod<
+  UpdateFailbackReplicationConfigurationRequest,
   UpdateFailbackReplicationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3762,9 +3731,8 @@ export const updateFailbackReplicationConfiguration: (
 /**
  * Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
  */
-export const startFailbackLaunch: (
-  input: StartFailbackLaunchRequest,
-) => effect.Effect<
+export const startFailbackLaunch: API.OperationMethod<
+  StartFailbackLaunchRequest,
   StartFailbackLaunchResponse,
   | ConflictException
   | InternalServerException
@@ -3789,9 +3757,8 @@ export const startFailbackLaunch: (
 /**
  * Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
  */
-export const terminateRecoveryInstances: (
-  input: TerminateRecoveryInstancesRequest,
-) => effect.Effect<
+export const terminateRecoveryInstances: API.OperationMethod<
+  TerminateRecoveryInstancesRequest,
   TerminateRecoveryInstancesResponse,
   | ConflictException
   | InternalServerException
@@ -3814,9 +3781,8 @@ export const terminateRecoveryInstances: (
 /**
  * Creates a new ReplicationConfigurationTemplate.
  */
-export const createReplicationConfigurationTemplate: (
-  input: CreateReplicationConfigurationTemplateRequest,
-) => effect.Effect<
+export const createReplicationConfigurationTemplate: API.OperationMethod<
+  CreateReplicationConfigurationTemplateRequest,
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | InternalServerException
@@ -3841,9 +3807,8 @@ export const createReplicationConfigurationTemplate: (
 /**
  * Updates a ReplicationConfigurationTemplate by ID.
  */
-export const updateReplicationConfigurationTemplate: (
-  input: UpdateReplicationConfigurationTemplateRequest,
-) => effect.Effect<
+export const updateReplicationConfigurationTemplate: API.OperationMethod<
+  UpdateReplicationConfigurationTemplateRequest,
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | InternalServerException
@@ -3868,9 +3833,8 @@ export const updateReplicationConfigurationTemplate: (
 /**
  * Deletes a single Replication Configuration Template by ID
  */
-export const deleteReplicationConfigurationTemplate: (
-  input: DeleteReplicationConfigurationTemplateRequest,
-) => effect.Effect<
+export const deleteReplicationConfigurationTemplate: API.OperationMethod<
+  DeleteReplicationConfigurationTemplateRequest,
   DeleteReplicationConfigurationTemplateResponse,
   | ConflictException
   | InternalServerException
@@ -3893,19 +3857,17 @@ export const deleteReplicationConfigurationTemplate: (
 /**
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
-export const describeReplicationConfigurationTemplates: {
-  (
-    input: DescribeReplicationConfigurationTemplatesRequest,
-  ): effect.Effect<
-    DescribeReplicationConfigurationTemplatesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationConfigurationTemplates: API.OperationMethod<
+  DescribeReplicationConfigurationTemplatesRequest,
+  DescribeReplicationConfigurationTemplatesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationConfigurationTemplatesRequest,
   ) => stream.Stream<
@@ -3950,9 +3912,8 @@ export const describeReplicationConfigurationTemplates: {
 /**
  * Create a new Source Network resource for a provided VPC ID.
  */
-export const createSourceNetwork: (
-  input: CreateSourceNetworkRequest,
-) => effect.Effect<
+export const createSourceNetwork: API.OperationMethod<
+  CreateSourceNetworkRequest,
   CreateSourceNetworkResponse,
   | ConflictException
   | InternalServerException
@@ -3979,9 +3940,8 @@ export const createSourceNetwork: (
 /**
  * Delete Source Network resource.
  */
-export const deleteSourceNetwork: (
-  input: DeleteSourceNetworkRequest,
-) => effect.Effect<
+export const deleteSourceNetwork: API.OperationMethod<
+  DeleteSourceNetworkRequest,
   DeleteSourceNetworkResponse,
   | ConflictException
   | InternalServerException
@@ -4004,18 +3964,16 @@ export const deleteSourceNetwork: (
 /**
  * Lists all Source Networks or multiple Source Networks filtered by ID.
  */
-export const describeSourceNetworks: {
-  (
-    input: DescribeSourceNetworksRequest,
-  ): effect.Effect<
-    DescribeSourceNetworksResponse,
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSourceNetworks: API.OperationMethod<
+  DescribeSourceNetworksRequest,
+  DescribeSourceNetworksResponse,
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSourceNetworksRequest,
   ) => stream.Stream<
@@ -4057,9 +4015,8 @@ export const describeSourceNetworks: {
 /**
  * Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
  */
-export const associateSourceNetworkStack: (
-  input: AssociateSourceNetworkStackRequest,
-) => effect.Effect<
+export const associateSourceNetworkStack: API.OperationMethod<
+  AssociateSourceNetworkStackRequest,
   AssociateSourceNetworkStackResponse,
   | ConflictException
   | InternalServerException
@@ -4086,9 +4043,8 @@ export const associateSourceNetworkStack: (
 /**
  * Export the Source Network CloudFormation template to an S3 bucket.
  */
-export const exportSourceNetworkCfnTemplate: (
-  input: ExportSourceNetworkCfnTemplateRequest,
-) => effect.Effect<
+export const exportSourceNetworkCfnTemplate: API.OperationMethod<
+  ExportSourceNetworkCfnTemplateRequest,
   ExportSourceNetworkCfnTemplateResponse,
   | ConflictException
   | InternalServerException
@@ -4113,9 +4069,8 @@ export const exportSourceNetworkCfnTemplate: (
 /**
  * Starts replication for a Source Network. This action would make the Source Network protected.
  */
-export const startSourceNetworkReplication: (
-  input: StartSourceNetworkReplicationRequest,
-) => effect.Effect<
+export const startSourceNetworkReplication: API.OperationMethod<
+  StartSourceNetworkReplicationRequest,
   StartSourceNetworkReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -4138,9 +4093,8 @@ export const startSourceNetworkReplication: (
 /**
  * Stops replication for a Source Network. This action would make the Source Network unprotected.
  */
-export const stopSourceNetworkReplication: (
-  input: StopSourceNetworkReplicationRequest,
-) => effect.Effect<
+export const stopSourceNetworkReplication: API.OperationMethod<
+  StopSourceNetworkReplicationRequest,
   StopSourceNetworkReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -4165,9 +4119,8 @@ export const stopSourceNetworkReplication: (
 /**
  * Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
  */
-export const startSourceNetworkRecovery: (
-  input: StartSourceNetworkRecoveryRequest,
-) => effect.Effect<
+export const startSourceNetworkRecovery: API.OperationMethod<
+  StartSourceNetworkRecoveryRequest,
   StartSourceNetworkRecoveryResponse,
   | ConflictException
   | InternalServerException
@@ -4192,9 +4145,8 @@ export const startSourceNetworkRecovery: (
 /**
  * Deletes a single Source Server by ID. The Source Server must be disconnected first.
  */
-export const deleteSourceServer: (
-  input: DeleteSourceServerRequest,
-) => effect.Effect<
+export const deleteSourceServer: API.OperationMethod<
+  DeleteSourceServerRequest,
   DeleteSourceServerResponse,
   | ConflictException
   | InternalServerException
@@ -4217,18 +4169,16 @@ export const deleteSourceServer: (
 /**
  * Lists all Source Servers or multiple Source Servers filtered by ID.
  */
-export const describeSourceServers: {
-  (
-    input: DescribeSourceServersRequest,
-  ): effect.Effect<
-    DescribeSourceServersResponse,
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSourceServers: API.OperationMethod<
+  DescribeSourceServersRequest,
+  DescribeSourceServersResponse,
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSourceServersRequest,
   ) => stream.Stream<
@@ -4270,19 +4220,17 @@ export const describeSourceServers: {
 /**
  * Lists all Recovery Snapshots for a single Source Server.
  */
-export const describeRecoverySnapshots: {
-  (
-    input: DescribeRecoverySnapshotsRequest,
-  ): effect.Effect<
-    DescribeRecoverySnapshotsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRecoverySnapshots: API.OperationMethod<
+  DescribeRecoverySnapshotsRequest,
+  DescribeRecoverySnapshotsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRecoverySnapshotsRequest,
   ) => stream.Stream<
@@ -4327,9 +4275,8 @@ export const describeRecoverySnapshots: {
 /**
  * Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const disconnectSourceServer: (
-  input: DisconnectSourceServerRequest,
-) => effect.Effect<
+export const disconnectSourceServer: API.OperationMethod<
+  DisconnectSourceServerRequest,
   SourceServer,
   | ConflictException
   | InternalServerException
@@ -4352,9 +4299,8 @@ export const disconnectSourceServer: (
 /**
  * Gets a LaunchConfiguration, filtered by Source Server IDs.
  */
-export const getLaunchConfiguration: (
-  input: GetLaunchConfigurationRequest,
-) => effect.Effect<
+export const getLaunchConfiguration: API.OperationMethod<
+  GetLaunchConfigurationRequest,
   LaunchConfiguration,
   | InternalServerException
   | ResourceNotFoundException
@@ -4375,9 +4321,8 @@ export const getLaunchConfiguration: (
 /**
  * Gets a ReplicationConfiguration, filtered by Source Server ID.
  */
-export const getReplicationConfiguration: (
-  input: GetReplicationConfigurationRequest,
-) => effect.Effect<
+export const getReplicationConfiguration: API.OperationMethod<
+  GetReplicationConfigurationRequest,
   ReplicationConfiguration,
   | AccessDeniedException
   | InternalServerException
@@ -4401,9 +4346,8 @@ export const getReplicationConfiguration: (
  * WARNING: RetryDataReplication is deprecated.
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
  */
-export const retryDataReplication: (
-  input: RetryDataReplicationRequest,
-) => effect.Effect<
+export const retryDataReplication: API.OperationMethod<
+  RetryDataReplicationRequest,
   SourceServer,
   | InternalServerException
   | ResourceNotFoundException
@@ -4426,9 +4370,8 @@ export const retryDataReplication: (
 /**
  * Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
  */
-export const startReplication: (
-  input: StartReplicationRequest,
-) => effect.Effect<
+export const startReplication: API.OperationMethod<
+  StartReplicationRequest,
   StartReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -4451,9 +4394,8 @@ export const startReplication: (
 /**
  * Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
  */
-export const stopReplication: (
-  input: StopReplicationRequest,
-) => effect.Effect<
+export const stopReplication: API.OperationMethod<
+  StopReplicationRequest,
   StopReplicationResponse,
   | ConflictException
   | InternalServerException
@@ -4476,9 +4418,8 @@ export const stopReplication: (
 /**
  * Updates a LaunchConfiguration by Source Server ID.
  */
-export const updateLaunchConfiguration: (
-  input: UpdateLaunchConfigurationRequest,
-) => effect.Effect<
+export const updateLaunchConfiguration: API.OperationMethod<
+  UpdateLaunchConfigurationRequest,
   LaunchConfiguration,
   | ConflictException
   | InternalServerException
@@ -4503,9 +4444,8 @@ export const updateLaunchConfiguration: (
 /**
  * Allows you to update a ReplicationConfiguration by Source Server ID.
  */
-export const updateReplicationConfiguration: (
-  input: UpdateReplicationConfigurationRequest,
-) => effect.Effect<
+export const updateReplicationConfiguration: API.OperationMethod<
+  UpdateReplicationConfigurationRequest,
   ReplicationConfiguration,
   | AccessDeniedException
   | ConflictException
@@ -4532,9 +4472,8 @@ export const updateReplicationConfiguration: (
 /**
  * Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
  */
-export const startRecovery: (
-  input: StartRecoveryRequest,
-) => effect.Effect<
+export const startRecovery: API.OperationMethod<
+  StartRecoveryRequest,
   StartRecoveryResponse,
   | ConflictException
   | InternalServerException

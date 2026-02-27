@@ -151,6 +151,10 @@ export const GetHealthcheckResponse = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -177,20 +181,29 @@ export const GetHealthcheckResponse = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    address: "address",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
     createdOn: "created_on",
+    description: "description",
     failureReason: "failure_reason",
     httpConfig: "http_config",
+    interval: "interval",
     modifiedOn: "modified_on",
+    name: "name",
+    retries: "retries",
+    status: "status",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<GetHealthcheckResponse>;
 
-export const getHealthcheck: (
-  input: GetHealthcheckRequest,
-) => Effect.Effect<
+export const getHealthcheck: API.OperationMethod<
+  GetHealthcheckRequest,
   GetHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -311,6 +324,10 @@ export const ListHealthchecksResponse = Schema.Array(
             expectedBody: "expected_body",
             expectedCodes: "expected_codes",
             followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
           }),
         ),
         Schema.Null,
@@ -337,21 +354,30 @@ export const ListHealthchecksResponse = Schema.Array(
     type: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      address: "address",
       checkRegions: "check_regions",
       consecutiveFails: "consecutive_fails",
       consecutiveSuccesses: "consecutive_successes",
       createdOn: "created_on",
+      description: "description",
       failureReason: "failure_reason",
       httpConfig: "http_config",
+      interval: "interval",
       modifiedOn: "modified_on",
+      name: "name",
+      retries: "retries",
+      status: "status",
+      suspended: "suspended",
       tcpConfig: "tcp_config",
+      timeout: "timeout",
+      type: "type",
     }),
   ),
 ) as unknown as Schema.Schema<ListHealthchecksResponse>;
 
-export const listHealthchecks: (
-  input: ListHealthchecksRequest,
-) => Effect.Effect<
+export const listHealthchecks: API.OperationMethod<
+  ListHealthchecksRequest,
   ListHealthchecksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -467,6 +493,10 @@ export const CreateHealthcheckRequest = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -488,11 +518,19 @@ export const CreateHealthcheckRequest = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    address: "address",
+    name: "name",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
+    description: "description",
     httpConfig: "http_config",
+    interval: "interval",
+    retries: "retries",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/healthchecks" }),
 ) as unknown as Schema.Schema<CreateHealthcheckRequest>;
@@ -610,6 +648,10 @@ export const CreateHealthcheckResponse = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -636,20 +678,29 @@ export const CreateHealthcheckResponse = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    address: "address",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
     createdOn: "created_on",
+    description: "description",
     failureReason: "failure_reason",
     httpConfig: "http_config",
+    interval: "interval",
     modifiedOn: "modified_on",
+    name: "name",
+    retries: "retries",
+    status: "status",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<CreateHealthcheckResponse>;
 
-export const createHealthcheck: (
-  input: CreateHealthcheckRequest,
-) => Effect.Effect<
+export const createHealthcheck: API.OperationMethod<
+  CreateHealthcheckRequest,
   CreateHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -767,6 +818,10 @@ export const UpdateHealthcheckRequest = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -788,11 +843,19 @@ export const UpdateHealthcheckRequest = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    address: "address",
+    name: "name",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
+    description: "description",
     httpConfig: "http_config",
+    interval: "interval",
+    retries: "retries",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "PUT",
@@ -913,6 +976,10 @@ export const UpdateHealthcheckResponse = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -939,20 +1006,29 @@ export const UpdateHealthcheckResponse = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    address: "address",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
     createdOn: "created_on",
+    description: "description",
     failureReason: "failure_reason",
     httpConfig: "http_config",
+    interval: "interval",
     modifiedOn: "modified_on",
+    name: "name",
+    retries: "retries",
+    status: "status",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<UpdateHealthcheckResponse>;
 
-export const updateHealthcheck: (
-  input: UpdateHealthcheckRequest,
-) => Effect.Effect<
+export const updateHealthcheck: API.OperationMethod<
+  UpdateHealthcheckRequest,
   UpdateHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1070,6 +1146,10 @@ export const PatchHealthcheckRequest = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -1091,11 +1171,19 @@ export const PatchHealthcheckRequest = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    address: "address",
+    name: "name",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
+    description: "description",
     httpConfig: "http_config",
+    interval: "interval",
+    retries: "retries",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({
     method: "PATCH",
@@ -1216,6 +1304,10 @@ export const PatchHealthcheckResponse = Schema.Struct({
           expectedBody: "expected_body",
           expectedCodes: "expected_codes",
           followRedirects: "follow_redirects",
+          header: "header",
+          method: "method",
+          path: "path",
+          port: "port",
         }),
       ),
       Schema.Null,
@@ -1242,20 +1334,29 @@ export const PatchHealthcheckResponse = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    address: "address",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
     createdOn: "created_on",
+    description: "description",
     failureReason: "failure_reason",
     httpConfig: "http_config",
+    interval: "interval",
     modifiedOn: "modified_on",
+    name: "name",
+    retries: "retries",
+    status: "status",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<PatchHealthcheckResponse>;
 
-export const patchHealthcheck: (
-  input: PatchHealthcheckRequest,
-) => Effect.Effect<
+export const patchHealthcheck: API.OperationMethod<
+  PatchHealthcheckRequest,
   PatchHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1290,9 +1391,8 @@ export const DeleteHealthcheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteHealthcheckResponse>;
 
-export const deleteHealthcheck: (
-  input: DeleteHealthcheckRequest,
-) => Effect.Effect<
+export const deleteHealthcheck: API.OperationMethod<
+  DeleteHealthcheckRequest,
   DeleteHealthcheckResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1327,9 +1427,8 @@ export type GetPreviewResponse = unknown;
 export const GetPreviewResponse =
   Schema.Unknown as unknown as Schema.Schema<GetPreviewResponse>;
 
-export const getPreview: (
-  input: GetPreviewRequest,
-) => Effect.Effect<
+export const getPreview: API.OperationMethod<
+  GetPreviewRequest,
   GetPreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1426,11 +1525,19 @@ export const CreatePreviewRequest = Schema.Struct({
   type: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    address: "address",
+    name: "name",
     checkRegions: "check_regions",
     consecutiveFails: "consecutive_fails",
     consecutiveSuccesses: "consecutive_successes",
+    description: "description",
     httpConfig: "http_config",
+    interval: "interval",
+    retries: "retries",
+    suspended: "suspended",
     tcpConfig: "tcp_config",
+    timeout: "timeout",
+    type: "type",
   }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/healthchecks/preview" }),
 ) as unknown as Schema.Schema<CreatePreviewRequest>;
@@ -1440,9 +1547,8 @@ export type CreatePreviewResponse = unknown;
 export const CreatePreviewResponse =
   Schema.Unknown as unknown as Schema.Schema<CreatePreviewResponse>;
 
-export const createPreview: (
-  input: CreatePreviewRequest,
-) => Effect.Effect<
+export const createPreview: API.OperationMethod<
+  CreatePreviewRequest,
   CreatePreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1477,9 +1583,8 @@ export const DeletePreviewResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePreviewResponse>;
 
-export const deletePreview: (
-  input: DeletePreviewRequest,
-) => Effect.Effect<
+export const deletePreview: API.OperationMethod<
+  DeletePreviewRequest,
   DeletePreviewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

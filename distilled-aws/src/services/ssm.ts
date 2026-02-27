@@ -11668,9 +11668,8 @@ export class ResourceDataSyncConflictException extends S.TaggedErrorClass<Resour
  * For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tag your Amazon EC2
  * resources in the *Amazon EC2 User Guide*.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceRequest,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceRequest,
   AddTagsToResourceResult,
   | InternalServerError
   | InvalidResourceId
@@ -11695,9 +11694,8 @@ export const addTagsToResource: (
  * Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are tools in
  * Amazon Web Services Systems Manager.
  */
-export const associateOpsItemRelatedItem: (
-  input: AssociateOpsItemRelatedItemRequest,
-) => effect.Effect<
+export const associateOpsItemRelatedItem: API.OperationMethod<
+  AssociateOpsItemRelatedItemRequest,
   AssociateOpsItemRelatedItemResponse,
   | InternalServerError
   | OpsItemConflictException
@@ -11723,9 +11721,8 @@ export const associateOpsItemRelatedItem: (
  * Attempts to cancel the command specified by the Command ID. There is no guarantee that the
  * command will be terminated and the underlying process stopped.
  */
-export const cancelCommand: (
-  input: CancelCommandRequest,
-) => effect.Effect<
+export const cancelCommand: API.OperationMethod<
+  CancelCommandRequest,
   CancelCommandResult,
   | DuplicateInstanceId
   | InternalServerError
@@ -11748,9 +11745,8 @@ export const cancelCommand: (
  * the window that haven't already starting running. Tasks already in progress will continue to
  * completion.
  */
-export const cancelMaintenanceWindowExecution: (
-  input: CancelMaintenanceWindowExecutionRequest,
-) => effect.Effect<
+export const cancelMaintenanceWindowExecution: API.OperationMethod<
+  CancelMaintenanceWindowExecutionRequest,
   CancelMaintenanceWindowExecutionResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -11770,9 +11766,8 @@ export const cancelMaintenanceWindowExecution: (
  * Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are
  * configured for Systems Manager are all called *managed nodes*.
  */
-export const createActivation: (
-  input: CreateActivationRequest,
-) => effect.Effect<
+export const createActivation: API.OperationMethod<
+  CreateActivationRequest,
   CreateActivationResult,
   InternalServerError | InvalidParameters | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -11793,9 +11788,8 @@ export const createActivation: (
  * installs it. If the software is installed, but the service isn't running, then the association
  * might instruct State Manager to start the service.
  */
-export const createAssociation: (
-  input: CreateAssociationRequest,
-) => effect.Effect<
+export const createAssociation: API.OperationMethod<
+  CreateAssociationRequest,
   CreateAssociationResult,
   | AssociationAlreadyExists
   | AssociationLimitExceeded
@@ -11842,9 +11836,8 @@ export const createAssociation: (
  * If you associate a document with a managed node that already has an associated document, the
  * system returns the AssociationAlreadyExists exception.
  */
-export const createAssociationBatch: (
-  input: CreateAssociationBatchRequest,
-) => effect.Effect<
+export const createAssociationBatch: API.OperationMethod<
+  CreateAssociationBatchRequest,
   CreateAssociationBatchResult,
   | AssociationLimitExceeded
   | DuplicateInstanceId
@@ -11884,9 +11877,8 @@ export const createAssociationBatch: (
  * supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the
  * *Amazon Web Services Systems Manager User Guide*.
  */
-export const createDocument: (
-  input: CreateDocumentRequest,
-) => effect.Effect<
+export const createDocument: API.OperationMethod<
+  CreateDocumentRequest,
   CreateDocumentResult,
   | DocumentAlreadyExists
   | DocumentLimitExceeded
@@ -11922,9 +11914,8 @@ export const createDocument: (
  * value you specify for `Cutoff` is one hour, no maintenance window tasks can start
  * after 5 PM.
  */
-export const createMaintenanceWindow: (
-  input: CreateMaintenanceWindowRequest,
-) => effect.Effect<
+export const createMaintenanceWindow: API.OperationMethod<
+  CreateMaintenanceWindowRequest,
   CreateMaintenanceWindowResult,
   | IdempotentParameterMismatch
   | InternalServerError
@@ -11949,9 +11940,8 @@ export const createMaintenanceWindow: (
  * more information, see Amazon Web Services Systems Manager OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
  */
-export const createOpsItem: (
-  input: CreateOpsItemRequest,
-) => effect.Effect<
+export const createOpsItem: API.OperationMethod<
+  CreateOpsItemRequest,
   CreateOpsItemResponse,
   | InternalServerError
   | OpsItemAccessDeniedException
@@ -11975,9 +11965,8 @@ export const createOpsItem: (
  * If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify
  * information about the new application, including the application type.
  */
-export const createOpsMetadata: (
-  input: CreateOpsMetadataRequest,
-) => effect.Effect<
+export const createOpsMetadata: API.OperationMethod<
+  CreateOpsMetadataRequest,
   CreateOpsMetadataResult,
   | InternalServerError
   | OpsMetadataAlreadyExistsException
@@ -12003,9 +11992,8 @@ export const createOpsMetadata: (
  * For information about valid key-value pairs in `PatchFilters` for each supported
  * operating system type, see PatchFilter.
  */
-export const createPatchBaseline: (
-  input: CreatePatchBaselineRequest,
-) => effect.Effect<
+export const createPatchBaseline: API.OperationMethod<
+  CreatePatchBaselineRequest,
   CreatePatchBaselineResult,
   | IdempotentParameterMismatch
   | InternalServerError
@@ -12046,9 +12034,8 @@ export const createPatchBaseline: (
  * enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you
  * secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
  */
-export const createResourceDataSync: (
-  input: CreateResourceDataSyncRequest,
-) => effect.Effect<
+export const createResourceDataSync: API.OperationMethod<
+  CreateResourceDataSyncRequest,
   CreateResourceDataSyncResult,
   | InternalServerError
   | ResourceDataSyncAlreadyExistsException
@@ -12071,9 +12058,8 @@ export const createResourceDataSync: (
  * activation, you can no longer use it to register additional managed nodes. Deleting an activation
  * doesn't de-register managed nodes. You must manually de-register managed nodes.
  */
-export const deleteActivation: (
-  input: DeleteActivationRequest,
-) => effect.Effect<
+export const deleteActivation: API.OperationMethod<
+  DeleteActivationRequest,
   DeleteActivationResult,
   | InternalServerError
   | InvalidActivation
@@ -12101,9 +12087,8 @@ export const deleteActivation: (
  * you must create a new document with the desired configuration and associate it with the
  * node.
  */
-export const deleteAssociation: (
-  input: DeleteAssociationRequest,
-) => effect.Effect<
+export const deleteAssociation: API.OperationMethod<
+  DeleteAssociationRequest,
   DeleteAssociationResult,
   | AssociationDoesNotExist
   | InternalServerError
@@ -12129,9 +12114,8 @@ export const deleteAssociation: (
  *
  * Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
  */
-export const deleteDocument: (
-  input: DeleteDocumentRequest,
-) => effect.Effect<
+export const deleteDocument: API.OperationMethod<
+  DeleteDocumentRequest,
   DeleteDocumentResult,
   | AssociatedInstances
   | InternalServerError
@@ -12155,9 +12139,8 @@ export const deleteDocument: (
  * Delete a custom inventory type or the data associated with a custom Inventory type. Deleting
  * a custom inventory type is also referred to as deleting a custom inventory schema.
  */
-export const deleteInventory: (
-  input: DeleteInventoryRequest,
-) => effect.Effect<
+export const deleteInventory: API.OperationMethod<
+  DeleteInventoryRequest,
   DeleteInventoryResult,
   | InternalServerError
   | InvalidDeleteInventoryParametersException
@@ -12180,9 +12163,8 @@ export const deleteInventory: (
 /**
  * Deletes a maintenance window.
  */
-export const deleteMaintenanceWindow: (
-  input: DeleteMaintenanceWindowRequest,
-) => effect.Effect<
+export const deleteMaintenanceWindow: API.OperationMethod<
+  DeleteMaintenanceWindowRequest,
   DeleteMaintenanceWindowResult,
   InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12214,9 +12196,8 @@ export const deleteMaintenanceWindow: (
  * Setting up
  * OpsCenter to centrally manage OpsItems across accounts in the *Systems Manager User Guide*.
  */
-export const deleteOpsItem: (
-  input: DeleteOpsItemRequest,
-) => effect.Effect<
+export const deleteOpsItem: API.OperationMethod<
+  DeleteOpsItemRequest,
   DeleteOpsItemResponse,
   InternalServerError | OpsItemInvalidParameterException | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12228,9 +12209,8 @@ export const deleteOpsItem: (
 /**
  * Delete OpsMetadata related to an application.
  */
-export const deleteOpsMetadata: (
-  input: DeleteOpsMetadataRequest,
-) => effect.Effect<
+export const deleteOpsMetadata: API.OperationMethod<
+  DeleteOpsMetadataRequest,
   DeleteOpsMetadataResult,
   | InternalServerError
   | OpsMetadataInvalidArgumentException
@@ -12250,9 +12230,8 @@ export const deleteOpsMetadata: (
  * Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds
  * to create a parameter with the same name.
  */
-export const deleteParameter: (
-  input: DeleteParameterRequest,
-) => effect.Effect<
+export const deleteParameter: API.OperationMethod<
+  DeleteParameterRequest,
   DeleteParameterResult,
   InternalServerError | ParameterNotFound | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12265,9 +12244,8 @@ export const deleteParameter: (
  * Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to
  * create a parameter with the same name.
  */
-export const deleteParameters: (
-  input: DeleteParametersRequest,
-) => effect.Effect<
+export const deleteParameters: API.OperationMethod<
+  DeleteParametersRequest,
   DeleteParametersResult,
   InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12279,9 +12257,8 @@ export const deleteParameters: (
 /**
  * Deletes a patch baseline.
  */
-export const deletePatchBaseline: (
-  input: DeletePatchBaselineRequest,
-) => effect.Effect<
+export const deletePatchBaseline: API.OperationMethod<
+  DeletePatchBaselineRequest,
   DeletePatchBaselineResult,
   InternalServerError | ResourceInUseException | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12295,9 +12272,8 @@ export const deletePatchBaseline: (
  * data on managed nodes are no longer synced to or from the target. Deleting a sync configuration
  * doesn't delete data.
  */
-export const deleteResourceDataSync: (
-  input: DeleteResourceDataSyncRequest,
-) => effect.Effect<
+export const deleteResourceDataSync: API.OperationMethod<
+  DeleteResourceDataSyncRequest,
   DeleteResourceDataSyncResult,
   | InternalServerError
   | ResourceDataSyncInvalidConfigurationException
@@ -12325,9 +12301,8 @@ export const deleteResourceDataSync: (
  * cross-account sharing of parameters, see Working with
  * shared parameters in the *Amazon Web Services Systems Manager User Guide*.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InternalServerError
   | MalformedResourcePolicyDocumentException
@@ -12359,9 +12334,8 @@ export const deleteResourcePolicy: (
  * managed nodes in a hybrid and multicloud environment in the
  * *Amazon Web Services Systems Manager User Guide*.
  */
-export const deregisterManagedInstance: (
-  input: DeregisterManagedInstanceRequest,
-) => effect.Effect<
+export const deregisterManagedInstance: API.OperationMethod<
+  DeregisterManagedInstanceRequest,
   DeregisterManagedInstanceResult,
   InternalServerError | InvalidInstanceId | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12373,9 +12347,8 @@ export const deregisterManagedInstance: (
 /**
  * Removes a patch group from a patch baseline.
  */
-export const deregisterPatchBaselineForPatchGroup: (
-  input: DeregisterPatchBaselineForPatchGroupRequest,
-) => effect.Effect<
+export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
+  DeregisterPatchBaselineForPatchGroupRequest,
   DeregisterPatchBaselineForPatchGroupResult,
   InternalServerError | InvalidResourceId | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12387,9 +12360,8 @@ export const deregisterPatchBaselineForPatchGroup: (
 /**
  * Removes a target from a maintenance window.
  */
-export const deregisterTargetFromMaintenanceWindow: (
-  input: DeregisterTargetFromMaintenanceWindowRequest,
-) => effect.Effect<
+export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
+  DeregisterTargetFromMaintenanceWindowRequest,
   DeregisterTargetFromMaintenanceWindowResult,
   | DoesNotExistException
   | InternalServerError
@@ -12404,9 +12376,8 @@ export const deregisterTargetFromMaintenanceWindow: (
 /**
  * Removes a task from a maintenance window.
  */
-export const deregisterTaskFromMaintenanceWindow: (
-  input: DeregisterTaskFromMaintenanceWindowRequest,
-) => effect.Effect<
+export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
+  DeregisterTaskFromMaintenanceWindowRequest,
   DeregisterTaskFromMaintenanceWindowResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12421,14 +12392,12 @@ export const deregisterTaskFromMaintenanceWindow: (
  * the managed nodes in the activation, and the number of nodes registered by using this
  * activation.
  */
-export const describeActivations: {
-  (
-    input: DescribeActivationsRequest,
-  ): effect.Effect<
-    DescribeActivationsResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeActivations: API.OperationMethod<
+  DescribeActivationsRequest,
+  DescribeActivationsResult,
+  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeActivationsRequest,
   ) => stream.Stream<
@@ -12459,9 +12428,8 @@ export const describeActivations: {
  * association by using the `Targets` parameter, then you must retrieve the association
  * by using the association ID.
  */
-export const describeAssociation: (
-  input: DescribeAssociationRequest,
-) => effect.Effect<
+export const describeAssociation: API.OperationMethod<
+  DescribeAssociationRequest,
   DescribeAssociationResult,
   | AssociationDoesNotExist
   | InternalServerError
@@ -12484,17 +12452,15 @@ export const describeAssociation: (
 /**
  * Views all executions for a specific association ID.
  */
-export const describeAssociationExecutions: {
-  (
-    input: DescribeAssociationExecutionsRequest,
-  ): effect.Effect<
-    DescribeAssociationExecutionsResult,
-    | AssociationDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeAssociationExecutions: API.OperationMethod<
+  DescribeAssociationExecutionsRequest,
+  DescribeAssociationExecutionsResult,
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAssociationExecutionsRequest,
   ) => stream.Stream<
@@ -12529,18 +12495,16 @@ export const describeAssociationExecutions: {
 /**
  * Views information about a specific execution of a specific association.
  */
-export const describeAssociationExecutionTargets: {
-  (
-    input: DescribeAssociationExecutionTargetsRequest,
-  ): effect.Effect<
-    DescribeAssociationExecutionTargetsResult,
-    | AssociationDoesNotExist
-    | AssociationExecutionDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeAssociationExecutionTargets: API.OperationMethod<
+  DescribeAssociationExecutionTargetsRequest,
+  DescribeAssociationExecutionTargetsResult,
+  | AssociationDoesNotExist
+  | AssociationExecutionDoesNotExist
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAssociationExecutionTargetsRequest,
   ) => stream.Stream<
@@ -12582,18 +12546,16 @@ export const describeAssociationExecutionTargets: {
 /**
  * Provides details about all active and terminated Automation executions.
  */
-export const describeAutomationExecutions: {
-  (
-    input: DescribeAutomationExecutionsRequest,
-  ): effect.Effect<
-    DescribeAutomationExecutionsResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeAutomationExecutions: API.OperationMethod<
+  DescribeAutomationExecutionsRequest,
+  DescribeAutomationExecutionsResult,
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterValue
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAutomationExecutionsRequest,
   ) => stream.Stream<
@@ -12636,19 +12598,17 @@ export const describeAutomationExecutions: {
  * Information about all active and terminated step executions in an Automation
  * workflow.
  */
-export const describeAutomationStepExecutions: {
-  (
-    input: DescribeAutomationStepExecutionsRequest,
-  ): effect.Effect<
-    DescribeAutomationStepExecutionsResult,
-    | AutomationExecutionNotFoundException
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeAutomationStepExecutions: API.OperationMethod<
+  DescribeAutomationStepExecutionsRequest,
+  DescribeAutomationStepExecutionsResult,
+  | AutomationExecutionNotFoundException
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterValue
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAutomationStepExecutionsRequest,
   ) => stream.Stream<
@@ -12696,14 +12656,12 @@ export const describeAutomationStepExecutions: {
  * Currently, `DescribeAvailablePatches` supports only the Amazon Linux 1, Amazon
  * Linux 2, and Windows Server operating systems.
  */
-export const describeAvailablePatches: {
-  (
-    input: DescribeAvailablePatchesRequest,
-  ): effect.Effect<
-    DescribeAvailablePatchesResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeAvailablePatches: API.OperationMethod<
+  DescribeAvailablePatchesRequest,
+  DescribeAvailablePatchesResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAvailablePatchesRequest,
   ) => stream.Stream<
@@ -12732,9 +12690,8 @@ export const describeAvailablePatches: {
 /**
  * Describes the specified Amazon Web Services Systems Manager document (SSM document).
  */
-export const describeDocument: (
-  input: DescribeDocumentRequest,
-) => effect.Effect<
+export const describeDocument: API.OperationMethod<
+  DescribeDocumentRequest,
   DescribeDocumentResult,
   InternalServerError | InvalidDocument | InvalidDocumentVersion | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -12748,9 +12705,8 @@ export const describeDocument: (
  * document, you are the owner. If a document is shared, it can either be shared privately (by
  * specifying a user's Amazon Web Services account ID) or publicly (*All*).
  */
-export const describeDocumentPermission: (
-  input: DescribeDocumentPermissionRequest,
-) => effect.Effect<
+export const describeDocumentPermission: API.OperationMethod<
+  DescribeDocumentPermissionRequest,
   DescribeDocumentPermissionResponse,
   | InternalServerError
   | InvalidDocument
@@ -12773,14 +12729,12 @@ export const describeDocumentPermission: (
 /**
  * All associations for the managed nodes.
  */
-export const describeEffectiveInstanceAssociations: {
-  (
-    input: DescribeEffectiveInstanceAssociationsRequest,
-  ): effect.Effect<
-    DescribeEffectiveInstanceAssociationsResult,
-    InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeEffectiveInstanceAssociations: API.OperationMethod<
+  DescribeEffectiveInstanceAssociationsRequest,
+  DescribeEffectiveInstanceAssociationsResult,
+  InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEffectiveInstanceAssociationsRequest,
   ) => stream.Stream<
@@ -12810,18 +12764,16 @@ export const describeEffectiveInstanceAssociations: {
  * Retrieves the current effective patches (the patch and the approval state) for the specified
  * patch baseline. Applies to patch baselines for Windows only.
  */
-export const describeEffectivePatchesForPatchBaseline: {
-  (
-    input: DescribeEffectivePatchesForPatchBaselineRequest,
-  ): effect.Effect<
-    DescribeEffectivePatchesForPatchBaselineResult,
-    | DoesNotExistException
-    | InternalServerError
-    | InvalidResourceId
-    | UnsupportedOperatingSystem
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeEffectivePatchesForPatchBaseline: API.OperationMethod<
+  DescribeEffectivePatchesForPatchBaselineRequest,
+  DescribeEffectivePatchesForPatchBaselineResult,
+  | DoesNotExistException
+  | InternalServerError
+  | InvalidResourceId
+  | UnsupportedOperatingSystem
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEffectivePatchesForPatchBaselineRequest,
   ) => stream.Stream<
@@ -12863,14 +12815,12 @@ export const describeEffectivePatchesForPatchBaseline: {
 /**
  * The status of the associations for the managed nodes.
  */
-export const describeInstanceAssociationsStatus: {
-  (
-    input: DescribeInstanceAssociationsStatusRequest,
-  ): effect.Effect<
-    DescribeInstanceAssociationsStatusResult,
-    InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceAssociationsStatus: API.OperationMethod<
+  DescribeInstanceAssociationsStatusRequest,
+  DescribeInstanceAssociationsStatusResult,
+  InternalServerError | InvalidInstanceId | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceAssociationsStatusRequest,
   ) => stream.Stream<
@@ -12909,19 +12859,17 @@ export const describeInstanceAssociationsStatus: {
  * Amazon EC2 instance configured with a Systems Manager Quick Setup host management configuration or
  * the role assigned to an on-premises managed node.
  */
-export const describeInstanceInformation: {
-  (
-    input: DescribeInstanceInformationRequest,
-  ): effect.Effect<
-    DescribeInstanceInformationResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidInstanceInformationFilterValue
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceInformation: API.OperationMethod<
+  DescribeInstanceInformationRequest,
+  DescribeInstanceInformationResult,
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidInstanceInformationFilterValue
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceInformationRequest,
   ) => stream.Stream<
@@ -12967,18 +12915,16 @@ export const describeInstanceInformation: {
  * Retrieves information about the patches on the specified managed node and their state
  * relative to the patch baseline being used for the node.
  */
-export const describeInstancePatches: {
-  (
-    input: DescribeInstancePatchesRequest,
-  ): effect.Effect<
-    DescribeInstancePatchesResult,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstancePatches: API.OperationMethod<
+  DescribeInstancePatchesRequest,
+  DescribeInstancePatchesResult,
+  | InternalServerError
+  | InvalidFilter
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstancePatchesRequest,
   ) => stream.Stream<
@@ -13020,14 +12966,12 @@ export const describeInstancePatches: {
 /**
  * Retrieves the high-level patch state of one or more managed nodes.
  */
-export const describeInstancePatchStates: {
-  (
-    input: DescribeInstancePatchStatesRequest,
-  ): effect.Effect<
-    DescribeInstancePatchStatesResult,
-    InternalServerError | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstancePatchStates: API.OperationMethod<
+  DescribeInstancePatchStatesRequest,
+  DescribeInstancePatchStatesResult,
+  InternalServerError | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstancePatchStatesRequest,
   ) => stream.Stream<
@@ -13057,14 +13001,12 @@ export const describeInstancePatchStates: {
  * Retrieves the high-level patch state for the managed nodes in the specified patch
  * group.
  */
-export const describeInstancePatchStatesForPatchGroup: {
-  (
-    input: DescribeInstancePatchStatesForPatchGroupRequest,
-  ): effect.Effect<
-    DescribeInstancePatchStatesForPatchGroupResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstancePatchStatesForPatchGroup: API.OperationMethod<
+  DescribeInstancePatchStatesForPatchGroupRequest,
+  DescribeInstancePatchStatesForPatchGroupResult,
+  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstancePatchStatesForPatchGroupRequest,
   ) => stream.Stream<
@@ -13094,21 +13036,19 @@ export const describeInstancePatchStatesForPatchGroup: {
  * An API operation used by the Systems Manager console to display information about Systems Manager managed
  * nodes.
  */
-export const describeInstanceProperties: {
-  (
-    input: DescribeInstancePropertiesRequest,
-  ): effect.Effect<
-    DescribeInstancePropertiesResult,
-    | InternalServerError
-    | InvalidActivationId
-    | InvalidDocument
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidInstancePropertyFilterValue
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInstanceProperties: API.OperationMethod<
+  DescribeInstancePropertiesRequest,
+  DescribeInstancePropertiesResult,
+  | InternalServerError
+  | InvalidActivationId
+  | InvalidDocument
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidInstancePropertyFilterValue
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstancePropertiesRequest,
   ) => stream.Stream<
@@ -13159,17 +13099,15 @@ export const describeInstanceProperties: {
 /**
  * Describes a specific delete inventory operation.
  */
-export const describeInventoryDeletions: {
-  (
-    input: DescribeInventoryDeletionsRequest,
-  ): effect.Effect<
-    DescribeInventoryDeletionsResult,
-    | InternalServerError
-    | InvalidDeletionIdException
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeInventoryDeletions: API.OperationMethod<
+  DescribeInventoryDeletionsRequest,
+  DescribeInventoryDeletionsResult,
+  | InternalServerError
+  | InvalidDeletionIdException
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInventoryDeletionsRequest,
   ) => stream.Stream<
@@ -13206,14 +13144,12 @@ export const describeInventoryDeletions: {
  * maintenance window was scheduled to be active, and information about tasks registered and run
  * with the maintenance window.
  */
-export const describeMaintenanceWindowExecutions: {
-  (
-    input: DescribeMaintenanceWindowExecutionsRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowExecutionsResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowExecutions: API.OperationMethod<
+  DescribeMaintenanceWindowExecutionsRequest,
+  DescribeMaintenanceWindowExecutionsResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowExecutionsRequest,
   ) => stream.Stream<
@@ -13243,14 +13179,12 @@ export const describeMaintenanceWindowExecutions: {
  * Retrieves the individual task executions (one per target) for a particular task run as part
  * of a maintenance window execution.
  */
-export const describeMaintenanceWindowExecutionTaskInvocations: {
-  (
-    input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowExecutionTaskInvocationsResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowExecutionTaskInvocations: API.OperationMethod<
+  DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
+  DescribeMaintenanceWindowExecutionTaskInvocationsResult,
+  DoesNotExistException | InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
   ) => stream.Stream<
@@ -13279,14 +13213,12 @@ export const describeMaintenanceWindowExecutionTaskInvocations: {
 /**
  * For a given maintenance window execution, lists the tasks that were run.
  */
-export const describeMaintenanceWindowExecutionTasks: {
-  (
-    input: DescribeMaintenanceWindowExecutionTasksRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowExecutionTasksResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowExecutionTasks: API.OperationMethod<
+  DescribeMaintenanceWindowExecutionTasksRequest,
+  DescribeMaintenanceWindowExecutionTasksResult,
+  DoesNotExistException | InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowExecutionTasksRequest,
   ) => stream.Stream<
@@ -13315,14 +13247,12 @@ export const describeMaintenanceWindowExecutionTasks: {
 /**
  * Retrieves the maintenance windows in an Amazon Web Services account.
  */
-export const describeMaintenanceWindows: {
-  (
-    input: DescribeMaintenanceWindowsRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowsResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindows: API.OperationMethod<
+  DescribeMaintenanceWindowsRequest,
+  DescribeMaintenanceWindowsResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowsRequest,
   ) => stream.Stream<
@@ -13351,14 +13281,12 @@ export const describeMaintenanceWindows: {
 /**
  * Retrieves information about upcoming executions of a maintenance window.
  */
-export const describeMaintenanceWindowSchedule: {
-  (
-    input: DescribeMaintenanceWindowScheduleRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowScheduleResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowSchedule: API.OperationMethod<
+  DescribeMaintenanceWindowScheduleRequest,
+  DescribeMaintenanceWindowScheduleResult,
+  DoesNotExistException | InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowScheduleRequest,
   ) => stream.Stream<
@@ -13388,14 +13316,12 @@ export const describeMaintenanceWindowSchedule: {
  * Retrieves information about the maintenance window targets or tasks that a managed node is
  * associated with.
  */
-export const describeMaintenanceWindowsForTarget: {
-  (
-    input: DescribeMaintenanceWindowsForTargetRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowsForTargetResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowsForTarget: API.OperationMethod<
+  DescribeMaintenanceWindowsForTargetRequest,
+  DescribeMaintenanceWindowsForTargetResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowsForTargetRequest,
   ) => stream.Stream<
@@ -13424,14 +13350,12 @@ export const describeMaintenanceWindowsForTarget: {
 /**
  * Lists the targets registered with the maintenance window.
  */
-export const describeMaintenanceWindowTargets: {
-  (
-    input: DescribeMaintenanceWindowTargetsRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowTargetsResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowTargets: API.OperationMethod<
+  DescribeMaintenanceWindowTargetsRequest,
+  DescribeMaintenanceWindowTargetsResult,
+  DoesNotExistException | InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowTargetsRequest,
   ) => stream.Stream<
@@ -13465,14 +13389,12 @@ export const describeMaintenanceWindowTargets: {
  * placeholder value of `1`, which may be reported in the response to this command.
  * These values don't affect the running of your task and can be ignored.
  */
-export const describeMaintenanceWindowTasks: {
-  (
-    input: DescribeMaintenanceWindowTasksRequest,
-  ): effect.Effect<
-    DescribeMaintenanceWindowTasksResult,
-    DoesNotExistException | InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeMaintenanceWindowTasks: API.OperationMethod<
+  DescribeMaintenanceWindowTasksRequest,
+  DescribeMaintenanceWindowTasksResult,
+  DoesNotExistException | InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMaintenanceWindowTasksRequest,
   ) => stream.Stream<
@@ -13507,14 +13429,12 @@ export const describeMaintenanceWindowTasks: {
  * more information, see Amazon Web Services Systems Manager OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
  */
-export const describeOpsItems: {
-  (
-    input: DescribeOpsItemsRequest,
-  ): effect.Effect<
-    DescribeOpsItemsResponse,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeOpsItems: API.OperationMethod<
+  DescribeOpsItemsRequest,
+  DescribeOpsItemsResponse,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOpsItemsRequest,
   ) => stream.Stream<
@@ -13560,19 +13480,17 @@ export const describeOpsItems: {
  * `DescribeParameters` retrieves whatever the original key alias was
  * referencing.
  */
-export const describeParameters: {
-  (
-    input: DescribeParametersRequest,
-  ): effect.Effect<
-    DescribeParametersResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterOption
-    | InvalidFilterValue
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeParameters: API.OperationMethod<
+  DescribeParametersRequest,
+  DescribeParametersResult,
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterOption
+  | InvalidFilterValue
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeParametersRequest,
   ) => stream.Stream<
@@ -13616,14 +13534,12 @@ export const describeParameters: {
 /**
  * Lists the patch baselines in your Amazon Web Services account.
  */
-export const describePatchBaselines: {
-  (
-    input: DescribePatchBaselinesRequest,
-  ): effect.Effect<
-    DescribePatchBaselinesResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describePatchBaselines: API.OperationMethod<
+  DescribePatchBaselinesRequest,
+  DescribePatchBaselinesResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePatchBaselinesRequest,
   ) => stream.Stream<
@@ -13652,14 +13568,12 @@ export const describePatchBaselines: {
 /**
  * Lists all patch groups that have been registered with patch baselines.
  */
-export const describePatchGroups: {
-  (
-    input: DescribePatchGroupsRequest,
-  ): effect.Effect<
-    DescribePatchGroupsResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describePatchGroups: API.OperationMethod<
+  DescribePatchGroupsRequest,
+  DescribePatchGroupsResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePatchGroupsRequest,
   ) => stream.Stream<
@@ -13688,9 +13602,8 @@ export const describePatchGroups: {
 /**
  * Returns high-level aggregated patch compliance state information for a patch group.
  */
-export const describePatchGroupState: (
-  input: DescribePatchGroupStateRequest,
-) => effect.Effect<
+export const describePatchGroupState: API.OperationMethod<
+  DescribePatchGroupStateRequest,
   DescribePatchGroupStateResult,
   InternalServerError | InvalidNextToken | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -13759,14 +13672,12 @@ export const describePatchGroupState: (
  * Valid properties: `PRODUCT` | `PRODUCT_FAMILY` |
  * `CLASSIFICATION` | `MSRC_SEVERITY`
  */
-export const describePatchProperties: {
-  (
-    input: DescribePatchPropertiesRequest,
-  ): effect.Effect<
-    DescribePatchPropertiesResult,
-    InternalServerError | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describePatchProperties: API.OperationMethod<
+  DescribePatchPropertiesRequest,
+  DescribePatchPropertiesResult,
+  InternalServerError | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePatchPropertiesRequest,
   ) => stream.Stream<
@@ -13796,14 +13707,12 @@ export const describePatchProperties: {
  * Retrieves a list of all active sessions (both connected and disconnected) or terminated
  * sessions from the past 30 days.
  */
-export const describeSessions: {
-  (
-    input: DescribeSessionsRequest,
-  ): effect.Effect<
-    DescribeSessionsResponse,
-    InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const describeSessions: API.OperationMethod<
+  DescribeSessionsRequest,
+  DescribeSessionsResponse,
+  InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSessionsRequest,
   ) => stream.Stream<
@@ -13834,9 +13743,8 @@ export const describeSessions: {
  * operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in
  * Amazon Web Services Systems Manager.
  */
-export const disassociateOpsItemRelatedItem: (
-  input: DisassociateOpsItemRelatedItemRequest,
-) => effect.Effect<
+export const disassociateOpsItemRelatedItem: API.OperationMethod<
+  DisassociateOpsItemRelatedItemRequest,
   DisassociateOpsItemRelatedItemResponse,
   | InternalServerError
   | OpsItemConflictException
@@ -13859,9 +13767,8 @@ export const disassociateOpsItemRelatedItem: (
 /**
  * Returns a credentials set to be used with just-in-time node access.
  */
-export const getAccessToken: (
-  input: GetAccessTokenRequest,
-) => effect.Effect<
+export const getAccessToken: API.OperationMethod<
+  GetAccessTokenRequest,
   GetAccessTokenResponse,
   | AccessDeniedException
   | InternalServerError
@@ -13884,9 +13791,8 @@ export const getAccessToken: (
 /**
  * Get detailed information about a particular Automation execution.
  */
-export const getAutomationExecution: (
-  input: GetAutomationExecutionRequest,
-) => effect.Effect<
+export const getAutomationExecution: API.OperationMethod<
+  GetAutomationExecutionRequest,
   GetAutomationExecutionResult,
   AutomationExecutionNotFoundException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -13908,9 +13814,8 @@ export const getAutomationExecution: (
  *
  * For more information about Change Calendar, a tool in Amazon Web Services Systems Manager, see Amazon Web Services Systems Manager Change Calendar in the *Amazon Web Services Systems Manager User Guide*.
  */
-export const getCalendarState: (
-  input: GetCalendarStateRequest,
-) => effect.Effect<
+export const getCalendarState: API.OperationMethod<
+  GetCalendarStateRequest,
   GetCalendarStateResponse,
   | InternalServerError
   | InvalidDocument
@@ -13940,9 +13845,8 @@ export const getCalendarState: (
  * To get the command execution status on a specific managed node, use ListCommandInvocations. To get the command execution status across managed nodes,
  * use ListCommands.
  */
-export const getCommandInvocation: (
-  input: GetCommandInvocationRequest,
-) => effect.Effect<
+export const getCommandInvocation: API.OperationMethod<
+  GetCommandInvocationRequest,
   GetCommandInvocationResult,
   | InternalServerError
   | InvalidCommandId
@@ -13966,9 +13870,8 @@ export const getCommandInvocation: (
  * Retrieves the Session Manager connection status for a managed node to determine whether it is running
  * and ready to receive Session Manager connections.
  */
-export const getConnectionStatus: (
-  input: GetConnectionStatusRequest,
-) => effect.Effect<
+export const getConnectionStatus: API.OperationMethod<
+  GetConnectionStatusRequest,
   GetConnectionStatusResponse,
   InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -13984,9 +13887,8 @@ export const getConnectionStatus: (
  * If you don't specify an operating system value, the default patch baseline for Windows is
  * returned.
  */
-export const getDefaultPatchBaseline: (
-  input: GetDefaultPatchBaselineRequest,
-) => effect.Effect<
+export const getDefaultPatchBaseline: API.OperationMethod<
+  GetDefaultPatchBaselineRequest,
   GetDefaultPatchBaselineResult,
   InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14005,9 +13907,8 @@ export const getDefaultPatchBaseline: (
  * example, run the command using the `AWS-RunShellScript` document or the
  * `AWS-RunPowerShellScript` document.
  */
-export const getDeployablePatchSnapshotForInstance: (
-  input: GetDeployablePatchSnapshotForInstanceRequest,
-) => effect.Effect<
+export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
+  GetDeployablePatchSnapshotForInstanceRequest,
   GetDeployablePatchSnapshotForInstanceResult,
   | InternalServerError
   | UnsupportedFeatureRequiredException
@@ -14026,9 +13927,8 @@ export const getDeployablePatchSnapshotForInstance: (
 /**
  * Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
  */
-export const getDocument: (
-  input: GetDocumentRequest,
-) => effect.Effect<
+export const getDocument: API.OperationMethod<
+  GetDocumentRequest,
   GetDocumentResult,
   InternalServerError | InvalidDocument | InvalidDocumentVersion | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14041,9 +13941,8 @@ export const getDocument: (
  * Initiates the process of retrieving an existing preview that shows the effects that running
  * a specified Automation runbook would have on the targeted resources.
  */
-export const getExecutionPreview: (
-  input: GetExecutionPreviewRequest,
-) => effect.Effect<
+export const getExecutionPreview: API.OperationMethod<
+  GetExecutionPreviewRequest,
   GetExecutionPreviewResponse,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14056,21 +13955,19 @@ export const getExecutionPreview: (
  * Query inventory information. This includes managed node status, such as `Stopped`
  * or `Terminated`.
  */
-export const getInventory: {
-  (
-    input: GetInventoryRequest,
-  ): effect.Effect<
-    GetInventoryResult,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidInventoryGroupException
-    | InvalidNextToken
-    | InvalidResultAttributeException
-    | InvalidTypeNameException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const getInventory: API.OperationMethod<
+  GetInventoryRequest,
+  GetInventoryResult,
+  | InternalServerError
+  | InvalidAggregatorException
+  | InvalidFilter
+  | InvalidInventoryGroupException
+  | InvalidNextToken
+  | InvalidResultAttributeException
+  | InvalidTypeNameException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetInventoryRequest,
   ) => stream.Stream<
@@ -14122,17 +14019,15 @@ export const getInventory: {
  * Return a list of inventory type names for the account, or return a list of attribute names
  * for a specific Inventory item type.
  */
-export const getInventorySchema: {
-  (
-    input: GetInventorySchemaRequest,
-  ): effect.Effect<
-    GetInventorySchemaResult,
-    | InternalServerError
-    | InvalidNextToken
-    | InvalidTypeNameException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const getInventorySchema: API.OperationMethod<
+  GetInventorySchemaRequest,
+  GetInventorySchemaResult,
+  | InternalServerError
+  | InvalidNextToken
+  | InvalidTypeNameException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetInventorySchemaRequest,
   ) => stream.Stream<
@@ -14167,9 +14062,8 @@ export const getInventorySchema: {
 /**
  * Retrieves a maintenance window.
  */
-export const getMaintenanceWindow: (
-  input: GetMaintenanceWindowRequest,
-) => effect.Effect<
+export const getMaintenanceWindow: API.OperationMethod<
+  GetMaintenanceWindowRequest,
   GetMaintenanceWindowResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14181,9 +14075,8 @@ export const getMaintenanceWindow: (
 /**
  * Retrieves details about a specific a maintenance window execution.
  */
-export const getMaintenanceWindowExecution: (
-  input: GetMaintenanceWindowExecutionRequest,
-) => effect.Effect<
+export const getMaintenanceWindowExecution: API.OperationMethod<
+  GetMaintenanceWindowExecutionRequest,
   GetMaintenanceWindowExecutionResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14196,9 +14089,8 @@ export const getMaintenanceWindowExecution: (
  * Retrieves the details about a specific task run as part of a maintenance window
  * execution.
  */
-export const getMaintenanceWindowExecutionTask: (
-  input: GetMaintenanceWindowExecutionTaskRequest,
-) => effect.Effect<
+export const getMaintenanceWindowExecutionTask: API.OperationMethod<
+  GetMaintenanceWindowExecutionTaskRequest,
   GetMaintenanceWindowExecutionTaskResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14210,9 +14102,8 @@ export const getMaintenanceWindowExecutionTask: (
 /**
  * Retrieves information about a specific task running on a specific target.
  */
-export const getMaintenanceWindowExecutionTaskInvocation: (
-  input: GetMaintenanceWindowExecutionTaskInvocationRequest,
-) => effect.Effect<
+export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
+  GetMaintenanceWindowExecutionTaskInvocationRequest,
   GetMaintenanceWindowExecutionTaskInvocationResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14231,9 +14122,8 @@ export const getMaintenanceWindowExecutionTaskInvocation: (
  *
  * To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command.
  */
-export const getMaintenanceWindowTask: (
-  input: GetMaintenanceWindowTaskRequest,
-) => effect.Effect<
+export const getMaintenanceWindowTask: API.OperationMethod<
+  GetMaintenanceWindowTaskRequest,
   GetMaintenanceWindowTaskResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14252,9 +14142,8 @@ export const getMaintenanceWindowTask: (
  * more information, see Amazon Web Services Systems Manager OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
  */
-export const getOpsItem: (
-  input: GetOpsItemRequest,
-) => effect.Effect<
+export const getOpsItem: API.OperationMethod<
+  GetOpsItemRequest,
   GetOpsItemResponse,
   | InternalServerError
   | OpsItemAccessDeniedException
@@ -14273,9 +14162,8 @@ export const getOpsItem: (
 /**
  * View operational metadata related to an application in Application Manager.
  */
-export const getOpsMetadata: (
-  input: GetOpsMetadataRequest,
-) => effect.Effect<
+export const getOpsMetadata: API.OperationMethod<
+  GetOpsMetadataRequest,
   GetOpsMetadataResult,
   | InternalServerError
   | OpsMetadataInvalidArgumentException
@@ -14297,20 +14185,18 @@ export const getOpsMetadata: (
  * well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager
  * Explorer.
  */
-export const getOpsSummary: {
-  (
-    input: GetOpsSummaryRequest,
-  ): effect.Effect<
-    GetOpsSummaryResult,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidNextToken
-    | InvalidTypeNameException
-    | ResourceDataSyncNotFoundException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const getOpsSummary: API.OperationMethod<
+  GetOpsSummaryRequest,
+  GetOpsSummaryResult,
+  | InternalServerError
+  | InvalidAggregatorException
+  | InvalidFilter
+  | InvalidNextToken
+  | InvalidTypeNameException
+  | ResourceDataSyncNotFoundException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOpsSummaryRequest,
   ) => stream.Stream<
@@ -14364,9 +14250,8 @@ export const getOpsSummary: {
  *
  * To get information about more than one parameter at a time, use the GetParameters operation.
  */
-export const getParameter: (
-  input: GetParameterRequest,
-) => effect.Effect<
+export const getParameter: API.OperationMethod<
+  GetParameterRequest,
   GetParameterResult,
   | InternalServerError
   | InvalidKeyId
@@ -14396,18 +14281,16 @@ export const getParameter: (
  * `GetParameterHistory` retrieves whatever the original key alias was
  * referencing.
  */
-export const getParameterHistory: {
-  (
-    input: GetParameterHistoryRequest,
-  ): effect.Effect<
-    GetParameterHistoryResult,
-    | InternalServerError
-    | InvalidKeyId
-    | InvalidNextToken
-    | ParameterNotFound
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const getParameterHistory: API.OperationMethod<
+  GetParameterHistoryRequest,
+  GetParameterHistoryResult,
+  | InternalServerError
+  | InvalidKeyId
+  | InvalidNextToken
+  | ParameterNotFound
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetParameterHistoryRequest,
   ) => stream.Stream<
@@ -14455,9 +14338,8 @@ export const getParameterHistory: {
  * beginning or end of a parameter name. If the specified name for a parameter contains spaces
  * between characters, the request fails with a `ValidationException` error.
  */
-export const getParameters: (
-  input: GetParametersRequest,
-) => effect.Effect<
+export const getParameters: API.OperationMethod<
+  GetParametersRequest,
   GetParametersResult,
   InternalServerError | InvalidKeyId | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14480,20 +14362,18 @@ export const getParameters: (
  * beginning or end of a parameter name. If the specified name for a parameter contains spaces
  * between characters, the request fails with a `ValidationException` error.
  */
-export const getParametersByPath: {
-  (
-    input: GetParametersByPathRequest,
-  ): effect.Effect<
-    GetParametersByPathResult,
-    | InternalServerError
-    | InvalidFilterKey
-    | InvalidFilterOption
-    | InvalidFilterValue
-    | InvalidKeyId
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const getParametersByPath: API.OperationMethod<
+  GetParametersByPathRequest,
+  GetParametersByPathResult,
+  | InternalServerError
+  | InvalidFilterKey
+  | InvalidFilterOption
+  | InvalidFilterValue
+  | InvalidKeyId
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetParametersByPathRequest,
   ) => stream.Stream<
@@ -14540,9 +14420,8 @@ export const getParametersByPath: {
 /**
  * Retrieves information about a patch baseline.
  */
-export const getPatchBaseline: (
-  input: GetPatchBaselineRequest,
-) => effect.Effect<
+export const getPatchBaseline: API.OperationMethod<
+  GetPatchBaselineRequest,
   GetPatchBaselineResult,
   | DoesNotExistException
   | InternalServerError
@@ -14557,9 +14436,8 @@ export const getPatchBaseline: (
 /**
  * Retrieves the patch baseline that should be used for the specified patch group.
  */
-export const getPatchBaselineForPatchGroup: (
-  input: GetPatchBaselineForPatchGroupRequest,
-) => effect.Effect<
+export const getPatchBaselineForPatchGroup: API.OperationMethod<
+  GetPatchBaselineForPatchGroupRequest,
   GetPatchBaselineForPatchGroupResult,
   InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14571,17 +14449,15 @@ export const getPatchBaselineForPatchGroup: (
 /**
  * Returns an array of the `Policy` object.
  */
-export const getResourcePolicies: {
-  (
-    input: GetResourcePoliciesRequest,
-  ): effect.Effect<
-    GetResourcePoliciesResponse,
-    | InternalServerError
-    | ResourceNotFoundException
-    | ResourcePolicyInvalidParameterException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const getResourcePolicies: API.OperationMethod<
+  GetResourcePoliciesRequest,
+  GetResourcePoliciesResponse,
+  | InternalServerError
+  | ResourceNotFoundException
+  | ResourcePolicyInvalidParameterException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
@@ -14634,9 +14510,8 @@ export const getResourcePolicies: {
  *
  * Query the current service setting for the Amazon Web Services account.
  */
-export const getServiceSetting: (
-  input: GetServiceSettingRequest,
-) => effect.Effect<
+export const getServiceSetting: API.OperationMethod<
+  GetServiceSettingRequest,
   GetServiceSettingResult,
   InternalServerError | ServiceSettingNotFound | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -14679,9 +14554,8 @@ export const getServiceSetting: (
  * the beginning or end of a parameter name. If the specified name for a parameter contains spaces
  * between characters, the request fails with a `ValidationException` error.
  */
-export const labelParameterVersion: (
-  input: LabelParameterVersionRequest,
-) => effect.Effect<
+export const labelParameterVersion: API.OperationMethod<
+  LabelParameterVersionRequest,
   LabelParameterVersionResult,
   | InternalServerError
   | ParameterNotFound
@@ -14706,14 +14580,12 @@ export const labelParameterVersion: (
  * can limit the results to a specific State Manager association document or managed node by
  * specifying a filter. State Manager is a tool in Amazon Web Services Systems Manager.
  */
-export const listAssociations: {
-  (
-    input: ListAssociationsRequest,
-  ): effect.Effect<
-    ListAssociationsResult,
-    InternalServerError | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAssociations: API.OperationMethod<
+  ListAssociationsRequest,
+  ListAssociationsResult,
+  InternalServerError | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociationsRequest,
   ) => stream.Stream<
@@ -14742,17 +14614,15 @@ export const listAssociations: {
 /**
  * Retrieves all versions of an association for a specific association ID.
  */
-export const listAssociationVersions: {
-  (
-    input: ListAssociationVersionsRequest,
-  ): effect.Effect<
-    ListAssociationVersionsResult,
-    | AssociationDoesNotExist
-    | InternalServerError
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listAssociationVersions: API.OperationMethod<
+  ListAssociationVersionsRequest,
+  ListAssociationVersionsResult,
+  | AssociationDoesNotExist
+  | InternalServerError
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociationVersionsRequest,
   ) => stream.Stream<
@@ -14791,19 +14661,17 @@ export const listAssociationVersions: {
  * created for each requested managed node ID. `ListCommandInvocations` provide status
  * about command execution.
  */
-export const listCommandInvocations: {
-  (
-    input: ListCommandInvocationsRequest,
-  ): effect.Effect<
-    ListCommandInvocationsResult,
-    | InternalServerError
-    | InvalidCommandId
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listCommandInvocations: API.OperationMethod<
+  ListCommandInvocationsRequest,
+  ListCommandInvocationsResult,
+  | InternalServerError
+  | InvalidCommandId
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommandInvocationsRequest,
   ) => stream.Stream<
@@ -14848,19 +14716,17 @@ export const listCommandInvocations: {
 /**
  * Lists the commands requested by users of the Amazon Web Services account.
  */
-export const listCommands: {
-  (
-    input: ListCommandsRequest,
-  ): effect.Effect<
-    ListCommandsResult,
-    | InternalServerError
-    | InvalidCommandId
-    | InvalidFilterKey
-    | InvalidInstanceId
-    | InvalidNextToken
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listCommands: API.OperationMethod<
+  ListCommandsRequest,
+  ListCommandsResult,
+  | InternalServerError
+  | InvalidCommandId
+  | InvalidFilterKey
+  | InvalidInstanceId
+  | InvalidNextToken
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommandsRequest,
   ) => stream.Stream<
@@ -14907,19 +14773,17 @@ export const listCommands: {
  * different resource types. Currently, you can only specify one resource ID per call. List results
  * depend on the criteria specified in the filter.
  */
-export const listComplianceItems: {
-  (
-    input: ListComplianceItemsRequest,
-  ): effect.Effect<
-    ListComplianceItemsResult,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidNextToken
-    | InvalidResourceId
-    | InvalidResourceType
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listComplianceItems: API.OperationMethod<
+  ListComplianceItemsRequest,
+  ListComplianceItemsResult,
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | InvalidResourceId
+  | InvalidResourceType
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComplianceItemsRequest,
   ) => stream.Stream<
@@ -14966,14 +14830,12 @@ export const listComplianceItems: {
  * example, this call can return State Manager associations, patches, or custom compliance types
  * according to the filter criteria that you specify.
  */
-export const listComplianceSummaries: {
-  (
-    input: ListComplianceSummariesRequest,
-  ): effect.Effect<
-    ListComplianceSummariesResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listComplianceSummaries: API.OperationMethod<
+  ListComplianceSummariesRequest,
+  ListComplianceSummariesResult,
+  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComplianceSummariesRequest,
   ) => stream.Stream<
@@ -15006,9 +14868,8 @@ export const listComplianceSummaries: {
  *
  * Information about approval reviews for a version of a change template in Change Manager.
  */
-export const listDocumentMetadataHistory: (
-  input: ListDocumentMetadataHistoryRequest,
-) => effect.Effect<
+export const listDocumentMetadataHistory: API.OperationMethod<
+  ListDocumentMetadataHistoryRequest,
   ListDocumentMetadataHistoryResponse,
   | InternalServerError
   | InvalidDocument
@@ -15030,14 +14891,12 @@ export const listDocumentMetadataHistory: (
  * Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can
  * limit the results of this request by using a filter.
  */
-export const listDocuments: {
-  (
-    input: ListDocumentsRequest,
-  ): effect.Effect<
-    ListDocumentsResult,
-    InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listDocuments: API.OperationMethod<
+  ListDocumentsRequest,
+  ListDocumentsResult,
+  InternalServerError | InvalidFilterKey | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDocumentsRequest,
   ) => stream.Stream<
@@ -15066,14 +14925,12 @@ export const listDocuments: {
 /**
  * List all versions for a document.
  */
-export const listDocumentVersions: {
-  (
-    input: ListDocumentVersionsRequest,
-  ): effect.Effect<
-    ListDocumentVersionsResult,
-    InternalServerError | InvalidDocument | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listDocumentVersions: API.OperationMethod<
+  ListDocumentVersionsRequest,
+  ListDocumentVersionsResult,
+  InternalServerError | InvalidDocument | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDocumentVersionsRequest,
   ) => stream.Stream<
@@ -15102,9 +14959,8 @@ export const listDocumentVersions: {
 /**
  * A list of inventory items returned by the request.
  */
-export const listInventoryEntries: (
-  input: ListInventoryEntriesRequest,
-) => effect.Effect<
+export const listInventoryEntries: API.OperationMethod<
+  ListInventoryEntriesRequest,
   ListInventoryEntriesResult,
   | InternalServerError
   | InvalidFilter
@@ -15127,19 +14983,17 @@ export const listInventoryEntries: (
 /**
  * Takes in filters and returns a list of managed nodes matching the filter criteria.
  */
-export const listNodes: {
-  (
-    input: ListNodesRequest,
-  ): effect.Effect<
-    ListNodesResult,
-    | InternalServerError
-    | InvalidFilter
-    | InvalidNextToken
-    | ResourceDataSyncNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listNodes: API.OperationMethod<
+  ListNodesRequest,
+  ListNodesResult,
+  | InternalServerError
+  | InvalidFilter
+  | InvalidNextToken
+  | ResourceDataSyncNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
@@ -15185,20 +15039,18 @@ export const listNodes: {
  * Generates a summary of managed instance/node metadata based on the filters and aggregators
  * you specify. Results are grouped by the input aggregator you specify.
  */
-export const listNodesSummary: {
-  (
-    input: ListNodesSummaryRequest,
-  ): effect.Effect<
-    ListNodesSummaryResult,
-    | InternalServerError
-    | InvalidAggregatorException
-    | InvalidFilter
-    | InvalidNextToken
-    | ResourceDataSyncNotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listNodesSummary: API.OperationMethod<
+  ListNodesSummaryRequest,
+  ListNodesSummaryResult,
+  | InternalServerError
+  | InvalidAggregatorException
+  | InvalidFilter
+  | InvalidNextToken
+  | ResourceDataSyncNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodesSummaryRequest,
   ) => stream.Stream<
@@ -15247,18 +15099,16 @@ export const listNodesSummary: {
  * Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can
  * limit the results to events associated with specific OpsItems by specifying a filter.
  */
-export const listOpsItemEvents: {
-  (
-    input: ListOpsItemEventsRequest,
-  ): effect.Effect<
-    ListOpsItemEventsResponse,
-    | InternalServerError
-    | OpsItemInvalidParameterException
-    | OpsItemLimitExceededException
-    | OpsItemNotFoundException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listOpsItemEvents: API.OperationMethod<
+  ListOpsItemEventsRequest,
+  ListOpsItemEventsResponse,
+  | InternalServerError
+  | OpsItemInvalidParameterException
+  | OpsItemLimitExceededException
+  | OpsItemNotFoundException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpsItemEventsRequest,
   ) => stream.Stream<
@@ -15301,14 +15151,12 @@ export const listOpsItemEvents: {
  * Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a
  * tool in Amazon Web Services Systems Manager.
  */
-export const listOpsItemRelatedItems: {
-  (
-    input: ListOpsItemRelatedItemsRequest,
-  ): effect.Effect<
-    ListOpsItemRelatedItemsResponse,
-    InternalServerError | OpsItemInvalidParameterException | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listOpsItemRelatedItems: API.OperationMethod<
+  ListOpsItemRelatedItemsRequest,
+  ListOpsItemRelatedItemsResponse,
+  InternalServerError | OpsItemInvalidParameterException | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpsItemRelatedItemsRequest,
   ) => stream.Stream<
@@ -15338,14 +15186,12 @@ export const listOpsItemRelatedItems: {
  * Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or
  * blobs.
  */
-export const listOpsMetadata: {
-  (
-    input: ListOpsMetadataRequest,
-  ): effect.Effect<
-    ListOpsMetadataResult,
-    InternalServerError | OpsMetadataInvalidArgumentException | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listOpsMetadata: API.OperationMethod<
+  ListOpsMetadataRequest,
+  ListOpsMetadataResult,
+  InternalServerError | OpsMetadataInvalidArgumentException | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpsMetadataRequest,
   ) => stream.Stream<
@@ -15376,14 +15222,12 @@ export const listOpsMetadata: {
  * non-compliant statuses and detailed compliance-item severity counts, according to the filter
  * criteria you specify.
  */
-export const listResourceComplianceSummaries: {
-  (
-    input: ListResourceComplianceSummariesRequest,
-  ): effect.Effect<
-    ListResourceComplianceSummariesResult,
-    InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceComplianceSummaries: API.OperationMethod<
+  ListResourceComplianceSummariesRequest,
+  ListResourceComplianceSummariesResult,
+  InternalServerError | InvalidFilter | InvalidNextToken | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceComplianceSummariesRequest,
   ) => stream.Stream<
@@ -15421,17 +15265,15 @@ export const listResourceComplianceSummaries: {
  * more sync configurations to list, you can request them by specifying the `NextToken`
  * returned in the call to the parameter of a subsequent call.
  */
-export const listResourceDataSync: {
-  (
-    input: ListResourceDataSyncRequest,
-  ): effect.Effect<
-    ListResourceDataSyncResult,
-    | InternalServerError
-    | InvalidNextToken
-    | ResourceDataSyncInvalidConfigurationException
-    | CommonErrors,
-    Creds | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceDataSync: API.OperationMethod<
+  ListResourceDataSyncRequest,
+  ListResourceDataSyncResult,
+  | InternalServerError
+  | InvalidNextToken
+  | ResourceDataSyncInvalidConfigurationException
+  | CommonErrors,
+  Creds | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceDataSyncRequest,
   ) => stream.Stream<
@@ -15472,9 +15314,8 @@ export const listResourceDataSync: {
  *
  * For information about the ID format for each supported resource type, see AddTagsToResource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   InternalServerError | InvalidResourceId | InvalidResourceType | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -15489,9 +15330,8 @@ export const listTagsForResource: (
  * you share a document publicly, you must specify *All* as the account
  * ID.
  */
-export const modifyDocumentPermission: (
-  input: ModifyDocumentPermissionRequest,
-) => effect.Effect<
+export const modifyDocumentPermission: API.OperationMethod<
+  ModifyDocumentPermissionRequest,
   ModifyDocumentPermissionResponse,
   | DocumentLimitExceeded
   | DocumentPermissionLimit
@@ -15560,9 +15400,8 @@ export const modifyDocumentPermission: (
  * the resource. Specify the time by using the following format:
  * `yyyy-MM-dd'T'HH:mm:ss'Z'`
  */
-export const putComplianceItems: (
-  input: PutComplianceItemsRequest,
-) => effect.Effect<
+export const putComplianceItems: API.OperationMethod<
+  PutComplianceItemsRequest,
   PutComplianceItemsResult,
   | ComplianceTypeCountLimitExceededException
   | InternalServerError
@@ -15591,9 +15430,8 @@ export const putComplianceItems: (
  * inventory item, if it doesn't already exist, or updates an inventory item, if it does
  * exist.
  */
-export const putInventory: (
-  input: PutInventoryRequest,
-) => effect.Effect<
+export const putInventory: API.OperationMethod<
+  PutInventoryRequest,
   PutInventoryResult,
   | CustomSchemaCountLimitExceededException
   | InternalServerError
@@ -15630,9 +15468,8 @@ export const putInventory: (
 /**
  * Create or update a parameter in Parameter Store.
  */
-export const putParameter: (
-  input: PutParameterRequest,
-) => effect.Effect<
+export const putParameter: API.OperationMethod<
+  PutParameterRequest,
   PutParameterResult,
   | HierarchyLevelLimitExceededException
   | HierarchyTypeMismatchException
@@ -15701,9 +15538,8 @@ export const putParameter: (
  * For more information, see Sharing a
  * parameter in the *Amazon Web Services Systems Manager User Guide*
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | InternalServerError
   | MalformedResourcePolicyDocumentException
@@ -15735,9 +15571,8 @@ export const putResourcePolicy: (
  * `arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed` instead of
  * `pb-0574b43a65ea646ed`.
  */
-export const registerDefaultPatchBaseline: (
-  input: RegisterDefaultPatchBaselineRequest,
-) => effect.Effect<
+export const registerDefaultPatchBaseline: API.OperationMethod<
+  RegisterDefaultPatchBaselineRequest,
   RegisterDefaultPatchBaselineResult,
   | DoesNotExistException
   | InternalServerError
@@ -15752,9 +15587,8 @@ export const registerDefaultPatchBaseline: (
 /**
  * Registers a patch baseline for a patch group.
  */
-export const registerPatchBaselineForPatchGroup: (
-  input: RegisterPatchBaselineForPatchGroupRequest,
-) => effect.Effect<
+export const registerPatchBaselineForPatchGroup: API.OperationMethod<
+  RegisterPatchBaselineForPatchGroupRequest,
   RegisterPatchBaselineForPatchGroupResult,
   | AlreadyExistsException
   | DoesNotExistException
@@ -15777,9 +15611,8 @@ export const registerPatchBaselineForPatchGroup: (
 /**
  * Registers a target with a maintenance window.
  */
-export const registerTargetWithMaintenanceWindow: (
-  input: RegisterTargetWithMaintenanceWindowRequest,
-) => effect.Effect<
+export const registerTargetWithMaintenanceWindow: API.OperationMethod<
+  RegisterTargetWithMaintenanceWindowRequest,
   RegisterTargetWithMaintenanceWindowResult,
   | DoesNotExistException
   | IdempotentParameterMismatch
@@ -15800,9 +15633,8 @@ export const registerTargetWithMaintenanceWindow: (
 /**
  * Adds a new task to a maintenance window.
  */
-export const registerTaskWithMaintenanceWindow: (
-  input: RegisterTaskWithMaintenanceWindowRequest,
-) => effect.Effect<
+export const registerTaskWithMaintenanceWindow: API.OperationMethod<
+  RegisterTaskWithMaintenanceWindowRequest,
   RegisterTaskWithMaintenanceWindowResult,
   | DoesNotExistException
   | FeatureNotAvailableException
@@ -15825,9 +15657,8 @@ export const registerTaskWithMaintenanceWindow: (
 /**
  * Removes tag keys from the specified resource.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceRequest,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceRequest,
   RemoveTagsFromResourceResult,
   | InternalServerError
   | InvalidResourceId
@@ -15863,9 +15694,8 @@ export const removeTagsFromResource: (
  * Reset the service setting for the account to the default value as provisioned by the Amazon Web Services
  * service team.
  */
-export const resetServiceSetting: (
-  input: ResetServiceSettingRequest,
-) => effect.Effect<
+export const resetServiceSetting: API.OperationMethod<
+  ResetServiceSettingRequest,
   ResetServiceSettingResult,
   InternalServerError | ServiceSettingNotFound | TooManyUpdates | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -15881,9 +15711,8 @@ export const resetServiceSetting: (
  * This command is primarily for use by client machines to automatically reconnect during
  * intermittent network issues. It isn't intended for any other use.
  */
-export const resumeSession: (
-  input: ResumeSessionRequest,
-) => effect.Effect<
+export const resumeSession: API.OperationMethod<
+  ResumeSessionRequest,
   ResumeSessionResponse,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -15896,9 +15725,8 @@ export const resumeSession: (
  * Sends a signal to an Automation execution to change the current behavior or status of the
  * execution.
  */
-export const sendAutomationSignal: (
-  input: SendAutomationSignalRequest,
-) => effect.Effect<
+export const sendAutomationSignal: API.OperationMethod<
+  SendAutomationSignalRequest,
   SendAutomationSignalResult,
   | AutomationExecutionNotFoundException
   | AutomationStepNotFoundException
@@ -15919,9 +15747,8 @@ export const sendAutomationSignal: (
 /**
  * Runs commands on one or more managed nodes.
  */
-export const sendCommand: (
-  input: SendCommandRequest,
-) => effect.Effect<
+export const sendCommand: API.OperationMethod<
+  SendCommandRequest,
   SendCommandResult,
   | DuplicateInstanceId
   | InternalServerError
@@ -15956,9 +15783,8 @@ export const sendCommand: (
 /**
  * Starts the workflow for just-in-time node access sessions.
  */
-export const startAccessRequest: (
-  input: StartAccessRequestRequest,
-) => effect.Effect<
+export const startAccessRequest: API.OperationMethod<
+  StartAccessRequestRequest,
   StartAccessRequestResponse,
   | AccessDeniedException
   | InternalServerError
@@ -15984,9 +15810,8 @@ export const startAccessRequest: (
  * Runs an association immediately and only one time. This operation can be helpful when
  * troubleshooting associations.
  */
-export const startAssociationsOnce: (
-  input: StartAssociationsOnceRequest,
-) => effect.Effect<
+export const startAssociationsOnce: API.OperationMethod<
+  StartAssociationsOnceRequest,
   StartAssociationsOnceResult,
   AssociationDoesNotExist | InvalidAssociation | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -15998,9 +15823,8 @@ export const startAssociationsOnce: (
 /**
  * Initiates execution of an Automation runbook.
  */
-export const startAutomationExecution: (
-  input: StartAutomationExecutionRequest,
-) => effect.Effect<
+export const startAutomationExecution: API.OperationMethod<
+  StartAutomationExecutionRequest,
   StartAutomationExecutionResult,
   | AutomationDefinitionNotFoundException
   | AutomationDefinitionVersionNotFoundException
@@ -16033,9 +15857,8 @@ export const startAutomationExecution: (
  * change request run only after all required approvals for the change request have been
  * received.
  */
-export const startChangeRequestExecution: (
-  input: StartChangeRequestExecutionRequest,
-) => effect.Effect<
+export const startChangeRequestExecution: API.OperationMethod<
+  StartChangeRequestExecutionRequest,
   StartChangeRequestExecutionResult,
   | AutomationDefinitionNotApprovedException
   | AutomationDefinitionNotFoundException
@@ -16065,9 +15888,8 @@ export const startChangeRequestExecution: (
  * Initiates the process of creating a preview showing the effects that running a specified
  * Automation runbook would have on the targeted resources.
  */
-export const startExecutionPreview: (
-  input: StartExecutionPreviewRequest,
-) => effect.Effect<
+export const startExecutionPreview: API.OperationMethod<
+  StartExecutionPreviewRequest,
   StartExecutionPreviewResponse,
   InternalServerError | ValidationException | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16088,9 +15910,8 @@ export const startExecutionPreview: (
  * Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently supported by Amazon Web Services Tools
  * for PowerShell on Windows local machines.
  */
-export const startSession: (
-  input: StartSessionRequest,
-) => effect.Effect<
+export const startSession: API.OperationMethod<
+  StartSessionRequest,
   StartSessionResponse,
   InternalServerError | InvalidDocument | TargetNotConnected | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16102,9 +15923,8 @@ export const startSession: (
 /**
  * Stop an Automation that is currently running.
  */
-export const stopAutomationExecution: (
-  input: StopAutomationExecutionRequest,
-) => effect.Effect<
+export const stopAutomationExecution: API.OperationMethod<
+  StopAutomationExecutionRequest,
   StopAutomationExecutionResult,
   | AutomationExecutionNotFoundException
   | InternalServerError
@@ -16124,9 +15944,8 @@ export const stopAutomationExecution: (
  * Permanently ends a session and closes the data connection between the Session Manager client and
  * SSM Agent on the managed node. A terminated session can't be resumed.
  */
-export const terminateSession: (
-  input: TerminateSessionRequest,
-) => effect.Effect<
+export const terminateSession: API.OperationMethod<
+  TerminateSessionRequest,
   TerminateSessionResponse,
   InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16142,9 +15961,8 @@ export const terminateSession: (
  * beginning or end of a parameter name. If the specified name for a parameter contains spaces
  * between characters, the request fails with a `ValidationException` error.
  */
-export const unlabelParameterVersion: (
-  input: UnlabelParameterVersionRequest,
-) => effect.Effect<
+export const unlabelParameterVersion: API.OperationMethod<
+  UnlabelParameterVersionRequest,
   UnlabelParameterVersionResult,
   | InternalServerError
   | ParameterNotFound
@@ -16182,9 +16000,8 @@ export const unlabelParameterVersion: (
  * targets. You can add the `ApplyOnlyAtCronInterval` parameter to run the association
  * during the next schedule run.
  */
-export const updateAssociation: (
-  input: UpdateAssociationRequest,
-) => effect.Effect<
+export const updateAssociation: API.OperationMethod<
+  UpdateAssociationRequest,
   UpdateAssociationResult,
   | AssociationDoesNotExist
   | AssociationVersionLimitExceeded
@@ -16228,9 +16045,8 @@ export const updateAssociation: (
  * report status updates about your associations and is only used for associations created with the
  * `InstanceId` legacy parameter.
  */
-export const updateAssociationStatus: (
-  input: UpdateAssociationStatusRequest,
-) => effect.Effect<
+export const updateAssociationStatus: API.OperationMethod<
+  UpdateAssociationStatusRequest,
   UpdateAssociationStatusResult,
   | AssociationDoesNotExist
   | InternalServerError
@@ -16255,9 +16071,8 @@ export const updateAssociationStatus: (
 /**
  * Updates one or more values for an SSM document.
  */
-export const updateDocument: (
-  input: UpdateDocumentRequest,
-) => effect.Effect<
+export const updateDocument: API.OperationMethod<
+  UpdateDocumentRequest,
   UpdateDocumentResult,
   | DocumentVersionLimitExceeded
   | DuplicateDocumentContent
@@ -16294,9 +16109,8 @@ export const updateDocument: (
  * the association unless you previously specifed the `apply-only-at-cron-interval`
  * parameter.
  */
-export const updateDocumentDefaultVersion: (
-  input: UpdateDocumentDefaultVersionRequest,
-) => effect.Effect<
+export const updateDocumentDefaultVersion: API.OperationMethod<
+  UpdateDocumentDefaultVersionRequest,
   UpdateDocumentDefaultVersionResult,
   | InternalServerError
   | InvalidDocument
@@ -16322,9 +16136,8 @@ export const updateDocumentDefaultVersion: (
  * Updates information related to approval reviews for a specific version of a change template
  * in Change Manager.
  */
-export const updateDocumentMetadata: (
-  input: UpdateDocumentMetadataRequest,
-) => effect.Effect<
+export const updateDocumentMetadata: API.OperationMethod<
+  UpdateDocumentMetadataRequest,
   UpdateDocumentMetadataResponse,
   | InternalServerError
   | InvalidDocument
@@ -16354,9 +16167,8 @@ export const updateDocumentMetadata: (
  * value you specify for `Cutoff` is one hour, no maintenance window tasks can start
  * after 5 PM.
  */
-export const updateMaintenanceWindow: (
-  input: UpdateMaintenanceWindowRequest,
-) => effect.Effect<
+export const updateMaintenanceWindow: API.OperationMethod<
+  UpdateMaintenanceWindowRequest,
   UpdateMaintenanceWindowResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16384,9 +16196,8 @@ export const updateMaintenanceWindow: (
  *
  * If a parameter is null, then the corresponding field isn't modified.
  */
-export const updateMaintenanceWindowTarget: (
-  input: UpdateMaintenanceWindowTargetRequest,
-) => effect.Effect<
+export const updateMaintenanceWindowTarget: API.OperationMethod<
+  UpdateMaintenanceWindowTargetRequest,
   UpdateMaintenanceWindowTargetResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16433,9 +16244,8 @@ export const updateMaintenanceWindowTarget: (
  * maintenance window task and specify only a different `OutputS3BucketName` value, the
  * values for `Comment` and `NotificationConfig` are removed.
  */
-export const updateMaintenanceWindowTask: (
-  input: UpdateMaintenanceWindowTaskRequest,
-) => effect.Effect<
+export const updateMaintenanceWindowTask: API.OperationMethod<
+  UpdateMaintenanceWindowTaskRequest,
   UpdateMaintenanceWindowTaskResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16449,9 +16259,8 @@ export const updateMaintenanceWindowTask: (
  * on-premises server, edge device, or virtual machines (VM). IAM roles are first
  * assigned to these hybrid nodes during the activation process. For more information, see CreateActivation.
  */
-export const updateManagedInstanceRole: (
-  input: UpdateManagedInstanceRoleRequest,
-) => effect.Effect<
+export const updateManagedInstanceRole: API.OperationMethod<
+  UpdateManagedInstanceRoleRequest,
   UpdateManagedInstanceRoleResult,
   InternalServerError | InvalidInstanceId | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16469,9 +16278,8 @@ export const updateManagedInstanceRole: (
  * more information, see Amazon Web Services Systems Manager OpsCenter in the
  * *Amazon Web Services Systems Manager User Guide*.
  */
-export const updateOpsItem: (
-  input: UpdateOpsItemRequest,
-) => effect.Effect<
+export const updateOpsItem: API.OperationMethod<
+  UpdateOpsItemRequest,
   UpdateOpsItemResponse,
   | InternalServerError
   | OpsItemAccessDeniedException
@@ -16498,9 +16306,8 @@ export const updateOpsItem: (
 /**
  * Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
  */
-export const updateOpsMetadata: (
-  input: UpdateOpsMetadataRequest,
-) => effect.Effect<
+export const updateOpsMetadata: API.OperationMethod<
+  UpdateOpsMetadataRequest,
   UpdateOpsMetadataResult,
   | InternalServerError
   | OpsMetadataInvalidArgumentException
@@ -16527,9 +16334,8 @@ export const updateOpsMetadata: (
  * For information about valid key-value pairs in `PatchFilters` for each supported
  * operating system type, see PatchFilter.
  */
-export const updatePatchBaseline: (
-  input: UpdatePatchBaselineRequest,
-) => effect.Effect<
+export const updatePatchBaseline: API.OperationMethod<
+  UpdatePatchBaselineRequest,
   UpdatePatchBaselineResult,
   DoesNotExistException | InternalServerError | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient
@@ -16549,9 +16355,8 @@ export const updatePatchBaseline: (
  * This API operation only supports a resource data sync that was created with a
  * SyncFromSource `SyncType`.
  */
-export const updateResourceDataSync: (
-  input: UpdateResourceDataSyncRequest,
-) => effect.Effect<
+export const updateResourceDataSync: API.OperationMethod<
+  UpdateResourceDataSyncRequest,
   UpdateResourceDataSyncResult,
   | InternalServerError
   | ResourceDataSyncConflictException
@@ -16586,9 +16391,8 @@ export const updateResourceDataSync: (
  *
  * Update the service setting for the account.
  */
-export const updateServiceSetting: (
-  input: UpdateServiceSettingRequest,
-) => effect.Effect<
+export const updateServiceSetting: API.OperationMethod<
+  UpdateServiceSettingRequest,
   UpdateServiceSettingResult,
   InternalServerError | ServiceSettingNotFound | TooManyUpdates | CommonErrors,
   Creds | Rgn | HttpClient.HttpClient

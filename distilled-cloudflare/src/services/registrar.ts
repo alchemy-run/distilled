@@ -43,9 +43,8 @@ export type GetDomainResponse = unknown;
 export const GetDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDomainResponse>;
 
-export const getDomain: (
-  input: GetDomainRequest,
-) => Effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
   GetDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -133,7 +132,21 @@ export const ListDomainsResponse = Schema.Array(
         email: Schema.optional(Schema.String),
         fax: Schema.optional(Schema.String),
       }).pipe(
-        Schema.encodeKeys({ firstName: "first_name", lastName: "last_name" }),
+        Schema.encodeKeys({
+          address: "address",
+          city: "city",
+          country: "country",
+          firstName: "first_name",
+          lastName: "last_name",
+          organization: "organization",
+          phone: "phone",
+          state: "state",
+          zip: "zip",
+          id: "id",
+          address2: "address2",
+          email: "email",
+          fax: "fax",
+        }),
       ),
     ),
     registryStatuses: Schema.optional(Schema.String),
@@ -175,10 +188,13 @@ export const ListDomainsResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      available: "available",
       canRegister: "can_register",
       createdAt: "created_at",
       currentRegistrar: "current_registrar",
       expiresAt: "expires_at",
+      locked: "locked",
       registrantContact: "registrant_contact",
       registryStatuses: "registry_statuses",
       supportedTld: "supported_tld",
@@ -188,9 +204,8 @@ export const ListDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDomainsResponse>;
 
-export const listDomains: (
-  input: ListDomainsRequest,
-) => Effect.Effect<
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
   ListDomainsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -219,7 +234,11 @@ export const PutDomainRequest = Schema.Struct({
   locked: Schema.optional(Schema.Boolean),
   privacy: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ autoRenew: "auto_renew" }),
+  Schema.encodeKeys({
+    autoRenew: "auto_renew",
+    locked: "locked",
+    privacy: "privacy",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/registrar/domains/{domainName}",
@@ -231,9 +250,8 @@ export type PutDomainResponse = unknown;
 export const PutDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<PutDomainResponse>;
 
-export const putDomain: (
-  input: PutDomainRequest,
-) => Effect.Effect<
+export const putDomain: API.OperationMethod<
+  PutDomainRequest,
   PutDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

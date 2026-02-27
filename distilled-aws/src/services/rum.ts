@@ -1141,9 +1141,8 @@ export class PolicySizeLimitExceededException extends S.TaggedErrorClass<PolicyS
 /**
  * Displays the tags associated with a CloudWatch RUM resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1164,9 +1163,8 @@ export const listTagsForResource: (
  *
  * Each `PutRumEvents` operation can send a batch of events from one user session.
  */
-export const putRumEvents: (
-  input: PutRumEventsRequest,
-) => effect.Effect<
+export const putRumEvents: API.OperationMethod<
+  PutRumEventsRequest,
   PutRumEventsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1199,9 +1197,8 @@ export const putRumEvents: (
  *
  * For more information, see Tagging Amazon Web Services resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1220,9 +1217,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1241,9 +1237,8 @@ export const untagResource: (
 /**
  * Retrieves the complete configuration information for one app monitor.
  */
-export const getAppMonitor: (
-  input: GetAppMonitorRequest,
-) => effect.Effect<
+export const getAppMonitor: API.OperationMethod<
+  GetAppMonitorRequest,
   GetAppMonitorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1272,9 +1267,8 @@ export const getAppMonitor: (
  *
  * After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
-export const updateAppMonitor: (
-  input: UpdateAppMonitorRequest,
-) => effect.Effect<
+export const updateAppMonitor: API.OperationMethod<
+  UpdateAppMonitorRequest,
   UpdateAppMonitorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1299,9 +1293,8 @@ export const updateAppMonitor: (
 /**
  * Deletes an existing app monitor. This immediately stops the collection of data.
  */
-export const deleteAppMonitor: (
-  input: DeleteAppMonitorRequest,
-) => effect.Effect<
+export const deleteAppMonitor: API.OperationMethod<
+  DeleteAppMonitorRequest,
   DeleteAppMonitorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1326,18 +1319,16 @@ export const deleteAppMonitor: (
 /**
  * Returns a list of the Amazon CloudWatch RUM app monitors in the account.
  */
-export const listAppMonitors: {
-  (
-    input: ListAppMonitorsRequest,
-  ): effect.Effect<
-    ListAppMonitorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppMonitors: API.OperationMethod<
+  ListAppMonitorsRequest,
+  ListAppMonitorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppMonitorsRequest,
   ) => stream.Stream<
@@ -1399,9 +1390,8 @@ export const listAppMonitors: {
  *
  * If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
  */
-export const batchCreateRumMetricDefinitions: (
-  input: BatchCreateRumMetricDefinitionsRequest,
-) => effect.Effect<
+export const batchCreateRumMetricDefinitions: API.OperationMethod<
+  BatchCreateRumMetricDefinitionsRequest,
   BatchCreateRumMetricDefinitionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -1432,9 +1422,8 @@ export const batchCreateRumMetricDefinitions: (
  *
  * The maximum number of metric definitions that you can specify in one `BatchDeleteRumMetricDefinitions` operation is 200.
  */
-export const batchDeleteRumMetricDefinitions: (
-  input: BatchDeleteRumMetricDefinitionsRequest,
-) => effect.Effect<
+export const batchDeleteRumMetricDefinitions: API.OperationMethod<
+  BatchDeleteRumMetricDefinitionsRequest,
   BatchDeleteRumMetricDefinitionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -1459,18 +1448,16 @@ export const batchDeleteRumMetricDefinitions: (
 /**
  * Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
  */
-export const batchGetRumMetricDefinitions: {
-  (
-    input: BatchGetRumMetricDefinitionsRequest,
-  ): effect.Effect<
-    BatchGetRumMetricDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const batchGetRumMetricDefinitions: API.OperationMethod<
+  BatchGetRumMetricDefinitionsRequest,
+  BatchGetRumMetricDefinitionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: BatchGetRumMetricDefinitionsRequest,
   ) => stream.Stream<
@@ -1516,9 +1503,8 @@ export const batchGetRumMetricDefinitions: {
  *
  * After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
  */
-export const createAppMonitor: (
-  input: CreateAppMonitorRequest,
-) => effect.Effect<
+export const createAppMonitor: API.OperationMethod<
+  CreateAppMonitorRequest,
   CreateAppMonitorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1545,9 +1531,8 @@ export const createAppMonitor: (
 /**
  * Removes the association of a resource-based policy from an app monitor.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1576,9 +1561,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
  */
-export const deleteRumMetricsDestination: (
-  input: DeleteRumMetricsDestinationRequest,
-) => effect.Effect<
+export const deleteRumMetricsDestination: API.OperationMethod<
+  DeleteRumMetricsDestinationRequest,
   DeleteRumMetricsDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1603,19 +1587,17 @@ export const deleteRumMetricsDestination: (
 /**
  * Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
  */
-export const getAppMonitorData: {
-  (
-    input: GetAppMonitorDataRequest,
-  ): effect.Effect<
-    GetAppMonitorDataResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAppMonitorData: API.OperationMethod<
+  GetAppMonitorDataRequest,
+  GetAppMonitorDataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAppMonitorDataRequest,
   ) => stream.Stream<
@@ -1660,9 +1642,8 @@ export const getAppMonitorData: {
 /**
  * Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1691,18 +1672,16 @@ export const getResourcePolicy: (
  *
  * For more information about extended metrics, see AddRumMetrics.
  */
-export const listRumMetricsDestinations: {
-  (
-    input: ListRumMetricsDestinationsRequest,
-  ): effect.Effect<
-    ListRumMetricsDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRumMetricsDestinations: API.OperationMethod<
+  ListRumMetricsDestinationsRequest,
+  ListRumMetricsDestinationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRumMetricsDestinationsRequest,
   ) => stream.Stream<
@@ -1744,9 +1723,8 @@ export const listRumMetricsDestinations: {
 /**
  * Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -1779,9 +1757,8 @@ export const putResourcePolicy: (
  *
  * For more information about extended metrics, see BatchCreateRumMetricDefinitions.
  */
-export const putRumMetricsDestination: (
-  input: PutRumMetricsDestinationRequest,
-) => effect.Effect<
+export const putRumMetricsDestination: API.OperationMethod<
+  PutRumMetricsDestinationRequest,
   PutRumMetricsDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1806,9 +1783,8 @@ export const putRumMetricsDestination: (
 /**
  * Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
  */
-export const updateRumMetricDefinition: (
-  input: UpdateRumMetricDefinitionRequest,
-) => effect.Effect<
+export const updateRumMetricDefinition: API.OperationMethod<
+  UpdateRumMetricDefinitionRequest,
   UpdateRumMetricDefinitionResponse,
   | AccessDeniedException
   | ConflictException

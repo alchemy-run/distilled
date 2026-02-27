@@ -1129,9 +1129,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  * template are automatically applied to the account. You can add a quota increase request
  * for any adjustable quota to your template.
  */
-export const associateServiceQuotaTemplate: (
-  input: AssociateServiceQuotaTemplateRequest,
-) => effect.Effect<
+export const associateServiceQuotaTemplate: API.OperationMethod<
+  AssociateServiceQuotaTemplateRequest,
   AssociateServiceQuotaTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1161,9 +1160,8 @@ export const associateServiceQuotaTemplate: (
  * Creates a Support case for an existing quota increase request. This call only creates
  * a Support case if the request has a `Pending` status.
  */
-export const createSupportCase: (
-  input: CreateSupportCaseRequest,
-) => effect.Effect<
+export const createSupportCase: API.OperationMethod<
+  CreateSupportCaseRequest,
   CreateSupportCaseResponse,
   | AccessDeniedException
   | DependencyAccessDeniedException
@@ -1193,9 +1191,8 @@ export const createSupportCase: (
  * Deletes the quota increase request for the specified quota from your quota request
  * template.
  */
-export const deleteServiceQuotaIncreaseRequestFromTemplate: (
-  input: DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
-) => effect.Effect<
+export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
+  DeleteServiceQuotaIncreaseRequestFromTemplateRequest,
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1228,9 +1225,8 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: (
  * requests in the template are not applied to new Amazon Web Services accounts in your organization.
  * Disabling a quota request template does not apply its quota increase requests.
  */
-export const disassociateServiceQuotaTemplate: (
-  input: DisassociateServiceQuotaTemplateRequest,
-) => effect.Effect<
+export const disassociateServiceQuotaTemplate: API.OperationMethod<
+  DisassociateServiceQuotaTemplateRequest,
   DisassociateServiceQuotaTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1259,9 +1255,8 @@ export const disassociateServiceQuotaTemplate: (
 /**
  * Retrieves the status of the association for the quota request template.
  */
-export const getAssociationForServiceQuotaTemplate: (
-  input: GetAssociationForServiceQuotaTemplateRequest,
-) => effect.Effect<
+export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
+  GetAssociationForServiceQuotaTemplateRequest,
   GetAssociationForServiceQuotaTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1291,9 +1286,8 @@ export const getAssociationForServiceQuotaTemplate: (
  * Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const getAutoManagementConfiguration: (
-  input: GetAutoManagementConfigurationRequest,
-) => effect.Effect<
+export const getAutoManagementConfiguration: API.OperationMethod<
+  GetAutoManagementConfigurationRequest,
   GetAutoManagementConfigurationResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1317,9 +1311,8 @@ export const getAutoManagementConfiguration: (
  * Retrieves the default value for the specified quota. The default value does not
  * reflect any quota increases.
  */
-export const getAWSDefaultServiceQuota: (
-  input: GetAWSDefaultServiceQuotaRequest,
-) => effect.Effect<
+export const getAWSDefaultServiceQuota: API.OperationMethod<
+  GetAWSDefaultServiceQuotaRequest,
   GetAWSDefaultServiceQuotaResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1353,9 +1346,8 @@ export const getAWSDefaultServiceQuota: (
  * parameter to retrieve additional pages of results. Reports are automatically deleted after
  * 15 minutes.
  */
-export const getQuotaUtilizationReport: (
-  input: GetQuotaUtilizationReportRequest,
-) => effect.Effect<
+export const getQuotaUtilizationReport: API.OperationMethod<
+  GetQuotaUtilizationReportRequest,
   GetQuotaUtilizationReportResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1378,9 +1370,8 @@ export const getQuotaUtilizationReport: (
 /**
  * Retrieves information about the specified quota increase request.
  */
-export const getRequestedServiceQuotaChange: (
-  input: GetRequestedServiceQuotaChangeRequest,
-) => effect.Effect<
+export const getRequestedServiceQuotaChange: API.OperationMethod<
+  GetRequestedServiceQuotaChangeRequest,
   GetRequestedServiceQuotaChangeResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1405,9 +1396,8 @@ export const getRequestedServiceQuotaChange: (
  * quota. For some quotas, only the default values are available. If the applied quota
  * value is not available for a quota, the quota is not retrieved.
  */
-export const getServiceQuota: (
-  input: GetServiceQuotaRequest,
-) => effect.Effect<
+export const getServiceQuota: API.OperationMethod<
+  GetServiceQuotaRequest,
   GetServiceQuotaResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1431,9 +1421,8 @@ export const getServiceQuota: (
  * Retrieves information about the specified quota increase request in your quota request
  * template.
  */
-export const getServiceQuotaIncreaseRequestFromTemplate: (
-  input: GetServiceQuotaIncreaseRequestFromTemplateRequest,
-) => effect.Effect<
+export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
+  GetServiceQuotaIncreaseRequestFromTemplateRequest,
   GetServiceQuotaIncreaseRequestFromTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1465,20 +1454,18 @@ export const getServiceQuotaIncreaseRequestFromTemplate: (
  * Lists the default values for the quotas for the specified Amazon Web Services service. A default
  * value does not reflect any quota increases.
  */
-export const listAWSDefaultServiceQuotas: {
-  (
-    input: ListAWSDefaultServiceQuotasRequest,
-  ): effect.Effect<
-    ListAWSDefaultServiceQuotasResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAWSDefaultServiceQuotas: API.OperationMethod<
+  ListAWSDefaultServiceQuotasRequest,
+  ListAWSDefaultServiceQuotasResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAWSDefaultServiceQuotasRequest,
   ) => stream.Stream<
@@ -1528,20 +1515,18 @@ export const listAWSDefaultServiceQuotas: {
  * responses to return quota requests at either the account level, resource level, or all
  * levels. Responses include any open or closed requests within 90 days.
  */
-export const listRequestedServiceQuotaChangeHistory: {
-  (
-    input: ListRequestedServiceQuotaChangeHistoryRequest,
-  ): effect.Effect<
-    ListRequestedServiceQuotaChangeHistoryResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRequestedServiceQuotaChangeHistory: API.OperationMethod<
+  ListRequestedServiceQuotaChangeHistoryRequest,
+  ListRequestedServiceQuotaChangeHistoryResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequestedServiceQuotaChangeHistoryRequest,
   ) => stream.Stream<
@@ -1590,20 +1575,18 @@ export const listRequestedServiceQuotaChangeHistory: {
  * Retrieves the quota increase requests for the specified quota. Filter responses to
  * return quota requests at either the account level, resource level, or all levels.
  */
-export const listRequestedServiceQuotaChangeHistoryByQuota: {
-  (
-    input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
-  ): effect.Effect<
-    ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRequestedServiceQuotaChangeHistoryByQuota: API.OperationMethod<
+  ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
+  ListRequestedServiceQuotaChangeHistoryByQuotaResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequestedServiceQuotaChangeHistoryByQuotaRequest,
   ) => stream.Stream<
@@ -1651,22 +1634,20 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: {
 /**
  * Lists the quota increase requests in the specified quota request template.
  */
-export const listServiceQuotaIncreaseRequestsInTemplate: {
-  (
-    input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
-  ): effect.Effect<
-    ListServiceQuotaIncreaseRequestsInTemplateResponse,
-    | AccessDeniedException
-    | AWSServiceAccessNotEnabledException
-    | DependencyAccessDeniedException
-    | IllegalArgumentException
-    | NoAvailableOrganizationException
-    | ServiceException
-    | TemplatesNotAvailableInRegionException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceQuotaIncreaseRequestsInTemplate: API.OperationMethod<
+  ListServiceQuotaIncreaseRequestsInTemplateRequest,
+  ListServiceQuotaIncreaseRequestsInTemplateResponse,
+  | AccessDeniedException
+  | AWSServiceAccessNotEnabledException
+  | DependencyAccessDeniedException
+  | IllegalArgumentException
+  | NoAvailableOrganizationException
+  | ServiceException
+  | TemplatesNotAvailableInRegionException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceQuotaIncreaseRequestsInTemplateRequest,
   ) => stream.Stream<
@@ -1723,20 +1704,18 @@ export const listServiceQuotaIncreaseRequestsInTemplate: {
  * quota, the quota is not retrieved. Filter responses to return applied quota values at
  * either the account level, resource level, or all levels.
  */
-export const listServiceQuotas: {
-  (
-    input: ListServiceQuotasRequest,
-  ): effect.Effect<
-    ListServiceQuotasResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | NoSuchResourceException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceQuotas: API.OperationMethod<
+  ListServiceQuotasRequest,
+  ListServiceQuotasResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | NoSuchResourceException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceQuotasRequest,
   ) => stream.Stream<
@@ -1784,19 +1763,17 @@ export const listServiceQuotas: {
 /**
  * Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
  */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InvalidPaginationTokenException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InvalidPaginationTokenException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
@@ -1841,9 +1818,8 @@ export const listServices: {
 /**
  * Returns a list of the tags assigned to the specified applied quota.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1866,9 +1842,8 @@ export const listTagsForResource: (
 /**
  * Adds a quota increase request to your quota request template.
  */
-export const putServiceQuotaIncreaseRequestIntoTemplate: (
-  input: PutServiceQuotaIncreaseRequestIntoTemplateRequest,
-) => effect.Effect<
+export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
+  PutServiceQuotaIncreaseRequestIntoTemplateRequest,
   PutServiceQuotaIncreaseRequestIntoTemplateResponse,
   | AccessDeniedException
   | AWSServiceAccessNotEnabledException
@@ -1902,9 +1877,8 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: (
  * Submits a quota increase request for the specified quota at the account or resource
  * level.
  */
-export const requestServiceQuotaIncrease: (
-  input: RequestServiceQuotaIncreaseRequest,
-) => effect.Effect<
+export const requestServiceQuotaIncrease: API.OperationMethod<
+  RequestServiceQuotaIncreaseRequest,
   RequestServiceQuotaIncreaseResponse,
   | AccessDeniedException
   | DependencyAccessDeniedException
@@ -1937,9 +1911,8 @@ export const requestServiceQuotaIncrease: (
  * and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const startAutoManagement: (
-  input: StartAutoManagementRequest,
-) => effect.Effect<
+export const startAutoManagement: API.OperationMethod<
+  StartAutoManagementRequest,
   StartAutoManagementResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1968,9 +1941,8 @@ export const startAutoManagement: (
  * number of quotas in your account. Use the `GetQuotaUtilizationReport` operation
  * to check the status and retrieve the results when the report is ready.
  */
-export const startQuotaUtilizationReport: (
-  input: StartQuotaUtilizationReportRequest,
-) => effect.Effect<
+export const startQuotaUtilizationReport: API.OperationMethod<
+  StartQuotaUtilizationReportRequest,
   StartQuotaUtilizationReportResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -1997,9 +1969,8 @@ export const startQuotaUtilizationReport: (
  * configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const stopAutoManagement: (
-  input: StopAutoManagementRequest,
-) => effect.Effect<
+export const stopAutoManagement: API.OperationMethod<
+  StopAutoManagementRequest,
   StopAutoManagementResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -2023,9 +1994,8 @@ export const stopAutoManagement: (
  * Adds tags to the specified applied quota. You can include one or more tags to add to
  * the quota.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -2053,9 +2023,8 @@ export const tagResource: (
  * Removes tags from the specified applied quota. You can specify one or more tags to
  * remove.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -2080,9 +2049,8 @@ export const untagResource: (
  * excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you
  * run out of your allocated quotas.
  */
-export const updateAutoManagement: (
-  input: UpdateAutoManagementRequest,
-) => effect.Effect<
+export const updateAutoManagement: API.OperationMethod<
+  UpdateAutoManagementRequest,
   UpdateAutoManagementResponse,
   | AccessDeniedException
   | IllegalArgumentException

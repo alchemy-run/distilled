@@ -1475,9 +1475,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
  *
  * identity
  */
-export const createAppInstance: (
-  input: CreateAppInstanceRequest,
-) => effect.Effect<
+export const createAppInstance: API.OperationMethod<
+  CreateAppInstanceRequest,
   CreateAppInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -1516,9 +1515,8 @@ export const createAppInstance: (
  * Only an `AppInstanceUser` and `AppInstanceBot` can be promoted to an `AppInstanceAdmin`
  * role.
  */
-export const createAppInstanceAdmin: (
-  input: CreateAppInstanceAdminRequest,
-) => effect.Effect<
+export const createAppInstanceAdmin: API.OperationMethod<
+  CreateAppInstanceAdminRequest,
   CreateAppInstanceAdminResponse,
   | BadRequestException
   | ConflictException
@@ -1548,9 +1546,8 @@ export const createAppInstanceAdmin: (
  * Creates a bot under an Amazon Chime `AppInstance`. The request consists of a
  * unique `Configuration` and `Name` for that bot.
  */
-export const createAppInstanceBot: (
-  input: CreateAppInstanceBotRequest,
-) => effect.Effect<
+export const createAppInstanceBot: API.OperationMethod<
+  CreateAppInstanceBotRequest,
   CreateAppInstanceBotResponse,
   | BadRequestException
   | ConflictException
@@ -1580,9 +1577,8 @@ export const createAppInstanceBot: (
  * Creates a user under an Amazon Chime `AppInstance`. The request consists of a
  * unique `appInstanceUserId` and `Name` for that user.
  */
-export const createAppInstanceUser: (
-  input: CreateAppInstanceUserRequest,
-) => effect.Effect<
+export const createAppInstanceUser: API.OperationMethod<
+  CreateAppInstanceUserRequest,
   CreateAppInstanceUserResponse,
   | BadRequestException
   | ConflictException
@@ -1611,9 +1607,8 @@ export const createAppInstanceUser: (
 /**
  * Deletes an `AppInstance` and all associated data asynchronously.
  */
-export const deleteAppInstance: (
-  input: DeleteAppInstanceRequest,
-) => effect.Effect<
+export const deleteAppInstance: API.OperationMethod<
+  DeleteAppInstanceRequest,
   DeleteAppInstanceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1642,9 +1637,8 @@ export const deleteAppInstance: (
  * `AppInstanceBot`. This action
  * does not delete the user.
  */
-export const deleteAppInstanceAdmin: (
-  input: DeleteAppInstanceAdminRequest,
-) => effect.Effect<
+export const deleteAppInstanceAdmin: API.OperationMethod<
+  DeleteAppInstanceAdminRequest,
   DeleteAppInstanceAdminResponse,
   | BadRequestException
   | ConflictException
@@ -1673,9 +1667,8 @@ export const deleteAppInstanceAdmin: (
 /**
  * Deletes an `AppInstanceBot`.
  */
-export const deleteAppInstanceBot: (
-  input: DeleteAppInstanceBotRequest,
-) => effect.Effect<
+export const deleteAppInstanceBot: API.OperationMethod<
+  DeleteAppInstanceBotRequest,
   DeleteAppInstanceBotResponse,
   | BadRequestException
   | ConflictException
@@ -1704,9 +1697,8 @@ export const deleteAppInstanceBot: (
 /**
  * Deletes an `AppInstanceUser`.
  */
-export const deleteAppInstanceUser: (
-  input: DeleteAppInstanceUserRequest,
-) => effect.Effect<
+export const deleteAppInstanceUser: API.OperationMethod<
+  DeleteAppInstanceUserRequest,
   DeleteAppInstanceUserResponse,
   | BadRequestException
   | ConflictException
@@ -1735,9 +1727,8 @@ export const deleteAppInstanceUser: (
 /**
  * Deregisters an `AppInstanceUserEndpoint`.
  */
-export const deregisterAppInstanceUserEndpoint: (
-  input: DeregisterAppInstanceUserEndpointRequest,
-) => effect.Effect<
+export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
+  DeregisterAppInstanceUserEndpointRequest,
   DeregisterAppInstanceUserEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -1762,9 +1753,8 @@ export const deregisterAppInstanceUserEndpoint: (
 /**
  * Returns the full details of an `AppInstance`.
  */
-export const describeAppInstance: (
-  input: DescribeAppInstanceRequest,
-) => effect.Effect<
+export const describeAppInstance: API.OperationMethod<
+  DescribeAppInstanceRequest,
   DescribeAppInstanceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1789,9 +1779,8 @@ export const describeAppInstance: (
 /**
  * Returns the full details of an `AppInstanceAdmin`.
  */
-export const describeAppInstanceAdmin: (
-  input: DescribeAppInstanceAdminRequest,
-) => effect.Effect<
+export const describeAppInstanceAdmin: API.OperationMethod<
+  DescribeAppInstanceAdminRequest,
   DescribeAppInstanceAdminResponse,
   | BadRequestException
   | ForbiddenException
@@ -1816,9 +1805,8 @@ export const describeAppInstanceAdmin: (
 /**
  * The `AppInstanceBot's` information.
  */
-export const describeAppInstanceBot: (
-  input: DescribeAppInstanceBotRequest,
-) => effect.Effect<
+export const describeAppInstanceBot: API.OperationMethod<
+  DescribeAppInstanceBotRequest,
   DescribeAppInstanceBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -1845,9 +1833,8 @@ export const describeAppInstanceBot: (
 /**
  * Returns the full details of an `AppInstanceUser`.
  */
-export const describeAppInstanceUser: (
-  input: DescribeAppInstanceUserRequest,
-) => effect.Effect<
+export const describeAppInstanceUser: API.OperationMethod<
+  DescribeAppInstanceUserRequest,
   DescribeAppInstanceUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -1872,9 +1859,8 @@ export const describeAppInstanceUser: (
 /**
  * Returns the full details of an `AppInstanceUserEndpoint`.
  */
-export const describeAppInstanceUserEndpoint: (
-  input: DescribeAppInstanceUserEndpointRequest,
-) => effect.Effect<
+export const describeAppInstanceUserEndpoint: API.OperationMethod<
+  DescribeAppInstanceUserEndpointRequest,
   DescribeAppInstanceUserEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -1899,9 +1885,8 @@ export const describeAppInstanceUserEndpoint: (
 /**
  * Gets the retention settings for an `AppInstance`.
  */
-export const getAppInstanceRetentionSettings: (
-  input: GetAppInstanceRetentionSettingsRequest,
-) => effect.Effect<
+export const getAppInstanceRetentionSettings: API.OperationMethod<
+  GetAppInstanceRetentionSettingsRequest,
   GetAppInstanceRetentionSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -1926,21 +1911,19 @@ export const getAppInstanceRetentionSettings: (
 /**
  * Returns a list of the administrators in the `AppInstance`.
  */
-export const listAppInstanceAdmins: {
-  (
-    input: ListAppInstanceAdminsRequest,
-  ): effect.Effect<
-    ListAppInstanceAdminsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppInstanceAdmins: API.OperationMethod<
+  ListAppInstanceAdminsRequest,
+  ListAppInstanceAdminsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppInstanceAdminsRequest,
   ) => stream.Stream<
@@ -1990,21 +1973,19 @@ export const listAppInstanceAdmins: {
 /**
  * Lists all `AppInstanceBots` created under a single `AppInstance`.
  */
-export const listAppInstanceBots: {
-  (
-    input: ListAppInstanceBotsRequest,
-  ): effect.Effect<
-    ListAppInstanceBotsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppInstanceBots: API.OperationMethod<
+  ListAppInstanceBotsRequest,
+  ListAppInstanceBotsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppInstanceBotsRequest,
   ) => stream.Stream<
@@ -2055,20 +2036,18 @@ export const listAppInstanceBots: {
  * Lists all Amazon Chime `AppInstance`s created under a single AWS
  * account.
  */
-export const listAppInstances: {
-  (
-    input: ListAppInstancesRequest,
-  ): effect.Effect<
-    ListAppInstancesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppInstances: API.OperationMethod<
+  ListAppInstancesRequest,
+  ListAppInstancesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppInstancesRequest,
   ) => stream.Stream<
@@ -2115,20 +2094,18 @@ export const listAppInstances: {
 /**
  * Lists all the `AppInstanceUserEndpoints` created under a single `AppInstanceUser`.
  */
-export const listAppInstanceUserEndpoints: {
-  (
-    input: ListAppInstanceUserEndpointsRequest,
-  ): effect.Effect<
-    ListAppInstanceUserEndpointsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppInstanceUserEndpoints: API.OperationMethod<
+  ListAppInstanceUserEndpointsRequest,
+  ListAppInstanceUserEndpointsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppInstanceUserEndpointsRequest,
   ) => stream.Stream<
@@ -2176,20 +2153,18 @@ export const listAppInstanceUserEndpoints: {
  * List all `AppInstanceUsers` created under a single
  * `AppInstance`.
  */
-export const listAppInstanceUsers: {
-  (
-    input: ListAppInstanceUsersRequest,
-  ): effect.Effect<
-    ListAppInstanceUsersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppInstanceUsers: API.OperationMethod<
+  ListAppInstanceUsersRequest,
+  ListAppInstanceUsersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppInstanceUsersRequest,
   ) => stream.Stream<
@@ -2236,9 +2211,8 @@ export const listAppInstanceUsers: {
 /**
  * Lists the tags applied to an Amazon Chime SDK identity resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2264,9 +2238,8 @@ export const listTagsForResource: (
  * Sets the amount of time in days that a given `AppInstance` retains
  * data.
  */
-export const putAppInstanceRetentionSettings: (
-  input: PutAppInstanceRetentionSettingsRequest,
-) => effect.Effect<
+export const putAppInstanceRetentionSettings: API.OperationMethod<
+  PutAppInstanceRetentionSettingsRequest,
   PutAppInstanceRetentionSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2297,9 +2270,8 @@ export const putAppInstanceRetentionSettings: (
  * Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can update
  * their expiration settings. The system honors the new settings.
  */
-export const putAppInstanceUserExpirationSettings: (
-  input: PutAppInstanceUserExpirationSettingsRequest,
-) => effect.Effect<
+export const putAppInstanceUserExpirationSettings: API.OperationMethod<
+  PutAppInstanceUserExpirationSettingsRequest,
   PutAppInstanceUserExpirationSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -2326,9 +2298,8 @@ export const putAppInstanceUserExpirationSettings: (
 /**
  * Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
  */
-export const registerAppInstanceUserEndpoint: (
-  input: RegisterAppInstanceUserEndpointRequest,
-) => effect.Effect<
+export const registerAppInstanceUserEndpoint: API.OperationMethod<
+  RegisterAppInstanceUserEndpointRequest,
   RegisterAppInstanceUserEndpointResponse,
   | BadRequestException
   | ConflictException
@@ -2357,9 +2328,8 @@ export const registerAppInstanceUserEndpoint: (
 /**
  * Applies the specified tags to the specified Amazon Chime SDK identity resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2386,9 +2356,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified Amazon Chime SDK identity resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2413,9 +2382,8 @@ export const untagResource: (
 /**
  * Updates `AppInstance` metadata.
  */
-export const updateAppInstance: (
-  input: UpdateAppInstanceRequest,
-) => effect.Effect<
+export const updateAppInstance: API.OperationMethod<
+  UpdateAppInstanceRequest,
   UpdateAppInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -2442,9 +2410,8 @@ export const updateAppInstance: (
 /**
  * Updates the name and metadata of an `AppInstanceBot`.
  */
-export const updateAppInstanceBot: (
-  input: UpdateAppInstanceBotRequest,
-) => effect.Effect<
+export const updateAppInstanceBot: API.OperationMethod<
+  UpdateAppInstanceBotRequest,
   UpdateAppInstanceBotResponse,
   | BadRequestException
   | ConflictException
@@ -2474,9 +2441,8 @@ export const updateAppInstanceBot: (
  * Updates the details of an `AppInstanceUser`. You can update names and
  * metadata.
  */
-export const updateAppInstanceUser: (
-  input: UpdateAppInstanceUserRequest,
-) => effect.Effect<
+export const updateAppInstanceUser: API.OperationMethod<
+  UpdateAppInstanceUserRequest,
   UpdateAppInstanceUserResponse,
   | BadRequestException
   | ConflictException
@@ -2505,9 +2471,8 @@ export const updateAppInstanceUser: (
 /**
  * Updates the details of an `AppInstanceUserEndpoint`. You can update the name and `AllowMessage` values.
  */
-export const updateAppInstanceUserEndpoint: (
-  input: UpdateAppInstanceUserEndpointRequest,
-) => effect.Effect<
+export const updateAppInstanceUserEndpoint: API.OperationMethod<
+  UpdateAppInstanceUserEndpointRequest,
   UpdateAppInstanceUserEndpointResponse,
   | BadRequestException
   | ConflictException

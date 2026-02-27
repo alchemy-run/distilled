@@ -1202,9 +1202,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Returns a list of all tags on an PCS resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1216,9 +1215,8 @@ export const listTagsForResource: (
 /**
  * Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1230,9 +1228,8 @@ export const tagResource: (
 /**
  * Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1246,9 +1243,8 @@ export const untagResource: (
  *
  * It takes time for PCS to create the cluster. The cluster is in a `Creating` state until it is ready to use. There can only be 1 cluster in a `Creating` state per Amazon Web Services Region per Amazon Web Services account. `CreateCluster` fails with a `ServiceQuotaExceededException` if there is already a cluster in a `Creating` state.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1275,9 +1271,8 @@ export const createCluster: (
  *
  * You can only update clusters that are in `ACTIVE`, `UPDATE_FAILED`, or `SUSPENDED` state. All associated resources (queues and compute node groups) must be in `ACTIVE` state before you can update the cluster.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1302,9 +1297,8 @@ export const updateCluster: (
 /**
  * Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1329,9 +1323,8 @@ export const deleteCluster: (
 /**
  * Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
  */
-export const getCluster: (
-  input: GetClusterRequest,
-) => effect.Effect<
+export const getCluster: API.OperationMethod<
+  GetClusterRequest,
   GetClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1358,9 +1351,8 @@ export const getCluster: (
  *
  * PCS uses this API action to register the compute nodes it launches in your account.
  */
-export const registerComputeNodeGroupInstance: (
-  input: RegisterComputeNodeGroupInstanceRequest,
-) => effect.Effect<
+export const registerComputeNodeGroupInstance: API.OperationMethod<
+  RegisterComputeNodeGroupInstanceRequest,
   RegisterComputeNodeGroupInstanceResponse,
   AccessDeniedException | InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1372,20 +1364,18 @@ export const registerComputeNodeGroupInstance: (
 /**
  * Returns a list of running clusters in your account.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -1433,9 +1423,8 @@ export const listClusters: {
 /**
  * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
  */
-export const createComputeNodeGroup: (
-  input: CreateComputeNodeGroupRequest,
-) => effect.Effect<
+export const createComputeNodeGroup: API.OperationMethod<
+  CreateComputeNodeGroupRequest,
   CreateComputeNodeGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1462,9 +1451,8 @@ export const createComputeNodeGroup: (
 /**
  * Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
  */
-export const updateComputeNodeGroup: (
-  input: UpdateComputeNodeGroupRequest,
-) => effect.Effect<
+export const updateComputeNodeGroup: API.OperationMethod<
+  UpdateComputeNodeGroupRequest,
   UpdateComputeNodeGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1491,9 +1479,8 @@ export const updateComputeNodeGroup: (
 /**
  * Deletes a compute node group. You must delete all queues associated with the compute node group first.
  */
-export const deleteComputeNodeGroup: (
-  input: DeleteComputeNodeGroupRequest,
-) => effect.Effect<
+export const deleteComputeNodeGroup: API.OperationMethod<
+  DeleteComputeNodeGroupRequest,
   DeleteComputeNodeGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1518,9 +1505,8 @@ export const deleteComputeNodeGroup: (
 /**
  * Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
  */
-export const getComputeNodeGroup: (
-  input: GetComputeNodeGroupRequest,
-) => effect.Effect<
+export const getComputeNodeGroup: API.OperationMethod<
+  GetComputeNodeGroupRequest,
   GetComputeNodeGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1545,20 +1531,18 @@ export const getComputeNodeGroup: (
 /**
  * Returns a list of all compute node groups associated with a cluster.
  */
-export const listComputeNodeGroups: {
-  (
-    input: ListComputeNodeGroupsRequest,
-  ): effect.Effect<
-    ListComputeNodeGroupsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComputeNodeGroups: API.OperationMethod<
+  ListComputeNodeGroupsRequest,
+  ListComputeNodeGroupsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComputeNodeGroupsRequest,
   ) => stream.Stream<
@@ -1606,9 +1590,8 @@ export const listComputeNodeGroups: {
 /**
  * Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
  */
-export const createQueue: (
-  input: CreateQueueRequest,
-) => effect.Effect<
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
   CreateQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -1635,9 +1618,8 @@ export const createQueue: (
 /**
  * Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
  */
-export const updateQueue: (
-  input: UpdateQueueRequest,
-) => effect.Effect<
+export const updateQueue: API.OperationMethod<
+  UpdateQueueRequest,
   UpdateQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -1664,9 +1646,8 @@ export const updateQueue: (
 /**
  * Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
  */
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => effect.Effect<
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
   DeleteQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -1691,9 +1672,8 @@ export const deleteQueue: (
 /**
  * Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
  */
-export const getQueue: (
-  input: GetQueueRequest,
-) => effect.Effect<
+export const getQueue: API.OperationMethod<
+  GetQueueRequest,
   GetQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -1718,20 +1698,18 @@ export const getQueue: (
 /**
  * Returns a list of all queues associated with a cluster.
  */
-export const listQueues: {
-  (
-    input: ListQueuesRequest,
-  ): effect.Effect<
-    ListQueuesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<

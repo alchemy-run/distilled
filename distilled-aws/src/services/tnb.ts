@@ -1918,9 +1918,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
-export const cancelSolNetworkOperation: (
-  input: CancelSolNetworkOperationInput,
-) => effect.Effect<
+export const cancelSolNetworkOperation: API.OperationMethod<
+  CancelSolNetworkOperationInput,
   CancelSolNetworkOperationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1950,9 +1949,8 @@ export const cancelSolNetworkOperation: (
  * request creates an empty container with an ID. The next step is to upload the actual CSAR
  * zip file into that empty container. To upload function package content, see PutSolFunctionPackageContent.
  */
-export const createSolFunctionPackage: (
-  input: CreateSolFunctionPackageInput,
-) => effect.Effect<
+export const createSolFunctionPackage: API.OperationMethod<
+  CreateSolFunctionPackageInput,
   CreateSolFunctionPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1982,9 +1980,8 @@ export const createSolFunctionPackage: (
  * Once you create a network instance, you can instantiate it. To instantiate a network,
  * see InstantiateSolNetworkInstance.
  */
-export const createSolNetworkInstance: (
-  input: CreateSolNetworkInstanceInput,
-) => effect.Effect<
+export const createSolNetworkInstance: API.OperationMethod<
+  CreateSolNetworkInstanceInput,
   CreateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2020,9 +2017,8 @@ export const createSolNetworkInstance: (
  * This request creates an empty network package container with an ID. Once you create a
  * network package, you can upload the network package content using PutSolNetworkPackageContent.
  */
-export const createSolNetworkPackage: (
-  input: CreateSolNetworkPackageInput,
-) => effect.Effect<
+export const createSolNetworkPackage: API.OperationMethod<
+  CreateSolNetworkPackageInput,
   CreateSolNetworkPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2050,9 +2046,8 @@ export const createSolNetworkPackage: (
  * To delete a function package, the package must be in a disabled state. To disable a
  * function package, see UpdateSolFunctionPackage.
  */
-export const deleteSolFunctionPackage: (
-  input: DeleteSolFunctionPackageInput,
-) => effect.Effect<
+export const deleteSolFunctionPackage: API.OperationMethod<
+  DeleteSolFunctionPackageInput,
   DeleteSolFunctionPackageResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2080,9 +2075,8 @@ export const deleteSolFunctionPackage: (
  * To delete a network instance, the instance must be in a stopped or terminated state. To
  * terminate a network instance, see TerminateSolNetworkInstance.
  */
-export const deleteSolNetworkInstance: (
-  input: DeleteSolNetworkInstanceInput,
-) => effect.Effect<
+export const deleteSolNetworkInstance: API.OperationMethod<
+  DeleteSolNetworkInstanceInput,
   DeleteSolNetworkInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2110,9 +2104,8 @@ export const deleteSolNetworkInstance: (
  * To delete a network package, the package must be in a disable state. To disable a
  * network package, see UpdateSolNetworkPackage.
  */
-export const deleteSolNetworkPackage: (
-  input: DeleteSolNetworkPackageInput,
-) => effect.Effect<
+export const deleteSolNetworkPackage: API.OperationMethod<
+  DeleteSolNetworkPackageInput,
   DeleteSolNetworkPackageResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2138,9 +2131,8 @@ export const deleteSolNetworkPackage: (
  *
  * A network function instance is a function in a function package .
  */
-export const getSolFunctionInstance: (
-  input: GetSolFunctionInstanceInput,
-) => effect.Effect<
+export const getSolFunctionInstance: API.OperationMethod<
+  GetSolFunctionInstanceInput,
   GetSolFunctionInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2166,9 +2158,8 @@ export const getSolFunctionInstance: (
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
  */
-export const getSolFunctionPackage: (
-  input: GetSolFunctionPackageInput,
-) => effect.Effect<
+export const getSolFunctionPackage: API.OperationMethod<
+  GetSolFunctionPackageInput,
   GetSolFunctionPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2193,9 +2184,8 @@ export const getSolFunctionPackage: (
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const getSolFunctionPackageContent: (
-  input: GetSolFunctionPackageContentInput,
-) => effect.Effect<
+export const getSolFunctionPackageContent: API.OperationMethod<
+  GetSolFunctionPackageContentInput,
   GetSolFunctionPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2222,9 +2212,8 @@ export const getSolFunctionPackageContent: (
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const getSolFunctionPackageDescriptor: (
-  input: GetSolFunctionPackageDescriptorInput,
-) => effect.Effect<
+export const getSolFunctionPackageDescriptor: API.OperationMethod<
+  GetSolFunctionPackageDescriptorInput,
   GetSolFunctionPackageDescriptorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2249,9 +2238,8 @@ export const getSolFunctionPackageDescriptor: (
  *
  * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
-export const getSolNetworkInstance: (
-  input: GetSolNetworkInstanceInput,
-) => effect.Effect<
+export const getSolNetworkInstance: API.OperationMethod<
+  GetSolNetworkInstanceInput,
   GetSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2277,9 +2265,8 @@ export const getSolNetworkInstance: (
  *
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
-export const getSolNetworkOperation: (
-  input: GetSolNetworkOperationInput,
-) => effect.Effect<
+export const getSolNetworkOperation: API.OperationMethod<
+  GetSolNetworkOperationInput,
   GetSolNetworkOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2304,9 +2291,8 @@ export const getSolNetworkOperation: (
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const getSolNetworkPackage: (
-  input: GetSolNetworkPackageInput,
-) => effect.Effect<
+export const getSolNetworkPackage: API.OperationMethod<
+  GetSolNetworkPackageInput,
   GetSolNetworkPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2331,9 +2317,8 @@ export const getSolNetworkPackage: (
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const getSolNetworkPackageContent: (
-  input: GetSolNetworkPackageContentInput,
-) => effect.Effect<
+export const getSolNetworkPackageContent: API.OperationMethod<
+  GetSolNetworkPackageContentInput,
   GetSolNetworkPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2358,9 +2343,8 @@ export const getSolNetworkPackageContent: (
  *
  * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
  */
-export const getSolNetworkPackageDescriptor: (
-  input: GetSolNetworkPackageDescriptorInput,
-) => effect.Effect<
+export const getSolNetworkPackageDescriptor: API.OperationMethod<
+  GetSolNetworkPackageDescriptorInput,
   GetSolNetworkPackageDescriptorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2388,9 +2372,8 @@ export const getSolNetworkPackageDescriptor: (
  * Before you can instantiate a network instance, you have to create a network instance.
  * For more information, see CreateSolNetworkInstance.
  */
-export const instantiateSolNetworkInstance: (
-  input: InstantiateSolNetworkInstanceInput,
-) => effect.Effect<
+export const instantiateSolNetworkInstance: API.OperationMethod<
+  InstantiateSolNetworkInstanceInput,
   InstantiateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2417,18 +2400,16 @@ export const instantiateSolNetworkInstance: (
  *
  * A network function instance is a function in a function package .
  */
-export const listSolFunctionInstances: {
-  (
-    input: ListSolFunctionInstancesInput,
-  ): effect.Effect<
-    ListSolFunctionInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolFunctionInstances: API.OperationMethod<
+  ListSolFunctionInstancesInput,
+  ListSolFunctionInstancesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolFunctionInstancesInput,
   ) => stream.Stream<
@@ -2472,18 +2453,16 @@ export const listSolFunctionInstances: {
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const listSolFunctionPackages: {
-  (
-    input: ListSolFunctionPackagesInput,
-  ): effect.Effect<
-    ListSolFunctionPackagesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolFunctionPackages: API.OperationMethod<
+  ListSolFunctionPackagesInput,
+  ListSolFunctionPackagesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolFunctionPackagesInput,
   ) => stream.Stream<
@@ -2527,18 +2506,16 @@ export const listSolFunctionPackages: {
  *
  * A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
  */
-export const listSolNetworkInstances: {
-  (
-    input: ListSolNetworkInstancesInput,
-  ): effect.Effect<
-    ListSolNetworkInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolNetworkInstances: API.OperationMethod<
+  ListSolNetworkInstancesInput,
+  ListSolNetworkInstancesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolNetworkInstancesInput,
   ) => stream.Stream<
@@ -2583,18 +2560,16 @@ export const listSolNetworkInstances: {
  *
  * A network operation is any operation that is done to your network, such as network instance instantiation or termination.
  */
-export const listSolNetworkOperations: {
-  (
-    input: ListSolNetworkOperationsInput,
-  ): effect.Effect<
-    ListSolNetworkOperationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolNetworkOperations: API.OperationMethod<
+  ListSolNetworkOperationsInput,
+  ListSolNetworkOperationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolNetworkOperationsInput,
   ) => stream.Stream<
@@ -2638,18 +2613,16 @@ export const listSolNetworkOperations: {
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const listSolNetworkPackages: {
-  (
-    input: ListSolNetworkPackagesInput,
-  ): effect.Effect<
-    ListSolNetworkPackagesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolNetworkPackages: API.OperationMethod<
+  ListSolNetworkPackagesInput,
+  ListSolNetworkPackagesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolNetworkPackagesInput,
   ) => stream.Stream<
@@ -2691,9 +2664,8 @@ export const listSolNetworkPackages: {
 /**
  * Lists tags for AWS TNB resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2718,9 +2690,8 @@ export const listTagsForResource: (
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const putSolFunctionPackageContent: (
-  input: PutSolFunctionPackageContentInput,
-) => effect.Effect<
+export const putSolFunctionPackageContent: API.OperationMethod<
+  PutSolFunctionPackageContentInput,
   PutSolFunctionPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2745,9 +2716,8 @@ export const putSolFunctionPackageContent: (
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const putSolNetworkPackageContent: (
-  input: PutSolNetworkPackageContentInput,
-) => effect.Effect<
+export const putSolNetworkPackageContent: API.OperationMethod<
+  PutSolNetworkPackageContentInput,
   PutSolNetworkPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2772,9 +2742,8 @@ export const putSolNetworkPackageContent: (
  *
  * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2801,9 +2770,8 @@ export const tagResource: (
  *
  * You must terminate a network instance before you can delete it.
  */
-export const terminateSolNetworkInstance: (
-  input: TerminateSolNetworkInstanceInput,
-) => effect.Effect<
+export const terminateSolNetworkInstance: API.OperationMethod<
+  TerminateSolNetworkInstanceInput,
   TerminateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2830,9 +2798,8 @@ export const terminateSolNetworkInstance: (
  *
  * A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2857,9 +2824,8 @@ export const untagResource: (
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const updateSolFunctionPackage: (
-  input: UpdateSolFunctionPackageInput,
-) => effect.Effect<
+export const updateSolFunctionPackage: API.OperationMethod<
+  UpdateSolFunctionPackageInput,
   UpdateSolFunctionPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2886,9 +2852,8 @@ export const updateSolFunctionPackage: (
  *
  * Choose the *updateType* parameter to target the necessary update of the network instance.
  */
-export const updateSolNetworkInstance: (
-  input: UpdateSolNetworkInstanceInput,
-) => effect.Effect<
+export const updateSolNetworkInstance: API.OperationMethod<
+  UpdateSolNetworkInstanceInput,
   UpdateSolNetworkInstanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2917,9 +2882,8 @@ export const updateSolNetworkInstance: (
  *
  * A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
  */
-export const updateSolNetworkPackage: (
-  input: UpdateSolNetworkPackageInput,
-) => effect.Effect<
+export const updateSolNetworkPackage: API.OperationMethod<
+  UpdateSolNetworkPackageInput,
   UpdateSolNetworkPackageOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2945,9 +2909,8 @@ export const updateSolNetworkPackage: (
  *
  * A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
  */
-export const validateSolFunctionPackageContent: (
-  input: ValidateSolFunctionPackageContentInput,
-) => effect.Effect<
+export const validateSolFunctionPackageContent: API.OperationMethod<
+  ValidateSolFunctionPackageContentInput,
   ValidateSolFunctionPackageContentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2973,9 +2936,8 @@ export const validateSolFunctionPackageContent: (
  *
  * A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
  */
-export const validateSolNetworkPackageContent: (
-  input: ValidateSolNetworkPackageContentInput,
-) => effect.Effect<
+export const validateSolNetworkPackageContent: API.OperationMethod<
+  ValidateSolNetworkPackageContentInput,
   ValidateSolNetworkPackageContentOutput,
   | AccessDeniedException
   | InternalServerException

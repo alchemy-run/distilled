@@ -3311,9 +3311,8 @@ export class InvalidConfigurationException extends S.TaggedErrorClass<InvalidCon
 /**
  * Adds a member (user or group) to the resource's set of delegates.
  */
-export const associateDelegateToResource: (
-  input: AssociateDelegateToResourceRequest,
-) => effect.Effect<
+export const associateDelegateToResource: API.OperationMethod<
+  AssociateDelegateToResourceRequest,
   AssociateDelegateToResourceResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -3338,9 +3337,8 @@ export const associateDelegateToResource: (
 /**
  * Adds a member (user or group) to the group's set.
  */
-export const associateMemberToGroup: (
-  input: AssociateMemberToGroupRequest,
-) => effect.Effect<
+export const associateMemberToGroup: API.OperationMethod<
+  AssociateMemberToGroupRequest,
   AssociateMemberToGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -3370,9 +3368,8 @@ export const associateMemberToGroup: (
  * Assumes an impersonation role for the given WorkMail organization. This method returns an
  * authentication token you can use to make impersonated calls.
  */
-export const assumeImpersonationRole: (
-  input: AssumeImpersonationRoleRequest,
-) => effect.Effect<
+export const assumeImpersonationRole: API.OperationMethod<
+  AssumeImpersonationRoleRequest,
   AssumeImpersonationRoleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3396,9 +3393,8 @@ export const assumeImpersonationRole: (
  * If the mailbox export job is near completion, it might not be possible to cancel
  * it.
  */
-export const cancelMailboxExportJob: (
-  input: CancelMailboxExportJobRequest,
-) => effect.Effect<
+export const cancelMailboxExportJob: API.OperationMethod<
+  CancelMailboxExportJobRequest,
   CancelMailboxExportJobResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -3419,9 +3415,8 @@ export const cancelMailboxExportJob: (
 /**
  * Adds an alias to the set of a given member (user or group) of WorkMail.
  */
-export const createAlias: (
-  input: CreateAliasRequest,
-) => effect.Effect<
+export const createAlias: API.OperationMethod<
+  CreateAliasRequest,
   CreateAliasResponse,
   | EmailAddressInUseException
   | EntityNotFoundException
@@ -3452,9 +3447,8 @@ export const createAlias: (
 /**
  * Creates an `AvailabilityConfiguration` for the given WorkMail organization and domain.
  */
-export const createAvailabilityConfiguration: (
-  input: CreateAvailabilityConfigurationRequest,
-) => effect.Effect<
+export const createAvailabilityConfiguration: API.OperationMethod<
+  CreateAvailabilityConfigurationRequest,
   CreateAvailabilityConfigurationResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -3477,9 +3471,8 @@ export const createAvailabilityConfiguration: (
 /**
  * Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -3508,9 +3501,8 @@ export const createGroup: (
 /**
  * Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
  */
-export const createIdentityCenterApplication: (
-  input: CreateIdentityCenterApplicationRequest,
-) => effect.Effect<
+export const createIdentityCenterApplication: API.OperationMethod<
+  CreateIdentityCenterApplicationRequest,
   CreateIdentityCenterApplicationResponse,
   InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3527,9 +3519,8 @@ export const createIdentityCenterApplication: (
  * subsequent retries also complete successfully without performing any further
  * actions.
  */
-export const createImpersonationRole: (
-  input: CreateImpersonationRoleRequest,
-) => effect.Effect<
+export const createImpersonationRole: API.OperationMethod<
+  CreateImpersonationRoleRequest,
   CreateImpersonationRoleResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -3554,9 +3545,8 @@ export const createImpersonationRole: (
 /**
  * Creates a new mobile device access rule for the specified WorkMail organization.
  */
-export const createMobileDeviceAccessRule: (
-  input: CreateMobileDeviceAccessRuleRequest,
-) => effect.Effect<
+export const createMobileDeviceAccessRule: API.OperationMethod<
+  CreateMobileDeviceAccessRuleRequest,
   CreateMobileDeviceAccessRuleResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -3587,9 +3577,8 @@ export const createMobileDeviceAccessRule: (
  * KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail
  * creates a default, AWS managed key for you.
  */
-export const createOrganization: (
-  input: CreateOrganizationRequest,
-) => effect.Effect<
+export const createOrganization: API.OperationMethod<
+  CreateOrganizationRequest,
   CreateOrganizationResponse,
   | DirectoryInUseException
   | DirectoryUnavailableException
@@ -3612,9 +3601,8 @@ export const createOrganization: (
 /**
  * Creates a new WorkMail resource.
  */
-export const createResource: (
-  input: CreateResourceRequest,
-) => effect.Effect<
+export const createResource: API.OperationMethod<
+  CreateResourceRequest,
   CreateResourceResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -3643,9 +3631,8 @@ export const createResource: (
 /**
  * Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -3678,9 +3665,8 @@ export const createUser: (
  *
  * Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
-export const deleteAccessControlRule: (
-  input: DeleteAccessControlRuleRequest,
-) => effect.Effect<
+export const deleteAccessControlRule: API.OperationMethod<
+  DeleteAccessControlRuleRequest,
   DeleteAccessControlRuleResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3693,9 +3679,8 @@ export const deleteAccessControlRule: (
  * Remove one or more specified aliases from a set of aliases for a given
  * user.
  */
-export const deleteAlias: (
-  input: DeleteAliasRequest,
-) => effect.Effect<
+export const deleteAlias: API.OperationMethod<
+  DeleteAliasRequest,
   DeleteAliasResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -3718,9 +3703,8 @@ export const deleteAlias: (
 /**
  * Deletes the `AvailabilityConfiguration` for the given WorkMail organization and domain.
  */
-export const deleteAvailabilityConfiguration: (
-  input: DeleteAvailabilityConfigurationRequest,
-) => effect.Effect<
+export const deleteAvailabilityConfiguration: API.OperationMethod<
+  DeleteAvailabilityConfigurationRequest,
   DeleteAvailabilityConfigurationResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3732,9 +3716,8 @@ export const deleteAvailabilityConfiguration: (
 /**
  * Deletes the email monitoring configuration for a specified organization.
  */
-export const deleteEmailMonitoringConfiguration: (
-  input: DeleteEmailMonitoringConfigurationRequest,
-) => effect.Effect<
+export const deleteEmailMonitoringConfiguration: API.OperationMethod<
+  DeleteEmailMonitoringConfigurationRequest,
   DeleteEmailMonitoringConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3753,9 +3736,8 @@ export const deleteEmailMonitoringConfiguration: (
 /**
  * Deletes a group from WorkMail.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -3782,9 +3764,8 @@ export const deleteGroup: (
 /**
  * Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
  */
-export const deleteIdentityCenterApplication: (
-  input: DeleteIdentityCenterApplicationRequest,
-) => effect.Effect<
+export const deleteIdentityCenterApplication: API.OperationMethod<
+  DeleteIdentityCenterApplicationRequest,
   DeleteIdentityCenterApplicationResponse,
   InvalidParameterException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3796,9 +3777,8 @@ export const deleteIdentityCenterApplication: (
 /**
  * Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
  */
-export const deleteIdentityProviderConfiguration: (
-  input: DeleteIdentityProviderConfigurationRequest,
-) => effect.Effect<
+export const deleteIdentityProviderConfiguration: API.OperationMethod<
+  DeleteIdentityProviderConfigurationRequest,
   DeleteIdentityProviderConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3817,9 +3797,8 @@ export const deleteIdentityProviderConfiguration: (
 /**
  * Deletes an impersonation role for the given WorkMail organization.
  */
-export const deleteImpersonationRole: (
-  input: DeleteImpersonationRoleRequest,
-) => effect.Effect<
+export const deleteImpersonationRole: API.OperationMethod<
+  DeleteImpersonationRoleRequest,
   DeleteImpersonationRoleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3838,9 +3817,8 @@ export const deleteImpersonationRole: (
 /**
  * Deletes permissions granted to a member (user or group).
  */
-export const deleteMailboxPermissions: (
-  input: DeleteMailboxPermissionsRequest,
-) => effect.Effect<
+export const deleteMailboxPermissions: API.OperationMethod<
+  DeleteMailboxPermissionsRequest,
   DeleteMailboxPermissionsResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -3865,9 +3843,8 @@ export const deleteMailboxPermissions: (
  *
  * Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
-export const deleteMobileDeviceAccessOverride: (
-  input: DeleteMobileDeviceAccessOverrideRequest,
-) => effect.Effect<
+export const deleteMobileDeviceAccessOverride: API.OperationMethod<
+  DeleteMobileDeviceAccessOverrideRequest,
   DeleteMobileDeviceAccessOverrideResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -3890,9 +3867,8 @@ export const deleteMobileDeviceAccessOverride: (
  *
  * Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
  */
-export const deleteMobileDeviceAccessRule: (
-  input: DeleteMobileDeviceAccessRuleRequest,
-) => effect.Effect<
+export const deleteMobileDeviceAccessRule: API.OperationMethod<
+  DeleteMobileDeviceAccessRuleRequest,
   DeleteMobileDeviceAccessRuleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3911,9 +3887,8 @@ export const deleteMobileDeviceAccessRule: (
 /**
  * Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the *WorkMail Administrator Guide*.
  */
-export const deleteOrganization: (
-  input: DeleteOrganizationRequest,
-) => effect.Effect<
+export const deleteOrganization: API.OperationMethod<
+  DeleteOrganizationRequest,
   DeleteOrganizationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3932,9 +3907,8 @@ export const deleteOrganization: (
 /**
  * Deletes the Personal Access Token from the provided WorkMail Organization.
  */
-export const deletePersonalAccessToken: (
-  input: DeletePersonalAccessTokenRequest,
-) => effect.Effect<
+export const deletePersonalAccessToken: API.OperationMethod<
+  DeletePersonalAccessTokenRequest,
   DeletePersonalAccessTokenResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -3953,9 +3927,8 @@ export const deletePersonalAccessToken: (
 /**
  * Deletes the specified resource.
  */
-export const deleteResource: (
-  input: DeleteResourceRequest,
-) => effect.Effect<
+export const deleteResource: API.OperationMethod<
+  DeleteResourceRequest,
   DeleteResourceResponse,
   | EntityStateException
   | InvalidParameterException
@@ -3978,9 +3951,8 @@ export const deleteResource: (
 /**
  * Deletes the specified retention policy from the specified organization.
  */
-export const deleteRetentionPolicy: (
-  input: DeleteRetentionPolicyRequest,
-) => effect.Effect<
+export const deleteRetentionPolicy: API.OperationMethod<
+  DeleteRetentionPolicyRequest,
   DeleteRetentionPolicyResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4004,9 +3976,8 @@ export const deleteRetentionPolicy: (
  * Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for
  * 30 days before they are permanently removed.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -4036,9 +4007,8 @@ export const deleteUser: (
  * before they are permanently removed. The functionality in the console is
  * *Disable*.
  */
-export const deregisterFromWorkMail: (
-  input: DeregisterFromWorkMailRequest,
-) => effect.Effect<
+export const deregisterFromWorkMail: API.OperationMethod<
+  DeregisterFromWorkMailRequest,
   DeregisterFromWorkMailResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4062,9 +4032,8 @@ export const deregisterFromWorkMail: (
  * Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first
  * remove any email address used by WorkMail entities before you remove the domain.
  */
-export const deregisterMailDomain: (
-  input: DeregisterMailDomainRequest,
-) => effect.Effect<
+export const deregisterMailDomain: API.OperationMethod<
+  DeregisterMailDomainRequest,
   DeregisterMailDomainResponse,
   | InvalidCustomSesConfigurationException
   | InvalidParameterException
@@ -4087,9 +4056,8 @@ export const deregisterMailDomain: (
 /**
  * Describes the current email monitoring configuration for a specified organization.
  */
-export const describeEmailMonitoringConfiguration: (
-  input: DescribeEmailMonitoringConfigurationRequest,
-) => effect.Effect<
+export const describeEmailMonitoringConfiguration: API.OperationMethod<
+  DescribeEmailMonitoringConfigurationRequest,
   DescribeEmailMonitoringConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4110,9 +4078,8 @@ export const describeEmailMonitoringConfiguration: (
 /**
  * Returns basic details about an entity in WorkMail.
  */
-export const describeEntity: (
-  input: DescribeEntityRequest,
-) => effect.Effect<
+export const describeEntity: API.OperationMethod<
+  DescribeEntityRequest,
   DescribeEntityResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4133,9 +4100,8 @@ export const describeEntity: (
 /**
  * Returns the data available for the group.
  */
-export const describeGroup: (
-  input: DescribeGroupRequest,
-) => effect.Effect<
+export const describeGroup: API.OperationMethod<
+  DescribeGroupRequest,
   DescribeGroupResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4156,9 +4122,8 @@ export const describeGroup: (
 /**
  * Returns detailed information on the current IdC setup for the WorkMail organization.
  */
-export const describeIdentityProviderConfiguration: (
-  input: DescribeIdentityProviderConfigurationRequest,
-) => effect.Effect<
+export const describeIdentityProviderConfiguration: API.OperationMethod<
+  DescribeIdentityProviderConfigurationRequest,
   DescribeIdentityProviderConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4179,9 +4144,8 @@ export const describeIdentityProviderConfiguration: (
 /**
  * Lists the settings in a DMARC policy for a specified organization.
  */
-export const describeInboundDmarcSettings: (
-  input: DescribeInboundDmarcSettingsRequest,
-) => effect.Effect<
+export const describeInboundDmarcSettings: API.OperationMethod<
+  DescribeInboundDmarcSettingsRequest,
   DescribeInboundDmarcSettingsResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4193,9 +4157,8 @@ export const describeInboundDmarcSettings: (
 /**
  * Describes the current status of a mailbox export job.
  */
-export const describeMailboxExportJob: (
-  input: DescribeMailboxExportJobRequest,
-) => effect.Effect<
+export const describeMailboxExportJob: API.OperationMethod<
+  DescribeMailboxExportJobRequest,
   DescribeMailboxExportJobResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4217,9 +4180,8 @@ export const describeMailboxExportJob: (
  * Provides more information regarding a given organization based on its
  * identifier.
  */
-export const describeOrganization: (
-  input: DescribeOrganizationRequest,
-) => effect.Effect<
+export const describeOrganization: API.OperationMethod<
+  DescribeOrganizationRequest,
   DescribeOrganizationResponse,
   InvalidParameterException | OrganizationNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4231,9 +4193,8 @@ export const describeOrganization: (
 /**
  * Returns the data available for the resource.
  */
-export const describeResource: (
-  input: DescribeResourceRequest,
-) => effect.Effect<
+export const describeResource: API.OperationMethod<
+  DescribeResourceRequest,
   DescribeResourceResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4256,9 +4217,8 @@ export const describeResource: (
 /**
  * Provides information regarding the user.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -4283,9 +4243,8 @@ export const describeUser: (
 /**
  * Removes a member from the resource's set of delegates.
  */
-export const disassociateDelegateFromResource: (
-  input: DisassociateDelegateFromResourceRequest,
-) => effect.Effect<
+export const disassociateDelegateFromResource: API.OperationMethod<
+  DisassociateDelegateFromResourceRequest,
   DisassociateDelegateFromResourceResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4310,9 +4269,8 @@ export const disassociateDelegateFromResource: (
 /**
  * Removes a member from a group.
  */
-export const disassociateMemberFromGroup: (
-  input: DisassociateMemberFromGroupRequest,
-) => effect.Effect<
+export const disassociateMemberFromGroup: API.OperationMethod<
+  DisassociateMemberFromGroupRequest,
   DisassociateMemberFromGroupResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -4342,9 +4300,8 @@ export const disassociateMemberFromGroup: (
  * Gets the effects of an organization's access control rules as they apply to a
  * specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
  */
-export const getAccessControlEffect: (
-  input: GetAccessControlEffectRequest,
-) => effect.Effect<
+export const getAccessControlEffect: API.OperationMethod<
+  GetAccessControlEffectRequest,
   GetAccessControlEffectResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4367,9 +4324,8 @@ export const getAccessControlEffect: (
 /**
  * Gets the default retention policy details for the specified organization.
  */
-export const getDefaultRetentionPolicy: (
-  input: GetDefaultRetentionPolicyRequest,
-) => effect.Effect<
+export const getDefaultRetentionPolicy: API.OperationMethod<
+  GetDefaultRetentionPolicyRequest,
   GetDefaultRetentionPolicyResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4390,9 +4346,8 @@ export const getDefaultRetentionPolicy: (
 /**
  * Gets the impersonation role details for the given WorkMail organization.
  */
-export const getImpersonationRole: (
-  input: GetImpersonationRoleRequest,
-) => effect.Effect<
+export const getImpersonationRole: API.OperationMethod<
+  GetImpersonationRoleRequest,
   GetImpersonationRoleResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4413,9 +4368,8 @@ export const getImpersonationRole: (
 /**
  * Tests whether the given impersonation role can impersonate a target user.
  */
-export const getImpersonationRoleEffect: (
-  input: GetImpersonationRoleEffectRequest,
-) => effect.Effect<
+export const getImpersonationRoleEffect: API.OperationMethod<
+  GetImpersonationRoleEffectRequest,
   GetImpersonationRoleEffectResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -4440,9 +4394,8 @@ export const getImpersonationRoleEffect: (
 /**
  * Requests a user's mailbox details for a specified organization and user.
  */
-export const getMailboxDetails: (
-  input: GetMailboxDetailsRequest,
-) => effect.Effect<
+export const getMailboxDetails: API.OperationMethod<
+  GetMailboxDetailsRequest,
   GetMailboxDetailsResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4463,9 +4416,8 @@ export const getMailboxDetails: (
 /**
  * Gets details for a mail domain, including domain records required to configure your domain with recommended security.
  */
-export const getMailDomain: (
-  input: GetMailDomainRequest,
-) => effect.Effect<
+export const getMailDomain: API.OperationMethod<
+  GetMailDomainRequest,
   GetMailDomainResponse,
   | InvalidParameterException
   | MailDomainNotFoundException
@@ -4487,9 +4439,8 @@ export const getMailDomain: (
  * Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access
  * rules for the WorkMail organization for a particular user's attributes.
  */
-export const getMobileDeviceAccessEffect: (
-  input: GetMobileDeviceAccessEffectRequest,
-) => effect.Effect<
+export const getMobileDeviceAccessEffect: API.OperationMethod<
+  GetMobileDeviceAccessEffectRequest,
   GetMobileDeviceAccessEffectResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4508,9 +4459,8 @@ export const getMobileDeviceAccessEffect: (
 /**
  * Gets the mobile device access override for the given WorkMail organization, user, and device.
  */
-export const getMobileDeviceAccessOverride: (
-  input: GetMobileDeviceAccessOverrideRequest,
-) => effect.Effect<
+export const getMobileDeviceAccessOverride: API.OperationMethod<
+  GetMobileDeviceAccessOverrideRequest,
   GetMobileDeviceAccessOverrideResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -4533,9 +4483,8 @@ export const getMobileDeviceAccessOverride: (
 /**
  * Requests details of a specific Personal Access Token within the WorkMail organization.
  */
-export const getPersonalAccessTokenMetadata: (
-  input: GetPersonalAccessTokenMetadataRequest,
-) => effect.Effect<
+export const getPersonalAccessTokenMetadata: API.OperationMethod<
+  GetPersonalAccessTokenMetadataRequest,
   GetPersonalAccessTokenMetadataResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -4556,9 +4505,8 @@ export const getPersonalAccessTokenMetadata: (
 /**
  * Lists the access control rules for the specified organization.
  */
-export const listAccessControlRules: (
-  input: ListAccessControlRulesRequest,
-) => effect.Effect<
+export const listAccessControlRules: API.OperationMethod<
+  ListAccessControlRulesRequest,
   ListAccessControlRulesResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4571,19 +4519,17 @@ export const listAccessControlRules: (
  * Creates a paginated call to list the aliases associated with a given
  * entity.
  */
-export const listAliases: {
-  (
-    input: ListAliasesRequest,
-  ): effect.Effect<
-    ListAliasesResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAliases: API.OperationMethod<
+  ListAliasesRequest,
+  ListAliasesResponse,
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
@@ -4627,17 +4573,15 @@ export const listAliases: {
 /**
  * List all the `AvailabilityConfiguration`'s for the given WorkMail organization.
  */
-export const listAvailabilityConfigurations: {
-  (
-    input: ListAvailabilityConfigurationsRequest,
-  ): effect.Effect<
-    ListAvailabilityConfigurationsResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAvailabilityConfigurations: API.OperationMethod<
+  ListAvailabilityConfigurationsRequest,
+  ListAvailabilityConfigurationsResponse,
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAvailabilityConfigurationsRequest,
   ) => stream.Stream<
@@ -4677,19 +4621,17 @@ export const listAvailabilityConfigurations: {
  * Returns an overview of the members of a group. Users and groups can be members of a
  * group.
  */
-export const listGroupMembers: {
-  (
-    input: ListGroupMembersRequest,
-  ): effect.Effect<
-    ListGroupMembersResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupMembers: API.OperationMethod<
+  ListGroupMembersRequest,
+  ListGroupMembersResponse,
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupMembersRequest,
   ) => stream.Stream<
@@ -4733,18 +4675,16 @@ export const listGroupMembers: {
 /**
  * Returns summaries of the organization's groups.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -4785,19 +4725,17 @@ export const listGroups: {
 /**
  * Returns all the groups to which an entity belongs.
  */
-export const listGroupsForEntity: {
-  (
-    input: ListGroupsForEntityRequest,
-  ): effect.Effect<
-    ListGroupsForEntityResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupsForEntity: API.OperationMethod<
+  ListGroupsForEntityRequest,
+  ListGroupsForEntityResponse,
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsForEntityRequest,
   ) => stream.Stream<
@@ -4841,17 +4779,15 @@ export const listGroupsForEntity: {
 /**
  * Lists all the impersonation roles for the given WorkMail organization.
  */
-export const listImpersonationRoles: {
-  (
-    input: ListImpersonationRolesRequest,
-  ): effect.Effect<
-    ListImpersonationRolesResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImpersonationRoles: API.OperationMethod<
+  ListImpersonationRolesRequest,
+  ListImpersonationRolesResponse,
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImpersonationRolesRequest,
   ) => stream.Stream<
@@ -4890,17 +4826,15 @@ export const listImpersonationRoles: {
  * Lists the mailbox export jobs started for the specified organization within the last
  * seven days.
  */
-export const listMailboxExportJobs: {
-  (
-    input: ListMailboxExportJobsRequest,
-  ): effect.Effect<
-    ListMailboxExportJobsResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMailboxExportJobs: API.OperationMethod<
+  ListMailboxExportJobsRequest,
+  ListMailboxExportJobsResponse,
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMailboxExportJobsRequest,
   ) => stream.Stream<
@@ -4939,18 +4873,16 @@ export const listMailboxExportJobs: {
  * Lists the mailbox permissions associated with a user, group, or resource
  * mailbox.
  */
-export const listMailboxPermissions: {
-  (
-    input: ListMailboxPermissionsRequest,
-  ): effect.Effect<
-    ListMailboxPermissionsResponse,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMailboxPermissions: API.OperationMethod<
+  ListMailboxPermissionsRequest,
+  ListMailboxPermissionsResponse,
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMailboxPermissionsRequest,
   ) => stream.Stream<
@@ -4991,17 +4923,15 @@ export const listMailboxPermissions: {
 /**
  * Lists the mail domains in a given WorkMail organization.
  */
-export const listMailDomains: {
-  (
-    input: ListMailDomainsRequest,
-  ): effect.Effect<
-    ListMailDomainsResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMailDomains: API.OperationMethod<
+  ListMailDomainsRequest,
+  ListMailDomainsResponse,
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMailDomainsRequest,
   ) => stream.Stream<
@@ -5039,18 +4969,16 @@ export const listMailDomains: {
 /**
  * Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
  */
-export const listMobileDeviceAccessOverrides: {
-  (
-    input: ListMobileDeviceAccessOverridesRequest,
-  ): effect.Effect<
-    ListMobileDeviceAccessOverridesResponse,
-    | EntityNotFoundException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMobileDeviceAccessOverrides: API.OperationMethod<
+  ListMobileDeviceAccessOverridesRequest,
+  ListMobileDeviceAccessOverridesResponse,
+  | EntityNotFoundException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMobileDeviceAccessOverridesRequest,
   ) => stream.Stream<
@@ -5091,9 +5019,8 @@ export const listMobileDeviceAccessOverrides: {
 /**
  * Lists the mobile device access rules for the specified WorkMail organization.
  */
-export const listMobileDeviceAccessRules: (
-  input: ListMobileDeviceAccessRulesRequest,
-) => effect.Effect<
+export const listMobileDeviceAccessRules: API.OperationMethod<
+  ListMobileDeviceAccessRulesRequest,
   ListMobileDeviceAccessRulesResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -5112,14 +5039,12 @@ export const listMobileDeviceAccessRules: (
 /**
  * Returns summaries of the customer's organizations.
  */
-export const listOrganizations: {
-  (
-    input: ListOrganizationsRequest,
-  ): effect.Effect<
-    ListOrganizationsResponse,
-    InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizations: API.OperationMethod<
+  ListOrganizationsRequest,
+  ListOrganizationsResponse,
+  InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationsRequest,
   ) => stream.Stream<
@@ -5147,19 +5072,17 @@ export const listOrganizations: {
 /**
  * Returns a summary of your Personal Access Tokens.
  */
-export const listPersonalAccessTokens: {
-  (
-    input: ListPersonalAccessTokensRequest,
-  ): effect.Effect<
-    ListPersonalAccessTokensResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPersonalAccessTokens: API.OperationMethod<
+  ListPersonalAccessTokensRequest,
+  ListPersonalAccessTokensResponse,
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPersonalAccessTokensRequest,
   ) => stream.Stream<
@@ -5205,20 +5128,18 @@ export const listPersonalAccessTokens: {
  * Lists the delegates associated with a resource. Users and groups can be resource
  * delegates and answer requests on behalf of the resource.
  */
-export const listResourceDelegates: {
-  (
-    input: ListResourceDelegatesRequest,
-  ): effect.Effect<
-    ListResourceDelegatesResponse,
-    | EntityNotFoundException
-    | EntityStateException
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceDelegates: API.OperationMethod<
+  ListResourceDelegatesRequest,
+  ListResourceDelegatesResponse,
+  | EntityNotFoundException
+  | EntityStateException
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceDelegatesRequest,
   ) => stream.Stream<
@@ -5265,18 +5186,16 @@ export const listResourceDelegates: {
 /**
  * Returns summaries of the organization's resources.
  */
-export const listResources: {
-  (
-    input: ListResourcesRequest,
-  ): effect.Effect<
-    ListResourcesResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResources: API.OperationMethod<
+  ListResourcesRequest,
+  ListResourcesResponse,
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesRequest,
   ) => stream.Stream<
@@ -5317,9 +5236,8 @@ export const listResources: {
 /**
  * Lists the tags applied to an WorkMail organization resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5331,17 +5249,15 @@ export const listTagsForResource: (
 /**
  * Returns summaries of the organization's users.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | InvalidParameterException
-    | OrganizationNotFoundException
-    | OrganizationStateException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | InvalidParameterException
+  | OrganizationNotFoundException
+  | OrganizationStateException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -5382,9 +5298,8 @@ export const listUsers: {
  * actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces
  * the older rule.
  */
-export const putAccessControlRule: (
-  input: PutAccessControlRuleRequest,
-) => effect.Effect<
+export const putAccessControlRule: API.OperationMethod<
+  PutAccessControlRuleRequest,
   PutAccessControlRuleResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -5409,9 +5324,8 @@ export const putAccessControlRule: (
 /**
  * Creates or updates the email monitoring configuration for a specified organization.
  */
-export const putEmailMonitoringConfiguration: (
-  input: PutEmailMonitoringConfigurationRequest,
-) => effect.Effect<
+export const putEmailMonitoringConfiguration: API.OperationMethod<
+  PutEmailMonitoringConfigurationRequest,
   PutEmailMonitoringConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -5433,9 +5347,8 @@ export const putEmailMonitoringConfiguration: (
  * Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through
  * IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
  */
-export const putIdentityProviderConfiguration: (
-  input: PutIdentityProviderConfigurationRequest,
-) => effect.Effect<
+export const putIdentityProviderConfiguration: API.OperationMethod<
+  PutIdentityProviderConfigurationRequest,
   PutIdentityProviderConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -5456,9 +5369,8 @@ export const putIdentityProviderConfiguration: (
 /**
  * Enables or disables a DMARC policy for a given organization.
  */
-export const putInboundDmarcSettings: (
-  input: PutInboundDmarcSettingsRequest,
-) => effect.Effect<
+export const putInboundDmarcSettings: API.OperationMethod<
+  PutInboundDmarcSettingsRequest,
   PutInboundDmarcSettingsResponse,
   OrganizationNotFoundException | OrganizationStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5471,9 +5383,8 @@ export const putInboundDmarcSettings: (
  * Sets permissions for a user, group, or resource. This replaces any pre-existing
  * permissions.
  */
-export const putMailboxPermissions: (
-  input: PutMailboxPermissionsRequest,
-) => effect.Effect<
+export const putMailboxPermissions: API.OperationMethod<
+  PutMailboxPermissionsRequest,
   PutMailboxPermissionsResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5496,9 +5407,8 @@ export const putMailboxPermissions: (
 /**
  * Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
  */
-export const putMobileDeviceAccessOverride: (
-  input: PutMobileDeviceAccessOverrideRequest,
-) => effect.Effect<
+export const putMobileDeviceAccessOverride: API.OperationMethod<
+  PutMobileDeviceAccessOverrideRequest,
   PutMobileDeviceAccessOverrideResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5521,9 +5431,8 @@ export const putMobileDeviceAccessOverride: (
 /**
  * Puts a retention policy to the specified organization.
  */
-export const putRetentionPolicy: (
-  input: PutRetentionPolicyRequest,
-) => effect.Effect<
+export const putRetentionPolicy: API.OperationMethod<
+  PutRetentionPolicyRequest,
   PutRetentionPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -5545,9 +5454,8 @@ export const putRetentionPolicy: (
  * Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has
  * permanent permission to use the specified domain for sending your users' emails.
  */
-export const registerMailDomain: (
-  input: RegisterMailDomainRequest,
-) => effect.Effect<
+export const registerMailDomain: API.OperationMethod<
+  RegisterMailDomainRequest,
   RegisterMailDomainResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -5577,9 +5485,8 @@ export const registerMailDomain: (
  * Users can either be created by calling the CreateUser API operation
  * or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
  */
-export const registerToWorkMail: (
-  input: RegisterToWorkMailRequest,
-) => effect.Effect<
+export const registerToWorkMail: API.OperationMethod<
+  RegisterToWorkMailRequest,
   RegisterToWorkMailResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5616,9 +5523,8 @@ export const registerToWorkMail: (
 /**
  * Allows the administrator to reset the password for a user.
  */
-export const resetPassword: (
-  input: ResetPasswordRequest,
-) => effect.Effect<
+export const resetPassword: API.OperationMethod<
+  ResetPasswordRequest,
   ResetPasswordResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5652,9 +5558,8 @@ export const resetPassword: (
  * bucket. For more information, see Exporting mailbox content in
  * the *WorkMail Administrator Guide*.
  */
-export const startMailboxExportJob: (
-  input: StartMailboxExportJobRequest,
-) => effect.Effect<
+export const startMailboxExportJob: API.OperationMethod<
+  StartMailboxExportJobRequest,
   StartMailboxExportJobResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -5678,9 +5583,8 @@ export const startMailboxExportJob: (
  * Applies the specified tags to the specified WorkMailorganization
  * resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterException
   | OrganizationStateException
@@ -5707,9 +5611,8 @@ export const tagResource: (
  * `DomainName` parameter is provided, the configuration stored under the
  * `DomainName` will be tested.
  */
-export const testAvailabilityConfiguration: (
-  input: TestAvailabilityConfigurationRequest,
-) => effect.Effect<
+export const testAvailabilityConfiguration: API.OperationMethod<
+  TestAvailabilityConfigurationRequest,
   TestAvailabilityConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -5731,9 +5634,8 @@ export const testAvailabilityConfiguration: (
  * Untags the specified tags from the specified WorkMail organization
  * resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5746,9 +5648,8 @@ export const untagResource: (
  * Updates an existing `AvailabilityConfiguration` for the given WorkMail
  * organization and domain.
  */
-export const updateAvailabilityConfiguration: (
-  input: UpdateAvailabilityConfigurationRequest,
-) => effect.Effect<
+export const updateAvailabilityConfiguration: API.OperationMethod<
+  UpdateAvailabilityConfigurationRequest,
   UpdateAvailabilityConfigurationResponse,
   | InvalidParameterException
   | OrganizationNotFoundException
@@ -5769,9 +5670,8 @@ export const updateAvailabilityConfiguration: (
 /**
  * Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
  */
-export const updateDefaultMailDomain: (
-  input: UpdateDefaultMailDomainRequest,
-) => effect.Effect<
+export const updateDefaultMailDomain: API.OperationMethod<
+  UpdateDefaultMailDomainRequest,
   UpdateDefaultMailDomainResponse,
   | InvalidParameterException
   | MailDomainNotFoundException
@@ -5794,9 +5694,8 @@ export const updateDefaultMailDomain: (
 /**
  * Updates attributes in a group.
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5821,9 +5720,8 @@ export const updateGroup: (
 /**
  * Updates an impersonation role for the given WorkMail organization.
  */
-export const updateImpersonationRole: (
-  input: UpdateImpersonationRoleRequest,
-) => effect.Effect<
+export const updateImpersonationRole: API.OperationMethod<
+  UpdateImpersonationRoleRequest,
   UpdateImpersonationRoleResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5851,9 +5749,8 @@ export const updateImpersonationRole: (
  * Updates a user's current mailbox quota for a specified organization and
  * user.
  */
-export const updateMailboxQuota: (
-  input: UpdateMailboxQuotaRequest,
-) => effect.Effect<
+export const updateMailboxQuota: API.OperationMethod<
+  UpdateMailboxQuotaRequest,
   UpdateMailboxQuotaResponse,
   | EntityNotFoundException
   | EntityStateException
@@ -5876,9 +5773,8 @@ export const updateMailboxQuota: (
 /**
  * Updates a mobile device access rule for the specified WorkMail organization.
  */
-export const updateMobileDeviceAccessRule: (
-  input: UpdateMobileDeviceAccessRuleRequest,
-) => effect.Effect<
+export const updateMobileDeviceAccessRule: API.OperationMethod<
+  UpdateMobileDeviceAccessRuleRequest,
   UpdateMobileDeviceAccessRuleResponse,
   | EntityNotFoundException
   | InvalidParameterException
@@ -5901,9 +5797,8 @@ export const updateMobileDeviceAccessRule: (
  * into the list of aliases (or swapped between an existing alias and the current primary
  * email), and the email provided in the input is promoted as the primary.
  */
-export const updatePrimaryEmailAddress: (
-  input: UpdatePrimaryEmailAddressRequest,
-) => effect.Effect<
+export const updatePrimaryEmailAddress: API.OperationMethod<
+  UpdatePrimaryEmailAddressRequest,
   UpdatePrimaryEmailAddressResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException
@@ -5940,9 +5835,8 @@ export const updatePrimaryEmailAddress: (
  * a DescribeResource call. The dataset in the request should be the one
  * expected when performing another `DescribeResource` call.
  */
-export const updateResource: (
-  input: UpdateResourceRequest,
-) => effect.Effect<
+export const updateResource: API.OperationMethod<
+  UpdateResourceRequest,
   UpdateResourceResponse,
   | DirectoryUnavailableException
   | EmailAddressInUseException
@@ -5981,9 +5875,8 @@ export const updateResource: (
  * DescribeUser call. The dataset in the request should be the one
  * expected when performing another `DescribeUser` call.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | DirectoryServiceAuthenticationFailedException
   | DirectoryUnavailableException

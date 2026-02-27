@@ -2325,9 +2325,8 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 /**
  * Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
  */
-export const getSignedBluinsightsUrl: (
-  input: GetSignedBluinsightsUrlRequest,
-) => effect.Effect<
+export const getSignedBluinsightsUrl: API.OperationMethod<
+  GetSignedBluinsightsUrlRequest,
   GetSignedBluinsightsUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2342,18 +2341,16 @@ export const getSignedBluinsightsUrl: (
 /**
  * Lists the available engine versions.
  */
-export const listEngineVersions: {
-  (
-    input: ListEngineVersionsRequest,
-  ): effect.Effect<
-    ListEngineVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngineVersions: API.OperationMethod<
+  ListEngineVersionsRequest,
+  ListEngineVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngineVersionsRequest,
   ) => stream.Stream<
@@ -2395,9 +2392,8 @@ export const listEngineVersions: {
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2420,9 +2416,8 @@ export const listTagsForResource: (
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2447,9 +2442,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2473,9 +2467,8 @@ export const untagResource: (
  * Creates a new application with given parameters. Requires an existing runtime
  * environment and application definition file.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2500,9 +2493,8 @@ export const createApplication: (
 /**
  * Describes the details of a specific application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2525,9 +2517,8 @@ export const getApplication: (
 /**
  * Updates an application and creates a new version.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2552,9 +2543,8 @@ export const updateApplication: (
 /**
  * Deletes a specific application. You cannot delete a running application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2579,18 +2569,16 @@ export const deleteApplication: (
  * unique identifier of a specific runtime environment in a query parameter to see all
  * applications associated with that environment.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -2632,9 +2620,8 @@ export const listApplications: {
 /**
  * Cancels the running of a specific batch job execution.
  */
-export const cancelBatchJobExecution: (
-  input: CancelBatchJobExecutionRequest,
-) => effect.Effect<
+export const cancelBatchJobExecution: API.OperationMethod<
+  CancelBatchJobExecutionRequest,
   CancelBatchJobExecutionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2659,9 +2646,8 @@ export const cancelBatchJobExecution: (
 /**
  * Starts a data set export task for a specific application.
  */
-export const createDataSetExportTask: (
-  input: CreateDataSetExportTaskRequest,
-) => effect.Effect<
+export const createDataSetExportTask: API.OperationMethod<
+  CreateDataSetExportTaskRequest,
   CreateDataSetExportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -2688,9 +2674,8 @@ export const createDataSetExportTask: (
 /**
  * Starts a data set import task for a specific application.
  */
-export const createDataSetImportTask: (
-  input: CreateDataSetImportTaskRequest,
-) => effect.Effect<
+export const createDataSetImportTask: API.OperationMethod<
+  CreateDataSetImportTaskRequest,
   CreateDataSetImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -2718,9 +2703,8 @@ export const createDataSetImportTask: (
  * Creates and starts a deployment to deploy an application into a runtime
  * environment.
  */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
   CreateDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2750,9 +2734,8 @@ export const createDeployment: (
  * application has ever been deployed to it. This API removes the association of the
  * application with the runtime environment so you can delete the environment smoothly.
  */
-export const deleteApplicationFromEnvironment: (
-  input: DeleteApplicationFromEnvironmentRequest,
-) => effect.Effect<
+export const deleteApplicationFromEnvironment: API.OperationMethod<
+  DeleteApplicationFromEnvironmentRequest,
   DeleteApplicationFromEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2777,9 +2760,8 @@ export const deleteApplicationFromEnvironment: (
 /**
  * Returns details about a specific version of a specific application.
  */
-export const getApplicationVersion: (
-  input: GetApplicationVersionRequest,
-) => effect.Effect<
+export const getApplicationVersion: API.OperationMethod<
+  GetApplicationVersionRequest,
   GetApplicationVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2802,9 +2784,8 @@ export const getApplicationVersion: (
 /**
  * Gets the details of a specific batch job execution for a specific application.
  */
-export const getBatchJobExecution: (
-  input: GetBatchJobExecutionRequest,
-) => effect.Effect<
+export const getBatchJobExecution: API.OperationMethod<
+  GetBatchJobExecutionRequest,
   GetBatchJobExecutionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2827,9 +2808,8 @@ export const getBatchJobExecution: (
 /**
  * Gets the details of a specific data set.
  */
-export const getDataSetDetails: (
-  input: GetDataSetDetailsRequest,
-) => effect.Effect<
+export const getDataSetDetails: API.OperationMethod<
+  GetDataSetDetailsRequest,
   GetDataSetDetailsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2858,9 +2838,8 @@ export const getDataSetDetails: (
 /**
  * Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
  */
-export const getDataSetExportTask: (
-  input: GetDataSetExportTaskRequest,
-) => effect.Effect<
+export const getDataSetExportTask: API.OperationMethod<
+  GetDataSetExportTaskRequest,
   GetDataSetExportTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2883,9 +2862,8 @@ export const getDataSetExportTask: (
 /**
  * Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
  */
-export const getDataSetImportTask: (
-  input: GetDataSetImportTaskRequest,
-) => effect.Effect<
+export const getDataSetImportTask: API.OperationMethod<
+  GetDataSetImportTaskRequest,
   GetDataSetImportTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2908,9 +2886,8 @@ export const getDataSetImportTask: (
 /**
  * Gets details of a specific deployment with a given deployment identifier.
  */
-export const getDeployment: (
-  input: GetDeploymentRequest,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentRequest,
   GetDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2933,19 +2910,17 @@ export const getDeployment: (
 /**
  * Returns a list of the application versions for a specific application.
  */
-export const listApplicationVersions: {
-  (
-    input: ListApplicationVersionsRequest,
-  ): effect.Effect<
-    ListApplicationVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationVersions: API.OperationMethod<
+  ListApplicationVersionsRequest,
+  ListApplicationVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
@@ -2992,19 +2967,17 @@ export const listApplicationVersions: {
  * during the application creation. You can use the batch job definitions in the list to start
  * a batch job.
  */
-export const listBatchJobDefinitions: {
-  (
-    input: ListBatchJobDefinitionsRequest,
-  ): effect.Effect<
-    ListBatchJobDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBatchJobDefinitions: API.OperationMethod<
+  ListBatchJobDefinitionsRequest,
+  ListBatchJobDefinitionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBatchJobDefinitionsRequest,
   ) => stream.Stream<
@@ -3050,19 +3023,17 @@ export const listBatchJobDefinitions: {
  * Lists historical, current, and scheduled batch job executions for a specific
  * application.
  */
-export const listBatchJobExecutions: {
-  (
-    input: ListBatchJobExecutionsRequest,
-  ): effect.Effect<
-    ListBatchJobExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBatchJobExecutions: API.OperationMethod<
+  ListBatchJobExecutionsRequest,
+  ListBatchJobExecutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBatchJobExecutionsRequest,
   ) => stream.Stream<
@@ -3107,9 +3078,8 @@ export const listBatchJobExecutions: {
 /**
  * Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
  */
-export const listBatchJobRestartPoints: (
-  input: ListBatchJobRestartPointsRequest,
-) => effect.Effect<
+export const listBatchJobRestartPoints: API.OperationMethod<
+  ListBatchJobRestartPointsRequest,
   ListBatchJobRestartPointsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3134,19 +3104,17 @@ export const listBatchJobRestartPoints: (
 /**
  * Lists the data set exports for the specified application.
  */
-export const listDataSetExportHistory: {
-  (
-    input: ListDataSetExportHistoryRequest,
-  ): effect.Effect<
-    ListDataSetExportHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSetExportHistory: API.OperationMethod<
+  ListDataSetExportHistoryRequest,
+  ListDataSetExportHistoryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSetExportHistoryRequest,
   ) => stream.Stream<
@@ -3191,19 +3159,17 @@ export const listDataSetExportHistory: {
 /**
  * Lists the data set imports for the specified application.
  */
-export const listDataSetImportHistory: {
-  (
-    input: ListDataSetImportHistoryRequest,
-  ): effect.Effect<
-    ListDataSetImportHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSetImportHistory: API.OperationMethod<
+  ListDataSetImportHistoryRequest,
+  ListDataSetImportHistoryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSetImportHistoryRequest,
   ) => stream.Stream<
@@ -3250,22 +3216,20 @@ export const listDataSetImportHistory: {
  * associated with applications deployed on runtime environments. This is known as importing
  * data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
  */
-export const listDataSets: {
-  (
-    input: ListDataSetsRequest,
-  ): effect.Effect<
-    ListDataSetsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | ExecutionTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSets: API.OperationMethod<
+  ListDataSetsRequest,
+  ListDataSetsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ExecutionTimeoutException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
@@ -3321,19 +3285,17 @@ export const listDataSets: {
  * combination of a specific application and a specific version of that application. Each
  * deployment is mapped to a particular application version.
  */
-export const listDeployments: {
-  (
-    input: ListDeploymentsRequest,
-  ): effect.Effect<
-    ListDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsRequest,
+  ListDeploymentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
@@ -3378,9 +3340,8 @@ export const listDeployments: {
 /**
  * Starts an application that is currently stopped.
  */
-export const startApplication: (
-  input: StartApplicationRequest,
-) => effect.Effect<
+export const startApplication: API.OperationMethod<
+  StartApplicationRequest,
   StartApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3406,9 +3367,8 @@ export const startApplication: (
  * Starts a batch job and returns the unique identifier of this execution of the batch job.
  * The associated application must be running in order to start the batch job.
  */
-export const startBatchJob: (
-  input: StartBatchJobRequest,
-) => effect.Effect<
+export const startBatchJob: API.OperationMethod<
+  StartBatchJobRequest,
   StartBatchJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3433,9 +3393,8 @@ export const startBatchJob: (
 /**
  * Stops a running application.
  */
-export const stopApplication: (
-  input: StopApplicationRequest,
-) => effect.Effect<
+export const stopApplication: API.OperationMethod<
+  StopApplicationRequest,
   StopApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3460,9 +3419,8 @@ export const stopApplication: (
 /**
  * Creates a runtime environment for a given runtime engine.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentRequest,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
   CreateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3487,9 +3445,8 @@ export const createEnvironment: (
 /**
  * Describes a specific runtime environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentRequest,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentRequest,
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3512,9 +3469,8 @@ export const getEnvironment: (
 /**
  * Updates the configuration details for a specific runtime environment.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentRequest,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentRequest,
   UpdateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3543,9 +3499,8 @@ export const updateEnvironment: (
  * applications. If it does, you must delete those applications before you delete the
  * environment.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3568,18 +3523,16 @@ export const deleteEnvironment: (
 /**
  * Lists the runtime environments.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsRequest,
-  ): effect.Effect<
-    ListEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
+  ListEnvironmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<

@@ -2037,9 +2037,8 @@ export class EndpointNotFoundException extends S.TaggedErrorClass<EndpointNotFou
  * traffic, see the
  * AllowCustomRoutingTraffic operation.
  */
-export const addCustomRoutingEndpoints: (
-  input: AddCustomRoutingEndpointsRequest,
-) => effect.Effect<
+export const addCustomRoutingEndpoints: API.OperationMethod<
+  AddCustomRoutingEndpointsRequest,
   AddCustomRoutingEndpointsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2083,9 +2082,8 @@ export const addCustomRoutingEndpoints: (
  * to Global Accelerator, see
  * Endpoints for standard accelerators in the *Global Accelerator Developer Guide*.
  */
-export const addEndpoints: (
-  input: AddEndpointsRequest,
-) => effect.Effect<
+export const addEndpoints: API.OperationMethod<
+  AddEndpointsRequest,
   AddEndpointsResponse,
   | AccessDeniedException
   | EndpointGroupNotFoundException
@@ -2118,9 +2116,8 @@ export const addEndpoints: (
  * For more information, see Bring your own
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
-export const advertiseByoipCidr: (
-  input: AdvertiseByoipCidrRequest,
-) => effect.Effect<
+export const advertiseByoipCidr: API.OperationMethod<
+  AdvertiseByoipCidrRequest,
   AdvertiseByoipCidrResponse,
   | AccessDeniedException
   | ByoipCidrNotFoundException
@@ -2149,9 +2146,8 @@ export const advertiseByoipCidr: (
  * After you make changes, you can verify that the updates are complete by checking the status of your
  * accelerator: the status changes from IN_PROGRESS to DEPLOYED.
  */
-export const allowCustomRoutingTraffic: (
-  input: AllowCustomRoutingTrafficRequest,
-) => effect.Effect<
+export const allowCustomRoutingTraffic: API.OperationMethod<
+  AllowCustomRoutingTrafficRequest,
   AllowCustomRoutingTrafficResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2175,9 +2171,8 @@ export const allowCustomRoutingTraffic: (
  * US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify `--region us-west-2`
  * on Amazon Web Services CLI commands.
  */
-export const createAccelerator: (
-  input: CreateAcceleratorRequest,
-) => effect.Effect<
+export const createAccelerator: API.OperationMethod<
+  CreateAcceleratorRequest,
   CreateAcceleratorResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2219,9 +2214,8 @@ export const createAccelerator: (
  * Working with cross-account attachments and resources in Global Accelerator in the
  * Global Accelerator Developer Guide.
  */
-export const createCrossAccountAttachment: (
-  input: CreateCrossAccountAttachmentRequest,
-) => effect.Effect<
+export const createCrossAccountAttachment: API.OperationMethod<
+  CreateCrossAccountAttachmentRequest,
   CreateCrossAccountAttachmentResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2254,9 +2248,8 @@ export const createCrossAccountAttachment: (
  * US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify `--region us-west-2`
  * on Amazon Web Services CLI commands.
  */
-export const createCustomRoutingAccelerator: (
-  input: CreateCustomRoutingAcceleratorRequest,
-) => effect.Effect<
+export const createCustomRoutingAccelerator: API.OperationMethod<
+  CreateCustomRoutingAcceleratorRequest,
   CreateCustomRoutingAcceleratorResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2281,9 +2274,8 @@ export const createCustomRoutingAccelerator: (
  * An endpoint group is a collection of endpoints in one Amazon Web Services
  * Region.
  */
-export const createCustomRoutingEndpointGroup: (
-  input: CreateCustomRoutingEndpointGroupRequest,
-) => effect.Effect<
+export const createCustomRoutingEndpointGroup: API.OperationMethod<
+  CreateCustomRoutingEndpointGroupRequest,
   CreateCustomRoutingEndpointGroupResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -2313,9 +2305,8 @@ export const createCustomRoutingEndpointGroup: (
  * Create a listener to process inbound connections from clients to a custom routing accelerator.
  * Connections arrive to assigned static IP addresses on the port range that you specify.
  */
-export const createCustomRoutingListener: (
-  input: CreateCustomRoutingListenerRequest,
-) => effect.Effect<
+export const createCustomRoutingListener: API.OperationMethod<
+  CreateCustomRoutingListenerRequest,
   CreateCustomRoutingListenerResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2343,9 +2334,8 @@ export const createCustomRoutingListener: (
  * to Global Accelerator, see
  * Endpoints for standard accelerators in the *Global Accelerator Developer Guide*.
  */
-export const createEndpointGroup: (
-  input: CreateEndpointGroupRequest,
-) => effect.Effect<
+export const createEndpointGroup: API.OperationMethod<
+  CreateEndpointGroupRequest,
   CreateEndpointGroupResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -2373,9 +2363,8 @@ export const createEndpointGroup: (
  * Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static
  * IP addresses on a port, port range, or list of port ranges that you specify.
  */
-export const createListener: (
-  input: CreateListenerRequest,
-) => effect.Effect<
+export const createListener: API.OperationMethod<
+  CreateListenerRequest,
   CreateListenerResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2410,9 +2399,8 @@ export const createListener: (
  * see Identity and access management in
  * the *Global Accelerator Developer Guide*.
  */
-export const deleteAccelerator: (
-  input: DeleteAcceleratorRequest,
-) => effect.Effect<
+export const deleteAccelerator: API.OperationMethod<
+  DeleteAcceleratorRequest,
   DeleteAcceleratorResponse,
   | AcceleratorNotDisabledException
   | AcceleratorNotFoundException
@@ -2443,9 +2431,8 @@ export const deleteAccelerator: (
  * Working with cross-account attachments and resources in Global Accelerator in the
  * Global Accelerator Developer Guide.
  */
-export const deleteCrossAccountAttachment: (
-  input: DeleteCrossAccountAttachmentRequest,
-) => effect.Effect<
+export const deleteCrossAccountAttachment: API.OperationMethod<
+  DeleteCrossAccountAttachmentRequest,
   DeleteCrossAccountAttachmentResponse,
   | AccessDeniedException
   | AttachmentNotFoundException
@@ -2480,9 +2467,8 @@ export const deleteCrossAccountAttachment: (
  * see Identity and access management in
  * the *Global Accelerator Developer Guide*.
  */
-export const deleteCustomRoutingAccelerator: (
-  input: DeleteCustomRoutingAcceleratorRequest,
-) => effect.Effect<
+export const deleteCustomRoutingAccelerator: API.OperationMethod<
+  DeleteCustomRoutingAcceleratorRequest,
   DeleteCustomRoutingAcceleratorResponse,
   | AcceleratorNotDisabledException
   | AcceleratorNotFoundException
@@ -2507,9 +2493,8 @@ export const deleteCustomRoutingAccelerator: (
 /**
  * Delete an endpoint group from a listener for a custom routing accelerator.
  */
-export const deleteCustomRoutingEndpointGroup: (
-  input: DeleteCustomRoutingEndpointGroupRequest,
-) => effect.Effect<
+export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
+  DeleteCustomRoutingEndpointGroupRequest,
   DeleteCustomRoutingEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2528,9 +2513,8 @@ export const deleteCustomRoutingEndpointGroup: (
 /**
  * Delete a listener for a custom routing accelerator.
  */
-export const deleteCustomRoutingListener: (
-  input: DeleteCustomRoutingListenerRequest,
-) => effect.Effect<
+export const deleteCustomRoutingListener: API.OperationMethod<
+  DeleteCustomRoutingListenerRequest,
   DeleteCustomRoutingListenerResponse,
   | AssociatedEndpointGroupFoundException
   | InternalServiceErrorException
@@ -2551,9 +2535,8 @@ export const deleteCustomRoutingListener: (
 /**
  * Delete an endpoint group from a listener.
  */
-export const deleteEndpointGroup: (
-  input: DeleteEndpointGroupRequest,
-) => effect.Effect<
+export const deleteEndpointGroup: API.OperationMethod<
+  DeleteEndpointGroupRequest,
   DeleteEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2572,9 +2555,8 @@ export const deleteEndpointGroup: (
 /**
  * Delete a listener from an accelerator.
  */
-export const deleteListener: (
-  input: DeleteListenerRequest,
-) => effect.Effect<
+export const deleteListener: API.OperationMethod<
+  DeleteListenerRequest,
   DeleteListenerResponse,
   | AssociatedEndpointGroupFoundException
   | InternalServiceErrorException
@@ -2601,9 +2583,8 @@ export const deleteListener: (
  * After you make changes, you can verify that the updates are complete by checking the status of your
  * accelerator: the status changes from IN_PROGRESS to DEPLOYED.
  */
-export const denyCustomRoutingTraffic: (
-  input: DenyCustomRoutingTrafficRequest,
-) => effect.Effect<
+export const denyCustomRoutingTraffic: API.OperationMethod<
+  DenyCustomRoutingTrafficRequest,
   DenyCustomRoutingTrafficResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2629,9 +2610,8 @@ export const denyCustomRoutingTraffic: (
  * For more information, see Bring
  * your own IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
-export const deprovisionByoipCidr: (
-  input: DeprovisionByoipCidrRequest,
-) => effect.Effect<
+export const deprovisionByoipCidr: API.OperationMethod<
+  DeprovisionByoipCidrRequest,
   DeprovisionByoipCidrResponse,
   | AccessDeniedException
   | ByoipCidrNotFoundException
@@ -2654,9 +2634,8 @@ export const deprovisionByoipCidr: (
 /**
  * Describe an accelerator.
  */
-export const describeAccelerator: (
-  input: DescribeAcceleratorRequest,
-) => effect.Effect<
+export const describeAccelerator: API.OperationMethod<
+  DescribeAcceleratorRequest,
   DescribeAcceleratorResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2675,9 +2654,8 @@ export const describeAccelerator: (
 /**
  * Describe the attributes of an accelerator.
  */
-export const describeAcceleratorAttributes: (
-  input: DescribeAcceleratorAttributesRequest,
-) => effect.Effect<
+export const describeAcceleratorAttributes: API.OperationMethod<
+  DescribeAcceleratorAttributesRequest,
   DescribeAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2696,9 +2674,8 @@ export const describeAcceleratorAttributes: (
 /**
  * Gets configuration information about a cross-account attachment.
  */
-export const describeCrossAccountAttachment: (
-  input: DescribeCrossAccountAttachmentRequest,
-) => effect.Effect<
+export const describeCrossAccountAttachment: API.OperationMethod<
+  DescribeCrossAccountAttachmentRequest,
   DescribeCrossAccountAttachmentResponse,
   | AccessDeniedException
   | AttachmentNotFoundException
@@ -2719,9 +2696,8 @@ export const describeCrossAccountAttachment: (
 /**
  * Describe a custom routing accelerator.
  */
-export const describeCustomRoutingAccelerator: (
-  input: DescribeCustomRoutingAcceleratorRequest,
-) => effect.Effect<
+export const describeCustomRoutingAccelerator: API.OperationMethod<
+  DescribeCustomRoutingAcceleratorRequest,
   DescribeCustomRoutingAcceleratorResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2740,9 +2716,8 @@ export const describeCustomRoutingAccelerator: (
 /**
  * Describe the attributes of a custom routing accelerator.
  */
-export const describeCustomRoutingAcceleratorAttributes: (
-  input: DescribeCustomRoutingAcceleratorAttributesRequest,
-) => effect.Effect<
+export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
+  DescribeCustomRoutingAcceleratorAttributesRequest,
   DescribeCustomRoutingAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -2761,9 +2736,8 @@ export const describeCustomRoutingAcceleratorAttributes: (
 /**
  * Describe an endpoint group for a custom routing accelerator.
  */
-export const describeCustomRoutingEndpointGroup: (
-  input: DescribeCustomRoutingEndpointGroupRequest,
-) => effect.Effect<
+export const describeCustomRoutingEndpointGroup: API.OperationMethod<
+  DescribeCustomRoutingEndpointGroupRequest,
   DescribeCustomRoutingEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2782,9 +2756,8 @@ export const describeCustomRoutingEndpointGroup: (
 /**
  * The description of a listener for a custom routing accelerator.
  */
-export const describeCustomRoutingListener: (
-  input: DescribeCustomRoutingListenerRequest,
-) => effect.Effect<
+export const describeCustomRoutingListener: API.OperationMethod<
+  DescribeCustomRoutingListenerRequest,
   DescribeCustomRoutingListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -2803,9 +2776,8 @@ export const describeCustomRoutingListener: (
 /**
  * Describe an endpoint group.
  */
-export const describeEndpointGroup: (
-  input: DescribeEndpointGroupRequest,
-) => effect.Effect<
+export const describeEndpointGroup: API.OperationMethod<
+  DescribeEndpointGroupRequest,
   DescribeEndpointGroupResponse,
   | EndpointGroupNotFoundException
   | InternalServiceErrorException
@@ -2824,9 +2796,8 @@ export const describeEndpointGroup: (
 /**
  * Describe a listener.
  */
-export const describeListener: (
-  input: DescribeListenerRequest,
-) => effect.Effect<
+export const describeListener: API.OperationMethod<
+  DescribeListenerRequest,
   DescribeListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -2845,17 +2816,15 @@ export const describeListener: (
 /**
  * List the accelerators for an Amazon Web Services account.
  */
-export const listAccelerators: {
-  (
-    input: ListAcceleratorsRequest,
-  ): effect.Effect<
-    ListAcceleratorsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccelerators: API.OperationMethod<
+  ListAcceleratorsRequest,
+  ListAcceleratorsResponse,
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAcceleratorsRequest,
   ) => stream.Stream<
@@ -2895,18 +2864,16 @@ export const listAccelerators: {
  * Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, including
  * the current state and a history of state changes.
  */
-export const listByoipCidrs: {
-  (
-    input: ListByoipCidrsRequest,
-  ): effect.Effect<
-    ListByoipCidrsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listByoipCidrs: API.OperationMethod<
+  ListByoipCidrsRequest,
+  ListByoipCidrsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListByoipCidrsRequest,
   ) => stream.Stream<
@@ -2948,18 +2915,16 @@ export const listByoipCidrs: {
 /**
  * List the cross-account attachments that have been created in Global Accelerator.
  */
-export const listCrossAccountAttachments: {
-  (
-    input: ListCrossAccountAttachmentsRequest,
-  ): effect.Effect<
-    ListCrossAccountAttachmentsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCrossAccountAttachments: API.OperationMethod<
+  ListCrossAccountAttachmentsRequest,
+  ListCrossAccountAttachmentsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCrossAccountAttachmentsRequest,
   ) => stream.Stream<
@@ -3005,9 +2970,8 @@ export const listCrossAccountAttachments: {
  * Working with cross-account attachments and resources in Global Accelerator in the
  * Global Accelerator Developer Guide.
  */
-export const listCrossAccountResourceAccounts: (
-  input: ListCrossAccountResourceAccountsRequest,
-) => effect.Effect<
+export const listCrossAccountResourceAccounts: API.OperationMethod<
+  ListCrossAccountResourceAccountsRequest,
   ListCrossAccountResourceAccountsResponse,
   AccessDeniedException | InternalServiceErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3019,19 +2983,17 @@ export const listCrossAccountResourceAccounts: (
 /**
  * List the cross-account resources available to work with.
  */
-export const listCrossAccountResources: {
-  (
-    input: ListCrossAccountResourcesRequest,
-  ): effect.Effect<
-    ListCrossAccountResourcesResponse,
-    | AcceleratorNotFoundException
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCrossAccountResources: API.OperationMethod<
+  ListCrossAccountResourcesRequest,
+  ListCrossAccountResourcesResponse,
+  | AcceleratorNotFoundException
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCrossAccountResourcesRequest,
   ) => stream.Stream<
@@ -3076,17 +3038,15 @@ export const listCrossAccountResources: {
 /**
  * List the custom routing accelerators for an Amazon Web Services account.
  */
-export const listCustomRoutingAccelerators: {
-  (
-    input: ListCustomRoutingAcceleratorsRequest,
-  ): effect.Effect<
-    ListCustomRoutingAcceleratorsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomRoutingAccelerators: API.OperationMethod<
+  ListCustomRoutingAcceleratorsRequest,
+  ListCustomRoutingAcceleratorsResponse,
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomRoutingAcceleratorsRequest,
   ) => stream.Stream<
@@ -3125,18 +3085,16 @@ export const listCustomRoutingAccelerators: {
 /**
  * List the endpoint groups that are associated with a listener for a custom routing accelerator.
  */
-export const listCustomRoutingEndpointGroups: {
-  (
-    input: ListCustomRoutingEndpointGroupsRequest,
-  ): effect.Effect<
-    ListCustomRoutingEndpointGroupsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | ListenerNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomRoutingEndpointGroups: API.OperationMethod<
+  ListCustomRoutingEndpointGroupsRequest,
+  ListCustomRoutingEndpointGroupsResponse,
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | ListenerNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomRoutingEndpointGroupsRequest,
   ) => stream.Stream<
@@ -3178,18 +3136,16 @@ export const listCustomRoutingEndpointGroups: {
 /**
  * List the listeners for a custom routing accelerator.
  */
-export const listCustomRoutingListeners: {
-  (
-    input: ListCustomRoutingListenersRequest,
-  ): effect.Effect<
-    ListCustomRoutingListenersResponse,
-    | AcceleratorNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomRoutingListeners: API.OperationMethod<
+  ListCustomRoutingListenersRequest,
+  ListCustomRoutingListenersResponse,
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomRoutingListenersRequest,
   ) => stream.Stream<
@@ -3241,19 +3197,17 @@ export const listCustomRoutingListeners: {
  * The mappings also include a flag for each destination denoting which destination IP addresses and
  * ports are allowed or denied traffic.
  */
-export const listCustomRoutingPortMappings: {
-  (
-    input: ListCustomRoutingPortMappingsRequest,
-  ): effect.Effect<
-    ListCustomRoutingPortMappingsResponse,
-    | AcceleratorNotFoundException
-    | EndpointGroupNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomRoutingPortMappings: API.OperationMethod<
+  ListCustomRoutingPortMappingsRequest,
+  ListCustomRoutingPortMappingsResponse,
+  | AcceleratorNotFoundException
+  | EndpointGroupNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomRoutingPortMappingsRequest,
   ) => stream.Stream<
@@ -3301,18 +3255,16 @@ export const listCustomRoutingPortMappings: {
  * span multiple custom routing accelerators in your account, or for scenarios where you only want to
  * list the port mappings for a specific destination instance.
  */
-export const listCustomRoutingPortMappingsByDestination: {
-  (
-    input: ListCustomRoutingPortMappingsByDestinationRequest,
-  ): effect.Effect<
-    ListCustomRoutingPortMappingsByDestinationResponse,
-    | EndpointNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomRoutingPortMappingsByDestination: API.OperationMethod<
+  ListCustomRoutingPortMappingsByDestinationRequest,
+  ListCustomRoutingPortMappingsByDestinationResponse,
+  | EndpointNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomRoutingPortMappingsByDestinationRequest,
   ) => stream.Stream<
@@ -3354,18 +3306,16 @@ export const listCustomRoutingPortMappingsByDestination: {
 /**
  * List the endpoint groups that are associated with a listener.
  */
-export const listEndpointGroups: {
-  (
-    input: ListEndpointGroupsRequest,
-  ): effect.Effect<
-    ListEndpointGroupsResponse,
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | ListenerNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpointGroups: API.OperationMethod<
+  ListEndpointGroupsRequest,
+  ListEndpointGroupsResponse,
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | ListenerNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointGroupsRequest,
   ) => stream.Stream<
@@ -3407,18 +3357,16 @@ export const listEndpointGroups: {
 /**
  * List the listeners for an accelerator.
  */
-export const listListeners: {
-  (
-    input: ListListenersRequest,
-  ): effect.Effect<
-    ListListenersResponse,
-    | AcceleratorNotFoundException
-    | InternalServiceErrorException
-    | InvalidArgumentException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listListeners: API.OperationMethod<
+  ListListenersRequest,
+  ListListenersResponse,
+  | AcceleratorNotFoundException
+  | InternalServiceErrorException
+  | InvalidArgumentException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListListenersRequest,
   ) => stream.Stream<
@@ -3463,9 +3411,8 @@ export const listListeners: {
  * For more information, see Tagging
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AcceleratorNotFoundException
   | AttachmentNotFoundException
@@ -3496,9 +3443,8 @@ export const listTagsForResource: (
  * For more information, see Bring your own
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
-export const provisionByoipCidr: (
-  input: ProvisionByoipCidrRequest,
-) => effect.Effect<
+export const provisionByoipCidr: API.OperationMethod<
+  ProvisionByoipCidrRequest,
   ProvisionByoipCidrResponse,
   | AccessDeniedException
   | IncorrectCidrStateException
@@ -3521,9 +3467,8 @@ export const provisionByoipCidr: (
 /**
  * Remove endpoints from a custom routing accelerator.
  */
-export const removeCustomRoutingEndpoints: (
-  input: RemoveCustomRoutingEndpointsRequest,
-) => effect.Effect<
+export const removeCustomRoutingEndpoints: API.OperationMethod<
+  RemoveCustomRoutingEndpointsRequest,
   RemoveCustomRoutingEndpointsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3561,9 +3506,8 @@ export const removeCustomRoutingEndpoints: (
  * `UpdateEndpointGroup` API operation, Global Accelerator must resolve all of the endpoints that
  * remain in the group.
  */
-export const removeEndpoints: (
-  input: RemoveEndpointsRequest,
-) => effect.Effect<
+export const removeEndpoints: API.OperationMethod<
+  RemoveEndpointsRequest,
   RemoveEndpointsResponse,
   | AccessDeniedException
   | EndpointGroupNotFoundException
@@ -3589,9 +3533,8 @@ export const removeEndpoints: (
  * For more information, see Tagging
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -3614,9 +3557,8 @@ export const tagResource: (
  * For more information, see Tagging
  * in Global Accelerator in the *Global Accelerator Developer Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AcceleratorNotFoundException
   | InternalServiceErrorException
@@ -3651,9 +3593,8 @@ export const untagResource: (
  * US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify `--region us-west-2`
  * on Amazon Web Services CLI commands.
  */
-export const updateAccelerator: (
-  input: UpdateAcceleratorRequest,
-) => effect.Effect<
+export const updateAccelerator: API.OperationMethod<
+  UpdateAcceleratorRequest,
   UpdateAcceleratorResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -3678,9 +3619,8 @@ export const updateAccelerator: (
 /**
  * Update the attributes for an accelerator.
  */
-export const updateAcceleratorAttributes: (
-  input: UpdateAcceleratorAttributesRequest,
-) => effect.Effect<
+export const updateAcceleratorAttributes: API.OperationMethod<
+  UpdateAcceleratorAttributesRequest,
   UpdateAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -3709,9 +3649,8 @@ export const updateAcceleratorAttributes: (
  * Working with cross-account attachments and resources in Global Accelerator in the
  * Global Accelerator Developer Guide.
  */
-export const updateCrossAccountAttachment: (
-  input: UpdateCrossAccountAttachmentRequest,
-) => effect.Effect<
+export const updateCrossAccountAttachment: API.OperationMethod<
+  UpdateCrossAccountAttachmentRequest,
   UpdateCrossAccountAttachmentResponse,
   | AccessDeniedException
   | AttachmentNotFoundException
@@ -3736,9 +3675,8 @@ export const updateCrossAccountAttachment: (
 /**
  * Update a custom routing accelerator.
  */
-export const updateCustomRoutingAccelerator: (
-  input: UpdateCustomRoutingAcceleratorRequest,
-) => effect.Effect<
+export const updateCustomRoutingAccelerator: API.OperationMethod<
+  UpdateCustomRoutingAcceleratorRequest,
   UpdateCustomRoutingAcceleratorResponse,
   | AcceleratorNotFoundException
   | ConflictException
@@ -3761,9 +3699,8 @@ export const updateCustomRoutingAccelerator: (
 /**
  * Update the attributes for a custom routing accelerator.
  */
-export const updateCustomRoutingAcceleratorAttributes: (
-  input: UpdateCustomRoutingAcceleratorAttributesRequest,
-) => effect.Effect<
+export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
+  UpdateCustomRoutingAcceleratorAttributesRequest,
   UpdateCustomRoutingAcceleratorAttributesResponse,
   | AcceleratorNotFoundException
   | AccessDeniedException
@@ -3786,9 +3723,8 @@ export const updateCustomRoutingAcceleratorAttributes: (
 /**
  * Update a listener for a custom routing accelerator.
  */
-export const updateCustomRoutingListener: (
-  input: UpdateCustomRoutingListenerRequest,
-) => effect.Effect<
+export const updateCustomRoutingListener: API.OperationMethod<
+  UpdateCustomRoutingListenerRequest,
   UpdateCustomRoutingListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -3811,9 +3747,8 @@ export const updateCustomRoutingListener: (
 /**
  * Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
  */
-export const updateEndpointGroup: (
-  input: UpdateEndpointGroupRequest,
-) => effect.Effect<
+export const updateEndpointGroup: API.OperationMethod<
+  UpdateEndpointGroupRequest,
   UpdateEndpointGroupResponse,
   | AccessDeniedException
   | EndpointGroupNotFoundException
@@ -3836,9 +3771,8 @@ export const updateEndpointGroup: (
 /**
  * Update a listener.
  */
-export const updateListener: (
-  input: UpdateListenerRequest,
-) => effect.Effect<
+export const updateListener: API.OperationMethod<
+  UpdateListenerRequest,
   UpdateListenerResponse,
   | InternalServiceErrorException
   | InvalidArgumentException
@@ -3869,9 +3803,8 @@ export const updateListener: (
  * For more information, see Bring your own
  * IP addresses (BYOIP) in the *Global Accelerator Developer Guide*.
  */
-export const withdrawByoipCidr: (
-  input: WithdrawByoipCidrRequest,
-) => effect.Effect<
+export const withdrawByoipCidr: API.OperationMethod<
+  WithdrawByoipCidrRequest,
   WithdrawByoipCidrResponse,
   | AccessDeniedException
   | ByoipCidrNotFoundException

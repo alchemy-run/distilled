@@ -456,9 +456,8 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 /**
  * Returns a specific activity record that is available to the customer.
  */
-export const getAccountActivity: (
-  input: GetAccountActivityRequest,
-) => effect.Effect<
+export const getAccountActivity: API.OperationMethod<
+  GetAccountActivityRequest,
   GetAccountActivityResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -479,9 +478,8 @@ export const getAccountActivity: (
 /**
  * This returns all of the information related to the state of the account plan related to Free Tier.
  */
-export const getAccountPlanState: (
-  input: GetAccountPlanStateRequest,
-) => effect.Effect<
+export const getAccountPlanState: API.OperationMethod<
+  GetAccountPlanStateRequest,
   GetAccountPlanStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -504,17 +502,15 @@ export const getAccountPlanState: (
 /**
  * Returns a list of all Free Tier usage objects that match your filters.
  */
-export const getFreeTierUsage: {
-  (
-    input: GetFreeTierUsageRequest,
-  ): effect.Effect<
-    GetFreeTierUsageResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFreeTierUsage: API.OperationMethod<
+  GetFreeTierUsageRequest,
+  GetFreeTierUsageResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFreeTierUsageRequest,
   ) => stream.Stream<
@@ -549,17 +545,15 @@ export const getFreeTierUsage: {
 /**
  * Returns a list of activities that are available. This operation supports pagination and filtering by status.
  */
-export const listAccountActivities: {
-  (
-    input: ListAccountActivitiesRequest,
-  ): effect.Effect<
-    ListAccountActivitiesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountActivities: API.OperationMethod<
+  ListAccountActivitiesRequest,
+  ListAccountActivitiesResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountActivitiesRequest,
   ) => stream.Stream<
@@ -594,9 +588,8 @@ export const listAccountActivities: {
 /**
  * The account plan type for the Amazon Web Services account.
  */
-export const upgradeAccountPlan: (
-  input: UpgradeAccountPlanRequest,
-) => effect.Effect<
+export const upgradeAccountPlan: API.OperationMethod<
+  UpgradeAccountPlanRequest,
   UpgradeAccountPlanResponse,
   | AccessDeniedException
   | InternalServerException

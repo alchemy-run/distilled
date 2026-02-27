@@ -78,12 +78,22 @@ export const GetKeylessCertificateResponse = Schema.Struct({
     }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    enabled: "enabled",
+    host: "host",
+    modifiedOn: "modified_on",
+    name: "name",
+    permissions: "permissions",
+    port: "port",
+    status: "status",
+    tunnel: "tunnel",
+  }),
 ) as unknown as Schema.Schema<GetKeylessCertificateResponse>;
 
-export const getKeylessCertificate: (
-  input: GetKeylessCertificateRequest,
-) => Effect.Effect<
+export const getKeylessCertificate: API.OperationMethod<
+  GetKeylessCertificateRequest,
   GetKeylessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -137,13 +147,23 @@ export const ListKeylessCertificatesResponse = Schema.Array(
       ),
     ),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      enabled: "enabled",
+      host: "host",
+      modifiedOn: "modified_on",
+      name: "name",
+      permissions: "permissions",
+      port: "port",
+      status: "status",
+      tunnel: "tunnel",
+    }),
   ),
 ) as unknown as Schema.Schema<ListKeylessCertificatesResponse>;
 
-export const listKeylessCertificates: (
-  input: ListKeylessCertificatesRequest,
-) => Effect.Effect<
+export const listKeylessCertificates: API.OperationMethod<
+  ListKeylessCertificatesRequest,
   ListKeylessCertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -186,7 +206,14 @@ export const CreateKeylessCertificateRequest = Schema.Struct({
     }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
 }).pipe(
-  Schema.encodeKeys({ bundleMethod: "bundle_method" }),
+  Schema.encodeKeys({
+    certificate: "certificate",
+    host: "host",
+    port: "port",
+    bundleMethod: "bundle_method",
+    name: "name",
+    tunnel: "tunnel",
+  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/keyless_certificates" }),
 ) as unknown as Schema.Schema<CreateKeylessCertificateRequest>;
 
@@ -230,12 +257,22 @@ export const CreateKeylessCertificateResponse = Schema.Struct({
     }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    enabled: "enabled",
+    host: "host",
+    modifiedOn: "modified_on",
+    name: "name",
+    permissions: "permissions",
+    port: "port",
+    status: "status",
+    tunnel: "tunnel",
+  }),
 ) as unknown as Schema.Schema<CreateKeylessCertificateResponse>;
 
-export const createKeylessCertificate: (
-  input: CreateKeylessCertificateRequest,
-) => Effect.Effect<
+export const createKeylessCertificate: API.OperationMethod<
+  CreateKeylessCertificateRequest,
   CreateKeylessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -321,12 +358,22 @@ export const PatchKeylessCertificateResponse = Schema.Struct({
     }).pipe(Schema.encodeKeys({ privateIp: "private_ip", vnetId: "vnet_id" })),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    enabled: "enabled",
+    host: "host",
+    modifiedOn: "modified_on",
+    name: "name",
+    permissions: "permissions",
+    port: "port",
+    status: "status",
+    tunnel: "tunnel",
+  }),
 ) as unknown as Schema.Schema<PatchKeylessCertificateResponse>;
 
-export const patchKeylessCertificate: (
-  input: PatchKeylessCertificateRequest,
-) => Effect.Effect<
+export const patchKeylessCertificate: API.OperationMethod<
+  PatchKeylessCertificateRequest,
   PatchKeylessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -361,9 +408,8 @@ export const DeleteKeylessCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteKeylessCertificateResponse>;
 
-export const deleteKeylessCertificate: (
-  input: DeleteKeylessCertificateRequest,
-) => Effect.Effect<
+export const deleteKeylessCertificate: API.OperationMethod<
+  DeleteKeylessCertificateRequest,
   DeleteKeylessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

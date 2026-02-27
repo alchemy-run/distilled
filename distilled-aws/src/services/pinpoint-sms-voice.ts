@@ -500,9 +500,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 /**
  * Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
  */
-export const createConfigurationSet: (
-  input: CreateConfigurationSetRequest,
-) => effect.Effect<
+export const createConfigurationSet: API.OperationMethod<
+  CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -525,9 +524,8 @@ export const createConfigurationSet: (
 /**
  * Create a new event destination in a configuration set.
  */
-export const createConfigurationSetEventDestination: (
-  input: CreateConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const createConfigurationSetEventDestination: API.OperationMethod<
+  CreateConfigurationSetEventDestinationRequest,
   CreateConfigurationSetEventDestinationResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -552,9 +550,8 @@ export const createConfigurationSetEventDestination: (
 /**
  * Deletes an existing configuration set.
  */
-export const deleteConfigurationSet: (
-  input: DeleteConfigurationSetRequest,
-) => effect.Effect<
+export const deleteConfigurationSet: API.OperationMethod<
+  DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -575,9 +572,8 @@ export const deleteConfigurationSet: (
 /**
  * Deletes an event destination in a configuration set.
  */
-export const deleteConfigurationSetEventDestination: (
-  input: DeleteConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const deleteConfigurationSetEventDestination: API.OperationMethod<
+  DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -598,9 +594,8 @@ export const deleteConfigurationSetEventDestination: (
 /**
  * Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
  */
-export const getConfigurationSetEventDestinations: (
-  input: GetConfigurationSetEventDestinationsRequest,
-) => effect.Effect<
+export const getConfigurationSetEventDestinations: API.OperationMethod<
+  GetConfigurationSetEventDestinationsRequest,
   GetConfigurationSetEventDestinationsResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -621,9 +616,8 @@ export const getConfigurationSetEventDestinations: (
 /**
  * List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
  */
-export const listConfigurationSets: (
-  input: ListConfigurationSetsRequest,
-) => effect.Effect<
+export const listConfigurationSets: API.OperationMethod<
+  ListConfigurationSetsRequest,
   ListConfigurationSetsResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -642,9 +636,8 @@ export const listConfigurationSets: (
 /**
  * Create a new voice message and send it to a recipient's phone number.
  */
-export const sendVoiceMessage: (
-  input: SendVoiceMessageRequest,
-) => effect.Effect<
+export const sendVoiceMessage: API.OperationMethod<
+  SendVoiceMessageRequest,
   SendVoiceMessageResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -663,9 +656,8 @@ export const sendVoiceMessage: (
 /**
  * Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
  */
-export const updateConfigurationSetEventDestination: (
-  input: UpdateConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const updateConfigurationSetEventDestination: API.OperationMethod<
+  UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
   | BadRequestException
   | InternalServiceErrorException

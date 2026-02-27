@@ -752,9 +752,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * of desired state configurations for multiple configuration definitions and
  * summaries describing the deployments of those definitions.
  */
-export const createConfigurationManager: (
-  input: CreateConfigurationManagerInput,
-) => effect.Effect<
+export const createConfigurationManager: API.OperationMethod<
+  CreateConfigurationManagerInput,
   CreateConfigurationManagerOutput,
   | AccessDeniedException
   | ConflictException
@@ -777,9 +776,8 @@ export const createConfigurationManager: (
 /**
  * Deletes a configuration manager.
  */
-export const deleteConfigurationManager: (
-  input: DeleteConfigurationManagerInput,
-) => effect.Effect<
+export const deleteConfigurationManager: API.OperationMethod<
+  DeleteConfigurationManagerInput,
   DeleteConfigurationManagerResponse,
   | AccessDeniedException
   | ConflictException
@@ -804,9 +802,8 @@ export const deleteConfigurationManager: (
 /**
  * Returns details about the specified configuration.
  */
-export const getConfiguration: (
-  input: GetConfigurationInput,
-) => effect.Effect<
+export const getConfiguration: API.OperationMethod<
+  GetConfigurationInput,
   GetConfigurationOutput,
   | AccessDeniedException
   | ConflictException
@@ -831,9 +828,8 @@ export const getConfiguration: (
 /**
  * Returns a configuration manager.
  */
-export const getConfigurationManager: (
-  input: GetConfigurationManagerInput,
-) => effect.Effect<
+export const getConfigurationManager: API.OperationMethod<
+  GetConfigurationManagerInput,
   GetConfigurationManagerOutput,
   | AccessDeniedException
   | ConflictException
@@ -858,9 +854,8 @@ export const getConfigurationManager: (
 /**
  * Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
-export const getServiceSettings: (
-  input: GetServiceSettingsRequest,
-) => effect.Effect<
+export const getServiceSettings: API.OperationMethod<
+  GetServiceSettingsRequest,
   GetServiceSettingsOutput,
   | AccessDeniedException
   | ConflictException
@@ -881,19 +876,17 @@ export const getServiceSettings: (
 /**
  * Returns Quick Setup configuration managers.
  */
-export const listConfigurationManagers: {
-  (
-    input: ListConfigurationManagersInput,
-  ): effect.Effect<
-    ListConfigurationManagersOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationManagers: API.OperationMethod<
+  ListConfigurationManagersInput,
+  ListConfigurationManagersOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationManagersInput,
   ) => stream.Stream<
@@ -938,19 +931,17 @@ export const listConfigurationManagers: {
 /**
  * Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
  */
-export const listConfigurations: {
-  (
-    input: ListConfigurationsInput,
-  ): effect.Effect<
-    ListConfigurationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurations: API.OperationMethod<
+  ListConfigurationsInput,
+  ListConfigurationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationsInput,
   ) => stream.Stream<
@@ -995,9 +986,8 @@ export const listConfigurations: {
 /**
  * Returns the available Quick Setup types.
  */
-export const listQuickSetupTypes: (
-  input: ListQuickSetupTypesRequest,
-) => effect.Effect<
+export const listQuickSetupTypes: API.OperationMethod<
+  ListQuickSetupTypesRequest,
   ListQuickSetupTypesOutput,
   | AccessDeniedException
   | ConflictException
@@ -1018,9 +1008,8 @@ export const listQuickSetupTypes: (
 /**
  * Returns tags assigned to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1045,9 +1034,8 @@ export const listTagsForResource: (
 /**
  * Assigns key-value pairs of metadata to Amazon Web Services resources.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1072,9 +1060,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1099,9 +1086,8 @@ export const untagResource: (
 /**
  * Updates a Quick Setup configuration definition.
  */
-export const updateConfigurationDefinition: (
-  input: UpdateConfigurationDefinitionInput,
-) => effect.Effect<
+export const updateConfigurationDefinition: API.OperationMethod<
+  UpdateConfigurationDefinitionInput,
   UpdateConfigurationDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1126,9 +1112,8 @@ export const updateConfigurationDefinition: (
 /**
  * Updates a Quick Setup configuration manager.
  */
-export const updateConfigurationManager: (
-  input: UpdateConfigurationManagerInput,
-) => effect.Effect<
+export const updateConfigurationManager: API.OperationMethod<
+  UpdateConfigurationManagerInput,
   UpdateConfigurationManagerResponse,
   | AccessDeniedException
   | ConflictException
@@ -1153,9 +1138,8 @@ export const updateConfigurationManager: (
 /**
  * Updates settings configured for Quick Setup.
  */
-export const updateServiceSettings: (
-  input: UpdateServiceSettingsInput,
-) => effect.Effect<
+export const updateServiceSettings: API.OperationMethod<
+  UpdateServiceSettingsInput,
   UpdateServiceSettingsResponse,
   | AccessDeniedException
   | ConflictException

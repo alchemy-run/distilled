@@ -29034,9 +29034,8 @@ export class IdentityTypeNotSupportedException extends S.TaggedErrorClass<Identi
 /**
  * Creates new reviewed answers for a Q Topic.
  */
-export const batchCreateTopicReviewedAnswer: (
-  input: BatchCreateTopicReviewedAnswerRequest,
-) => effect.Effect<
+export const batchCreateTopicReviewedAnswer: API.OperationMethod<
+  BatchCreateTopicReviewedAnswerRequest,
   BatchCreateTopicReviewedAnswerResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29059,9 +29058,8 @@ export const batchCreateTopicReviewedAnswer: (
 /**
  * Deletes reviewed answers for Q Topic.
  */
-export const batchDeleteTopicReviewedAnswer: (
-  input: BatchDeleteTopicReviewedAnswerRequest,
-) => effect.Effect<
+export const batchDeleteTopicReviewedAnswer: API.OperationMethod<
+  BatchDeleteTopicReviewedAnswerRequest,
   BatchDeleteTopicReviewedAnswerResponse,
   | AccessDeniedException
   | ConflictException
@@ -29086,9 +29084,8 @@ export const batchDeleteTopicReviewedAnswer: (
 /**
  * Cancels an ongoing ingestion of data into SPICE.
  */
-export const cancelIngestion: (
-  input: CancelIngestionRequest,
-) => effect.Effect<
+export const cancelIngestion: API.OperationMethod<
+  CancelIngestionRequest,
   CancelIngestionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29136,9 +29133,8 @@ export const cancelIngestion: (
  *
  * API operation.
  */
-export const createAccountCustomization: (
-  input: CreateAccountCustomizationRequest,
-) => effect.Effect<
+export const createAccountCustomization: API.OperationMethod<
+  CreateAccountCustomizationRequest,
   CreateAccountCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -29193,9 +29189,8 @@ export const createAccountCustomization: (
  * access to Amazon Web Services services in the Amazon Quick Sight
  * User Guide.
  */
-export const createAccountSubscription: (
-  input: CreateAccountSubscriptionRequest,
-) => effect.Effect<
+export const createAccountSubscription: API.OperationMethod<
+  CreateAccountSubscriptionRequest,
   CreateAccountSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -29228,9 +29223,8 @@ export const createAccountSubscription: (
  * Action connectors support various authentication methods and can be configured with specific actions from supported connector types
  * like Amazon S3, Salesforce, JIRA.
  */
-export const createActionConnector: (
-  input: CreateActionConnectorRequest,
-) => effect.Effect<
+export const createActionConnector: API.OperationMethod<
+  CreateActionConnectorRequest,
   CreateActionConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -29255,9 +29249,8 @@ export const createActionConnector: (
 /**
  * Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an `AnalysisDefinition`.
  */
-export const createAnalysis: (
-  input: CreateAnalysisRequest,
-) => effect.Effect<
+export const createAnalysis: API.OperationMethod<
+  CreateAnalysisRequest,
   CreateAnalysisResponse,
   | ConflictException
   | InternalFailureException
@@ -29286,9 +29279,8 @@ export const createAnalysis: (
 /**
  * Creates an Quick Sight brand.
  */
-export const createBrand: (
-  input: CreateBrandRequest,
-) => effect.Effect<
+export const createBrand: API.OperationMethod<
+  CreateBrandRequest,
   CreateBrandResponse,
   | AccessDeniedException
   | ConflictException
@@ -29313,9 +29305,8 @@ export const createBrand: (
 /**
  * Creates a custom permissions profile.
  */
-export const createCustomPermissions: (
-  input: CreateCustomPermissionsRequest,
-) => effect.Effect<
+export const createCustomPermissions: API.OperationMethod<
+  CreateCustomPermissionsRequest,
   CreateCustomPermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -29357,9 +29348,8 @@ export const createCustomPermissions: (
  * correct permissions, you can create a dashboard from a template that exists in a
  * different Amazon Web Services account.
  */
-export const createDashboard: (
-  input: CreateDashboardRequest,
-) => effect.Effect<
+export const createDashboard: API.OperationMethod<
+  CreateDashboardRequest,
   CreateDashboardResponse,
   | ConflictException
   | InternalFailureException
@@ -29389,9 +29379,8 @@ export const createDashboard: (
  * Creates a dataset. This operation doesn't support datasets that include uploaded files
  * as a source.
  */
-export const createDataSet: (
-  input: CreateDataSetRequest,
-) => effect.Effect<
+export const createDataSet: API.OperationMethod<
+  CreateDataSetRequest,
   CreateDataSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -29424,9 +29413,8 @@ export const createDataSet: (
 /**
  * Creates a data source.
  */
-export const createDataSource: (
-  input: CreateDataSourceRequest,
-) => effect.Effect<
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceRequest,
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -29457,9 +29445,8 @@ export const createDataSource: (
 /**
  * Creates an empty shared folder.
  */
-export const createFolder: (
-  input: CreateFolderRequest,
-) => effect.Effect<
+export const createFolder: API.OperationMethod<
+  CreateFolderRequest,
   CreateFolderResponse,
   | AccessDeniedException
   | ConflictException
@@ -29490,9 +29477,8 @@ export const createFolder: (
 /**
  * Adds an asset, such as a dashboard, analysis, or dataset into a folder.
  */
-export const createFolderMembership: (
-  input: CreateFolderMembershipRequest,
-) => effect.Effect<
+export const createFolderMembership: API.OperationMethod<
+  CreateFolderMembershipRequest,
   CreateFolderMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29527,9 +29513,8 @@ export const createFolderMembership: (
  *
  * The response is a group object.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29560,9 +29545,8 @@ export const createGroup: (
 /**
  * Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
  */
-export const createGroupMembership: (
-  input: CreateGroupMembershipRequest,
-) => effect.Effect<
+export const createGroupMembership: API.OperationMethod<
+  CreateGroupMembershipRequest,
   CreateGroupMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29593,9 +29577,8 @@ export const createGroupMembership: (
  * account. To avoid overwriting rules in other namespaces, use assignment names that are
  * unique.
  */
-export const createIAMPolicyAssignment: (
-  input: CreateIAMPolicyAssignmentRequest,
-) => effect.Effect<
+export const createIAMPolicyAssignment: API.OperationMethod<
+  CreateIAMPolicyAssignmentRequest,
   CreateIAMPolicyAssignmentResponse,
   | AccessDeniedException
   | ConcurrentUpdatingException
@@ -29629,9 +29612,8 @@ export const createIAMPolicyAssignment: (
  * access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using
  * tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
  */
-export const createIngestion: (
-  input: CreateIngestionRequest,
-) => effect.Effect<
+export const createIngestion: API.OperationMethod<
+  CreateIngestionRequest,
   CreateIngestionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29666,9 +29648,8 @@ export const createIngestion: (
  * limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with
  * Amazon Web Services Support.
  */
-export const createNamespace: (
-  input: CreateNamespaceRequest,
-) => effect.Effect<
+export const createNamespace: API.OperationMethod<
+  CreateNamespaceRequest,
   CreateNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -29701,9 +29682,8 @@ export const createNamespace: (
 /**
  * Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
  */
-export const createRefreshSchedule: (
-  input: CreateRefreshScheduleRequest,
-) => effect.Effect<
+export const createRefreshSchedule: API.OperationMethod<
+  CreateRefreshScheduleRequest,
   CreateRefreshScheduleResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29732,9 +29712,8 @@ export const createRefreshSchedule: (
 /**
  * Use `CreateRoleMembership` to add an existing Quick Sight group to an existing role.
  */
-export const createRoleMembership: (
-  input: CreateRoleMembershipRequest,
-) => effect.Effect<
+export const createRoleMembership: API.OperationMethod<
+  CreateRoleMembershipRequest,
   CreateRoleMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29769,9 +29748,8 @@ export const createRoleMembership: (
  * with datasets that follow the same schema that was used to create the source analysis
  * and template.
  */
-export const createTemplate: (
-  input: CreateTemplateRequest,
-) => effect.Effect<
+export const createTemplate: API.OperationMethod<
+  CreateTemplateRequest,
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -29802,9 +29780,8 @@ export const createTemplate: (
 /**
  * Creates a template alias for a template.
  */
-export const createTemplateAlias: (
-  input: CreateTemplateAliasRequest,
-) => effect.Effect<
+export const createTemplateAlias: API.OperationMethod<
+  CreateTemplateAliasRequest,
   CreateTemplateAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -29835,9 +29812,8 @@ export const createTemplateAlias: (
  * Themes apply to analyses and dashboards. For more information, see Using
  * Themes in Amazon Quick Sight in the *Amazon Quick Sight User Guide*.
  */
-export const createTheme: (
-  input: CreateThemeRequest,
-) => effect.Effect<
+export const createTheme: API.OperationMethod<
+  CreateThemeRequest,
   CreateThemeResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -29866,9 +29842,8 @@ export const createTheme: (
 /**
  * Creates a theme alias for a theme.
  */
-export const createThemeAlias: (
-  input: CreateThemeAliasRequest,
-) => effect.Effect<
+export const createThemeAlias: API.OperationMethod<
+  CreateThemeAliasRequest,
   CreateThemeAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -29897,9 +29872,8 @@ export const createThemeAlias: (
 /**
  * Creates a new Q topic.
  */
-export const createTopic: (
-  input: CreateTopicRequest,
-) => effect.Effect<
+export const createTopic: API.OperationMethod<
+  CreateTopicRequest,
   CreateTopicResponse,
   | AccessDeniedException
   | ConflictException
@@ -29928,9 +29902,8 @@ export const createTopic: (
 /**
  * Creates a topic refresh schedule.
  */
-export const createTopicRefreshSchedule: (
-  input: CreateTopicRefreshScheduleRequest,
-) => effect.Effect<
+export const createTopicRefreshSchedule: API.OperationMethod<
+  CreateTopicRefreshScheduleRequest,
   CreateTopicRefreshScheduleResponse,
   | AccessDeniedException
   | ConflictException
@@ -29959,9 +29932,8 @@ export const createTopicRefreshSchedule: (
 /**
  * Creates a new VPC connection.
  */
-export const createVPCConnection: (
-  input: CreateVPCConnectionRequest,
-) => effect.Effect<
+export const createVPCConnection: API.OperationMethod<
+  CreateVPCConnectionRequest,
   CreateVPCConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -30000,9 +29972,8 @@ export const createVPCConnection: (
  *
  * Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
  */
-export const deleteAccountCustomization: (
-  input: DeleteAccountCustomizationRequest,
-) => effect.Effect<
+export const deleteAccountCustomization: API.OperationMethod<
+  DeleteAccountCustomizationRequest,
   DeleteAccountCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -30033,9 +30004,8 @@ export const deleteAccountCustomization: (
 /**
  * Unapplies a custom permissions profile from an account.
  */
-export const deleteAccountCustomPermission: (
-  input: DeleteAccountCustomPermissionRequest,
-) => effect.Effect<
+export const deleteAccountCustomPermission: API.OperationMethod<
+  DeleteAccountCustomPermissionRequest,
   DeleteAccountCustomPermissionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30074,9 +30044,8 @@ export const deleteAccountCustomPermission: (
  *
  * Use the `DeleteAccountSubscription` operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to `True`. To change this setting and delete your account, call the `UpdateAccountSettings` API and set the value of the `TerminationProtectionEnabled` parameter to `False`, then make another call to the `DeleteAccountSubscription` API.
  */
-export const deleteAccountSubscription: (
-  input: DeleteAccountSubscriptionRequest,
-) => effect.Effect<
+export const deleteAccountSubscription: API.OperationMethod<
+  DeleteAccountSubscriptionRequest,
   DeleteAccountSubscriptionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30103,9 +30072,8 @@ export const deleteAccountSubscription: (
 /**
  * Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
  */
-export const deleteActionConnector: (
-  input: DeleteActionConnectorRequest,
-) => effect.Effect<
+export const deleteActionConnector: API.OperationMethod<
+  DeleteActionConnectorRequest,
   DeleteActionConnectorResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30141,9 +30109,8 @@ export const deleteActionConnector: (
  * To access it in the console, restore it. Deleting an analysis doesn't delete the
  * dashboards that you publish from it.
  */
-export const deleteAnalysis: (
-  input: DeleteAnalysisRequest,
-) => effect.Effect<
+export const deleteAnalysis: API.OperationMethod<
+  DeleteAnalysisRequest,
   DeleteAnalysisResponse,
   | ConflictException
   | InternalFailureException
@@ -30178,9 +30145,8 @@ export const deleteAnalysis: (
  *
  * Deletes an Quick Sight brand.
  */
-export const deleteBrand: (
-  input: DeleteBrandRequest,
-) => effect.Effect<
+export const deleteBrand: API.OperationMethod<
+  DeleteBrandRequest,
   DeleteBrandResponse,
   | AccessDeniedException
   | ConflictException
@@ -30205,9 +30171,8 @@ export const deleteBrand: (
 /**
  * Deletes a brand assignment.
  */
-export const deleteBrandAssignment: (
-  input: DeleteBrandAssignmentRequest,
-) => effect.Effect<
+export const deleteBrandAssignment: API.OperationMethod<
+  DeleteBrandAssignmentRequest,
   DeleteBrandAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -30232,9 +30197,8 @@ export const deleteBrandAssignment: (
 /**
  * Deletes a custom permissions profile.
  */
-export const deleteCustomPermissions: (
-  input: DeleteCustomPermissionsRequest,
-) => effect.Effect<
+export const deleteCustomPermissions: API.OperationMethod<
+  DeleteCustomPermissionsRequest,
   DeleteCustomPermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -30265,9 +30229,8 @@ export const deleteCustomPermissions: (
 /**
  * Deletes a dashboard.
  */
-export const deleteDashboard: (
-  input: DeleteDashboardRequest,
-) => effect.Effect<
+export const deleteDashboard: API.OperationMethod<
+  DeleteDashboardRequest,
   DeleteDashboardResponse,
   | ConflictException
   | InternalFailureException
@@ -30292,9 +30255,8 @@ export const deleteDashboard: (
 /**
  * Deletes a dataset.
  */
-export const deleteDataSet: (
-  input: DeleteDataSetRequest,
-) => effect.Effect<
+export const deleteDataSet: API.OperationMethod<
+  DeleteDataSetRequest,
   DeleteDataSetResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30317,9 +30279,8 @@ export const deleteDataSet: (
 /**
  * Deletes the dataset refresh properties of the dataset.
  */
-export const deleteDataSetRefreshProperties: (
-  input: DeleteDataSetRefreshPropertiesRequest,
-) => effect.Effect<
+export const deleteDataSetRefreshProperties: API.OperationMethod<
+  DeleteDataSetRefreshPropertiesRequest,
   DeleteDataSetRefreshPropertiesResponse,
   | AccessDeniedException
   | ConflictException
@@ -30347,9 +30308,8 @@ export const deleteDataSetRefreshProperties: (
  * Deletes the data source permanently. This operation breaks all the datasets that
  * reference the deleted data source.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceRequest,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
   DeleteDataSourceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30372,9 +30332,8 @@ export const deleteDataSource: (
 /**
  * Deletes a linked Amazon Q Business application from an Quick Sight account
  */
-export const deleteDefaultQBusinessApplication: (
-  input: DeleteDefaultQBusinessApplicationRequest,
-) => effect.Effect<
+export const deleteDefaultQBusinessApplication: API.OperationMethod<
+  DeleteDefaultQBusinessApplicationRequest,
   DeleteDefaultQBusinessApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -30397,9 +30356,8 @@ export const deleteDefaultQBusinessApplication: (
 /**
  * Deletes an empty folder.
  */
-export const deleteFolder: (
-  input: DeleteFolderRequest,
-) => effect.Effect<
+export const deleteFolder: API.OperationMethod<
+  DeleteFolderRequest,
   DeleteFolderResponse,
   | AccessDeniedException
   | ConflictException
@@ -30428,9 +30386,8 @@ export const deleteFolder: (
 /**
  * Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
  */
-export const deleteFolderMembership: (
-  input: DeleteFolderMembershipRequest,
-) => effect.Effect<
+export const deleteFolderMembership: API.OperationMethod<
+  DeleteFolderMembershipRequest,
   DeleteFolderMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30455,9 +30412,8 @@ export const deleteFolderMembership: (
 /**
  * Removes a user group from Amazon Quick Sight.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30484,9 +30440,8 @@ export const deleteGroup: (
 /**
  * Removes a user from a group so that the user is no longer a member of the group.
  */
-export const deleteGroupMembership: (
-  input: DeleteGroupMembershipRequest,
-) => effect.Effect<
+export const deleteGroupMembership: API.OperationMethod<
+  DeleteGroupMembershipRequest,
   DeleteGroupMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30513,9 +30468,8 @@ export const deleteGroupMembership: (
 /**
  * Deletes an existing IAM policy assignment.
  */
-export const deleteIAMPolicyAssignment: (
-  input: DeleteIAMPolicyAssignmentRequest,
-) => effect.Effect<
+export const deleteIAMPolicyAssignment: API.OperationMethod<
+  DeleteIAMPolicyAssignmentRequest,
   DeleteIAMPolicyAssignmentResponse,
   | AccessDeniedException
   | ConcurrentUpdatingException
@@ -30544,9 +30498,8 @@ export const deleteIAMPolicyAssignment: (
  *
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
-export const deleteIdentityPropagationConfig: (
-  input: DeleteIdentityPropagationConfigRequest,
-) => effect.Effect<
+export const deleteIdentityPropagationConfig: API.OperationMethod<
+  DeleteIdentityPropagationConfigRequest,
   DeleteIdentityPropagationConfigResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30571,9 +30524,8 @@ export const deleteIdentityPropagationConfig: (
  * This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not
  * deleted. To delete these assets, you use the API operations for the relevant asset.
  */
-export const deleteNamespace: (
-  input: DeleteNamespaceRequest,
-) => effect.Effect<
+export const deleteNamespace: API.OperationMethod<
+  DeleteNamespaceRequest,
   DeleteNamespaceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30600,9 +30552,8 @@ export const deleteNamespace: (
 /**
  * Deletes a refresh schedule from a dataset.
  */
-export const deleteRefreshSchedule: (
-  input: DeleteRefreshScheduleRequest,
-) => effect.Effect<
+export const deleteRefreshSchedule: API.OperationMethod<
+  DeleteRefreshScheduleRequest,
   DeleteRefreshScheduleResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30627,9 +30578,8 @@ export const deleteRefreshSchedule: (
 /**
  * Removes custom permissions from the role.
  */
-export const deleteRoleCustomPermission: (
-  input: DeleteRoleCustomPermissionRequest,
-) => effect.Effect<
+export const deleteRoleCustomPermission: API.OperationMethod<
+  DeleteRoleCustomPermissionRequest,
   DeleteRoleCustomPermissionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30656,9 +30606,8 @@ export const deleteRoleCustomPermission: (
 /**
  * Removes a group from a role.
  */
-export const deleteRoleMembership: (
-  input: DeleteRoleMembershipRequest,
-) => effect.Effect<
+export const deleteRoleMembership: API.OperationMethod<
+  DeleteRoleMembershipRequest,
   DeleteRoleMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30685,9 +30634,8 @@ export const deleteRoleMembership: (
 /**
  * Deletes a template.
  */
-export const deleteTemplate: (
-  input: DeleteTemplateRequest,
-) => effect.Effect<
+export const deleteTemplate: API.OperationMethod<
+  DeleteTemplateRequest,
   DeleteTemplateResponse,
   | ConflictException
   | InternalFailureException
@@ -30715,9 +30663,8 @@ export const deleteTemplate: (
  * Deletes the item that the specified template alias points to. If you provide a specific
  * alias, you delete the version of the template that the alias points to.
  */
-export const deleteTemplateAlias: (
-  input: DeleteTemplateAliasRequest,
-) => effect.Effect<
+export const deleteTemplateAlias: API.OperationMethod<
+  DeleteTemplateAliasRequest,
   DeleteTemplateAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -30740,9 +30687,8 @@ export const deleteTemplateAlias: (
 /**
  * Deletes a theme.
  */
-export const deleteTheme: (
-  input: DeleteThemeRequest,
-) => effect.Effect<
+export const deleteTheme: API.OperationMethod<
+  DeleteThemeRequest,
   DeleteThemeResponse,
   | AccessDeniedException
   | ConflictException
@@ -30771,9 +30717,8 @@ export const deleteTheme: (
  * If you provide a specific alias, you delete the version of the theme
  * that the alias points to.
  */
-export const deleteThemeAlias: (
-  input: DeleteThemeAliasRequest,
-) => effect.Effect<
+export const deleteThemeAlias: API.OperationMethod<
+  DeleteThemeAliasRequest,
   DeleteThemeAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -30798,9 +30743,8 @@ export const deleteThemeAlias: (
 /**
  * Deletes a topic.
  */
-export const deleteTopic: (
-  input: DeleteTopicRequest,
-) => effect.Effect<
+export const deleteTopic: API.OperationMethod<
+  DeleteTopicRequest,
   DeleteTopicResponse,
   | AccessDeniedException
   | ConflictException
@@ -30825,9 +30769,8 @@ export const deleteTopic: (
 /**
  * Deletes a topic refresh schedule.
  */
-export const deleteTopicRefreshSchedule: (
-  input: DeleteTopicRefreshScheduleRequest,
-) => effect.Effect<
+export const deleteTopicRefreshSchedule: API.OperationMethod<
+  DeleteTopicRefreshScheduleRequest,
   DeleteTopicRefreshScheduleResponse,
   | AccessDeniedException
   | ConflictException
@@ -30858,9 +30801,8 @@ export const deleteTopicRefreshSchedule: (
  * IAM user or role that's making the call. The IAM user
  * isn't deleted as a result of this call.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30887,9 +30829,8 @@ export const deleteUser: (
 /**
  * Deletes a user identified by its principal ID.
  */
-export const deleteUserByPrincipalId: (
-  input: DeleteUserByPrincipalIdRequest,
-) => effect.Effect<
+export const deleteUserByPrincipalId: API.OperationMethod<
+  DeleteUserByPrincipalIdRequest,
   DeleteUserByPrincipalIdResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -30916,9 +30857,8 @@ export const deleteUserByPrincipalId: (
 /**
  * Deletes a custom permissions profile from a user.
  */
-export const deleteUserCustomPermission: (
-  input: DeleteUserCustomPermissionRequest,
-) => effect.Effect<
+export const deleteUserCustomPermission: API.OperationMethod<
+  DeleteUserCustomPermissionRequest,
   DeleteUserCustomPermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -30947,9 +30887,8 @@ export const deleteUserCustomPermission: (
 /**
  * Deletes a VPC connection.
  */
-export const deleteVPCConnection: (
-  input: DeleteVPCConnectionRequest,
-) => effect.Effect<
+export const deleteVPCConnection: API.OperationMethod<
+  DeleteVPCConnectionRequest,
   DeleteVPCConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -31015,9 +30954,8 @@ export const deleteVPCConnection: (
  * Settings that you apply to a namespace override settings that you apply to an
  * Amazon Web Services account.
  */
-export const describeAccountCustomization: (
-  input: DescribeAccountCustomizationRequest,
-) => effect.Effect<
+export const describeAccountCustomization: API.OperationMethod<
+  DescribeAccountCustomizationRequest,
   DescribeAccountCustomizationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31042,9 +30980,8 @@ export const describeAccountCustomization: (
 /**
  * Describes the custom permissions profile that is applied to an account.
  */
-export const describeAccountCustomPermission: (
-  input: DescribeAccountCustomPermissionRequest,
-) => effect.Effect<
+export const describeAccountCustomPermission: API.OperationMethod<
+  DescribeAccountCustomPermissionRequest,
   DescribeAccountCustomPermissionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31068,9 +31005,8 @@ export const describeAccountCustomPermission: (
  * Describes the settings that were used when your Quick Sight subscription was first
  * created in this Amazon Web Services account.
  */
-export const describeAccountSettings: (
-  input: DescribeAccountSettingsRequest,
-) => effect.Effect<
+export const describeAccountSettings: API.OperationMethod<
+  DescribeAccountSettingsRequest,
   DescribeAccountSettingsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31095,9 +31031,8 @@ export const describeAccountSettings: (
 /**
  * Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an `AccountInfo` object that includes an account's name, subscription status, authentication type, edition, and notification email address.
  */
-export const describeAccountSubscription: (
-  input: DescribeAccountSubscriptionRequest,
-) => effect.Effect<
+export const describeAccountSubscription: API.OperationMethod<
+  DescribeAccountSubscriptionRequest,
   DescribeAccountSubscriptionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31122,9 +31057,8 @@ export const describeAccountSubscription: (
 /**
  * Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
  */
-export const describeActionConnector: (
-  input: DescribeActionConnectorRequest,
-) => effect.Effect<
+export const describeActionConnector: API.OperationMethod<
+  DescribeActionConnectorRequest,
   DescribeActionConnectorResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31147,9 +31081,8 @@ export const describeActionConnector: (
 /**
  * Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
  */
-export const describeActionConnectorPermissions: (
-  input: DescribeActionConnectorPermissionsRequest,
-) => effect.Effect<
+export const describeActionConnectorPermissions: API.OperationMethod<
+  DescribeActionConnectorPermissionsRequest,
   DescribeActionConnectorPermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31172,9 +31105,8 @@ export const describeActionConnectorPermissions: (
 /**
  * Provides a summary of the metadata for an analysis.
  */
-export const describeAnalysis: (
-  input: DescribeAnalysisRequest,
-) => effect.Effect<
+export const describeAnalysis: API.OperationMethod<
+  DescribeAnalysisRequest,
   DescribeAnalysisResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31205,9 +31137,8 @@ export const describeAnalysis: (
  * `DescribeAnalysis`
  * instead.
  */
-export const describeAnalysisDefinition: (
-  input: DescribeAnalysisDefinitionRequest,
-) => effect.Effect<
+export const describeAnalysisDefinition: API.OperationMethod<
+  DescribeAnalysisDefinitionRequest,
   DescribeAnalysisDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -31236,9 +31167,8 @@ export const describeAnalysisDefinition: (
 /**
  * Provides the read and write permissions for an analysis.
  */
-export const describeAnalysisPermissions: (
-  input: DescribeAnalysisPermissionsRequest,
-) => effect.Effect<
+export const describeAnalysisPermissions: API.OperationMethod<
+  DescribeAnalysisPermissionsRequest,
   DescribeAnalysisPermissionsResponse,
   | InternalFailureException
   | InvalidParameterValueException
@@ -31268,9 +31198,8 @@ export const describeAnalysisPermissions: (
  *
  * Job descriptions are available for 14 days after the job starts.
  */
-export const describeAssetBundleExportJob: (
-  input: DescribeAssetBundleExportJobRequest,
-) => effect.Effect<
+export const describeAssetBundleExportJob: API.OperationMethod<
+  DescribeAssetBundleExportJobRequest,
   DescribeAssetBundleExportJobResponse,
   | ResourceNotFoundException
   | ThrottlingException
@@ -31292,9 +31221,8 @@ export const describeAssetBundleExportJob: (
  * Poll job descriptions after starting a job to know when it has succeeded or failed. Job
  * descriptions are available for 14 days after job starts.
  */
-export const describeAssetBundleImportJob: (
-  input: DescribeAssetBundleImportJobRequest,
-) => effect.Effect<
+export const describeAssetBundleImportJob: API.OperationMethod<
+  DescribeAssetBundleImportJobRequest,
   DescribeAssetBundleImportJobResponse,
   | ResourceNotFoundException
   | ThrottlingException
@@ -31313,9 +31241,8 @@ export const describeAssetBundleImportJob: (
 /**
  * Describes a brand.
  */
-export const describeBrand: (
-  input: DescribeBrandRequest,
-) => effect.Effect<
+export const describeBrand: API.OperationMethod<
+  DescribeBrandRequest,
   DescribeBrandResponse,
   | AccessDeniedException
   | ConflictException
@@ -31340,9 +31267,8 @@ export const describeBrand: (
 /**
  * Describes a brand assignment.
  */
-export const describeBrandAssignment: (
-  input: DescribeBrandAssignmentRequest,
-) => effect.Effect<
+export const describeBrandAssignment: API.OperationMethod<
+  DescribeBrandAssignmentRequest,
   DescribeBrandAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -31367,9 +31293,8 @@ export const describeBrandAssignment: (
 /**
  * Describes the published version of the brand.
  */
-export const describeBrandPublishedVersion: (
-  input: DescribeBrandPublishedVersionRequest,
-) => effect.Effect<
+export const describeBrandPublishedVersion: API.OperationMethod<
+  DescribeBrandPublishedVersionRequest,
   DescribeBrandPublishedVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -31394,9 +31319,8 @@ export const describeBrandPublishedVersion: (
 /**
  * Describes a custom permissions profile.
  */
-export const describeCustomPermissions: (
-  input: DescribeCustomPermissionsRequest,
-) => effect.Effect<
+export const describeCustomPermissions: API.OperationMethod<
+  DescribeCustomPermissionsRequest,
   DescribeCustomPermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31423,9 +31347,8 @@ export const describeCustomPermissions: (
 /**
  * Provides a summary for a dashboard.
  */
-export const describeDashboard: (
-  input: DescribeDashboardRequest,
-) => effect.Effect<
+export const describeDashboard: API.OperationMethod<
+  DescribeDashboardRequest,
   DescribeDashboardResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31456,9 +31379,8 @@ export const describeDashboard: (
  * `DescribeDashboard`
  * instead.
  */
-export const describeDashboardDefinition: (
-  input: DescribeDashboardDefinitionRequest,
-) => effect.Effect<
+export const describeDashboardDefinition: API.OperationMethod<
+  DescribeDashboardDefinitionRequest,
   DescribeDashboardDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -31487,9 +31409,8 @@ export const describeDashboardDefinition: (
 /**
  * Describes read and write permissions for a dashboard.
  */
-export const describeDashboardPermissions: (
-  input: DescribeDashboardPermissionsRequest,
-) => effect.Effect<
+export const describeDashboardPermissions: API.OperationMethod<
+  DescribeDashboardPermissionsRequest,
   DescribeDashboardPermissionsResponse,
   | InternalFailureException
   | InvalidParameterValueException
@@ -31528,9 +31449,8 @@ export const describeDashboardPermissions: (
  *
  * - Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
  */
-export const describeDashboardSnapshotJob: (
-  input: DescribeDashboardSnapshotJobRequest,
-) => effect.Effect<
+export const describeDashboardSnapshotJob: API.OperationMethod<
+  DescribeDashboardSnapshotJobRequest,
   DescribeDashboardSnapshotJobResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31587,9 +31507,8 @@ export const describeDashboardSnapshotJob: (
  *
  * - `DATASET_DELETED` - The dataset has been deleted. Verify the dataset exists before re-running the job.
  */
-export const describeDashboardSnapshotJobResult: (
-  input: DescribeDashboardSnapshotJobResultRequest,
-) => effect.Effect<
+export const describeDashboardSnapshotJobResult: API.OperationMethod<
+  DescribeDashboardSnapshotJobResultRequest,
   DescribeDashboardSnapshotJobResultResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31616,9 +31535,8 @@ export const describeDashboardSnapshotJobResult: (
 /**
  * Describes an existing dashboard QA configuration.
  */
-export const describeDashboardsQAConfiguration: (
-  input: DescribeDashboardsQAConfigurationRequest,
-) => effect.Effect<
+export const describeDashboardsQAConfiguration: API.OperationMethod<
+  DescribeDashboardsQAConfigurationRequest,
   DescribeDashboardsQAConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -31644,9 +31562,8 @@ export const describeDashboardsQAConfiguration: (
  * Describes a dataset. This operation doesn't support datasets that include uploaded
  * files as a source.
  */
-export const describeDataSet: (
-  input: DescribeDataSetRequest,
-) => effect.Effect<
+export const describeDataSet: API.OperationMethod<
+  DescribeDataSetRequest,
   DescribeDataSetResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31672,9 +31589,8 @@ export const describeDataSet: (
  * The permissions resource is
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
-export const describeDataSetPermissions: (
-  input: DescribeDataSetPermissionsRequest,
-) => effect.Effect<
+export const describeDataSetPermissions: API.OperationMethod<
+  DescribeDataSetPermissionsRequest,
   DescribeDataSetPermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31697,9 +31613,8 @@ export const describeDataSetPermissions: (
 /**
  * Describes the refresh properties of a dataset.
  */
-export const describeDataSetRefreshProperties: (
-  input: DescribeDataSetRefreshPropertiesRequest,
-) => effect.Effect<
+export const describeDataSetRefreshProperties: API.OperationMethod<
+  DescribeDataSetRefreshPropertiesRequest,
   DescribeDataSetRefreshPropertiesResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31726,9 +31641,8 @@ export const describeDataSetRefreshProperties: (
 /**
  * Describes a data source.
  */
-export const describeDataSource: (
-  input: DescribeDataSourceRequest,
-) => effect.Effect<
+export const describeDataSource: API.OperationMethod<
+  DescribeDataSourceRequest,
   DescribeDataSourceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31751,9 +31665,8 @@ export const describeDataSource: (
 /**
  * Describes the resource permissions for a data source.
  */
-export const describeDataSourcePermissions: (
-  input: DescribeDataSourcePermissionsRequest,
-) => effect.Effect<
+export const describeDataSourcePermissions: API.OperationMethod<
+  DescribeDataSourcePermissionsRequest,
   DescribeDataSourcePermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31776,9 +31689,8 @@ export const describeDataSourcePermissions: (
 /**
  * Describes a Amazon Q Business application that is linked to an Quick Sight account.
  */
-export const describeDefaultQBusinessApplication: (
-  input: DescribeDefaultQBusinessApplicationRequest,
-) => effect.Effect<
+export const describeDefaultQBusinessApplication: API.OperationMethod<
+  DescribeDefaultQBusinessApplicationRequest,
   DescribeDefaultQBusinessApplicationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31801,9 +31713,8 @@ export const describeDefaultQBusinessApplication: (
 /**
  * Describes a folder.
  */
-export const describeFolder: (
-  input: DescribeFolderRequest,
-) => effect.Effect<
+export const describeFolder: API.OperationMethod<
+  DescribeFolderRequest,
   DescribeFolderResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31828,21 +31739,19 @@ export const describeFolder: (
 /**
  * Describes permissions for a folder.
  */
-export const describeFolderPermissions: {
-  (
-    input: DescribeFolderPermissionsRequest,
-  ): effect.Effect<
-    DescribeFolderPermissionsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFolderPermissions: API.OperationMethod<
+  DescribeFolderPermissionsRequest,
+  DescribeFolderPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFolderPermissionsRequest,
   ) => stream.Stream<
@@ -31893,21 +31802,19 @@ export const describeFolderPermissions: {
 /**
  * Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
  */
-export const describeFolderResolvedPermissions: {
-  (
-    input: DescribeFolderResolvedPermissionsRequest,
-  ): effect.Effect<
-    DescribeFolderResolvedPermissionsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFolderResolvedPermissions: API.OperationMethod<
+  DescribeFolderResolvedPermissionsRequest,
+  DescribeFolderResolvedPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFolderResolvedPermissionsRequest,
   ) => stream.Stream<
@@ -31958,9 +31865,8 @@ export const describeFolderResolvedPermissions: {
 /**
  * Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
  */
-export const describeGroup: (
-  input: DescribeGroupRequest,
-) => effect.Effect<
+export const describeGroup: API.OperationMethod<
+  DescribeGroupRequest,
   DescribeGroupResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -31989,9 +31895,8 @@ export const describeGroup: (
  * member of the specified group. If the user exists and is a member of the specified
  * group, an associated `GroupMember` object is returned.
  */
-export const describeGroupMembership: (
-  input: DescribeGroupMembershipRequest,
-) => effect.Effect<
+export const describeGroupMembership: API.OperationMethod<
+  DescribeGroupMembershipRequest,
   DescribeGroupMembershipResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32019,9 +31924,8 @@ export const describeGroupMembership: (
  * Describes an existing IAM policy assignment, as specified by the
  * assignment name.
  */
-export const describeIAMPolicyAssignment: (
-  input: DescribeIAMPolicyAssignmentRequest,
-) => effect.Effect<
+export const describeIAMPolicyAssignment: API.OperationMethod<
+  DescribeIAMPolicyAssignmentRequest,
   DescribeIAMPolicyAssignmentResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32046,9 +31950,8 @@ export const describeIAMPolicyAssignment: (
 /**
  * Describes a SPICE ingestion.
  */
-export const describeIngestion: (
-  input: DescribeIngestionRequest,
-) => effect.Effect<
+export const describeIngestion: API.OperationMethod<
+  DescribeIngestionRequest,
   DescribeIngestionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32073,9 +31976,8 @@ export const describeIngestion: (
 /**
  * Provides a summary and status of IP rules.
  */
-export const describeIpRestriction: (
-  input: DescribeIpRestrictionRequest,
-) => effect.Effect<
+export const describeIpRestriction: API.OperationMethod<
+  DescribeIpRestrictionRequest,
   DescribeIpRestrictionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32098,9 +32000,8 @@ export const describeIpRestriction: (
 /**
  * Describes all customer managed key registrations in a Quick Sight account.
  */
-export const describeKeyRegistration: (
-  input: DescribeKeyRegistrationRequest,
-) => effect.Effect<
+export const describeKeyRegistration: API.OperationMethod<
+  DescribeKeyRegistrationRequest,
   DescribeKeyRegistrationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32121,9 +32022,8 @@ export const describeKeyRegistration: (
 /**
  * Describes the current namespace.
  */
-export const describeNamespace: (
-  input: DescribeNamespaceRequest,
-) => effect.Effect<
+export const describeNamespace: API.OperationMethod<
+  DescribeNamespaceRequest,
   DescribeNamespaceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32148,9 +32048,8 @@ export const describeNamespace: (
 /**
  * Describes a personalization configuration.
  */
-export const describeQPersonalizationConfiguration: (
-  input: DescribeQPersonalizationConfigurationRequest,
-) => effect.Effect<
+export const describeQPersonalizationConfiguration: API.OperationMethod<
+  DescribeQPersonalizationConfigurationRequest,
   DescribeQPersonalizationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -32175,9 +32074,8 @@ export const describeQPersonalizationConfiguration: (
 /**
  * Describes the state of a Quick Sight Q Search configuration.
  */
-export const describeQuickSightQSearchConfiguration: (
-  input: DescribeQuickSightQSearchConfigurationRequest,
-) => effect.Effect<
+export const describeQuickSightQSearchConfiguration: API.OperationMethod<
+  DescribeQuickSightQSearchConfigurationRequest,
   DescribeQuickSightQSearchConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -32202,9 +32100,8 @@ export const describeQuickSightQSearchConfiguration: (
 /**
  * Provides a summary of a refresh schedule.
  */
-export const describeRefreshSchedule: (
-  input: DescribeRefreshScheduleRequest,
-) => effect.Effect<
+export const describeRefreshSchedule: API.OperationMethod<
+  DescribeRefreshScheduleRequest,
   DescribeRefreshScheduleResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32229,9 +32126,8 @@ export const describeRefreshSchedule: (
 /**
  * Describes all custom permissions that are mapped to a role.
  */
-export const describeRoleCustomPermission: (
-  input: DescribeRoleCustomPermissionRequest,
-) => effect.Effect<
+export const describeRoleCustomPermission: API.OperationMethod<
+  DescribeRoleCustomPermissionRequest,
   DescribeRoleCustomPermissionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32258,9 +32154,8 @@ export const describeRoleCustomPermission: (
 /**
  * Describes the self-upgrade configuration for a Quick Suite account.
  */
-export const describeSelfUpgradeConfiguration: (
-  input: DescribeSelfUpgradeConfigurationRequest,
-) => effect.Effect<
+export const describeSelfUpgradeConfiguration: API.OperationMethod<
+  DescribeSelfUpgradeConfigurationRequest,
   DescribeSelfUpgradeConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32289,9 +32184,8 @@ export const describeSelfUpgradeConfiguration: (
 /**
  * Describes a template's metadata.
  */
-export const describeTemplate: (
-  input: DescribeTemplateRequest,
-) => effect.Effect<
+export const describeTemplate: API.OperationMethod<
+  DescribeTemplateRequest,
   DescribeTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -32320,9 +32214,8 @@ export const describeTemplate: (
 /**
  * Describes the template alias for a template.
  */
-export const describeTemplateAlias: (
-  input: DescribeTemplateAliasRequest,
-) => effect.Effect<
+export const describeTemplateAlias: API.OperationMethod<
+  DescribeTemplateAliasRequest,
   DescribeTemplateAliasResponse,
   | InternalFailureException
   | ResourceNotFoundException
@@ -32349,9 +32242,8 @@ export const describeTemplateAlias: (
  * `DescribeTemplate`
  * instead.
  */
-export const describeTemplateDefinition: (
-  input: DescribeTemplateDefinitionRequest,
-) => effect.Effect<
+export const describeTemplateDefinition: API.OperationMethod<
+  DescribeTemplateDefinitionRequest,
   DescribeTemplateDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -32380,9 +32272,8 @@ export const describeTemplateDefinition: (
 /**
  * Describes read and write permissions on a template.
  */
-export const describeTemplatePermissions: (
-  input: DescribeTemplatePermissionsRequest,
-) => effect.Effect<
+export const describeTemplatePermissions: API.OperationMethod<
+  DescribeTemplatePermissionsRequest,
   DescribeTemplatePermissionsResponse,
   | ConflictException
   | InternalFailureException
@@ -32407,9 +32298,8 @@ export const describeTemplatePermissions: (
 /**
  * Describes a theme.
  */
-export const describeTheme: (
-  input: DescribeThemeRequest,
-) => effect.Effect<
+export const describeTheme: API.OperationMethod<
+  DescribeThemeRequest,
   DescribeThemeResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32436,9 +32326,8 @@ export const describeTheme: (
 /**
  * Describes the alias for a theme.
  */
-export const describeThemeAlias: (
-  input: DescribeThemeAliasRequest,
-) => effect.Effect<
+export const describeThemeAlias: API.OperationMethod<
+  DescribeThemeAliasRequest,
   DescribeThemeAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -32463,9 +32352,8 @@ export const describeThemeAlias: (
 /**
  * Describes the read and write permissions for a theme.
  */
-export const describeThemePermissions: (
-  input: DescribeThemePermissionsRequest,
-) => effect.Effect<
+export const describeThemePermissions: API.OperationMethod<
+  DescribeThemePermissionsRequest,
   DescribeThemePermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32490,9 +32378,8 @@ export const describeThemePermissions: (
 /**
  * Describes a topic.
  */
-export const describeTopic: (
-  input: DescribeTopicRequest,
-) => effect.Effect<
+export const describeTopic: API.OperationMethod<
+  DescribeTopicRequest,
   DescribeTopicResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32515,9 +32402,8 @@ export const describeTopic: (
 /**
  * Describes the permissions of a topic.
  */
-export const describeTopicPermissions: (
-  input: DescribeTopicPermissionsRequest,
-) => effect.Effect<
+export const describeTopicPermissions: API.OperationMethod<
+  DescribeTopicPermissionsRequest,
   DescribeTopicPermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32540,9 +32426,8 @@ export const describeTopicPermissions: (
 /**
  * Describes the status of a topic refresh.
  */
-export const describeTopicRefresh: (
-  input: DescribeTopicRefreshRequest,
-) => effect.Effect<
+export const describeTopicRefresh: API.OperationMethod<
+  DescribeTopicRefreshRequest,
   DescribeTopicRefreshResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32565,9 +32450,8 @@ export const describeTopicRefresh: (
 /**
  * Deletes a topic refresh schedule.
  */
-export const describeTopicRefreshSchedule: (
-  input: DescribeTopicRefreshScheduleRequest,
-) => effect.Effect<
+export const describeTopicRefreshSchedule: API.OperationMethod<
+  DescribeTopicRefreshScheduleRequest,
   DescribeTopicRefreshScheduleResponse,
   | AccessDeniedException
   | ConflictException
@@ -32596,9 +32480,8 @@ export const describeTopicRefreshSchedule: (
 /**
  * Returns information about a user, given the user name.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32625,9 +32508,8 @@ export const describeUser: (
 /**
  * Describes a VPC connection.
  */
-export const describeVPCConnection: (
-  input: DescribeVPCConnectionRequest,
-) => effect.Effect<
+export const describeVPCConnection: API.OperationMethod<
+  DescribeVPCConnectionRequest,
   DescribeVPCConnectionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32675,9 +32557,8 @@ export const describeVPCConnection: (
  * demo of the ways you can customize embedding, visit the Amazon Quick Suite
  * Developer Portal.
  */
-export const generateEmbedUrlForAnonymousUser: (
-  input: GenerateEmbedUrlForAnonymousUserRequest,
-) => effect.Effect<
+export const generateEmbedUrlForAnonymousUser: API.OperationMethod<
+  GenerateEmbedUrlForAnonymousUserRequest,
   GenerateEmbedUrlForAnonymousUserResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32730,9 +32611,8 @@ export const generateEmbedUrlForAnonymousUser: (
  * demo of the ways you can customize embedding, visit the Amazon Quick Suite
  * Developer Portal.
  */
-export const generateEmbedUrlForRegisteredUser: (
-  input: GenerateEmbedUrlForRegisteredUserRequest,
-) => effect.Effect<
+export const generateEmbedUrlForRegisteredUser: API.OperationMethod<
+  GenerateEmbedUrlForRegisteredUserRequest,
   GenerateEmbedUrlForRegisteredUserResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32774,9 +32654,8 @@ export const generateEmbedUrlForRegisteredUser: (
  * value set to `quicksight:read`. Before you use this action, make sure that
  * you have configured the relevant Amazon Quick Sight resource and permissions.
  */
-export const generateEmbedUrlForRegisteredUserWithIdentity: (
-  input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
-) => effect.Effect<
+export const generateEmbedUrlForRegisteredUserWithIdentity: API.OperationMethod<
+  GenerateEmbedUrlForRegisteredUserWithIdentityRequest,
   GenerateEmbedUrlForRegisteredUserWithIdentityResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -32833,9 +32712,8 @@ export const generateEmbedUrlForRegisteredUserWithIdentity: (
  * demo of the ways you can customize embedding, visit the Amazon Quick Suite
  * Developer Portal.
  */
-export const getDashboardEmbedUrl: (
-  input: GetDashboardEmbedUrlRequest,
-) => effect.Effect<
+export const getDashboardEmbedUrl: API.OperationMethod<
+  GetDashboardEmbedUrlRequest,
   GetDashboardEmbedUrlResponse,
   | AccessDeniedException
   | DomainNotWhitelistedException
@@ -32872,9 +32750,8 @@ export const getDashboardEmbedUrl: (
 /**
  * Retrieves the metadata of a flow, not including its definition specifying the steps.
  */
-export const getFlowMetadata: (
-  input: GetFlowMetadataInput,
-) => effect.Effect<
+export const getFlowMetadata: API.OperationMethod<
+  GetFlowMetadataInput,
   GetFlowMetadataOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -32895,9 +32772,8 @@ export const getFlowMetadata: (
 /**
  * Get permissions for a flow.
  */
-export const getFlowPermissions: (
-  input: GetFlowPermissionsInput,
-) => effect.Effect<
+export const getFlowPermissions: API.OperationMethod<
+  GetFlowPermissionsInput,
   GetFlowPermissionsOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -32956,9 +32832,8 @@ export const getFlowPermissions: (
  *
  * The assumed role must allow the `sts:SetContext` action in addition to `sts:AssumeRole` in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
  */
-export const getIdentityContext: (
-  input: GetIdentityContextRequest,
-) => effect.Effect<
+export const getIdentityContext: API.OperationMethod<
+  GetIdentityContextRequest,
   GetIdentityContextResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -33000,9 +32875,8 @@ export const getIdentityContext: (
  *
  * - Customizing Access to the Amazon Quick Suite Console
  */
-export const getSessionEmbedUrl: (
-  input: GetSessionEmbedUrlRequest,
-) => effect.Effect<
+export const getSessionEmbedUrl: API.OperationMethod<
+  GetSessionEmbedUrlRequest,
   GetSessionEmbedUrlResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -33033,19 +32907,17 @@ export const getSessionEmbedUrl: (
 /**
  * Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
  */
-export const listActionConnectors: {
-  (
-    input: ListActionConnectorsRequest,
-  ): effect.Effect<
-    ListActionConnectorsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActionConnectors: API.OperationMethod<
+  ListActionConnectorsRequest,
+  ListActionConnectorsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActionConnectorsRequest,
   ) => stream.Stream<
@@ -33090,18 +32962,16 @@ export const listActionConnectors: {
 /**
  * Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
  */
-export const listAnalyses: {
-  (
-    input: ListAnalysesRequest,
-  ): effect.Effect<
-    ListAnalysesResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnalyses: API.OperationMethod<
+  ListAnalysesRequest,
+  ListAnalysesResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnalysesRequest,
   ) => stream.Stream<
@@ -33146,19 +33016,17 @@ export const listAnalyses: {
  * the same job ID for multiple jobs, `ListAssetBundleExportJobs` only returns the
  * most recent job that uses the repeated job ID.
  */
-export const listAssetBundleExportJobs: {
-  (
-    input: ListAssetBundleExportJobsRequest,
-  ): effect.Effect<
-    ListAssetBundleExportJobsResponse,
-    | AccessDeniedException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetBundleExportJobs: API.OperationMethod<
+  ListAssetBundleExportJobsRequest,
+  ListAssetBundleExportJobsResponse,
+  | AccessDeniedException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetBundleExportJobsRequest,
   ) => stream.Stream<
@@ -33206,19 +33074,17 @@ export const listAssetBundleExportJobs: {
  * the same job ID for multiple jobs, `ListAssetBundleImportJobs` only returns the
  * most recent job that uses the repeated job ID.
  */
-export const listAssetBundleImportJobs: {
-  (
-    input: ListAssetBundleImportJobsRequest,
-  ): effect.Effect<
-    ListAssetBundleImportJobsResponse,
-    | AccessDeniedException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetBundleImportJobs: API.OperationMethod<
+  ListAssetBundleImportJobsRequest,
+  ListAssetBundleImportJobsResponse,
+  | AccessDeniedException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetBundleImportJobsRequest,
   ) => stream.Stream<
@@ -33263,18 +33129,16 @@ export const listAssetBundleImportJobs: {
 /**
  * Lists all brands in an Quick Sight account.
  */
-export const listBrands: {
-  (
-    input: ListBrandsRequest,
-  ): effect.Effect<
-    ListBrandsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBrands: API.OperationMethod<
+  ListBrandsRequest,
+  ListBrandsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBrandsRequest,
   ) => stream.Stream<
@@ -33316,21 +33180,19 @@ export const listBrands: {
 /**
  * Returns a list of all the custom permissions profiles.
  */
-export const listCustomPermissions: {
-  (
-    input: ListCustomPermissionsRequest,
-  ): effect.Effect<
-    ListCustomPermissionsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomPermissions: API.OperationMethod<
+  ListCustomPermissionsRequest,
+  ListCustomPermissionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomPermissionsRequest,
   ) => stream.Stream<
@@ -33381,18 +33243,16 @@ export const listCustomPermissions: {
 /**
  * Lists dashboards in an Amazon Web Services account.
  */
-export const listDashboards: {
-  (
-    input: ListDashboardsRequest,
-  ): effect.Effect<
-    ListDashboardsResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDashboards: API.OperationMethod<
+  ListDashboardsRequest,
+  ListDashboardsResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
@@ -33434,20 +33294,18 @@ export const listDashboards: {
 /**
  * Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
  */
-export const listDashboardVersions: {
-  (
-    input: ListDashboardVersionsRequest,
-  ): effect.Effect<
-    ListDashboardVersionsResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDashboardVersions: API.OperationMethod<
+  ListDashboardVersionsRequest,
+  ListDashboardVersionsResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDashboardVersionsRequest,
   ) => stream.Stream<
@@ -33499,19 +33357,17 @@ export const listDashboardVersions: {
  * The permissions resource is
  * `arn:aws:quicksight:region:aws-account-id:dataset/*`.
  */
-export const listDataSets: {
-  (
-    input: ListDataSetsRequest,
-  ): effect.Effect<
-    ListDataSetsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSets: API.OperationMethod<
+  ListDataSetsRequest,
+  ListDataSetsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
@@ -33556,19 +33412,17 @@ export const listDataSets: {
 /**
  * Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
  */
-export const listDataSources: {
-  (
-    input: ListDataSourcesRequest,
-  ): effect.Effect<
-    ListDataSourcesResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
+  ListDataSourcesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
@@ -33613,18 +33467,16 @@ export const listDataSources: {
 /**
  * Lists flows in an Amazon Web Services account.
  */
-export const listFlows: {
-  (
-    input: ListFlowsInput,
-  ): effect.Effect<
-    ListFlowsOutput,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlows: API.OperationMethod<
+  ListFlowsInput,
+  ListFlowsOutput,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowsInput,
   ) => stream.Stream<
@@ -33666,21 +33518,19 @@ export const listFlows: {
 /**
  * List all assets (`DASHBOARD`, `ANALYSIS`, and `DATASET`) in a folder.
  */
-export const listFolderMembers: {
-  (
-    input: ListFolderMembersRequest,
-  ): effect.Effect<
-    ListFolderMembersResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFolderMembers: API.OperationMethod<
+  ListFolderMembersRequest,
+  ListFolderMembersResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFolderMembersRequest,
   ) => stream.Stream<
@@ -33731,21 +33581,19 @@ export const listFolderMembers: {
 /**
  * Lists all folders in an account.
  */
-export const listFolders: {
-  (
-    input: ListFoldersRequest,
-  ): effect.Effect<
-    ListFoldersResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFolders: API.OperationMethod<
+  ListFoldersRequest,
+  ListFoldersResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFoldersRequest,
   ) => stream.Stream<
@@ -33796,21 +33644,19 @@ export const listFolders: {
 /**
  * List all folders that a resource is a member of.
  */
-export const listFoldersForResource: {
-  (
-    input: ListFoldersForResourceRequest,
-  ): effect.Effect<
-    ListFoldersForResourceResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFoldersForResource: API.OperationMethod<
+  ListFoldersForResourceRequest,
+  ListFoldersForResourceResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFoldersForResourceRequest,
   ) => stream.Stream<
@@ -33861,22 +33707,20 @@ export const listFoldersForResource: {
 /**
  * Lists member users in a group.
  */
-export const listGroupMemberships: {
-  (
-    input: ListGroupMembershipsRequest,
-  ): effect.Effect<
-    ListGroupMembershipsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupMemberships: API.OperationMethod<
+  ListGroupMembershipsRequest,
+  ListGroupMembershipsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupMembershipsRequest,
   ) => stream.Stream<
@@ -33930,22 +33774,20 @@ export const listGroupMemberships: {
 /**
  * Lists all user groups in Amazon Quick Sight.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -34001,20 +33843,18 @@ export const listGroups: {
  * IAM policy assignments in the current Amazon Quick Sight
  * account.
  */
-export const listIAMPolicyAssignments: {
-  (
-    input: ListIAMPolicyAssignmentsRequest,
-  ): effect.Effect<
-    ListIAMPolicyAssignmentsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIAMPolicyAssignments: API.OperationMethod<
+  ListIAMPolicyAssignmentsRequest,
+  ListIAMPolicyAssignmentsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIAMPolicyAssignmentsRequest,
   ) => stream.Stream<
@@ -34068,21 +33908,19 @@ export const listIAMPolicyAssignments: {
  * group,
  * or groups that the user belongs to.
  */
-export const listIAMPolicyAssignmentsForUser: {
-  (
-    input: ListIAMPolicyAssignmentsForUserRequest,
-  ): effect.Effect<
-    ListIAMPolicyAssignmentsForUserResponse,
-    | AccessDeniedException
-    | ConcurrentUpdatingException
-    | InternalFailureException
-    | InvalidParameterValueException
-    | ResourceExistsException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIAMPolicyAssignmentsForUser: API.OperationMethod<
+  ListIAMPolicyAssignmentsForUserRequest,
+  ListIAMPolicyAssignmentsForUserResponse,
+  | AccessDeniedException
+  | ConcurrentUpdatingException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIAMPolicyAssignmentsForUserRequest,
   ) => stream.Stream<
@@ -34135,9 +33973,8 @@ export const listIAMPolicyAssignmentsForUser: {
  *
  * This operation is only supported for Quick Sight accounts that use IAM Identity Center.
  */
-export const listIdentityPropagationConfigs: (
-  input: ListIdentityPropagationConfigsRequest,
-) => effect.Effect<
+export const listIdentityPropagationConfigs: API.OperationMethod<
+  ListIdentityPropagationConfigsRequest,
   ListIdentityPropagationConfigsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -34160,21 +33997,19 @@ export const listIdentityPropagationConfigs: (
 /**
  * Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
  */
-export const listIngestions: {
-  (
-    input: ListIngestionsRequest,
-  ): effect.Effect<
-    ListIngestionsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceExistsException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIngestions: API.OperationMethod<
+  ListIngestionsRequest,
+  ListIngestionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceExistsException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIngestionsRequest,
   ) => stream.Stream<
@@ -34225,22 +34060,20 @@ export const listIngestions: {
 /**
  * Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
  */
-export const listNamespaces: {
-  (
-    input: ListNamespacesRequest,
-  ): effect.Effect<
-    ListNamespacesResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNamespaces: API.OperationMethod<
+  ListNamespacesRequest,
+  ListNamespacesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
@@ -34294,9 +34127,8 @@ export const listNamespaces: {
 /**
  * Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
  */
-export const listRefreshSchedules: (
-  input: ListRefreshSchedulesRequest,
-) => effect.Effect<
+export const listRefreshSchedules: API.OperationMethod<
+  ListRefreshSchedulesRequest,
   ListRefreshSchedulesResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -34321,23 +34153,21 @@ export const listRefreshSchedules: (
 /**
  * Lists all groups that are associated with a role.
  */
-export const listRoleMemberships: {
-  (
-    input: ListRoleMembershipsRequest,
-  ): effect.Effect<
-    ListRoleMembershipsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | LimitExceededException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoleMemberships: API.OperationMethod<
+  ListRoleMembershipsRequest,
+  ListRoleMembershipsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoleMembershipsRequest,
   ) => stream.Stream<
@@ -34394,9 +34224,8 @@ export const listRoleMemberships: {
 /**
  * Lists all self-upgrade requests for a Quick Suite account.
  */
-export const listSelfUpgrades: (
-  input: ListSelfUpgradesRequest,
-) => effect.Effect<
+export const listSelfUpgrades: API.OperationMethod<
+  ListSelfUpgradesRequest,
   ListSelfUpgradesResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -34427,9 +34256,8 @@ export const listSelfUpgrades: (
 /**
  * Lists the tags assigned to a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -34452,19 +34280,17 @@ export const listTagsForResource: (
 /**
  * Lists all the aliases of a template.
  */
-export const listTemplateAliases: {
-  (
-    input: ListTemplateAliasesRequest,
-  ): effect.Effect<
-    ListTemplateAliasesResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateAliases: API.OperationMethod<
+  ListTemplateAliasesRequest,
+  ListTemplateAliasesResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateAliasesRequest,
   ) => stream.Stream<
@@ -34509,20 +34335,18 @@ export const listTemplateAliases: {
 /**
  * Lists all the templates in the current Amazon Quick Sight account.
  */
-export const listTemplates: {
-  (
-    input: ListTemplatesRequest,
-  ): effect.Effect<
-    ListTemplatesResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplates: API.OperationMethod<
+  ListTemplatesRequest,
+  ListTemplatesResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplatesRequest,
   ) => stream.Stream<
@@ -34570,20 +34394,18 @@ export const listTemplates: {
 /**
  * Lists all the versions of the templates in the current Amazon Quick Sight account.
  */
-export const listTemplateVersions: {
-  (
-    input: ListTemplateVersionsRequest,
-  ): effect.Effect<
-    ListTemplateVersionsResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateVersions: API.OperationMethod<
+  ListTemplateVersionsRequest,
+  ListTemplateVersionsResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateVersionsRequest,
   ) => stream.Stream<
@@ -34631,9 +34453,8 @@ export const listTemplateVersions: {
 /**
  * Lists all the aliases of a theme.
  */
-export const listThemeAliases: (
-  input: ListThemeAliasesRequest,
-) => effect.Effect<
+export const listThemeAliases: API.OperationMethod<
+  ListThemeAliasesRequest,
   ListThemeAliasesResponse,
   | ConflictException
   | InternalFailureException
@@ -34660,21 +34481,19 @@ export const listThemeAliases: (
 /**
  * Lists all the themes in the current Amazon Web Services account.
  */
-export const listThemes: {
-  (
-    input: ListThemesRequest,
-  ): effect.Effect<
-    ListThemesResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThemes: API.OperationMethod<
+  ListThemesRequest,
+  ListThemesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThemesRequest,
   ) => stream.Stream<
@@ -34725,21 +34544,19 @@ export const listThemes: {
 /**
  * Lists all the versions of the themes in the current Amazon Web Services account.
  */
-export const listThemeVersions: {
-  (
-    input: ListThemeVersionsRequest,
-  ): effect.Effect<
-    ListThemeVersionsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThemeVersions: API.OperationMethod<
+  ListThemeVersionsRequest,
+  ListThemeVersionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThemeVersionsRequest,
   ) => stream.Stream<
@@ -34790,9 +34607,8 @@ export const listThemeVersions: {
 /**
  * Lists all of the refresh schedules for a topic.
  */
-export const listTopicRefreshSchedules: (
-  input: ListTopicRefreshSchedulesRequest,
-) => effect.Effect<
+export const listTopicRefreshSchedules: API.OperationMethod<
+  ListTopicRefreshSchedulesRequest,
   ListTopicRefreshSchedulesResponse,
   | AccessDeniedException
   | ConflictException
@@ -34821,9 +34637,8 @@ export const listTopicRefreshSchedules: (
 /**
  * Lists all reviewed answers for a Q Topic.
  */
-export const listTopicReviewedAnswers: (
-  input: ListTopicReviewedAnswersRequest,
-) => effect.Effect<
+export const listTopicReviewedAnswers: API.OperationMethod<
+  ListTopicReviewedAnswersRequest,
   ListTopicReviewedAnswersResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -34846,19 +34661,17 @@ export const listTopicReviewedAnswers: (
 /**
  * Lists all of the topics within an account.
  */
-export const listTopics: {
-  (
-    input: ListTopicsRequest,
-  ): effect.Effect<
-    ListTopicsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTopics: API.OperationMethod<
+  ListTopicsRequest,
+  ListTopicsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTopicsRequest,
   ) => stream.Stream<
@@ -34902,21 +34715,19 @@ export const listTopics: {
 /**
  * Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
  */
-export const listUserGroups: {
-  (
-    input: ListUserGroupsRequest,
-  ): effect.Effect<
-    ListUserGroupsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserGroups: API.OperationMethod<
+  ListUserGroupsRequest,
+  ListUserGroupsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserGroupsRequest,
   ) => stream.Stream<
@@ -34967,22 +34778,20 @@ export const listUserGroups: {
 /**
  * Returns a list of all of the Amazon Quick Sight users belonging to this account.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -35037,20 +34846,18 @@ export const listUsers: {
  * Lists all of the VPC connections in the current set Amazon Web Services Region of an
  * Amazon Web Services account.
  */
-export const listVPCConnections: {
-  (
-    input: ListVPCConnectionsRequest,
-  ): effect.Effect<
-    ListVPCConnectionsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVPCConnections: API.OperationMethod<
+  ListVPCConnectionsRequest,
+  ListVPCConnectionsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVPCConnectionsRequest,
   ) => stream.Stream<
@@ -35101,9 +34908,8 @@ export const listVPCConnections: {
  *
  * We recommend enabling the `QSearchStatus` API to unlock the full potential of `PredictQnA`. When `QSearchStatus` is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, `PredictQnA` uses generative Q&A to provide an answer. To update the `QSearchStatus`, see UpdateQuickSightQSearchConfiguration.
  */
-export const predictQAResults: (
-  input: PredictQAResultsRequest,
-) => effect.Effect<
+export const predictQAResults: API.OperationMethod<
+  PredictQAResultsRequest,
   PredictQAResultsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -35124,9 +34930,8 @@ export const predictQAResults: (
 /**
  * Creates or updates the dataset refresh properties for the dataset.
  */
-export const putDataSetRefreshProperties: (
-  input: PutDataSetRefreshPropertiesRequest,
-) => effect.Effect<
+export const putDataSetRefreshProperties: API.OperationMethod<
+  PutDataSetRefreshPropertiesRequest,
   PutDataSetRefreshPropertiesResponse,
   | AccessDeniedException
   | ConflictException
@@ -35155,9 +34960,8 @@ export const putDataSetRefreshProperties: (
 /**
  * Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see Inviting users to access Quick Sight.
  */
-export const registerUser: (
-  input: RegisterUserRequest,
-) => effect.Effect<
+export const registerUser: API.OperationMethod<
+  RegisterUserRequest,
   RegisterUserResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -35188,9 +34992,8 @@ export const registerUser: (
 /**
  * Restores an analysis.
  */
-export const restoreAnalysis: (
-  input: RestoreAnalysisRequest,
-) => effect.Effect<
+export const restoreAnalysis: API.OperationMethod<
+  RestoreAnalysisRequest,
   RestoreAnalysisResponse,
   | ConflictException
   | InternalFailureException
@@ -35219,18 +35022,16 @@ export const restoreAnalysis: (
 /**
  * Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
  */
-export const searchActionConnectors: {
-  (
-    input: SearchActionConnectorsRequest,
-  ): effect.Effect<
-    SearchActionConnectorsResponse,
-    | AccessDeniedException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchActionConnectors: API.OperationMethod<
+  SearchActionConnectorsRequest,
+  SearchActionConnectorsResponse,
+  | AccessDeniedException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchActionConnectorsRequest,
   ) => stream.Stream<
@@ -35274,20 +35075,18 @@ export const searchActionConnectors: {
  *
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
-export const searchAnalyses: {
-  (
-    input: SearchAnalysesRequest,
-  ): effect.Effect<
-    SearchAnalysesResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchAnalyses: API.OperationMethod<
+  SearchAnalysesRequest,
+  SearchAnalysesResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAnalysesRequest,
   ) => stream.Stream<
@@ -35338,20 +35137,18 @@ export const searchAnalyses: {
  * This operation is eventually consistent. The results are best effort and may not
  * reflect very recent updates and changes.
  */
-export const searchDashboards: {
-  (
-    input: SearchDashboardsRequest,
-  ): effect.Effect<
-    SearchDashboardsResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchDashboards: API.OperationMethod<
+  SearchDashboardsRequest,
+  SearchDashboardsResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchDashboardsRequest,
   ) => stream.Stream<
@@ -35400,20 +35197,18 @@ export const searchDashboards: {
  * Use the `SearchDataSets` operation to search for datasets that belong to an
  * account.
  */
-export const searchDataSets: {
-  (
-    input: SearchDataSetsRequest,
-  ): effect.Effect<
-    SearchDataSetsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchDataSets: API.OperationMethod<
+  SearchDataSetsRequest,
+  SearchDataSetsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchDataSetsRequest,
   ) => stream.Stream<
@@ -35462,20 +35257,18 @@ export const searchDataSets: {
  * Use the `SearchDataSources` operation to search for data sources that
  * belong to an account.
  */
-export const searchDataSources: {
-  (
-    input: SearchDataSourcesRequest,
-  ): effect.Effect<
-    SearchDataSourcesResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchDataSources: API.OperationMethod<
+  SearchDataSourcesRequest,
+  SearchDataSourcesResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchDataSourcesRequest,
   ) => stream.Stream<
@@ -35523,18 +35316,16 @@ export const searchDataSources: {
 /**
  * Search for the flows in an Amazon Web Services account.
  */
-export const searchFlows: {
-  (
-    input: SearchFlowsInput,
-  ): effect.Effect<
-    SearchFlowsOutput,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidParameterValueException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchFlows: API.OperationMethod<
+  SearchFlowsInput,
+  SearchFlowsOutput,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidParameterValueException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchFlowsInput,
   ) => stream.Stream<
@@ -35576,22 +35367,20 @@ export const searchFlows: {
 /**
  * Searches the subfolders in a folder.
  */
-export const searchFolders: {
-  (
-    input: SearchFoldersRequest,
-  ): effect.Effect<
-    SearchFoldersResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchFolders: API.OperationMethod<
+  SearchFoldersRequest,
+  SearchFoldersResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchFoldersRequest,
   ) => stream.Stream<
@@ -35645,22 +35434,20 @@ export const searchFolders: {
 /**
  * Use the `SearchGroups` operation to search groups in a specified Quick Sight namespace using the supplied filters.
  */
-export const searchGroups: {
-  (
-    input: SearchGroupsRequest,
-  ): effect.Effect<
-    SearchGroupsResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | PreconditionNotMetException
-    | ResourceNotFoundException
-    | ResourceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchGroups: API.OperationMethod<
+  SearchGroupsRequest,
+  SearchGroupsResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | PreconditionNotMetException
+  | ResourceNotFoundException
+  | ResourceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchGroupsRequest,
   ) => stream.Stream<
@@ -35714,20 +35501,18 @@ export const searchGroups: {
 /**
  * Searches for any Q topic that exists in an Quick Suite account.
  */
-export const searchTopics: {
-  (
-    input: SearchTopicsRequest,
-  ): effect.Effect<
-    SearchTopicsResponse,
-    | InternalFailureException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnsupportedUserEditionException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchTopics: API.OperationMethod<
+  SearchTopicsRequest,
+  SearchTopicsResponse,
+  | InternalFailureException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnsupportedUserEditionException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTopicsRequest,
   ) => stream.Stream<
@@ -35786,9 +35571,8 @@ export const searchTopics: {
  * The API caller must have the necessary permissions in their IAM role to
  * access each resource before the resources can be exported.
  */
-export const startAssetBundleExportJob: (
-  input: StartAssetBundleExportJobRequest,
-) => effect.Effect<
+export const startAssetBundleExportJob: API.OperationMethod<
+  StartAssetBundleExportJobRequest,
   StartAssetBundleExportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -35826,9 +35610,8 @@ export const startAssetBundleExportJob: (
  * resource type that is contained in the bundle file before the resources can be
  * imported.
  */
-export const startAssetBundleImportJob: (
-  input: StartAssetBundleImportJobRequest,
-) => effect.Effect<
+export const startAssetBundleImportJob: API.OperationMethod<
+  StartAssetBundleImportJobRequest,
   StartAssetBundleImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -35941,9 +35724,8 @@ export const startAssetBundleImportJob: (
  *
  * - The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see Customizing access to Amazon Quick Sight capabilities.
  */
-export const startDashboardSnapshotJob: (
-  input: StartDashboardSnapshotJobRequest,
-) => effect.Effect<
+export const startDashboardSnapshotJob: API.OperationMethod<
+  StartDashboardSnapshotJobRequest,
   StartDashboardSnapshotJobResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -35978,9 +35760,8 @@ export const startDashboardSnapshotJob: (
  *
  * For more information, see Scheduling and sending Amazon Quick Sight reports by email and Configuring email report settings for a Amazon Quick Sight dashboard in the *Amazon Quick Sight User Guide*.
  */
-export const startDashboardSnapshotJobSchedule: (
-  input: StartDashboardSnapshotJobScheduleRequest,
-) => effect.Effect<
+export const startDashboardSnapshotJobSchedule: API.OperationMethod<
+  StartDashboardSnapshotJobScheduleRequest,
   StartDashboardSnapshotJobScheduleResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36027,9 +35808,8 @@ export const startDashboardSnapshotJobSchedule: (
  *
  * - Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36054,9 +35834,8 @@ export const tagResource: (
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36084,9 +35863,8 @@ export const untagResource: (
  * customizations that apply to an Amazon Web Services account. To find out which customizations apply, use
  * the `DescribeAccountCustomization` API operation.
  */
-export const updateAccountCustomization: (
-  input: UpdateAccountCustomizationRequest,
-) => effect.Effect<
+export const updateAccountCustomization: API.OperationMethod<
+  UpdateAccountCustomizationRequest,
   UpdateAccountCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -36113,9 +35891,8 @@ export const updateAccountCustomization: (
 /**
  * Applies a custom permissions profile to an account.
  */
-export const updateAccountCustomPermission: (
-  input: UpdateAccountCustomPermissionRequest,
-) => effect.Effect<
+export const updateAccountCustomPermission: API.OperationMethod<
+  UpdateAccountCustomPermissionRequest,
   UpdateAccountCustomPermissionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36138,9 +35915,8 @@ export const updateAccountCustomPermission: (
 /**
  * Updates the Amazon Quick Sight settings in your Amazon Web Services account.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsRequest,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsRequest,
   UpdateAccountSettingsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36167,9 +35943,8 @@ export const updateAccountSettings: (
  * You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information,
  * https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html.
  */
-export const updateActionConnector: (
-  input: UpdateActionConnectorRequest,
-) => effect.Effect<
+export const updateActionConnector: API.OperationMethod<
+  UpdateActionConnectorRequest,
   UpdateActionConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -36194,9 +35969,8 @@ export const updateActionConnector: (
 /**
  * Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
  */
-export const updateActionConnectorPermissions: (
-  input: UpdateActionConnectorPermissionsRequest,
-) => effect.Effect<
+export const updateActionConnectorPermissions: API.OperationMethod<
+  UpdateActionConnectorPermissionsRequest,
   UpdateActionConnectorPermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -36225,9 +35999,8 @@ export const updateActionConnectorPermissions: (
 /**
  * Updates an analysis in Amazon Quick Sight
  */
-export const updateAnalysis: (
-  input: UpdateAnalysisRequest,
-) => effect.Effect<
+export const updateAnalysis: API.OperationMethod<
+  UpdateAnalysisRequest,
   UpdateAnalysisResponse,
   | ConflictException
   | InternalFailureException
@@ -36254,9 +36027,8 @@ export const updateAnalysis: (
 /**
  * Updates the read and write permissions for an analysis.
  */
-export const updateAnalysisPermissions: (
-  input: UpdateAnalysisPermissionsRequest,
-) => effect.Effect<
+export const updateAnalysisPermissions: API.OperationMethod<
+  UpdateAnalysisPermissionsRequest,
   UpdateAnalysisPermissionsResponse,
   | ConflictException
   | InternalFailureException
@@ -36283,9 +36055,8 @@ export const updateAnalysisPermissions: (
 /**
  * Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
  */
-export const updateApplicationWithTokenExchangeGrant: (
-  input: UpdateApplicationWithTokenExchangeGrantRequest,
-) => effect.Effect<
+export const updateApplicationWithTokenExchangeGrant: API.OperationMethod<
+  UpdateApplicationWithTokenExchangeGrantRequest,
   UpdateApplicationWithTokenExchangeGrantResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36312,9 +36083,8 @@ export const updateApplicationWithTokenExchangeGrant: (
 /**
  * Updates a brand.
  */
-export const updateBrand: (
-  input: UpdateBrandRequest,
-) => effect.Effect<
+export const updateBrand: API.OperationMethod<
+  UpdateBrandRequest,
   UpdateBrandResponse,
   | AccessDeniedException
   | ConflictException
@@ -36339,9 +36109,8 @@ export const updateBrand: (
 /**
  * Updates a brand assignment.
  */
-export const updateBrandAssignment: (
-  input: UpdateBrandAssignmentRequest,
-) => effect.Effect<
+export const updateBrandAssignment: API.OperationMethod<
+  UpdateBrandAssignmentRequest,
   UpdateBrandAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -36366,9 +36135,8 @@ export const updateBrandAssignment: (
 /**
  * Updates the published version of a brand.
  */
-export const updateBrandPublishedVersion: (
-  input: UpdateBrandPublishedVersionRequest,
-) => effect.Effect<
+export const updateBrandPublishedVersion: API.OperationMethod<
+  UpdateBrandPublishedVersionRequest,
   UpdateBrandPublishedVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -36393,9 +36161,8 @@ export const updateBrandPublishedVersion: (
 /**
  * Updates a custom permissions profile.
  */
-export const updateCustomPermissions: (
-  input: UpdateCustomPermissionsRequest,
-) => effect.Effect<
+export const updateCustomPermissions: API.OperationMethod<
+  UpdateCustomPermissionsRequest,
   UpdateCustomPermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -36430,9 +36197,8 @@ export const updateCustomPermissions: (
  * UpdateDashboardPublishedVersion
  * API operation.
  */
-export const updateDashboard: (
-  input: UpdateDashboardRequest,
-) => effect.Effect<
+export const updateDashboard: API.OperationMethod<
+  UpdateDashboardRequest,
   UpdateDashboardResponse,
   | ConflictException
   | InternalFailureException
@@ -36459,9 +36225,8 @@ export const updateDashboard: (
 /**
  * Updates the linked analyses on a dashboard.
  */
-export const updateDashboardLinks: (
-  input: UpdateDashboardLinksRequest,
-) => effect.Effect<
+export const updateDashboardLinks: API.OperationMethod<
+  UpdateDashboardLinksRequest,
   UpdateDashboardLinksResponse,
   | AccessDeniedException
   | ConflictException
@@ -36488,9 +36253,8 @@ export const updateDashboardLinks: (
 /**
  * Updates read and write permissions on a dashboard.
  */
-export const updateDashboardPermissions: (
-  input: UpdateDashboardPermissionsRequest,
-) => effect.Effect<
+export const updateDashboardPermissions: API.OperationMethod<
+  UpdateDashboardPermissionsRequest,
   UpdateDashboardPermissionsResponse,
   | ConflictException
   | InternalFailureException
@@ -36517,9 +36281,8 @@ export const updateDashboardPermissions: (
 /**
  * Updates the published version of a dashboard.
  */
-export const updateDashboardPublishedVersion: (
-  input: UpdateDashboardPublishedVersionRequest,
-) => effect.Effect<
+export const updateDashboardPublishedVersion: API.OperationMethod<
+  UpdateDashboardPublishedVersionRequest,
   UpdateDashboardPublishedVersionResponse,
   | ConflictException
   | InternalFailureException
@@ -36544,9 +36307,8 @@ export const updateDashboardPublishedVersion: (
 /**
  * Updates a Dashboard QA configuration.
  */
-export const updateDashboardsQAConfiguration: (
-  input: UpdateDashboardsQAConfigurationRequest,
-) => effect.Effect<
+export const updateDashboardsQAConfiguration: API.OperationMethod<
+  UpdateDashboardsQAConfigurationRequest,
   UpdateDashboardsQAConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -36572,9 +36334,8 @@ export const updateDashboardsQAConfiguration: (
  * Updates a dataset. This operation doesn't support datasets that include uploaded files
  * as a source. Partial updates are not supported by this operation.
  */
-export const updateDataSet: (
-  input: UpdateDataSetRequest,
-) => effect.Effect<
+export const updateDataSet: API.OperationMethod<
+  UpdateDataSetRequest,
   UpdateDataSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -36608,9 +36369,8 @@ export const updateDataSet: (
  * The permissions resource is
  * `arn:aws:quicksight:region:aws-account-id:dataset/data-set-id`.
  */
-export const updateDataSetPermissions: (
-  input: UpdateDataSetPermissionsRequest,
-) => effect.Effect<
+export const updateDataSetPermissions: API.OperationMethod<
+  UpdateDataSetPermissionsRequest,
   UpdateDataSetPermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -36635,9 +36395,8 @@ export const updateDataSetPermissions: (
 /**
  * Updates a data source.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceRequest,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -36664,9 +36423,8 @@ export const updateDataSource: (
 /**
  * Updates the permissions to a data source.
  */
-export const updateDataSourcePermissions: (
-  input: UpdateDataSourcePermissionsRequest,
-) => effect.Effect<
+export const updateDataSourcePermissions: API.OperationMethod<
+  UpdateDataSourcePermissionsRequest,
   UpdateDataSourcePermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -36691,9 +36449,8 @@ export const updateDataSourcePermissions: (
 /**
  * Updates a Amazon Q Business application that is linked to a Quick Sight account.
  */
-export const updateDefaultQBusinessApplication: (
-  input: UpdateDefaultQBusinessApplicationRequest,
-) => effect.Effect<
+export const updateDefaultQBusinessApplication: API.OperationMethod<
+  UpdateDefaultQBusinessApplicationRequest,
   UpdateDefaultQBusinessApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -36718,9 +36475,8 @@ export const updateDefaultQBusinessApplication: (
 /**
  * Updates permissions against principals on a flow.
  */
-export const updateFlowPermissions: (
-  input: UpdateFlowPermissionsInput,
-) => effect.Effect<
+export const updateFlowPermissions: API.OperationMethod<
+  UpdateFlowPermissionsInput,
   UpdateFlowPermissionsOutput,
   | AccessDeniedException
   | InternalFailureException
@@ -36741,9 +36497,8 @@ export const updateFlowPermissions: (
 /**
  * Updates the name of a folder.
  */
-export const updateFolder: (
-  input: UpdateFolderRequest,
-) => effect.Effect<
+export const updateFolder: API.OperationMethod<
+  UpdateFolderRequest,
   UpdateFolderResponse,
   | AccessDeniedException
   | ConflictException
@@ -36772,9 +36527,8 @@ export const updateFolder: (
 /**
  * Updates permissions of a folder.
  */
-export const updateFolderPermissions: (
-  input: UpdateFolderPermissionsRequest,
-) => effect.Effect<
+export const updateFolderPermissions: API.OperationMethod<
+  UpdateFolderPermissionsRequest,
   UpdateFolderPermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36801,9 +36555,8 @@ export const updateFolderPermissions: (
 /**
  * Changes a group description.
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36832,9 +36585,8 @@ export const updateGroup: (
  * the optional parameter or parameters that are specified in the request. This overwrites
  * all of the users included in `Identities`.
  */
-export const updateIAMPolicyAssignment: (
-  input: UpdateIAMPolicyAssignmentRequest,
-) => effect.Effect<
+export const updateIAMPolicyAssignment: API.OperationMethod<
+  UpdateIAMPolicyAssignmentRequest,
   UpdateIAMPolicyAssignmentResponse,
   | AccessDeniedException
   | ConcurrentUpdatingException
@@ -36863,9 +36615,8 @@ export const updateIAMPolicyAssignment: (
  *
  * This operation is only supported for Quick Sight accounts using IAM Identity Center
  */
-export const updateIdentityPropagationConfig: (
-  input: UpdateIdentityPropagationConfigRequest,
-) => effect.Effect<
+export const updateIdentityPropagationConfig: API.OperationMethod<
+  UpdateIdentityPropagationConfigRequest,
   UpdateIdentityPropagationConfigResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36888,9 +36639,8 @@ export const updateIdentityPropagationConfig: (
 /**
  * Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the `IpRestrictionRule`, `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this operation, you must provide the entire map of rules. You can use the `DescribeIpRestriction` operation to get the current rule map.
  */
-export const updateIpRestriction: (
-  input: UpdateIpRestrictionRequest,
-) => effect.Effect<
+export const updateIpRestriction: API.OperationMethod<
+  UpdateIpRestrictionRequest,
   UpdateIpRestrictionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36915,9 +36665,8 @@ export const updateIpRestriction: (
 /**
  * Updates a customer managed key in a Quick Sight account.
  */
-export const updateKeyRegistration: (
-  input: UpdateKeyRegistrationRequest,
-) => effect.Effect<
+export const updateKeyRegistration: API.OperationMethod<
+  UpdateKeyRegistrationRequest,
   UpdateKeyRegistrationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36959,9 +36708,8 @@ export const updateKeyRegistration: (
  * Quick Sight, see Using Quick Suite with IAM in the Amazon Quick Sight
  * User Guide.
  */
-export const updatePublicSharingSettings: (
-  input: UpdatePublicSharingSettingsRequest,
-) => effect.Effect<
+export const updatePublicSharingSettings: API.OperationMethod<
+  UpdatePublicSharingSettingsRequest,
   UpdatePublicSharingSettingsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -36986,9 +36734,8 @@ export const updatePublicSharingSettings: (
 /**
  * Updates a personalization configuration.
  */
-export const updateQPersonalizationConfiguration: (
-  input: UpdateQPersonalizationConfigurationRequest,
-) => effect.Effect<
+export const updateQPersonalizationConfiguration: API.OperationMethod<
+  UpdateQPersonalizationConfigurationRequest,
   UpdateQPersonalizationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -37015,9 +36762,8 @@ export const updateQPersonalizationConfiguration: (
 /**
  * Updates the state of a Quick Sight Q Search configuration.
  */
-export const updateQuickSightQSearchConfiguration: (
-  input: UpdateQuickSightQSearchConfigurationRequest,
-) => effect.Effect<
+export const updateQuickSightQSearchConfiguration: API.OperationMethod<
+  UpdateQuickSightQSearchConfigurationRequest,
   UpdateQuickSightQSearchConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -37042,9 +36788,8 @@ export const updateQuickSightQSearchConfiguration: (
 /**
  * Updates a refresh schedule for a dataset.
  */
-export const updateRefreshSchedule: (
-  input: UpdateRefreshScheduleRequest,
-) => effect.Effect<
+export const updateRefreshSchedule: API.OperationMethod<
+  UpdateRefreshScheduleRequest,
   UpdateRefreshScheduleResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37071,9 +36816,8 @@ export const updateRefreshSchedule: (
 /**
  * Updates the custom permissions that are associated with a role.
  */
-export const updateRoleCustomPermission: (
-  input: UpdateRoleCustomPermissionRequest,
-) => effect.Effect<
+export const updateRoleCustomPermission: API.OperationMethod<
+  UpdateRoleCustomPermissionRequest,
   UpdateRoleCustomPermissionResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37100,9 +36844,8 @@ export const updateRoleCustomPermission: (
 /**
  * Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
  */
-export const updateSelfUpgrade: (
-  input: UpdateSelfUpgradeRequest,
-) => effect.Effect<
+export const updateSelfUpgrade: API.OperationMethod<
+  UpdateSelfUpgradeRequest,
   UpdateSelfUpgradeResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37133,9 +36876,8 @@ export const updateSelfUpgrade: (
 /**
  * Updates the self-upgrade configuration for a Quick Suite account.
  */
-export const updateSelfUpgradeConfiguration: (
-  input: UpdateSelfUpgradeConfigurationRequest,
-) => effect.Effect<
+export const updateSelfUpgradeConfiguration: API.OperationMethod<
+  UpdateSelfUpgradeConfigurationRequest,
   UpdateSelfUpgradeConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37164,9 +36906,8 @@ export const updateSelfUpgradeConfiguration: (
 /**
  * Updates the SPICE capacity configuration for a Quick Sight account.
  */
-export const updateSPICECapacityConfiguration: (
-  input: UpdateSPICECapacityConfigurationRequest,
-) => effect.Effect<
+export const updateSPICECapacityConfiguration: API.OperationMethod<
+  UpdateSPICECapacityConfigurationRequest,
   UpdateSPICECapacityConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37189,9 +36930,8 @@ export const updateSPICECapacityConfiguration: (
 /**
  * Updates a template from an existing Amazon Quick Sight analysis or another template.
  */
-export const updateTemplate: (
-  input: UpdateTemplateRequest,
-) => effect.Effect<
+export const updateTemplate: API.OperationMethod<
+  UpdateTemplateRequest,
   UpdateTemplateResponse,
   | ConflictException
   | InternalFailureException
@@ -37220,9 +36960,8 @@ export const updateTemplate: (
 /**
  * Updates the template alias of a template.
  */
-export const updateTemplateAlias: (
-  input: UpdateTemplateAliasRequest,
-) => effect.Effect<
+export const updateTemplateAlias: API.OperationMethod<
+  UpdateTemplateAliasRequest,
   UpdateTemplateAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -37245,9 +36984,8 @@ export const updateTemplateAlias: (
 /**
  * Updates the resource permissions for a template.
  */
-export const updateTemplatePermissions: (
-  input: UpdateTemplatePermissionsRequest,
-) => effect.Effect<
+export const updateTemplatePermissions: API.OperationMethod<
+  UpdateTemplatePermissionsRequest,
   UpdateTemplatePermissionsResponse,
   | ConflictException
   | InternalFailureException
@@ -37274,9 +37012,8 @@ export const updateTemplatePermissions: (
 /**
  * Updates a theme.
  */
-export const updateTheme: (
-  input: UpdateThemeRequest,
-) => effect.Effect<
+export const updateTheme: API.OperationMethod<
+  UpdateThemeRequest,
   UpdateThemeResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37305,9 +37042,8 @@ export const updateTheme: (
 /**
  * Updates an alias of a theme.
  */
-export const updateThemeAlias: (
-  input: UpdateThemeAliasRequest,
-) => effect.Effect<
+export const updateThemeAlias: API.OperationMethod<
+  UpdateThemeAliasRequest,
   UpdateThemeAliasResponse,
   | ConflictException
   | InternalFailureException
@@ -37374,9 +37110,8 @@ export const updateThemeAlias: (
  *
  * - To specify no permissions, omit the permissions list.
  */
-export const updateThemePermissions: (
-  input: UpdateThemePermissionsRequest,
-) => effect.Effect<
+export const updateThemePermissions: API.OperationMethod<
+  UpdateThemePermissionsRequest,
   UpdateThemePermissionsResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37403,9 +37138,8 @@ export const updateThemePermissions: (
 /**
  * Updates a topic.
  */
-export const updateTopic: (
-  input: UpdateTopicRequest,
-) => effect.Effect<
+export const updateTopic: API.OperationMethod<
+  UpdateTopicRequest,
   UpdateTopicResponse,
   | AccessDeniedException
   | ConflictException
@@ -37434,9 +37168,8 @@ export const updateTopic: (
 /**
  * Updates the permissions of a topic.
  */
-export const updateTopicPermissions: (
-  input: UpdateTopicPermissionsRequest,
-) => effect.Effect<
+export const updateTopicPermissions: API.OperationMethod<
+  UpdateTopicPermissionsRequest,
   UpdateTopicPermissionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -37465,9 +37198,8 @@ export const updateTopicPermissions: (
 /**
  * Updates a topic refresh schedule.
  */
-export const updateTopicRefreshSchedule: (
-  input: UpdateTopicRefreshScheduleRequest,
-) => effect.Effect<
+export const updateTopicRefreshSchedule: API.OperationMethod<
+  UpdateTopicRefreshScheduleRequest,
   UpdateTopicRefreshScheduleResponse,
   | AccessDeniedException
   | ConflictException
@@ -37496,9 +37228,8 @@ export const updateTopicRefreshSchedule: (
 /**
  * Updates an Amazon Quick Sight user.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -37525,9 +37256,8 @@ export const updateUser: (
 /**
  * Updates a custom permissions profile for a user.
  */
-export const updateUserCustomPermission: (
-  input: UpdateUserCustomPermissionRequest,
-) => effect.Effect<
+export const updateUserCustomPermission: API.OperationMethod<
+  UpdateUserCustomPermissionRequest,
   UpdateUserCustomPermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -37556,9 +37286,8 @@ export const updateUserCustomPermission: (
 /**
  * Updates a VPC connection.
  */
-export const updateVPCConnection: (
-  input: UpdateVPCConnectionRequest,
-) => effect.Effect<
+export const updateVPCConnection: API.OperationMethod<
+  UpdateVPCConnectionRequest,
   UpdateVPCConnectionResponse,
   | AccessDeniedException
   | ConflictException

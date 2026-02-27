@@ -893,9 +893,8 @@ export class KmsNotFoundException extends S.TaggedErrorClass<KmsNotFoundExceptio
  *
  * For vector buckets and vector indexes, you must have the `s3vectors:ListTagsForResource` permission to use this operation.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -913,9 +912,8 @@ export const listTagsForResource: (
  *
  * For vector buckets and vector indexes, you must have the `s3vectors:TagResource` permission to use this operation.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ConflictException
   | NotFoundException
@@ -936,9 +934,8 @@ export const tagResource: (
  *
  * For vector buckets and vector indexes, you must have the `s3vectors:UntagResource` permission to use this operation.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | ConflictException
   | NotFoundException
@@ -959,9 +956,8 @@ export const untagResource: (
  *
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateVectorBucket` permission to create a vector bucket with tags.
  */
-export const createVectorBucket: (
-  input: CreateVectorBucketInput,
-) => effect.Effect<
+export const createVectorBucket: API.OperationMethod<
+  CreateVectorBucketInput,
   CreateVectorBucketOutput,
   | ConflictException
   | ServiceQuotaExceededException
@@ -984,9 +980,8 @@ export const createVectorBucket: (
  *
  * You must have the `s3vectors:DeleteVectorBucket` permission to use this operation.
  */
-export const deleteVectorBucket: (
-  input: DeleteVectorBucketInput,
-) => effect.Effect<
+export const deleteVectorBucket: API.OperationMethod<
+  DeleteVectorBucketInput,
   DeleteVectorBucketOutput,
   | ConflictException
   | NotFoundException
@@ -1005,9 +1000,8 @@ export const deleteVectorBucket: (
  *
  * You must have the `s3vectors:DeleteVectorBucketPolicy` permission to use this operation.
  */
-export const deleteVectorBucketPolicy: (
-  input: DeleteVectorBucketPolicyInput,
-) => effect.Effect<
+export const deleteVectorBucketPolicy: API.OperationMethod<
+  DeleteVectorBucketPolicyInput,
   DeleteVectorBucketPolicyOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1023,9 +1017,8 @@ export const deleteVectorBucketPolicy: (
  *
  * You must have the `s3vectors:GetVectorBucket` permission to use this operation.
  */
-export const getVectorBucket: (
-  input: GetVectorBucketInput,
-) => effect.Effect<
+export const getVectorBucket: API.OperationMethod<
+  GetVectorBucketInput,
   GetVectorBucketOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1041,9 +1034,8 @@ export const getVectorBucket: (
  *
  * You must have the `s3vectors:GetVectorBucketPolicy` permission to use this operation.
  */
-export const getVectorBucketPolicy: (
-  input: GetVectorBucketPolicyInput,
-) => effect.Effect<
+export const getVectorBucketPolicy: API.OperationMethod<
+  GetVectorBucketPolicyInput,
   GetVectorBucketPolicyOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1059,14 +1051,12 @@ export const getVectorBucketPolicy: (
  *
  * You must have the `s3vectors:ListVectorBuckets` permission to use this operation.
  */
-export const listVectorBuckets: {
-  (
-    input: ListVectorBucketsInput,
-  ): effect.Effect<
-    ListVectorBucketsOutput,
-    ServiceUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVectorBuckets: API.OperationMethod<
+  ListVectorBucketsInput,
+  ListVectorBucketsOutput,
+  ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVectorBucketsInput,
   ) => stream.Stream<
@@ -1099,9 +1089,8 @@ export const listVectorBuckets: {
  *
  * You must have the `s3vectors:PutVectorBucketPolicy` permission to use this operation.
  */
-export const putVectorBucketPolicy: (
-  input: PutVectorBucketPolicyInput,
-) => effect.Effect<
+export const putVectorBucketPolicy: API.OperationMethod<
+  PutVectorBucketPolicyInput,
   PutVectorBucketPolicyOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1119,9 +1108,8 @@ export const putVectorBucketPolicy: (
  *
  * You must have the `s3vectors:TagResource` permission in addition to `s3vectors:CreateIndex` permission to create a vector index with tags.
  */
-export const createIndex: (
-  input: CreateIndexInput,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexInput,
   CreateIndexOutput,
   | ConflictException
   | NotFoundException
@@ -1146,9 +1134,8 @@ export const createIndex: (
  *
  * You must have the `s3vectors:DeleteIndex` permission to use this operation.
  */
-export const deleteIndex: (
-  input: DeleteIndexInput,
-) => effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexInput,
   DeleteIndexOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1164,9 +1151,8 @@ export const deleteIndex: (
  *
  * You must have the `s3vectors:GetIndex` permission to use this operation.
  */
-export const getIndex: (
-  input: GetIndexInput,
-) => effect.Effect<
+export const getIndex: API.OperationMethod<
+  GetIndexInput,
   GetIndexOutput,
   NotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1182,14 +1168,12 @@ export const getIndex: (
  *
  * You must have the `s3vectors:ListIndexes` permission to use this operation.
  */
-export const listIndexes: {
-  (
-    input: ListIndexesInput,
-  ): effect.Effect<
-    ListIndexesOutput,
-    NotFoundException | ServiceUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndexes: API.OperationMethod<
+  ListIndexesInput,
+  ListIndexesOutput,
+  NotFoundException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndexesInput,
   ) => stream.Stream<
@@ -1222,9 +1206,8 @@ export const listIndexes: {
  *
  * You must have the `s3vectors:DeleteVectors` permission to use this operation.
  */
-export const deleteVectors: (
-  input: DeleteVectorsInput,
-) => effect.Effect<
+export const deleteVectors: API.OperationMethod<
+  DeleteVectorsInput,
   DeleteVectorsOutput,
   | AccessDeniedException
   | KmsDisabledException
@@ -1255,9 +1238,8 @@ export const deleteVectors: (
  *
  * You must have the `s3vectors:GetVectors` permission to use this operation.
  */
-export const getVectors: (
-  input: GetVectorsInput,
-) => effect.Effect<
+export const getVectors: API.OperationMethod<
+  GetVectorsInput,
   GetVectorsOutput,
   | KmsDisabledException
   | KmsInvalidKeyUsageException
@@ -1292,17 +1274,15 @@ export const getVectors: (
  *
  * - If you set `returnData` or `returnMetadata` to true, you must have both `s3vectors:ListVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden` error if you request vector data or metadata without the `s3vectors:GetVectors` permission.
  */
-export const listVectors: {
-  (
-    input: ListVectorsInput,
-  ): effect.Effect<
-    ListVectorsOutput,
-    | AccessDeniedException
-    | NotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVectors: API.OperationMethod<
+  ListVectorsInput,
+  ListVectorsOutput,
+  | AccessDeniedException
+  | NotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVectorsInput,
   ) => stream.Stream<
@@ -1349,9 +1329,8 @@ export const listVectors: {
  *
  * You must have the `s3vectors:PutVectors` permission to use this operation.
  */
-export const putVectors: (
-  input: PutVectorsInput,
-) => effect.Effect<
+export const putVectors: API.OperationMethod<
+  PutVectorsInput,
   PutVectorsOutput,
   | AccessDeniedException
   | KmsDisabledException
@@ -1390,9 +1369,8 @@ export const putVectors: (
  *
  * - If you specify a metadata filter or set `returnMetadata` to true, you must have both `s3vectors:QueryVectors` and `s3vectors:GetVectors` permissions. The request fails with a `403 Forbidden error` if you request metadata filtering, vector data, or metadata without the `s3vectors:GetVectors` permission.
  */
-export const queryVectors: (
-  input: QueryVectorsInput,
-) => effect.Effect<
+export const queryVectors: API.OperationMethod<
+  QueryVectorsInput,
   QueryVectorsOutput,
   | KmsDisabledException
   | KmsInvalidKeyUsageException

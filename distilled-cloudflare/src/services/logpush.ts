@@ -103,9 +103,8 @@ export type GetDatasetFieldResponse = unknown;
 export const GetDatasetFieldResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
 
-export const getDatasetField: (
-  input: GetDatasetFieldRequest,
-) => Effect.Effect<
+export const getDatasetField: API.OperationMethod<
+  GetDatasetFieldRequest,
   GetDatasetFieldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -200,9 +199,8 @@ export type GetDatasetJobResponse = unknown;
 export const GetDatasetJobResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatasetJobResponse>;
 
-export const getDatasetJob: (
-  input: GetDatasetJobRequest,
-) => Effect.Effect<
+export const getDatasetJob: API.OperationMethod<
+  GetDatasetJobRequest,
   GetDatasetJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -232,9 +230,8 @@ export type GetEdgeResponse = unknown;
 export const GetEdgeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetEdgeResponse>;
 
-export const getEdge: (
-  input: GetEdgeRequest,
-) => Effect.Effect<
+export const getEdge: API.OperationMethod<
+  GetEdgeRequest,
   GetEdgeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -286,13 +283,15 @@ export const CreateEdgeResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     destinationConf: "destination_conf",
+    fields: "fields",
+    filter: "filter",
+    sample: "sample",
     sessionId: "session_id",
   }),
 ) as unknown as Schema.Schema<CreateEdgeResponse>;
 
-export const createEdge: (
-  input: CreateEdgeRequest,
-) => Effect.Effect<
+export const createEdge: API.OperationMethod<
+  CreateEdgeRequest,
   CreateEdgeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -335,9 +334,8 @@ export const DestinationExistsValidateResponse = Schema.Struct({
   exists: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
-export const destinationExistsValidate: (
-  input: DestinationExistsValidateRequest,
-) => Effect.Effect<
+export const destinationExistsValidate: API.OperationMethod<
+  DestinationExistsValidateRequest,
   DestinationExistsValidateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -535,6 +533,7 @@ export const GetJobResponse = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -551,21 +550,26 @@ export const GetJobResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    dataset: "dataset",
     destinationConf: "destination_conf",
+    enabled: "enabled",
     errorMessage: "error_message",
+    frequency: "frequency",
+    kind: "kind",
     lastComplete: "last_complete",
     lastError: "last_error",
     logpullOptions: "logpull_options",
     maxUploadBytes: "max_upload_bytes",
     maxUploadIntervalSeconds: "max_upload_interval_seconds",
     maxUploadRecords: "max_upload_records",
+    name: "name",
     outputOptions: "output_options",
   }),
 ) as unknown as Schema.Schema<GetJobResponse>;
 
-export const getJob: (
-  input: GetJobRequest,
-) => Effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -589,9 +593,8 @@ export type ListJobsResponse = unknown;
 export const ListJobsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListJobsResponse>;
 
-export const listJobs: (
-  input: ListJobsRequest,
-) => Effect.Effect<
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
   ListJobsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -771,6 +774,7 @@ export const CreateJobRequest = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -789,10 +793,16 @@ export const CreateJobRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     destinationConf: "destination_conf",
+    dataset: "dataset",
+    enabled: "enabled",
+    filter: "filter",
+    frequency: "frequency",
+    kind: "kind",
     logpullOptions: "logpull_options",
     maxUploadBytes: "max_upload_bytes",
     maxUploadIntervalSeconds: "max_upload_interval_seconds",
     maxUploadRecords: "max_upload_records",
+    name: "name",
     outputOptions: "output_options",
     ownershipChallenge: "ownership_challenge",
   }),
@@ -973,6 +983,7 @@ export const CreateJobResponse = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -989,21 +1000,26 @@ export const CreateJobResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    dataset: "dataset",
     destinationConf: "destination_conf",
+    enabled: "enabled",
     errorMessage: "error_message",
+    frequency: "frequency",
+    kind: "kind",
     lastComplete: "last_complete",
     lastError: "last_error",
     logpullOptions: "logpull_options",
     maxUploadBytes: "max_upload_bytes",
     maxUploadIntervalSeconds: "max_upload_interval_seconds",
     maxUploadRecords: "max_upload_records",
+    name: "name",
     outputOptions: "output_options",
   }),
 ) as unknown as Schema.Schema<CreateJobResponse>;
 
-export const createJob: (
-  input: CreateJobRequest,
-) => Effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1117,6 +1133,7 @@ export const UpdateJobRequest = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -1135,10 +1152,15 @@ export const UpdateJobRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     destinationConf: "destination_conf",
+    enabled: "enabled",
+    filter: "filter",
+    frequency: "frequency",
+    kind: "kind",
     logpullOptions: "logpull_options",
     maxUploadBytes: "max_upload_bytes",
     maxUploadIntervalSeconds: "max_upload_interval_seconds",
     maxUploadRecords: "max_upload_records",
+    name: "name",
     outputOptions: "output_options",
     ownershipChallenge: "ownership_challenge",
   }),
@@ -1319,6 +1341,7 @@ export const UpdateJobResponse = Schema.Struct({
         Schema.encodeKeys({
           batchPrefix: "batch_prefix",
           batchSuffix: "batch_suffix",
+          "CVE-2021-44228": "'CVE-2021-44228'",
           fieldDelimiter: "field_delimiter",
           fieldNames: "field_names",
           outputType: "output_type",
@@ -1335,21 +1358,26 @@ export const UpdateJobResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    dataset: "dataset",
     destinationConf: "destination_conf",
+    enabled: "enabled",
     errorMessage: "error_message",
+    frequency: "frequency",
+    kind: "kind",
     lastComplete: "last_complete",
     lastError: "last_error",
     logpullOptions: "logpull_options",
     maxUploadBytes: "max_upload_bytes",
     maxUploadIntervalSeconds: "max_upload_interval_seconds",
     maxUploadRecords: "max_upload_records",
+    name: "name",
     outputOptions: "output_options",
   }),
 ) as unknown as Schema.Schema<UpdateJobResponse>;
 
-export const updateJob: (
-  input: UpdateJobRequest,
-) => Effect.Effect<
+export const updateJob: API.OperationMethod<
+  UpdateJobRequest,
   UpdateJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1381,9 +1409,8 @@ export const DeleteJobResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteJobResponse>;
 
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => Effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1430,9 +1457,8 @@ export const CreateOwnershipResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
-export const createOwnership: (
-  input: CreateOwnershipRequest,
-) => Effect.Effect<
+export const createOwnership: API.OperationMethod<
+  CreateOwnershipRequest,
   CreateOwnershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1477,9 +1503,8 @@ export const ValidateOwnershipResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
-export const validateOwnership: (
-  input: ValidateOwnershipRequest,
-) => Effect.Effect<
+export const validateOwnership: API.OperationMethod<
+  ValidateOwnershipRequest,
   ValidateOwnershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1524,9 +1549,8 @@ export const DestinationValidateResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DestinationValidateResponse>;
 
-export const destinationValidate: (
-  input: DestinationValidateRequest,
-) => Effect.Effect<
+export const destinationValidate: API.OperationMethod<
+  DestinationValidateRequest,
   DestinationValidateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1567,9 +1591,8 @@ export const OriginValidateResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<OriginValidateResponse>;
 
-export const originValidate: (
-  input: OriginValidateRequest,
-) => Effect.Effect<
+export const originValidate: API.OperationMethod<
+  OriginValidateRequest,
   OriginValidateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

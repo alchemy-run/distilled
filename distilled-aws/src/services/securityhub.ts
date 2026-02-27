@@ -18272,9 +18272,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
  * When the member account accepts the invitation, permission is granted to the administrator
  * account to view findings generated in the member account.
  */
-export const acceptAdministratorInvitation: (
-  input: AcceptAdministratorInvitationRequest,
-) => effect.Effect<
+export const acceptAdministratorInvitation: API.OperationMethod<
+  AcceptAdministratorInvitationRequest,
   AcceptAdministratorInvitationResponse,
   | InternalException
   | InvalidAccessException
@@ -18308,9 +18307,8 @@ export const acceptAdministratorInvitation: (
  * When the member account accepts the invitation, permission is granted to the administrator
  * account to view findings generated in the member account.
  */
-export const acceptInvitation: (
-  input: AcceptInvitationRequest,
-) => effect.Effect<
+export const acceptInvitation: API.OperationMethod<
+  AcceptInvitationRequest,
   AcceptInvitationResponse,
   | InternalException
   | InvalidAccessException
@@ -18333,9 +18331,8 @@ export const acceptInvitation: (
 /**
  * Deletes one or more automation rules.
  */
-export const batchDeleteAutomationRules: (
-  input: BatchDeleteAutomationRulesRequest,
-) => effect.Effect<
+export const batchDeleteAutomationRules: API.OperationMethod<
+  BatchDeleteAutomationRulesRequest,
   BatchDeleteAutomationRulesResponse,
   | InternalException
   | InvalidAccessException
@@ -18362,9 +18359,8 @@ export const batchDeleteAutomationRules: (
  * For more information, see Security Standards section of the Security Hub User
  * Guide.
  */
-export const batchDisableStandards: (
-  input: BatchDisableStandardsRequest,
-) => effect.Effect<
+export const batchDisableStandards: API.OperationMethod<
+  BatchDisableStandardsRequest,
   BatchDisableStandardsResponse,
   | AccessDeniedException
   | InternalException
@@ -18392,9 +18388,8 @@ export const batchDisableStandards: (
  * For more information, see the Security Standards
  * section of the *Security Hub User Guide*.
  */
-export const batchEnableStandards: (
-  input: BatchEnableStandardsRequest,
-) => effect.Effect<
+export const batchEnableStandards: API.OperationMethod<
+  BatchEnableStandardsRequest,
   BatchEnableStandardsResponse,
   | AccessDeniedException
   | InternalException
@@ -18418,9 +18413,8 @@ export const batchEnableStandards: (
  * Retrieves a list of details for automation rules based on rule Amazon Resource Names
  * (ARNs).
  */
-export const batchGetAutomationRules: (
-  input: BatchGetAutomationRulesRequest,
-) => effect.Effect<
+export const batchGetAutomationRules: API.OperationMethod<
+  BatchGetAutomationRulesRequest,
   BatchGetAutomationRulesResponse,
   | AccessDeniedException
   | InternalException
@@ -18447,9 +18441,8 @@ export const batchGetAutomationRules: (
  * Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration
  * can refer to a configuration policy or to a self-managed configuration.
  */
-export const batchGetConfigurationPolicyAssociations: (
-  input: BatchGetConfigurationPolicyAssociationsRequest,
-) => effect.Effect<
+export const batchGetConfigurationPolicyAssociations: API.OperationMethod<
+  BatchGetConfigurationPolicyAssociationsRequest,
   BatchGetConfigurationPolicyAssociationsResponse,
   | AccessDeniedException
   | InternalException
@@ -18474,9 +18467,8 @@ export const batchGetConfigurationPolicyAssociations: (
 /**
  * Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
  */
-export const batchGetSecurityControls: (
-  input: BatchGetSecurityControlsRequest,
-) => effect.Effect<
+export const batchGetSecurityControls: API.OperationMethod<
+  BatchGetSecurityControlsRequest,
   BatchGetSecurityControlsResponse,
   | InternalException
   | InvalidAccessException
@@ -18499,9 +18491,8 @@ export const batchGetSecurityControls: (
  *
  * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the association has a `NOT_READY_FOR_UPDATES` value for `StandardsControlsUpdatable`.
  */
-export const batchGetStandardsControlAssociations: (
-  input: BatchGetStandardsControlAssociationsRequest,
-) => effect.Effect<
+export const batchGetStandardsControlAssociations: API.OperationMethod<
+  BatchGetStandardsControlAssociationsRequest,
   BatchGetStandardsControlAssociationsResponse,
   | InternalException
   | InvalidAccessException
@@ -18565,9 +18556,8 @@ export const batchGetStandardsControlAssociations: (
  *
  * Instead, finding providers use `FindingProviderFields` to provide values for these attributes.
  */
-export const batchImportFindings: (
-  input: BatchImportFindingsRequest,
-) => effect.Effect<
+export const batchImportFindings: API.OperationMethod<
+  BatchImportFindingsRequest,
   BatchImportFindingsResponse,
   | InternalException
   | InvalidAccessException
@@ -18589,9 +18579,8 @@ export const batchImportFindings: (
  * Updates one or more automation rules based on rule Amazon Resource Names (ARNs)
  * and input parameters.
  */
-export const batchUpdateAutomationRules: (
-  input: BatchUpdateAutomationRulesRequest,
-) => effect.Effect<
+export const batchUpdateAutomationRules: API.OperationMethod<
+  BatchUpdateAutomationRulesRequest,
   BatchUpdateAutomationRulesResponse,
   | InternalException
   | InvalidAccessException
@@ -18643,9 +18632,8 @@ export const batchUpdateAutomationRules: (
  * For example, you might not want member accounts to be able to suppress findings or change the finding severity.
  * For more information see Configuring access to BatchUpdateFindings in the *Security Hub User Guide*.
  */
-export const batchUpdateFindings: (
-  input: BatchUpdateFindingsRequest,
-) => effect.Effect<
+export const batchUpdateFindings: API.OperationMethod<
+  BatchUpdateFindingsRequest,
   BatchUpdateFindingsResponse,
   | InternalException
   | InvalidAccessException
@@ -18671,9 +18659,8 @@ export const batchUpdateFindings: (
  * You must have permission to perform the `securityhub:BatchUpdateFindings` action.
  * Updates from `BatchUpdateFindingsV2` don't affect the value of f`inding_info.modified_time`, `finding_info.modified_time_dt`, `time`, `time_dt for a finding`.
  */
-export const batchUpdateFindingsV2: (
-  input: BatchUpdateFindingsV2Request,
-) => effect.Effect<
+export const batchUpdateFindingsV2: API.OperationMethod<
+  BatchUpdateFindingsV2Request,
   BatchUpdateFindingsV2Response,
   | AccessDeniedException
   | ConflictException
@@ -18696,9 +18683,8 @@ export const batchUpdateFindingsV2: (
 /**
  * For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
  */
-export const batchUpdateStandardsControlAssociations: (
-  input: BatchUpdateStandardsControlAssociationsRequest,
-) => effect.Effect<
+export const batchUpdateStandardsControlAssociations: API.OperationMethod<
+  BatchUpdateStandardsControlAssociationsRequest,
   BatchUpdateStandardsControlAssociationsResponse,
   | AccessDeniedException
   | InternalException
@@ -18724,9 +18710,8 @@ export const batchUpdateStandardsControlAssociations: (
  * You can use custom actions on findings and insights in Security Hub to trigger target actions
  * in Amazon CloudWatch Events.
  */
-export const createActionTarget: (
-  input: CreateActionTargetRequest,
-) => effect.Effect<
+export const createActionTarget: API.OperationMethod<
+  CreateActionTargetRequest,
   CreateActionTargetResponse,
   | InternalException
   | InvalidAccessException
@@ -18749,9 +18734,8 @@ export const createActionTarget: (
 /**
  * Enables aggregation across Amazon Web Services Regions.
  */
-export const createAggregatorV2: (
-  input: CreateAggregatorV2Request,
-) => effect.Effect<
+export const createAggregatorV2: API.OperationMethod<
+  CreateAggregatorV2Request,
   CreateAggregatorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -18778,9 +18762,8 @@ export const createAggregatorV2: (
 /**
  * Creates an automation rule based on input parameters.
  */
-export const createAutomationRule: (
-  input: CreateAutomationRuleRequest,
-) => effect.Effect<
+export const createAutomationRule: API.OperationMethod<
+  CreateAutomationRuleRequest,
   CreateAutomationRuleResponse,
   | AccessDeniedException
   | InternalException
@@ -18803,9 +18786,8 @@ export const createAutomationRule: (
 /**
  * Creates a V2 automation rule.
  */
-export const createAutomationRuleV2: (
-  input: CreateAutomationRuleV2Request,
-) => effect.Effect<
+export const createAutomationRuleV2: API.OperationMethod<
+  CreateAutomationRuleV2Request,
   CreateAutomationRuleV2Response,
   | AccessDeniedException
   | ConflictException
@@ -18831,9 +18813,8 @@ export const createAutomationRuleV2: (
  * Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator
  * can invoke this operation from the home Region.
  */
-export const createConfigurationPolicy: (
-  input: CreateConfigurationPolicyRequest,
-) => effect.Effect<
+export const createConfigurationPolicy: API.OperationMethod<
+  CreateConfigurationPolicyRequest,
   CreateConfigurationPolicyResponse,
   | AccessDeniedException
   | InternalException
@@ -18858,9 +18839,8 @@ export const createConfigurationPolicy: (
 /**
  * Grants permission to create a connectorV2 based on input parameters.
  */
-export const createConnectorV2: (
-  input: CreateConnectorV2Request,
-) => effect.Effect<
+export const createConnectorV2: API.OperationMethod<
+  CreateConnectorV2Request,
   CreateConnectorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -18891,9 +18871,8 @@ export const createConnectorV2: (
  *
  * For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the *Security Hub User Guide*.
  */
-export const createFindingAggregator: (
-  input: CreateFindingAggregatorRequest,
-) => effect.Effect<
+export const createFindingAggregator: API.OperationMethod<
+  CreateFindingAggregatorRequest,
   CreateFindingAggregatorResponse,
   | AccessDeniedException
   | InternalException
@@ -18920,9 +18899,8 @@ export const createFindingAggregator: (
  * To group the related findings in the insight, use the
  * `GroupByAttribute`.
  */
-export const createInsight: (
-  input: CreateInsightRequest,
-) => effect.Effect<
+export const createInsight: API.OperationMethod<
+  CreateInsightRequest,
   CreateInsightResponse,
   | InternalException
   | InvalidAccessException
@@ -18977,9 +18955,8 @@ export const createInsight: (
  *
  * To remove the association between the administrator and member accounts, use the `DisassociateFromMasterAccount` or `DisassociateMembers` operation.
  */
-export const createMembers: (
-  input: CreateMembersRequest,
-) => effect.Effect<
+export const createMembers: API.OperationMethod<
+  CreateMembersRequest,
   CreateMembersResponse,
   | AccessDeniedException
   | InternalException
@@ -19004,9 +18981,8 @@ export const createMembers: (
 /**
  * Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID.
  */
-export const createTicketV2: (
-  input: CreateTicketV2Request,
-) => effect.Effect<
+export const createTicketV2: API.OperationMethod<
+  CreateTicketV2Request,
   CreateTicketV2Response,
   | AccessDeniedException
   | ConflictException
@@ -19040,9 +19016,8 @@ export const createTicketV2: (
  * Only member accounts that aren't part of an Amazon Web Services organization should use this operation.
  * Organization accounts don't receive invitations.
  */
-export const declineInvitations: (
-  input: DeclineInvitationsRequest,
-) => effect.Effect<
+export const declineInvitations: API.OperationMethod<
+  DeclineInvitationsRequest,
   DeclineInvitationsResponse,
   | InternalException
   | InvalidAccessException
@@ -19066,9 +19041,8 @@ export const declineInvitations: (
  * Deleting a custom action target does not affect any findings or insights that were
  * already sent to Amazon CloudWatch Events using the custom action.
  */
-export const deleteActionTarget: (
-  input: DeleteActionTargetRequest,
-) => effect.Effect<
+export const deleteActionTarget: API.OperationMethod<
+  DeleteActionTargetRequest,
   DeleteActionTargetResponse,
   | InternalException
   | InvalidAccessException
@@ -19089,9 +19063,8 @@ export const deleteActionTarget: (
 /**
  * Deletes the Aggregator V2.
  */
-export const deleteAggregatorV2: (
-  input: DeleteAggregatorV2Request,
-) => effect.Effect<
+export const deleteAggregatorV2: API.OperationMethod<
+  DeleteAggregatorV2Request,
   DeleteAggregatorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -19116,9 +19089,8 @@ export const deleteAggregatorV2: (
 /**
  * Deletes a V2 automation rule.
  */
-export const deleteAutomationRuleV2: (
-  input: DeleteAutomationRuleV2Request,
-) => effect.Effect<
+export const deleteAutomationRuleV2: API.OperationMethod<
+  DeleteAutomationRuleV2Request,
   DeleteAutomationRuleV2Response,
   | AccessDeniedException
   | ConflictException
@@ -19145,9 +19117,8 @@ export const deleteAutomationRuleV2: (
  * from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,
  * organizational units, or the root by invoking the `StartConfigurationPolicyDisassociation` operation.
  */
-export const deleteConfigurationPolicy: (
-  input: DeleteConfigurationPolicyRequest,
-) => effect.Effect<
+export const deleteConfigurationPolicy: API.OperationMethod<
+  DeleteConfigurationPolicyRequest,
   DeleteConfigurationPolicyResponse,
   | AccessDeniedException
   | InternalException
@@ -19174,9 +19145,8 @@ export const deleteConfigurationPolicy: (
 /**
  * Grants permission to delete a connectorV2.
  */
-export const deleteConnectorV2: (
-  input: DeleteConnectorV2Request,
-) => effect.Effect<
+export const deleteConnectorV2: API.OperationMethod<
+  DeleteConnectorV2Request,
   DeleteConnectorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -19207,9 +19177,8 @@ export const deleteConnectorV2: (
  * When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from
  * the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
  */
-export const deleteFindingAggregator: (
-  input: DeleteFindingAggregatorRequest,
-) => effect.Effect<
+export const deleteFindingAggregator: API.OperationMethod<
+  DeleteFindingAggregatorRequest,
   DeleteFindingAggregatorResponse,
   | AccessDeniedException
   | InternalException
@@ -19234,9 +19203,8 @@ export const deleteFindingAggregator: (
 /**
  * Deletes the insight specified by the `InsightArn`.
  */
-export const deleteInsight: (
-  input: DeleteInsightRequest,
-) => effect.Effect<
+export const deleteInsight: API.OperationMethod<
+  DeleteInsightRequest,
   DeleteInsightResponse,
   | InternalException
   | InvalidAccessException
@@ -19268,9 +19236,8 @@ export const deleteInsight: (
  * This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization.
  * Organization accounts don't receive invitations.
  */
-export const deleteInvitations: (
-  input: DeleteInvitationsRequest,
-) => effect.Effect<
+export const deleteInvitations: API.OperationMethod<
+  DeleteInvitationsRequest,
   DeleteInvitationsResponse,
   | InternalException
   | InvalidAccessException
@@ -19296,9 +19263,8 @@ export const deleteInvitations: (
  * You can invoke this API only to delete accounts that became members through invitation. You can't invoke this
  * API to delete accounts that belong to an Organizations organization.
  */
-export const deleteMembers: (
-  input: DeleteMembersRequest,
-) => effect.Effect<
+export const deleteMembers: API.OperationMethod<
+  DeleteMembersRequest,
   DeleteMembersResponse,
   | InternalException
   | InvalidAccessException
@@ -19321,18 +19287,16 @@ export const deleteMembers: (
 /**
  * Returns a list of the custom action targets in Security Hub in your account.
  */
-export const describeActionTargets: {
-  (
-    input: DescribeActionTargetsRequest,
-  ): effect.Effect<
-    DescribeActionTargetsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeActionTargets: API.OperationMethod<
+  DescribeActionTargetsRequest,
+  DescribeActionTargetsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeActionTargetsRequest,
   ) => stream.Stream<
@@ -19375,9 +19339,8 @@ export const describeActionTargets: {
  * Returns details about the Hub resource in your account, including the
  * `HubArn` and the time when you enabled Security Hub.
  */
-export const describeHub: (
-  input: DescribeHubRequest,
-) => effect.Effect<
+export const describeHub: API.OperationMethod<
+  DescribeHubRequest,
   DescribeHubResponse,
   | InternalException
   | InvalidAccessException
@@ -19401,9 +19364,8 @@ export const describeHub: (
  * Returns information about the way your organization is configured in Security Hub. Only the
  * Security Hub administrator account can invoke this operation.
  */
-export const describeOrganizationConfiguration: (
-  input: DescribeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const describeOrganizationConfiguration: API.OperationMethod<
+  DescribeOrganizationConfigurationRequest,
   DescribeOrganizationConfigurationResponse,
   | InternalException
   | InvalidAccessException
@@ -19430,18 +19392,16 @@ export const describeOrganizationConfiguration: (
  * If you don't provide an integration ARN, then the results include all of the available
  * product integrations.
  */
-export const describeProducts: {
-  (
-    input: DescribeProductsRequest,
-  ): effect.Effect<
-    DescribeProductsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeProducts: API.OperationMethod<
+  DescribeProductsRequest,
+  DescribeProductsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeProductsRequest,
   ) => stream.Stream<
@@ -19483,19 +19443,17 @@ export const describeProducts: {
 /**
  * Gets information about the product integration.
  */
-export const describeProductsV2: {
-  (
-    input: DescribeProductsV2Request,
-  ): effect.Effect<
-    DescribeProductsV2Response,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeProductsV2: API.OperationMethod<
+  DescribeProductsV2Request,
+  DescribeProductsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeProductsV2Request,
   ) => stream.Stream<
@@ -19540,9 +19498,8 @@ export const describeProductsV2: {
 /**
  * Returns details about the service resource in your account.
  */
-export const describeSecurityHubV2: (
-  input: DescribeSecurityHubV2Request,
-) => effect.Effect<
+export const describeSecurityHubV2: API.OperationMethod<
+  DescribeSecurityHubV2Request,
   DescribeSecurityHubV2Response,
   | InternalServerException
   | ResourceNotFoundException
@@ -19565,17 +19522,15 @@ export const describeSecurityHubV2: (
  *
  * For each standard, the results include the standard ARN, the name, and a description.
  */
-export const describeStandards: {
-  (
-    input: DescribeStandardsRequest,
-  ): effect.Effect<
-    DescribeStandardsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeStandards: API.OperationMethod<
+  DescribeStandardsRequest,
+  DescribeStandardsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStandardsRequest,
   ) => stream.Stream<
@@ -19615,18 +19570,16 @@ export const describeStandards: {
  *
  * This operation returns an empty list for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
-export const describeStandardsControls: {
-  (
-    input: DescribeStandardsControlsRequest,
-  ): effect.Effect<
-    DescribeStandardsControlsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeStandardsControls: API.OperationMethod<
+  DescribeStandardsControlsRequest,
+  DescribeStandardsControlsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStandardsControlsRequest,
   ) => stream.Stream<
@@ -19669,9 +19622,8 @@ export const describeStandardsControls: {
  * Disables the integration of the specified product with Security Hub. After the integration is
  * disabled, findings from that product are no longer sent to Security Hub.
  */
-export const disableImportFindingsForProduct: (
-  input: DisableImportFindingsForProductRequest,
-) => effect.Effect<
+export const disableImportFindingsForProduct: API.OperationMethod<
+  DisableImportFindingsForProductRequest,
   DisableImportFindingsForProductResponse,
   | InternalException
   | InvalidAccessException
@@ -19695,9 +19647,8 @@ export const disableImportFindingsForProduct: (
  * Disables a Security Hub administrator account. Can only be called by the organization
  * management account.
  */
-export const disableOrganizationAdminAccount: (
-  input: DisableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const disableOrganizationAdminAccount: API.OperationMethod<
+  DisableOrganizationAdminAccountRequest,
   DisableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalException
@@ -19730,9 +19681,8 @@ export const disableOrganizationAdminAccount: (
  * If you want to save your existing findings, you must export them before you disable
  * Security Hub.
  */
-export const disableSecurityHub: (
-  input: DisableSecurityHubRequest,
-) => effect.Effect<
+export const disableSecurityHub: API.OperationMethod<
+  DisableSecurityHubRequest,
   DisableSecurityHubResponse,
   | AccessDeniedException
   | InternalException
@@ -19755,9 +19705,8 @@ export const disableSecurityHub: (
 /**
  * Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region.
  */
-export const disableSecurityHubV2: (
-  input: DisableSecurityHubV2Request,
-) => effect.Effect<
+export const disableSecurityHubV2: API.OperationMethod<
+  DisableSecurityHubV2Request,
   DisableSecurityHubV2Response,
   | AccessDeniedException
   | InternalServerException
@@ -19783,9 +19732,8 @@ export const disableSecurityHubV2: (
  * organization accounts, only the administrator account can
  * disassociate a member account.
  */
-export const disassociateFromAdministratorAccount: (
-  input: DisassociateFromAdministratorAccountRequest,
-) => effect.Effect<
+export const disassociateFromAdministratorAccount: API.OperationMethod<
+  DisassociateFromAdministratorAccountRequest,
   DisassociateFromAdministratorAccountResponse,
   | InternalException
   | InvalidAccessException
@@ -19817,9 +19765,8 @@ export const disassociateFromAdministratorAccount: (
  * organization accounts, only the administrator account can
  * disassociate a member account.
  */
-export const disassociateFromMasterAccount: (
-  input: DisassociateFromMasterAccountRequest,
-) => effect.Effect<
+export const disassociateFromMasterAccount: API.OperationMethod<
+  DisassociateFromMasterAccountRequest,
   DisassociateFromMasterAccountResponse,
   | InternalException
   | InvalidAccessException
@@ -19845,9 +19792,8 @@ export const disassociateFromMasterAccount: (
  * Can be used to disassociate both accounts that are managed using Organizations and accounts that
  * were invited manually.
  */
-export const disassociateMembers: (
-  input: DisassociateMembersRequest,
-) => effect.Effect<
+export const disassociateMembers: API.OperationMethod<
+  DisassociateMembersRequest,
   DisassociateMembersResponse,
   | AccessDeniedException
   | InternalException
@@ -19876,9 +19822,8 @@ export const disassociateMembers: (
  * When you enable a product integration, a permissions policy that grants permission for
  * the product to send findings to Security Hub is applied.
  */
-export const enableImportFindingsForProduct: (
-  input: EnableImportFindingsForProductRequest,
-) => effect.Effect<
+export const enableImportFindingsForProduct: API.OperationMethod<
+  EnableImportFindingsForProductRequest,
   EnableImportFindingsForProductResponse,
   | InternalException
   | InvalidAccessException
@@ -19902,9 +19847,8 @@ export const enableImportFindingsForProduct: (
  * Designates the Security Hub administrator account for an organization. Can only be called by
  * the organization management account.
  */
-export const enableOrganizationAdminAccount: (
-  input: EnableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const enableOrganizationAdminAccount: API.OperationMethod<
+  EnableOrganizationAdminAccountRequest,
   EnableOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalException
@@ -19948,9 +19892,8 @@ export const enableOrganizationAdminAccount: (
  *
  * To learn more, see the setup information in the *Security Hub User Guide*.
  */
-export const enableSecurityHub: (
-  input: EnableSecurityHubRequest,
-) => effect.Effect<
+export const enableSecurityHub: API.OperationMethod<
+  EnableSecurityHubRequest,
   EnableSecurityHubResponse,
   | AccessDeniedException
   | InternalException
@@ -19973,9 +19916,8 @@ export const enableSecurityHub: (
 /**
  * Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region.
  */
-export const enableSecurityHubV2: (
-  input: EnableSecurityHubV2Request,
-) => effect.Effect<
+export const enableSecurityHubV2: API.OperationMethod<
+  EnableSecurityHubV2Request,
   EnableSecurityHubV2Response,
   | AccessDeniedException
   | InternalServerException
@@ -19999,9 +19941,8 @@ export const enableSecurityHubV2: (
  * Can be used by both member accounts that are managed using Organizations and accounts that were
  * invited manually.
  */
-export const getAdministratorAccount: (
-  input: GetAdministratorAccountRequest,
-) => effect.Effect<
+export const getAdministratorAccount: API.OperationMethod<
+  GetAdministratorAccountRequest,
   GetAdministratorAccountResponse,
   | InternalException
   | InvalidAccessException
@@ -20024,9 +19965,8 @@ export const getAdministratorAccount: (
 /**
  * Returns the configuration of the specified Aggregator V2.
  */
-export const getAggregatorV2: (
-  input: GetAggregatorV2Request,
-) => effect.Effect<
+export const getAggregatorV2: API.OperationMethod<
+  GetAggregatorV2Request,
   GetAggregatorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -20051,9 +19991,8 @@ export const getAggregatorV2: (
 /**
  * Returns an automation rule for the V2 service.
  */
-export const getAutomationRuleV2: (
-  input: GetAutomationRuleV2Request,
-) => effect.Effect<
+export const getAutomationRuleV2: API.OperationMethod<
+  GetAutomationRuleV2Request,
   GetAutomationRuleV2Response,
   | AccessDeniedException
   | ConflictException
@@ -20079,9 +20018,8 @@ export const getAutomationRuleV2: (
  * Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke
  * this operation from the home Region.
  */
-export const getConfigurationPolicy: (
-  input: GetConfigurationPolicyRequest,
-) => effect.Effect<
+export const getConfigurationPolicy: API.OperationMethod<
+  GetConfigurationPolicyRequest,
   GetConfigurationPolicyResponse,
   | AccessDeniedException
   | InternalException
@@ -20108,9 +20046,8 @@ export const getConfigurationPolicy: (
  * configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
  * invoke this operation from the home Region.
  */
-export const getConfigurationPolicyAssociation: (
-  input: GetConfigurationPolicyAssociationRequest,
-) => effect.Effect<
+export const getConfigurationPolicyAssociation: API.OperationMethod<
+  GetConfigurationPolicyAssociationRequest,
   GetConfigurationPolicyAssociationResponse,
   | AccessDeniedException
   | InternalException
@@ -20135,9 +20072,8 @@ export const getConfigurationPolicyAssociation: (
 /**
  * Grants permission to retrieve details for a connectorV2 based on connector id.
  */
-export const getConnectorV2: (
-  input: GetConnectorV2Request,
-) => effect.Effect<
+export const getConnectorV2: API.OperationMethod<
+  GetConnectorV2Request,
   GetConnectorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -20162,18 +20098,16 @@ export const getConnectorV2: (
 /**
  * Returns a list of the standards that are currently enabled.
  */
-export const getEnabledStandards: {
-  (
-    input: GetEnabledStandardsRequest,
-  ): effect.Effect<
-    GetEnabledStandardsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getEnabledStandards: API.OperationMethod<
+  GetEnabledStandardsRequest,
+  GetEnabledStandardsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEnabledStandardsRequest,
   ) => stream.Stream<
@@ -20218,9 +20152,8 @@ export const getEnabledStandards: {
  * Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes
  * the home Region and any linked Regions.
  */
-export const getFindingAggregator: (
-  input: GetFindingAggregatorRequest,
-) => effect.Effect<
+export const getFindingAggregator: API.OperationMethod<
+  GetFindingAggregatorRequest,
   GetFindingAggregatorResponse,
   | AccessDeniedException
   | InternalException
@@ -20253,18 +20186,16 @@ export const getFindingAggregator: (
  * that the results are incomplete. However, you should continue to specify a `NextToken` value until you receive a
  * response that doesn't include this value.
  */
-export const getFindingHistory: {
-  (
-    input: GetFindingHistoryRequest,
-  ): effect.Effect<
-    GetFindingHistoryResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindingHistory: API.OperationMethod<
+  GetFindingHistoryRequest,
+  GetFindingHistoryResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingHistoryRequest,
   ) => stream.Stream<
@@ -20308,18 +20239,16 @@ export const getFindingHistory: {
  *
  * If cross-Region aggregation is enabled, then when you call `GetFindings` from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
  */
-export const getFindings: {
-  (
-    input: GetFindingsRequest,
-  ): effect.Effect<
-    GetFindingsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindings: API.OperationMethod<
+  GetFindingsRequest,
+  GetFindingsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingsRequest,
   ) => stream.Stream<
@@ -20363,9 +20292,8 @@ export const getFindings: {
  * `GetFindingStatisticsV2` use `securityhub:GetAdhocInsightResults` in the `Action` element of an IAM policy statement.
  * You must have permission to perform the `s` action.
  */
-export const getFindingStatisticsV2: (
-  input: GetFindingStatisticsV2Request,
-) => effect.Effect<
+export const getFindingStatisticsV2: API.OperationMethod<
+  GetFindingStatisticsV2Request,
   GetFindingStatisticsV2Response,
   | AccessDeniedException
   | ConflictException
@@ -20388,18 +20316,16 @@ export const getFindingStatisticsV2: (
 /**
  * Returns findings trend data based on the specified criteria. This operation helps you analyze patterns and changes in findings over time.
  */
-export const getFindingsTrendsV2: {
-  (
-    input: GetFindingsTrendsV2Request,
-  ): effect.Effect<
-    GetFindingsTrendsV2Response,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindingsTrendsV2: API.OperationMethod<
+  GetFindingsTrendsV2Request,
+  GetFindingsTrendsV2Response,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingsTrendsV2Request,
   ) => stream.Stream<
@@ -20443,19 +20369,17 @@ export const getFindingsTrendsV2: {
  * `GetFindings` and `GetFindingsV2` both use `securityhub:GetFindings` in the `Action` element of an IAM policy statement.
  * You must have permission to perform the `securityhub:GetFindings` action.
  */
-export const getFindingsV2: {
-  (
-    input: GetFindingsV2Request,
-  ): effect.Effect<
-    GetFindingsV2Response,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindingsV2: API.OperationMethod<
+  GetFindingsV2Request,
+  GetFindingsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingsV2Request,
   ) => stream.Stream<
@@ -20500,9 +20424,8 @@ export const getFindingsV2: {
 /**
  * Lists the results of the Security Hub insight specified by the insight ARN.
  */
-export const getInsightResults: (
-  input: GetInsightResultsRequest,
-) => effect.Effect<
+export const getInsightResults: API.OperationMethod<
+  GetInsightResultsRequest,
   GetInsightResultsResponse,
   | InternalException
   | InvalidAccessException
@@ -20525,19 +20448,17 @@ export const getInsightResults: (
 /**
  * Lists and describes insights for the specified insight ARNs.
  */
-export const getInsights: {
-  (
-    input: GetInsightsRequest,
-  ): effect.Effect<
-    GetInsightsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getInsights: API.OperationMethod<
+  GetInsightsRequest,
+  GetInsightsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetInsightsRequest,
   ) => stream.Stream<
@@ -20587,9 +20508,8 @@ export const getInsights: {
  * Returns the count of all Security Hub membership invitations that were sent to the
  * calling member account, not including the currently accepted invitation.
  */
-export const getInvitationsCount: (
-  input: GetInvitationsCountRequest,
-) => effect.Effect<
+export const getInvitationsCount: API.OperationMethod<
+  GetInvitationsCountRequest,
   GetInvitationsCountResponse,
   | InternalException
   | InvalidAccessException
@@ -20617,9 +20537,8 @@ export const getInvitationsCount: (
  * Can be used by both member accounts that are managed using Organizations and accounts that were
  * invited manually.
  */
-export const getMasterAccount: (
-  input: GetMasterAccountRequest,
-) => effect.Effect<
+export const getMasterAccount: API.OperationMethod<
+  GetMasterAccountRequest,
   GetMasterAccountResponse,
   | InternalException
   | InvalidAccessException
@@ -20648,9 +20567,8 @@ export const getMasterAccount: (
  * The results include both member accounts that are managed using Organizations and accounts that
  * were invited manually.
  */
-export const getMembers: (
-  input: GetMembersRequest,
-) => effect.Effect<
+export const getMembers: API.OperationMethod<
+  GetMembersRequest,
   GetMembersResponse,
   | InternalException
   | InvalidAccessException
@@ -20673,9 +20591,8 @@ export const getMembers: (
 /**
  * Retrieves statistical information about Amazon Web Services resources and their associated security findings.
  */
-export const getResourcesStatisticsV2: (
-  input: GetResourcesStatisticsV2Request,
-) => effect.Effect<
+export const getResourcesStatisticsV2: API.OperationMethod<
+  GetResourcesStatisticsV2Request,
   GetResourcesStatisticsV2Response,
   | AccessDeniedException
   | ConflictException
@@ -20700,18 +20617,16 @@ export const getResourcesStatisticsV2: (
 /**
  * Returns resource trend data based on the specified criteria. This operation helps you analyze patterns and changes in resource compliance over time.
  */
-export const getResourcesTrendsV2: {
-  (
-    input: GetResourcesTrendsV2Request,
-  ): effect.Effect<
-    GetResourcesTrendsV2Response,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourcesTrendsV2: API.OperationMethod<
+  GetResourcesTrendsV2Request,
+  GetResourcesTrendsV2Response,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcesTrendsV2Request,
   ) => stream.Stream<
@@ -20753,20 +20668,18 @@ export const getResourcesTrendsV2: {
 /**
  * Returns a list of resources.
  */
-export const getResourcesV2: {
-  (
-    input: GetResourcesV2Request,
-  ): effect.Effect<
-    GetResourcesV2Response,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourcesV2: API.OperationMethod<
+  GetResourcesV2Request,
+  GetResourcesV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcesV2Request,
   ) => stream.Stream<
@@ -20814,9 +20727,8 @@ export const getResourcesV2: {
 /**
  * Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
  */
-export const getSecurityControlDefinition: (
-  input: GetSecurityControlDefinitionRequest,
-) => effect.Effect<
+export const getSecurityControlDefinition: API.OperationMethod<
+  GetSecurityControlDefinitionRequest,
   GetSecurityControlDefinitionResponse,
   | InternalException
   | InvalidAccessException
@@ -20852,9 +20764,8 @@ export const getSecurityControlDefinition: (
  * When the account owner enables Security Hub and accepts the invitation to become a member
  * account, the administrator account can view the findings generated in the member account.
  */
-export const inviteMembers: (
-  input: InviteMembersRequest,
-) => effect.Effect<
+export const inviteMembers: API.OperationMethod<
+  InviteMembersRequest,
   InviteMembersResponse,
   | InternalException
   | InvalidAccessException
@@ -20877,20 +20788,18 @@ export const inviteMembers: (
 /**
  * Retrieves a list of V2 aggregators.
  */
-export const listAggregatorsV2: {
-  (
-    input: ListAggregatorsV2Request,
-  ): effect.Effect<
-    ListAggregatorsV2Response,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAggregatorsV2: API.OperationMethod<
+  ListAggregatorsV2Request,
+  ListAggregatorsV2Response,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAggregatorsV2Request,
   ) => stream.Stream<
@@ -20938,9 +20847,8 @@ export const listAggregatorsV2: {
 /**
  * A list of automation rules and their metadata for the calling account.
  */
-export const listAutomationRules: (
-  input: ListAutomationRulesRequest,
-) => effect.Effect<
+export const listAutomationRules: API.OperationMethod<
+  ListAutomationRulesRequest,
   ListAutomationRulesResponse,
   | AccessDeniedException
   | InternalException
@@ -20963,9 +20871,8 @@ export const listAutomationRules: (
 /**
  * Returns a list of automation rules and metadata for the calling account.
  */
-export const listAutomationRulesV2: (
-  input: ListAutomationRulesV2Request,
-) => effect.Effect<
+export const listAutomationRulesV2: API.OperationMethod<
+  ListAutomationRulesV2Request,
   ListAutomationRulesV2Response,
   | AccessDeniedException
   | ConflictException
@@ -20989,19 +20896,17 @@ export const listAutomationRulesV2: (
  * Lists the configuration policies that the Security Hub delegated administrator has created for your
  * organization. Only the delegated administrator can invoke this operation from the home Region.
  */
-export const listConfigurationPolicies: {
-  (
-    input: ListConfigurationPoliciesRequest,
-  ): effect.Effect<
-    ListConfigurationPoliciesResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationPolicies: API.OperationMethod<
+  ListConfigurationPoliciesRequest,
+  ListConfigurationPoliciesResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationPoliciesRequest,
   ) => stream.Stream<
@@ -21047,19 +20952,17 @@ export const listConfigurationPolicies: {
  * Provides information about the associations for your configuration policies and self-managed behavior. Only the
  * Security Hub delegated administrator can invoke this operation from the home Region.
  */
-export const listConfigurationPolicyAssociations: {
-  (
-    input: ListConfigurationPolicyAssociationsRequest,
-  ): effect.Effect<
-    ListConfigurationPolicyAssociationsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationPolicyAssociations: API.OperationMethod<
+  ListConfigurationPolicyAssociationsRequest,
+  ListConfigurationPolicyAssociationsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationPolicyAssociationsRequest,
   ) => stream.Stream<
@@ -21104,9 +21007,8 @@ export const listConfigurationPolicyAssociations: {
 /**
  * Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account.
  */
-export const listConnectorsV2: (
-  input: ListConnectorsV2Request,
-) => effect.Effect<
+export const listConnectorsV2: API.OperationMethod<
+  ListConnectorsV2Request,
   ListConnectorsV2Response,
   | AccessDeniedException
   | ConflictException
@@ -21132,17 +21034,15 @@ export const listConnectorsV2: (
  * Lists all findings-generating solutions (products) that you are subscribed to receive
  * findings from in Security Hub.
  */
-export const listEnabledProductsForImport: {
-  (
-    input: ListEnabledProductsForImportRequest,
-  ): effect.Effect<
-    ListEnabledProductsForImportResponse,
-    | InternalException
-    | InvalidAccessException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnabledProductsForImport: API.OperationMethod<
+  ListEnabledProductsForImportRequest,
+  ListEnabledProductsForImportResponse,
+  | InternalException
+  | InvalidAccessException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnabledProductsForImportRequest,
   ) => stream.Stream<
@@ -21178,19 +21078,17 @@ export const listEnabledProductsForImport: {
  * If cross-Region aggregation is enabled, then `ListFindingAggregators` returns the Amazon Resource Name (ARN)
  * of the finding aggregator. You can run this operation from any Amazon Web Services Region.
  */
-export const listFindingAggregators: {
-  (
-    input: ListFindingAggregatorsRequest,
-  ): effect.Effect<
-    ListFindingAggregatorsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindingAggregators: API.OperationMethod<
+  ListFindingAggregatorsRequest,
+  ListFindingAggregatorsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingAggregatorsRequest,
   ) => stream.Stream<
@@ -21242,18 +21140,16 @@ export const listFindingAggregators: {
  * Only accounts that are managed by invitation can use this operation.
  * Accounts that are managed using the integration with Organizations don't receive invitations.
  */
-export const listInvitations: {
-  (
-    input: ListInvitationsRequest,
-  ): effect.Effect<
-    ListInvitationsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvitations: API.OperationMethod<
+  ListInvitationsRequest,
+  ListInvitationsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvitationsRequest,
   ) => stream.Stream<
@@ -21299,18 +21195,16 @@ export const listInvitations: {
  * The results include both member accounts that belong to an organization and member
  * accounts that were invited manually.
  */
-export const listMembers: {
-  (
-    input: ListMembersRequest,
-  ): effect.Effect<
-    ListMembersResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersRequest,
+  ListMembersResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
@@ -21353,18 +21247,16 @@ export const listMembers: {
  * Lists the Security Hub administrator accounts. Can only be called by the organization
  * management account.
  */
-export const listOrganizationAdminAccounts: {
-  (
-    input: ListOrganizationAdminAccountsRequest,
-  ): effect.Effect<
-    ListOrganizationAdminAccountsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizationAdminAccounts: API.OperationMethod<
+  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationAdminAccountsRequest,
   ) => stream.Stream<
@@ -21406,18 +21298,16 @@ export const listOrganizationAdminAccounts: {
 /**
  * Lists all of the security controls that apply to a specified standard.
  */
-export const listSecurityControlDefinitions: {
-  (
-    input: ListSecurityControlDefinitionsRequest,
-  ): effect.Effect<
-    ListSecurityControlDefinitionsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityControlDefinitions: API.OperationMethod<
+  ListSecurityControlDefinitionsRequest,
+  ListSecurityControlDefinitionsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityControlDefinitionsRequest,
   ) => stream.Stream<
@@ -21461,18 +21351,16 @@ export const listSecurityControlDefinitions: {
  *
  * This operation omits standards control associations for standard subscriptions where `StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
  */
-export const listStandardsControlAssociations: {
-  (
-    input: ListStandardsControlAssociationsRequest,
-  ): effect.Effect<
-    ListStandardsControlAssociationsResponse,
-    | InternalException
-    | InvalidAccessException
-    | InvalidInputException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStandardsControlAssociations: API.OperationMethod<
+  ListStandardsControlAssociationsRequest,
+  ListStandardsControlAssociationsResponse,
+  | InternalException
+  | InvalidAccessException
+  | InvalidInputException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStandardsControlAssociationsRequest,
   ) => stream.Stream<
@@ -21514,9 +21402,8 @@ export const listStandardsControlAssociations: {
 /**
  * Returns a list of tags associated with a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalException
   | InvalidInputException
@@ -21531,9 +21418,8 @@ export const listTagsForResource: (
 /**
  * Grants permission to complete the authorization based on input parameters.
  */
-export const registerConnectorV2: (
-  input: RegisterConnectorV2Request,
-) => effect.Effect<
+export const registerConnectorV2: API.OperationMethod<
+  RegisterConnectorV2Request,
   RegisterConnectorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -21560,9 +21446,8 @@ export const registerConnectorV2: (
  * associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
  * invoke this operation from the home Region.
  */
-export const startConfigurationPolicyAssociation: (
-  input: StartConfigurationPolicyAssociationRequest,
-) => effect.Effect<
+export const startConfigurationPolicyAssociation: API.OperationMethod<
+  StartConfigurationPolicyAssociationRequest,
   StartConfigurationPolicyAssociationResponse,
   | AccessDeniedException
   | InternalException
@@ -21591,9 +21476,8 @@ export const startConfigurationPolicyAssociation: (
  * a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this
  * operation from the home Region.
  */
-export const startConfigurationPolicyDisassociation: (
-  input: StartConfigurationPolicyDisassociationRequest,
-) => effect.Effect<
+export const startConfigurationPolicyDisassociation: API.OperationMethod<
+  StartConfigurationPolicyDisassociationRequest,
   StartConfigurationPolicyDisassociationResponse,
   | AccessDeniedException
   | InternalException
@@ -21618,9 +21502,8 @@ export const startConfigurationPolicyDisassociation: (
 /**
  * Adds one or more tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalException
   | InvalidInputException
@@ -21635,9 +21518,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalException
   | InvalidInputException
@@ -21652,9 +21534,8 @@ export const untagResource: (
 /**
  * Updates the name and description of a custom action target in Security Hub.
  */
-export const updateActionTarget: (
-  input: UpdateActionTargetRequest,
-) => effect.Effect<
+export const updateActionTarget: API.OperationMethod<
+  UpdateActionTargetRequest,
   UpdateActionTargetResponse,
   | InternalException
   | InvalidAccessException
@@ -21675,9 +21556,8 @@ export const updateActionTarget: (
 /**
  * Udpates the configuration for the Aggregator V2.
  */
-export const updateAggregatorV2: (
-  input: UpdateAggregatorV2Request,
-) => effect.Effect<
+export const updateAggregatorV2: API.OperationMethod<
+  UpdateAggregatorV2Request,
   UpdateAggregatorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -21702,9 +21582,8 @@ export const updateAggregatorV2: (
 /**
  * Updates a V2 automation rule.
  */
-export const updateAutomationRuleV2: (
-  input: UpdateAutomationRuleV2Request,
-) => effect.Effect<
+export const updateAutomationRuleV2: API.OperationMethod<
+  UpdateAutomationRuleV2Request,
   UpdateAutomationRuleV2Response,
   | AccessDeniedException
   | ConflictException
@@ -21730,9 +21609,8 @@ export const updateAutomationRuleV2: (
  * Updates a configuration policy. Only the Security Hub delegated
  * administrator can invoke this operation from the home Region.
  */
-export const updateConfigurationPolicy: (
-  input: UpdateConfigurationPolicyRequest,
-) => effect.Effect<
+export const updateConfigurationPolicy: API.OperationMethod<
+  UpdateConfigurationPolicyRequest,
   UpdateConfigurationPolicyResponse,
   | AccessDeniedException
   | InternalException
@@ -21759,9 +21637,8 @@ export const updateConfigurationPolicy: (
 /**
  * Grants permission to update a connectorV2 based on its id and input parameters.
  */
-export const updateConnectorV2: (
-  input: UpdateConnectorV2Request,
-) => effect.Effect<
+export const updateConnectorV2: API.OperationMethod<
+  UpdateConnectorV2Request,
   UpdateConnectorV2Response,
   | AccessDeniedException
   | ConflictException
@@ -21791,9 +21668,8 @@ export const updateConnectorV2: (
  *
  * You can invoke this operation from the current home Region only.
  */
-export const updateFindingAggregator: (
-  input: UpdateFindingAggregatorRequest,
-) => effect.Effect<
+export const updateFindingAggregator: API.OperationMethod<
+  UpdateFindingAggregatorRequest,
   UpdateFindingAggregatorResponse,
   | AccessDeniedException
   | InternalException
@@ -21827,9 +21703,8 @@ export const updateFindingAggregator: (
  * finding provider through the `BatchImportFindings` operation. In addition, Security Hub doesn't
  * record updates made with `UpdateFindings` in the finding history.
  */
-export const updateFindings: (
-  input: UpdateFindingsRequest,
-) => effect.Effect<
+export const updateFindings: API.OperationMethod<
+  UpdateFindingsRequest,
   UpdateFindingsResponse,
   | InternalException
   | InvalidAccessException
@@ -21852,9 +21727,8 @@ export const updateFindings: (
 /**
  * Updates the Security Hub insight identified by the specified insight ARN.
  */
-export const updateInsight: (
-  input: UpdateInsightRequest,
-) => effect.Effect<
+export const updateInsight: API.OperationMethod<
+  UpdateInsightRequest,
   UpdateInsightResponse,
   | InternalException
   | InvalidAccessException
@@ -21878,9 +21752,8 @@ export const updateInsight: (
  * Updates the configuration of your organization in Security Hub. Only the
  * Security Hub administrator account can invoke this operation.
  */
-export const updateOrganizationConfiguration: (
-  input: UpdateOrganizationConfigurationRequest,
-) => effect.Effect<
+export const updateOrganizationConfiguration: API.OperationMethod<
+  UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalException
@@ -21907,9 +21780,8 @@ export const updateOrganizationConfiguration: (
 /**
  * Updates the properties of a security control.
  */
-export const updateSecurityControl: (
-  input: UpdateSecurityControlRequest,
-) => effect.Effect<
+export const updateSecurityControl: API.OperationMethod<
+  UpdateSecurityControlRequest,
   UpdateSecurityControlResponse,
   | AccessDeniedException
   | InternalException
@@ -21936,9 +21808,8 @@ export const updateSecurityControl: (
 /**
  * Updates configuration options for Security Hub.
  */
-export const updateSecurityHubConfiguration: (
-  input: UpdateSecurityHubConfigurationRequest,
-) => effect.Effect<
+export const updateSecurityHubConfiguration: API.OperationMethod<
+  UpdateSecurityHubConfigurationRequest,
   UpdateSecurityHubConfigurationResponse,
   | AccessDeniedException
   | InternalException
@@ -21966,9 +21837,8 @@ export const updateSecurityHubConfiguration: (
  *
  * Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard subscription for the control has `StandardsControlsUpdatable` value `NOT_READY_FOR_UPDATES`.
  */
-export const updateStandardsControl: (
-  input: UpdateStandardsControlRequest,
-) => effect.Effect<
+export const updateStandardsControl: API.OperationMethod<
+  UpdateStandardsControlRequest,
   UpdateStandardsControlResponse,
   | AccessDeniedException
   | InternalException

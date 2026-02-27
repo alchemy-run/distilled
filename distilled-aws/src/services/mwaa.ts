@@ -841,9 +841,8 @@ export class RestApiServerException extends S.TaggedErrorClass<RestApiServerExce
 /**
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
  */
-export const createCliToken: (
-  input: CreateCliTokenRequest,
-) => effect.Effect<
+export const createCliToken: API.OperationMethod<
+  CreateCliTokenRequest,
   CreateCliTokenResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -855,9 +854,8 @@ export const createCliToken: (
 /**
  * Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentInput,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentInput,
   CreateEnvironmentOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -869,9 +867,8 @@ export const createEnvironment: (
 /**
  * Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
  */
-export const createWebLoginToken: (
-  input: CreateWebLoginTokenRequest,
-) => effect.Effect<
+export const createWebLoginToken: API.OperationMethod<
+  CreateWebLoginTokenRequest,
   CreateWebLoginTokenResponse,
   | AccessDeniedException
   | InternalServerException
@@ -892,9 +889,8 @@ export const createWebLoginToken: (
 /**
  * Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentInput,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentInput,
   DeleteEnvironmentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -913,9 +909,8 @@ export const deleteEnvironment: (
 /**
  * Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentInput,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentInput,
   GetEnvironmentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -935,9 +930,8 @@ export const getEnvironment: (
  * Invokes the Apache Airflow REST API on the webserver with the specified inputs. To
  * learn more, see Using the Apache Airflow REST API
  */
-export const invokeRestApi: (
-  input: InvokeRestApiRequest,
-) => effect.Effect<
+export const invokeRestApi: API.OperationMethod<
+  InvokeRestApiRequest,
   InvokeRestApiResponse,
   | AccessDeniedException
   | InternalServerException
@@ -962,14 +956,12 @@ export const invokeRestApi: (
 /**
  * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsInput,
-  ): effect.Effect<
-    ListEnvironmentsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsInput,
+  ListEnvironmentsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
@@ -998,9 +990,8 @@ export const listEnvironments: {
 /**
  * Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1019,9 +1010,8 @@ export const listTagsForResource: (
 /**
  * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
  */
-export const publishMetrics: (
-  input: PublishMetricsInput,
-) => effect.Effect<
+export const publishMetrics: API.OperationMethod<
+  PublishMetricsInput,
   PublishMetricsOutput,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1033,9 +1023,8 @@ export const publishMetrics: (
 /**
  * Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1054,9 +1043,8 @@ export const tagResource: (
 /**
  * Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, `"Environment": "Staging"`.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1075,9 +1063,8 @@ export const untagResource: (
 /**
  * Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentInput,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentInput,
   UpdateEnvironmentOutput,
   | InternalServerException
   | ResourceNotFoundException

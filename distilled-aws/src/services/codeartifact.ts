@@ -2649,9 +2649,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  *
  * A repository can have one or more upstream repositories, or an external connection.
  */
-export const associateExternalConnection: (
-  input: AssociateExternalConnectionRequest,
-) => effect.Effect<
+export const associateExternalConnection: API.OperationMethod<
+  AssociateExternalConnectionRequest,
   AssociateExternalConnectionResult,
   | AccessDeniedException
   | ConflictException
@@ -2680,9 +2679,8 @@ export const associateExternalConnection: (
  *
  * You must specify `versions` or `versionRevisions`. You cannot specify both.
  */
-export const copyPackageVersions: (
-  input: CopyPackageVersionsRequest,
-) => effect.Effect<
+export const copyPackageVersions: API.OperationMethod<
+  CopyPackageVersionsRequest,
   CopyPackageVersionsResult,
   | AccessDeniedException
   | ConflictException
@@ -2716,9 +2714,8 @@ export const copyPackageVersions: (
  * published artifacts so that your development teams can find and share packages. You can use a second
  * pre-production domain to test changes to the production domain configuration.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResult,
   | AccessDeniedException
   | ConflictException
@@ -2745,9 +2742,8 @@ export const createDomain: (
 /**
  * Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the *CodeArtifact User Guide*.
  */
-export const createPackageGroup: (
-  input: CreatePackageGroupRequest,
-) => effect.Effect<
+export const createPackageGroup: API.OperationMethod<
+  CreatePackageGroupRequest,
   CreatePackageGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -2774,9 +2770,8 @@ export const createPackageGroup: (
 /**
  * Creates a repository.
  */
-export const createRepository: (
-  input: CreateRepositoryRequest,
-) => effect.Effect<
+export const createRepository: API.OperationMethod<
+  CreateRepositoryRequest,
   CreateRepositoryResult,
   | AccessDeniedException
   | ConflictException
@@ -2804,9 +2799,8 @@ export const createRepository: (
  * Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain
  * with repositories, first delete its repositories.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResult,
   | AccessDeniedException
   | ConflictException
@@ -2829,9 +2823,8 @@ export const deleteDomain: (
 /**
  * Deletes the resource policy set on a domain.
  */
-export const deleteDomainPermissionsPolicy: (
-  input: DeleteDomainPermissionsPolicyRequest,
-) => effect.Effect<
+export const deleteDomainPermissionsPolicy: API.OperationMethod<
+  DeleteDomainPermissionsPolicyRequest,
   DeleteDomainPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -2857,9 +2850,8 @@ export const deleteDomainPermissionsPolicy: (
  * Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the
  * DeletePackageVersions API.
  */
-export const deletePackage: (
-  input: DeletePackageRequest,
-) => effect.Effect<
+export const deletePackage: API.OperationMethod<
+  DeletePackageRequest,
   DeletePackageResult,
   | AccessDeniedException
   | ConflictException
@@ -2888,9 +2880,8 @@ export const deletePackage: (
  * group's direct parent package group. Therefore, if any of the child groups are inheriting any settings
  * from the parent, those settings could change.
  */
-export const deletePackageGroup: (
-  input: DeletePackageGroupRequest,
-) => effect.Effect<
+export const deletePackageGroup: API.OperationMethod<
+  DeletePackageGroupRequest,
   DeletePackageGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -2921,9 +2912,8 @@ export const deletePackageGroup: (
  * downloaded from a repository and don't show up with list package APIs (for example,
  * ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
  */
-export const deletePackageVersions: (
-  input: DeletePackageVersionsRequest,
-) => effect.Effect<
+export const deletePackageVersions: API.OperationMethod<
+  DeletePackageVersionsRequest,
   DeletePackageVersionsResult,
   | AccessDeniedException
   | ConflictException
@@ -2948,9 +2938,8 @@ export const deletePackageVersions: (
 /**
  * Deletes a repository.
  */
-export const deleteRepository: (
-  input: DeleteRepositoryRequest,
-) => effect.Effect<
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryRequest,
   DeleteRepositoryResult,
   | AccessDeniedException
   | ConflictException
@@ -2979,9 +2968,8 @@ export const deleteRepository: (
  * Use `DeleteRepositoryPermissionsPolicy` with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform
  * the repository actions granted by the deleted policy.
  */
-export const deleteRepositoryPermissionsPolicy: (
-  input: DeleteRepositoryPermissionsPolicyRequest,
-) => effect.Effect<
+export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
+  DeleteRepositoryPermissionsPolicyRequest,
   DeleteRepositoryPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -3008,9 +2996,8 @@ export const deleteRepositoryPermissionsPolicy: (
  * DomainDescription
  * object that contains information about the requested domain.
  */
-export const describeDomain: (
-  input: DescribeDomainRequest,
-) => effect.Effect<
+export const describeDomain: API.OperationMethod<
+  DescribeDomainRequest,
   DescribeDomainResult,
   | AccessDeniedException
   | InternalServerException
@@ -3035,9 +3022,8 @@ export const describeDomain: (
  * PackageDescription
  * object that contains information about the requested package.
  */
-export const describePackage: (
-  input: DescribePackageRequest,
-) => effect.Effect<
+export const describePackage: API.OperationMethod<
+  DescribePackageRequest,
   DescribePackageResult,
   | AccessDeniedException
   | InternalServerException
@@ -3061,9 +3047,8 @@ export const describePackage: (
  * Returns a PackageGroupDescription object that
  * contains information about the requested package group.
  */
-export const describePackageGroup: (
-  input: DescribePackageGroupRequest,
-) => effect.Effect<
+export const describePackageGroup: API.OperationMethod<
+  DescribePackageGroupRequest,
   DescribePackageGroupResult,
   | AccessDeniedException
   | InternalServerException
@@ -3088,9 +3073,8 @@ export const describePackageGroup: (
  * PackageVersionDescription
  * object that contains information about the requested package version.
  */
-export const describePackageVersion: (
-  input: DescribePackageVersionRequest,
-) => effect.Effect<
+export const describePackageVersion: API.OperationMethod<
+  DescribePackageVersionRequest,
   DescribePackageVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -3116,9 +3100,8 @@ export const describePackageVersion: (
  * Returns a `RepositoryDescription` object that contains detailed information
  * about the requested repository.
  */
-export const describeRepository: (
-  input: DescribeRepositoryRequest,
-) => effect.Effect<
+export const describeRepository: API.OperationMethod<
+  DescribeRepositoryRequest,
   DescribeRepositoryResult,
   | AccessDeniedException
   | InternalServerException
@@ -3141,9 +3124,8 @@ export const describeRepository: (
 /**
  * Removes an existing external connection from a repository.
  */
-export const disassociateExternalConnection: (
-  input: DisassociateExternalConnectionRequest,
-) => effect.Effect<
+export const disassociateExternalConnection: API.OperationMethod<
+  DisassociateExternalConnectionRequest,
   DisassociateExternalConnectionResult,
   | AccessDeniedException
   | ConflictException
@@ -3177,9 +3159,8 @@ export const disassociateExternalConnection: (
  *
  * To view information about a disposed package version, use DescribePackageVersion.
  */
-export const disposePackageVersions: (
-  input: DisposePackageVersionsRequest,
-) => effect.Effect<
+export const disposePackageVersions: API.OperationMethod<
+  DisposePackageVersionsRequest,
   DisposePackageVersionsResult,
   | AccessDeniedException
   | ConflictException
@@ -3210,9 +3191,8 @@ export const disposePackageVersions: (
  * Package group
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
-export const getAssociatedPackageGroup: (
-  input: GetAssociatedPackageGroupRequest,
-) => effect.Effect<
+export const getAssociatedPackageGroup: API.OperationMethod<
+  GetAssociatedPackageGroupRequest,
   GetAssociatedPackageGroupResult,
   | AccessDeniedException
   | InternalServerException
@@ -3252,9 +3232,8 @@ export const getAssociatedPackageGroup: (
  * Using IAM Roles
  * for more information on controlling session duration.
  */
-export const getAuthorizationToken: (
-  input: GetAuthorizationTokenRequest,
-) => effect.Effect<
+export const getAuthorizationToken: API.OperationMethod<
+  GetAuthorizationTokenRequest,
   GetAuthorizationTokenResult,
   | AccessDeniedException
   | InternalServerException
@@ -3281,9 +3260,8 @@ export const getAuthorizationToken: (
  * Identity-based policies
  * and resource-based policies in the *IAM User Guide*.
  */
-export const getDomainPermissionsPolicy: (
-  input: GetDomainPermissionsPolicyRequest,
-) => effect.Effect<
+export const getDomainPermissionsPolicy: API.OperationMethod<
+  GetDomainPermissionsPolicyRequest,
   GetDomainPermissionsPolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -3308,9 +3286,8 @@ export const getDomainPermissionsPolicy: (
  * `GetPackageVersionAsset` to download a `JAR` file, a `POM` file,
  * or any other assets in the package version.
  */
-export const getPackageVersionAsset: (
-  input: GetPackageVersionAssetRequest,
-) => effect.Effect<
+export const getPackageVersionAsset: API.OperationMethod<
+  GetPackageVersionAssetRequest,
   GetPackageVersionAssetResult,
   | AccessDeniedException
   | ConflictException
@@ -3337,9 +3314,8 @@ export const getPackageVersionAsset: (
  *
  * The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
  */
-export const getPackageVersionReadme: (
-  input: GetPackageVersionReadmeRequest,
-) => effect.Effect<
+export const getPackageVersionReadme: API.OperationMethod<
+  GetPackageVersionReadmeRequest,
   GetPackageVersionReadmeResult,
   | AccessDeniedException
   | InternalServerException
@@ -3379,9 +3355,8 @@ export const getPackageVersionReadme: (
  *
  * - `swift`
  */
-export const getRepositoryEndpoint: (
-  input: GetRepositoryEndpointRequest,
-) => effect.Effect<
+export const getRepositoryEndpoint: API.OperationMethod<
+  GetRepositoryEndpointRequest,
   GetRepositoryEndpointResult,
   | AccessDeniedException
   | InternalServerException
@@ -3404,9 +3379,8 @@ export const getRepositoryEndpoint: (
 /**
  * Returns the resource policy that is set on a repository.
  */
-export const getRepositoryPermissionsPolicy: (
-  input: GetRepositoryPermissionsPolicyRequest,
-) => effect.Effect<
+export const getRepositoryPermissionsPolicy: API.OperationMethod<
+  GetRepositoryPermissionsPolicyRequest,
   GetRepositoryPermissionsPolicyResult,
   | AccessDeniedException
   | InternalServerException
@@ -3430,20 +3404,18 @@ export const getRepositoryPermissionsPolicy: (
  * Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types
  * and added repository lists, see Package group origin controls in the *CodeArtifact User Guide*.
  */
-export const listAllowedRepositoriesForGroup: {
-  (
-    input: ListAllowedRepositoriesForGroupRequest,
-  ): effect.Effect<
-    ListAllowedRepositoriesForGroupResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAllowedRepositoriesForGroup: API.OperationMethod<
+  ListAllowedRepositoriesForGroupRequest,
+  ListAllowedRepositoriesForGroupResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAllowedRepositoriesForGroupRequest,
   ) => stream.Stream<
@@ -3493,18 +3465,16 @@ export const listAllowedRepositoriesForGroup: {
  * Package group
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
-export const listAssociatedPackages: {
-  (
-    input: ListAssociatedPackagesRequest,
-  ): effect.Effect<
-    ListAssociatedPackagesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedPackages: API.OperationMethod<
+  ListAssociatedPackagesRequest,
+  ListAssociatedPackagesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedPackagesRequest,
   ) => stream.Stream<
@@ -3548,18 +3518,16 @@ export const listAssociatedPackages: {
  * this call. Each returned `DomainSummary` object contains information about a
  * domain.
  */
-export const listDomains: {
-  (
-    input: ListDomainsRequest,
-  ): effect.Effect<
-    ListDomainsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
@@ -3601,19 +3569,17 @@ export const listDomains: {
 /**
  * Returns a list of package groups in the requested domain.
  */
-export const listPackageGroups: {
-  (
-    input: ListPackageGroupsRequest,
-  ): effect.Effect<
-    ListPackageGroupsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackageGroups: API.OperationMethod<
+  ListPackageGroupsRequest,
+  ListPackageGroupsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackageGroupsRequest,
   ) => stream.Stream<
@@ -3660,19 +3626,17 @@ export const listPackageGroups: {
  * PackageSummary
  * objects for packages in a repository that match the request parameters.
  */
-export const listPackages: {
-  (
-    input: ListPackagesRequest,
-  ): effect.Effect<
-    ListPackagesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackages: API.OperationMethod<
+  ListPackagesRequest,
+  ListPackagesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagesRequest,
   ) => stream.Stream<
@@ -3719,19 +3683,17 @@ export const listPackages: {
  * AssetSummary
  * objects for assets in a package version.
  */
-export const listPackageVersionAssets: {
-  (
-    input: ListPackageVersionAssetsRequest,
-  ): effect.Effect<
-    ListPackageVersionAssetsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackageVersionAssets: API.OperationMethod<
+  ListPackageVersionAssetsRequest,
+  ListPackageVersionAssetsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackageVersionAssetsRequest,
   ) => stream.Stream<
@@ -3780,9 +3742,8 @@ export const listPackageVersionAssets: {
  * format (for example, the `package.json` file for npm packages and the `pom.xml` file
  * for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
  */
-export const listPackageVersionDependencies: (
-  input: ListPackageVersionDependenciesRequest,
-) => effect.Effect<
+export const listPackageVersionDependencies: API.OperationMethod<
+  ListPackageVersionDependenciesRequest,
   ListPackageVersionDependenciesResult,
   | AccessDeniedException
   | InternalServerException
@@ -3807,19 +3768,17 @@ export const listPackageVersionDependencies: (
  * PackageVersionSummary
  * objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling `list-package-versions` with no `--status` parameter.
  */
-export const listPackageVersions: {
-  (
-    input: ListPackageVersionsRequest,
-  ): effect.Effect<
-    ListPackageVersionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackageVersions: API.OperationMethod<
+  ListPackageVersionsRequest,
+  ListPackageVersionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackageVersionsRequest,
   ) => stream.Stream<
@@ -3867,18 +3826,16 @@ export const listPackageVersions: {
  * objects. Each `RepositorySummary` contains information about a repository in the specified Amazon Web Services account and that matches the input
  * parameters.
  */
-export const listRepositories: {
-  (
-    input: ListRepositoriesRequest,
-  ): effect.Effect<
-    ListRepositoriesResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositories: API.OperationMethod<
+  ListRepositoriesRequest,
+  ListRepositoriesResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoriesRequest,
   ) => stream.Stream<
@@ -3923,19 +3880,17 @@ export const listRepositories: {
  * objects. Each `RepositorySummary` contains information about a repository in the specified domain and that matches the input
  * parameters.
  */
-export const listRepositoriesInDomain: {
-  (
-    input: ListRepositoriesInDomainRequest,
-  ): effect.Effect<
-    ListRepositoriesInDomainResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositoriesInDomain: API.OperationMethod<
+  ListRepositoriesInDomainRequest,
+  ListRepositoriesInDomainResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoriesInDomainRequest,
   ) => stream.Stream<
@@ -3984,19 +3939,17 @@ export const listRepositoriesInDomain: {
  * Package group
  * definition syntax and matching behavior in the *CodeArtifact User Guide*.
  */
-export const listSubPackageGroups: {
-  (
-    input: ListSubPackageGroupsRequest,
-  ): effect.Effect<
-    ListSubPackageGroupsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubPackageGroups: API.OperationMethod<
+  ListSubPackageGroupsRequest,
+  ListSubPackageGroupsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubPackageGroupsRequest,
   ) => stream.Stream<
@@ -4041,9 +3994,8 @@ export const listSubPackageGroups: {
 /**
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4073,9 +4025,8 @@ export const listTagsForResource: (
  * Only generic packages can be published using this API. For more information, see Using generic
  * packages in the *CodeArtifact User Guide*.
  */
-export const publishPackageVersion: (
-  input: PublishPackageVersionRequest,
-) => effect.Effect<
+export const publishPackageVersion: API.OperationMethod<
+  PublishPackageVersionRequest,
   PublishPackageVersionResult,
   | AccessDeniedException
   | ConflictException
@@ -4106,9 +4057,8 @@ export const publishPackageVersion: (
  * This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being
  * able to update the resource policy.
  */
-export const putDomainPermissionsPolicy: (
-  input: PutDomainPermissionsPolicyRequest,
-) => effect.Effect<
+export const putDomainPermissionsPolicy: API.OperationMethod<
+  PutDomainPermissionsPolicyRequest,
   PutDomainPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -4144,9 +4094,8 @@ export const putDomainPermissionsPolicy: (
  * This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block
  * publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
  */
-export const putPackageOriginConfiguration: (
-  input: PutPackageOriginConfigurationRequest,
-) => effect.Effect<
+export const putPackageOriginConfiguration: API.OperationMethod<
+  PutPackageOriginConfigurationRequest,
   PutPackageOriginConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -4173,9 +4122,8 @@ export const putPackageOriginConfiguration: (
  * This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being
  * able to update the resource policy.
  */
-export const putRepositoryPermissionsPolicy: (
-  input: PutRepositoryPermissionsPolicyRequest,
-) => effect.Effect<
+export const putRepositoryPermissionsPolicy: API.OperationMethod<
+  PutRepositoryPermissionsPolicyRequest,
   PutRepositoryPermissionsPolicyResult,
   | AccessDeniedException
   | ConflictException
@@ -4202,9 +4150,8 @@ export const putRepositoryPermissionsPolicy: (
 /**
  * Adds or updates tags for a resource in CodeArtifact.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4227,9 +4174,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource in CodeArtifact.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4251,9 +4197,8 @@ export const untagResource: (
  * Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a
  * package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
  */
-export const updatePackageGroup: (
-  input: UpdatePackageGroupRequest,
-) => effect.Effect<
+export const updatePackageGroup: API.OperationMethod<
+  UpdatePackageGroupRequest,
   UpdatePackageGroupResult,
   | AccessDeniedException
   | InternalServerException
@@ -4284,9 +4229,8 @@ export const updatePackageGroup: (
  * Package group origin controls
  * in the *CodeArtifact User Guide*.
  */
-export const updatePackageGroupOriginConfiguration: (
-  input: UpdatePackageGroupOriginConfigurationRequest,
-) => effect.Effect<
+export const updatePackageGroupOriginConfiguration: API.OperationMethod<
+  UpdatePackageGroupOriginConfigurationRequest,
   UpdatePackageGroupOriginConfigurationResult,
   | AccessDeniedException
   | InternalServerException
@@ -4314,9 +4258,8 @@ export const updatePackageGroupOriginConfiguration: (
  * To set the status of a package version to `Disposed`, use
  * DisposePackageVersions.
  */
-export const updatePackageVersionsStatus: (
-  input: UpdatePackageVersionsStatusRequest,
-) => effect.Effect<
+export const updatePackageVersionsStatus: API.OperationMethod<
+  UpdatePackageVersionsStatusRequest,
   UpdatePackageVersionsStatusResult,
   | AccessDeniedException
   | ConflictException
@@ -4341,9 +4284,8 @@ export const updatePackageVersionsStatus: (
 /**
  * Update the properties of a repository.
  */
-export const updateRepository: (
-  input: UpdateRepositoryRequest,
-) => effect.Effect<
+export const updateRepository: API.OperationMethod<
+  UpdateRepositoryRequest,
   UpdateRepositoryResult,
   | AccessDeniedException
   | ConflictException

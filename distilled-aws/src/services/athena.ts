@@ -3170,9 +3170,8 @@ export class SessionAlreadyExistsException extends S.TaggedErrorClass<SessionAlr
  * unique query execution, and ListQueryExecutionsInput to get a list of
  * query execution IDs.
  */
-export const batchGetNamedQuery: (
-  input: BatchGetNamedQueryInput,
-) => effect.Effect<
+export const batchGetNamedQuery: API.OperationMethod<
+  BatchGetNamedQueryInput,
   BatchGetNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3188,9 +3187,8 @@ export const batchGetNamedQuery: (
  * statement cannot be retrieved for the name specified, the statement is listed in
  * `UnprocessedPreparedStatementNames`.
  */
-export const batchGetPreparedStatement: (
-  input: BatchGetPreparedStatementInput,
-) => effect.Effect<
+export const batchGetPreparedStatement: API.OperationMethod<
+  BatchGetPreparedStatementInput,
   BatchGetPreparedStatementOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3207,9 +3205,8 @@ export const batchGetPreparedStatement: (
  * from named (saved) queries. Use BatchGetNamedQueryInput to get details
  * about named queries.
  */
-export const batchGetQueryExecution: (
-  input: BatchGetQueryExecutionInput,
-) => effect.Effect<
+export const batchGetQueryExecution: API.OperationMethod<
+  BatchGetQueryExecutionInput,
   BatchGetQueryExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3224,9 +3221,8 @@ export const batchGetQueryExecution: (
  * days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can
  * refer to its tags and view it for historical reference.
  */
-export const cancelCapacityReservation: (
-  input: CancelCapacityReservationInput,
-) => effect.Effect<
+export const cancelCapacityReservation: API.OperationMethod<
+  CancelCapacityReservationInput,
   CancelCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3239,9 +3235,8 @@ export const cancelCapacityReservation: (
  * Creates a capacity reservation with the specified name and number of requested data
  * processing units.
  */
-export const createCapacityReservation: (
-  input: CreateCapacityReservationInput,
-) => effect.Effect<
+export const createCapacityReservation: API.OperationMethod<
+  CreateCapacityReservationInput,
   CreateCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3269,9 +3264,8 @@ export const createCapacityReservation: (
  * `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length 23
  * characters.
  */
-export const createDataCatalog: (
-  input: CreateDataCatalogInput,
-) => effect.Effect<
+export const createDataCatalog: API.OperationMethod<
+  CreateDataCatalogInput,
   CreateDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3284,9 +3278,8 @@ export const createDataCatalog: (
  * Creates a named query in the specified workgroup. Requires that you have access to the
  * workgroup.
  */
-export const createNamedQuery: (
-  input: CreateNamedQueryInput,
-) => effect.Effect<
+export const createNamedQuery: API.OperationMethod<
+  CreateNamedQueryInput,
   CreateNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3300,9 +3293,8 @@ export const createNamedQuery: (
  * workgroup. Throws an error if a file in the workgroup with the same name already
  * exists.
  */
-export const createNotebook: (
-  input: CreateNotebookInput,
-) => effect.Effect<
+export const createNotebook: API.OperationMethod<
+  CreateNotebookInput,
   CreateNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3321,9 +3313,8 @@ export const createNotebook: (
 /**
  * Creates a prepared statement for use with SQL queries in Athena.
  */
-export const createPreparedStatement: (
-  input: CreatePreparedStatementInput,
-) => effect.Effect<
+export const createPreparedStatement: API.OperationMethod<
+  CreatePreparedStatementInput,
   CreatePreparedStatementOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3339,9 +3330,8 @@ export const createPreparedStatement: (
  * access, see Grant
  * programmatic access.
  */
-export const createPresignedNotebookUrl: (
-  input: CreatePresignedNotebookUrlRequest,
-) => effect.Effect<
+export const createPresignedNotebookUrl: API.OperationMethod<
+  CreatePresignedNotebookUrlRequest,
   CreatePresignedNotebookUrlResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3361,9 +3351,8 @@ export const createPresignedNotebookUrl: (
  * Creates a workgroup with the specified name. A workgroup can be an Apache Spark
  * enabled workgroup or an Athena SQL workgroup.
  */
-export const createWorkGroup: (
-  input: CreateWorkGroupInput,
-) => effect.Effect<
+export const createWorkGroup: API.OperationMethod<
+  CreateWorkGroupInput,
   CreateWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3379,9 +3368,8 @@ export const createWorkGroup: (
  * `GetCapacityReservation`, and deleted reservations do not appear in the
  * output of `ListCapacityReservations`.
  */
-export const deleteCapacityReservation: (
-  input: DeleteCapacityReservationInput,
-) => effect.Effect<
+export const deleteCapacityReservation: API.OperationMethod<
+  DeleteCapacityReservationInput,
   DeleteCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3393,9 +3381,8 @@ export const deleteCapacityReservation: (
 /**
  * Deletes a data catalog.
  */
-export const deleteDataCatalog: (
-  input: DeleteDataCatalogInput,
-) => effect.Effect<
+export const deleteDataCatalog: API.OperationMethod<
+  DeleteDataCatalogInput,
   DeleteDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3408,9 +3395,8 @@ export const deleteDataCatalog: (
  * Deletes the named query if you have access to the workgroup in which the query was
  * saved.
  */
-export const deleteNamedQuery: (
-  input: DeleteNamedQueryInput,
-) => effect.Effect<
+export const deleteNamedQuery: API.OperationMethod<
+  DeleteNamedQueryInput,
   DeleteNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3422,9 +3408,8 @@ export const deleteNamedQuery: (
 /**
  * Deletes the specified notebook.
  */
-export const deleteNotebook: (
-  input: DeleteNotebookInput,
-) => effect.Effect<
+export const deleteNotebook: API.OperationMethod<
+  DeleteNotebookInput,
   DeleteNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3444,9 +3429,8 @@ export const deleteNotebook: (
  * Deletes the prepared statement with the specified name from the specified
  * workgroup.
  */
-export const deletePreparedStatement: (
-  input: DeletePreparedStatementInput,
-) => effect.Effect<
+export const deletePreparedStatement: API.OperationMethod<
+  DeletePreparedStatementInput,
   DeletePreparedStatementOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3466,9 +3450,8 @@ export const deletePreparedStatement: (
  * Deletes the workgroup with the specified name. The primary workgroup cannot be
  * deleted.
  */
-export const deleteWorkGroup: (
-  input: DeleteWorkGroupInput,
-) => effect.Effect<
+export const deleteWorkGroup: API.OperationMethod<
+  DeleteWorkGroupInput,
   DeleteWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3480,9 +3463,8 @@ export const deleteWorkGroup: (
 /**
  * Exports the specified notebook and its metadata.
  */
-export const exportNotebook: (
-  input: ExportNotebookInput,
-) => effect.Effect<
+export const exportNotebook: API.OperationMethod<
+  ExportNotebookInput,
   ExportNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3501,9 +3483,8 @@ export const exportNotebook: (
 /**
  * Describes a previously submitted calculation execution.
  */
-export const getCalculationExecution: (
-  input: GetCalculationExecutionRequest,
-) => effect.Effect<
+export const getCalculationExecution: API.OperationMethod<
+  GetCalculationExecutionRequest,
   GetCalculationExecutionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3522,9 +3503,8 @@ export const getCalculationExecution: (
 /**
  * Retrieves the unencrypted code that was executed for the calculation.
  */
-export const getCalculationExecutionCode: (
-  input: GetCalculationExecutionCodeRequest,
-) => effect.Effect<
+export const getCalculationExecutionCode: API.OperationMethod<
+  GetCalculationExecutionCodeRequest,
   GetCalculationExecutionCodeResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3543,9 +3523,8 @@ export const getCalculationExecutionCode: (
 /**
  * Gets the status of a current calculation.
  */
-export const getCalculationExecutionStatus: (
-  input: GetCalculationExecutionStatusRequest,
-) => effect.Effect<
+export const getCalculationExecutionStatus: API.OperationMethod<
+  GetCalculationExecutionStatusRequest,
   GetCalculationExecutionStatusResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3565,9 +3544,8 @@ export const getCalculationExecutionStatus: (
  * Gets the capacity assignment configuration for a capacity reservation, if one
  * exists.
  */
-export const getCapacityAssignmentConfiguration: (
-  input: GetCapacityAssignmentConfigurationInput,
-) => effect.Effect<
+export const getCapacityAssignmentConfiguration: API.OperationMethod<
+  GetCapacityAssignmentConfigurationInput,
   GetCapacityAssignmentConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3579,9 +3557,8 @@ export const getCapacityAssignmentConfiguration: (
 /**
  * Returns information about the capacity reservation with the specified name.
  */
-export const getCapacityReservation: (
-  input: GetCapacityReservationInput,
-) => effect.Effect<
+export const getCapacityReservation: API.OperationMethod<
+  GetCapacityReservationInput,
   GetCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3593,9 +3570,8 @@ export const getCapacityReservation: (
 /**
  * Returns a database object for the specified database and data catalog.
  */
-export const getDatabase: (
-  input: GetDatabaseInput,
-) => effect.Effect<
+export const getDatabase: API.OperationMethod<
+  GetDatabaseInput,
   GetDatabaseOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3610,9 +3586,8 @@ export const getDatabase: (
 /**
  * Returns the specified data catalog.
  */
-export const getDataCatalog: (
-  input: GetDataCatalogInput,
-) => effect.Effect<
+export const getDataCatalog: API.OperationMethod<
+  GetDataCatalogInput,
   GetDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3625,9 +3600,8 @@ export const getDataCatalog: (
  * Returns information about a single query. Requires that you have access to the
  * workgroup in which the query was saved.
  */
-export const getNamedQuery: (
-  input: GetNamedQueryInput,
-) => effect.Effect<
+export const getNamedQuery: API.OperationMethod<
+  GetNamedQueryInput,
   GetNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3639,9 +3613,8 @@ export const getNamedQuery: (
 /**
  * Retrieves notebook metadata for the specified notebook ID.
  */
-export const getNotebookMetadata: (
-  input: GetNotebookMetadataInput,
-) => effect.Effect<
+export const getNotebookMetadata: API.OperationMethod<
+  GetNotebookMetadataInput,
   GetNotebookMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3661,9 +3634,8 @@ export const getNotebookMetadata: (
  * Retrieves the prepared statement with the specified name from the specified
  * workgroup.
  */
-export const getPreparedStatement: (
-  input: GetPreparedStatementInput,
-) => effect.Effect<
+export const getPreparedStatement: API.OperationMethod<
+  GetPreparedStatementInput,
   GetPreparedStatementOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3684,9 +3656,8 @@ export const getPreparedStatement: (
  * workgroup in which the query ran. Each time a query executes, information about the
  * query execution is saved with a unique ID.
  */
-export const getQueryExecution: (
-  input: GetQueryExecutionInput,
-) => effect.Effect<
+export const getQueryExecution: API.OperationMethod<
+  GetQueryExecutionInput,
   GetQueryExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3713,17 +3684,15 @@ export const getQueryExecution: (
  * ensure that Amazon S3 permissions to the Athena query location
  * are denied.
  */
-export const getQueryResults: {
-  (
-    input: GetQueryResultsInput,
-  ): effect.Effect<
-    GetQueryResultsOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getQueryResults: API.OperationMethod<
+  GetQueryResultsInput,
+  GetQueryResultsOutput,
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetQueryResultsInput,
   ) => stream.Stream<
@@ -3767,9 +3736,8 @@ export const getQueryResults: {
  * after a query completes or, in some cases, may not be returned. The non-timeline
  * statistics are also not included when a query has row-level filters defined in Lake Formation.
  */
-export const getQueryRuntimeStatistics: (
-  input: GetQueryRuntimeStatisticsInput,
-) => effect.Effect<
+export const getQueryRuntimeStatistics: API.OperationMethod<
+  GetQueryRuntimeStatisticsInput,
   GetQueryRuntimeStatisticsOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3781,9 +3749,8 @@ export const getQueryRuntimeStatistics: (
 /**
  * Gets the Live UI/Persistence UI for a session.
  */
-export const getResourceDashboard: (
-  input: GetResourceDashboardRequest,
-) => effect.Effect<
+export const getResourceDashboard: API.OperationMethod<
+  GetResourceDashboardRequest,
   GetResourceDashboardResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3803,9 +3770,8 @@ export const getResourceDashboard: (
  * Gets the full details of a previously created session, including the session status
  * and configuration.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3824,9 +3790,8 @@ export const getSession: (
 /**
  * Gets a connection endpoint and authentication token for a given session Id.
  */
-export const getSessionEndpoint: (
-  input: GetSessionEndpointRequest,
-) => effect.Effect<
+export const getSessionEndpoint: API.OperationMethod<
+  GetSessionEndpointRequest,
   GetSessionEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3845,9 +3810,8 @@ export const getSessionEndpoint: (
 /**
  * Gets the current status of a session.
  */
-export const getSessionStatus: (
-  input: GetSessionStatusRequest,
-) => effect.Effect<
+export const getSessionStatus: API.OperationMethod<
+  GetSessionStatusRequest,
   GetSessionStatusResponse,
   | InternalServerException
   | InvalidRequestException
@@ -3866,9 +3830,8 @@ export const getSessionStatus: (
 /**
  * Returns table metadata for the specified catalog, database, and table.
  */
-export const getTableMetadata: (
-  input: GetTableMetadataInput,
-) => effect.Effect<
+export const getTableMetadata: API.OperationMethod<
+  GetTableMetadataInput,
   GetTableMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3883,9 +3846,8 @@ export const getTableMetadata: (
 /**
  * Returns information about the workgroup with the specified name.
  */
-export const getWorkGroup: (
-  input: GetWorkGroupInput,
-) => effect.Effect<
+export const getWorkGroup: API.OperationMethod<
+  GetWorkGroupInput,
   GetWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3902,9 +3864,8 @@ export const getWorkGroup: (
  * imported is 10 megabytes. If an `ipynb` file with the same name already
  * exists in the workgroup, throws an error.
  */
-export const importNotebook: (
-  input: ImportNotebookInput,
-) => effect.Effect<
+export const importNotebook: API.OperationMethod<
+  ImportNotebookInput,
   ImportNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -3924,17 +3885,15 @@ export const importNotebook: (
  * Returns the supported DPU sizes for the supported application runtimes (for example,
  * `Athena notebook version 1`).
  */
-export const listApplicationDPUSizes: {
-  (
-    input: ListApplicationDPUSizesInput,
-  ): effect.Effect<
-    ListApplicationDPUSizesOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationDPUSizes: API.OperationMethod<
+  ListApplicationDPUSizesInput,
+  ListApplicationDPUSizesOutput,
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationDPUSizesInput,
   ) => stream.Stream<
@@ -3973,17 +3932,15 @@ export const listApplicationDPUSizes: {
  * Lists the calculations that have been submitted to a session in descending order.
  * Newer calculations are listed first; older calculations are listed later.
  */
-export const listCalculationExecutions: {
-  (
-    input: ListCalculationExecutionsRequest,
-  ): effect.Effect<
-    ListCalculationExecutionsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCalculationExecutions: API.OperationMethod<
+  ListCalculationExecutionsRequest,
+  ListCalculationExecutionsResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCalculationExecutionsRequest,
   ) => stream.Stream<
@@ -4021,14 +3978,12 @@ export const listCalculationExecutions: {
 /**
  * Lists the capacity reservations for the current account.
  */
-export const listCapacityReservations: {
-  (
-    input: ListCapacityReservationsInput,
-  ): effect.Effect<
-    ListCapacityReservationsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCapacityReservations: API.OperationMethod<
+  ListCapacityReservationsInput,
+  ListCapacityReservationsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCapacityReservationsInput,
   ) => stream.Stream<
@@ -4056,17 +4011,15 @@ export const listCapacityReservations: {
 /**
  * Lists the databases in the specified data catalog.
  */
-export const listDatabases: {
-  (
-    input: ListDatabasesInput,
-  ): effect.Effect<
-    ListDatabasesOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | MetadataException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatabases: API.OperationMethod<
+  ListDatabasesInput,
+  ListDatabasesOutput,
+  | InternalServerException
+  | InvalidRequestException
+  | MetadataException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatabasesInput,
   ) => stream.Stream<
@@ -4104,14 +4057,12 @@ export const listDatabases: {
  * In the Athena console, data catalogs are listed as "data sources" on
  * the **Data sources** page under the **Data source name** column.
  */
-export const listDataCatalogs: {
-  (
-    input: ListDataCatalogsInput,
-  ): effect.Effect<
-    ListDataCatalogsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataCatalogs: API.OperationMethod<
+  ListDataCatalogsInput,
+  ListDataCatalogsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataCatalogsInput,
   ) => stream.Stream<
@@ -4141,14 +4092,12 @@ export const listDataCatalogs: {
  * Returns a list of engine versions that are available to choose from, including the
  * Auto option.
  */
-export const listEngineVersions: {
-  (
-    input: ListEngineVersionsInput,
-  ): effect.Effect<
-    ListEngineVersionsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEngineVersions: API.OperationMethod<
+  ListEngineVersionsInput,
+  ListEngineVersionsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEngineVersionsInput,
   ) => stream.Stream<
@@ -4178,17 +4127,15 @@ export const listEngineVersions: {
  * listed first; older executors are listed later. The result can be optionally filtered by
  * state.
  */
-export const listExecutors: {
-  (
-    input: ListExecutorsRequest,
-  ): effect.Effect<
-    ListExecutorsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExecutors: API.OperationMethod<
+  ListExecutorsRequest,
+  ListExecutorsResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExecutorsRequest,
   ) => stream.Stream<
@@ -4228,14 +4175,12 @@ export const listExecutors: {
  * workgroup. Requires that you have access to the specified workgroup. If a workgroup is
  * not specified, lists the saved queries for the primary workgroup.
  */
-export const listNamedQueries: {
-  (
-    input: ListNamedQueriesInput,
-  ): effect.Effect<
-    ListNamedQueriesOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNamedQueries: API.OperationMethod<
+  ListNamedQueriesInput,
+  ListNamedQueriesOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNamedQueriesInput,
   ) => stream.Stream<
@@ -4263,9 +4208,8 @@ export const listNamedQueries: {
 /**
  * Displays the notebook files for the specified workgroup in paginated format.
  */
-export const listNotebookMetadata: (
-  input: ListNotebookMetadataInput,
-) => effect.Effect<
+export const listNotebookMetadata: API.OperationMethod<
+  ListNotebookMetadataInput,
   ListNotebookMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4287,9 +4231,8 @@ export const listNotebookMetadata: (
  * or `BUSY`. Newer sessions are listed first; older sessions are listed
  * later.
  */
-export const listNotebookSessions: (
-  input: ListNotebookSessionsRequest,
-) => effect.Effect<
+export const listNotebookSessions: API.OperationMethod<
+  ListNotebookSessionsRequest,
   ListNotebookSessionsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4308,14 +4251,12 @@ export const listNotebookSessions: (
 /**
  * Lists the prepared statements in the specified workgroup.
  */
-export const listPreparedStatements: {
-  (
-    input: ListPreparedStatementsInput,
-  ): effect.Effect<
-    ListPreparedStatementsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPreparedStatements: API.OperationMethod<
+  ListPreparedStatementsInput,
+  ListPreparedStatementsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPreparedStatementsInput,
   ) => stream.Stream<
@@ -4346,14 +4287,12 @@ export const listPreparedStatements: {
  * specified, returns a list of query execution IDs for the primary workgroup. Requires you
  * to have access to the workgroup in which the queries ran.
  */
-export const listQueryExecutions: {
-  (
-    input: ListQueryExecutionsInput,
-  ): effect.Effect<
-    ListQueryExecutionsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueryExecutions: API.OperationMethod<
+  ListQueryExecutionsInput,
+  ListQueryExecutionsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueryExecutionsInput,
   ) => stream.Stream<
@@ -4384,17 +4323,15 @@ export const listQueryExecutions: {
  * `BUSY`. Newer sessions are listed first; older sessions are listed
  * later.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
@@ -4432,17 +4369,15 @@ export const listSessions: {
 /**
  * Lists the metadata for the tables in the specified data catalog database.
  */
-export const listTableMetadata: {
-  (
-    input: ListTableMetadataInput,
-  ): effect.Effect<
-    ListTableMetadataOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | MetadataException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTableMetadata: API.OperationMethod<
+  ListTableMetadataInput,
+  ListTableMetadataOutput,
+  | InternalServerException
+  | InvalidRequestException
+  | MetadataException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTableMetadataInput,
   ) => stream.Stream<
@@ -4477,17 +4412,15 @@ export const listTableMetadata: {
 /**
  * Lists the tags associated with an Athena resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceInput,
-  ): effect.Effect<
-    ListTagsForResourceOutput,
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
@@ -4526,14 +4459,12 @@ export const listTagsForResource: {
 /**
  * Lists available workgroups for the account.
  */
-export const listWorkGroups: {
-  (
-    input: ListWorkGroupsInput,
-  ): effect.Effect<
-    ListWorkGroupsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkGroups: API.OperationMethod<
+  ListWorkGroupsInput,
+  ListWorkGroupsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkGroupsInput,
   ) => stream.Stream<
@@ -4563,9 +4494,8 @@ export const listWorkGroups: {
  * a capacity assignment configuration already exists for the capacity reservation,
  * replaces the existing capacity assignment configuration.
  */
-export const putCapacityAssignmentConfiguration: (
-  input: PutCapacityAssignmentConfigurationInput,
-) => effect.Effect<
+export const putCapacityAssignmentConfiguration: API.OperationMethod<
+  PutCapacityAssignmentConfigurationInput,
   PutCapacityAssignmentConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4583,9 +4513,8 @@ export const putCapacityAssignmentConfiguration: (
  * StartCalculationExecutionRequest$CodeBlock parameter
  * instead.
  */
-export const startCalculationExecution: (
-  input: StartCalculationExecutionRequest,
-) => effect.Effect<
+export const startCalculationExecution: API.OperationMethod<
+  StartCalculationExecutionRequest,
   StartCalculationExecutionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4609,9 +4538,8 @@ export const startCalculationExecution: (
  * Code Samples in the Amazon Athena User
  * Guide.
  */
-export const startQueryExecution: (
-  input: StartQueryExecutionInput,
-) => effect.Effect<
+export const startQueryExecution: API.OperationMethod<
+  StartQueryExecutionInput,
   StartQueryExecutionOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4631,9 +4559,8 @@ export const startQueryExecution: (
  * Creates a session for running calculations within a workgroup. The session is ready
  * when it reaches an `IDLE` state.
  */
-export const startSession: (
-  input: StartSessionRequest,
-) => effect.Effect<
+export const startSession: API.OperationMethod<
+  StartSessionRequest,
   StartSessionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4664,9 +4591,8 @@ export const startSession: (
  * being charged for a calculation that cannot be cancelled, consider terminating the
  * session in which the calculation is running.
  */
-export const stopCalculationExecution: (
-  input: StopCalculationExecutionRequest,
-) => effect.Effect<
+export const stopCalculationExecution: API.OperationMethod<
+  StopCalculationExecutionRequest,
   StopCalculationExecutionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4686,9 +4612,8 @@ export const stopCalculationExecution: (
  * Stops a query execution. Requires you to have access to the workgroup in which the
  * query ran.
  */
-export const stopQueryExecution: (
-  input: StopQueryExecutionInput,
-) => effect.Effect<
+export const stopQueryExecution: API.OperationMethod<
+  StopQueryExecutionInput,
   StopQueryExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4710,9 +4635,8 @@ export const stopQueryExecution: (
  * and values are case-sensitive. Tag keys must be unique per resource. If you specify more
  * than one tag, separate them by commas.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4735,9 +4659,8 @@ export const tagResource: (
  * the session when `TerminateSession` is called are forcefully stopped, but may
  * display as `FAILED` instead of `STOPPED`.
  */
-export const terminateSession: (
-  input: TerminateSessionRequest,
-) => effect.Effect<
+export const terminateSession: API.OperationMethod<
+  TerminateSessionRequest,
   TerminateSessionResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4756,9 +4679,8 @@ export const terminateSession: (
 /**
  * Removes one or more tags from an Athena resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4778,9 +4700,8 @@ export const untagResource: (
  * Updates the number of requested data processing units for the capacity reservation
  * with the specified name.
  */
-export const updateCapacityReservation: (
-  input: UpdateCapacityReservationInput,
-) => effect.Effect<
+export const updateCapacityReservation: API.OperationMethod<
+  UpdateCapacityReservationInput,
   UpdateCapacityReservationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4792,9 +4713,8 @@ export const updateCapacityReservation: (
 /**
  * Updates the data catalog that has the specified name.
  */
-export const updateDataCatalog: (
-  input: UpdateDataCatalogInput,
-) => effect.Effect<
+export const updateDataCatalog: API.OperationMethod<
+  UpdateDataCatalogInput,
   UpdateDataCatalogOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4807,9 +4727,8 @@ export const updateDataCatalog: (
  * Updates a NamedQuery object. The database or workgroup cannot be
  * updated.
  */
-export const updateNamedQuery: (
-  input: UpdateNamedQueryInput,
-) => effect.Effect<
+export const updateNamedQuery: API.OperationMethod<
+  UpdateNamedQueryInput,
   UpdateNamedQueryOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4821,9 +4740,8 @@ export const updateNamedQuery: (
 /**
  * Updates the contents of a Spark notebook.
  */
-export const updateNotebook: (
-  input: UpdateNotebookInput,
-) => effect.Effect<
+export const updateNotebook: API.OperationMethod<
+  UpdateNotebookInput,
   UpdateNotebookOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4842,9 +4760,8 @@ export const updateNotebook: (
 /**
  * Updates the metadata for a notebook.
  */
-export const updateNotebookMetadata: (
-  input: UpdateNotebookMetadataInput,
-) => effect.Effect<
+export const updateNotebookMetadata: API.OperationMethod<
+  UpdateNotebookMetadataInput,
   UpdateNotebookMetadataOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4863,9 +4780,8 @@ export const updateNotebookMetadata: (
 /**
  * Updates a prepared statement.
  */
-export const updatePreparedStatement: (
-  input: UpdatePreparedStatementInput,
-) => effect.Effect<
+export const updatePreparedStatement: API.OperationMethod<
+  UpdatePreparedStatementInput,
   UpdatePreparedStatementOutput,
   | InternalServerException
   | InvalidRequestException
@@ -4885,9 +4801,8 @@ export const updatePreparedStatement: (
  * Updates the workgroup with the specified name. The workgroup's name cannot be changed.
  * Only `ConfigurationUpdates` can be specified.
  */
-export const updateWorkGroup: (
-  input: UpdateWorkGroupInput,
-) => effect.Effect<
+export const updateWorkGroup: API.OperationMethod<
+  UpdateWorkGroupInput,
   UpdateWorkGroupOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

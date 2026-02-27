@@ -52,9 +52,8 @@ export const GetAccountSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccountSettingResponse>;
 
-export const getAccountSetting: (
-  input: GetAccountSettingRequest,
-) => Effect.Effect<
+export const getAccountSetting: API.OperationMethod<
+  GetAccountSettingRequest,
   GetAccountSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -103,9 +102,8 @@ export const PutAccountSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAccountSettingResponse>;
 
-export const putAccountSetting: (
-  input: PutAccountSettingRequest,
-) => Effect.Effect<
+export const putAccountSetting: API.OperationMethod<
+  PutAccountSettingRequest,
   PutAccountSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -148,9 +146,8 @@ export const CreateAssetUploadResponse = Schema.Struct({
   jwt: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAssetUploadResponse>;
 
-export const createAssetUpload: (
-  input: CreateAssetUploadRequest,
-) => Effect.Effect<
+export const createAssetUpload: API.OperationMethod<
+  CreateAssetUploadRequest,
   CreateAssetUploadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -192,9 +189,8 @@ export const GetBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<GetBetaWorkerResponse>;
 
-export const getBetaWorker: (
-  input: GetBetaWorkerRequest,
-) => Effect.Effect<
+export const getBetaWorker: API.OperationMethod<
+  GetBetaWorkerRequest,
   GetBetaWorkerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -224,9 +220,8 @@ export const ListBetaWorkersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListBetaWorkersResponse>;
 
-export const listBetaWorkers: (
-  input: ListBetaWorkersRequest,
-) => Effect.Effect<
+export const listBetaWorkers: API.OperationMethod<
+  ListBetaWorkersRequest,
   ListBetaWorkersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -276,18 +271,30 @@ export const CreateBetaWorkerRequest = Schema.Struct({
           invocationLogs: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            enabled: "enabled",
             headSamplingRate: "head_sampling_rate",
             invocationLogs: "invocation_logs",
           }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        headSamplingRate: "head_sampling_rate",
+        logs: "logs",
+      }),
+    ),
   ),
   subdomain: Schema.optional(
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       previewsEnabled: Schema.optional(Schema.Boolean),
-    }).pipe(Schema.encodeKeys({ previewsEnabled: "previews_enabled" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        previewsEnabled: "previews_enabled",
+      }),
+    ),
   ),
   tags: Schema.optional(Schema.Array(Schema.String)),
   tailConsumers: Schema.optional(
@@ -298,7 +305,14 @@ export const CreateBetaWorkerRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ tailConsumers: "tail_consumers" }),
+  Schema.encodeKeys({
+    name: "name",
+    logpush: "logpush",
+    observability: "observability",
+    subdomain: "subdomain",
+    tags: "tags",
+    tailConsumers: "tail_consumers",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/workers/workers" }),
 ) as unknown as Schema.Schema<CreateBetaWorkerRequest>;
 
@@ -314,9 +328,8 @@ export const CreateBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<CreateBetaWorkerResponse>;
 
-export const createBetaWorker: (
-  input: CreateBetaWorkerRequest,
-) => Effect.Effect<
+export const createBetaWorker: API.OperationMethod<
+  CreateBetaWorkerRequest,
   CreateBetaWorkerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -368,18 +381,30 @@ export const UpdateBetaWorkerRequest = Schema.Struct({
           invocationLogs: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            enabled: "enabled",
             headSamplingRate: "head_sampling_rate",
             invocationLogs: "invocation_logs",
           }),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        headSamplingRate: "head_sampling_rate",
+        logs: "logs",
+      }),
+    ),
   ),
   subdomain: Schema.optional(
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       previewsEnabled: Schema.optional(Schema.Boolean),
-    }).pipe(Schema.encodeKeys({ previewsEnabled: "previews_enabled" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        previewsEnabled: "previews_enabled",
+      }),
+    ),
   ),
   tags: Schema.optional(Schema.Array(Schema.String)),
   tailConsumers: Schema.optional(
@@ -390,7 +415,14 @@ export const UpdateBetaWorkerRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ tailConsumers: "tail_consumers" }),
+  Schema.encodeKeys({
+    name: "name",
+    logpush: "logpush",
+    observability: "observability",
+    subdomain: "subdomain",
+    tags: "tags",
+    tailConsumers: "tail_consumers",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/workers/workers/{workerId}",
@@ -409,9 +441,8 @@ export const UpdateBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<UpdateBetaWorkerResponse>;
 
-export const updateBetaWorker: (
-  input: UpdateBetaWorkerRequest,
-) => Effect.Effect<
+export const updateBetaWorker: API.OperationMethod<
+  UpdateBetaWorkerRequest,
   UpdateBetaWorkerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -462,16 +493,28 @@ export const PatchBetaWorkerRequest = Schema.Struct({
         invocationLogs: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          enabled: "enabled",
           headSamplingRate: "head_sampling_rate",
           invocationLogs: "invocation_logs",
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+  }).pipe(
+    Schema.encodeKeys({
+      enabled: "enabled",
+      headSamplingRate: "head_sampling_rate",
+      logs: "logs",
+    }),
+  ),
   subdomain: Schema.Struct({
     enabled: Schema.optional(Schema.Boolean),
     previewsEnabled: Schema.optional(Schema.Boolean),
-  }).pipe(Schema.encodeKeys({ previewsEnabled: "previews_enabled" })),
+  }).pipe(
+    Schema.encodeKeys({
+      enabled: "enabled",
+      previewsEnabled: "previews_enabled",
+    }),
+  ),
   tags: Schema.Array(Schema.String),
   tailConsumers: Schema.Array(
     Schema.Struct({
@@ -479,7 +522,14 @@ export const PatchBetaWorkerRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ tailConsumers: "tail_consumers" }),
+  Schema.encodeKeys({
+    logpush: "logpush",
+    name: "name",
+    observability: "observability",
+    subdomain: "subdomain",
+    tags: "tags",
+    tailConsumers: "tail_consumers",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/workers/workers/{workerId}",
@@ -498,9 +548,8 @@ export const PatchBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<PatchBetaWorkerResponse>;
 
-export const patchBetaWorker: (
-  input: PatchBetaWorkerRequest,
-) => Effect.Effect<
+export const patchBetaWorker: API.OperationMethod<
+  PatchBetaWorkerRequest,
   PatchBetaWorkerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -554,7 +603,14 @@ export const DeleteBetaWorkerResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -566,14 +622,20 @@ export const DeleteBetaWorkerResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteBetaWorkerResponse>;
 
-export const deleteBetaWorker: (
-  input: DeleteBetaWorkerRequest,
-) => Effect.Effect<
+export const deleteBetaWorker: API.OperationMethod<
+  DeleteBetaWorkerRequest,
   DeleteBetaWorkerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -751,7 +813,11 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
       "workers/tag": Schema.optional(Schema.String),
       "workers/triggeredBy": Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ "workers/triggeredBy": "'workers/triggered_by'" }),
+      Schema.encodeKeys({
+        "workers/message": "'workers/message'",
+        "workers/tag": "'workers/tag'",
+        "workers/triggeredBy": "'workers/triggered_by'",
+      }),
     ),
   ),
   assets: Schema.optional(
@@ -838,7 +904,10 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             className: "class_name",
+            environment: "environment",
             namespaceId: "namespace_id",
             scriptName: "script_name",
           }),
@@ -854,7 +923,12 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           oldName: Schema.optional(Schema.String),
           versionId: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            type: "type",
+            oldName: "old_name",
+            versionId: "version_id",
+          }),
         ),
         Schema.Struct({
           name: Schema.String,
@@ -869,12 +943,24 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           name: Schema.String,
           namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            namespaceId: "namespace_id",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            certificateId: "certificate_id",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -889,13 +975,26 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           name: Schema.String,
           queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            queueName: "queue_name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
           jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            bucketName: "bucket_name",
+            name: "name",
+            type: "type",
+            jurisdiction: "jurisdiction",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("secret_text"),
@@ -910,6 +1009,8 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           destinationAddress: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             allowedDestinationAddresses: "allowed_destination_addresses",
             allowedSenderAddresses: "allowed_sender_addresses",
             destinationAddress: "destination_address",
@@ -930,7 +1031,13 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            indexName: "index_name",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
@@ -941,7 +1048,12 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
         }).pipe(
-          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            secretName: "secret_name",
+            storeId: "store_id",
+            type: "type",
+          }),
         ),
         Schema.Struct({
           algorithm: Schema.Unknown,
@@ -969,6 +1081,8 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             workflowName: "workflow_name",
             className: "class_name",
             scriptName: "script_name",
@@ -1001,6 +1115,7 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
         Schema.encodeKeys({
           contentBase64: "content_base64",
           contentType: "content_type",
+          name: "name",
         }),
       ),
     ),
@@ -1017,18 +1132,27 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    number: "number",
+    annotations: "annotations",
+    assets: "assets",
+    bindings: "bindings",
     compatibilityDate: "compatibility_date",
     compatibilityFlags: "compatibility_flags",
+    limits: "limits",
     mainModule: "main_module",
+    migrations: "migrations",
+    modules: "modules",
+    placement: "placement",
+    source: "source",
     startupTimeMs: "startup_time_ms",
     usageModel: "usage_model",
   }),
 ) as unknown as Schema.Schema<GetBetaWorkerVersionResponse>;
 
-export const getBetaWorkerVersion: (
-  input: GetBetaWorkerVersionRequest,
-) => Effect.Effect<
+export const getBetaWorkerVersion: API.OperationMethod<
+  GetBetaWorkerVersionRequest,
   GetBetaWorkerVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1180,7 +1304,11 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
         "workers/tag": Schema.optional(Schema.String),
         "workers/triggeredBy": Schema.optional(Schema.String),
       }).pipe(
-        Schema.encodeKeys({ "workers/triggeredBy": "'workers/triggered_by'" }),
+        Schema.encodeKeys({
+          "workers/message": "'workers/message'",
+          "workers/tag": "'workers/tag'",
+          "workers/triggeredBy": "'workers/triggered_by'",
+        }),
       ),
     ),
     assets: Schema.optional(
@@ -1267,7 +1395,10 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               className: "class_name",
+              environment: "environment",
               namespaceId: "namespace_id",
               scriptName: "script_name",
             }),
@@ -1283,7 +1414,12 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             oldName: Schema.optional(Schema.String),
             versionId: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+            Schema.encodeKeys({
+              name: "name",
+              type: "type",
+              oldName: "old_name",
+              versionId: "version_id",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -1298,12 +1434,24 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             name: Schema.String,
             namespaceId: Schema.String,
             type: Schema.Literal("kv_namespace"),
-          }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              namespaceId: "namespace_id",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             certificateId: Schema.String,
             name: Schema.String,
             type: Schema.Literal("mtls_certificate"),
-          }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              certificateId: "certificate_id",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -1318,13 +1466,26 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             name: Schema.String,
             queueName: Schema.String,
             type: Schema.Literal("queue"),
-          }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              queueName: "queue_name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             bucketName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
             jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              bucketName: "bucket_name",
+              name: "name",
+              type: "type",
+              jurisdiction: "jurisdiction",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("secret_text"),
@@ -1341,6 +1502,8 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             destinationAddress: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               allowedDestinationAddresses: "allowed_destination_addresses",
               allowedSenderAddresses: "allowed_sender_addresses",
               destinationAddress: "destination_address",
@@ -1361,7 +1524,13 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             indexName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("vectorize"),
-          }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              indexName: "index_name",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("version_metadata"),
@@ -1373,8 +1542,10 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             type: Schema.Literal("secrets_store_secret"),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
               secretName: "secret_name",
               storeId: "store_id",
+              type: "type",
             }),
           ),
           Schema.Struct({
@@ -1403,6 +1574,8 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               workflowName: "workflow_name",
               className: "class_name",
               scriptName: "script_name",
@@ -1435,6 +1608,7 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
           Schema.encodeKeys({
             contentBase64: "content_base64",
             contentType: "content_type",
+            name: "name",
           }),
         ),
       ),
@@ -1451,19 +1625,28 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      number: "number",
+      annotations: "annotations",
+      assets: "assets",
+      bindings: "bindings",
       compatibilityDate: "compatibility_date",
       compatibilityFlags: "compatibility_flags",
+      limits: "limits",
       mainModule: "main_module",
+      migrations: "migrations",
+      modules: "modules",
+      placement: "placement",
+      source: "source",
       startupTimeMs: "startup_time_ms",
       usageModel: "usage_model",
     }),
   ),
 ) as unknown as Schema.Schema<ListBetaWorkerVersionsResponse>;
 
-export const listBetaWorkerVersions: (
-  input: ListBetaWorkerVersionsRequest,
-) => Effect.Effect<
+export const listBetaWorkerVersions: API.OperationMethod<
+  ListBetaWorkerVersionsRequest,
   ListBetaWorkerVersionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1693,7 +1876,10 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             className: "class_name",
+            environment: "environment",
             namespaceId: "namespace_id",
             scriptName: "script_name",
           }),
@@ -1709,7 +1895,12 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           oldName: Schema.optional(Schema.String),
           versionId: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            type: "type",
+            oldName: "old_name",
+            versionId: "version_id",
+          }),
         ),
         Schema.Struct({
           name: Schema.String,
@@ -1724,12 +1915,24 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           name: Schema.String,
           namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            namespaceId: "namespace_id",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            certificateId: "certificate_id",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -1744,13 +1947,26 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           name: Schema.String,
           queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            queueName: "queue_name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
           jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            bucketName: "bucket_name",
+            name: "name",
+            type: "type",
+            jurisdiction: "jurisdiction",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -1766,6 +1982,8 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           destinationAddress: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             allowedDestinationAddresses: "allowed_destination_addresses",
             allowedSenderAddresses: "allowed_sender_addresses",
             destinationAddress: "destination_address",
@@ -1786,7 +2004,13 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            indexName: "index_name",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
@@ -1797,7 +2021,12 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
         }).pipe(
-          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            secretName: "secret_name",
+            storeId: "store_id",
+            type: "type",
+          }),
         ),
         Schema.Struct({
           algorithm: Schema.Unknown,
@@ -1819,7 +2048,15 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           keyBase64: Schema.optional(Schema.String),
           keyJwk: Schema.optional(Schema.Unknown),
         }).pipe(
-          Schema.encodeKeys({ keyBase64: "key_base64", keyJwk: "key_jwk" }),
+          Schema.encodeKeys({
+            algorithm: "algorithm",
+            format: "format",
+            name: "name",
+            type: "type",
+            usages: "usages",
+            keyBase64: "key_base64",
+            keyJwk: "key_jwk",
+          }),
         ),
         Schema.Struct({
           name: Schema.String,
@@ -1829,6 +2066,8 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             workflowName: "workflow_name",
             className: "class_name",
             scriptName: "script_name",
@@ -1857,7 +2096,13 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
         newTag: Schema.optional(Schema.String),
         oldTag: Schema.optional(Schema.String),
         steps: Schema.optional(Schema.Array(Schema.Unknown)),
-      }).pipe(Schema.encodeKeys({ newTag: "new_tag", oldTag: "old_tag" })),
+      }).pipe(
+        Schema.encodeKeys({
+          newTag: "new_tag",
+          oldTag: "old_tag",
+          steps: "steps",
+        }),
+      ),
     ]),
   ),
   modules: Schema.optional(
@@ -1870,6 +2115,7 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
         Schema.encodeKeys({
           contentBase64: "content_base64",
           contentType: "content_type",
+          name: "name",
         }),
       ),
     ),
@@ -1884,9 +2130,16 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    annotations: "annotations",
+    assets: "assets",
+    bindings: "bindings",
     compatibilityDate: "compatibility_date",
     compatibilityFlags: "compatibility_flags",
+    limits: "limits",
     mainModule: "main_module",
+    migrations: "migrations",
+    modules: "modules",
+    placement: "placement",
     usageModel: "usage_model",
   }),
   T.Http({
@@ -2036,7 +2289,11 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
       "workers/tag": Schema.optional(Schema.String),
       "workers/triggeredBy": Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ "workers/triggeredBy": "'workers/triggered_by'" }),
+      Schema.encodeKeys({
+        "workers/message": "'workers/message'",
+        "workers/tag": "'workers/tag'",
+        "workers/triggeredBy": "'workers/triggered_by'",
+      }),
     ),
   ),
   assets: Schema.optional(
@@ -2123,7 +2380,10 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             className: "class_name",
+            environment: "environment",
             namespaceId: "namespace_id",
             scriptName: "script_name",
           }),
@@ -2139,7 +2399,12 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           oldName: Schema.optional(Schema.String),
           versionId: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            type: "type",
+            oldName: "old_name",
+            versionId: "version_id",
+          }),
         ),
         Schema.Struct({
           name: Schema.String,
@@ -2154,12 +2419,24 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           name: Schema.String,
           namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            namespaceId: "namespace_id",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            certificateId: "certificate_id",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -2174,13 +2451,26 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           name: Schema.String,
           queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            queueName: "queue_name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
           jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            bucketName: "bucket_name",
+            name: "name",
+            type: "type",
+            jurisdiction: "jurisdiction",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("secret_text"),
@@ -2195,6 +2485,8 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           destinationAddress: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             allowedDestinationAddresses: "allowed_destination_addresses",
             allowedSenderAddresses: "allowed_sender_addresses",
             destinationAddress: "destination_address",
@@ -2215,7 +2507,13 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            indexName: "index_name",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
@@ -2226,7 +2524,12 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
         }).pipe(
-          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            secretName: "secret_name",
+            storeId: "store_id",
+            type: "type",
+          }),
         ),
         Schema.Struct({
           algorithm: Schema.Unknown,
@@ -2254,6 +2557,8 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             workflowName: "workflow_name",
             className: "class_name",
             scriptName: "script_name",
@@ -2286,6 +2591,7 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
         Schema.encodeKeys({
           contentBase64: "content_base64",
           contentType: "content_type",
+          name: "name",
         }),
       ),
     ),
@@ -2302,18 +2608,27 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdOn: "created_on",
+    number: "number",
+    annotations: "annotations",
+    assets: "assets",
+    bindings: "bindings",
     compatibilityDate: "compatibility_date",
     compatibilityFlags: "compatibility_flags",
+    limits: "limits",
     mainModule: "main_module",
+    migrations: "migrations",
+    modules: "modules",
+    placement: "placement",
+    source: "source",
     startupTimeMs: "startup_time_ms",
     usageModel: "usage_model",
   }),
 ) as unknown as Schema.Schema<CreateBetaWorkerVersionResponse>;
 
-export const createBetaWorkerVersion: (
-  input: CreateBetaWorkerVersionRequest,
-) => Effect.Effect<
+export const createBetaWorkerVersion: API.OperationMethod<
+  CreateBetaWorkerVersionRequest,
   CreateBetaWorkerVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2369,7 +2684,14 @@ export const DeleteBetaWorkerVersionResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -2381,14 +2703,20 @@ export const DeleteBetaWorkerVersionResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteBetaWorkerVersionResponse>;
 
-export const deleteBetaWorkerVersion: (
-  input: DeleteBetaWorkerVersionRequest,
-) => Effect.Effect<
+export const deleteBetaWorkerVersion: API.OperationMethod<
+  DeleteBetaWorkerVersionRequest,
   DeleteBetaWorkerVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2441,12 +2769,18 @@ export const GetDomainResponse = Schema.Struct({
   zoneId: Schema.optional(Schema.String),
   zoneName: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ zoneId: "zone_id", zoneName: "zone_name" }),
+  Schema.encodeKeys({
+    id: "id",
+    environment: "environment",
+    hostname: "hostname",
+    service: "service",
+    zoneId: "zone_id",
+    zoneName: "zone_name",
+  }),
 ) as unknown as Schema.Schema<GetDomainResponse>;
 
-export const getDomain: (
-  input: GetDomainRequest,
-) => Effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
   GetDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2499,12 +2833,20 @@ export const ListDomainsResponse = Schema.Array(
     service: Schema.optional(Schema.String),
     zoneId: Schema.optional(Schema.String),
     zoneName: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ zoneId: "zone_id", zoneName: "zone_name" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      environment: "environment",
+      hostname: "hostname",
+      service: "service",
+      zoneId: "zone_id",
+      zoneName: "zone_name",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListDomainsResponse>;
 
-export const listDomains: (
-  input: ListDomainsRequest,
-) => Effect.Effect<
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
   ListDomainsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2534,7 +2876,12 @@ export const PutDomainRequest = Schema.Struct({
   zoneId: Schema.String,
   environment: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ zoneId: "zone_id" }),
+  Schema.encodeKeys({
+    hostname: "hostname",
+    service: "service",
+    zoneId: "zone_id",
+    environment: "environment",
+  }),
   T.Http({ method: "PUT", path: "/accounts/{account_id}/workers/domains" }),
 ) as unknown as Schema.Schema<PutDomainRequest>;
 
@@ -2561,12 +2908,18 @@ export const PutDomainResponse = Schema.Struct({
   zoneId: Schema.optional(Schema.String),
   zoneName: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ zoneId: "zone_id", zoneName: "zone_name" }),
+  Schema.encodeKeys({
+    id: "id",
+    environment: "environment",
+    hostname: "hostname",
+    service: "service",
+    zoneId: "zone_id",
+    zoneName: "zone_name",
+  }),
 ) as unknown as Schema.Schema<PutDomainResponse>;
 
-export const putDomain: (
-  input: PutDomainRequest,
-) => Effect.Effect<
+export const putDomain: API.OperationMethod<
+  PutDomainRequest,
   PutDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2597,9 +2950,8 @@ export type DeleteDomainResponse = unknown;
 export const DeleteDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDomainResponse>;
 
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => Effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2755,9 +3107,8 @@ export const KeysObservabilityTelemetryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<KeysObservabilityTelemetryResponse>;
 
-export const keysObservabilityTelemetry: (
-  input: KeysObservabilityTelemetryRequest,
-) => Effect.Effect<
+export const keysObservabilityTelemetry: API.OperationMethod<
+  KeysObservabilityTelemetryRequest,
   KeysObservabilityTelemetryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3547,6 +3898,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           bytesRead: "bytes_read",
+          elapsed: "elapsed",
           rowsRead: "rows_read",
           abrLevel: "abr_level",
         }),
@@ -3562,6 +3914,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
   }).pipe(
     Schema.encodeKeys({
       bytesRead: "bytes_read",
+      elapsed: "elapsed",
       rowsRead: "rows_read",
       abrLevel: "abr_level",
     }),
@@ -3883,9 +4236,8 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<QueryObservabilityTelemetryResponse>;
 
-export const queryObservabilityTelemetry: (
-  input: QueryObservabilityTelemetryRequest,
-) => Effect.Effect<
+export const queryObservabilityTelemetry: API.OperationMethod<
+  QueryObservabilityTelemetryRequest,
   QueryObservabilityTelemetryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4032,9 +4384,8 @@ export const ValuesObservabilityTelemetryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ValuesObservabilityTelemetryResponse>;
 
-export const valuesObservabilityTelemetry: (
-  input: ValuesObservabilityTelemetryRequest,
-) => Effect.Effect<
+export const valuesObservabilityTelemetry: API.OperationMethod<
+  ValuesObservabilityTelemetryRequest,
   ValuesObservabilityTelemetryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4076,9 +4427,8 @@ export const GetRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRouteResponse>;
 
-export const getRoute: (
-  input: GetRouteRequest,
-) => Effect.Effect<
+export const getRoute: API.OperationMethod<
+  GetRouteRequest,
   GetRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4113,9 +4463,8 @@ export const ListRoutesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRoutesResponse>;
 
-export const listRoutes: (
-  input: ListRoutesRequest,
-) => Effect.Effect<
+export const listRoutes: API.OperationMethod<
+  ListRoutesRequest,
   ListRoutesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4157,9 +4506,8 @@ export const CreateRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateRouteResponse>;
 
-export const createRoute: (
-  input: CreateRouteRequest,
-) => Effect.Effect<
+export const createRoute: API.OperationMethod<
+  CreateRouteRequest,
   CreateRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4203,9 +4551,8 @@ export const UpdateRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateRouteResponse>;
 
-export const updateRoute: (
-  input: UpdateRouteRequest,
-) => Effect.Effect<
+export const updateRoute: API.OperationMethod<
+  UpdateRouteRequest,
   UpdateRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4240,9 +4587,8 @@ export const DeleteRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRouteResponse>;
 
-export const deleteRoute: (
-  input: DeleteRouteRequest,
-) => Effect.Effect<
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteRequest,
   DeleteRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4277,9 +4623,8 @@ export type GetScriptResponse = unknown;
 export const GetScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptResponse>;
 
-export const getScript: (
-  input: GetScriptRequest,
-) => Effect.Effect<
+export const getScript: API.OperationMethod<
+  GetScriptRequest,
   GetScriptResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4413,14 +4758,23 @@ export const ListScriptsResponse = Schema.Array(
               persist: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                enabled: "enabled",
                 invocationLogs: "invocation_logs",
+                destinations: "destinations",
                 headSamplingRate: "head_sampling_rate",
+                persist: "persist",
               }),
             ),
             Schema.Null,
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          headSamplingRate: "head_sampling_rate",
+          logs: "logs",
+        }),
+      ),
     ),
     placement: Schema.optional(
       Schema.Union([
@@ -4434,7 +4788,13 @@ export const ListScriptsResponse = Schema.Array(
               "INSUFFICIENT_INVOCATIONS",
             ]),
           ),
-        }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            mode: "mode",
+            lastAnalyzedAt: "last_analyzed_at",
+            status: "status",
+          }),
+        ),
         Schema.Struct({
           region: Schema.String,
           lastAnalyzedAt: Schema.optional(Schema.String),
@@ -4445,7 +4805,13 @@ export const ListScriptsResponse = Schema.Array(
               "INSUFFICIENT_INVOCATIONS",
             ]),
           ),
-        }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            region: "region",
+            lastAnalyzedAt: "last_analyzed_at",
+            status: "status",
+          }),
+        ),
         Schema.Struct({
           hostname: Schema.String,
           lastAnalyzedAt: Schema.optional(Schema.String),
@@ -4456,7 +4822,13 @@ export const ListScriptsResponse = Schema.Array(
               "INSUFFICIENT_INVOCATIONS",
             ]),
           ),
-        }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            hostname: "hostname",
+            lastAnalyzedAt: "last_analyzed_at",
+            status: "status",
+          }),
+        ),
         Schema.Struct({
           host: Schema.String,
           lastAnalyzedAt: Schema.optional(Schema.String),
@@ -4467,7 +4839,13 @@ export const ListScriptsResponse = Schema.Array(
               "INSUFFICIENT_INVOCATIONS",
             ]),
           ),
-        }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            host: "host",
+            lastAnalyzedAt: "last_analyzed_at",
+            status: "status",
+          }),
+        ),
       ]),
     ),
     placementMode: Schema.optional(Schema.Literal("smart")),
@@ -4502,26 +4880,34 @@ export const ListScriptsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       compatibilityDate: "compatibility_date",
       compatibilityFlags: "compatibility_flags",
       createdOn: "created_on",
+      etag: "etag",
+      handlers: "handlers",
       hasAssets: "has_assets",
       hasModules: "has_modules",
       lastDeployedFrom: "last_deployed_from",
+      logpush: "logpush",
       migrationTag: "migration_tag",
       modifiedOn: "modified_on",
       namedHandlers: "named_handlers",
+      observability: "observability",
+      placement: "placement",
       placementMode: "placement_mode",
       placementStatus: "placement_status",
+      routes: "routes",
+      tag: "tag",
+      tags: "tags",
       tailConsumers: "tail_consumers",
       usageModel: "usage_model",
     }),
   ),
 ) as unknown as Schema.Schema<ListScriptsResponse>;
 
-export const listScripts: (
-  input: ListScriptsRequest,
-) => Effect.Effect<
+export const listScripts: API.OperationMethod<
+  ListScriptsRequest,
   ListScriptsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4765,7 +5151,10 @@ export const PutScriptRequest = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               className: "class_name",
+              environment: "environment",
               namespaceId: "namespace_id",
               scriptName: "script_name",
             }),
@@ -4781,7 +5170,12 @@ export const PutScriptRequest = Schema.Struct({
             oldName: Schema.optional(Schema.String),
             versionId: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+            Schema.encodeKeys({
+              name: "name",
+              type: "type",
+              oldName: "old_name",
+              versionId: "version_id",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -4796,12 +5190,24 @@ export const PutScriptRequest = Schema.Struct({
             name: Schema.String,
             namespaceId: Schema.String,
             type: Schema.Literal("kv_namespace"),
-          }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              namespaceId: "namespace_id",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             certificateId: Schema.String,
             name: Schema.String,
             type: Schema.Literal("mtls_certificate"),
-          }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              certificateId: "certificate_id",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -4816,13 +5222,26 @@ export const PutScriptRequest = Schema.Struct({
             name: Schema.String,
             queueName: Schema.String,
             type: Schema.Literal("queue"),
-          }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              queueName: "queue_name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             bucketName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
             jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              bucketName: "bucket_name",
+              name: "name",
+              type: "type",
+              jurisdiction: "jurisdiction",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -4840,6 +5259,8 @@ export const PutScriptRequest = Schema.Struct({
             destinationAddress: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               allowedDestinationAddresses: "allowed_destination_addresses",
               allowedSenderAddresses: "allowed_sender_addresses",
               destinationAddress: "destination_address",
@@ -4860,7 +5281,13 @@ export const PutScriptRequest = Schema.Struct({
             indexName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("vectorize"),
-          }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              indexName: "index_name",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("version_metadata"),
@@ -4872,8 +5299,10 @@ export const PutScriptRequest = Schema.Struct({
             type: Schema.Literal("secrets_store_secret"),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
               secretName: "secret_name",
               storeId: "store_id",
+              type: "type",
             }),
           ),
           Schema.Struct({
@@ -4896,7 +5325,15 @@ export const PutScriptRequest = Schema.Struct({
             keyBase64: Schema.optional(Schema.String),
             keyJwk: Schema.optional(Schema.Unknown),
           }).pipe(
-            Schema.encodeKeys({ keyBase64: "key_base64", keyJwk: "key_jwk" }),
+            Schema.encodeKeys({
+              algorithm: "algorithm",
+              format: "format",
+              name: "name",
+              type: "type",
+              usages: "usages",
+              keyBase64: "key_base64",
+              keyJwk: "key_jwk",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -4906,6 +5343,8 @@ export const PutScriptRequest = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               workflowName: "workflow_name",
               className: "class_name",
               scriptName: "script_name",
@@ -4938,7 +5377,13 @@ export const PutScriptRequest = Schema.Struct({
           newTag: Schema.optional(Schema.String),
           oldTag: Schema.optional(Schema.String),
           steps: Schema.optional(Schema.Array(Schema.Unknown)),
-        }).pipe(Schema.encodeKeys({ newTag: "new_tag", oldTag: "old_tag" })),
+        }).pipe(
+          Schema.encodeKeys({
+            newTag: "new_tag",
+            oldTag: "old_tag",
+            steps: "steps",
+          }),
+        ),
       ]),
     ),
     observability: Schema.optional(
@@ -4959,14 +5404,23 @@ export const PutScriptRequest = Schema.Struct({
               persist: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                enabled: "enabled",
                 invocationLogs: "invocation_logs",
+                destinations: "destinations",
                 headSamplingRate: "head_sampling_rate",
+                persist: "persist",
               }),
             ),
             Schema.Null,
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          headSamplingRate: "head_sampling_rate",
+          logs: "logs",
+        }),
+      ),
     ),
     placement: Schema.optional(
       Schema.Union([
@@ -4993,12 +5447,20 @@ export const PutScriptRequest = Schema.Struct({
     ),
   }).pipe(
     Schema.encodeKeys({
+      assets: "assets",
+      bindings: "bindings",
       bodyPart: "body_part",
       compatibilityDate: "compatibility_date",
       compatibilityFlags: "compatibility_flags",
       keepAssets: "keep_assets",
       keepBindings: "keep_bindings",
+      limits: "limits",
+      logpush: "logpush",
       mainModule: "main_module",
+      migrations: "migrations",
+      observability: "observability",
+      placement: "placement",
+      tags: "tags",
       tailConsumers: "tail_consumers",
       usageModel: "usage_model",
     }),
@@ -5148,14 +5610,23 @@ export const PutScriptResponse = Schema.Struct({
             persist: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               invocationLogs: "invocation_logs",
+              destinations: "destinations",
               headSamplingRate: "head_sampling_rate",
+              persist: "persist",
             }),
           ),
           Schema.Null,
         ]),
       ),
-    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        headSamplingRate: "head_sampling_rate",
+        logs: "logs",
+      }),
+    ),
   ),
   placement: Schema.optional(
     Schema.Union([
@@ -5169,7 +5640,13 @@ export const PutScriptResponse = Schema.Struct({
             "INSUFFICIENT_INVOCATIONS",
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          mode: "mode",
+          lastAnalyzedAt: "last_analyzed_at",
+          status: "status",
+        }),
+      ),
       Schema.Struct({
         region: Schema.String,
         lastAnalyzedAt: Schema.optional(Schema.String),
@@ -5180,7 +5657,13 @@ export const PutScriptResponse = Schema.Struct({
             "INSUFFICIENT_INVOCATIONS",
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          region: "region",
+          lastAnalyzedAt: "last_analyzed_at",
+          status: "status",
+        }),
+      ),
       Schema.Struct({
         hostname: Schema.String,
         lastAnalyzedAt: Schema.optional(Schema.String),
@@ -5191,7 +5674,13 @@ export const PutScriptResponse = Schema.Struct({
             "INSUFFICIENT_INVOCATIONS",
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          hostname: "hostname",
+          lastAnalyzedAt: "last_analyzed_at",
+          status: "status",
+        }),
+      ),
       Schema.Struct({
         host: Schema.String,
         lastAnalyzedAt: Schema.optional(Schema.String),
@@ -5202,7 +5691,13 @@ export const PutScriptResponse = Schema.Struct({
             "INSUFFICIENT_INVOCATIONS",
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          host: "host",
+          lastAnalyzedAt: "last_analyzed_at",
+          status: "status",
+        }),
+      ),
     ]),
   ),
   placementMode: Schema.optional(Schema.Literal("smart")),
@@ -5226,26 +5721,33 @@ export const PutScriptResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     startupTimeMs: "startup_time_ms",
+    id: "id",
     compatibilityDate: "compatibility_date",
     compatibilityFlags: "compatibility_flags",
     createdOn: "created_on",
     entryPoint: "entry_point",
+    etag: "etag",
+    handlers: "handlers",
     hasAssets: "has_assets",
     hasModules: "has_modules",
     lastDeployedFrom: "last_deployed_from",
+    logpush: "logpush",
     migrationTag: "migration_tag",
     modifiedOn: "modified_on",
     namedHandlers: "named_handlers",
+    observability: "observability",
+    placement: "placement",
     placementMode: "placement_mode",
     placementStatus: "placement_status",
+    tag: "tag",
+    tags: "tags",
     tailConsumers: "tail_consumers",
     usageModel: "usage_model",
   }),
 ) as unknown as Schema.Schema<PutScriptResponse>;
 
-export const putScript: (
-  input: PutScriptRequest,
-) => Effect.Effect<
+export const putScript: API.OperationMethod<
+  PutScriptRequest,
   PutScriptResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5279,9 +5781,8 @@ export type DeleteScriptResponse = unknown;
 export const DeleteScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScriptResponse>;
 
-export const deleteScript: (
-  input: DeleteScriptRequest,
-) => Effect.Effect<
+export const deleteScript: API.OperationMethod<
+  DeleteScriptRequest,
   DeleteScriptResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5354,9 +5855,8 @@ export const SearchScriptResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<SearchScriptResponse>;
 
-export const searchScript: (
-  input: SearchScriptRequest,
-) => Effect.Effect<
+export const searchScript: API.OperationMethod<
+  SearchScriptRequest,
   SearchScriptResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5401,9 +5901,8 @@ export const CreateScriptAssetUploadResponse = Schema.Struct({
   jwt: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateScriptAssetUploadResponse>;
 
-export const createScriptAssetUpload: (
-  input: CreateScriptAssetUploadRequest,
-) => Effect.Effect<
+export const createScriptAssetUpload: API.OperationMethod<
+  CreateScriptAssetUploadRequest,
   CreateScriptAssetUploadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5438,9 +5937,8 @@ export type GetScriptContentResponse = unknown;
 export const GetScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptContentResponse>;
 
-export const getScriptContent: (
-  input: GetScriptContentRequest,
-) => Effect.Effect<
+export const getScriptContent: API.OperationMethod<
+  GetScriptContentRequest,
   GetScriptContentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5495,9 +5993,8 @@ export type PutScriptContentResponse = unknown;
 export const PutScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<PutScriptContentResponse>;
 
-export const putScriptContent: (
-  input: PutScriptContentRequest,
-) => Effect.Effect<
+export const putScriptContent: API.OperationMethod<
+  PutScriptContentRequest,
   PutScriptContentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5548,24 +6045,36 @@ export const GetScriptDeploymentResponse = Schema.Struct({
     Schema.Struct({
       percentage: Schema.Number,
       versionId: Schema.String,
-    }).pipe(Schema.encodeKeys({ versionId: "version_id" })),
+    }).pipe(
+      Schema.encodeKeys({ percentage: "percentage", versionId: "version_id" }),
+    ),
   ),
   annotations: Schema.optional(
     Schema.Struct({
       "workers/message": Schema.optional(Schema.String),
       "workers/triggeredBy": Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ "workers/triggeredBy": "'workers/triggered_by'" }),
+      Schema.encodeKeys({
+        "workers/message": "'workers/message'",
+        "workers/triggeredBy": "'workers/triggered_by'",
+      }),
     ),
   ),
   authorEmail: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", authorEmail: "author_email" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    source: "source",
+    strategy: "strategy",
+    versions: "versions",
+    annotations: "annotations",
+    authorEmail: "author_email",
+  }),
 ) as unknown as Schema.Schema<GetScriptDeploymentResponse>;
 
-export const getScriptDeployment: (
-  input: GetScriptDeploymentRequest,
-) => Effect.Effect<
+export const getScriptDeployment: API.OperationMethod<
+  GetScriptDeploymentRequest,
   GetScriptDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5617,7 +6126,12 @@ export const ListScriptDeploymentsResponse = Schema.Struct({
         Schema.Struct({
           percentage: Schema.Number,
           versionId: Schema.String,
-        }).pipe(Schema.encodeKeys({ versionId: "version_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            percentage: "percentage",
+            versionId: "version_id",
+          }),
+        ),
       ),
       annotations: Schema.optional(
         Schema.Struct({
@@ -5625,6 +6139,7 @@ export const ListScriptDeploymentsResponse = Schema.Struct({
           "workers/triggeredBy": Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            "workers/message": "'workers/message'",
             "workers/triggeredBy": "'workers/triggered_by'",
           }),
         ),
@@ -5632,16 +6147,20 @@ export const ListScriptDeploymentsResponse = Schema.Struct({
       authorEmail: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdOn: "created_on",
+        source: "source",
+        strategy: "strategy",
+        versions: "versions",
+        annotations: "annotations",
         authorEmail: "author_email",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<ListScriptDeploymentsResponse>;
 
-export const listScriptDeployments: (
-  input: ListScriptDeploymentsRequest,
-) => Effect.Effect<
+export const listScriptDeployments: API.OperationMethod<
+  ListScriptDeploymentsRequest,
   ListScriptDeploymentsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5674,7 +6193,9 @@ export const CreateScriptDeploymentRequest = Schema.Struct({
     Schema.Struct({
       percentage: Schema.Number,
       versionId: Schema.String,
-    }).pipe(Schema.encodeKeys({ versionId: "version_id" })),
+    }).pipe(
+      Schema.encodeKeys({ percentage: "percentage", versionId: "version_id" }),
+    ),
   ),
   annotations: Schema.optional(
     Schema.Struct({
@@ -5707,24 +6228,36 @@ export const CreateScriptDeploymentResponse = Schema.Struct({
     Schema.Struct({
       percentage: Schema.Number,
       versionId: Schema.String,
-    }).pipe(Schema.encodeKeys({ versionId: "version_id" })),
+    }).pipe(
+      Schema.encodeKeys({ percentage: "percentage", versionId: "version_id" }),
+    ),
   ),
   annotations: Schema.optional(
     Schema.Struct({
       "workers/message": Schema.optional(Schema.String),
       "workers/triggeredBy": Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ "workers/triggeredBy": "'workers/triggered_by'" }),
+      Schema.encodeKeys({
+        "workers/message": "'workers/message'",
+        "workers/triggeredBy": "'workers/triggered_by'",
+      }),
     ),
   ),
   authorEmail: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", authorEmail: "author_email" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdOn: "created_on",
+    source: "source",
+    strategy: "strategy",
+    versions: "versions",
+    annotations: "annotations",
+    authorEmail: "author_email",
+  }),
 ) as unknown as Schema.Schema<CreateScriptDeploymentResponse>;
 
-export const createScriptDeployment: (
-  input: CreateScriptDeploymentRequest,
-) => Effect.Effect<
+export const createScriptDeployment: API.OperationMethod<
+  CreateScriptDeploymentRequest,
   CreateScriptDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5780,7 +6313,14 @@ export const DeleteScriptDeploymentResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -5792,14 +6332,20 @@ export const DeleteScriptDeploymentResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteScriptDeploymentResponse>;
 
-export const deleteScriptDeployment: (
-  input: DeleteScriptDeploymentRequest,
-) => Effect.Effect<
+export const deleteScriptDeployment: API.OperationMethod<
+  DeleteScriptDeploymentRequest,
   DeleteScriptDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5840,14 +6386,17 @@ export const GetScriptScheduleResponse = Schema.Struct({
       createdOn: Schema.optional(Schema.String),
       modifiedOn: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        cron: "cron",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+      }),
     ),
   ),
 }) as unknown as Schema.Schema<GetScriptScheduleResponse>;
 
-export const getScriptSchedule: (
-  input: GetScriptScheduleRequest,
-) => Effect.Effect<
+export const getScriptSchedule: API.OperationMethod<
+  GetScriptScheduleRequest,
   GetScriptScheduleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5891,14 +6440,17 @@ export const PutScriptScheduleResponse = Schema.Struct({
       createdOn: Schema.optional(Schema.String),
       modifiedOn: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        cron: "cron",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+      }),
     ),
   ),
 }) as unknown as Schema.Schema<PutScriptScheduleResponse>;
 
-export const putScriptSchedule: (
-  input: PutScriptScheduleRequest,
-) => Effect.Effect<
+export const putScriptSchedule: API.OperationMethod<
+  PutScriptScheduleRequest,
   PutScriptScheduleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6102,7 +6654,10 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             className: "class_name",
+            environment: "environment",
             namespaceId: "namespace_id",
             scriptName: "script_name",
           }),
@@ -6118,7 +6673,12 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           oldName: Schema.optional(Schema.String),
           versionId: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            type: "type",
+            oldName: "old_name",
+            versionId: "version_id",
+          }),
         ),
         Schema.Struct({
           name: Schema.String,
@@ -6133,12 +6693,24 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           name: Schema.String,
           namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            namespaceId: "namespace_id",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            certificateId: "certificate_id",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -6153,13 +6725,26 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           name: Schema.String,
           queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            queueName: "queue_name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
           jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            bucketName: "bucket_name",
+            name: "name",
+            type: "type",
+            jurisdiction: "jurisdiction",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("secret_text"),
@@ -6174,6 +6759,8 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           destinationAddress: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             allowedDestinationAddresses: "allowed_destination_addresses",
             allowedSenderAddresses: "allowed_sender_addresses",
             destinationAddress: "destination_address",
@@ -6194,7 +6781,13 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            indexName: "index_name",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
@@ -6205,7 +6798,12 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
         }).pipe(
-          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            secretName: "secret_name",
+            storeId: "store_id",
+            type: "type",
+          }),
         ),
         Schema.Struct({
           algorithm: Schema.Unknown,
@@ -6233,6 +6831,8 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             workflowName: "workflow_name",
             className: "class_name",
             scriptName: "script_name",
@@ -6272,14 +6872,23 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
             persist: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               invocationLogs: "invocation_logs",
+              destinations: "destinations",
               headSamplingRate: "head_sampling_rate",
+              persist: "persist",
             }),
           ),
           Schema.Null,
         ]),
       ),
-    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        headSamplingRate: "head_sampling_rate",
+        logs: "logs",
+      }),
+    ),
   ),
   placement: Schema.optional(
     Schema.Union([
@@ -6308,16 +6917,21 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    bindings: "bindings",
     compatibilityDate: "compatibility_date",
     compatibilityFlags: "compatibility_flags",
+    limits: "limits",
+    logpush: "logpush",
+    observability: "observability",
+    placement: "placement",
+    tags: "tags",
     tailConsumers: "tail_consumers",
     usageModel: "usage_model",
   }),
 ) as unknown as Schema.Schema<GetScriptScriptAndVersionSettingResponse>;
 
-export const getScriptScriptAndVersionSetting: (
-  input: GetScriptScriptAndVersionSettingRequest,
-) => Effect.Effect<
+export const getScriptScriptAndVersionSetting: API.OperationMethod<
+  GetScriptScriptAndVersionSettingRequest,
   GetScriptScriptAndVersionSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6506,7 +7120,10 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               scriptName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                name: "name",
+                type: "type",
                 className: "class_name",
+                environment: "environment",
                 namespaceId: "namespace_id",
                 scriptName: "script_name",
               }),
@@ -6523,6 +7140,8 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               versionId: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                name: "name",
+                type: "type",
                 oldName: "old_name",
                 versionId: "version_id",
               }),
@@ -6540,12 +7159,24 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               name: Schema.String,
               namespaceId: Schema.String,
               type: Schema.Literal("kv_namespace"),
-            }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                namespaceId: "namespace_id",
+                type: "type",
+              }),
+            ),
             Schema.Struct({
               certificateId: Schema.String,
               name: Schema.String,
               type: Schema.Literal("mtls_certificate"),
-            }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificateId: "certificate_id",
+                name: "name",
+                type: "type",
+              }),
+            ),
             Schema.Struct({
               name: Schema.String,
               text: Schema.String,
@@ -6560,13 +7191,26 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               name: Schema.String,
               queueName: Schema.String,
               type: Schema.Literal("queue"),
-            }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+            }).pipe(
+              Schema.encodeKeys({
+                name: "name",
+                queueName: "queue_name",
+                type: "type",
+              }),
+            ),
             Schema.Struct({
               bucketName: Schema.String,
               name: Schema.String,
               type: Schema.Literal("r2_bucket"),
               jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-            }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+            }).pipe(
+              Schema.encodeKeys({
+                bucketName: "bucket_name",
+                name: "name",
+                type: "type",
+                jurisdiction: "jurisdiction",
+              }),
+            ),
             Schema.Struct({
               name: Schema.String,
               text: Schema.String,
@@ -6584,6 +7228,8 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               destinationAddress: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                name: "name",
+                type: "type",
                 allowedDestinationAddresses: "allowed_destination_addresses",
                 allowedSenderAddresses: "allowed_sender_addresses",
                 destinationAddress: "destination_address",
@@ -6604,7 +7250,13 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               indexName: Schema.String,
               name: Schema.String,
               type: Schema.Literal("vectorize"),
-            }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+            }).pipe(
+              Schema.encodeKeys({
+                indexName: "index_name",
+                name: "name",
+                type: "type",
+              }),
+            ),
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("version_metadata"),
@@ -6616,8 +7268,10 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               type: Schema.Literal("secrets_store_secret"),
             }).pipe(
               Schema.encodeKeys({
+                name: "name",
                 secretName: "secret_name",
                 storeId: "store_id",
+                type: "type",
               }),
             ),
             Schema.Struct({
@@ -6640,7 +7294,15 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               keyBase64: Schema.optional(Schema.String),
               keyJwk: Schema.optional(Schema.Unknown),
             }).pipe(
-              Schema.encodeKeys({ keyBase64: "key_base64", keyJwk: "key_jwk" }),
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                format: "format",
+                name: "name",
+                type: "type",
+                usages: "usages",
+                keyBase64: "key_base64",
+                keyJwk: "key_jwk",
+              }),
             ),
             Schema.Struct({
               name: Schema.String,
@@ -6650,6 +7312,8 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
               scriptName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                name: "name",
+                type: "type",
                 workflowName: "workflow_name",
                 className: "class_name",
                 scriptName: "script_name",
@@ -6678,7 +7342,13 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
             newTag: Schema.optional(Schema.String),
             oldTag: Schema.optional(Schema.String),
             steps: Schema.optional(Schema.Array(Schema.Unknown)),
-          }).pipe(Schema.encodeKeys({ newTag: "new_tag", oldTag: "old_tag" })),
+          }).pipe(
+            Schema.encodeKeys({
+              newTag: "new_tag",
+              oldTag: "old_tag",
+              steps: "steps",
+            }),
+          ),
         ]),
       ),
       observability: Schema.optional(
@@ -6699,14 +7369,23 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
                 persist: Schema.optional(Schema.Boolean),
               }).pipe(
                 Schema.encodeKeys({
+                  enabled: "enabled",
                   invocationLogs: "invocation_logs",
+                  destinations: "destinations",
                   headSamplingRate: "head_sampling_rate",
+                  persist: "persist",
                 }),
               ),
               Schema.Null,
             ]),
           ),
-        }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            headSamplingRate: "head_sampling_rate",
+            logs: "logs",
+          }),
+        ),
       ),
       placement: Schema.optional(
         Schema.Union([
@@ -6735,8 +7414,15 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        bindings: "bindings",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
+        limits: "limits",
+        logpush: "logpush",
+        migrations: "migrations",
+        observability: "observability",
+        placement: "placement",
+        tags: "tags",
         tailConsumers: "tail_consumers",
         usageModel: "usage_model",
       }),
@@ -6923,7 +7609,10 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             className: "class_name",
+            environment: "environment",
             namespaceId: "namespace_id",
             scriptName: "script_name",
           }),
@@ -6939,7 +7628,12 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           oldName: Schema.optional(Schema.String),
           versionId: Schema.optional(Schema.String),
         }).pipe(
-          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            type: "type",
+            oldName: "old_name",
+            versionId: "version_id",
+          }),
         ),
         Schema.Struct({
           name: Schema.String,
@@ -6954,12 +7648,24 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           name: Schema.String,
           namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            namespaceId: "namespace_id",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            certificateId: "certificate_id",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -6974,13 +7680,26 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           name: Schema.String,
           queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            name: "name",
+            queueName: "queue_name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
           jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            bucketName: "bucket_name",
+            name: "name",
+            type: "type",
+            jurisdiction: "jurisdiction",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("secret_text"),
@@ -6995,6 +7714,8 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           destinationAddress: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             allowedDestinationAddresses: "allowed_destination_addresses",
             allowedSenderAddresses: "allowed_sender_addresses",
             destinationAddress: "destination_address",
@@ -7015,7 +7736,13 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+        }).pipe(
+          Schema.encodeKeys({
+            indexName: "index_name",
+            name: "name",
+            type: "type",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
@@ -7026,7 +7753,12 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
         }).pipe(
-          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+          Schema.encodeKeys({
+            name: "name",
+            secretName: "secret_name",
+            storeId: "store_id",
+            type: "type",
+          }),
         ),
         Schema.Struct({
           algorithm: Schema.Unknown,
@@ -7054,6 +7786,8 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
           scriptName: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            name: "name",
+            type: "type",
             workflowName: "workflow_name",
             className: "class_name",
             scriptName: "script_name",
@@ -7093,14 +7827,23 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
             persist: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               invocationLogs: "invocation_logs",
+              destinations: "destinations",
               headSamplingRate: "head_sampling_rate",
+              persist: "persist",
             }),
           ),
           Schema.Null,
         ]),
       ),
-    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+    }).pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        headSamplingRate: "head_sampling_rate",
+        logs: "logs",
+      }),
+    ),
   ),
   placement: Schema.optional(
     Schema.Union([
@@ -7129,16 +7872,21 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    bindings: "bindings",
     compatibilityDate: "compatibility_date",
     compatibilityFlags: "compatibility_flags",
+    limits: "limits",
+    logpush: "logpush",
+    observability: "observability",
+    placement: "placement",
+    tags: "tags",
     tailConsumers: "tail_consumers",
     usageModel: "usage_model",
   }),
 ) as unknown as Schema.Schema<PatchScriptScriptAndVersionSettingResponse>;
 
-export const patchScriptScriptAndVersionSetting: (
-  input: PatchScriptScriptAndVersionSettingRequest,
-) => Effect.Effect<
+export const patchScriptScriptAndVersionSetting: API.OperationMethod<
+  PatchScriptScriptAndVersionSettingRequest,
   PatchScriptScriptAndVersionSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7217,9 +7965,8 @@ export const GetScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetScriptSecretResponse>;
 
-export const getScriptSecret: (
-  input: GetScriptSecretRequest,
-) => Effect.Effect<
+export const getScriptSecret: API.OperationMethod<
+  GetScriptSecretRequest,
   GetScriptSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7292,9 +8039,8 @@ export const ListScriptSecretsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListScriptSecretsResponse>;
 
-export const listScriptSecrets: (
-  input: ListScriptSecretsRequest,
-) => Effect.Effect<
+export const listScriptSecrets: API.OperationMethod<
+  ListScriptSecretsRequest,
   ListScriptSecretsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7373,9 +8119,8 @@ export const PutScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<PutScriptSecretResponse>;
 
-export const putScriptSecret: (
-  input: PutScriptSecretRequest,
-) => Effect.Effect<
+export const putScriptSecret: API.OperationMethod<
+  PutScriptSecretRequest,
   PutScriptSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7411,9 +8156,8 @@ export type DeleteScriptSecretResponse = unknown;
 export const DeleteScriptSecretResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScriptSecretResponse>;
 
-export const deleteScriptSecret: (
-  input: DeleteScriptSecretRequest,
-) => Effect.Effect<
+export const deleteScriptSecret: API.OperationMethod<
+  DeleteScriptSecretRequest,
   DeleteScriptSecretResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7448,9 +8192,8 @@ export type GetScriptSettingResponse = unknown;
 export const GetScriptSettingResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptSettingResponse>;
 
-export const getScriptSetting: (
-  input: GetScriptSettingRequest,
-) => Effect.Effect<
+export const getScriptSetting: API.OperationMethod<
+  GetScriptSettingRequest,
   GetScriptSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7507,14 +8250,23 @@ export const PatchScriptSettingRequest = Schema.Struct({
               persist: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                enabled: "enabled",
                 invocationLogs: "invocation_logs",
+                destinations: "destinations",
                 headSamplingRate: "head_sampling_rate",
+                persist: "persist",
               }),
             ),
             Schema.Null,
           ]),
         ),
-      }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          headSamplingRate: "head_sampling_rate",
+          logs: "logs",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -7525,7 +8277,12 @@ export const PatchScriptSettingRequest = Schema.Struct({
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
 }).pipe(
-  Schema.encodeKeys({ tailConsumers: "tail_consumers" }),
+  Schema.encodeKeys({
+    logpush: "logpush",
+    observability: "observability",
+    tags: "tags",
+    tailConsumers: "tail_consumers",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/workers/scripts/{scriptName}/script-settings",
@@ -7537,9 +8294,8 @@ export type PatchScriptSettingResponse = unknown;
 export const PatchScriptSettingResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchScriptSettingResponse>;
 
-export const patchScriptSetting: (
-  input: PatchScriptSettingRequest,
-) => Effect.Effect<
+export const patchScriptSetting: API.OperationMethod<
+  PatchScriptSettingRequest,
   PatchScriptSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7580,12 +8336,14 @@ export const GetScriptSubdomainResponse = Schema.Struct({
   enabled: Schema.Boolean,
   previewsEnabled: Schema.Boolean,
 }).pipe(
-  Schema.encodeKeys({ previewsEnabled: "previews_enabled" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    previewsEnabled: "previews_enabled",
+  }),
 ) as unknown as Schema.Schema<GetScriptSubdomainResponse>;
 
-export const getScriptSubdomain: (
-  input: GetScriptSubdomainRequest,
-) => Effect.Effect<
+export const getScriptSubdomain: API.OperationMethod<
+  GetScriptSubdomainRequest,
   GetScriptSubdomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7611,7 +8369,10 @@ export const CreateScriptSubdomainRequest = Schema.Struct({
   enabled: Schema.Boolean,
   previewsEnabled: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ previewsEnabled: "previews_enabled" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    previewsEnabled: "previews_enabled",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/workers/scripts/{scriptName}/subdomain",
@@ -7629,12 +8390,14 @@ export const CreateScriptSubdomainResponse = Schema.Struct({
   enabled: Schema.Boolean,
   previewsEnabled: Schema.Boolean,
 }).pipe(
-  Schema.encodeKeys({ previewsEnabled: "previews_enabled" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    previewsEnabled: "previews_enabled",
+  }),
 ) as unknown as Schema.Schema<CreateScriptSubdomainResponse>;
 
-export const createScriptSubdomain: (
-  input: CreateScriptSubdomainRequest,
-) => Effect.Effect<
+export const createScriptSubdomain: API.OperationMethod<
+  CreateScriptSubdomainRequest,
   CreateScriptSubdomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7671,12 +8434,14 @@ export const DeleteScriptSubdomainResponse = Schema.Struct({
   enabled: Schema.Boolean,
   previewsEnabled: Schema.Boolean,
 }).pipe(
-  Schema.encodeKeys({ previewsEnabled: "previews_enabled" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    previewsEnabled: "previews_enabled",
+  }),
 ) as unknown as Schema.Schema<DeleteScriptSubdomainResponse>;
 
-export const deleteScriptSubdomain: (
-  input: DeleteScriptSubdomainRequest,
-) => Effect.Effect<
+export const deleteScriptSubdomain: API.OperationMethod<
+  DeleteScriptSubdomainRequest,
   DeleteScriptSubdomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7718,12 +8483,11 @@ export const GetScriptTailResponse = Schema.Struct({
   expiresAt: Schema.String,
   url: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ expiresAt: "expires_at" }),
+  Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
 ) as unknown as Schema.Schema<GetScriptTailResponse>;
 
-export const getScriptTail: (
-  input: GetScriptTailRequest,
-) => Effect.Effect<
+export const getScriptTail: API.OperationMethod<
+  GetScriptTailRequest,
   GetScriptTailResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7764,12 +8528,11 @@ export const CreateScriptTailResponse = Schema.Struct({
   expiresAt: Schema.String,
   url: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ expiresAt: "expires_at" }),
+  Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
 ) as unknown as Schema.Schema<CreateScriptTailResponse>;
 
-export const createScriptTail: (
-  input: CreateScriptTailRequest,
-) => Effect.Effect<
+export const createScriptTail: API.OperationMethod<
+  CreateScriptTailRequest,
   CreateScriptTailResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7825,7 +8588,14 @@ export const DeleteScriptTailResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -7837,14 +8607,20 @@ export const DeleteScriptTailResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteScriptTailResponse>;
 
-export const deleteScriptTail: (
-  input: DeleteScriptTailRequest,
-) => Effect.Effect<
+export const deleteScriptTail: API.OperationMethod<
+  DeleteScriptTailRequest,
   DeleteScriptTailResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8055,7 +8831,10 @@ export const GetScriptVersionResponse = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               className: "class_name",
+              environment: "environment",
               namespaceId: "namespace_id",
               scriptName: "script_name",
             }),
@@ -8071,7 +8850,12 @@ export const GetScriptVersionResponse = Schema.Struct({
             oldName: Schema.optional(Schema.String),
             versionId: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+            Schema.encodeKeys({
+              name: "name",
+              type: "type",
+              oldName: "old_name",
+              versionId: "version_id",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -8086,12 +8870,24 @@ export const GetScriptVersionResponse = Schema.Struct({
             name: Schema.String,
             namespaceId: Schema.String,
             type: Schema.Literal("kv_namespace"),
-          }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              namespaceId: "namespace_id",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             certificateId: Schema.String,
             name: Schema.String,
             type: Schema.Literal("mtls_certificate"),
-          }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              certificateId: "certificate_id",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -8106,13 +8902,26 @@ export const GetScriptVersionResponse = Schema.Struct({
             name: Schema.String,
             queueName: Schema.String,
             type: Schema.Literal("queue"),
-          }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              queueName: "queue_name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             bucketName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
             jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              bucketName: "bucket_name",
+              name: "name",
+              type: "type",
+              jurisdiction: "jurisdiction",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("secret_text"),
@@ -8129,6 +8938,8 @@ export const GetScriptVersionResponse = Schema.Struct({
             destinationAddress: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               allowedDestinationAddresses: "allowed_destination_addresses",
               allowedSenderAddresses: "allowed_sender_addresses",
               destinationAddress: "destination_address",
@@ -8149,7 +8960,13 @@ export const GetScriptVersionResponse = Schema.Struct({
             indexName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("vectorize"),
-          }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              indexName: "index_name",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("version_metadata"),
@@ -8161,8 +8978,10 @@ export const GetScriptVersionResponse = Schema.Struct({
             type: Schema.Literal("secrets_store_secret"),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
               secretName: "secret_name",
               storeId: "store_id",
+              type: "type",
             }),
           ),
           Schema.Struct({
@@ -8191,6 +9010,8 @@ export const GetScriptVersionResponse = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               workflowName: "workflow_name",
               className: "class_name",
               scriptName: "script_name",
@@ -8219,6 +9040,8 @@ export const GetScriptVersionResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          etag: "etag",
+          handlers: "handlers",
           lastDeployedFrom: "last_deployed_from",
           namedHandlers: "named_handlers",
         }),
@@ -8241,12 +9064,19 @@ export const GetScriptVersionResponse = Schema.Struct({
         Schema.encodeKeys({
           compatibilityDate: "compatibility_date",
           compatibilityFlags: "compatibility_flags",
+          limits: "limits",
           migrationTag: "migration_tag",
           usageModel: "usage_model",
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ scriptRuntime: "script_runtime" })),
+  }).pipe(
+    Schema.encodeKeys({
+      bindings: "bindings",
+      script: "script",
+      scriptRuntime: "script_runtime",
+    }),
+  ),
   id: Schema.optional(Schema.String),
   metadata: Schema.optional(
     Schema.Struct({
@@ -8274,16 +9104,17 @@ export const GetScriptVersionResponse = Schema.Struct({
         authorEmail: "author_email",
         authorId: "author_id",
         createdOn: "created_on",
+        hasPreview: "hasPreview",
         modifiedOn: "modified_on",
+        source: "source",
       }),
     ),
   ),
   number: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetScriptVersionResponse>;
 
-export const getScriptVersion: (
-  input: GetScriptVersionRequest,
-) => Effect.Effect<
+export const getScriptVersion: API.OperationMethod<
+  GetScriptVersionRequest,
   GetScriptVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8364,7 +9195,9 @@ export const ListScriptVersionsResponse = Schema.Array(
           authorEmail: "author_email",
           authorId: "author_id",
           createdOn: "created_on",
+          hasPreview: "hasPreview",
           modifiedOn: "modified_on",
+          source: "source",
         }),
       ),
     ),
@@ -8372,9 +9205,8 @@ export const ListScriptVersionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListScriptVersionsResponse>;
 
-export const listScriptVersions: (
-  input: ListScriptVersionsRequest,
-) => Effect.Effect<
+export const listScriptVersions: API.OperationMethod<
+  ListScriptVersionsRequest,
   ListScriptVersionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8556,7 +9388,10 @@ export const CreateScriptVersionRequest = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               className: "class_name",
+              environment: "environment",
               namespaceId: "namespace_id",
               scriptName: "script_name",
             }),
@@ -8572,7 +9407,12 @@ export const CreateScriptVersionRequest = Schema.Struct({
             oldName: Schema.optional(Schema.String),
             versionId: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+            Schema.encodeKeys({
+              name: "name",
+              type: "type",
+              oldName: "old_name",
+              versionId: "version_id",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -8587,12 +9427,24 @@ export const CreateScriptVersionRequest = Schema.Struct({
             name: Schema.String,
             namespaceId: Schema.String,
             type: Schema.Literal("kv_namespace"),
-          }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              namespaceId: "namespace_id",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             certificateId: Schema.String,
             name: Schema.String,
             type: Schema.Literal("mtls_certificate"),
-          }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              certificateId: "certificate_id",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -8607,13 +9459,26 @@ export const CreateScriptVersionRequest = Schema.Struct({
             name: Schema.String,
             queueName: Schema.String,
             type: Schema.Literal("queue"),
-          }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              queueName: "queue_name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             bucketName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
             jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              bucketName: "bucket_name",
+              name: "name",
+              type: "type",
+              jurisdiction: "jurisdiction",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -8631,6 +9496,8 @@ export const CreateScriptVersionRequest = Schema.Struct({
             destinationAddress: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               allowedDestinationAddresses: "allowed_destination_addresses",
               allowedSenderAddresses: "allowed_sender_addresses",
               destinationAddress: "destination_address",
@@ -8651,7 +9518,13 @@ export const CreateScriptVersionRequest = Schema.Struct({
             indexName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("vectorize"),
-          }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              indexName: "index_name",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("version_metadata"),
@@ -8663,8 +9536,10 @@ export const CreateScriptVersionRequest = Schema.Struct({
             type: Schema.Literal("secrets_store_secret"),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
               secretName: "secret_name",
               storeId: "store_id",
+              type: "type",
             }),
           ),
           Schema.Struct({
@@ -8687,7 +9562,15 @@ export const CreateScriptVersionRequest = Schema.Struct({
             keyBase64: Schema.optional(Schema.String),
             keyJwk: Schema.optional(Schema.Unknown),
           }).pipe(
-            Schema.encodeKeys({ keyBase64: "key_base64", keyJwk: "key_jwk" }),
+            Schema.encodeKeys({
+              algorithm: "algorithm",
+              format: "format",
+              name: "name",
+              type: "type",
+              usages: "usages",
+              keyBase64: "key_base64",
+              keyJwk: "key_jwk",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -8697,6 +9580,8 @@ export const CreateScriptVersionRequest = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               workflowName: "workflow_name",
               className: "class_name",
               scriptName: "script_name",
@@ -8719,6 +9604,8 @@ export const CreateScriptVersionRequest = Schema.Struct({
   }).pipe(
     Schema.encodeKeys({
       mainModule: "main_module",
+      annotations: "annotations",
+      bindings: "bindings",
       compatibilityDate: "compatibility_date",
       compatibilityFlags: "compatibility_flags",
       keepBindings: "keep_bindings",
@@ -8917,7 +9804,10 @@ export const CreateScriptVersionResponse = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               className: "class_name",
+              environment: "environment",
               namespaceId: "namespace_id",
               scriptName: "script_name",
             }),
@@ -8933,7 +9823,12 @@ export const CreateScriptVersionResponse = Schema.Struct({
             oldName: Schema.optional(Schema.String),
             versionId: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+            Schema.encodeKeys({
+              name: "name",
+              type: "type",
+              oldName: "old_name",
+              versionId: "version_id",
+            }),
           ),
           Schema.Struct({
             name: Schema.String,
@@ -8948,12 +9843,24 @@ export const CreateScriptVersionResponse = Schema.Struct({
             name: Schema.String,
             namespaceId: Schema.String,
             type: Schema.Literal("kv_namespace"),
-          }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              namespaceId: "namespace_id",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             certificateId: Schema.String,
             name: Schema.String,
             type: Schema.Literal("mtls_certificate"),
-          }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              certificateId: "certificate_id",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -8968,13 +9875,26 @@ export const CreateScriptVersionResponse = Schema.Struct({
             name: Schema.String,
             queueName: Schema.String,
             type: Schema.Literal("queue"),
-          }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              name: "name",
+              queueName: "queue_name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             bucketName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
             jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
-          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              bucketName: "bucket_name",
+              name: "name",
+              type: "type",
+              jurisdiction: "jurisdiction",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("secret_text"),
@@ -8991,6 +9911,8 @@ export const CreateScriptVersionResponse = Schema.Struct({
             destinationAddress: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               allowedDestinationAddresses: "allowed_destination_addresses",
               allowedSenderAddresses: "allowed_sender_addresses",
               destinationAddress: "destination_address",
@@ -9011,7 +9933,13 @@ export const CreateScriptVersionResponse = Schema.Struct({
             indexName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("vectorize"),
-          }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
+          }).pipe(
+            Schema.encodeKeys({
+              indexName: "index_name",
+              name: "name",
+              type: "type",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("version_metadata"),
@@ -9023,8 +9951,10 @@ export const CreateScriptVersionResponse = Schema.Struct({
             type: Schema.Literal("secrets_store_secret"),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
               secretName: "secret_name",
               storeId: "store_id",
+              type: "type",
             }),
           ),
           Schema.Struct({
@@ -9053,6 +9983,8 @@ export const CreateScriptVersionResponse = Schema.Struct({
             scriptName: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              type: "type",
               workflowName: "workflow_name",
               className: "class_name",
               scriptName: "script_name",
@@ -9081,6 +10013,8 @@ export const CreateScriptVersionResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          etag: "etag",
+          handlers: "handlers",
           lastDeployedFrom: "last_deployed_from",
           namedHandlers: "named_handlers",
         }),
@@ -9103,12 +10037,19 @@ export const CreateScriptVersionResponse = Schema.Struct({
         Schema.encodeKeys({
           compatibilityDate: "compatibility_date",
           compatibilityFlags: "compatibility_flags",
+          limits: "limits",
           migrationTag: "migration_tag",
           usageModel: "usage_model",
         }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ scriptRuntime: "script_runtime" })),
+  }).pipe(
+    Schema.encodeKeys({
+      bindings: "bindings",
+      script: "script",
+      scriptRuntime: "script_runtime",
+    }),
+  ),
   id: Schema.optional(Schema.String),
   metadata: Schema.optional(
     Schema.Struct({
@@ -9136,19 +10077,26 @@ export const CreateScriptVersionResponse = Schema.Struct({
         authorEmail: "author_email",
         authorId: "author_id",
         createdOn: "created_on",
+        hasPreview: "hasPreview",
         modifiedOn: "modified_on",
+        source: "source",
       }),
     ),
   ),
   number: Schema.optional(Schema.Number),
   startupTimeMs: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ startupTimeMs: "startup_time_ms" }),
+  Schema.encodeKeys({
+    resources: "resources",
+    id: "id",
+    metadata: "metadata",
+    number: "number",
+    startupTimeMs: "startup_time_ms",
+  }),
 ) as unknown as Schema.Schema<CreateScriptVersionResponse>;
 
-export const createScriptVersion: (
-  input: CreateScriptVersionRequest,
-) => Effect.Effect<
+export const createScriptVersion: API.OperationMethod<
+  CreateScriptVersionRequest,
   CreateScriptVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9181,9 +10129,8 @@ export const GetSubdomainResponse = Schema.Struct({
   subdomain: Schema.String,
 }) as unknown as Schema.Schema<GetSubdomainResponse>;
 
-export const getSubdomain: (
-  input: GetSubdomainRequest,
-) => Effect.Effect<
+export const getSubdomain: API.OperationMethod<
+  GetSubdomainRequest,
   GetSubdomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9215,9 +10162,8 @@ export const PutSubdomainResponse = Schema.Struct({
   subdomain: Schema.String,
 }) as unknown as Schema.Schema<PutSubdomainResponse>;
 
-export const putSubdomain: (
-  input: PutSubdomainRequest,
-) => Effect.Effect<
+export const putSubdomain: API.OperationMethod<
+  PutSubdomainRequest,
   PutSubdomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9246,9 +10192,8 @@ export type DeleteSubdomainResponse = unknown;
 export const DeleteSubdomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteSubdomainResponse>;
 
-export const deleteSubdomain: (
-  input: DeleteSubdomainRequest,
-) => Effect.Effect<
+export const deleteSubdomain: API.OperationMethod<
+  DeleteSubdomainRequest,
   DeleteSubdomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

@@ -3087,9 +3087,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 /**
  * Sets values for multiple time series properties.
  */
-export const batchPutPropertyValues: (
-  input: BatchPutPropertyValuesRequest,
-) => effect.Effect<
+export const batchPutPropertyValues: API.OperationMethod<
+  BatchPutPropertyValuesRequest,
   BatchPutPropertyValuesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3110,9 +3109,8 @@ export const batchPutPropertyValues: (
 /**
  * Cancels the metadata transfer job.
  */
-export const cancelMetadataTransferJob: (
-  input: CancelMetadataTransferJobRequest,
-) => effect.Effect<
+export const cancelMetadataTransferJob: API.OperationMethod<
+  CancelMetadataTransferJobRequest,
   CancelMetadataTransferJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3137,9 +3135,8 @@ export const cancelMetadataTransferJob: (
 /**
  * Creates a component type.
  */
-export const createComponentType: (
-  input: CreateComponentTypeRequest,
-) => effect.Effect<
+export const createComponentType: API.OperationMethod<
+  CreateComponentTypeRequest,
   CreateComponentTypeResponse,
   | AccessDeniedException
   | ConflictException
@@ -3164,9 +3161,8 @@ export const createComponentType: (
 /**
  * Creates an entity.
  */
-export const createEntity: (
-  input: CreateEntityRequest,
-) => effect.Effect<
+export const createEntity: API.OperationMethod<
+  CreateEntityRequest,
   CreateEntityResponse,
   | AccessDeniedException
   | ConflictException
@@ -3191,9 +3187,8 @@ export const createEntity: (
 /**
  * Creates a new metadata transfer job.
  */
-export const createMetadataTransferJob: (
-  input: CreateMetadataTransferJobRequest,
-) => effect.Effect<
+export const createMetadataTransferJob: API.OperationMethod<
+  CreateMetadataTransferJobRequest,
   CreateMetadataTransferJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3220,9 +3215,8 @@ export const createMetadataTransferJob: (
 /**
  * Creates a scene.
  */
-export const createScene: (
-  input: CreateSceneRequest,
-) => effect.Effect<
+export const createScene: API.OperationMethod<
+  CreateSceneRequest,
   CreateSceneResponse,
   | AccessDeniedException
   | ConflictException
@@ -3247,9 +3241,8 @@ export const createScene: (
 /**
  * This action creates a SyncJob.
  */
-export const createSyncJob: (
-  input: CreateSyncJobRequest,
-) => effect.Effect<
+export const createSyncJob: API.OperationMethod<
+  CreateSyncJobRequest,
   CreateSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3274,9 +3267,8 @@ export const createSyncJob: (
 /**
  * Creates a workplace.
  */
-export const createWorkspace: (
-  input: CreateWorkspaceRequest,
-) => effect.Effect<
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
   CreateWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3301,9 +3293,8 @@ export const createWorkspace: (
 /**
  * Deletes a component type.
  */
-export const deleteComponentType: (
-  input: DeleteComponentTypeRequest,
-) => effect.Effect<
+export const deleteComponentType: API.OperationMethod<
+  DeleteComponentTypeRequest,
   DeleteComponentTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3326,9 +3317,8 @@ export const deleteComponentType: (
 /**
  * Deletes an entity.
  */
-export const deleteEntity: (
-  input: DeleteEntityRequest,
-) => effect.Effect<
+export const deleteEntity: API.OperationMethod<
+  DeleteEntityRequest,
   DeleteEntityResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3351,9 +3341,8 @@ export const deleteEntity: (
 /**
  * Deletes a scene.
  */
-export const deleteScene: (
-  input: DeleteSceneRequest,
-) => effect.Effect<
+export const deleteScene: API.OperationMethod<
+  DeleteSceneRequest,
   DeleteSceneResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3376,9 +3365,8 @@ export const deleteScene: (
 /**
  * Delete the SyncJob.
  */
-export const deleteSyncJob: (
-  input: DeleteSyncJobRequest,
-) => effect.Effect<
+export const deleteSyncJob: API.OperationMethod<
+  DeleteSyncJobRequest,
   DeleteSyncJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3403,9 +3391,8 @@ export const deleteSyncJob: (
 /**
  * Deletes a workspace.
  */
-export const deleteWorkspace: (
-  input: DeleteWorkspaceRequest,
-) => effect.Effect<
+export const deleteWorkspace: API.OperationMethod<
+  DeleteWorkspaceRequest,
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3432,20 +3419,18 @@ export const deleteWorkspace: (
  * The ExecuteQuery action only works with Amazon Web Services Java SDK2.
  * ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
  */
-export const executeQuery: {
-  (
-    input: ExecuteQueryRequest,
-  ): effect.Effect<
-    ExecuteQueryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | QueryTimeoutException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const executeQuery: API.OperationMethod<
+  ExecuteQueryRequest,
+  ExecuteQueryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | QueryTimeoutException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ExecuteQueryRequest,
   ) => stream.Stream<
@@ -3492,9 +3477,8 @@ export const executeQuery: {
 /**
  * Retrieves information about a component type.
  */
-export const getComponentType: (
-  input: GetComponentTypeRequest,
-) => effect.Effect<
+export const getComponentType: API.OperationMethod<
+  GetComponentTypeRequest,
   GetComponentTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3517,9 +3501,8 @@ export const getComponentType: (
 /**
  * Retrieves information about an entity.
  */
-export const getEntity: (
-  input: GetEntityRequest,
-) => effect.Effect<
+export const getEntity: API.OperationMethod<
+  GetEntityRequest,
   GetEntityResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3542,9 +3525,8 @@ export const getEntity: (
 /**
  * Gets a nmetadata transfer job.
  */
-export const getMetadataTransferJob: (
-  input: GetMetadataTransferJobRequest,
-) => effect.Effect<
+export const getMetadataTransferJob: API.OperationMethod<
+  GetMetadataTransferJobRequest,
   GetMetadataTransferJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3567,9 +3549,8 @@ export const getMetadataTransferJob: (
 /**
  * Gets the pricing plan.
  */
-export const getPricingPlan: (
-  input: GetPricingPlanRequest,
-) => effect.Effect<
+export const getPricingPlan: API.OperationMethod<
+  GetPricingPlanRequest,
   GetPricingPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3593,21 +3574,19 @@ export const getPricingPlan: (
  * You must specify a value for either `componentName`,
  * `componentTypeId`, `entityId`, or `workspaceId`.
  */
-export const getPropertyValue: {
-  (
-    input: GetPropertyValueRequest,
-  ): effect.Effect<
-    GetPropertyValueResponse,
-    | AccessDeniedException
-    | ConnectorFailureException
-    | ConnectorTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getPropertyValue: API.OperationMethod<
+  GetPropertyValueRequest,
+  GetPropertyValueResponse,
+  | AccessDeniedException
+  | ConnectorFailureException
+  | ConnectorTimeoutException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPropertyValueRequest,
   ) => stream.Stream<
@@ -3662,21 +3641,19 @@ export const getPropertyValue: {
  * specify values for `componentName` and `entityId`. For cross-entity
  * quries, specify a value for `componentTypeId`.
  */
-export const getPropertyValueHistory: {
-  (
-    input: GetPropertyValueHistoryRequest,
-  ): effect.Effect<
-    GetPropertyValueHistoryResponse,
-    | AccessDeniedException
-    | ConnectorFailureException
-    | ConnectorTimeoutException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getPropertyValueHistory: API.OperationMethod<
+  GetPropertyValueHistoryRequest,
+  GetPropertyValueHistoryResponse,
+  | AccessDeniedException
+  | ConnectorFailureException
+  | ConnectorTimeoutException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPropertyValueHistoryRequest,
   ) => stream.Stream<
@@ -3726,9 +3703,8 @@ export const getPropertyValueHistory: {
 /**
  * Retrieves information about a scene.
  */
-export const getScene: (
-  input: GetSceneRequest,
-) => effect.Effect<
+export const getScene: API.OperationMethod<
+  GetSceneRequest,
   GetSceneResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3751,9 +3727,8 @@ export const getScene: (
 /**
  * Gets the SyncJob.
  */
-export const getSyncJob: (
-  input: GetSyncJobRequest,
-) => effect.Effect<
+export const getSyncJob: API.OperationMethod<
+  GetSyncJobRequest,
   GetSyncJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3778,9 +3753,8 @@ export const getSyncJob: (
 /**
  * Retrieves information about a workspace.
  */
-export const getWorkspace: (
-  input: GetWorkspaceRequest,
-) => effect.Effect<
+export const getWorkspace: API.OperationMethod<
+  GetWorkspaceRequest,
   GetWorkspaceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3803,19 +3777,17 @@ export const getWorkspace: (
 /**
  * This API lists the components of an entity.
  */
-export const listComponents: {
-  (
-    input: ListComponentsRequest,
-  ): effect.Effect<
-    ListComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsRequest,
+  ListComponentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
@@ -3859,18 +3831,16 @@ export const listComponents: {
 /**
  * Lists all component types in a workspace.
  */
-export const listComponentTypes: {
-  (
-    input: ListComponentTypesRequest,
-  ): effect.Effect<
-    ListComponentTypesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponentTypes: API.OperationMethod<
+  ListComponentTypesRequest,
+  ListComponentTypesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentTypesRequest,
   ) => stream.Stream<
@@ -3911,18 +3881,16 @@ export const listComponentTypes: {
 /**
  * Lists all entities in a workspace.
  */
-export const listEntities: {
-  (
-    input: ListEntitiesRequest,
-  ): effect.Effect<
-    ListEntitiesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntities: API.OperationMethod<
+  ListEntitiesRequest,
+  ListEntitiesResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
@@ -3963,18 +3931,16 @@ export const listEntities: {
 /**
  * Lists the metadata transfer jobs.
  */
-export const listMetadataTransferJobs: {
-  (
-    input: ListMetadataTransferJobsRequest,
-  ): effect.Effect<
-    ListMetadataTransferJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetadataTransferJobs: API.OperationMethod<
+  ListMetadataTransferJobsRequest,
+  ListMetadataTransferJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetadataTransferJobsRequest,
   ) => stream.Stream<
@@ -4015,19 +3981,17 @@ export const listMetadataTransferJobs: {
 /**
  * This API lists the properties of a component.
  */
-export const listProperties: {
-  (
-    input: ListPropertiesRequest,
-  ): effect.Effect<
-    ListPropertiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProperties: API.OperationMethod<
+  ListPropertiesRequest,
+  ListPropertiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPropertiesRequest,
   ) => stream.Stream<
@@ -4071,18 +4035,16 @@ export const listProperties: {
 /**
  * Lists all scenes in a workspace.
  */
-export const listScenes: {
-  (
-    input: ListScenesRequest,
-  ): effect.Effect<
-    ListScenesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScenes: API.OperationMethod<
+  ListScenesRequest,
+  ListScenesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScenesRequest,
   ) => stream.Stream<
@@ -4123,19 +4085,17 @@ export const listScenes: {
 /**
  * List all SyncJobs.
  */
-export const listSyncJobs: {
-  (
-    input: ListSyncJobsRequest,
-  ): effect.Effect<
-    ListSyncJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSyncJobs: API.OperationMethod<
+  ListSyncJobsRequest,
+  ListSyncJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSyncJobsRequest,
   ) => stream.Stream<
@@ -4179,19 +4139,17 @@ export const listSyncJobs: {
 /**
  * Lists the sync resources.
  */
-export const listSyncResources: {
-  (
-    input: ListSyncResourcesRequest,
-  ): effect.Effect<
-    ListSyncResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSyncResources: API.OperationMethod<
+  ListSyncResourcesRequest,
+  ListSyncResourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSyncResourcesRequest,
   ) => stream.Stream<
@@ -4235,9 +4193,8 @@ export const listSyncResources: {
 /**
  * Lists all tags associated with a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4249,18 +4206,16 @@ export const listTagsForResource: (
 /**
  * Retrieves information about workspaces in the current account.
  */
-export const listWorkspaces: {
-  (
-    input: ListWorkspacesRequest,
-  ): effect.Effect<
-    ListWorkspacesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkspaces: API.OperationMethod<
+  ListWorkspacesRequest,
+  ListWorkspacesResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
@@ -4301,9 +4256,8 @@ export const listWorkspaces: {
 /**
  * Adds tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4322,9 +4276,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4336,9 +4289,8 @@ export const untagResource: (
 /**
  * Updates information in a component type.
  */
-export const updateComponentType: (
-  input: UpdateComponentTypeRequest,
-) => effect.Effect<
+export const updateComponentType: API.OperationMethod<
+  UpdateComponentTypeRequest,
   UpdateComponentTypeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4363,9 +4315,8 @@ export const updateComponentType: (
 /**
  * Updates an entity.
  */
-export const updateEntity: (
-  input: UpdateEntityRequest,
-) => effect.Effect<
+export const updateEntity: API.OperationMethod<
+  UpdateEntityRequest,
   UpdateEntityResponse,
   | AccessDeniedException
   | ConflictException
@@ -4392,9 +4343,8 @@ export const updateEntity: (
 /**
  * Update the pricing plan.
  */
-export const updatePricingPlan: (
-  input: UpdatePricingPlanRequest,
-) => effect.Effect<
+export const updatePricingPlan: API.OperationMethod<
+  UpdatePricingPlanRequest,
   UpdatePricingPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4415,9 +4365,8 @@ export const updatePricingPlan: (
 /**
  * Updates a scene.
  */
-export const updateScene: (
-  input: UpdateSceneRequest,
-) => effect.Effect<
+export const updateScene: API.OperationMethod<
+  UpdateSceneRequest,
   UpdateSceneResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4440,9 +4389,8 @@ export const updateScene: (
 /**
  * Updates a workspace.
  */
-export const updateWorkspace: (
-  input: UpdateWorkspaceRequest,
-) => effect.Effect<
+export const updateWorkspace: API.OperationMethod<
+  UpdateWorkspaceRequest,
   UpdateWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException

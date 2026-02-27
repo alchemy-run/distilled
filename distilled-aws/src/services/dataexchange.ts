@@ -2833,9 +2833,8 @@ export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLim
 /**
  * This operation accepts a data grant.
  */
-export const acceptDataGrant: (
-  input: AcceptDataGrantRequest,
-) => effect.Effect<
+export const acceptDataGrant: API.OperationMethod<
+  AcceptDataGrantRequest,
   AcceptDataGrantResponse,
   | AccessDeniedException
   | ConflictException
@@ -2861,9 +2860,8 @@ export const acceptDataGrant: (
  * This operation cancels a job. Jobs can be cancelled only when they are in the WAITING
  * state.
  */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
   CancelJobResponse,
   | ConflictException
   | InternalServerException
@@ -2886,9 +2884,8 @@ export const cancelJob: (
 /**
  * This operation creates a data grant.
  */
-export const createDataGrant: (
-  input: CreateDataGrantRequest,
-) => effect.Effect<
+export const createDataGrant: API.OperationMethod<
+  CreateDataGrantRequest,
   CreateDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2913,9 +2910,8 @@ export const createDataGrant: (
 /**
  * This operation creates a data set.
  */
-export const createDataSet: (
-  input: CreateDataSetRequest,
-) => effect.Effect<
+export const createDataSet: API.OperationMethod<
+  CreateDataSetRequest,
   CreateDataSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2938,9 +2934,8 @@ export const createDataSet: (
 /**
  * This operation creates an event action.
  */
-export const createEventAction: (
-  input: CreateEventActionRequest,
-) => effect.Effect<
+export const createEventAction: API.OperationMethod<
+  CreateEventActionRequest,
   CreateEventActionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2963,9 +2958,8 @@ export const createEventAction: (
 /**
  * This operation creates a job.
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2990,9 +2984,8 @@ export const createJob: (
 /**
  * This operation creates a revision for a data set.
  */
-export const createRevision: (
-  input: CreateRevisionRequest,
-) => effect.Effect<
+export const createRevision: API.OperationMethod<
+  CreateRevisionRequest,
   CreateRevisionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3015,9 +3008,8 @@ export const createRevision: (
 /**
  * This operation deletes an asset.
  */
-export const deleteAsset: (
-  input: DeleteAssetRequest,
-) => effect.Effect<
+export const deleteAsset: API.OperationMethod<
+  DeleteAssetRequest,
   DeleteAssetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3042,9 +3034,8 @@ export const deleteAsset: (
 /**
  * This operation deletes a data grant.
  */
-export const deleteDataGrant: (
-  input: DeleteDataGrantRequest,
-) => effect.Effect<
+export const deleteDataGrant: API.OperationMethod<
+  DeleteDataGrantRequest,
   DeleteDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3067,9 +3058,8 @@ export const deleteDataGrant: (
 /**
  * This operation deletes a data set.
  */
-export const deleteDataSet: (
-  input: DeleteDataSetRequest,
-) => effect.Effect<
+export const deleteDataSet: API.OperationMethod<
+  DeleteDataSetRequest,
   DeleteDataSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3094,9 +3084,8 @@ export const deleteDataSet: (
 /**
  * This operation deletes the event action.
  */
-export const deleteEventAction: (
-  input: DeleteEventActionRequest,
-) => effect.Effect<
+export const deleteEventAction: API.OperationMethod<
+  DeleteEventActionRequest,
   DeleteEventActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3117,9 +3106,8 @@ export const deleteEventAction: (
 /**
  * This operation deletes a revision.
  */
-export const deleteRevision: (
-  input: DeleteRevisionRequest,
-) => effect.Effect<
+export const deleteRevision: API.OperationMethod<
+  DeleteRevisionRequest,
   DeleteRevisionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3144,9 +3132,8 @@ export const deleteRevision: (
 /**
  * This operation returns information about an asset.
  */
-export const getAsset: (
-  input: GetAssetRequest,
-) => effect.Effect<
+export const getAsset: API.OperationMethod<
+  GetAssetRequest,
   GetAssetResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3167,9 +3154,8 @@ export const getAsset: (
 /**
  * This operation returns information about a data grant.
  */
-export const getDataGrant: (
-  input: GetDataGrantRequest,
-) => effect.Effect<
+export const getDataGrant: API.OperationMethod<
+  GetDataGrantRequest,
   GetDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3192,9 +3178,8 @@ export const getDataGrant: (
 /**
  * This operation returns information about a data set.
  */
-export const getDataSet: (
-  input: GetDataSetRequest,
-) => effect.Effect<
+export const getDataSet: API.OperationMethod<
+  GetDataSetRequest,
   GetDataSetResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3215,9 +3200,8 @@ export const getDataSet: (
 /**
  * This operation retrieves information about an event action.
  */
-export const getEventAction: (
-  input: GetEventActionRequest,
-) => effect.Effect<
+export const getEventAction: API.OperationMethod<
+  GetEventActionRequest,
   GetEventActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3238,9 +3222,8 @@ export const getEventAction: (
 /**
  * This operation returns information about a job.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3261,9 +3244,8 @@ export const getJob: (
 /**
  * This operation returns information about a received data grant.
  */
-export const getReceivedDataGrant: (
-  input: GetReceivedDataGrantRequest,
-) => effect.Effect<
+export const getReceivedDataGrant: API.OperationMethod<
+  GetReceivedDataGrantRequest,
   GetReceivedDataGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3286,9 +3268,8 @@ export const getReceivedDataGrant: (
 /**
  * This operation returns information about a revision.
  */
-export const getRevision: (
-  input: GetRevisionRequest,
-) => effect.Effect<
+export const getRevision: API.OperationMethod<
+  GetRevisionRequest,
   GetRevisionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3309,19 +3290,17 @@ export const getRevision: (
 /**
  * This operation returns information about all data grants.
  */
-export const listDataGrants: {
-  (
-    input: ListDataGrantsRequest,
-  ): effect.Effect<
-    ListDataGrantsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataGrants: API.OperationMethod<
+  ListDataGrantsRequest,
+  ListDataGrantsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataGrantsRequest,
   ) => stream.Stream<
@@ -3367,18 +3346,16 @@ export const listDataGrants: {
  * This operation lists a data set's revisions sorted by CreatedAt in descending
  * order.
  */
-export const listDataSetRevisions: {
-  (
-    input: ListDataSetRevisionsRequest,
-  ): effect.Effect<
-    ListDataSetRevisionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSetRevisions: API.OperationMethod<
+  ListDataSetRevisionsRequest,
+  ListDataSetRevisionsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSetRevisionsRequest,
   ) => stream.Stream<
@@ -3421,18 +3398,16 @@ export const listDataSetRevisions: {
  * This operation lists your data sets. When listing by origin OWNED, results are sorted by
  * CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
  */
-export const listDataSets: {
-  (
-    input: ListDataSetsRequest,
-  ): effect.Effect<
-    ListDataSetsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSets: API.OperationMethod<
+  ListDataSetsRequest,
+  ListDataSetsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSetsRequest,
   ) => stream.Stream<
@@ -3474,18 +3449,16 @@ export const listDataSets: {
 /**
  * This operation lists your event actions.
  */
-export const listEventActions: {
-  (
-    input: ListEventActionsRequest,
-  ): effect.Effect<
-    ListEventActionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventActions: API.OperationMethod<
+  ListEventActionsRequest,
+  ListEventActionsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventActionsRequest,
   ) => stream.Stream<
@@ -3527,18 +3500,16 @@ export const listEventActions: {
 /**
  * This operation lists your jobs sorted by CreatedAt in descending order.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -3580,19 +3551,17 @@ export const listJobs: {
 /**
  * This operation returns information about all received data grants.
  */
-export const listReceivedDataGrants: {
-  (
-    input: ListReceivedDataGrantsRequest,
-  ): effect.Effect<
-    ListReceivedDataGrantsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReceivedDataGrants: API.OperationMethod<
+  ListReceivedDataGrantsRequest,
+  ListReceivedDataGrantsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReceivedDataGrantsRequest,
   ) => stream.Stream<
@@ -3638,18 +3607,16 @@ export const listReceivedDataGrants: {
  * This operation lists a revision's assets sorted alphabetically in descending
  * order.
  */
-export const listRevisionAssets: {
-  (
-    input: ListRevisionAssetsRequest,
-  ): effect.Effect<
-    ListRevisionAssetsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRevisionAssets: API.OperationMethod<
+  ListRevisionAssetsRequest,
+  ListRevisionAssetsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRevisionAssetsRequest,
   ) => stream.Stream<
@@ -3691,9 +3658,8 @@ export const listRevisionAssets: {
 /**
  * This operation lists the tags on the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3705,9 +3671,8 @@ export const listTagsForResource: (
 /**
  * This operation revokes subscribers' access to a revision.
  */
-export const revokeRevision: (
-  input: RevokeRevisionRequest,
-) => effect.Effect<
+export const revokeRevision: API.OperationMethod<
+  RevokeRevisionRequest,
   RevokeRevisionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3733,9 +3698,8 @@ export const revokeRevision: (
  * This operation invokes an API Gateway API asset. The request is proxied to the
  * provider’s API Gateway API.
  */
-export const sendApiAsset: (
-  input: SendApiAssetRequest,
-) => effect.Effect<
+export const sendApiAsset: API.OperationMethod<
+  SendApiAssetRequest,
   SendApiAssetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3758,9 +3722,8 @@ export const sendApiAsset: (
 /**
  * The type of event associated with the data set.
  */
-export const sendDataSetNotification: (
-  input: SendDataSetNotificationRequest,
-) => effect.Effect<
+export const sendDataSetNotification: API.OperationMethod<
+  SendDataSetNotificationRequest,
   SendDataSetNotificationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3785,9 +3748,8 @@ export const sendDataSetNotification: (
 /**
  * This operation starts a job.
  */
-export const startJob: (
-  input: StartJobRequest,
-) => effect.Effect<
+export const startJob: API.OperationMethod<
+  StartJobRequest,
   StartJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3812,9 +3774,8 @@ export const startJob: (
 /**
  * This operation tags a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3826,9 +3787,8 @@ export const tagResource: (
 /**
  * This operation removes one or more tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3840,9 +3800,8 @@ export const untagResource: (
 /**
  * This operation updates an asset.
  */
-export const updateAsset: (
-  input: UpdateAssetRequest,
-) => effect.Effect<
+export const updateAsset: API.OperationMethod<
+  UpdateAssetRequest,
   UpdateAssetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3867,9 +3826,8 @@ export const updateAsset: (
 /**
  * This operation updates a data set.
  */
-export const updateDataSet: (
-  input: UpdateDataSetRequest,
-) => effect.Effect<
+export const updateDataSet: API.OperationMethod<
+  UpdateDataSetRequest,
   UpdateDataSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3892,9 +3850,8 @@ export const updateDataSet: (
 /**
  * This operation updates the event action.
  */
-export const updateEventAction: (
-  input: UpdateEventActionRequest,
-) => effect.Effect<
+export const updateEventAction: API.OperationMethod<
+  UpdateEventActionRequest,
   UpdateEventActionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3917,9 +3874,8 @@ export const updateEventAction: (
 /**
  * This operation updates a revision.
  */
-export const updateRevision: (
-  input: UpdateRevisionRequest,
-) => effect.Effect<
+export const updateRevision: API.OperationMethod<
+  UpdateRevisionRequest,
   UpdateRevisionResponse,
   | AccessDeniedException
   | ConflictException

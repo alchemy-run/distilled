@@ -47,9 +47,8 @@ export type GetByIdsIndexResponse = unknown;
 export const GetByIdsIndexResponse =
   Schema.Unknown as unknown as Schema.Schema<GetByIdsIndexResponse>;
 
-export const getByIdsIndex: (
-  input: GetByIdsIndexRequest,
-) => Effect.Effect<
+export const getByIdsIndex: API.OperationMethod<
+  GetByIdsIndexRequest,
   GetByIdsIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -87,9 +86,8 @@ export const DeleteByIdsIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
 
-export const deleteByIdsIndex: (
-  input: DeleteByIdsIndexRequest,
-) => Effect.Effect<
+export const deleteByIdsIndex: API.OperationMethod<
+  DeleteByIdsIndexRequest,
   DeleteByIdsIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -145,12 +143,17 @@ export const GetIndexResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    config: "config",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<GetIndexResponse>;
 
-export const getIndex: (
-  input: GetIndexRequest,
-) => Effect.Effect<
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
   GetIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -198,13 +201,18 @@ export const ListIndexesResponse = Schema.Array(
     modifiedOn: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+    Schema.encodeKeys({
+      config: "config",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      name: "name",
+    }),
   ),
 ) as unknown as Schema.Schema<ListIndexesResponse>;
 
-export const listIndexes: (
-  input: ListIndexesRequest,
-) => Effect.Effect<
+export const listIndexes: API.OperationMethod<
+  ListIndexesRequest,
   ListIndexesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -286,12 +294,17 @@ export const CreateIndexResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    config: "config",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<CreateIndexResponse>;
 
-export const createIndex: (
-  input: CreateIndexRequest,
-) => Effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
   CreateIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -322,9 +335,8 @@ export type DeleteIndexResponse = string;
 export const DeleteIndexResponse =
   Schema.String as unknown as Schema.Schema<DeleteIndexResponse>;
 
-export const deleteIndex: (
-  input: DeleteIndexRequest,
-) => Effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
   DeleteIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -370,9 +382,8 @@ export const InfoIndexResponse = Schema.Struct({
   vectorCount: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<InfoIndexResponse>;
 
-export const infoIndex: (
-  input: InfoIndexRequest,
-) => Effect.Effect<
+export const infoIndex: API.OperationMethod<
+  InfoIndexRequest,
   InfoIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -416,9 +427,8 @@ export const InsertIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<InsertIndexResponse>;
 
-export const insertIndex: (
-  input: InsertIndexRequest,
-) => Effect.Effect<
+export const insertIndex: API.OperationMethod<
+  InsertIndexRequest,
   InsertIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -489,9 +499,8 @@ export const QueryIndexResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<QueryIndexResponse>;
 
-export const queryIndex: (
-  input: QueryIndexRequest,
-) => Effect.Effect<
+export const queryIndex: API.OperationMethod<
+  QueryIndexRequest,
   QueryIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -535,9 +544,8 @@ export const UpsertIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpsertIndexResponse>;
 
-export const upsertIndex: (
-  input: UpsertIndexRequest,
-) => Effect.Effect<
+export const upsertIndex: API.OperationMethod<
+  UpsertIndexRequest,
   UpsertIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -588,9 +596,8 @@ export const ListIndexMetadataIndexesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
 
-export const listIndexMetadataIndexes: (
-  input: ListIndexMetadataIndexesRequest,
-) => Effect.Effect<
+export const listIndexMetadataIndexes: API.OperationMethod<
+  ListIndexMetadataIndexesRequest,
   ListIndexMetadataIndexesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -631,9 +638,8 @@ export const CreateIndexMetadataIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
 
-export const createIndexMetadataIndex: (
-  input: CreateIndexMetadataIndexRequest,
-) => Effect.Effect<
+export const createIndexMetadataIndex: API.OperationMethod<
+  CreateIndexMetadataIndexRequest,
   CreateIndexMetadataIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -671,9 +677,8 @@ export const DeleteIndexMetadataIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
 
-export const deleteIndexMetadataIndex: (
-  input: DeleteIndexMetadataIndexRequest,
-) => Effect.Effect<
+export const deleteIndexMetadataIndex: API.OperationMethod<
+  DeleteIndexMetadataIndexRequest,
   DeleteIndexMetadataIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -739,9 +744,8 @@ export const ListVectorsIndexResponse = Schema.Struct({
   nextCursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<ListVectorsIndexResponse>;
 
-export const listVectorsIndex: (
-  input: ListVectorsIndexRequest,
-) => Effect.Effect<
+export const listVectorsIndex: API.OperationMethod<
+  ListVectorsIndexRequest,
   ListVectorsIndexResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

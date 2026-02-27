@@ -71,9 +71,12 @@ export const GetConnectionResponse = Schema.Struct({
   urlReportedMalicious: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     addedAt: "added_at",
     firstSeenAt: "first_seen_at",
+    host: "host",
     lastSeenAt: "last_seen_at",
+    url: "url",
     urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
     domainReportedMalicious: "domain_reported_malicious",
     firstPageUrl: "first_page_url",
@@ -84,9 +87,8 @@ export const GetConnectionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetConnectionResponse>;
 
-export const getConnection: (
-  input: GetConnectionRequest,
-) => Effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionRequest,
   GetConnectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -184,9 +186,12 @@ export const ListConnectionsResponse = Schema.Array(
     urlReportedMalicious: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       addedAt: "added_at",
       firstSeenAt: "first_seen_at",
+      host: "host",
       lastSeenAt: "last_seen_at",
+      url: "url",
       urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
       domainReportedMalicious: "domain_reported_malicious",
       firstPageUrl: "first_page_url",
@@ -198,9 +203,8 @@ export const ListConnectionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListConnectionsResponse>;
 
-export const listConnections: (
-  input: ListConnectionsRequest,
-) => Effect.Effect<
+export const listConnections: API.OperationMethod<
+  ListConnectionsRequest,
   ListConnectionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -267,8 +271,12 @@ export const GetCookyResponse = Schema.Struct({
   secureAttribute: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     firstSeenAt: "first_seen_at",
+    host: "host",
     lastSeenAt: "last_seen_at",
+    name: "name",
+    type: "type",
     domainAttribute: "domain_attribute",
     expiresAttribute: "expires_attribute",
     httpOnlyAttribute: "http_only_attribute",
@@ -280,9 +288,8 @@ export const GetCookyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCookyResponse>;
 
-export const getCooky: (
-  input: GetCookyRequest,
-) => Effect.Effect<
+export const getCooky: API.OperationMethod<
+  GetCookyRequest,
   GetCookyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -390,8 +397,12 @@ export const ListCookiesResponse = Schema.Array(
     secureAttribute: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       firstSeenAt: "first_seen_at",
+      host: "host",
       lastSeenAt: "last_seen_at",
+      name: "name",
+      type: "type",
       domainAttribute: "domain_attribute",
       expiresAttribute: "expires_attribute",
       httpOnlyAttribute: "http_only_attribute",
@@ -404,9 +415,8 @@ export const ListCookiesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCookiesResponse>;
 
-export const listCookies: (
-  input: ListCookiesRequest,
-) => Effect.Effect<
+export const listCookies: API.OperationMethod<
+  ListCookiesRequest,
   ListCookiesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -449,15 +459,15 @@ export const GetPageShieldResponse = Schema.Struct({
   useConnectionUrlPath: Schema.Boolean,
 }).pipe(
   Schema.encodeKeys({
+    enabled: "enabled",
     updatedAt: "updated_at",
     useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
     useConnectionUrlPath: "use_connection_url_path",
   }),
 ) as unknown as Schema.Schema<GetPageShieldResponse>;
 
-export const getPageShield: (
-  input: GetPageShieldRequest,
-) => Effect.Effect<
+export const getPageShield: API.OperationMethod<
+  GetPageShieldRequest,
   GetPageShieldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -485,6 +495,7 @@ export const PutPageShieldRequest = Schema.Struct({
   useConnectionUrlPath: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    enabled: "enabled",
     useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
     useConnectionUrlPath: "use_connection_url_path",
   }),
@@ -509,15 +520,15 @@ export const PutPageShieldResponse = Schema.Struct({
   useConnectionUrlPath: Schema.Boolean,
 }).pipe(
   Schema.encodeKeys({
+    enabled: "enabled",
     updatedAt: "updated_at",
     useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
     useConnectionUrlPath: "use_connection_url_path",
   }),
 ) as unknown as Schema.Schema<PutPageShieldResponse>;
 
-export const putPageShield: (
-  input: PutPageShieldRequest,
-) => Effect.Effect<
+export const putPageShield: API.OperationMethod<
+  PutPageShieldRequest,
   PutPageShieldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -571,9 +582,8 @@ export const GetPolicyResponse = Schema.Struct({
   value: Schema.String,
 }) as unknown as Schema.Schema<GetPolicyResponse>;
 
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => Effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -614,9 +624,8 @@ export const ListPoliciesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPoliciesResponse>;
 
-export const listPolicies: (
-  input: ListPoliciesRequest,
-) => Effect.Effect<
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
   ListPoliciesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -676,9 +685,8 @@ export const CreatePolicyResponse = Schema.Struct({
   value: Schema.String,
 }) as unknown as Schema.Schema<CreatePolicyResponse>;
 
-export const createPolicy: (
-  input: CreatePolicyRequest,
-) => Effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
   CreatePolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -743,9 +751,8 @@ export const UpdatePolicyResponse = Schema.Struct({
   value: Schema.String,
 }) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
-export const updatePolicy: (
-  input: UpdatePolicyRequest,
-) => Effect.Effect<
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
   UpdatePolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -776,9 +783,8 @@ export type DeletePolicyResponse = unknown;
 export const DeletePolicyResponse =
   Schema.Unknown as unknown as Schema.Schema<DeletePolicyResponse>;
 
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => Effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -908,6 +914,7 @@ export const GetScriptResponse = Schema.Struct({
             cryptominingScore: "cryptomining_score",
             dataflowScore: "dataflow_score",
             fetchedAt: "fetched_at",
+            hash: "hash",
             jsIntegrityScore: "js_integrity_score",
             magecartScore: "magecart_score",
             malwareScore: "malware_score",
@@ -920,15 +927,19 @@ export const GetScriptResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     addedAt: "added_at",
     firstSeenAt: "first_seen_at",
+    host: "host",
     lastSeenAt: "last_seen_at",
+    url: "url",
     urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
     cryptominingScore: "cryptomining_score",
     dataflowScore: "dataflow_score",
     domainReportedMalicious: "domain_reported_malicious",
     fetchedAt: "fetched_at",
     firstPageUrl: "first_page_url",
+    hash: "hash",
     jsIntegrityScore: "js_integrity_score",
     magecartScore: "magecart_score",
     maliciousDomainCategories: "malicious_domain_categories",
@@ -937,12 +948,12 @@ export const GetScriptResponse = Schema.Struct({
     obfuscationScore: "obfuscation_score",
     pageUrls: "page_urls",
     urlReportedMalicious: "url_reported_malicious",
+    versions: "versions",
   }),
 ) as unknown as Schema.Schema<GetScriptResponse>;
 
-export const getScript: (
-  input: GetScriptRequest,
-) => Effect.Effect<
+export const getScript: API.OperationMethod<
+  GetScriptRequest,
   GetScriptResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1067,15 +1078,19 @@ export const ListScriptsResponse = Schema.Array(
     urlReportedMalicious: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       addedAt: "added_at",
       firstSeenAt: "first_seen_at",
+      host: "host",
       lastSeenAt: "last_seen_at",
+      url: "url",
       urlContainsCdnCgiPath: "url_contains_cdn_cgi_path",
       cryptominingScore: "cryptomining_score",
       dataflowScore: "dataflow_score",
       domainReportedMalicious: "domain_reported_malicious",
       fetchedAt: "fetched_at",
       firstPageUrl: "first_page_url",
+      hash: "hash",
       jsIntegrityScore: "js_integrity_score",
       magecartScore: "magecart_score",
       maliciousDomainCategories: "malicious_domain_categories",
@@ -1088,9 +1103,8 @@ export const ListScriptsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListScriptsResponse>;
 
-export const listScripts: (
-  input: ListScriptsRequest,
-) => Effect.Effect<
+export const listScripts: API.OperationMethod<
+  ListScriptsRequest,
   ListScriptsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

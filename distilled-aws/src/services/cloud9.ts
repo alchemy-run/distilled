@@ -581,9 +581,8 @@ export class ConcurrentAccessException extends S.TaggedErrorClass<ConcurrentAcce
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const createEnvironmentEC2: (
-  input: CreateEnvironmentEC2Request,
-) => effect.Effect<
+export const createEnvironmentEC2: API.OperationMethod<
+  CreateEnvironmentEC2Request,
   CreateEnvironmentEC2Result,
   | BadRequestException
   | ConflictException
@@ -614,9 +613,8 @@ export const createEnvironmentEC2: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const createEnvironmentMembership: (
-  input: CreateEnvironmentMembershipRequest,
-) => effect.Effect<
+export const createEnvironmentMembership: API.OperationMethod<
+  CreateEnvironmentMembershipRequest,
   CreateEnvironmentMembershipResult,
   | BadRequestException
   | ConflictException
@@ -648,9 +646,8 @@ export const createEnvironmentMembership: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResult,
   | BadRequestException
   | ConflictException
@@ -681,9 +678,8 @@ export const deleteEnvironment: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const deleteEnvironmentMembership: (
-  input: DeleteEnvironmentMembershipRequest,
-) => effect.Effect<
+export const deleteEnvironmentMembership: API.OperationMethod<
+  DeleteEnvironmentMembershipRequest,
   DeleteEnvironmentMembershipResult,
   | BadRequestException
   | ConflictException
@@ -714,21 +710,19 @@ export const deleteEnvironmentMembership: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const describeEnvironmentMemberships: {
-  (
-    input: DescribeEnvironmentMembershipsRequest,
-  ): effect.Effect<
-    DescribeEnvironmentMembershipsResult,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | LimitExceededException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEnvironmentMemberships: API.OperationMethod<
+  DescribeEnvironmentMembershipsRequest,
+  DescribeEnvironmentMembershipsResult,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEnvironmentMembershipsRequest,
   ) => stream.Stream<
@@ -782,9 +776,8 @@ export const describeEnvironmentMemberships: {
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const describeEnvironments: (
-  input: DescribeEnvironmentsRequest,
-) => effect.Effect<
+export const describeEnvironments: API.OperationMethod<
+  DescribeEnvironmentsRequest,
   DescribeEnvironmentsResult,
   | BadRequestException
   | ConflictException
@@ -815,9 +808,8 @@ export const describeEnvironments: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const describeEnvironmentStatus: (
-  input: DescribeEnvironmentStatusRequest,
-) => effect.Effect<
+export const describeEnvironmentStatus: API.OperationMethod<
+  DescribeEnvironmentStatusRequest,
   DescribeEnvironmentStatusResult,
   | BadRequestException
   | ConflictException
@@ -852,21 +844,19 @@ export const describeEnvironmentStatus: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsRequest,
-  ): effect.Effect<
-    ListEnvironmentsResult,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | LimitExceededException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
+  ListEnvironmentsResult,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | LimitExceededException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
@@ -920,9 +910,8 @@ export const listEnvironments: {
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -948,9 +937,8 @@ export const listTagsForResource: (
  * Tags that you add to an Cloud9 environment by using this method will NOT be
  * automatically propagated to underlying resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConcurrentAccessException
@@ -975,9 +963,8 @@ export const tagResource: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConcurrentAccessException
@@ -1002,9 +989,8 @@ export const untagResource: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentRequest,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentRequest,
   UpdateEnvironmentResult,
   | BadRequestException
   | ConflictException
@@ -1036,9 +1022,8 @@ export const updateEnvironment: (
  * Cloud9 can continue to use the service as normal.
  * Learn more"
  */
-export const updateEnvironmentMembership: (
-  input: UpdateEnvironmentMembershipRequest,
-) => effect.Effect<
+export const updateEnvironmentMembership: API.OperationMethod<
+  UpdateEnvironmentMembershipRequest,
   UpdateEnvironmentMembershipResult,
   | BadRequestException
   | ConflictException

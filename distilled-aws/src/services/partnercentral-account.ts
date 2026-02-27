@@ -1703,9 +1703,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
  */
-export const getVerification: (
-  input: GetVerificationRequest,
-) => effect.Effect<
+export const getVerification: API.OperationMethod<
+  GetVerificationRequest,
   GetVerificationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1728,9 +1727,8 @@ export const getVerification: (
 /**
  * Lists all tags associated with a specific AWS Partner Central Account resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1753,9 +1751,8 @@ export const listTagsForResource: (
 /**
  * Sends an email verification code to the specified email address for account verification purposes.
  */
-export const sendEmailVerificationCode: (
-  input: SendEmailVerificationCodeRequest,
-) => effect.Effect<
+export const sendEmailVerificationCode: API.OperationMethod<
+  SendEmailVerificationCodeRequest,
   SendEmailVerificationCodeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1778,9 +1775,8 @@ export const sendEmailVerificationCode: (
 /**
  * Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
  */
-export const startVerification: (
-  input: StartVerificationRequest,
-) => effect.Effect<
+export const startVerification: API.OperationMethod<
+  StartVerificationRequest,
   StartVerificationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1805,9 +1801,8 @@ export const startVerification: (
 /**
  * Adds or updates tags for a specified AWS Partner Central Account resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1832,9 +1827,8 @@ export const tagResource: (
 /**
  * Removes specified tags from an AWS Partner Central Account resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1859,9 +1853,8 @@ export const untagResource: (
 /**
  * Creates a new connection invitation to establish a partnership with another organization.
  */
-export const createConnectionInvitation: (
-  input: CreateConnectionInvitationRequest,
-) => effect.Effect<
+export const createConnectionInvitation: API.OperationMethod<
+  CreateConnectionInvitationRequest,
   CreateConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1886,9 +1879,8 @@ export const createConnectionInvitation: (
 /**
  * Retrieves detailed information about a specific connection invitation.
  */
-export const getConnectionInvitation: (
-  input: GetConnectionInvitationRequest,
-) => effect.Effect<
+export const getConnectionInvitation: API.OperationMethod<
+  GetConnectionInvitationRequest,
   GetConnectionInvitationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1911,18 +1903,16 @@ export const getConnectionInvitation: (
 /**
  * Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria.
  */
-export const listConnectionInvitations: {
-  (
-    input: ListConnectionInvitationsRequest,
-  ): effect.Effect<
-    ListConnectionInvitationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectionInvitations: API.OperationMethod<
+  ListConnectionInvitationsRequest,
+  ListConnectionInvitationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionInvitationsRequest,
   ) => stream.Stream<
@@ -1964,9 +1954,8 @@ export const listConnectionInvitations: {
 /**
  * Accepts a connection invitation from another partner, establishing a formal partnership connection between the two parties.
  */
-export const acceptConnectionInvitation: (
-  input: AcceptConnectionInvitationRequest,
-) => effect.Effect<
+export const acceptConnectionInvitation: API.OperationMethod<
+  AcceptConnectionInvitationRequest,
   AcceptConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1991,9 +1980,8 @@ export const acceptConnectionInvitation: (
 /**
  * Cancels a pending connection invitation before it has been accepted or rejected.
  */
-export const cancelConnectionInvitation: (
-  input: CancelConnectionInvitationRequest,
-) => effect.Effect<
+export const cancelConnectionInvitation: API.OperationMethod<
+  CancelConnectionInvitationRequest,
   CancelConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2018,9 +2006,8 @@ export const cancelConnectionInvitation: (
 /**
  * Rejects a connection invitation from another partner, declining the partnership request.
  */
-export const rejectConnectionInvitation: (
-  input: RejectConnectionInvitationRequest,
-) => effect.Effect<
+export const rejectConnectionInvitation: API.OperationMethod<
+  RejectConnectionInvitationRequest,
   RejectConnectionInvitationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2045,9 +2032,8 @@ export const rejectConnectionInvitation: (
 /**
  * Retrieves the connection preferences for a partner account, including access settings and exclusions.
  */
-export const getConnectionPreferences: (
-  input: GetConnectionPreferencesRequest,
-) => effect.Effect<
+export const getConnectionPreferences: API.OperationMethod<
+  GetConnectionPreferencesRequest,
   GetConnectionPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2068,9 +2054,8 @@ export const getConnectionPreferences: (
 /**
  * Updates the connection preferences for a partner account, modifying access settings and exclusions.
  */
-export const updateConnectionPreferences: (
-  input: UpdateConnectionPreferencesRequest,
-) => effect.Effect<
+export const updateConnectionPreferences: API.OperationMethod<
+  UpdateConnectionPreferencesRequest,
   UpdateConnectionPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -2093,9 +2078,8 @@ export const updateConnectionPreferences: (
 /**
  * Retrieves detailed information about a specific connection between partners.
  */
-export const getConnection: (
-  input: GetConnectionRequest,
-) => effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionRequest,
   GetConnectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2118,18 +2102,16 @@ export const getConnection: (
 /**
  * Lists active connections for the partner account, with optional filtering by connection type and participant.
  */
-export const listConnections: {
-  (
-    input: ListConnectionsRequest,
-  ): effect.Effect<
-    ListConnectionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnections: API.OperationMethod<
+  ListConnectionsRequest,
+  ListConnectionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionsRequest,
   ) => stream.Stream<
@@ -2171,9 +2153,8 @@ export const listConnections: {
 /**
  * Cancels an existing connection between partners, terminating the partnership relationship.
  */
-export const cancelConnection: (
-  input: CancelConnectionRequest,
-) => effect.Effect<
+export const cancelConnection: API.OperationMethod<
+  CancelConnectionRequest,
   CancelConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2198,9 +2179,8 @@ export const cancelConnection: (
 /**
  * Creates a new partner account in the AWS Partner Network with the specified details and configuration.
  */
-export const createPartner: (
-  input: CreatePartnerRequest,
-) => effect.Effect<
+export const createPartner: API.OperationMethod<
+  CreatePartnerRequest,
   CreatePartnerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2223,9 +2203,8 @@ export const createPartner: (
 /**
  * Retrieves detailed information about a specific partner account.
  */
-export const getPartner: (
-  input: GetPartnerRequest,
-) => effect.Effect<
+export const getPartner: API.OperationMethod<
+  GetPartnerRequest,
   GetPartnerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2248,18 +2227,16 @@ export const getPartner: (
 /**
  * Lists partner accounts in the catalog, providing a summary view of all partners.
  */
-export const listPartners: {
-  (
-    input: ListPartnersRequest,
-  ): effect.Effect<
-    ListPartnersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPartners: API.OperationMethod<
+  ListPartnersRequest,
+  ListPartnersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPartnersRequest,
   ) => stream.Stream<
@@ -2300,9 +2277,8 @@ export const listPartners: {
 /**
  * Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications.
  */
-export const associateAwsTrainingCertificationEmailDomain: (
-  input: AssociateAwsTrainingCertificationEmailDomainRequest,
-) => effect.Effect<
+export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
+  AssociateAwsTrainingCertificationEmailDomainRequest,
   AssociateAwsTrainingCertificationEmailDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2327,9 +2303,8 @@ export const associateAwsTrainingCertificationEmailDomain: (
 /**
  * Cancels an in-progress profile update task, stopping any pending changes to the partner profile.
  */
-export const cancelProfileUpdateTask: (
-  input: CancelProfileUpdateTaskRequest,
-) => effect.Effect<
+export const cancelProfileUpdateTask: API.OperationMethod<
+  CancelProfileUpdateTaskRequest,
   CancelProfileUpdateTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -2354,9 +2329,8 @@ export const cancelProfileUpdateTask: (
 /**
  * Removes the association between an email domain and AWS training and certification for the partner account.
  */
-export const disassociateAwsTrainingCertificationEmailDomain: (
-  input: DisassociateAwsTrainingCertificationEmailDomainRequest,
-) => effect.Effect<
+export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMethod<
+  DisassociateAwsTrainingCertificationEmailDomainRequest,
   DisassociateAwsTrainingCertificationEmailDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2379,9 +2353,8 @@ export const disassociateAwsTrainingCertificationEmailDomain: (
 /**
  * Retrieves the alliance lead contact information for a partner account.
  */
-export const getAllianceLeadContact: (
-  input: GetAllianceLeadContactRequest,
-) => effect.Effect<
+export const getAllianceLeadContact: API.OperationMethod<
+  GetAllianceLeadContactRequest,
   GetAllianceLeadContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2404,9 +2377,8 @@ export const getAllianceLeadContact: (
 /**
  * Retrieves information about a specific profile update task.
  */
-export const getProfileUpdateTask: (
-  input: GetProfileUpdateTaskRequest,
-) => effect.Effect<
+export const getProfileUpdateTask: API.OperationMethod<
+  GetProfileUpdateTaskRequest,
   GetProfileUpdateTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2429,9 +2401,8 @@ export const getProfileUpdateTask: (
 /**
  * Retrieves the visibility settings for a partner profile, determining who can see the profile information.
  */
-export const getProfileVisibility: (
-  input: GetProfileVisibilityRequest,
-) => effect.Effect<
+export const getProfileVisibility: API.OperationMethod<
+  GetProfileVisibilityRequest,
   GetProfileVisibilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2454,9 +2425,8 @@ export const getProfileVisibility: (
 /**
  * Creates or updates the alliance lead contact information for a partner account.
  */
-export const putAllianceLeadContact: (
-  input: PutAllianceLeadContactRequest,
-) => effect.Effect<
+export const putAllianceLeadContact: API.OperationMethod<
+  PutAllianceLeadContactRequest,
   PutAllianceLeadContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2479,9 +2449,8 @@ export const putAllianceLeadContact: (
 /**
  * Sets the visibility level for a partner profile, controlling who can view the profile information.
  */
-export const putProfileVisibility: (
-  input: PutProfileVisibilityRequest,
-) => effect.Effect<
+export const putProfileVisibility: API.OperationMethod<
+  PutProfileVisibilityRequest,
   PutProfileVisibilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2504,9 +2473,8 @@ export const putProfileVisibility: (
 /**
  * Initiates a profile update task to modify partner profile information asynchronously.
  */
-export const startProfileUpdateTask: (
-  input: StartProfileUpdateTaskRequest,
-) => effect.Effect<
+export const startProfileUpdateTask: API.OperationMethod<
+  StartProfileUpdateTaskRequest,
   StartProfileUpdateTaskResponse,
   | AccessDeniedException
   | ConflictException

@@ -2544,9 +2544,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
  *
  * Gets a presigned URL for uploading agent task response logs.
  */
-export const getAgentTaskResponseUrl: (
-  input: GetAgentTaskResponseUrlRequest,
-) => effect.Effect<
+export const getAgentTaskResponseUrl: API.OperationMethod<
+  GetAgentTaskResponseUrlRequest,
   GetAgentTaskResponseUrlResponse,
   | DependencyException
   | InvalidParameterException
@@ -2565,9 +2564,8 @@ export const getAgentTaskResponseUrl: (
 /**
  * Returns the number of reserved minutes used by account.
  */
-export const getMinuteUsage: (
-  input: GetMinuteUsageRequest,
-) => effect.Effect<
+export const getMinuteUsage: API.OperationMethod<
+  GetMinuteUsageRequest,
   GetMinuteUsageResponse,
   | DependencyException
   | InvalidParameterException
@@ -2586,9 +2584,8 @@ export const getMinuteUsage: (
 /**
  * Returns a list of tags for a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | DependencyException
   | InvalidParameterException
@@ -2607,9 +2604,8 @@ export const listTagsForResource: (
 /**
  * Assigns a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | DependencyException
   | InvalidParameterException
@@ -2628,9 +2624,8 @@ export const tagResource: (
 /**
  * Deassigns a resource tag.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | DependencyException
   | InvalidParameterException
@@ -2651,9 +2646,8 @@ export const untagResource: (
  *
  * Registers a new agent with AWS Ground Station.
  */
-export const registerAgent: (
-  input: RegisterAgentRequest,
-) => effect.Effect<
+export const registerAgent: API.OperationMethod<
+  RegisterAgentRequest,
   RegisterAgentResponse,
   | DependencyException
   | InvalidParameterException
@@ -2674,9 +2668,8 @@ export const registerAgent: (
  *
  * Gets the latest configuration information for a registered agent.
  */
-export const getAgentConfiguration: (
-  input: GetAgentConfigurationRequest,
-) => effect.Effect<
+export const getAgentConfiguration: API.OperationMethod<
+  GetAgentConfigurationRequest,
   GetAgentConfigurationResponse,
   | DependencyException
   | InvalidParameterException
@@ -2697,9 +2690,8 @@ export const getAgentConfiguration: (
  *
  * Update the status of the agent.
  */
-export const updateAgentStatus: (
-  input: UpdateAgentStatusRequest,
-) => effect.Effect<
+export const updateAgentStatus: API.OperationMethod<
+  UpdateAgentStatusRequest,
   UpdateAgentStatusResponse,
   | DependencyException
   | InvalidParameterException
@@ -2720,9 +2712,8 @@ export const updateAgentStatus: (
  *
  * Only one type of `configData` can be specified.
  */
-export const createConfig: (
-  input: CreateConfigRequest,
-) => effect.Effect<
+export const createConfig: API.OperationMethod<
+  CreateConfigRequest,
   ConfigIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2745,9 +2736,8 @@ export const createConfig: (
  *
  * Only one `Config` response can be returned.
  */
-export const getConfig: (
-  input: GetConfigRequest,
-) => effect.Effect<
+export const getConfig: API.OperationMethod<
+  GetConfigRequest,
   GetConfigResponse,
   | DependencyException
   | InvalidParameterException
@@ -2768,9 +2758,8 @@ export const getConfig: (
  *
  * Updating a `Config` will not update the execution parameters for existing future contacts scheduled with this `Config`.
  */
-export const updateConfig: (
-  input: UpdateConfigRequest,
-) => effect.Effect<
+export const updateConfig: API.OperationMethod<
+  UpdateConfigRequest,
   ConfigIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2789,9 +2778,8 @@ export const updateConfig: (
 /**
  * Deletes a `Config`.
  */
-export const deleteConfig: (
-  input: DeleteConfigRequest,
-) => effect.Effect<
+export const deleteConfig: API.OperationMethod<
+  DeleteConfigRequest,
   ConfigIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2810,17 +2798,15 @@ export const deleteConfig: (
 /**
  * Returns a list of `Config` objects.
  */
-export const listConfigs: {
-  (
-    input: ListConfigsRequest,
-  ): effect.Effect<
-    ListConfigsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigs: API.OperationMethod<
+  ListConfigsRequest,
+  ListConfigsResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigsRequest,
   ) => stream.Stream<
@@ -2859,9 +2845,8 @@ export const listConfigs: {
 /**
  * Reserves a contact using specified parameters.
  */
-export const reserveContact: (
-  input: ReserveContactRequest,
-) => effect.Effect<
+export const reserveContact: API.OperationMethod<
+  ReserveContactRequest,
   ContactIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2882,9 +2867,8 @@ export const reserveContact: (
 /**
  * Describes an existing contact.
  */
-export const describeContact: (
-  input: DescribeContactRequest,
-) => effect.Effect<
+export const describeContact: API.OperationMethod<
+  DescribeContactRequest,
   DescribeContactResponse,
   | DependencyException
   | InvalidParameterException
@@ -2909,9 +2893,8 @@ export const describeContact: (
  *
  * - Have started but have yet to finish, the contact will be stopped.
  */
-export const cancelContact: (
-  input: CancelContactRequest,
-) => effect.Effect<
+export const cancelContact: API.OperationMethod<
+  CancelContactRequest,
   ContactIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -2932,17 +2915,15 @@ export const cancelContact: (
  *
  * If `statusList` contains AVAILABLE, the request must include ` groundStation`, `missionprofileArn`, and `satelliteArn`.
  */
-export const listContacts: {
-  (
-    input: ListContactsRequest,
-  ): effect.Effect<
-    ListContactsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContacts: API.OperationMethod<
+  ListContactsRequest,
+  ListContactsResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactsRequest,
   ) => stream.Stream<
@@ -2985,9 +2966,8 @@ export const listContacts: {
  *
  * When a contact uses multiple `DataflowEndpointConfig` objects, each ` Config` must match a `DataflowEndpoint` in the same group.
  */
-export const createDataflowEndpointGroup: (
-  input: CreateDataflowEndpointGroupRequest,
-) => effect.Effect<
+export const createDataflowEndpointGroup: API.OperationMethod<
+  CreateDataflowEndpointGroupRequest,
   DataflowEndpointGroupIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3006,9 +2986,8 @@ export const createDataflowEndpointGroup: (
 /**
  * Returns the dataflow endpoint group.
  */
-export const getDataflowEndpointGroup: (
-  input: GetDataflowEndpointGroupRequest,
-) => effect.Effect<
+export const getDataflowEndpointGroup: API.OperationMethod<
+  GetDataflowEndpointGroupRequest,
   GetDataflowEndpointGroupResponse,
   | DependencyException
   | InvalidParameterException
@@ -3027,9 +3006,8 @@ export const getDataflowEndpointGroup: (
 /**
  * Deletes a dataflow endpoint group.
  */
-export const deleteDataflowEndpointGroup: (
-  input: DeleteDataflowEndpointGroupRequest,
-) => effect.Effect<
+export const deleteDataflowEndpointGroup: API.OperationMethod<
+  DeleteDataflowEndpointGroupRequest,
   DataflowEndpointGroupIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3048,17 +3026,15 @@ export const deleteDataflowEndpointGroup: (
 /**
  * Returns a list of `DataflowEndpoint` groups.
  */
-export const listDataflowEndpointGroups: {
-  (
-    input: ListDataflowEndpointGroupsRequest,
-  ): effect.Effect<
-    ListDataflowEndpointGroupsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataflowEndpointGroups: API.OperationMethod<
+  ListDataflowEndpointGroupsRequest,
+  ListDataflowEndpointGroupsResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataflowEndpointGroupsRequest,
   ) => stream.Stream<
@@ -3101,9 +3077,8 @@ export const listDataflowEndpointGroups: {
  *
  * When a contact uses multiple `DataflowEndpointConfig` objects, each ` Config` must match a `DataflowEndpoint` in the same group.
  */
-export const createDataflowEndpointGroupV2: (
-  input: CreateDataflowEndpointGroupV2Request,
-) => effect.Effect<
+export const createDataflowEndpointGroupV2: API.OperationMethod<
+  CreateDataflowEndpointGroupV2Request,
   CreateDataflowEndpointGroupV2Response,
   | DependencyException
   | InvalidParameterException
@@ -3124,9 +3099,8 @@ export const createDataflowEndpointGroupV2: (
 /**
  * Create an ephemeris with your specified EphemerisData.
  */
-export const createEphemeris: (
-  input: CreateEphemerisRequest,
-) => effect.Effect<
+export const createEphemeris: API.OperationMethod<
+  CreateEphemerisRequest,
   EphemerisIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3145,9 +3119,8 @@ export const createEphemeris: (
 /**
  * Retrieve information about an existing ephemeris.
  */
-export const describeEphemeris: (
-  input: DescribeEphemerisRequest,
-) => effect.Effect<
+export const describeEphemeris: API.OperationMethod<
+  DescribeEphemerisRequest,
   DescribeEphemerisResponse,
   | DependencyException
   | InvalidParameterException
@@ -3166,9 +3139,8 @@ export const describeEphemeris: (
 /**
  * Update an existing ephemeris.
  */
-export const updateEphemeris: (
-  input: UpdateEphemerisRequest,
-) => effect.Effect<
+export const updateEphemeris: API.OperationMethod<
+  UpdateEphemerisRequest,
   EphemerisIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3187,9 +3159,8 @@ export const updateEphemeris: (
 /**
  * Delete an ephemeris.
  */
-export const deleteEphemeris: (
-  input: DeleteEphemerisRequest,
-) => effect.Effect<
+export const deleteEphemeris: API.OperationMethod<
+  DeleteEphemerisRequest,
   EphemerisIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3210,17 +3181,15 @@ export const deleteEphemeris: (
 /**
  * List your existing ephemerides.
  */
-export const listEphemerides: {
-  (
-    input: ListEphemeridesRequest,
-  ): effect.Effect<
-    ListEphemeridesResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEphemerides: API.OperationMethod<
+  ListEphemeridesRequest,
+  ListEphemeridesResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEphemeridesRequest,
   ) => stream.Stream<
@@ -3259,17 +3228,15 @@ export const listEphemerides: {
 /**
  * Returns a list of ground stations.
  */
-export const listGroundStations: {
-  (
-    input: ListGroundStationsRequest,
-  ): effect.Effect<
-    ListGroundStationsResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroundStations: API.OperationMethod<
+  ListGroundStationsRequest,
+  ListGroundStationsResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroundStationsRequest,
   ) => stream.Stream<
@@ -3310,9 +3277,8 @@ export const listGroundStations: {
  *
  * `dataflowEdges` is a list of lists of strings. Each lower level list of strings has two elements: a *from* ARN and a *to* ARN.
  */
-export const createMissionProfile: (
-  input: CreateMissionProfileRequest,
-) => effect.Effect<
+export const createMissionProfile: API.OperationMethod<
+  CreateMissionProfileRequest,
   MissionProfileIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3331,9 +3297,8 @@ export const createMissionProfile: (
 /**
  * Returns a mission profile.
  */
-export const getMissionProfile: (
-  input: GetMissionProfileRequest,
-) => effect.Effect<
+export const getMissionProfile: API.OperationMethod<
+  GetMissionProfileRequest,
   GetMissionProfileResponse,
   | DependencyException
   | InvalidParameterException
@@ -3354,9 +3319,8 @@ export const getMissionProfile: (
  *
  * Updating a mission profile will not update the execution parameters for existing future contacts.
  */
-export const updateMissionProfile: (
-  input: UpdateMissionProfileRequest,
-) => effect.Effect<
+export const updateMissionProfile: API.OperationMethod<
+  UpdateMissionProfileRequest,
   MissionProfileIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3375,9 +3339,8 @@ export const updateMissionProfile: (
 /**
  * Deletes a mission profile.
  */
-export const deleteMissionProfile: (
-  input: DeleteMissionProfileRequest,
-) => effect.Effect<
+export const deleteMissionProfile: API.OperationMethod<
+  DeleteMissionProfileRequest,
   MissionProfileIdResponse,
   | DependencyException
   | InvalidParameterException
@@ -3396,17 +3359,15 @@ export const deleteMissionProfile: (
 /**
  * Returns a list of mission profiles.
  */
-export const listMissionProfiles: {
-  (
-    input: ListMissionProfilesRequest,
-  ): effect.Effect<
-    ListMissionProfilesResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMissionProfiles: API.OperationMethod<
+  ListMissionProfilesRequest,
+  ListMissionProfilesResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMissionProfilesRequest,
   ) => stream.Stream<
@@ -3445,9 +3406,8 @@ export const listMissionProfiles: {
 /**
  * Returns a satellite.
  */
-export const getSatellite: (
-  input: GetSatelliteRequest,
-) => effect.Effect<
+export const getSatellite: API.OperationMethod<
+  GetSatelliteRequest,
   GetSatelliteResponse,
   | DependencyException
   | InvalidParameterException
@@ -3466,17 +3426,15 @@ export const getSatellite: (
 /**
  * Returns a list of satellites.
  */
-export const listSatellites: {
-  (
-    input: ListSatellitesRequest,
-  ): effect.Effect<
-    ListSatellitesResponse,
-    | DependencyException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSatellites: API.OperationMethod<
+  ListSatellitesRequest,
+  ListSatellitesResponse,
+  | DependencyException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSatellitesRequest,
   ) => stream.Stream<

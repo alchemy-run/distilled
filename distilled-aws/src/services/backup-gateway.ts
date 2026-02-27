@@ -899,9 +899,8 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
  * Lists the tags applied to the resource identified by its Amazon Resource Name
  * (ARN).
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -913,9 +912,8 @@ export const listTagsForResource: (
 /**
  * Tag the resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -927,9 +925,8 @@ export const tagResource: (
 /**
  * Removes tags from the resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -942,9 +939,8 @@ export const untagResource: (
  * Creates a backup gateway. After you create a gateway, you can associate it with a server
  * using the `AssociateGatewayToServer` operation.
  */
-export const createGateway: (
-  input: CreateGatewayInput,
-) => effect.Effect<
+export const createGateway: API.OperationMethod<
+  CreateGatewayInput,
   CreateGatewayOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -957,9 +953,8 @@ export const createGateway: (
  * By providing the ARN (Amazon Resource Name), this
  * API returns the gateway.
  */
-export const getGateway: (
-  input: GetGatewayInput,
-) => effect.Effect<
+export const getGateway: API.OperationMethod<
+  GetGatewayInput,
   GetGatewayOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -972,9 +967,8 @@ export const getGateway: (
  * Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name
  * (ARN) of the gateway in your request.
  */
-export const updateGatewayInformation: (
-  input: UpdateGatewayInformationInput,
-) => effect.Effect<
+export const updateGatewayInformation: API.OperationMethod<
+  UpdateGatewayInformationInput,
   UpdateGatewayInformationOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -986,9 +980,8 @@ export const updateGatewayInformation: (
 /**
  * Deletes a backup gateway.
  */
-export const deleteGateway: (
-  input: DeleteGatewayInput,
-) => effect.Effect<
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayInput,
   DeleteGatewayOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1000,14 +993,12 @@ export const deleteGateway: (
 /**
  * Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
  */
-export const listGateways: {
-  (
-    input: ListGatewaysInput,
-  ): effect.Effect<
-    ListGatewaysOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGateways: API.OperationMethod<
+  ListGatewaysInput,
+  ListGatewaysOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewaysInput,
   ) => stream.Stream<
@@ -1037,9 +1028,8 @@ export const listGateways: {
  * Associates a backup gateway with your server. After you complete the association process,
  * you can back up and restore your VMs through the gateway.
  */
-export const associateGatewayToServer: (
-  input: AssociateGatewayToServerInput,
-) => effect.Effect<
+export const associateGatewayToServer: API.OperationMethod<
+  AssociateGatewayToServerInput,
   AssociateGatewayToServerOutput,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1052,9 +1042,8 @@ export const associateGatewayToServer: (
  * Disassociates a backup gateway from the specified server. After the disassociation process
  * finishes, the gateway can no longer access the virtual machines on the server.
  */
-export const disassociateGatewayFromServer: (
-  input: DisassociateGatewayFromServerInput,
-) => effect.Effect<
+export const disassociateGatewayFromServer: API.OperationMethod<
+  DisassociateGatewayFromServerInput,
   DisassociateGatewayFromServerOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1066,9 +1055,8 @@ export const disassociateGatewayFromServer: (
 /**
  * Set the maintenance start time for a gateway.
  */
-export const putMaintenanceStartTime: (
-  input: PutMaintenanceStartTimeInput,
-) => effect.Effect<
+export const putMaintenanceStartTime: API.OperationMethod<
+  PutMaintenanceStartTimeInput,
   PutMaintenanceStartTimeOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1081,9 +1069,8 @@ export const putMaintenanceStartTime: (
  * Tests your hypervisor configuration to validate that backup gateway can connect with the
  * hypervisor and its resources.
  */
-export const testHypervisorConfiguration: (
-  input: TestHypervisorConfigurationInput,
-) => effect.Effect<
+export const testHypervisorConfiguration: API.OperationMethod<
+  TestHypervisorConfigurationInput,
   TestHypervisorConfigurationOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1100,9 +1087,8 @@ export const testHypervisorConfiguration: (
  * success response immediately. However, it might take some
  * time for the update to complete.
  */
-export const updateGatewaySoftwareNow: (
-  input: UpdateGatewaySoftwareNowInput,
-) => effect.Effect<
+export const updateGatewaySoftwareNow: API.OperationMethod<
+  UpdateGatewaySoftwareNowInput,
   UpdateGatewaySoftwareNowOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1117,9 +1103,8 @@ export const updateGatewaySoftwareNow: (
  * no bandwidth rate limiting is in effect. Use this to initiate a
  * gateway's bandwidth rate limit schedule.
  */
-export const putBandwidthRateLimitSchedule: (
-  input: PutBandwidthRateLimitScheduleInput,
-) => effect.Effect<
+export const putBandwidthRateLimitSchedule: API.OperationMethod<
+  PutBandwidthRateLimitScheduleInput,
   PutBandwidthRateLimitScheduleOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1134,9 +1119,8 @@ export const putBandwidthRateLimitSchedule: (
  * no bandwidth rate limiting is in effect. Use this to get a gateway's
  * bandwidth rate limit schedule.
  */
-export const getBandwidthRateLimitSchedule: (
-  input: GetBandwidthRateLimitScheduleInput,
-) => effect.Effect<
+export const getBandwidthRateLimitSchedule: API.OperationMethod<
+  GetBandwidthRateLimitScheduleInput,
   GetBandwidthRateLimitScheduleOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1148,9 +1132,8 @@ export const getBandwidthRateLimitSchedule: (
 /**
  * Connect to a hypervisor by importing its configuration.
  */
-export const importHypervisorConfiguration: (
-  input: ImportHypervisorConfigurationInput,
-) => effect.Effect<
+export const importHypervisorConfiguration: API.OperationMethod<
+  ImportHypervisorConfigurationInput,
   ImportHypervisorConfigurationOutput,
   AccessDeniedException | ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1164,9 +1147,8 @@ export const importHypervisorConfiguration: (
  * A hypervisor is hardware, software, or firmware that creates and manages virtual machines,
  * and allocates resources to them.
  */
-export const getHypervisor: (
-  input: GetHypervisorInput,
-) => effect.Effect<
+export const getHypervisor: API.OperationMethod<
+  GetHypervisorInput,
   GetHypervisorOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1180,9 +1162,8 @@ export const getHypervisor: (
  * hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your
  * request.
  */
-export const updateHypervisor: (
-  input: UpdateHypervisorInput,
-) => effect.Effect<
+export const updateHypervisor: API.OperationMethod<
+  UpdateHypervisorInput,
   UpdateHypervisorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1197,9 +1178,8 @@ export const updateHypervisor: (
 /**
  * Deletes a hypervisor.
  */
-export const deleteHypervisor: (
-  input: DeleteHypervisorInput,
-) => effect.Effect<
+export const deleteHypervisor: API.OperationMethod<
+  DeleteHypervisorInput,
   DeleteHypervisorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1214,14 +1194,12 @@ export const deleteHypervisor: (
 /**
  * Lists your hypervisors.
  */
-export const listHypervisors: {
-  (
-    input: ListHypervisorsInput,
-  ): effect.Effect<
-    ListHypervisorsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHypervisors: API.OperationMethod<
+  ListHypervisorsInput,
+  ListHypervisorsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHypervisorsInput,
   ) => stream.Stream<
@@ -1250,9 +1228,8 @@ export const listHypervisors: {
 /**
  * This action sends a request to sync metadata across the specified virtual machines.
  */
-export const startVirtualMachinesMetadataSync: (
-  input: StartVirtualMachinesMetadataSyncInput,
-) => effect.Effect<
+export const startVirtualMachinesMetadataSync: API.OperationMethod<
+  StartVirtualMachinesMetadataSyncInput,
   StartVirtualMachinesMetadataSyncOutput,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1266,9 +1243,8 @@ export const startVirtualMachinesMetadataSync: (
  * A hypervisor property mapping displays the relationship of entity properties
  * available from the on-premises hypervisor to the properties available in Amazon Web Services.
  */
-export const putHypervisorPropertyMappings: (
-  input: PutHypervisorPropertyMappingsInput,
-) => effect.Effect<
+export const putHypervisorPropertyMappings: API.OperationMethod<
+  PutHypervisorPropertyMappingsInput,
   PutHypervisorPropertyMappingsOutput,
   | AccessDeniedException
   | ConflictException
@@ -1285,9 +1261,8 @@ export const putHypervisorPropertyMappings: (
  * A hypervisor property mapping displays the relationship of entity properties
  * available from the on-premises hypervisor to the properties available in Amazon Web Services.
  */
-export const getHypervisorPropertyMappings: (
-  input: GetHypervisorPropertyMappingsInput,
-) => effect.Effect<
+export const getHypervisorPropertyMappings: API.OperationMethod<
+  GetHypervisorPropertyMappingsInput,
   GetHypervisorPropertyMappingsOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1299,9 +1274,8 @@ export const getHypervisorPropertyMappings: (
 /**
  * By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
  */
-export const getVirtualMachine: (
-  input: GetVirtualMachineInput,
-) => effect.Effect<
+export const getVirtualMachine: API.OperationMethod<
+  GetVirtualMachineInput,
   GetVirtualMachineOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1313,14 +1287,12 @@ export const getVirtualMachine: (
 /**
  * Lists your virtual machines.
  */
-export const listVirtualMachines: {
-  (
-    input: ListVirtualMachinesInput,
-  ): effect.Effect<
-    ListVirtualMachinesOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVirtualMachines: API.OperationMethod<
+  ListVirtualMachinesInput,
+  ListVirtualMachinesOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVirtualMachinesInput,
   ) => stream.Stream<

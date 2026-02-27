@@ -4000,9 +4000,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 /**
  * Associates the specified app block builder with the specified app block.
  */
-export const associateAppBlockBuilderAppBlock: (
-  input: AssociateAppBlockBuilderAppBlockRequest,
-) => effect.Effect<
+export const associateAppBlockBuilderAppBlock: API.OperationMethod<
+  AssociateAppBlockBuilderAppBlockRequest,
   AssociateAppBlockBuilderAppBlockResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4025,9 +4024,8 @@ export const associateAppBlockBuilderAppBlock: (
 /**
  * Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
  */
-export const associateApplicationFleet: (
-  input: AssociateApplicationFleetRequest,
-) => effect.Effect<
+export const associateApplicationFleet: API.OperationMethod<
+  AssociateApplicationFleetRequest,
   AssociateApplicationFleetResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -4050,9 +4048,8 @@ export const associateApplicationFleet: (
 /**
  * Associates an application to entitle.
  */
-export const associateApplicationToEntitlement: (
-  input: AssociateApplicationToEntitlementRequest,
-) => effect.Effect<
+export const associateApplicationToEntitlement: API.OperationMethod<
+  AssociateApplicationToEntitlementRequest,
   AssociateApplicationToEntitlementResult,
   | EntitlementNotFoundException
   | LimitExceededException
@@ -4073,9 +4070,8 @@ export const associateApplicationToEntitlement: (
 /**
  * Associates the specified fleet with the specified stack.
  */
-export const associateFleet: (
-  input: AssociateFleetRequest,
-) => effect.Effect<
+export const associateFleet: API.OperationMethod<
+  AssociateFleetRequest,
   AssociateFleetResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4100,9 +4096,8 @@ export const associateFleet: (
 /**
  * Associates license included application(s) with an existing image builder instance.
  */
-export const associateSoftwareToImageBuilder: (
-  input: AssociateSoftwareToImageBuilderRequest,
-) => effect.Effect<
+export const associateSoftwareToImageBuilder: API.OperationMethod<
+  AssociateSoftwareToImageBuilderRequest,
   AssociateSoftwareToImageBuilderResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4125,9 +4120,8 @@ export const associateSoftwareToImageBuilder: (
 /**
  * Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
  */
-export const batchAssociateUserStack: (
-  input: BatchAssociateUserStackRequest,
-) => effect.Effect<
+export const batchAssociateUserStack: API.OperationMethod<
+  BatchAssociateUserStackRequest,
   BatchAssociateUserStackResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4144,9 +4138,8 @@ export const batchAssociateUserStack: (
 /**
  * Disassociates the specified users from the specified stacks.
  */
-export const batchDisassociateUserStack: (
-  input: BatchDisassociateUserStackRequest,
-) => effect.Effect<
+export const batchDisassociateUserStack: API.OperationMethod<
+  BatchDisassociateUserStackRequest,
   BatchDisassociateUserStackResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4163,9 +4156,8 @@ export const batchDisassociateUserStack: (
 /**
  * Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
  */
-export const copyImage: (
-  input: CopyImageRequest,
-) => effect.Effect<
+export const copyImage: API.OperationMethod<
+  CopyImageRequest,
   CopyImageResponse,
   | IncompatibleImageException
   | InvalidAccountStatusException
@@ -4198,9 +4190,8 @@ export const copyImage: (
  *
  * This is only supported for Elastic fleets.
  */
-export const createAppBlock: (
-  input: CreateAppBlockRequest,
-) => effect.Effect<
+export const createAppBlock: API.OperationMethod<
+  CreateAppBlockRequest,
   CreateAppBlockResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -4221,9 +4212,8 @@ export const createAppBlock: (
 /**
  * Creates an app block builder.
  */
-export const createAppBlockBuilder: (
-  input: CreateAppBlockBuilderRequest,
-) => effect.Effect<
+export const createAppBlockBuilder: API.OperationMethod<
+  CreateAppBlockBuilderRequest,
   CreateAppBlockBuilderResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -4256,9 +4246,8 @@ export const createAppBlockBuilder: (
 /**
  * Creates a URL to start a create app block builder streaming session.
  */
-export const createAppBlockBuilderStreamingURL: (
-  input: CreateAppBlockBuilderStreamingURLRequest,
-) => effect.Effect<
+export const createAppBlockBuilderStreamingURL: API.OperationMethod<
+  CreateAppBlockBuilderStreamingURLRequest,
   CreateAppBlockBuilderStreamingURLResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4278,9 +4267,8 @@ export const createAppBlockBuilderStreamingURL: (
  *
  * This is only supported for Elastic fleets.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResult,
   | ConcurrentModificationException
   | LimitExceededException
@@ -4303,9 +4291,8 @@ export const createApplication: (
 /**
  * Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
-export const createDirectoryConfig: (
-  input: CreateDirectoryConfigRequest,
-) => effect.Effect<
+export const createDirectoryConfig: API.OperationMethod<
+  CreateDirectoryConfigRequest,
   CreateDirectoryConfigResult,
   | InvalidAccountStatusException
   | InvalidRoleException
@@ -4335,9 +4322,8 @@ export const createDirectoryConfig: (
  * application, or to applications managed by a dynamic app provider using the Dynamic
  * Application Framework.
  */
-export const createEntitlement: (
-  input: CreateEntitlementRequest,
-) => effect.Effect<
+export const createEntitlement: API.OperationMethod<
+  CreateEntitlementRequest,
   CreateEntitlementResult,
   | EntitlementAlreadyExistsException
   | LimitExceededException
@@ -4358,9 +4344,8 @@ export const createEntitlement: (
 /**
  * Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
  */
-export const createExportImageTask: (
-  input: CreateExportImageTaskRequest,
-) => effect.Effect<
+export const createExportImageTask: API.OperationMethod<
+  CreateExportImageTaskRequest,
   CreateExportImageTaskResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -4387,9 +4372,8 @@ export const createExportImageTask: (
 /**
  * Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
  */
-export const createFleet: (
-  input: CreateFleetRequest,
-) => effect.Effect<
+export const createFleet: API.OperationMethod<
+  CreateFleetRequest,
   CreateFleetResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4426,9 +4410,8 @@ export const createFleet: (
  *
  * The initial state of the builder is `PENDING`. When it is ready, the state is `RUNNING`.
  */
-export const createImageBuilder: (
-  input: CreateImageBuilderRequest,
-) => effect.Effect<
+export const createImageBuilder: API.OperationMethod<
+  CreateImageBuilderRequest,
   CreateImageBuilderResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4463,9 +4446,8 @@ export const createImageBuilder: (
 /**
  * Creates a URL to start an image builder streaming session.
  */
-export const createImageBuilderStreamingURL: (
-  input: CreateImageBuilderStreamingURLRequest,
-) => effect.Effect<
+export const createImageBuilderStreamingURL: API.OperationMethod<
+  CreateImageBuilderStreamingURLRequest,
   CreateImageBuilderStreamingURLResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4477,9 +4459,8 @@ export const createImageBuilderStreamingURL: (
 /**
  * Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
  */
-export const createImportedImage: (
-  input: CreateImportedImageRequest,
-) => effect.Effect<
+export const createImportedImage: API.OperationMethod<
+  CreateImportedImageRequest,
   CreateImportedImageResult,
   | DryRunOperationException
   | IncompatibleImageException
@@ -4508,9 +4489,8 @@ export const createImportedImage: (
 /**
  * Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
  */
-export const createStack: (
-  input: CreateStackRequest,
-) => effect.Effect<
+export const createStack: API.OperationMethod<
+  CreateStackRequest,
   CreateStackResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -4539,9 +4519,8 @@ export const createStack: (
 /**
  * Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
  */
-export const createStreamingURL: (
-  input: CreateStreamingURLRequest,
-) => effect.Effect<
+export const createStreamingURL: API.OperationMethod<
+  CreateStreamingURLRequest,
   CreateStreamingURLResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -4562,9 +4541,8 @@ export const createStreamingURL: (
 /**
  * Creates custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const createThemeForStack: (
-  input: CreateThemeForStackRequest,
-) => effect.Effect<
+export const createThemeForStack: API.OperationMethod<
+  CreateThemeForStackRequest,
   CreateThemeForStackResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -4592,9 +4570,8 @@ export const createThemeForStack: (
  * For more information, see the "Update an Image by Using
  * Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images, in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const createUpdatedImage: (
-  input: CreateUpdatedImageRequest,
-) => effect.Effect<
+export const createUpdatedImage: API.OperationMethod<
+  CreateUpdatedImageRequest,
   CreateUpdatedImageResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -4621,9 +4598,8 @@ export const createUpdatedImage: (
 /**
  * Creates a usage report subscription. Usage reports are generated daily.
  */
-export const createUsageReportSubscription: (
-  input: CreateUsageReportSubscriptionRequest,
-) => effect.Effect<
+export const createUsageReportSubscription: API.OperationMethod<
+  CreateUsageReportSubscriptionRequest,
   CreateUsageReportSubscriptionResult,
   | InvalidAccountStatusException
   | InvalidRoleException
@@ -4642,9 +4618,8 @@ export const createUsageReportSubscription: (
 /**
  * Creates a new user in the user pool.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResult,
   | InvalidAccountStatusException
   | InvalidParameterCombinationException
@@ -4667,9 +4642,8 @@ export const createUser: (
 /**
  * Deletes an app block.
  */
-export const deleteAppBlock: (
-  input: DeleteAppBlockRequest,
-) => effect.Effect<
+export const deleteAppBlock: API.OperationMethod<
+  DeleteAppBlockRequest,
   DeleteAppBlockResult,
   | ConcurrentModificationException
   | ResourceInUseException
@@ -4691,9 +4665,8 @@ export const deleteAppBlock: (
  * An app block builder can only be deleted when it has no association with an app
  * block.
  */
-export const deleteAppBlockBuilder: (
-  input: DeleteAppBlockBuilderRequest,
-) => effect.Effect<
+export const deleteAppBlockBuilder: API.OperationMethod<
+  DeleteAppBlockBuilderRequest,
   DeleteAppBlockBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4714,9 +4687,8 @@ export const deleteAppBlockBuilder: (
 /**
  * Deletes an application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4737,9 +4709,8 @@ export const deleteApplication: (
 /**
  * Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
  */
-export const deleteDirectoryConfig: (
-  input: DeleteDirectoryConfigRequest,
-) => effect.Effect<
+export const deleteDirectoryConfig: API.OperationMethod<
+  DeleteDirectoryConfigRequest,
   DeleteDirectoryConfigResult,
   ResourceInUseException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4751,9 +4722,8 @@ export const deleteDirectoryConfig: (
 /**
  * Deletes the specified entitlement.
  */
-export const deleteEntitlement: (
-  input: DeleteEntitlementRequest,
-) => effect.Effect<
+export const deleteEntitlement: API.OperationMethod<
+  DeleteEntitlementRequest,
   DeleteEntitlementResult,
   | ConcurrentModificationException
   | EntitlementNotFoundException
@@ -4774,9 +4744,8 @@ export const deleteEntitlement: (
 /**
  * Deletes the specified fleet.
  */
-export const deleteFleet: (
-  input: DeleteFleetRequest,
-) => effect.Effect<
+export const deleteFleet: API.OperationMethod<
+  DeleteFleetRequest,
   DeleteFleetResult,
   | ConcurrentModificationException
   | ResourceInUseException
@@ -4796,9 +4765,8 @@ export const deleteFleet: (
  * Deletes the specified image. You cannot delete an image when it is in use.
  * After you delete an image, you cannot provision new capacity using the image.
  */
-export const deleteImage: (
-  input: DeleteImageRequest,
-) => effect.Effect<
+export const deleteImage: API.OperationMethod<
+  DeleteImageRequest,
   DeleteImageResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4819,9 +4787,8 @@ export const deleteImage: (
 /**
  * Deletes the specified image builder and releases the capacity.
  */
-export const deleteImageBuilder: (
-  input: DeleteImageBuilderRequest,
-) => effect.Effect<
+export const deleteImageBuilder: API.OperationMethod<
+  DeleteImageBuilderRequest,
   DeleteImageBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4840,9 +4807,8 @@ export const deleteImageBuilder: (
 /**
  * Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
  */
-export const deleteImagePermissions: (
-  input: DeleteImagePermissionsRequest,
-) => effect.Effect<
+export const deleteImagePermissions: API.OperationMethod<
+  DeleteImagePermissionsRequest,
   DeleteImagePermissionsResult,
   ResourceNotAvailableException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4854,9 +4820,8 @@ export const deleteImagePermissions: (
 /**
  * Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
  */
-export const deleteStack: (
-  input: DeleteStackRequest,
-) => effect.Effect<
+export const deleteStack: API.OperationMethod<
+  DeleteStackRequest,
   DeleteStackResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4877,9 +4842,8 @@ export const deleteStack: (
 /**
  * Deletes custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const deleteThemeForStack: (
-  input: DeleteThemeForStackRequest,
-) => effect.Effect<
+export const deleteThemeForStack: API.OperationMethod<
+  DeleteThemeForStackRequest,
   DeleteThemeForStackResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -4898,9 +4862,8 @@ export const deleteThemeForStack: (
 /**
  * Disables usage report generation.
  */
-export const deleteUsageReportSubscription: (
-  input: DeleteUsageReportSubscriptionRequest,
-) => effect.Effect<
+export const deleteUsageReportSubscription: API.OperationMethod<
+  DeleteUsageReportSubscriptionRequest,
   DeleteUsageReportSubscriptionResult,
   InvalidAccountStatusException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4912,9 +4875,8 @@ export const deleteUsageReportSubscription: (
 /**
  * Deletes a user from the user pool.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4926,16 +4888,14 @@ export const deleteUser: (
 /**
  * Retrieves a list that describes one or more app block builder associations.
  */
-export const describeAppBlockBuilderAppBlockAssociations: {
-  (
-    input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
-  ): effect.Effect<
-    DescribeAppBlockBuilderAppBlockAssociationsResult,
-    | InvalidParameterCombinationException
-    | OperationNotPermittedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAppBlockBuilderAppBlockAssociations: API.OperationMethod<
+  DescribeAppBlockBuilderAppBlockAssociationsRequest,
+  DescribeAppBlockBuilderAppBlockAssociationsResult,
+  | InvalidParameterCombinationException
+  | OperationNotPermittedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAppBlockBuilderAppBlockAssociationsRequest,
   ) => stream.Stream<
@@ -4970,14 +4930,12 @@ export const describeAppBlockBuilderAppBlockAssociations: {
 /**
  * Retrieves a list that describes one or more app block builders.
  */
-export const describeAppBlockBuilders: {
-  (
-    input: DescribeAppBlockBuildersRequest,
-  ): effect.Effect<
-    DescribeAppBlockBuildersResult,
-    OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAppBlockBuilders: API.OperationMethod<
+  DescribeAppBlockBuildersRequest,
+  DescribeAppBlockBuildersResult,
+  OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAppBlockBuildersRequest,
   ) => stream.Stream<
@@ -5005,9 +4963,8 @@ export const describeAppBlockBuilders: {
 /**
  * Retrieves a list that describes one or more app blocks.
  */
-export const describeAppBlocks: (
-  input: DescribeAppBlocksRequest,
-) => effect.Effect<
+export const describeAppBlocks: API.OperationMethod<
+  DescribeAppBlocksRequest,
   DescribeAppBlocksResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5019,9 +4976,8 @@ export const describeAppBlocks: (
 /**
  * Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
  */
-export const describeApplicationFleetAssociations: (
-  input: DescribeApplicationFleetAssociationsRequest,
-) => effect.Effect<
+export const describeApplicationFleetAssociations: API.OperationMethod<
+  DescribeApplicationFleetAssociationsRequest,
   DescribeApplicationFleetAssociationsResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -5038,9 +4994,8 @@ export const describeApplicationFleetAssociations: (
 /**
  * Retrieves a list that describes one or more applications.
  */
-export const describeApplications: (
-  input: DescribeApplicationsRequest,
-) => effect.Effect<
+export const describeApplications: API.OperationMethod<
+  DescribeApplicationsRequest,
   DescribeApplicationsResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5052,9 +5007,8 @@ export const describeApplications: (
 /**
  * Retrieves license included application usage information.
  */
-export const describeAppLicenseUsage: (
-  input: DescribeAppLicenseUsageRequest,
-) => effect.Effect<
+export const describeAppLicenseUsage: API.OperationMethod<
+  DescribeAppLicenseUsageRequest,
   DescribeAppLicenseUsageResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -5075,9 +5029,8 @@ export const describeAppLicenseUsage: (
  *
  * Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
  */
-export const describeDirectoryConfigs: (
-  input: DescribeDirectoryConfigsRequest,
-) => effect.Effect<
+export const describeDirectoryConfigs: API.OperationMethod<
+  DescribeDirectoryConfigsRequest,
   DescribeDirectoryConfigsResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5089,9 +5042,8 @@ export const describeDirectoryConfigs: (
 /**
  * Retrieves a list that describes one of more entitlements.
  */
-export const describeEntitlements: (
-  input: DescribeEntitlementsRequest,
-) => effect.Effect<
+export const describeEntitlements: API.OperationMethod<
+  DescribeEntitlementsRequest,
   DescribeEntitlementsResult,
   | EntitlementNotFoundException
   | OperationNotPermittedException
@@ -5110,9 +5062,8 @@ export const describeEntitlements: (
 /**
  * Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
  */
-export const describeFleets: (
-  input: DescribeFleetsRequest,
-) => effect.Effect<
+export const describeFleets: API.OperationMethod<
+  DescribeFleetsRequest,
   DescribeFleetsResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5124,9 +5075,8 @@ export const describeFleets: (
 /**
  * Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
  */
-export const describeImageBuilders: (
-  input: DescribeImageBuildersRequest,
-) => effect.Effect<
+export const describeImageBuilders: API.OperationMethod<
+  DescribeImageBuildersRequest,
   DescribeImageBuildersResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5138,14 +5088,12 @@ export const describeImageBuilders: (
 /**
  * Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
  */
-export const describeImagePermissions: {
-  (
-    input: DescribeImagePermissionsRequest,
-  ): effect.Effect<
-    DescribeImagePermissionsResult,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeImagePermissions: API.OperationMethod<
+  DescribeImagePermissionsRequest,
+  DescribeImagePermissionsResult,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImagePermissionsRequest,
   ) => stream.Stream<
@@ -5173,16 +5121,14 @@ export const describeImagePermissions: {
 /**
  * Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
  */
-export const describeImages: {
-  (
-    input: DescribeImagesRequest,
-  ): effect.Effect<
-    DescribeImagesResult,
-    | InvalidParameterCombinationException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeImages: API.OperationMethod<
+  DescribeImagesRequest,
+  DescribeImagesResult,
+  | InvalidParameterCombinationException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImagesRequest,
   ) => stream.Stream<
@@ -5216,9 +5162,8 @@ export const describeImages: {
  * only streaming sessions for that user are described. If an authentication type is not provided,
  * the default is to authenticate users using a streaming URL.
  */
-export const describeSessions: (
-  input: DescribeSessionsRequest,
-) => effect.Effect<
+export const describeSessions: API.OperationMethod<
+  DescribeSessionsRequest,
   DescribeSessionsResult,
   InvalidParameterCombinationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5230,9 +5175,8 @@ export const describeSessions: (
 /**
  * Retrieves license included application associations for a specified resource.
  */
-export const describeSoftwareAssociations: (
-  input: DescribeSoftwareAssociationsRequest,
-) => effect.Effect<
+export const describeSoftwareAssociations: API.OperationMethod<
+  DescribeSoftwareAssociationsRequest,
   DescribeSoftwareAssociationsResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5244,9 +5188,8 @@ export const describeSoftwareAssociations: (
 /**
  * Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
  */
-export const describeStacks: (
-  input: DescribeStacksRequest,
-) => effect.Effect<
+export const describeStacks: API.OperationMethod<
+  DescribeStacksRequest,
   DescribeStacksResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5258,9 +5201,8 @@ export const describeStacks: (
 /**
  * Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const describeThemeForStack: (
-  input: DescribeThemeForStackRequest,
-) => effect.Effect<
+export const describeThemeForStack: API.OperationMethod<
+  DescribeThemeForStackRequest,
   DescribeThemeForStackResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5272,9 +5214,8 @@ export const describeThemeForStack: (
 /**
  * Retrieves a list that describes one or more usage report subscriptions.
  */
-export const describeUsageReportSubscriptions: (
-  input: DescribeUsageReportSubscriptionsRequest,
-) => effect.Effect<
+export const describeUsageReportSubscriptions: API.OperationMethod<
+  DescribeUsageReportSubscriptionsRequest,
   DescribeUsageReportSubscriptionsResult,
   InvalidAccountStatusException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5286,9 +5227,8 @@ export const describeUsageReportSubscriptions: (
 /**
  * Retrieves a list that describes one or more specified users in the user pool.
  */
-export const describeUsers: (
-  input: DescribeUsersRequest,
-) => effect.Effect<
+export const describeUsers: API.OperationMethod<
+  DescribeUsersRequest,
   DescribeUsersResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -5311,9 +5251,8 @@ export const describeUsers: (
  *
  * - The user name (email address of the user associated with the stack) and the authentication type for the user
  */
-export const describeUserStackAssociations: (
-  input: DescribeUserStackAssociationsRequest,
-) => effect.Effect<
+export const describeUserStackAssociations: API.OperationMethod<
+  DescribeUserStackAssociationsRequest,
   DescribeUserStackAssociationsResult,
   | InvalidParameterCombinationException
   | OperationNotPermittedException
@@ -5330,9 +5269,8 @@ export const describeUserStackAssociations: (
 /**
  * Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
  */
-export const disableUser: (
-  input: DisableUserRequest,
-) => effect.Effect<
+export const disableUser: API.OperationMethod<
+  DisableUserRequest,
   DisableUserResult,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5344,9 +5282,8 @@ export const disableUser: (
 /**
  * Disassociates a specified app block builder from a specified app block.
  */
-export const disassociateAppBlockBuilderAppBlock: (
-  input: DisassociateAppBlockBuilderAppBlockRequest,
-) => effect.Effect<
+export const disassociateAppBlockBuilderAppBlock: API.OperationMethod<
+  DisassociateAppBlockBuilderAppBlockRequest,
   DisassociateAppBlockBuilderAppBlockResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -5367,9 +5304,8 @@ export const disassociateAppBlockBuilderAppBlock: (
 /**
  * Disassociates the specified application from the fleet.
  */
-export const disassociateApplicationFleet: (
-  input: DisassociateApplicationFleetRequest,
-) => effect.Effect<
+export const disassociateApplicationFleet: API.OperationMethod<
+  DisassociateApplicationFleetRequest,
   DisassociateApplicationFleetResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -5388,9 +5324,8 @@ export const disassociateApplicationFleet: (
 /**
  * Deletes the specified application from the specified entitlement.
  */
-export const disassociateApplicationFromEntitlement: (
-  input: DisassociateApplicationFromEntitlementRequest,
-) => effect.Effect<
+export const disassociateApplicationFromEntitlement: API.OperationMethod<
+  DisassociateApplicationFromEntitlementRequest,
   DisassociateApplicationFromEntitlementResult,
   | EntitlementNotFoundException
   | OperationNotPermittedException
@@ -5409,9 +5344,8 @@ export const disassociateApplicationFromEntitlement: (
 /**
  * Disassociates the specified fleet from the specified stack.
  */
-export const disassociateFleet: (
-  input: DisassociateFleetRequest,
-) => effect.Effect<
+export const disassociateFleet: API.OperationMethod<
+  DisassociateFleetRequest,
   DisassociateFleetResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -5432,9 +5366,8 @@ export const disassociateFleet: (
 /**
  * Removes license included application(s) association(s) from an image builder instance.
  */
-export const disassociateSoftwareFromImageBuilder: (
-  input: DisassociateSoftwareFromImageBuilderRequest,
-) => effect.Effect<
+export const disassociateSoftwareFromImageBuilder: API.OperationMethod<
+  DisassociateSoftwareFromImageBuilderRequest,
   DisassociateSoftwareFromImageBuilderResult,
   | ConcurrentModificationException
   | InvalidParameterCombinationException
@@ -5455,9 +5388,8 @@ export const disassociateSoftwareFromImageBuilder: (
 /**
  * Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
  */
-export const enableUser: (
-  input: EnableUserRequest,
-) => effect.Effect<
+export const enableUser: API.OperationMethod<
+  EnableUserRequest,
   EnableUserResult,
   InvalidAccountStatusException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5469,9 +5401,8 @@ export const enableUser: (
 /**
  * Immediately stops the specified streaming session.
  */
-export const expireSession: (
-  input: ExpireSessionRequest,
-) => effect.Effect<
+export const expireSession: API.OperationMethod<
+  ExpireSessionRequest,
   ExpireSessionResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5483,9 +5414,8 @@ export const expireSession: (
 /**
  * Retrieves information about an export image task, including its current state, progress, and any error details.
  */
-export const getExportImageTask: (
-  input: GetExportImageTaskRequest,
-) => effect.Effect<
+export const getExportImageTask: API.OperationMethod<
+  GetExportImageTaskRequest,
   GetExportImageTaskResult,
   OperationNotPermittedException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5497,9 +5427,8 @@ export const getExportImageTask: (
 /**
  * Retrieves the name of the fleet that is associated with the specified stack.
  */
-export const listAssociatedFleets: (
-  input: ListAssociatedFleetsRequest,
-) => effect.Effect<
+export const listAssociatedFleets: API.OperationMethod<
+  ListAssociatedFleetsRequest,
   ListAssociatedFleetsResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5511,9 +5440,8 @@ export const listAssociatedFleets: (
 /**
  * Retrieves the name of the stack with which the specified fleet is associated.
  */
-export const listAssociatedStacks: (
-  input: ListAssociatedStacksRequest,
-) => effect.Effect<
+export const listAssociatedStacks: API.OperationMethod<
+  ListAssociatedStacksRequest,
   ListAssociatedStacksResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5525,9 +5453,8 @@ export const listAssociatedStacks: (
 /**
  * Retrieves a list of entitled applications.
  */
-export const listEntitledApplications: (
-  input: ListEntitledApplicationsRequest,
-) => effect.Effect<
+export const listEntitledApplications: API.OperationMethod<
+  ListEntitledApplicationsRequest,
   ListEntitledApplicationsResult,
   | EntitlementNotFoundException
   | OperationNotPermittedException
@@ -5546,9 +5473,8 @@ export const listEntitledApplications: (
 /**
  * Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
  */
-export const listExportImageTasks: (
-  input: ListExportImageTasksRequest,
-) => effect.Effect<
+export const listExportImageTasks: API.OperationMethod<
+  ListExportImageTasksRequest,
   ListExportImageTasksResult,
   OperationNotPermittedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5562,9 +5488,8 @@ export const listExportImageTasks: (
  *
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5582,9 +5507,8 @@ export const listTagsForResource: (
  * Starting an app block builder starts a new instance, which is equivalent to an elastic
  * fleet instance with application builder assistance functionality.
  */
-export const startAppBlockBuilder: (
-  input: StartAppBlockBuilderRequest,
-) => effect.Effect<
+export const startAppBlockBuilder: API.OperationMethod<
+  StartAppBlockBuilderRequest,
   StartAppBlockBuilderResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5611,9 +5535,8 @@ export const startAppBlockBuilder: (
 /**
  * Starts the specified fleet.
  */
-export const startFleet: (
-  input: StartFleetRequest,
-) => effect.Effect<
+export const startFleet: API.OperationMethod<
+  StartFleetRequest,
   StartFleetResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5642,9 +5565,8 @@ export const startFleet: (
 /**
  * Starts the specified image builder.
  */
-export const startImageBuilder: (
-  input: StartImageBuilderRequest,
-) => effect.Effect<
+export const startImageBuilder: API.OperationMethod<
+  StartImageBuilderRequest,
   StartImageBuilderResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -5667,9 +5589,8 @@ export const startImageBuilder: (
 /**
  * Initiates license included applications deployment to an image builder instance.
  */
-export const startSoftwareDeploymentToImageBuilder: (
-  input: StartSoftwareDeploymentToImageBuilderRequest,
-) => effect.Effect<
+export const startSoftwareDeploymentToImageBuilder: API.OperationMethod<
+  StartSoftwareDeploymentToImageBuilderRequest,
   StartSoftwareDeploymentToImageBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -5691,9 +5612,8 @@ export const startSoftwareDeploymentToImageBuilder: (
  * Stopping an app block builder terminates the instance, and the instance state is not
  * persisted.
  */
-export const stopAppBlockBuilder: (
-  input: StopAppBlockBuilderRequest,
-) => effect.Effect<
+export const stopAppBlockBuilder: API.OperationMethod<
+  StopAppBlockBuilderRequest,
   StopAppBlockBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -5712,9 +5632,8 @@ export const stopAppBlockBuilder: (
 /**
  * Stops the specified fleet.
  */
-export const stopFleet: (
-  input: StopFleetRequest,
-) => effect.Effect<
+export const stopFleet: API.OperationMethod<
+  StopFleetRequest,
   StopFleetResult,
   ConcurrentModificationException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5726,9 +5645,8 @@ export const stopFleet: (
 /**
  * Stops the specified image builder.
  */
-export const stopImageBuilder: (
-  input: StopImageBuilderRequest,
-) => effect.Effect<
+export const stopImageBuilder: API.OperationMethod<
+  StopImageBuilderRequest,
   StopImageBuilderResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -5755,9 +5673,8 @@ export const stopImageBuilder: (
  *
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidAccountStatusException
   | LimitExceededException
@@ -5780,9 +5697,8 @@ export const tagResource: (
  *
  * For more information about tags, see Tagging Your Resources in the *Amazon WorkSpaces Applications Administration Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5799,9 +5715,8 @@ export const untagResource: (
  * state, you can only update the DisplayName and Description. If the app block builder is
  * in the `STOPPED` state, you can update any attribute except the Name.
  */
-export const updateAppBlockBuilder: (
-  input: UpdateAppBlockBuilderRequest,
-) => effect.Effect<
+export const updateAppBlockBuilder: API.OperationMethod<
+  UpdateAppBlockBuilderRequest,
   UpdateAppBlockBuilderResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException
@@ -5834,9 +5749,8 @@ export const updateAppBlockBuilder: (
 /**
  * Updates the specified application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResult,
   | ConcurrentModificationException
   | OperationNotPermittedException
@@ -5855,9 +5769,8 @@ export const updateApplication: (
 /**
  * Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
  */
-export const updateDirectoryConfig: (
-  input: UpdateDirectoryConfigRequest,
-) => effect.Effect<
+export const updateDirectoryConfig: API.OperationMethod<
+  UpdateDirectoryConfigRequest,
   UpdateDirectoryConfigResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -5882,9 +5795,8 @@ export const updateDirectoryConfig: (
 /**
  * Updates the specified entitlement.
  */
-export const updateEntitlement: (
-  input: UpdateEntitlementRequest,
-) => effect.Effect<
+export const updateEntitlement: API.OperationMethod<
+  UpdateEntitlementRequest,
   UpdateEntitlementResult,
   | ConcurrentModificationException
   | EntitlementNotFoundException
@@ -5927,9 +5839,8 @@ export const updateEntitlement: (
  *
  * If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
  */
-export const updateFleet: (
-  input: UpdateFleetRequest,
-) => effect.Effect<
+export const updateFleet: API.OperationMethod<
+  UpdateFleetRequest,
   UpdateFleetResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -5964,9 +5875,8 @@ export const updateFleet: (
 /**
  * Adds or updates permissions for the specified private image.
  */
-export const updateImagePermissions: (
-  input: UpdateImagePermissionsRequest,
-) => effect.Effect<
+export const updateImagePermissions: API.OperationMethod<
+  UpdateImagePermissionsRequest,
   UpdateImagePermissionsResult,
   | LimitExceededException
   | ResourceNotAvailableException
@@ -5985,9 +5895,8 @@ export const updateImagePermissions: (
 /**
  * Updates the specified fields for the specified stack.
  */
-export const updateStack: (
-  input: UpdateStackRequest,
-) => effect.Effect<
+export const updateStack: API.OperationMethod<
+  UpdateStackRequest,
   UpdateStackResult,
   | ConcurrentModificationException
   | IncompatibleImageException
@@ -6018,9 +5927,8 @@ export const updateStack: (
 /**
  * Updates custom branding that customizes the appearance of the streaming application catalog page.
  */
-export const updateThemeForStack: (
-  input: UpdateThemeForStackRequest,
-) => effect.Effect<
+export const updateThemeForStack: API.OperationMethod<
+  UpdateThemeForStackRequest,
   UpdateThemeForStackResult,
   | ConcurrentModificationException
   | InvalidAccountStatusException

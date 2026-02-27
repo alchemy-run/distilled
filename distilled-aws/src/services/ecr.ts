@@ -3899,9 +3899,8 @@ export class InvalidLayerPartException extends S.TaggedErrorClass<InvalidLayerPa
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const batchCheckLayerAvailability: (
-  input: BatchCheckLayerAvailabilityRequest,
-) => effect.Effect<
+export const batchCheckLayerAvailability: API.OperationMethod<
+  BatchCheckLayerAvailabilityRequest,
   BatchCheckLayerAvailabilityResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -3927,9 +3926,8 @@ export const batchCheckLayerAvailability: (
  * You can completely delete an image (and all of its tags) by specifying the image's
  * digest in your request.
  */
-export const batchDeleteImage: (
-  input: BatchDeleteImageRequest,
-) => effect.Effect<
+export const batchDeleteImage: API.OperationMethod<
+  BatchDeleteImageRequest,
   BatchDeleteImageResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -3952,9 +3950,8 @@ export const batchDeleteImage: (
  * When an image is pulled, the BatchGetImage API is called once to retrieve the image
  * manifest.
  */
-export const batchGetImage: (
-  input: BatchGetImageRequest,
-) => effect.Effect<
+export const batchGetImage: API.OperationMethod<
+  BatchGetImageRequest,
   BatchGetImageResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -3977,9 +3974,8 @@ export const batchGetImage: (
 /**
  * Gets the scanning configuration for one or more repositories.
  */
-export const batchGetRepositoryScanningConfiguration: (
-  input: BatchGetRepositoryScanningConfigurationRequest,
-) => effect.Effect<
+export const batchGetRepositoryScanningConfiguration: API.OperationMethod<
+  BatchGetRepositoryScanningConfigurationRequest,
   BatchGetRepositoryScanningConfigurationResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -4008,9 +4004,8 @@ export const batchGetRepositoryScanningConfiguration: (
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const completeLayerUpload: (
-  input: CompleteLayerUploadRequest,
-) => effect.Effect<
+export const completeLayerUpload: API.OperationMethod<
+  CompleteLayerUploadRequest,
   CompleteLayerUploadResponse,
   | EmptyUploadException
   | InvalidLayerException
@@ -4044,9 +4039,8 @@ export const completeLayerUpload: (
  * information, see Using pull through cache
  * rules in the *Amazon Elastic Container Registry User Guide*.
  */
-export const createPullThroughCacheRule: (
-  input: CreatePullThroughCacheRuleRequest,
-) => effect.Effect<
+export const createPullThroughCacheRule: API.OperationMethod<
+  CreatePullThroughCacheRuleRequest,
   CreatePullThroughCacheRuleResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -4078,9 +4072,8 @@ export const createPullThroughCacheRule: (
  * Creates a repository. For more information, see Amazon ECR repositories in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const createRepository: (
-  input: CreateRepositoryRequest,
-) => effect.Effect<
+export const createRepository: API.OperationMethod<
+  CreateRepositoryRequest,
   CreateRepositoryResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -4111,9 +4104,8 @@ export const createRepository: (
  * repository creation templates in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const createRepositoryCreationTemplate: (
-  input: CreateRepositoryCreationTemplateRequest,
-) => effect.Effect<
+export const createRepositoryCreationTemplate: API.OperationMethod<
+  CreateRepositoryCreationTemplateRequest,
   CreateRepositoryCreationTemplateResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -4136,9 +4128,8 @@ export const createRepositoryCreationTemplate: (
 /**
  * Deletes the lifecycle policy associated with the specified repository.
  */
-export const deleteLifecyclePolicy: (
-  input: DeleteLifecyclePolicyRequest,
-) => effect.Effect<
+export const deleteLifecyclePolicy: API.OperationMethod<
+  DeleteLifecyclePolicyRequest,
   DeleteLifecyclePolicyResponse,
   | InvalidParameterException
   | LifecyclePolicyNotFoundException
@@ -4161,9 +4152,8 @@ export const deleteLifecyclePolicy: (
 /**
  * Deletes a pull through cache rule.
  */
-export const deletePullThroughCacheRule: (
-  input: DeletePullThroughCacheRuleRequest,
-) => effect.Effect<
+export const deletePullThroughCacheRule: API.OperationMethod<
+  DeletePullThroughCacheRuleRequest,
   DeletePullThroughCacheRuleResponse,
   | InvalidParameterException
   | PullThroughCacheRuleNotFoundException
@@ -4184,9 +4174,8 @@ export const deletePullThroughCacheRule: (
 /**
  * Deletes the registry permissions policy.
  */
-export const deleteRegistryPolicy: (
-  input: DeleteRegistryPolicyRequest,
-) => effect.Effect<
+export const deleteRegistryPolicy: API.OperationMethod<
+  DeleteRegistryPolicyRequest,
   DeleteRegistryPolicyResponse,
   | InvalidParameterException
   | RegistryPolicyNotFoundException
@@ -4209,9 +4198,8 @@ export const deleteRegistryPolicy: (
  * contents of the repository or use the `force` option to delete the repository
  * and have Amazon ECR delete all of its contents on your behalf.
  */
-export const deleteRepository: (
-  input: DeleteRepositoryRequest,
-) => effect.Effect<
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryRequest,
   DeleteRepositoryResponse,
   | InvalidParameterException
   | KmsException
@@ -4234,9 +4222,8 @@ export const deleteRepository: (
 /**
  * Deletes a repository creation template.
  */
-export const deleteRepositoryCreationTemplate: (
-  input: DeleteRepositoryCreationTemplateRequest,
-) => effect.Effect<
+export const deleteRepositoryCreationTemplate: API.OperationMethod<
+  DeleteRepositoryCreationTemplateRequest,
   DeleteRepositoryCreationTemplateResponse,
   | InvalidParameterException
   | ServerException
@@ -4257,9 +4244,8 @@ export const deleteRepositoryCreationTemplate: (
 /**
  * Deletes the repository policy associated with the specified repository.
  */
-export const deleteRepositoryPolicy: (
-  input: DeleteRepositoryPolicyRequest,
-) => effect.Effect<
+export const deleteRepositoryPolicy: API.OperationMethod<
+  DeleteRepositoryPolicyRequest,
   DeleteRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -4286,9 +4272,8 @@ export const deleteRepositoryPolicy: (
  *
  * Deleting the signing configuration does not affect existing image signatures.
  */
-export const deleteSigningConfiguration: (
-  input: DeleteSigningConfigurationRequest,
-) => effect.Effect<
+export const deleteSigningConfiguration: API.OperationMethod<
+  DeleteSigningConfigurationRequest,
   DeleteSigningConfigurationResponse,
   | ServerException
   | SigningConfigurationNotFoundException
@@ -4307,9 +4292,8 @@ export const deleteSigningConfiguration: (
 /**
  * Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
  */
-export const deregisterPullTimeUpdateExclusion: (
-  input: DeregisterPullTimeUpdateExclusionRequest,
-) => effect.Effect<
+export const deregisterPullTimeUpdateExclusion: API.OperationMethod<
+  DeregisterPullTimeUpdateExclusionRequest,
   DeregisterPullTimeUpdateExclusionResponse,
   | ExclusionNotFoundException
   | InvalidParameterException
@@ -4332,9 +4316,8 @@ export const deregisterPullTimeUpdateExclusion: (
 /**
  * Returns the replication status for a specified image.
  */
-export const describeImageReplicationStatus: (
-  input: DescribeImageReplicationStatusRequest,
-) => effect.Effect<
+export const describeImageReplicationStatus: API.OperationMethod<
+  DescribeImageReplicationStatusRequest,
   DescribeImageReplicationStatusResponse,
   | ImageNotFoundException
   | InvalidParameterException
@@ -4368,18 +4351,16 @@ export const describeImageReplicationStatus: (
  * instead. For more information about Amazon Web Services native basic scanning, see Scan
  * images for software vulnerabilities in Amazon ECR.
  */
-export const describeImages: {
-  (
-    input: DescribeImagesRequest,
-  ): effect.Effect<
-    DescribeImagesResponse,
-    | ImageNotFoundException
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImages: API.OperationMethod<
+  DescribeImagesRequest,
+  DescribeImagesResponse,
+  | ImageNotFoundException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImagesRequest,
   ) => stream.Stream<
@@ -4421,20 +4402,18 @@ export const describeImages: {
 /**
  * Returns the scan findings for the specified image.
  */
-export const describeImageScanFindings: {
-  (
-    input: DescribeImageScanFindingsRequest,
-  ): effect.Effect<
-    DescribeImageScanFindingsResponse,
-    | ImageNotFoundException
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ScanNotFoundException
-    | ServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeImageScanFindings: API.OperationMethod<
+  DescribeImageScanFindingsRequest,
+  DescribeImageScanFindingsResponse,
+  | ImageNotFoundException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ScanNotFoundException
+  | ServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImageScanFindingsRequest,
   ) => stream.Stream<
@@ -4486,9 +4465,8 @@ export const describeImageScanFindings: {
  * For more information, see Managed signing in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const describeImageSigningStatus: (
-  input: DescribeImageSigningStatusRequest,
-) => effect.Effect<
+export const describeImageSigningStatus: API.OperationMethod<
+  DescribeImageSigningStatusRequest,
   DescribeImageSigningStatusResponse,
   | ImageNotFoundException
   | InvalidParameterException
@@ -4511,18 +4489,16 @@ export const describeImageSigningStatus: (
 /**
  * Returns the pull through cache rules for a registry.
  */
-export const describePullThroughCacheRules: {
-  (
-    input: DescribePullThroughCacheRulesRequest,
-  ): effect.Effect<
-    DescribePullThroughCacheRulesResponse,
-    | InvalidParameterException
-    | PullThroughCacheRuleNotFoundException
-    | ServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePullThroughCacheRules: API.OperationMethod<
+  DescribePullThroughCacheRulesRequest,
+  DescribePullThroughCacheRulesResponse,
+  | InvalidParameterException
+  | PullThroughCacheRuleNotFoundException
+  | ServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePullThroughCacheRulesRequest,
   ) => stream.Stream<
@@ -4566,9 +4542,8 @@ export const describePullThroughCacheRules: {
  * can be created or updated with the PutReplicationConfiguration API
  * action.
  */
-export const describeRegistry: (
-  input: DescribeRegistryRequest,
-) => effect.Effect<
+export const describeRegistry: API.OperationMethod<
+  DescribeRegistryRequest,
   DescribeRegistryResponse,
   | InvalidParameterException
   | ServerException
@@ -4583,17 +4558,15 @@ export const describeRegistry: (
 /**
  * Describes image repositories in a registry.
  */
-export const describeRepositories: {
-  (
-    input: DescribeRepositoriesRequest,
-  ): effect.Effect<
-    DescribeRepositoriesResponse,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeRepositories: API.OperationMethod<
+  DescribeRepositoriesRequest,
+  DescribeRepositoriesResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRepositoriesRequest,
   ) => stream.Stream<
@@ -4634,17 +4607,15 @@ export const describeRepositories: {
  * `prefixes` request parameter can be used to return the details for a
  * specific repository creation template.
  */
-export const describeRepositoryCreationTemplates: {
-  (
-    input: DescribeRepositoryCreationTemplatesRequest,
-  ): effect.Effect<
-    DescribeRepositoryCreationTemplatesResponse,
-    | InvalidParameterException
-    | ServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeRepositoryCreationTemplates: API.OperationMethod<
+  DescribeRepositoryCreationTemplatesRequest,
+  DescribeRepositoryCreationTemplatesResponse,
+  | InvalidParameterException
+  | ServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRepositoryCreationTemplatesRequest,
   ) => stream.Stream<
@@ -4679,9 +4650,8 @@ export const describeRepositoryCreationTemplates: {
 /**
  * Retrieves the account setting value for the specified setting name.
  */
-export const getAccountSetting: (
-  input: GetAccountSettingRequest,
-) => effect.Effect<
+export const getAccountSetting: API.OperationMethod<
+  GetAccountSettingRequest,
   GetAccountSettingResponse,
   | InvalidParameterException
   | ServerException
@@ -4704,9 +4674,8 @@ export const getAccountSetting: (
  * process. For more information, see Registry
  * authentication in the *Amazon Elastic Container Registry User Guide*.
  */
-export const getAuthorizationToken: (
-  input: GetAuthorizationTokenRequest,
-) => effect.Effect<
+export const getAuthorizationToken: API.OperationMethod<
+  GetAuthorizationTokenRequest,
   GetAuthorizationTokenResponse,
   InvalidParameterException | ServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4725,9 +4694,8 @@ export const getAuthorizationToken: (
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const getDownloadUrlForLayer: (
-  input: GetDownloadUrlForLayerRequest,
-) => effect.Effect<
+export const getDownloadUrlForLayer: API.OperationMethod<
+  GetDownloadUrlForLayerRequest,
   GetDownloadUrlForLayerResponse,
   | InvalidParameterException
   | LayerInaccessibleException
@@ -4752,9 +4720,8 @@ export const getDownloadUrlForLayer: (
 /**
  * Retrieves the lifecycle policy for the specified repository.
  */
-export const getLifecyclePolicy: (
-  input: GetLifecyclePolicyRequest,
-) => effect.Effect<
+export const getLifecyclePolicy: API.OperationMethod<
+  GetLifecyclePolicyRequest,
   GetLifecyclePolicyResponse,
   | InvalidParameterException
   | LifecyclePolicyNotFoundException
@@ -4778,19 +4745,17 @@ export const getLifecyclePolicy: (
  * Retrieves the results of the lifecycle policy preview request for the specified
  * repository.
  */
-export const getLifecyclePolicyPreview: {
-  (
-    input: GetLifecyclePolicyPreviewRequest,
-  ): effect.Effect<
-    GetLifecyclePolicyPreviewResponse,
-    | InvalidParameterException
-    | LifecyclePolicyPreviewNotFoundException
-    | RepositoryNotFoundException
-    | ServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getLifecyclePolicyPreview: API.OperationMethod<
+  GetLifecyclePolicyPreviewRequest,
+  GetLifecyclePolicyPreviewResponse,
+  | InvalidParameterException
+  | LifecyclePolicyPreviewNotFoundException
+  | RepositoryNotFoundException
+  | ServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLifecyclePolicyPreviewRequest,
   ) => stream.Stream<
@@ -4835,9 +4800,8 @@ export const getLifecyclePolicyPreview: {
 /**
  * Retrieves the permissions policy for a registry.
  */
-export const getRegistryPolicy: (
-  input: GetRegistryPolicyRequest,
-) => effect.Effect<
+export const getRegistryPolicy: API.OperationMethod<
+  GetRegistryPolicyRequest,
   GetRegistryPolicyResponse,
   | InvalidParameterException
   | RegistryPolicyNotFoundException
@@ -4858,9 +4822,8 @@ export const getRegistryPolicy: (
 /**
  * Retrieves the scanning configuration for a registry.
  */
-export const getRegistryScanningConfiguration: (
-  input: GetRegistryScanningConfigurationRequest,
-) => effect.Effect<
+export const getRegistryScanningConfiguration: API.OperationMethod<
+  GetRegistryScanningConfigurationRequest,
   GetRegistryScanningConfigurationResponse,
   | InvalidParameterException
   | ServerException
@@ -4875,9 +4838,8 @@ export const getRegistryScanningConfiguration: (
 /**
  * Retrieves the repository policy for the specified repository.
  */
-export const getRepositoryPolicy: (
-  input: GetRepositoryPolicyRequest,
-) => effect.Effect<
+export const getRepositoryPolicy: API.OperationMethod<
+  GetRepositoryPolicyRequest,
   GetRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -4902,9 +4864,8 @@ export const getRepositoryPolicy: (
  * For more information, see Managed signing in the
  * *Amazon Elastic Container Registry User Guide*.
  */
-export const getSigningConfiguration: (
-  input: GetSigningConfigurationRequest,
-) => effect.Effect<
+export const getSigningConfiguration: API.OperationMethod<
+  GetSigningConfigurationRequest,
   GetSigningConfigurationResponse,
   | InvalidParameterException
   | ServerException
@@ -4932,9 +4893,8 @@ export const getSigningConfiguration: (
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const initiateLayerUpload: (
-  input: InitiateLayerUploadRequest,
-) => effect.Effect<
+export const initiateLayerUpload: API.OperationMethod<
+  InitiateLayerUploadRequest,
   InitiateLayerUploadResponse,
   | InvalidParameterException
   | KmsException
@@ -4957,9 +4917,8 @@ export const initiateLayerUpload: (
  *
  * The IAM principal invoking this operation must have the `ecr:BatchGetImage` permission.
  */
-export const listImageReferrers: (
-  input: ListImageReferrersRequest,
-) => effect.Effect<
+export const listImageReferrers: API.OperationMethod<
+  ListImageReferrersRequest,
   ListImageReferrersResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -4987,17 +4946,15 @@ export const listImageReferrers: (
  * results to return only `TAGGED` images to list all of the tags in your
  * repository.
  */
-export const listImages: {
-  (
-    input: ListImagesRequest,
-  ): effect.Effect<
-    ListImagesResponse,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listImages: API.OperationMethod<
+  ListImagesRequest,
+  ListImagesResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagesRequest,
   ) => stream.Stream<
@@ -5036,9 +4993,8 @@ export const listImages: {
 /**
  * Lists the IAM principals that are excluded from having their image pull times recorded.
  */
-export const listPullTimeUpdateExclusions: (
-  input: ListPullTimeUpdateExclusionsRequest,
-) => effect.Effect<
+export const listPullTimeUpdateExclusions: API.OperationMethod<
+  ListPullTimeUpdateExclusionsRequest,
   ListPullTimeUpdateExclusionsResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -5059,9 +5015,8 @@ export const listPullTimeUpdateExclusions: (
 /**
  * List the tags for an Amazon ECR resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -5080,9 +5035,8 @@ export const listTagsForResource: (
 /**
  * Allows you to change the basic scan type version or registry policy scope.
  */
-export const putAccountSetting: (
-  input: PutAccountSettingRequest,
-) => effect.Effect<
+export const putAccountSetting: API.OperationMethod<
+  PutAccountSettingRequest,
   PutAccountSettingResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -5110,9 +5064,8 @@ export const putAccountSetting: (
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const putImage: (
-  input: PutImageRequest,
-) => effect.Effect<
+export const putImage: API.OperationMethod<
+  PutImageRequest,
   PutImageResponse,
   | ImageAlreadyExistsException
   | ImageDigestDoesNotMatchException
@@ -5149,9 +5102,8 @@ export const putImage: (
  *
  * Updates the image scanning configuration for the specified repository.
  */
-export const putImageScanningConfiguration: (
-  input: PutImageScanningConfigurationRequest,
-) => effect.Effect<
+export const putImageScanningConfiguration: API.OperationMethod<
+  PutImageScanningConfigurationRequest,
   PutImageScanningConfigurationResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -5174,9 +5126,8 @@ export const putImageScanningConfiguration: (
  * information, see Image tag
  * mutability in the *Amazon Elastic Container Registry User Guide*.
  */
-export const putImageTagMutability: (
-  input: PutImageTagMutabilityRequest,
-) => effect.Effect<
+export const putImageTagMutability: API.OperationMethod<
+  PutImageTagMutabilityRequest,
   PutImageTagMutabilityResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -5197,9 +5148,8 @@ export const putImageTagMutability: (
  * information, see Lifecycle policy
  * template.
  */
-export const putLifecyclePolicy: (
-  input: PutLifecyclePolicyRequest,
-) => effect.Effect<
+export const putLifecyclePolicy: API.OperationMethod<
+  PutLifecyclePolicyRequest,
   PutLifecyclePolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -5223,9 +5173,8 @@ export const putLifecyclePolicy: (
  * A registry policy is used to specify permissions for another Amazon Web Services account and is used
  * when configuring cross-account replication. For more information, see Registry permissions in the *Amazon Elastic Container Registry User Guide*.
  */
-export const putRegistryPolicy: (
-  input: PutRegistryPolicyRequest,
-) => effect.Effect<
+export const putRegistryPolicy: API.OperationMethod<
+  PutRegistryPolicyRequest,
   PutRegistryPolicyResponse,
   | InvalidParameterException
   | ServerException
@@ -5240,9 +5189,8 @@ export const putRegistryPolicy: (
 /**
  * Creates or updates the scanning configuration for your private registry.
  */
-export const putRegistryScanningConfiguration: (
-  input: PutRegistryScanningConfigurationRequest,
-) => effect.Effect<
+export const putRegistryScanningConfiguration: API.OperationMethod<
+  PutRegistryScanningConfigurationRequest,
   PutRegistryScanningConfigurationResponse,
   | BlockedByOrganizationPolicyException
   | InvalidParameterException
@@ -5272,9 +5220,8 @@ export const putRegistryScanningConfiguration: (
  * source account permission to replicate. This permission is controlled using a
  * registry permissions policy. For more information, see PutRegistryPolicy.
  */
-export const putReplicationConfiguration: (
-  input: PutReplicationConfigurationRequest,
-) => effect.Effect<
+export const putReplicationConfiguration: API.OperationMethod<
+  PutReplicationConfigurationRequest,
   PutReplicationConfigurationResponse,
   | InvalidParameterException
   | ServerException
@@ -5297,9 +5244,8 @@ export const putReplicationConfiguration: (
  * permission to sign payloads with the Amazon Web Services Signer signing profile referenced in the signing
  * configuration.
  */
-export const putSigningConfiguration: (
-  input: PutSigningConfigurationRequest,
-) => effect.Effect<
+export const putSigningConfiguration: API.OperationMethod<
+  PutSigningConfigurationRequest,
   PutSigningConfigurationResponse,
   | InvalidParameterException
   | ServerException
@@ -5314,9 +5260,8 @@ export const putSigningConfiguration: (
 /**
  * Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
  */
-export const registerPullTimeUpdateExclusion: (
-  input: RegisterPullTimeUpdateExclusionRequest,
-) => effect.Effect<
+export const registerPullTimeUpdateExclusion: API.OperationMethod<
+  RegisterPullTimeUpdateExclusionRequest,
   RegisterPullTimeUpdateExclusionResponse,
   | ExclusionAlreadyExistsException
   | InvalidParameterException
@@ -5341,9 +5286,8 @@ export const registerPullTimeUpdateExclusion: (
  * For more information, see Amazon ECR Repository
  * policies in the *Amazon Elastic Container Registry User Guide*.
  */
-export const setRepositoryPolicy: (
-  input: SetRepositoryPolicyRequest,
-) => effect.Effect<
+export const setRepositoryPolicy: API.OperationMethod<
+  SetRepositoryPolicyRequest,
   SetRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -5367,9 +5311,8 @@ export const setRepositoryPolicy: (
  * basic scans per 24 hours. This limit includes both scans on initial push and scans
  * initiated by the StartImageScan API. For more information, see Basic scanning in the *Amazon Elastic Container Registry User Guide*.
  */
-export const startImageScan: (
-  input: StartImageScanRequest,
-) => effect.Effect<
+export const startImageScan: API.OperationMethod<
+  StartImageScanRequest,
   StartImageScanResponse,
   | ImageArchivedException
   | ImageNotFoundException
@@ -5399,9 +5342,8 @@ export const startImageScan: (
  * Starts a preview of a lifecycle policy for the specified repository. This allows you
  * to see the results before associating the lifecycle policy with the repository.
  */
-export const startLifecyclePolicyPreview: (
-  input: StartLifecyclePolicyPreviewRequest,
-) => effect.Effect<
+export const startLifecyclePolicyPreview: API.OperationMethod<
+  StartLifecyclePolicyPreviewRequest,
   StartLifecyclePolicyPreviewResponse,
   | InvalidParameterException
   | LifecyclePolicyNotFoundException
@@ -5427,9 +5369,8 @@ export const startLifecyclePolicyPreview: (
  * Adds specified tags to a resource with the specified ARN. Existing tags on a resource
  * are not changed if they are not specified in the request parameters.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -5452,9 +5393,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -5477,9 +5417,8 @@ export const untagResource: (
 /**
  * Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
  */
-export const updateImageStorageClass: (
-  input: UpdateImageStorageClassRequest,
-) => effect.Effect<
+export const updateImageStorageClass: API.OperationMethod<
+  UpdateImageStorageClassRequest,
   UpdateImageStorageClassResponse,
   | ImageNotFoundException
   | ImageStorageClassUpdateNotSupportedException
@@ -5504,9 +5443,8 @@ export const updateImageStorageClass: (
 /**
  * Updates an existing pull through cache rule.
  */
-export const updatePullThroughCacheRule: (
-  input: UpdatePullThroughCacheRuleRequest,
-) => effect.Effect<
+export const updatePullThroughCacheRule: API.OperationMethod<
+  UpdatePullThroughCacheRuleRequest,
   UpdatePullThroughCacheRuleResponse,
   | InvalidParameterException
   | PullThroughCacheRuleNotFoundException
@@ -5533,9 +5471,8 @@ export const updatePullThroughCacheRule: (
 /**
  * Updates an existing repository creation template.
  */
-export const updateRepositoryCreationTemplate: (
-  input: UpdateRepositoryCreationTemplateRequest,
-) => effect.Effect<
+export const updateRepositoryCreationTemplate: API.OperationMethod<
+  UpdateRepositoryCreationTemplateRequest,
   UpdateRepositoryCreationTemplateResponse,
   | InvalidParameterException
   | ServerException
@@ -5563,9 +5500,8 @@ export const updateRepositoryCreationTemplate: (
  * This operation is used by the Amazon ECR proxy and is not generally used by
  * customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const uploadLayerPart: (
-  input: UploadLayerPartRequest,
-) => effect.Effect<
+export const uploadLayerPart: API.OperationMethod<
+  UploadLayerPartRequest,
   UploadLayerPartResponse,
   | InvalidLayerPartException
   | InvalidParameterException
@@ -5595,9 +5531,8 @@ export const uploadLayerPart: (
  * syntax, and then validate that authentication to the upstream registry is
  * successful.
  */
-export const validatePullThroughCacheRule: (
-  input: ValidatePullThroughCacheRuleRequest,
-) => effect.Effect<
+export const validatePullThroughCacheRule: API.OperationMethod<
+  ValidatePullThroughCacheRuleRequest,
   ValidatePullThroughCacheRuleResponse,
   | InvalidParameterException
   | PullThroughCacheRuleNotFoundException

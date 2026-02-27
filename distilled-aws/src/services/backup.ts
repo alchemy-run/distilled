@@ -6297,9 +6297,8 @@ export class DependencyFailureException extends S.TaggedErrorClass<DependencyFai
 /**
  * Associates an MPA approval team with a backup vault.
  */
-export const associateBackupVaultMpaApprovalTeam: (
-  input: AssociateBackupVaultMpaApprovalTeamInput,
-) => effect.Effect<
+export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
+  AssociateBackupVaultMpaApprovalTeamInput,
   AssociateBackupVaultMpaApprovalTeamResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6323,9 +6322,8 @@ export const associateBackupVaultMpaApprovalTeam: (
  * Removes the specified legal hold on a recovery point. This action can only be performed
  * by a user with sufficient permissions.
  */
-export const cancelLegalHold: (
-  input: CancelLegalHoldInput,
-) => effect.Effect<
+export const cancelLegalHold: API.OperationMethod<
+  CancelLegalHoldInput,
   CancelLegalHoldOutput,
   | InvalidParameterValueException
   | InvalidResourceStateException
@@ -6353,9 +6351,8 @@ export const cancelLegalHold: (
  * If you call `CreateBackupPlan` with a plan that already exists, you receive
  * an `AlreadyExistsException` exception.
  */
-export const createBackupPlan: (
-  input: CreateBackupPlanInput,
-) => effect.Effect<
+export const createBackupPlan: API.OperationMethod<
+  CreateBackupPlanInput,
   CreateBackupPlanOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6379,9 +6376,8 @@ export const createBackupPlan: (
  * Creates a JSON document that specifies a set of resources to assign to a backup plan.
  * For examples, see Assigning resources programmatically.
  */
-export const createBackupSelection: (
-  input: CreateBackupSelectionInput,
-) => effect.Effect<
+export const createBackupSelection: API.OperationMethod<
+  CreateBackupSelectionInput,
   CreateBackupSelectionOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6409,9 +6405,8 @@ export const createBackupSelection: (
  * Do not include sensitive data, such as passport numbers, in the name of a backup
  * vault.
  */
-export const createBackupVault: (
-  input: CreateBackupVaultInput,
-) => effect.Effect<
+export const createBackupVault: API.OperationMethod<
+  CreateBackupVaultInput,
   CreateBackupVaultOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6437,9 +6432,8 @@ export const createBackupVault: (
  * controls to define your policies, you can evaluate whether your backup practices comply
  * with your policies and which resources are not yet in compliance.
  */
-export const createFramework: (
-  input: CreateFrameworkInput,
-) => effect.Effect<
+export const createFramework: API.OperationMethod<
+  CreateFrameworkInput,
   CreateFrameworkOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6465,9 +6459,8 @@ export const createFramework: (
  * to delete or disassociate a recovery point will fail with an error if one or more active
  * legal holds are on the recovery point.
  */
-export const createLegalHold: (
-  input: CreateLegalHoldInput,
-) => effect.Effect<
+export const createLegalHold: API.OperationMethod<
+  CreateLegalHoldInput,
   CreateLegalHoldOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -6495,9 +6488,8 @@ export const createLegalHold: (
  * Do not include sensitive data, such as passport numbers, in the name of a backup
  * vault.
  */
-export const createLogicallyAirGappedBackupVault: (
-  input: CreateLogicallyAirGappedBackupVaultInput,
-) => effect.Effect<
+export const createLogicallyAirGappedBackupVault: API.OperationMethod<
+  CreateLogicallyAirGappedBackupVaultInput,
   CreateLogicallyAirGappedBackupVaultOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6526,9 +6518,8 @@ export const createLogicallyAirGappedBackupVault: (
  * If you call `CreateReportPlan` with a plan that already exists, you receive
  * an `AlreadyExistsException` exception.
  */
-export const createReportPlan: (
-  input: CreateReportPlanInput,
-) => effect.Effect<
+export const createReportPlan: API.OperationMethod<
+  CreateReportPlanInput,
   CreateReportPlanOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6551,9 +6542,8 @@ export const createReportPlan: (
 /**
  * Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
  */
-export const createRestoreAccessBackupVault: (
-  input: CreateRestoreAccessBackupVaultInput,
-) => effect.Effect<
+export const createRestoreAccessBackupVault: API.OperationMethod<
+  CreateRestoreAccessBackupVaultInput,
   CreateRestoreAccessBackupVaultOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6584,9 +6574,8 @@ export const createRestoreAccessBackupVault: (
  * plan. After this request is successful, finish the procedure using
  * CreateRestoreTestingSelection.
  */
-export const createRestoreTestingPlan: (
-  input: CreateRestoreTestingPlanInput,
-) => effect.Effect<
+export const createRestoreTestingPlan: API.OperationMethod<
+  CreateRestoreTestingPlanInput,
   CreateRestoreTestingPlanOutput,
   | AlreadyExistsException
   | ConflictException
@@ -6630,9 +6619,8 @@ export const createRestoreTestingPlan: (
  * Cannot select by both protected resource types AND specific ARNs.
  * Request will fail if both are included.
  */
-export const createRestoreTestingSelection: (
-  input: CreateRestoreTestingSelectionInput,
-) => effect.Effect<
+export const createRestoreTestingSelection: API.OperationMethod<
+  CreateRestoreTestingSelectionInput,
   CreateRestoreTestingSelectionOutput,
   | AlreadyExistsException
   | InvalidParameterValueException
@@ -6661,9 +6649,8 @@ export const createRestoreTestingSelection: (
  *
  * Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults.
  */
-export const createTieringConfiguration: (
-  input: CreateTieringConfigurationInput,
-) => effect.Effect<
+export const createTieringConfiguration: API.OperationMethod<
+  CreateTieringConfigurationInput,
   CreateTieringConfigurationOutput,
   | AlreadyExistsException
   | ConflictException
@@ -6690,9 +6677,8 @@ export const createTieringConfiguration: (
  * of resources have been deleted. Deleting a backup plan deletes the current version of a
  * backup plan. Previous versions, if any, will still exist.
  */
-export const deleteBackupPlan: (
-  input: DeleteBackupPlanInput,
-) => effect.Effect<
+export const deleteBackupPlan: API.OperationMethod<
+  DeleteBackupPlanInput,
   DeleteBackupPlanOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6716,9 +6702,8 @@ export const deleteBackupPlan: (
  * Deletes the resource selection associated with a backup plan that is specified by the
  * `SelectionId`.
  */
-export const deleteBackupSelection: (
-  input: DeleteBackupSelectionInput,
-) => effect.Effect<
+export const deleteBackupSelection: API.OperationMethod<
+  DeleteBackupSelectionInput,
   DeleteBackupSelectionResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6740,9 +6725,8 @@ export const deleteBackupSelection: (
  * Deletes the backup vault identified by its name. A vault can be deleted only if it is
  * empty.
  */
-export const deleteBackupVault: (
-  input: DeleteBackupVaultInput,
-) => effect.Effect<
+export const deleteBackupVault: API.OperationMethod<
+  DeleteBackupVaultInput,
   DeleteBackupVaultResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6765,9 +6749,8 @@ export const deleteBackupVault: (
 /**
  * Deletes the policy document that manages permissions on a backup vault.
  */
-export const deleteBackupVaultAccessPolicy: (
-  input: DeleteBackupVaultAccessPolicyInput,
-) => effect.Effect<
+export const deleteBackupVaultAccessPolicy: API.OperationMethod<
+  DeleteBackupVaultAccessPolicyInput,
   DeleteBackupVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6794,9 +6777,8 @@ export const deleteBackupVaultAccessPolicy: (
  * to do so. For more information, see Vault Lock in the
  * *Backup Developer Guide*.
  */
-export const deleteBackupVaultLockConfiguration: (
-  input: DeleteBackupVaultLockConfigurationInput,
-) => effect.Effect<
+export const deleteBackupVaultLockConfiguration: API.OperationMethod<
+  DeleteBackupVaultLockConfigurationInput,
   DeleteBackupVaultLockConfigurationResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6819,9 +6801,8 @@ export const deleteBackupVaultLockConfiguration: (
 /**
  * Deletes event notifications for the specified backup vault.
  */
-export const deleteBackupVaultNotifications: (
-  input: DeleteBackupVaultNotificationsInput,
-) => effect.Effect<
+export const deleteBackupVaultNotifications: API.OperationMethod<
+  DeleteBackupVaultNotificationsInput,
   DeleteBackupVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6842,9 +6823,8 @@ export const deleteBackupVaultNotifications: (
 /**
  * Deletes the framework specified by a framework name.
  */
-export const deleteFramework: (
-  input: DeleteFrameworkInput,
-) => effect.Effect<
+export const deleteFramework: API.OperationMethod<
+  DeleteFrameworkInput,
   DeleteFrameworkResponse,
   | ConflictException
   | InvalidParameterValueException
@@ -6882,9 +6862,8 @@ export const deleteFramework: (
  * If the user or role is deleted or the permission within the role is removed,
  * the deletion will not be successful and will enter an `EXPIRED` state.
  */
-export const deleteRecoveryPoint: (
-  input: DeleteRecoveryPointInput,
-) => effect.Effect<
+export const deleteRecoveryPoint: API.OperationMethod<
+  DeleteRecoveryPointInput,
   DeleteRecoveryPointResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -6909,9 +6888,8 @@ export const deleteRecoveryPoint: (
 /**
  * Deletes the report plan specified by a report plan name.
  */
-export const deleteReportPlan: (
-  input: DeleteReportPlanInput,
-) => effect.Effect<
+export const deleteReportPlan: API.OperationMethod<
+  DeleteReportPlanInput,
   DeleteReportPlanResponse,
   | ConflictException
   | InvalidParameterValueException
@@ -6937,9 +6915,8 @@ export const deleteReportPlan: (
  * Deletion can only successfully occur if all associated
  * restore testing selections are deleted first.
  */
-export const deleteRestoreTestingPlan: (
-  input: DeleteRestoreTestingPlanInput,
-) => effect.Effect<
+export const deleteRestoreTestingPlan: API.OperationMethod<
+  DeleteRestoreTestingPlanInput,
   DeleteRestoreTestingPlanResponse,
   InvalidRequestException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6955,9 +6932,8 @@ export const deleteRestoreTestingPlan: (
  * All testing selections associated with a restore testing plan must
  * be deleted before the restore testing plan can be deleted.
  */
-export const deleteRestoreTestingSelection: (
-  input: DeleteRestoreTestingSelectionInput,
-) => effect.Effect<
+export const deleteRestoreTestingSelection: API.OperationMethod<
+  DeleteRestoreTestingSelectionInput,
   DeleteRestoreTestingSelectionResponse,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6969,9 +6945,8 @@ export const deleteRestoreTestingSelection: (
 /**
  * Deletes the tiering configuration specified by a tiering configuration name.
  */
-export const deleteTieringConfiguration: (
-  input: DeleteTieringConfigurationInput,
-) => effect.Effect<
+export const deleteTieringConfiguration: API.OperationMethod<
+  DeleteTieringConfigurationInput,
   DeleteTieringConfigurationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -6992,9 +6967,8 @@ export const deleteTieringConfiguration: (
 /**
  * Returns backup job details for the specified `BackupJobId`.
  */
-export const describeBackupJob: (
-  input: DescribeBackupJobInput,
-) => effect.Effect<
+export const describeBackupJob: API.OperationMethod<
+  DescribeBackupJobInput,
   DescribeBackupJobOutput,
   | DependencyFailureException
   | InvalidParameterValueException
@@ -7017,9 +6991,8 @@ export const describeBackupJob: (
 /**
  * Returns metadata about a backup vault specified by its name.
  */
-export const describeBackupVault: (
-  input: DescribeBackupVaultInput,
-) => effect.Effect<
+export const describeBackupVault: API.OperationMethod<
+  DescribeBackupVaultInput,
   DescribeBackupVaultOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7040,9 +7013,8 @@ export const describeBackupVault: (
 /**
  * Returns metadata associated with creating a copy of a resource.
  */
-export const describeCopyJob: (
-  input: DescribeCopyJobInput,
-) => effect.Effect<
+export const describeCopyJob: API.OperationMethod<
+  DescribeCopyJobInput,
   DescribeCopyJobOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7063,9 +7035,8 @@ export const describeCopyJob: (
 /**
  * Returns the framework details for the specified `FrameworkName`.
  */
-export const describeFramework: (
-  input: DescribeFrameworkInput,
-) => effect.Effect<
+export const describeFramework: API.OperationMethod<
+  DescribeFrameworkInput,
   DescribeFrameworkOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7088,9 +7059,8 @@ export const describeFramework: (
  * Returns an error if the account is not a member of an Organizations organization.
  * Example: `describe-global-settings --region us-west-2`
  */
-export const describeGlobalSettings: (
-  input: DescribeGlobalSettingsInput,
-) => effect.Effect<
+export const describeGlobalSettings: API.OperationMethod<
+  DescribeGlobalSettingsInput,
   DescribeGlobalSettingsOutput,
   InvalidRequestException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7104,9 +7074,8 @@ export const describeGlobalSettings: (
  * its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved
  * resource.
  */
-export const describeProtectedResource: (
-  input: DescribeProtectedResourceInput,
-) => effect.Effect<
+export const describeProtectedResource: API.OperationMethod<
+  DescribeProtectedResourceInput,
   DescribeProtectedResourceOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7128,9 +7097,8 @@ export const describeProtectedResource: (
  * Returns metadata associated with a recovery point, including ID, status, encryption, and
  * lifecycle.
  */
-export const describeRecoveryPoint: (
-  input: DescribeRecoveryPointInput,
-) => effect.Effect<
+export const describeRecoveryPoint: API.OperationMethod<
+  DescribeRecoveryPointInput,
   DescribeRecoveryPointOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7155,9 +7123,8 @@ export const describeRecoveryPoint: (
  * Backup does not try to protect that service's resources in this
  * Region.
  */
-export const describeRegionSettings: (
-  input: DescribeRegionSettingsInput,
-) => effect.Effect<
+export const describeRegionSettings: API.OperationMethod<
+  DescribeRegionSettingsInput,
   DescribeRegionSettingsOutput,
   ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7170,9 +7137,8 @@ export const describeRegionSettings: (
  * Returns the details associated with creating a report as specified by its
  * `ReportJobId`.
  */
-export const describeReportJob: (
-  input: DescribeReportJobInput,
-) => effect.Effect<
+export const describeReportJob: API.OperationMethod<
+  DescribeReportJobInput,
   DescribeReportJobOutput,
   | MissingParameterValueException
   | ResourceNotFoundException
@@ -7191,9 +7157,8 @@ export const describeReportJob: (
 /**
  * Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
  */
-export const describeReportPlan: (
-  input: DescribeReportPlanInput,
-) => effect.Effect<
+export const describeReportPlan: API.OperationMethod<
+  DescribeReportPlanInput,
   DescribeReportPlanOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7214,9 +7179,8 @@ export const describeReportPlan: (
 /**
  * Returns metadata associated with a restore job that is specified by a job ID.
  */
-export const describeRestoreJob: (
-  input: DescribeRestoreJobInput,
-) => effect.Effect<
+export const describeRestoreJob: API.OperationMethod<
+  DescribeRestoreJobInput,
   DescribeRestoreJobOutput,
   | DependencyFailureException
   | InvalidParameterValueException
@@ -7239,9 +7203,8 @@ export const describeRestoreJob: (
 /**
  * Returns scan job details for the specified ScanJobID.
  */
-export const describeScanJob: (
-  input: DescribeScanJobInput,
-) => effect.Effect<
+export const describeScanJob: API.OperationMethod<
+  DescribeScanJobInput,
   DescribeScanJobOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7262,9 +7225,8 @@ export const describeScanJob: (
 /**
  * Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
  */
-export const disassociateBackupVaultMpaApprovalTeam: (
-  input: DisassociateBackupVaultMpaApprovalTeamInput,
-) => effect.Effect<
+export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
+  DisassociateBackupVaultMpaApprovalTeamInput,
   DisassociateBackupVaultMpaApprovalTeamResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7291,9 +7253,8 @@ export const disassociateBackupVaultMpaApprovalTeam: (
  *
  * Does not support snapshot backup recovery points.
  */
-export const disassociateRecoveryPoint: (
-  input: DisassociateRecoveryPointInput,
-) => effect.Effect<
+export const disassociateRecoveryPoint: API.OperationMethod<
+  DisassociateRecoveryPointInput,
   DisassociateRecoveryPointResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7319,9 +7280,8 @@ export const disassociateRecoveryPoint: (
  * This action to a specific child (nested) recovery point removes the relationship
  * between the specified recovery point and its parent (composite) recovery point.
  */
-export const disassociateRecoveryPointFromParent: (
-  input: DisassociateRecoveryPointFromParentInput,
-) => effect.Effect<
+export const disassociateRecoveryPointFromParent: API.OperationMethod<
+  DisassociateRecoveryPointFromParentInput,
   DisassociateRecoveryPointFromParentResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7344,9 +7304,8 @@ export const disassociateRecoveryPointFromParent: (
 /**
  * Returns the backup plan that is specified by the plan ID as a backup template.
  */
-export const exportBackupPlanTemplate: (
-  input: ExportBackupPlanTemplateInput,
-) => effect.Effect<
+export const exportBackupPlanTemplate: API.OperationMethod<
+  ExportBackupPlanTemplateInput,
   ExportBackupPlanTemplateOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7368,9 +7327,8 @@ export const exportBackupPlanTemplate: (
  * Returns `BackupPlan` details for the specified `BackupPlanId`. The
  * details are the body of a backup plan in JSON format, in addition to plan metadata.
  */
-export const getBackupPlan: (
-  input: GetBackupPlanInput,
-) => effect.Effect<
+export const getBackupPlan: API.OperationMethod<
+  GetBackupPlanInput,
   GetBackupPlanOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7391,9 +7349,8 @@ export const getBackupPlan: (
 /**
  * Returns a valid JSON document specifying a backup plan or an error.
  */
-export const getBackupPlanFromJSON: (
-  input: GetBackupPlanFromJSONInput,
-) => effect.Effect<
+export const getBackupPlanFromJSON: API.OperationMethod<
+  GetBackupPlanFromJSONInput,
   GetBackupPlanFromJSONOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -7416,9 +7373,8 @@ export const getBackupPlanFromJSON: (
 /**
  * Returns the template specified by its `templateId` as a backup plan.
  */
-export const getBackupPlanFromTemplate: (
-  input: GetBackupPlanFromTemplateInput,
-) => effect.Effect<
+export const getBackupPlanFromTemplate: API.OperationMethod<
+  GetBackupPlanFromTemplateInput,
   GetBackupPlanFromTemplateOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7440,9 +7396,8 @@ export const getBackupPlanFromTemplate: (
  * Returns selection metadata and a document in JSON format that specifies a list of
  * resources that are associated with a backup plan.
  */
-export const getBackupSelection: (
-  input: GetBackupSelectionInput,
-) => effect.Effect<
+export const getBackupSelection: API.OperationMethod<
+  GetBackupSelectionInput,
   GetBackupSelectionOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7464,9 +7419,8 @@ export const getBackupSelection: (
  * Returns the access policy document that is associated with the named backup
  * vault.
  */
-export const getBackupVaultAccessPolicy: (
-  input: GetBackupVaultAccessPolicyInput,
-) => effect.Effect<
+export const getBackupVaultAccessPolicy: API.OperationMethod<
+  GetBackupVaultAccessPolicyInput,
   GetBackupVaultAccessPolicyOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7487,9 +7441,8 @@ export const getBackupVaultAccessPolicy: (
 /**
  * Returns event notifications for the specified backup vault.
  */
-export const getBackupVaultNotifications: (
-  input: GetBackupVaultNotificationsInput,
-) => effect.Effect<
+export const getBackupVaultNotifications: API.OperationMethod<
+  GetBackupVaultNotificationsInput,
   GetBackupVaultNotificationsOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7511,9 +7464,8 @@ export const getBackupVaultNotifications: (
  * This action returns details for a specified legal hold. The details are the
  * body of a legal hold in JSON format, in addition to metadata.
  */
-export const getLegalHold: (
-  input: GetLegalHoldInput,
-) => effect.Effect<
+export const getLegalHold: API.OperationMethod<
+  GetLegalHoldInput,
   GetLegalHoldOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7535,9 +7487,8 @@ export const getLegalHold: (
  * This operation returns the metadata and details specific to
  * the backup index associated with the specified recovery point.
  */
-export const getRecoveryPointIndexDetails: (
-  input: GetRecoveryPointIndexDetailsInput,
-) => effect.Effect<
+export const getRecoveryPointIndexDetails: API.OperationMethod<
+  GetRecoveryPointIndexDetailsInput,
   GetRecoveryPointIndexDetailsOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7558,9 +7509,8 @@ export const getRecoveryPointIndexDetails: (
 /**
  * Returns a set of metadata key-value pairs that were used to create the backup.
  */
-export const getRecoveryPointRestoreMetadata: (
-  input: GetRecoveryPointRestoreMetadataInput,
-) => effect.Effect<
+export const getRecoveryPointRestoreMetadata: API.OperationMethod<
+  GetRecoveryPointRestoreMetadataInput,
   GetRecoveryPointRestoreMetadataOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7581,9 +7531,8 @@ export const getRecoveryPointRestoreMetadata: (
 /**
  * This request returns the metadata for the specified restore job.
  */
-export const getRestoreJobMetadata: (
-  input: GetRestoreJobMetadataInput,
-) => effect.Effect<
+export const getRestoreJobMetadata: API.OperationMethod<
+  GetRestoreJobMetadataInput,
   GetRestoreJobMetadataOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7607,9 +7556,8 @@ export const getRestoreJobMetadata: (
  * and `RecoveryPointArn` are required parameters.
  * `BackupVaultAccountId` is an optional parameter.
  */
-export const getRestoreTestingInferredMetadata: (
-  input: GetRestoreTestingInferredMetadataInput,
-) => effect.Effect<
+export const getRestoreTestingInferredMetadata: API.OperationMethod<
+  GetRestoreTestingInferredMetadataInput,
   GetRestoreTestingInferredMetadataOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7632,9 +7580,8 @@ export const getRestoreTestingInferredMetadata: (
  * `RestoreTestingPlanName`. The details are the body of a restore testing plan
  * in JSON format, in addition to plan metadata.
  */
-export const getRestoreTestingPlan: (
-  input: GetRestoreTestingPlanInput,
-) => effect.Effect<
+export const getRestoreTestingPlan: API.OperationMethod<
+  GetRestoreTestingPlanInput,
   GetRestoreTestingPlanOutput,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7647,9 +7594,8 @@ export const getRestoreTestingPlan: (
  * Returns RestoreTestingSelection, which displays resources
  * and elements of the restore testing plan.
  */
-export const getRestoreTestingSelection: (
-  input: GetRestoreTestingSelectionInput,
-) => effect.Effect<
+export const getRestoreTestingSelection: API.OperationMethod<
+  GetRestoreTestingSelectionInput,
   GetRestoreTestingSelectionOutput,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7661,9 +7607,8 @@ export const getRestoreTestingSelection: (
 /**
  * Returns the Amazon Web Services resource types supported by Backup.
  */
-export const getSupportedResourceTypes: (
-  input: GetSupportedResourceTypesRequest,
-) => effect.Effect<
+export const getSupportedResourceTypes: API.OperationMethod<
+  GetSupportedResourceTypesRequest,
   GetSupportedResourceTypesOutput,
   ServiceUnavailableException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7677,9 +7622,8 @@ export const getSupportedResourceTypes: (
  * `TieringConfigurationName`. The details are the body of a tiering configuration
  * in JSON format, in addition to configuration metadata.
  */
-export const getTieringConfiguration: (
-  input: GetTieringConfigurationInput,
-) => effect.Effect<
+export const getTieringConfiguration: API.OperationMethod<
+  GetTieringConfigurationInput,
   GetTieringConfigurationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -7701,14 +7645,12 @@ export const getTieringConfiguration: (
  * Returns a list of existing backup jobs for an authenticated account for the last 30
  * days. For a longer period of time, consider using these monitoring tools.
  */
-export const listBackupJobs: {
-  (
-    input: ListBackupJobsInput,
-  ): effect.Effect<
-    ListBackupJobsOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupJobs: API.OperationMethod<
+  ListBackupJobsInput,
+  ListBackupJobsOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupJobsInput,
   ) => stream.Stream<
@@ -7745,14 +7687,12 @@ export const listBackupJobs: {
  * Region, Account, State, ResourceType, MessageCategory,
  * StartTime, EndTime, and Count of included jobs.
  */
-export const listBackupJobSummaries: {
-  (
-    input: ListBackupJobSummariesInput,
-  ): effect.Effect<
-    ListBackupJobSummariesOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupJobSummaries: API.OperationMethod<
+  ListBackupJobSummariesInput,
+  ListBackupJobSummariesOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupJobSummariesInput,
   ) => stream.Stream<
@@ -7780,18 +7720,16 @@ export const listBackupJobSummaries: {
 /**
  * Lists the active backup plans for the account.
  */
-export const listBackupPlans: {
-  (
-    input: ListBackupPlansInput,
-  ): effect.Effect<
-    ListBackupPlansOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupPlans: API.OperationMethod<
+  ListBackupPlansInput,
+  ListBackupPlansOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupPlansInput,
   ) => stream.Stream<
@@ -7833,18 +7771,16 @@ export const listBackupPlans: {
 /**
  * Lists the backup plan templates.
  */
-export const listBackupPlanTemplates: {
-  (
-    input: ListBackupPlanTemplatesInput,
-  ): effect.Effect<
-    ListBackupPlanTemplatesOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupPlanTemplates: API.OperationMethod<
+  ListBackupPlanTemplatesInput,
+  ListBackupPlanTemplatesOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupPlanTemplatesInput,
   ) => stream.Stream<
@@ -7887,18 +7823,16 @@ export const listBackupPlanTemplates: {
  * Returns version metadata of your backup plans, including Amazon Resource Names (ARNs),
  * backup plan IDs, creation and deletion dates, plan names, and version IDs.
  */
-export const listBackupPlanVersions: {
-  (
-    input: ListBackupPlanVersionsInput,
-  ): effect.Effect<
-    ListBackupPlanVersionsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupPlanVersions: API.OperationMethod<
+  ListBackupPlanVersionsInput,
+  ListBackupPlanVersionsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupPlanVersionsInput,
   ) => stream.Stream<
@@ -7941,18 +7875,16 @@ export const listBackupPlanVersions: {
  * Returns an array containing metadata of the resources associated with the target backup
  * plan.
  */
-export const listBackupSelections: {
-  (
-    input: ListBackupSelectionsInput,
-  ): effect.Effect<
-    ListBackupSelectionsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupSelections: API.OperationMethod<
+  ListBackupSelectionsInput,
+  ListBackupSelectionsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupSelectionsInput,
   ) => stream.Stream<
@@ -7995,18 +7927,16 @@ export const listBackupSelections: {
  * Returns a list of recovery point storage containers along with information about
  * them.
  */
-export const listBackupVaults: {
-  (
-    input: ListBackupVaultsInput,
-  ): effect.Effect<
-    ListBackupVaultsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBackupVaults: API.OperationMethod<
+  ListBackupVaultsInput,
+  ListBackupVaultsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBackupVaultsInput,
   ) => stream.Stream<
@@ -8048,14 +7978,12 @@ export const listBackupVaults: {
 /**
  * Returns metadata about your copy jobs.
  */
-export const listCopyJobs: {
-  (
-    input: ListCopyJobsInput,
-  ): effect.Effect<
-    ListCopyJobsOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listCopyJobs: API.OperationMethod<
+  ListCopyJobsInput,
+  ListCopyJobsOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCopyJobsInput,
   ) => stream.Stream<
@@ -8092,14 +8020,12 @@ export const listCopyJobs: {
  * Region, Account, State, RestourceType, MessageCategory,
  * StartTime, EndTime, and Count of included jobs.
  */
-export const listCopyJobSummaries: {
-  (
-    input: ListCopyJobSummariesInput,
-  ): effect.Effect<
-    ListCopyJobSummariesOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listCopyJobSummaries: API.OperationMethod<
+  ListCopyJobSummariesInput,
+  ListCopyJobSummariesOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCopyJobSummariesInput,
   ) => stream.Stream<
@@ -8127,14 +8053,12 @@ export const listCopyJobSummaries: {
 /**
  * Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
  */
-export const listFrameworks: {
-  (
-    input: ListFrameworksInput,
-  ): effect.Effect<
-    ListFrameworksOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listFrameworks: API.OperationMethod<
+  ListFrameworksInput,
+  ListFrameworksOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFrameworksInput,
   ) => stream.Stream<
@@ -8167,17 +8091,15 @@ export const listFrameworks: {
  * NextToken; SourceResourceArns; CreatedBefore; CreatedAfter;
  * and ResourceType.
  */
-export const listIndexedRecoveryPoints: {
-  (
-    input: ListIndexedRecoveryPointsInput,
-  ): effect.Effect<
-    ListIndexedRecoveryPointsOutput,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listIndexedRecoveryPoints: API.OperationMethod<
+  ListIndexedRecoveryPointsInput,
+  ListIndexedRecoveryPointsOutput,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndexedRecoveryPointsInput,
   ) => stream.Stream<
@@ -8216,14 +8138,12 @@ export const listIndexedRecoveryPoints: {
 /**
  * This action returns metadata about active and previous legal holds.
  */
-export const listLegalHolds: {
-  (
-    input: ListLegalHoldsInput,
-  ): effect.Effect<
-    ListLegalHoldsOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLegalHolds: API.OperationMethod<
+  ListLegalHoldsInput,
+  ListLegalHoldsOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLegalHoldsInput,
   ) => stream.Stream<
@@ -8254,14 +8174,12 @@ export const listLegalHolds: {
  * the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a
  * resource type.
  */
-export const listProtectedResources: {
-  (
-    input: ListProtectedResourcesInput,
-  ): effect.Effect<
-    ListProtectedResourcesOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listProtectedResources: API.OperationMethod<
+  ListProtectedResourcesInput,
+  ListProtectedResourcesOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectedResourcesInput,
   ) => stream.Stream<
@@ -8290,17 +8208,15 @@ export const listProtectedResources: {
 /**
  * This request lists the protected resources corresponding to each backup vault.
  */
-export const listProtectedResourcesByBackupVault: {
-  (
-    input: ListProtectedResourcesByBackupVaultInput,
-  ): effect.Effect<
-    ListProtectedResourcesByBackupVaultOutput,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listProtectedResourcesByBackupVault: API.OperationMethod<
+  ListProtectedResourcesByBackupVaultInput,
+  ListProtectedResourcesByBackupVaultOutput,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProtectedResourcesByBackupVaultInput,
   ) => stream.Stream<
@@ -8339,18 +8255,16 @@ export const listProtectedResourcesByBackupVault: {
 /**
  * Returns detailed information about the recovery points stored in a backup vault.
  */
-export const listRecoveryPointsByBackupVault: {
-  (
-    input: ListRecoveryPointsByBackupVaultInput,
-  ): effect.Effect<
-    ListRecoveryPointsByBackupVaultOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRecoveryPointsByBackupVault: API.OperationMethod<
+  ListRecoveryPointsByBackupVaultInput,
+  ListRecoveryPointsByBackupVaultOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecoveryPointsByBackupVaultInput,
   ) => stream.Stream<
@@ -8393,17 +8307,15 @@ export const listRecoveryPointsByBackupVault: {
  * This action returns recovery point ARNs (Amazon Resource Names) of the
  * specified legal hold.
  */
-export const listRecoveryPointsByLegalHold: {
-  (
-    input: ListRecoveryPointsByLegalHoldInput,
-  ): effect.Effect<
-    ListRecoveryPointsByLegalHoldOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRecoveryPointsByLegalHold: API.OperationMethod<
+  ListRecoveryPointsByLegalHoldInput,
+  ListRecoveryPointsByLegalHoldOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecoveryPointsByLegalHoldInput,
   ) => stream.Stream<
@@ -8446,18 +8358,16 @@ export const listRecoveryPointsByLegalHold: {
  * For Amazon EFS and Amazon EC2, this action only lists recovery points
  * created by Backup.
  */
-export const listRecoveryPointsByResource: {
-  (
-    input: ListRecoveryPointsByResourceInput,
-  ): effect.Effect<
-    ListRecoveryPointsByResourceOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRecoveryPointsByResource: API.OperationMethod<
+  ListRecoveryPointsByResourceInput,
+  ListRecoveryPointsByResourceOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecoveryPointsByResourceInput,
   ) => stream.Stream<
@@ -8499,17 +8409,15 @@ export const listRecoveryPointsByResource: {
 /**
  * Returns details about your report jobs.
  */
-export const listReportJobs: {
-  (
-    input: ListReportJobsInput,
-  ): effect.Effect<
-    ListReportJobsOutput,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listReportJobs: API.OperationMethod<
+  ListReportJobsInput,
+  ListReportJobsOutput,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportJobsInput,
   ) => stream.Stream<
@@ -8548,14 +8456,12 @@ export const listReportJobs: {
  * Returns a list of your report plans. For detailed information about a single report
  * plan, use `DescribeReportPlan`.
  */
-export const listReportPlans: {
-  (
-    input: ListReportPlansInput,
-  ): effect.Effect<
-    ListReportPlansOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listReportPlans: API.OperationMethod<
+  ListReportPlansInput,
+  ListReportPlansOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportPlansInput,
   ) => stream.Stream<
@@ -8583,18 +8489,16 @@ export const listReportPlans: {
 /**
  * Returns a list of restore access backup vaults associated with a specified backup vault.
  */
-export const listRestoreAccessBackupVaults: {
-  (
-    input: ListRestoreAccessBackupVaultsInput,
-  ): effect.Effect<
-    ListRestoreAccessBackupVaultsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRestoreAccessBackupVaults: API.OperationMethod<
+  ListRestoreAccessBackupVaultsInput,
+  ListRestoreAccessBackupVaultsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRestoreAccessBackupVaultsInput,
   ) => stream.Stream<
@@ -8637,18 +8541,16 @@ export const listRestoreAccessBackupVaults: {
  * Returns a list of jobs that Backup initiated to restore a saved resource,
  * including details about the recovery process.
  */
-export const listRestoreJobs: {
-  (
-    input: ListRestoreJobsInput,
-  ): effect.Effect<
-    ListRestoreJobsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRestoreJobs: API.OperationMethod<
+  ListRestoreJobsInput,
+  ListRestoreJobsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRestoreJobsInput,
   ) => stream.Stream<
@@ -8695,18 +8597,16 @@ export const listRestoreJobs: {
  * `ByRecoveryPointCreationDateAfter` , and
  * `ByRecoveryPointCreationDateBefore`.
  */
-export const listRestoreJobsByProtectedResource: {
-  (
-    input: ListRestoreJobsByProtectedResourceInput,
-  ): effect.Effect<
-    ListRestoreJobsByProtectedResourceOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRestoreJobsByProtectedResource: API.OperationMethod<
+  ListRestoreJobsByProtectedResourceInput,
+  ListRestoreJobsByProtectedResourceOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRestoreJobsByProtectedResourceInput,
   ) => stream.Stream<
@@ -8756,14 +8656,12 @@ export const listRestoreJobsByProtectedResource: {
  * Region, Account, State, RestourceType, MessageCategory,
  * StartTime, EndTime, and Count of included jobs.
  */
-export const listRestoreJobSummaries: {
-  (
-    input: ListRestoreJobSummariesInput,
-  ): effect.Effect<
-    ListRestoreJobSummariesOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRestoreJobSummaries: API.OperationMethod<
+  ListRestoreJobSummariesInput,
+  ListRestoreJobSummariesOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRestoreJobSummariesInput,
   ) => stream.Stream<
@@ -8791,14 +8689,12 @@ export const listRestoreJobSummaries: {
 /**
  * Returns a list of restore testing plans.
  */
-export const listRestoreTestingPlans: {
-  (
-    input: ListRestoreTestingPlansInput,
-  ): effect.Effect<
-    ListRestoreTestingPlansOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRestoreTestingPlans: API.OperationMethod<
+  ListRestoreTestingPlansInput,
+  ListRestoreTestingPlansOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRestoreTestingPlansInput,
   ) => stream.Stream<
@@ -8828,17 +8724,15 @@ export const listRestoreTestingPlans: {
  * Returns a list of restore testing selections. Can be filtered
  * by `MaxResults` and `RestoreTestingPlanName`.
  */
-export const listRestoreTestingSelections: {
-  (
-    input: ListRestoreTestingSelectionsInput,
-  ): effect.Effect<
-    ListRestoreTestingSelectionsOutput,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRestoreTestingSelections: API.OperationMethod<
+  ListRestoreTestingSelectionsInput,
+  ListRestoreTestingSelectionsOutput,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRestoreTestingSelectionsInput,
   ) => stream.Stream<
@@ -8877,14 +8771,12 @@ export const listRestoreTestingSelections: {
 /**
  * Returns a list of existing scan jobs for an authenticated account for the last 30 days.
  */
-export const listScanJobs: {
-  (
-    input: ListScanJobsInput,
-  ): effect.Effect<
-    ListScanJobsOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listScanJobs: API.OperationMethod<
+  ListScanJobsInput,
+  ListScanJobsOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScanJobsInput,
   ) => stream.Stream<
@@ -8913,14 +8805,12 @@ export const listScanJobs: {
 /**
  * This is a request for a summary of scan jobs created or running within the most recent 30 days.
  */
-export const listScanJobSummaries: {
-  (
-    input: ListScanJobSummariesInput,
-  ): effect.Effect<
-    ListScanJobSummariesOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listScanJobSummaries: API.OperationMethod<
+  ListScanJobSummariesInput,
+  ListScanJobSummariesOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScanJobSummariesInput,
   ) => stream.Stream<
@@ -8963,18 +8853,16 @@ export const listScanJobSummaries: {
  * resource types that are fully managed by Backup. These have an ARN that begins
  * `arn:aws:backup` and they are noted in the Feature availability by resource table.
  */
-export const listTags: {
-  (
-    input: ListTagsInput,
-  ): effect.Effect<
-    ListTagsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTags: API.OperationMethod<
+  ListTagsInput,
+  ListTagsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsInput,
   ) => stream.Stream<
@@ -9015,14 +8903,12 @@ export const listTags: {
 /**
  * Returns a list of tiering configurations.
  */
-export const listTieringConfigurations: {
-  (
-    input: ListTieringConfigurationsInput,
-  ): effect.Effect<
-    ListTieringConfigurationsOutput,
-    InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTieringConfigurations: API.OperationMethod<
+  ListTieringConfigurationsInput,
+  ListTieringConfigurationsOutput,
+  InvalidParameterValueException | ServiceUnavailableException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTieringConfigurationsInput,
   ) => stream.Stream<
@@ -9053,9 +8939,8 @@ export const listTieringConfigurations: {
  * backup vault. Requires a backup vault name and an access policy document in JSON
  * format.
  */
-export const putBackupVaultAccessPolicy: (
-  input: PutBackupVaultAccessPolicyInput,
-) => effect.Effect<
+export const putBackupVaultAccessPolicy: API.OperationMethod<
+  PutBackupVaultAccessPolicyInput,
   PutBackupVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9088,9 +8973,8 @@ export const putBackupVaultAccessPolicy: (
  *
  * For more information, see Backup Vault Lock.
  */
-export const putBackupVaultLockConfiguration: (
-  input: PutBackupVaultLockConfigurationInput,
-) => effect.Effect<
+export const putBackupVaultLockConfiguration: API.OperationMethod<
+  PutBackupVaultLockConfigurationInput,
   PutBackupVaultLockConfigurationResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9113,9 +8997,8 @@ export const putBackupVaultLockConfiguration: (
 /**
  * Turns on notifications on a backup vault for the specified topic and events.
  */
-export const putBackupVaultNotifications: (
-  input: PutBackupVaultNotificationsInput,
-) => effect.Effect<
+export const putBackupVaultNotifications: API.OperationMethod<
+  PutBackupVaultNotificationsInput,
   PutBackupVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9140,9 +9023,8 @@ export const putBackupVaultNotifications: (
  * are required. Optionally, you can input a
  * `ValidationStatusMessage`.
  */
-export const putRestoreValidationResult: (
-  input: PutRestoreValidationResultInput,
-) => effect.Effect<
+export const putRestoreValidationResult: API.OperationMethod<
+  PutRestoreValidationResultInput,
   PutRestoreValidationResultResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9165,9 +9047,8 @@ export const putRestoreValidationResult: (
 /**
  * Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
  */
-export const revokeRestoreAccessBackupVault: (
-  input: RevokeRestoreAccessBackupVaultInput,
-) => effect.Effect<
+export const revokeRestoreAccessBackupVault: API.OperationMethod<
+  RevokeRestoreAccessBackupVaultInput,
   RevokeRestoreAccessBackupVaultResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9190,9 +9071,8 @@ export const revokeRestoreAccessBackupVault: (
 /**
  * Starts an on-demand backup job for the specified resource.
  */
-export const startBackupJob: (
-  input: StartBackupJobInput,
-) => effect.Effect<
+export const startBackupJob: API.OperationMethod<
+  StartBackupJobInput,
   StartBackupJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9223,9 +9103,8 @@ export const startBackupJob: (
  * job retry for information on how Backup retries copy job
  * operations.
  */
-export const startCopyJob: (
-  input: StartCopyJobInput,
-) => effect.Effect<
+export const startCopyJob: API.OperationMethod<
+  StartCopyJobInput,
   StartCopyJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9250,9 +9129,8 @@ export const startCopyJob: (
 /**
  * Starts an on-demand report job for the specified report plan.
  */
-export const startReportJob: (
-  input: StartReportJobInput,
-) => effect.Effect<
+export const startReportJob: API.OperationMethod<
+  StartReportJobInput,
   StartReportJobOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9273,9 +9151,8 @@ export const startReportJob: (
 /**
  * Recovers the saved resource identified by an Amazon Resource Name (ARN).
  */
-export const startRestoreJob: (
-  input: StartRestoreJobInput,
-) => effect.Effect<
+export const startRestoreJob: API.OperationMethod<
+  StartRestoreJobInput,
   StartRestoreJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9298,9 +9175,8 @@ export const startRestoreJob: (
 /**
  * Starts scanning jobs for specific resources.
  */
-export const startScanJob: (
-  input: StartScanJobInput,
-) => effect.Effect<
+export const startScanJob: API.OperationMethod<
+  StartScanJobInput,
   StartScanJobOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9345,9 +9221,8 @@ export const startScanJob: (
  *
  * - Amazon RDS
  */
-export const stopBackupJob: (
-  input: StopBackupJobInput,
-) => effect.Effect<
+export const stopBackupJob: API.OperationMethod<
+  StopBackupJobInput,
   StopBackupJobResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9370,9 +9245,8 @@ export const stopBackupJob: (
 /**
  * Assigns a set of key-value pairs to a resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | InvalidParameterValueException
   | LimitExceededException
@@ -9400,9 +9274,8 @@ export const tagResource: (
  * including Aurora, Amazon DocumentDB. Amazon EBS,
  * Amazon FSx, Neptune, and Amazon RDS.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9423,9 +9296,8 @@ export const untagResource: (
 /**
  * Updates the specified backup plan. The new version is uniquely identified by its ID.
  */
-export const updateBackupPlan: (
-  input: UpdateBackupPlanInput,
-) => effect.Effect<
+export const updateBackupPlan: API.OperationMethod<
+  UpdateBackupPlanInput,
   UpdateBackupPlanOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9446,9 +9318,8 @@ export const updateBackupPlan: (
 /**
  * Updates the specified framework.
  */
-export const updateFramework: (
-  input: UpdateFrameworkInput,
-) => effect.Effect<
+export const updateFramework: API.OperationMethod<
+  UpdateFrameworkInput,
   UpdateFrameworkOutput,
   | AlreadyExistsException
   | ConflictException
@@ -9477,9 +9348,8 @@ export const updateFramework: (
  * Returns an error if the account is not an Organizations management account. Use the
  * `DescribeGlobalSettings` API to determine the current settings.
  */
-export const updateGlobalSettings: (
-  input: UpdateGlobalSettingsInput,
-) => effect.Effect<
+export const updateGlobalSettings: API.OperationMethod<
+  UpdateGlobalSettingsInput,
   UpdateGlobalSettingsResponse,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9502,9 +9372,8 @@ export const updateGlobalSettings: (
  *
  * Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
  */
-export const updateRecoveryPointIndexSettings: (
-  input: UpdateRecoveryPointIndexSettingsInput,
-) => effect.Effect<
+export const updateRecoveryPointIndexSettings: API.OperationMethod<
+  UpdateRecoveryPointIndexSettingsInput,
   UpdateRecoveryPointIndexSettingsOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9545,9 +9414,8 @@ export const updateRecoveryPointIndexSettings: (
  *
  * This operation does not support continuous backups.
  */
-export const updateRecoveryPointLifecycle: (
-  input: UpdateRecoveryPointLifecycleInput,
-) => effect.Effect<
+export const updateRecoveryPointLifecycle: API.OperationMethod<
+  UpdateRecoveryPointLifecycleInput,
   UpdateRecoveryPointLifecycleOutput,
   | InvalidParameterValueException
   | InvalidRequestException
@@ -9574,9 +9442,8 @@ export const updateRecoveryPointLifecycle: (
  * the `DescribeRegionSettings` API to determine the resource types that are
  * supported.
  */
-export const updateRegionSettings: (
-  input: UpdateRegionSettingsInput,
-) => effect.Effect<
+export const updateRegionSettings: API.OperationMethod<
+  UpdateRegionSettingsInput,
   UpdateRegionSettingsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -9595,9 +9462,8 @@ export const updateRegionSettings: (
 /**
  * Updates the specified report plan.
  */
-export const updateReportPlan: (
-  input: UpdateReportPlanInput,
-) => effect.Effect<
+export const updateReportPlan: API.OperationMethod<
+  UpdateReportPlanInput,
   UpdateReportPlanOutput,
   | ConflictException
   | InvalidParameterValueException
@@ -9634,9 +9500,8 @@ export const updateReportPlan: (
  *
  * - `SelectionWindowDays`
  */
-export const updateRestoreTestingPlan: (
-  input: UpdateRestoreTestingPlanInput,
-) => effect.Effect<
+export const updateRestoreTestingPlan: API.OperationMethod<
+  UpdateRestoreTestingPlanInput,
   UpdateRestoreTestingPlanOutput,
   | ConflictException
   | InvalidParameterValueException
@@ -9664,9 +9529,8 @@ export const updateRestoreTestingPlan: (
  *
  * You can use either protected resource ARNs or conditions, but not both.
  */
-export const updateRestoreTestingSelection: (
-  input: UpdateRestoreTestingSelectionInput,
-) => effect.Effect<
+export const updateRestoreTestingSelection: API.OperationMethod<
+  UpdateRestoreTestingSelectionInput,
   UpdateRestoreTestingSelectionOutput,
   | ConflictException
   | InvalidParameterValueException
@@ -9699,9 +9563,8 @@ export const updateRestoreTestingSelection: (
  *
  * - `ResourceType`
  */
-export const updateTieringConfiguration: (
-  input: UpdateTieringConfigurationInput,
-) => effect.Effect<
+export const updateTieringConfiguration: API.OperationMethod<
+  UpdateTieringConfigurationInput,
   UpdateTieringConfigurationOutput,
   | AlreadyExistsException
   | ConflictException

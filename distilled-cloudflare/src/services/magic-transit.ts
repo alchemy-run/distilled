@@ -61,7 +61,10 @@ export const ListAppsResponse = Schema.Array(
     }).pipe(
       Schema.encodeKeys({
         accountAppId: "account_app_id",
+        hostnames: "hostnames",
         ipSubnets: "ip_subnets",
+        name: "name",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -73,15 +76,17 @@ export const ListAppsResponse = Schema.Array(
     }).pipe(
       Schema.encodeKeys({
         managedAppId: "managed_app_id",
+        hostnames: "hostnames",
         ipSubnets: "ip_subnets",
+        name: "name",
+        type: "type",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListAppsResponse>;
 
-export const listApps: (
-  input: ListAppsRequest,
-) => Effect.Effect<
+export const listApps: API.OperationMethod<
+  ListAppsRequest,
   ListAppsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -111,7 +116,12 @@ export const CreateAppRequest = Schema.Struct({
   hostnames: Schema.optional(Schema.Array(Schema.String)),
   ipSubnets: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ ipSubnets: "ip_subnets" }),
+  Schema.encodeKeys({
+    name: "name",
+    type: "type",
+    hostnames: "hostnames",
+    ipSubnets: "ip_subnets",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/magic/apps" }),
 ) as unknown as Schema.Schema<CreateAppRequest>;
 
@@ -137,13 +147,15 @@ export const CreateAppResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
+    hostnames: "hostnames",
     ipSubnets: "ip_subnets",
+    name: "name",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<CreateAppResponse>;
 
-export const createApp: (
-  input: CreateAppRequest,
-) => Effect.Effect<
+export const createApp: API.OperationMethod<
+  CreateAppRequest,
   CreateAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -175,7 +187,12 @@ export const UpdateAppRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   type: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ ipSubnets: "ip_subnets" }),
+  Schema.encodeKeys({
+    hostnames: "hostnames",
+    ipSubnets: "ip_subnets",
+    name: "name",
+    type: "type",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/magic/apps/{accountAppId}",
@@ -204,13 +221,15 @@ export const UpdateAppResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
+    hostnames: "hostnames",
     ipSubnets: "ip_subnets",
+    name: "name",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<UpdateAppResponse>;
 
-export const updateApp: (
-  input: UpdateAppRequest,
-) => Effect.Effect<
+export const updateApp: API.OperationMethod<
+  UpdateAppRequest,
   UpdateAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -242,7 +261,12 @@ export const PatchAppRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   type: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ ipSubnets: "ip_subnets" }),
+  Schema.encodeKeys({
+    hostnames: "hostnames",
+    ipSubnets: "ip_subnets",
+    name: "name",
+    type: "type",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/magic/apps/{accountAppId}",
@@ -271,13 +295,15 @@ export const PatchAppResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
+    hostnames: "hostnames",
     ipSubnets: "ip_subnets",
+    name: "name",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<PatchAppResponse>;
 
-export const patchApp: (
-  input: PatchAppRequest,
-) => Effect.Effect<
+export const patchApp: API.OperationMethod<
+  PatchAppRequest,
   PatchAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -325,13 +351,15 @@ export const DeleteAppResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     accountAppId: "account_app_id",
+    hostnames: "hostnames",
     ipSubnets: "ip_subnets",
+    name: "name",
+    type: "type",
   }),
 ) as unknown as Schema.Schema<DeleteAppResponse>;
 
-export const deleteApp: (
-  input: DeleteAppRequest,
-) => Effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppRequest,
   DeleteAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -406,21 +434,25 @@ export const GetCfInterconnectResponse = Schema.Struct({
       name: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         automaticReturnRouting: "automatic_return_routing",
         coloName: "colo_name",
         createdOn: "created_on",
+        description: "description",
+        gre: "gre",
         healthCheck: "health_check",
         interfaceAddress: "interface_address",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
+        mtu: "mtu",
+        name: "name",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<GetCfInterconnectResponse>;
 
-export const getCfInterconnect: (
-  input: GetCfInterconnectRequest,
-) => Effect.Effect<
+export const getCfInterconnect: API.OperationMethod<
+  GetCfInterconnectRequest,
   GetCfInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -490,22 +522,26 @@ export const ListCfInterconnectsResponse = Schema.Struct({
         name: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           automaticReturnRouting: "automatic_return_routing",
           coloName: "colo_name",
           createdOn: "created_on",
+          description: "description",
+          gre: "gre",
           healthCheck: "health_check",
           interfaceAddress: "interface_address",
           interfaceAddress6: "interface_address6",
           modifiedOn: "modified_on",
+          mtu: "mtu",
+          name: "name",
         }),
       ),
     ),
   ),
 }) as unknown as Schema.Schema<ListCfInterconnectsResponse>;
 
-export const listCfInterconnects: (
-  input: ListCfInterconnectsRequest,
-) => Effect.Effect<
+export const listCfInterconnects: API.OperationMethod<
+  ListCfInterconnectsRequest,
   ListCfInterconnectsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -557,9 +593,12 @@ export const PutCfInterconnectRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     automaticReturnRouting: "automatic_return_routing",
+    description: "description",
+    gre: "gre",
     healthCheck: "health_check",
     interfaceAddress: "interface_address",
     interfaceAddress6: "interface_address6",
+    mtu: "mtu",
   }),
   T.Http({
     method: "PUT",
@@ -609,23 +648,30 @@ export const PutCfInterconnectResponse = Schema.Struct({
       name: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         automaticReturnRouting: "automatic_return_routing",
         coloName: "colo_name",
         createdOn: "created_on",
+        description: "description",
+        gre: "gre",
         healthCheck: "health_check",
         interfaceAddress: "interface_address",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
+        mtu: "mtu",
+        name: "name",
       }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedInterconnect: "modified_interconnect" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedInterconnect: "modified_interconnect",
+  }),
 ) as unknown as Schema.Schema<PutCfInterconnectResponse>;
 
-export const putCfInterconnect: (
-  input: PutCfInterconnectRequest,
-) => Effect.Effect<
+export const putCfInterconnect: API.OperationMethod<
+  PutCfInterconnectRequest,
   PutCfInterconnectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -681,25 +727,29 @@ export const GetConnectorResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ serialNumber: "serial_number" })),
+    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
   ),
   lastHeartbeat: Schema.optional(Schema.String),
   lastSeenVersion: Schema.optional(Schema.String),
   licenseKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
     lastUpdated: "last_updated",
+    notes: "notes",
+    timezone: "timezone",
+    device: "device",
     lastHeartbeat: "last_heartbeat",
     lastSeenVersion: "last_seen_version",
     licenseKey: "license_key",
   }),
 ) as unknown as Schema.Schema<GetConnectorResponse>;
 
-export const getConnector: (
-  input: GetConnectorRequest,
-) => Effect.Effect<
+export const getConnector: API.OperationMethod<
+  GetConnectorRequest,
   GetConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -747,16 +797,21 @@ export const ListConnectorsResponse = Schema.Array(
       Schema.Struct({
         id: Schema.String,
         serialNumber: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ serialNumber: "serial_number" })),
+      }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
     ),
     lastHeartbeat: Schema.optional(Schema.String),
     lastSeenVersion: Schema.optional(Schema.String),
     licenseKey: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      activated: "activated",
       interruptWindowDurationHours: "interrupt_window_duration_hours",
       interruptWindowHourOfDay: "interrupt_window_hour_of_day",
       lastUpdated: "last_updated",
+      notes: "notes",
+      timezone: "timezone",
+      device: "device",
       lastHeartbeat: "last_heartbeat",
       lastSeenVersion: "last_seen_version",
       licenseKey: "license_key",
@@ -764,9 +819,8 @@ export const ListConnectorsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListConnectorsResponse>;
 
-export const listConnectors: (
-  input: ListConnectorsRequest,
-) => Effect.Effect<
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
   ListConnectorsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -801,6 +855,7 @@ export const CreateConnectorRequest = Schema.Struct({
     serialNumber: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       provisionLicense: "provision_license",
       serialNumber: "serial_number",
     }),
@@ -812,8 +867,12 @@ export const CreateConnectorRequest = Schema.Struct({
   timezone: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    device: "device",
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
+    notes: "notes",
+    timezone: "timezone",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/magic/connectors" }),
 ) as unknown as Schema.Schema<CreateConnectorRequest>;
@@ -844,25 +903,29 @@ export const CreateConnectorResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ serialNumber: "serial_number" })),
+    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
   ),
   lastHeartbeat: Schema.optional(Schema.String),
   lastSeenVersion: Schema.optional(Schema.String),
   licenseKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
     lastUpdated: "last_updated",
+    notes: "notes",
+    timezone: "timezone",
+    device: "device",
     lastHeartbeat: "last_heartbeat",
     lastSeenVersion: "last_seen_version",
     licenseKey: "license_key",
   }),
 ) as unknown as Schema.Schema<CreateConnectorResponse>;
 
-export const createConnector: (
-  input: CreateConnectorRequest,
-) => Effect.Effect<
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
   CreateConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -901,9 +964,12 @@ export const UpdateConnectorRequest = Schema.Struct({
   timezone: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
+    notes: "notes",
     provisionLicense: "provision_license",
+    timezone: "timezone",
   }),
   T.Http({
     method: "PUT",
@@ -937,25 +1003,29 @@ export const UpdateConnectorResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ serialNumber: "serial_number" })),
+    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
   ),
   lastHeartbeat: Schema.optional(Schema.String),
   lastSeenVersion: Schema.optional(Schema.String),
   licenseKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
     lastUpdated: "last_updated",
+    notes: "notes",
+    timezone: "timezone",
+    device: "device",
     lastHeartbeat: "last_heartbeat",
     lastSeenVersion: "last_seen_version",
     licenseKey: "license_key",
   }),
 ) as unknown as Schema.Schema<UpdateConnectorResponse>;
 
-export const updateConnector: (
-  input: UpdateConnectorRequest,
-) => Effect.Effect<
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
   UpdateConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -994,9 +1064,12 @@ export const PatchConnectorRequest = Schema.Struct({
   timezone: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
+    notes: "notes",
     provisionLicense: "provision_license",
+    timezone: "timezone",
   }),
   T.Http({
     method: "PATCH",
@@ -1030,25 +1103,29 @@ export const PatchConnectorResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ serialNumber: "serial_number" })),
+    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
   ),
   lastHeartbeat: Schema.optional(Schema.String),
   lastSeenVersion: Schema.optional(Schema.String),
   licenseKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
     lastUpdated: "last_updated",
+    notes: "notes",
+    timezone: "timezone",
+    device: "device",
     lastHeartbeat: "last_heartbeat",
     lastSeenVersion: "last_seen_version",
     licenseKey: "license_key",
   }),
 ) as unknown as Schema.Schema<PatchConnectorResponse>;
 
-export const patchConnector: (
-  input: PatchConnectorRequest,
-) => Effect.Effect<
+export const patchConnector: API.OperationMethod<
+  PatchConnectorRequest,
   PatchConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1100,25 +1177,29 @@ export const DeleteConnectorResponse = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
       serialNumber: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ serialNumber: "serial_number" })),
+    }).pipe(Schema.encodeKeys({ id: "id", serialNumber: "serial_number" })),
   ),
   lastHeartbeat: Schema.optional(Schema.String),
   lastSeenVersion: Schema.optional(Schema.String),
   licenseKey: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    activated: "activated",
     interruptWindowDurationHours: "interrupt_window_duration_hours",
     interruptWindowHourOfDay: "interrupt_window_hour_of_day",
     lastUpdated: "last_updated",
+    notes: "notes",
+    timezone: "timezone",
+    device: "device",
     lastHeartbeat: "last_heartbeat",
     lastSeenVersion: "last_seen_version",
     licenseKey: "license_key",
   }),
 ) as unknown as Schema.Schema<DeleteConnectorResponse>;
 
-export const deleteConnector: (
-  input: DeleteConnectorRequest,
-) => Effect.Effect<
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
   DeleteConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1232,9 +1313,8 @@ export const GetConnectorEventResponse = Schema.Struct({
   t: Schema.Number,
 }) as unknown as Schema.Schema<GetConnectorEventResponse>;
 
-export const getConnectorEvent: (
-  input: GetConnectorEventRequest,
-) => Effect.Effect<
+export const getConnectorEvent: API.OperationMethod<
+  GetConnectorEventRequest,
   GetConnectorEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1294,9 +1374,8 @@ export const ListConnectorEventsResponse = Schema.Struct({
   cursor: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<ListConnectorEventsResponse>;
 
-export const listConnectorEvents: (
-  input: ListConnectorEventsRequest,
-) => Effect.Effect<
+export const listConnectorEvents: API.OperationMethod<
+  ListConnectorEventsRequest,
   ListConnectorEventsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1412,9 +1491,8 @@ export const ListConnectorEventLatestsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListConnectorEventLatestsResponse>;
 
-export const listConnectorEventLatests: (
-  input: ListConnectorEventLatestsRequest,
-) => Effect.Effect<
+export const listConnectorEventLatests: API.OperationMethod<
+  ListConnectorEventLatestsRequest,
   ListConnectorEventLatestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1907,6 +1985,7 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
         Schema.encodeKeys({
           clientId: "client_id",
           expiryTime: "expiry_time",
+          hostname: "hostname",
           interfaceName: "interface_name",
           ipAddress: "ip_address",
           macAddress: "mac_address",
@@ -1942,15 +2021,23 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           inProgress: "in_progress",
+          major: "major",
+          merged: "merged",
+          minor: "minor",
+          name: "name",
+          reads: "reads",
           sectorsRead: "sectors_read",
           sectorsWritten: "sectors_written",
           timeInProgressMs: "time_in_progress_ms",
           timeReadingMs: "time_reading_ms",
           timeWritingMs: "time_writing_ms",
           weightedTimeInProgressMs: "weighted_time_in_progress_ms",
+          writes: "writes",
           writesMerged: "writes_merged",
           connectorId: "connector_id",
+          discards: "discards",
           discardsMerged: "discards_merged",
+          flushes: "flushes",
           sectorsDiscarded: "sectors_discarded",
           timeDiscardingMs: "time_discarding_ms",
           timeFlushingMs: "time_flushing_ms",
@@ -1984,8 +2071,11 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
         speed: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          name: "name",
+          operstate: "operstate",
           connectorId: "connector_id",
           ipAddresses: "ip_addresses",
+          speed: "speed",
         }),
       ),
     ),
@@ -2077,7 +2167,9 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           fileSystem: "file_system",
+          kind: "kind",
           mountPoint: "mount_point",
+          name: "name",
           availableBytes: "available_bytes",
           connectorId: "connector_id",
           isReadOnly: "is_read_only",
@@ -2110,6 +2202,7 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
         connectorId: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          name: "name",
           recvBytes: "recv_bytes",
           recvCompressed: "recv_compressed",
           recvDrop: "recv_drop",
@@ -2206,6 +2299,7 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
         maxCelcius: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          label: "label",
           connectorId: "connector_id",
           criticalCelcius: "critical_celcius",
           currentCelcius: "current_celcius",
@@ -2243,6 +2337,9 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
     countReclaimedPaths: "count_reclaimed_paths",
     countRecordFailed: "count_record_failed",
     countTransmitFailures: "count_transmit_failures",
+    t: "t",
+    v: "v",
+    bonds: "bonds",
     cpuCount: "cpu_count",
     cpuPressure_10s: "cpu_pressure_10s",
     cpuPressure_300s: "cpu_pressure_300s",
@@ -2259,8 +2356,10 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
     cpuTimeSystemMs: "cpu_time_system_ms",
     cpuTimeUserMs: "cpu_time_user_ms",
     dhcpLeases: "dhcp_leases",
+    disks: "disks",
     haState: "ha_state",
     haValue: "ha_value",
+    interfaces: "interfaces",
     ioPressureFull_10s: "io_pressure_full_10s",
     ioPressureFull_300s: "io_pressure_full_300s",
     ioPressureFull_60s: "io_pressure_full_60s",
@@ -2333,6 +2432,8 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
     memoryWritebackTmpBytes: "memory_writeback_tmp_bytes",
     memoryZSwapBytes: "memory_z_swap_bytes",
     memoryZSwappedBytes: "memory_z_swapped_bytes",
+    mounts: "mounts",
+    netdevs: "netdevs",
     snmpIcmpInAddrMaskReps: "snmp_icmp_in_addr_mask_reps",
     snmpIcmpInAddrMasks: "snmp_icmp_in_addr_masks",
     snmpIcmpInCsumErrors: "snmp_icmp_in_csum_errors",
@@ -2398,14 +2499,15 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
     snmpUdpNoPorts: "snmp_udp_no_ports",
     snmpUdpOutDatagrams: "snmp_udp_out_datagrams",
     systemBootTimeS: "system_boot_time_s",
+    thermals: "thermals",
+    tunnels: "tunnels",
     uptimeIdleMs: "uptime_idle_ms",
     uptimeTotalMs: "uptime_total_ms",
   }),
 ) as unknown as Schema.Schema<GetConnectorSnapshotResponse>;
 
-export const getConnectorSnapshot: (
-  input: GetConnectorSnapshotRequest,
-) => Effect.Effect<
+export const getConnectorSnapshot: API.OperationMethod<
+  GetConnectorSnapshotRequest,
   GetConnectorSnapshotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2460,9 +2562,8 @@ export const ListConnectorSnapshotsResponse = Schema.Struct({
   cursor: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<ListConnectorSnapshotsResponse>;
 
-export const listConnectorSnapshots: (
-  input: ListConnectorSnapshotsRequest,
-) => Effect.Effect<
+export const listConnectorSnapshots: API.OperationMethod<
+  ListConnectorSnapshotsRequest,
   ListConnectorSnapshotsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2797,6 +2898,7 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
             Schema.encodeKeys({
               clientId: "client_id",
               expiryTime: "expiry_time",
+              hostname: "hostname",
               interfaceName: "interface_name",
               ipAddress: "ip_address",
               macAddress: "mac_address",
@@ -2832,15 +2934,23 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               inProgress: "in_progress",
+              major: "major",
+              merged: "merged",
+              minor: "minor",
+              name: "name",
+              reads: "reads",
               sectorsRead: "sectors_read",
               sectorsWritten: "sectors_written",
               timeInProgressMs: "time_in_progress_ms",
               timeReadingMs: "time_reading_ms",
               timeWritingMs: "time_writing_ms",
               weightedTimeInProgressMs: "weighted_time_in_progress_ms",
+              writes: "writes",
               writesMerged: "writes_merged",
               connectorId: "connector_id",
+              discards: "discards",
               discardsMerged: "discards_merged",
+              flushes: "flushes",
               sectorsDiscarded: "sectors_discarded",
               timeDiscardingMs: "time_discarding_ms",
               timeFlushingMs: "time_flushing_ms",
@@ -2874,8 +2984,11 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
             speed: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
+              operstate: "operstate",
               connectorId: "connector_id",
               ipAddresses: "ip_addresses",
+              speed: "speed",
             }),
           ),
         ),
@@ -2967,7 +3080,9 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               fileSystem: "file_system",
+              kind: "kind",
               mountPoint: "mount_point",
+              name: "name",
               availableBytes: "available_bytes",
               connectorId: "connector_id",
               isReadOnly: "is_read_only",
@@ -3000,6 +3115,7 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
             connectorId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              name: "name",
               recvBytes: "recv_bytes",
               recvCompressed: "recv_compressed",
               recvDrop: "recv_drop",
@@ -3096,6 +3212,7 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
             maxCelcius: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              label: "label",
               connectorId: "connector_id",
               criticalCelcius: "critical_celcius",
               currentCelcius: "current_celcius",
@@ -3133,6 +3250,9 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
         countReclaimedPaths: "count_reclaimed_paths",
         countRecordFailed: "count_record_failed",
         countTransmitFailures: "count_transmit_failures",
+        t: "t",
+        v: "v",
+        bonds: "bonds",
         cpuCount: "cpu_count",
         cpuPressure_10s: "cpu_pressure_10s",
         cpuPressure_300s: "cpu_pressure_300s",
@@ -3149,8 +3269,10 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
         cpuTimeSystemMs: "cpu_time_system_ms",
         cpuTimeUserMs: "cpu_time_user_ms",
         dhcpLeases: "dhcp_leases",
+        disks: "disks",
         haState: "ha_state",
         haValue: "ha_value",
+        interfaces: "interfaces",
         ioPressureFull_10s: "io_pressure_full_10s",
         ioPressureFull_300s: "io_pressure_full_300s",
         ioPressureFull_60s: "io_pressure_full_60s",
@@ -3223,6 +3345,8 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
         memoryWritebackTmpBytes: "memory_writeback_tmp_bytes",
         memoryZSwapBytes: "memory_z_swap_bytes",
         memoryZSwappedBytes: "memory_z_swapped_bytes",
+        mounts: "mounts",
+        netdevs: "netdevs",
         snmpIcmpInAddrMaskReps: "snmp_icmp_in_addr_mask_reps",
         snmpIcmpInAddrMasks: "snmp_icmp_in_addr_masks",
         snmpIcmpInCsumErrors: "snmp_icmp_in_csum_errors",
@@ -3288,6 +3412,8 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
         snmpUdpNoPorts: "snmp_udp_no_ports",
         snmpUdpOutDatagrams: "snmp_udp_out_datagrams",
         systemBootTimeS: "system_boot_time_s",
+        thermals: "thermals",
+        tunnels: "tunnels",
         uptimeIdleMs: "uptime_idle_ms",
         uptimeTotalMs: "uptime_total_ms",
       }),
@@ -3295,9 +3421,8 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListConnectorSnapshotLatestsResponse>;
 
-export const listConnectorSnapshotLatests: (
-  input: ListConnectorSnapshotLatestsRequest,
-) => Effect.Effect<
+export const listConnectorSnapshotLatests: API.OperationMethod<
+  ListConnectorSnapshotLatestsRequest,
   ListConnectorSnapshotLatestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3350,13 +3475,13 @@ export const PskGenerateIpsecTunnelResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     ipsecTunnelId: "ipsec_tunnel_id",
+    psk: "psk",
     pskMetadata: "psk_metadata",
   }),
 ) as unknown as Schema.Schema<PskGenerateIpsecTunnelResponse>;
 
-export const pskGenerateIpsecTunnel: (
-  input: PskGenerateIpsecTunnelRequest,
-) => Effect.Effect<
+export const pskGenerateIpsecTunnel: API.OperationMethod<
+  PskGenerateIpsecTunnelRequest,
   PskGenerateIpsecTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3460,6 +3585,7 @@ export const GetGreTunnelResponse = Schema.Struct({
           customerSpeakerPort: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            state: "state",
             tcpEstablished: "tcp_established",
             updatedAt: "updated_at",
             bgpState: "bgp_state",
@@ -3496,15 +3622,21 @@ export const GetGreTunnelResponse = Schema.Struct({
       ttl: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         cloudflareGreEndpoint: "cloudflare_gre_endpoint",
         customerGreEndpoint: "customer_gre_endpoint",
         interfaceAddress: "interface_address",
+        name: "name",
         automaticReturnRouting: "automatic_return_routing",
+        bgp: "bgp",
         bgpStatus: "bgp_status",
         createdOn: "created_on",
+        description: "description",
         healthCheck: "health_check",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
+        mtu: "mtu",
+        ttl: "ttl",
       }),
     ),
   ),
@@ -3512,9 +3644,8 @@ export const GetGreTunnelResponse = Schema.Struct({
   Schema.encodeKeys({ greTunnel: "gre_tunnel" }),
 ) as unknown as Schema.Schema<GetGreTunnelResponse>;
 
-export const getGreTunnel: (
-  input: GetGreTunnelRequest,
-) => Effect.Effect<
+export const getGreTunnel: API.OperationMethod<
+  GetGreTunnelRequest,
   GetGreTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3610,6 +3741,7 @@ export const ListGreTunnelsResponse = Schema.Struct({
             customerSpeakerPort: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              state: "state",
               tcpEstablished: "tcp_established",
               updatedAt: "updated_at",
               bgpState: "bgp_state",
@@ -3646,15 +3778,21 @@ export const ListGreTunnelsResponse = Schema.Struct({
         ttl: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           cloudflareGreEndpoint: "cloudflare_gre_endpoint",
           customerGreEndpoint: "customer_gre_endpoint",
           interfaceAddress: "interface_address",
+          name: "name",
           automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
           bgpStatus: "bgp_status",
           createdOn: "created_on",
+          description: "description",
           healthCheck: "health_check",
           interfaceAddress6: "interface_address6",
           modifiedOn: "modified_on",
+          mtu: "mtu",
+          ttl: "ttl",
         }),
       ),
     ),
@@ -3663,9 +3801,8 @@ export const ListGreTunnelsResponse = Schema.Struct({
   Schema.encodeKeys({ greTunnels: "gre_tunnels" }),
 ) as unknown as Schema.Schema<ListGreTunnelsResponse>;
 
-export const listGreTunnels: (
-  input: ListGreTunnelsRequest,
-) => Effect.Effect<
+export const listGreTunnels: API.OperationMethod<
+  ListGreTunnelsRequest,
   ListGreTunnelsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3760,9 +3897,14 @@ export const CreateGreTunnelRequest = Schema.Struct({
     cloudflareGreEndpoint: "cloudflare_gre_endpoint",
     customerGreEndpoint: "customer_gre_endpoint",
     interfaceAddress: "interface_address",
+    name: "name",
     automaticReturnRouting: "automatic_return_routing",
+    bgp: "bgp",
+    description: "description",
     healthCheck: "health_check",
     interfaceAddress6: "interface_address6",
+    mtu: "mtu",
+    ttl: "ttl",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/magic/gre_tunnels" }),
 ) as unknown as Schema.Schema<CreateGreTunnelRequest>;
@@ -3844,6 +3986,7 @@ export const CreateGreTunnelResponse = Schema.Struct({
       customerSpeakerPort: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        state: "state",
         tcpEstablished: "tcp_established",
         updatedAt: "updated_at",
         bgpState: "bgp_state",
@@ -3880,21 +4023,26 @@ export const CreateGreTunnelResponse = Schema.Struct({
   ttl: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudflareGreEndpoint: "cloudflare_gre_endpoint",
     customerGreEndpoint: "customer_gre_endpoint",
     interfaceAddress: "interface_address",
+    name: "name",
     automaticReturnRouting: "automatic_return_routing",
+    bgp: "bgp",
     bgpStatus: "bgp_status",
     createdOn: "created_on",
+    description: "description",
     healthCheck: "health_check",
     interfaceAddress6: "interface_address6",
     modifiedOn: "modified_on",
+    mtu: "mtu",
+    ttl: "ttl",
   }),
 ) as unknown as Schema.Schema<CreateGreTunnelResponse>;
 
-export const createGreTunnel: (
-  input: CreateGreTunnelRequest,
-) => Effect.Effect<
+export const createGreTunnel: API.OperationMethod<
+  CreateGreTunnelRequest,
   CreateGreTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3976,9 +4124,13 @@ export const UpdateGreTunnelRequest = Schema.Struct({
     cloudflareGreEndpoint: "cloudflare_gre_endpoint",
     customerGreEndpoint: "customer_gre_endpoint",
     interfaceAddress: "interface_address",
+    name: "name",
     automaticReturnRouting: "automatic_return_routing",
+    description: "description",
     healthCheck: "health_check",
     interfaceAddress6: "interface_address6",
+    mtu: "mtu",
+    ttl: "ttl",
   }),
   T.Http({
     method: "PUT",
@@ -4057,6 +4209,7 @@ export const UpdateGreTunnelResponse = Schema.Struct({
           customerSpeakerPort: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            state: "state",
             tcpEstablished: "tcp_established",
             updatedAt: "updated_at",
             bgpState: "bgp_state",
@@ -4093,25 +4246,33 @@ export const UpdateGreTunnelResponse = Schema.Struct({
       ttl: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         cloudflareGreEndpoint: "cloudflare_gre_endpoint",
         customerGreEndpoint: "customer_gre_endpoint",
         interfaceAddress: "interface_address",
+        name: "name",
         automaticReturnRouting: "automatic_return_routing",
+        bgp: "bgp",
         bgpStatus: "bgp_status",
         createdOn: "created_on",
+        description: "description",
         healthCheck: "health_check",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
+        mtu: "mtu",
+        ttl: "ttl",
       }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedGreTunnel: "modified_gre_tunnel" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedGreTunnel: "modified_gre_tunnel",
+  }),
 ) as unknown as Schema.Schema<UpdateGreTunnelResponse>;
 
-export const updateGreTunnel: (
-  input: UpdateGreTunnelRequest,
-) => Effect.Effect<
+export const updateGreTunnel: API.OperationMethod<
+  UpdateGreTunnelRequest,
   UpdateGreTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4213,6 +4374,7 @@ export const DeleteGreTunnelResponse = Schema.Struct({
           customerSpeakerPort: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            state: "state",
             tcpEstablished: "tcp_established",
             updatedAt: "updated_at",
             bgpState: "bgp_state",
@@ -4249,25 +4411,33 @@ export const DeleteGreTunnelResponse = Schema.Struct({
       ttl: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         cloudflareGreEndpoint: "cloudflare_gre_endpoint",
         customerGreEndpoint: "customer_gre_endpoint",
         interfaceAddress: "interface_address",
+        name: "name",
         automaticReturnRouting: "automatic_return_routing",
+        bgp: "bgp",
         bgpStatus: "bgp_status",
         createdOn: "created_on",
+        description: "description",
         healthCheck: "health_check",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
+        mtu: "mtu",
+        ttl: "ttl",
       }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ deletedGreTunnel: "deleted_gre_tunnel" }),
+  Schema.encodeKeys({
+    deleted: "deleted",
+    deletedGreTunnel: "deleted_gre_tunnel",
+  }),
 ) as unknown as Schema.Schema<DeleteGreTunnelResponse>;
 
-export const deleteGreTunnel: (
-  input: DeleteGreTunnelRequest,
-) => Effect.Effect<
+export const deleteGreTunnel: API.OperationMethod<
+  DeleteGreTunnelRequest,
   DeleteGreTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4373,6 +4543,7 @@ export const GetIpsecTunnelResponse = Schema.Struct({
           customerSpeakerPort: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            state: "state",
             tcpEstablished: "tcp_established",
             updatedAt: "updated_at",
             bgpState: "bgp_state",
@@ -4415,14 +4586,18 @@ export const GetIpsecTunnelResponse = Schema.Struct({
       replayProtection: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         cloudflareEndpoint: "cloudflare_endpoint",
         interfaceAddress: "interface_address",
+        name: "name",
         allowNullCipher: "allow_null_cipher",
         automaticReturnRouting: "automatic_return_routing",
+        bgp: "bgp",
         bgpStatus: "bgp_status",
         createdOn: "created_on",
         customRemoteIdentities: "custom_remote_identities",
         customerEndpoint: "customer_endpoint",
+        description: "description",
         healthCheck: "health_check",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
@@ -4435,9 +4610,8 @@ export const GetIpsecTunnelResponse = Schema.Struct({
   Schema.encodeKeys({ ipsecTunnel: "ipsec_tunnel" }),
 ) as unknown as Schema.Schema<GetIpsecTunnelResponse>;
 
-export const getIpsecTunnel: (
-  input: GetIpsecTunnelRequest,
-) => Effect.Effect<
+export const getIpsecTunnel: API.OperationMethod<
+  GetIpsecTunnelRequest,
   GetIpsecTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4535,6 +4709,7 @@ export const ListIpsecTunnelsResponse = Schema.Struct({
             customerSpeakerPort: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              state: "state",
               tcpEstablished: "tcp_established",
               updatedAt: "updated_at",
               bgpState: "bgp_state",
@@ -4577,14 +4752,18 @@ export const ListIpsecTunnelsResponse = Schema.Struct({
         replayProtection: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           cloudflareEndpoint: "cloudflare_endpoint",
           interfaceAddress: "interface_address",
+          name: "name",
           allowNullCipher: "allow_null_cipher",
           automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
           bgpStatus: "bgp_status",
           createdOn: "created_on",
           customRemoteIdentities: "custom_remote_identities",
           customerEndpoint: "customer_endpoint",
+          description: "description",
           healthCheck: "health_check",
           interfaceAddress6: "interface_address6",
           modifiedOn: "modified_on",
@@ -4598,9 +4777,8 @@ export const ListIpsecTunnelsResponse = Schema.Struct({
   Schema.encodeKeys({ ipsecTunnels: "ipsec_tunnels" }),
 ) as unknown as Schema.Schema<ListIpsecTunnelsResponse>;
 
-export const listIpsecTunnels: (
-  input: ListIpsecTunnelsRequest,
-) => Effect.Effect<
+export const listIpsecTunnels: API.OperationMethod<
+  ListIpsecTunnelsRequest,
   ListIpsecTunnelsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4701,11 +4879,15 @@ export const CreateIpsecTunnelRequest = Schema.Struct({
   Schema.encodeKeys({
     cloudflareEndpoint: "cloudflare_endpoint",
     interfaceAddress: "interface_address",
+    name: "name",
     automaticReturnRouting: "automatic_return_routing",
+    bgp: "bgp",
     customRemoteIdentities: "custom_remote_identities",
     customerEndpoint: "customer_endpoint",
+    description: "description",
     healthCheck: "health_check",
     interfaceAddress6: "interface_address6",
+    psk: "psk",
     replayProtection: "replay_protection",
   }),
   T.Http({
@@ -4794,6 +4976,7 @@ export const CreateIpsecTunnelResponse = Schema.Struct({
       customerSpeakerPort: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        state: "state",
         tcpEstablished: "tcp_established",
         updatedAt: "updated_at",
         bgpState: "bgp_state",
@@ -4840,14 +5023,18 @@ export const CreateIpsecTunnelResponse = Schema.Struct({
   replayProtection: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cloudflareEndpoint: "cloudflare_endpoint",
     interfaceAddress: "interface_address",
+    name: "name",
     allowNullCipher: "allow_null_cipher",
     automaticReturnRouting: "automatic_return_routing",
+    bgp: "bgp",
     bgpStatus: "bgp_status",
     createdOn: "created_on",
     customRemoteIdentities: "custom_remote_identities",
     customerEndpoint: "customer_endpoint",
+    description: "description",
     healthCheck: "health_check",
     interfaceAddress6: "interface_address6",
     modifiedOn: "modified_on",
@@ -4856,9 +5043,8 @@ export const CreateIpsecTunnelResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateIpsecTunnelResponse>;
 
-export const createIpsecTunnel: (
-  input: CreateIpsecTunnelRequest,
-) => Effect.Effect<
+export const createIpsecTunnel: API.OperationMethod<
+  CreateIpsecTunnelRequest,
   CreateIpsecTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4961,11 +5147,15 @@ export const UpdateIpsecTunnelRequest = Schema.Struct({
   Schema.encodeKeys({
     cloudflareEndpoint: "cloudflare_endpoint",
     interfaceAddress: "interface_address",
+    name: "name",
     automaticReturnRouting: "automatic_return_routing",
+    bgp: "bgp",
     customRemoteIdentities: "custom_remote_identities",
     customerEndpoint: "customer_endpoint",
+    description: "description",
     healthCheck: "health_check",
     interfaceAddress6: "interface_address6",
+    psk: "psk",
     replayProtection: "replay_protection",
   }),
   T.Http({
@@ -5047,6 +5237,7 @@ export const UpdateIpsecTunnelResponse = Schema.Struct({
           customerSpeakerPort: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            state: "state",
             tcpEstablished: "tcp_established",
             updatedAt: "updated_at",
             bgpState: "bgp_state",
@@ -5089,14 +5280,18 @@ export const UpdateIpsecTunnelResponse = Schema.Struct({
       replayProtection: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         cloudflareEndpoint: "cloudflare_endpoint",
         interfaceAddress: "interface_address",
+        name: "name",
         allowNullCipher: "allow_null_cipher",
         automaticReturnRouting: "automatic_return_routing",
+        bgp: "bgp",
         bgpStatus: "bgp_status",
         createdOn: "created_on",
         customRemoteIdentities: "custom_remote_identities",
         customerEndpoint: "customer_endpoint",
+        description: "description",
         healthCheck: "health_check",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
@@ -5106,12 +5301,14 @@ export const UpdateIpsecTunnelResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedIpsecTunnel: "modified_ipsec_tunnel" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedIpsecTunnel: "modified_ipsec_tunnel",
+  }),
 ) as unknown as Schema.Schema<UpdateIpsecTunnelResponse>;
 
-export const updateIpsecTunnel: (
-  input: UpdateIpsecTunnelRequest,
-) => Effect.Effect<
+export const updateIpsecTunnel: API.OperationMethod<
+  UpdateIpsecTunnelRequest,
   UpdateIpsecTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5215,6 +5412,7 @@ export const DeleteIpsecTunnelResponse = Schema.Struct({
           customerSpeakerPort: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            state: "state",
             tcpEstablished: "tcp_established",
             updatedAt: "updated_at",
             bgpState: "bgp_state",
@@ -5257,14 +5455,18 @@ export const DeleteIpsecTunnelResponse = Schema.Struct({
       replayProtection: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         cloudflareEndpoint: "cloudflare_endpoint",
         interfaceAddress: "interface_address",
+        name: "name",
         allowNullCipher: "allow_null_cipher",
         automaticReturnRouting: "automatic_return_routing",
+        bgp: "bgp",
         bgpStatus: "bgp_status",
         createdOn: "created_on",
         customRemoteIdentities: "custom_remote_identities",
         customerEndpoint: "customer_endpoint",
+        description: "description",
         healthCheck: "health_check",
         interfaceAddress6: "interface_address6",
         modifiedOn: "modified_on",
@@ -5274,12 +5476,14 @@ export const DeleteIpsecTunnelResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ deletedIpsecTunnel: "deleted_ipsec_tunnel" }),
+  Schema.encodeKeys({
+    deleted: "deleted",
+    deletedIpsecTunnel: "deleted_ipsec_tunnel",
+  }),
 ) as unknown as Schema.Schema<DeleteIpsecTunnelResponse>;
 
-export const deleteIpsecTunnel: (
-  input: DeleteIpsecTunnelRequest,
-) => Effect.Effect<
+export const deleteIpsecTunnel: API.OperationMethod<
+  DeleteIpsecTunnelRequest,
   DeleteIpsecTunnelResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5369,6 +5573,7 @@ export const GetPcapResponse = Schema.Union([
         Schema.encodeKeys({
           destinationAddress: "destination_address",
           destinationPort: "destination_port",
+          protocol: "protocol",
           sourceAddress: "source_address",
           sourcePort: "source_port",
         }),
@@ -5393,9 +5598,14 @@ export const GetPcapResponse = Schema.Union([
     type: Schema.optional(Schema.Literals(["simple", "full"])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       filterV1: "filter_v1",
       offsetTime: "offset_time",
+      status: "status",
+      submitted: "submitted",
+      system: "system",
       timeLimit: "time_limit",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -5425,21 +5635,25 @@ export const GetPcapResponse = Schema.Union([
     type: Schema.optional(Schema.Literals(["simple", "full"])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       byteLimit: "byte_limit",
       coloName: "colo_name",
       destinationConf: "destination_conf",
       errorMessage: "error_message",
       filterV1: "filter_v1",
       packetsCaptured: "packets_captured",
+      status: "status",
       stopRequested: "stop_requested",
+      submitted: "submitted",
+      system: "system",
       timeLimit: "time_limit",
+      type: "type",
     }),
   ),
 ]) as unknown as Schema.Schema<GetPcapResponse>;
 
-export const getPcap: (
-  input: GetPcapRequest,
-) => Effect.Effect<
+export const getPcap: API.OperationMethod<
+  GetPcapRequest,
   GetPcapResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5525,6 +5739,7 @@ export const ListPcapsResponse = Schema.Array(
           Schema.encodeKeys({
             destinationAddress: "destination_address",
             destinationPort: "destination_port",
+            protocol: "protocol",
             sourceAddress: "source_address",
             sourcePort: "source_port",
           }),
@@ -5549,9 +5764,14 @@ export const ListPcapsResponse = Schema.Array(
       type: Schema.optional(Schema.Literals(["simple", "full"])),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         filterV1: "filter_v1",
         offsetTime: "offset_time",
+        status: "status",
+        submitted: "submitted",
+        system: "system",
         timeLimit: "time_limit",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -5581,22 +5801,26 @@ export const ListPcapsResponse = Schema.Array(
       type: Schema.optional(Schema.Literals(["simple", "full"])),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         byteLimit: "byte_limit",
         coloName: "colo_name",
         destinationConf: "destination_conf",
         errorMessage: "error_message",
         filterV1: "filter_v1",
         packetsCaptured: "packets_captured",
+        status: "status",
         stopRequested: "stop_requested",
+        submitted: "submitted",
+        system: "system",
         timeLimit: "time_limit",
+        type: "type",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListPcapsResponse>;
 
-export const listPcaps: (
-  input: ListPcapsRequest,
-) => Effect.Effect<
+export const listPcaps: API.OperationMethod<
+  ListPcapsRequest,
   ListPcapsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5646,6 +5870,7 @@ export const CreatePcapRequest = Schema.Struct({
       Schema.encodeKeys({
         destinationAddress: "destination_address",
         destinationPort: "destination_port",
+        protocol: "protocol",
         sourceAddress: "source_address",
         sourcePort: "source_port",
       }),
@@ -5655,7 +5880,9 @@ export const CreatePcapRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     packetLimit: "packet_limit",
+    system: "system",
     timeLimit: "time_limit",
+    type: "type",
     filterV1: "filter_v1",
     offsetTime: "offset_time",
   }),
@@ -5725,6 +5952,7 @@ export const CreatePcapResponse = Schema.Union([
         Schema.encodeKeys({
           destinationAddress: "destination_address",
           destinationPort: "destination_port",
+          protocol: "protocol",
           sourceAddress: "source_address",
           sourcePort: "source_port",
         }),
@@ -5749,9 +5977,14 @@ export const CreatePcapResponse = Schema.Union([
     type: Schema.optional(Schema.Literals(["simple", "full"])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       filterV1: "filter_v1",
       offsetTime: "offset_time",
+      status: "status",
+      submitted: "submitted",
+      system: "system",
       timeLimit: "time_limit",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -5781,21 +6014,25 @@ export const CreatePcapResponse = Schema.Union([
     type: Schema.optional(Schema.Literals(["simple", "full"])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       byteLimit: "byte_limit",
       coloName: "colo_name",
       destinationConf: "destination_conf",
       errorMessage: "error_message",
       filterV1: "filter_v1",
       packetsCaptured: "packets_captured",
+      status: "status",
       stopRequested: "stop_requested",
+      submitted: "submitted",
+      system: "system",
       timeLimit: "time_limit",
+      type: "type",
     }),
   ),
 ]) as unknown as Schema.Schema<CreatePcapResponse>;
 
-export const createPcap: (
-  input: CreatePcapRequest,
-) => Effect.Effect<
+export const createPcap: API.OperationMethod<
+  CreatePcapRequest,
   CreatePcapResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5823,9 +6060,8 @@ export type StopPcapResponse = unknown;
 export const StopPcapResponse =
   Schema.Unknown as unknown as Schema.Schema<StopPcapResponse>;
 
-export const stopPcap: (
-  input: StopPcapRequest,
-) => Effect.Effect<
+export const stopPcap: API.OperationMethod<
+  StopPcapRequest,
   StopPcapResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5860,9 +6096,8 @@ export type GetPcapDownloadResponse = unknown;
 export const GetPcapDownloadResponse =
   Schema.Unknown as unknown as Schema.Schema<GetPcapDownloadResponse>;
 
-export const getPcapDownload: (
-  input: GetPcapDownloadRequest,
-) => Effect.Effect<
+export const getPcapDownload: API.OperationMethod<
+  GetPcapDownloadRequest,
   GetPcapDownloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5904,12 +6139,20 @@ export const GetPcapOwnershipResponse = Schema.Array(
     status: Schema.Literals(["pending", "success", "failed"]),
     submitted: Schema.String,
     validated: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ destinationConf: "destination_conf" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      destinationConf: "destination_conf",
+      filename: "filename",
+      status: "status",
+      submitted: "submitted",
+      validated: "validated",
+    }),
+  ),
 ) as unknown as Schema.Schema<GetPcapOwnershipResponse>;
 
-export const getPcapOwnership: (
-  input: GetPcapOwnershipRequest,
-) => Effect.Effect<
+export const getPcapOwnership: API.OperationMethod<
+  GetPcapOwnershipRequest,
   GetPcapOwnershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5957,12 +6200,18 @@ export const CreatePcapOwnershipResponse = Schema.Struct({
   submitted: Schema.String,
   validated: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
+  Schema.encodeKeys({
+    id: "id",
+    destinationConf: "destination_conf",
+    filename: "filename",
+    status: "status",
+    submitted: "submitted",
+    validated: "validated",
+  }),
 ) as unknown as Schema.Schema<CreatePcapOwnershipResponse>;
 
-export const createPcapOwnership: (
-  input: CreatePcapOwnershipRequest,
-) => Effect.Effect<
+export const createPcapOwnership: API.OperationMethod<
+  CreatePcapOwnershipRequest,
   CreatePcapOwnershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5993,9 +6242,8 @@ export type DeletePcapOwnershipResponse = unknown;
 export const DeletePcapOwnershipResponse =
   Schema.Unknown as unknown as Schema.Schema<DeletePcapOwnershipResponse>;
 
-export const deletePcapOwnership: (
-  input: DeletePcapOwnershipRequest,
-) => Effect.Effect<
+export const deletePcapOwnership: API.OperationMethod<
+  DeletePcapOwnershipRequest,
   DeletePcapOwnershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6052,12 +6300,18 @@ export const ValidatePcapOwnershipResponse = Schema.Struct({
   submitted: Schema.String,
   validated: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
+  Schema.encodeKeys({
+    id: "id",
+    destinationConf: "destination_conf",
+    filename: "filename",
+    status: "status",
+    submitted: "submitted",
+    validated: "validated",
+  }),
 ) as unknown as Schema.Schema<ValidatePcapOwnershipResponse>;
 
-export const validatePcapOwnership: (
-  input: ValidatePcapOwnershipRequest,
-) => Effect.Effect<
+export const validatePcapOwnership: API.OperationMethod<
+  ValidatePcapOwnershipRequest,
   ValidatePcapOwnershipResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6136,24 +6390,31 @@ export const BulkPutCfInterconnectsResponse = Schema.Struct({
         name: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           automaticReturnRouting: "automatic_return_routing",
           coloName: "colo_name",
           createdOn: "created_on",
+          description: "description",
+          gre: "gre",
           healthCheck: "health_check",
           interfaceAddress: "interface_address",
           interfaceAddress6: "interface_address6",
           modifiedOn: "modified_on",
+          mtu: "mtu",
+          name: "name",
         }),
       ),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedInterconnects: "modified_interconnects" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedInterconnects: "modified_interconnects",
+  }),
 ) as unknown as Schema.Schema<BulkPutCfInterconnectsResponse>;
 
-export const bulkPutCfInterconnects: (
-  input: BulkPutCfInterconnectsRequest,
-) => Effect.Effect<
+export const bulkPutCfInterconnects: API.OperationMethod<
+  BulkPutCfInterconnectsRequest,
   BulkPutCfInterconnectsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6258,6 +6519,7 @@ export const BulkPutGreTunnelsResponse = Schema.Struct({
             customerSpeakerPort: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              state: "state",
               tcpEstablished: "tcp_established",
               updatedAt: "updated_at",
               bgpState: "bgp_state",
@@ -6294,26 +6556,34 @@ export const BulkPutGreTunnelsResponse = Schema.Struct({
         ttl: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           cloudflareGreEndpoint: "cloudflare_gre_endpoint",
           customerGreEndpoint: "customer_gre_endpoint",
           interfaceAddress: "interface_address",
+          name: "name",
           automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
           bgpStatus: "bgp_status",
           createdOn: "created_on",
+          description: "description",
           healthCheck: "health_check",
           interfaceAddress6: "interface_address6",
           modifiedOn: "modified_on",
+          mtu: "mtu",
+          ttl: "ttl",
         }),
       ),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedGreTunnels: "modified_gre_tunnels" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedGreTunnels: "modified_gre_tunnels",
+  }),
 ) as unknown as Schema.Schema<BulkPutGreTunnelsResponse>;
 
-export const bulkPutGreTunnels: (
-  input: BulkPutGreTunnelsRequest,
-) => Effect.Effect<
+export const bulkPutGreTunnels: API.OperationMethod<
+  BulkPutGreTunnelsRequest,
   BulkPutGreTunnelsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6420,6 +6690,7 @@ export const BulkPutIpsecTunnelsResponse = Schema.Struct({
             customerSpeakerPort: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              state: "state",
               tcpEstablished: "tcp_established",
               updatedAt: "updated_at",
               bgpState: "bgp_state",
@@ -6462,14 +6733,18 @@ export const BulkPutIpsecTunnelsResponse = Schema.Struct({
         replayProtection: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           cloudflareEndpoint: "cloudflare_endpoint",
           interfaceAddress: "interface_address",
+          name: "name",
           allowNullCipher: "allow_null_cipher",
           automaticReturnRouting: "automatic_return_routing",
+          bgp: "bgp",
           bgpStatus: "bgp_status",
           createdOn: "created_on",
           customRemoteIdentities: "custom_remote_identities",
           customerEndpoint: "customer_endpoint",
+          description: "description",
           healthCheck: "health_check",
           interfaceAddress6: "interface_address6",
           modifiedOn: "modified_on",
@@ -6480,12 +6755,14 @@ export const BulkPutIpsecTunnelsResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedIpsecTunnels: "modified_ipsec_tunnels" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedIpsecTunnels: "modified_ipsec_tunnels",
+  }),
 ) as unknown as Schema.Schema<BulkPutIpsecTunnelsResponse>;
 
-export const bulkPutIpsecTunnels: (
-  input: BulkPutIpsecTunnelsRequest,
-) => Effect.Effect<
+export const bulkPutIpsecTunnels: API.OperationMethod<
+  BulkPutIpsecTunnelsRequest,
   BulkPutIpsecTunnelsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6562,19 +6839,28 @@ export const BulkPutRoutesResponse = Schema.Struct({
         weight: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          nexthop: "nexthop",
+          prefix: "prefix",
+          priority: "priority",
           createdOn: "created_on",
+          description: "description",
           modifiedOn: "modified_on",
+          scope: "scope",
+          weight: "weight",
         }),
       ),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedRoutes: "modified_routes" }),
+  Schema.encodeKeys({
+    modified: "modified",
+    modifiedRoutes: "modified_routes",
+  }),
 ) as unknown as Schema.Schema<BulkPutRoutesResponse>;
 
-export const bulkPutRoutes: (
-  input: BulkPutRoutesRequest,
-) => Effect.Effect<
+export const bulkPutRoutes: API.OperationMethod<
+  BulkPutRoutesRequest,
   BulkPutRoutesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6631,14 +6917,23 @@ export const GetRouteResponse = Schema.Struct({
       scope: Schema.optional(Schema.Unknown),
       weight: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        nexthop: "nexthop",
+        prefix: "prefix",
+        priority: "priority",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        scope: "scope",
+        weight: "weight",
+      }),
     ),
   ),
 }) as unknown as Schema.Schema<GetRouteResponse>;
 
-export const getRoute: (
-  input: GetRouteRequest,
-) => Effect.Effect<
+export const getRoute: API.OperationMethod<
+  GetRouteRequest,
   GetRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6688,17 +6983,23 @@ export const ListRoutesResponse = Schema.Struct({
         weight: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          nexthop: "nexthop",
+          prefix: "prefix",
+          priority: "priority",
           createdOn: "created_on",
+          description: "description",
           modifiedOn: "modified_on",
+          scope: "scope",
+          weight: "weight",
         }),
       ),
     ),
   ),
 }) as unknown as Schema.Schema<ListRoutesResponse>;
 
-export const listRoutes: (
-  input: ListRoutesRequest,
-) => Effect.Effect<
+export const listRoutes: API.OperationMethod<
+  ListRoutesRequest,
   ListRoutesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6789,12 +7090,21 @@ export const CreateRouteResponse = Schema.Struct({
   ),
   weight: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    nexthop: "nexthop",
+    prefix: "prefix",
+    priority: "priority",
+    createdOn: "created_on",
+    description: "description",
+    modifiedOn: "modified_on",
+    scope: "scope",
+    weight: "weight",
+  }),
 ) as unknown as Schema.Schema<CreateRouteResponse>;
 
-export const createRoute: (
-  input: CreateRouteRequest,
-) => Effect.Effect<
+export const createRoute: API.OperationMethod<
+  CreateRouteRequest,
   CreateRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6877,16 +7187,25 @@ export const UpdateRouteResponse = Schema.Struct({
       scope: Schema.optional(Schema.Unknown),
       weight: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        nexthop: "nexthop",
+        prefix: "prefix",
+        priority: "priority",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        scope: "scope",
+        weight: "weight",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ modifiedRoute: "modified_route" }),
+  Schema.encodeKeys({ modified: "modified", modifiedRoute: "modified_route" }),
 ) as unknown as Schema.Schema<UpdateRouteResponse>;
 
-export const updateRoute: (
-  input: UpdateRouteRequest,
-) => Effect.Effect<
+export const updateRoute: API.OperationMethod<
+  UpdateRouteRequest,
   UpdateRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6941,16 +7260,25 @@ export const DeleteRouteResponse = Schema.Struct({
       scope: Schema.optional(Schema.Unknown),
       weight: Schema.optional(Schema.Number),
     }).pipe(
-      Schema.encodeKeys({ createdOn: "created_on", modifiedOn: "modified_on" }),
+      Schema.encodeKeys({
+        id: "id",
+        nexthop: "nexthop",
+        prefix: "prefix",
+        priority: "priority",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        scope: "scope",
+        weight: "weight",
+      }),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ deletedRoute: "deleted_route" }),
+  Schema.encodeKeys({ deleted: "deleted", deletedRoute: "deleted_route" }),
 ) as unknown as Schema.Schema<DeleteRouteResponse>;
 
-export const deleteRoute: (
-  input: DeleteRouteRequest,
-) => Effect.Effect<
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteRequest,
   DeleteRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7002,19 +7330,25 @@ export const EmptyRouteResponse = Schema.Struct({
         weight: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          nexthop: "nexthop",
+          prefix: "prefix",
+          priority: "priority",
           createdOn: "created_on",
+          description: "description",
           modifiedOn: "modified_on",
+          scope: "scope",
+          weight: "weight",
         }),
       ),
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ deletedRoutes: "deleted_routes" }),
+  Schema.encodeKeys({ deleted: "deleted", deletedRoutes: "deleted_routes" }),
 ) as unknown as Schema.Schema<EmptyRouteResponse>;
 
-export const emptyRoute: (
-  input: EmptyRouteRequest,
-) => Effect.Effect<
+export const emptyRoute: API.OperationMethod<
+  EmptyRouteRequest,
   EmptyRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7080,15 +7414,18 @@ export const GetSiteResponse = Schema.Struct({
   secondaryConnectorId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     connectorId: "connector_id",
+    description: "description",
     haMode: "ha_mode",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
 ) as unknown as Schema.Schema<GetSiteResponse>;
 
-export const getSite: (
-  input: GetSiteRequest,
-) => Effect.Effect<
+export const getSite: API.OperationMethod<
+  GetSiteRequest,
   GetSiteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7138,16 +7475,19 @@ export const ListSitesResponse = Schema.Array(
     secondaryConnectorId: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       connectorId: "connector_id",
+      description: "description",
       haMode: "ha_mode",
+      location: "location",
+      name: "name",
       secondaryConnectorId: "secondary_connector_id",
     }),
   ),
 ) as unknown as Schema.Schema<ListSitesResponse>;
 
-export const listSites: (
-  input: ListSitesRequest,
-) => Effect.Effect<
+export const listSites: API.OperationMethod<
+  ListSitesRequest,
   ListSitesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7189,8 +7529,11 @@ export const CreateSiteRequest = Schema.Struct({
   secondaryConnectorId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     connectorId: "connector_id",
+    description: "description",
     haMode: "ha_mode",
+    location: "location",
     secondaryConnectorId: "secondary_connector_id",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/magic/sites" }),
@@ -7227,15 +7570,18 @@ export const CreateSiteResponse = Schema.Struct({
   secondaryConnectorId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     connectorId: "connector_id",
+    description: "description",
     haMode: "ha_mode",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
 ) as unknown as Schema.Schema<CreateSiteResponse>;
 
-export const createSite: (
-  input: CreateSiteRequest,
-) => Effect.Effect<
+export const createSite: API.OperationMethod<
+  CreateSiteRequest,
   CreateSiteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7277,6 +7623,9 @@ export const UpdateSiteRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     connectorId: "connector_id",
+    description: "description",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
   T.Http({
@@ -7316,15 +7665,18 @@ export const UpdateSiteResponse = Schema.Struct({
   secondaryConnectorId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     connectorId: "connector_id",
+    description: "description",
     haMode: "ha_mode",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
 ) as unknown as Schema.Schema<UpdateSiteResponse>;
 
-export const updateSite: (
-  input: UpdateSiteRequest,
-) => Effect.Effect<
+export const updateSite: API.OperationMethod<
+  UpdateSiteRequest,
   UpdateSiteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7366,6 +7718,9 @@ export const PatchSiteRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     connectorId: "connector_id",
+    description: "description",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
   T.Http({
@@ -7405,15 +7760,18 @@ export const PatchSiteResponse = Schema.Struct({
   secondaryConnectorId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     connectorId: "connector_id",
+    description: "description",
     haMode: "ha_mode",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
 ) as unknown as Schema.Schema<PatchSiteResponse>;
 
-export const patchSite: (
-  input: PatchSiteRequest,
-) => Effect.Effect<
+export const patchSite: API.OperationMethod<
+  PatchSiteRequest,
   PatchSiteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7470,15 +7828,18 @@ export const DeleteSiteResponse = Schema.Struct({
   secondaryConnectorId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     connectorId: "connector_id",
+    description: "description",
     haMode: "ha_mode",
+    location: "location",
+    name: "name",
     secondaryConnectorId: "secondary_connector_id",
   }),
 ) as unknown as Schema.Schema<DeleteSiteResponse>;
 
-export const deleteSite: (
-  input: DeleteSiteRequest,
-) => Effect.Effect<
+export const deleteSite: API.OperationMethod<
+  DeleteSiteRequest,
   DeleteSiteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7554,6 +7915,8 @@ export const GetSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7569,6 +7932,8 @@ export const GetSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7578,12 +7943,20 @@ export const GetSiteAclResponse = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
 ) as unknown as Schema.Schema<GetSiteAclResponse>;
 
-export const getSiteAcl: (
-  input: GetSiteAclRequest,
-) => Effect.Effect<
+export const getSiteAcl: API.OperationMethod<
+  GetSiteAclRequest,
   GetSiteAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7649,6 +8022,8 @@ export const ListSiteAclsResponse = Schema.Array(
           lanId: "lan_id",
           lanName: "lan_name",
           portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
         }),
       ),
     ),
@@ -7664,6 +8039,8 @@ export const ListSiteAclsResponse = Schema.Array(
           lanId: "lan_id",
           lanName: "lan_name",
           portRanges: "port_ranges",
+          ports: "ports",
+          subnets: "subnets",
         }),
       ),
     ),
@@ -7672,12 +8049,22 @@ export const ListSiteAclsResponse = Schema.Array(
       Schema.Array(Schema.Literals(["tcp", "udp", "icmp"])),
     ),
     unidirectional: Schema.optional(Schema.Boolean),
-  }).pipe(Schema.encodeKeys({ forwardLocally: "forward_locally" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      description: "description",
+      forwardLocally: "forward_locally",
+      lan_1: "lan_1",
+      lan_2: "lan_2",
+      name: "name",
+      protocols: "protocols",
+      unidirectional: "unidirectional",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListSiteAclsResponse>;
 
-export const listSiteAcls: (
-  input: ListSiteAclsRequest,
-) => Effect.Effect<
+export const listSiteAcls: API.OperationMethod<
+  ListSiteAclsRequest,
   ListSiteAclsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7733,6 +8120,8 @@ export const CreateSiteAclRequest = Schema.Struct({
       lanId: "lan_id",
       lanName: "lan_name",
       portRanges: "port_ranges",
+      ports: "ports",
+      subnets: "subnets",
     }),
   ),
   lan_2: Schema.Struct({
@@ -7746,6 +8135,8 @@ export const CreateSiteAclRequest = Schema.Struct({
       lanId: "lan_id",
       lanName: "lan_name",
       portRanges: "port_ranges",
+      ports: "ports",
+      subnets: "subnets",
     }),
   ),
   name: Schema.String,
@@ -7756,7 +8147,15 @@ export const CreateSiteAclRequest = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    description: "description",
+    forwardLocally: "forward_locally",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/magic/sites/{siteId}/acls",
@@ -7807,6 +8206,8 @@ export const CreateSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7822,6 +8223,8 @@ export const CreateSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7831,12 +8234,20 @@ export const CreateSiteAclResponse = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
 ) as unknown as Schema.Schema<CreateSiteAclResponse>;
 
-export const createSiteAcl: (
-  input: CreateSiteAclRequest,
-) => Effect.Effect<
+export const createSiteAcl: API.OperationMethod<
+  CreateSiteAclRequest,
   CreateSiteAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7897,6 +8308,8 @@ export const UpdateSiteAclRequest = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7912,6 +8325,8 @@ export const UpdateSiteAclRequest = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7921,7 +8336,15 @@ export const UpdateSiteAclRequest = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/magic/sites/{siteId}/acls/{aclId}",
@@ -7972,6 +8395,8 @@ export const UpdateSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7987,6 +8412,8 @@ export const UpdateSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -7996,12 +8423,20 @@ export const UpdateSiteAclResponse = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
 ) as unknown as Schema.Schema<UpdateSiteAclResponse>;
 
-export const updateSiteAcl: (
-  input: UpdateSiteAclRequest,
-) => Effect.Effect<
+export const updateSiteAcl: API.OperationMethod<
+  UpdateSiteAclRequest,
   UpdateSiteAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8062,6 +8497,8 @@ export const PatchSiteAclRequest = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -8077,6 +8514,8 @@ export const PatchSiteAclRequest = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -8086,7 +8525,15 @@ export const PatchSiteAclRequest = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/magic/sites/{siteId}/acls/{aclId}",
@@ -8137,6 +8584,8 @@ export const PatchSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -8152,6 +8601,8 @@ export const PatchSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -8161,12 +8612,20 @@ export const PatchSiteAclResponse = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
 ) as unknown as Schema.Schema<PatchSiteAclResponse>;
 
-export const patchSiteAcl: (
-  input: PatchSiteAclRequest,
-) => Effect.Effect<
+export const patchSiteAcl: API.OperationMethod<
+  PatchSiteAclRequest,
   PatchSiteAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8238,6 +8697,8 @@ export const DeleteSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -8253,6 +8714,8 @@ export const DeleteSiteAclResponse = Schema.Struct({
         lanId: "lan_id",
         lanName: "lan_name",
         portRanges: "port_ranges",
+        ports: "ports",
+        subnets: "subnets",
       }),
     ),
   ),
@@ -8262,12 +8725,20 @@ export const DeleteSiteAclResponse = Schema.Struct({
   ),
   unidirectional: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ forwardLocally: "forward_locally" }),
+  Schema.encodeKeys({
+    id: "id",
+    description: "description",
+    forwardLocally: "forward_locally",
+    lan_1: "lan_1",
+    lan_2: "lan_2",
+    name: "name",
+    protocols: "protocols",
+    unidirectional: "unidirectional",
+  }),
 ) as unknown as Schema.Schema<DeleteSiteAclResponse>;
 
-export const deleteSiteAcl: (
-  input: DeleteSiteAclRequest,
-) => Effect.Effect<
+export const deleteSiteAcl: API.OperationMethod<
+  DeleteSiteAclRequest,
   DeleteSiteAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8352,7 +8823,13 @@ export const GetSiteLanResponse = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   siteId: Schema.optional(Schema.String),
@@ -8377,6 +8854,7 @@ export const GetSiteLanResponse = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -8384,6 +8862,7 @@ export const GetSiteLanResponse = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -8394,7 +8873,11 @@ export const GetSiteLanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     haLink: "ha_link",
+    name: "name",
+    nat: "nat",
+    physport: "physport",
     routedSubnets: "routed_subnets",
     siteId: "site_id",
     staticAddressing: "static_addressing",
@@ -8402,9 +8885,8 @@ export const GetSiteLanResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSiteLanResponse>;
 
-export const getSiteLan: (
-  input: GetSiteLanRequest,
-) => Effect.Effect<
+export const getSiteLan: API.OperationMethod<
+  GetSiteLanRequest,
   GetSiteLanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8479,7 +8961,13 @@ export const ListSiteLansResponse = Schema.Array(
               staticPrefix: Schema.optional(Schema.String),
             }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
           ),
-        }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+        }).pipe(
+          Schema.encodeKeys({
+            nextHop: "next_hop",
+            prefix: "prefix",
+            nat: "nat",
+          }),
+        ),
       ),
     ),
     siteId: Schema.optional(Schema.String),
@@ -8504,6 +8992,7 @@ export const ListSiteLansResponse = Schema.Array(
               dhcpPoolStart: "dhcp_pool_start",
               dnsServer: "dns_server",
               dnsServers: "dns_servers",
+              reservations: "reservations",
             }),
           ),
         ),
@@ -8511,6 +9000,7 @@ export const ListSiteLansResponse = Schema.Array(
         virtualAddress: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          address: "address",
           dhcpRelay: "dhcp_relay",
           dhcpServer: "dhcp_server",
           secondaryAddress: "secondary_address",
@@ -8521,7 +9011,11 @@ export const ListSiteLansResponse = Schema.Array(
     vlanTag: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       haLink: "ha_link",
+      name: "name",
+      nat: "nat",
+      physport: "physport",
       routedSubnets: "routed_subnets",
       siteId: "site_id",
       staticAddressing: "static_addressing",
@@ -8530,9 +9024,8 @@ export const ListSiteLansResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSiteLansResponse>;
 
-export const listSiteLans: (
-  input: ListSiteLansRequest,
-) => Effect.Effect<
+export const listSiteLans: API.OperationMethod<
+  ListSiteLansRequest,
   ListSiteLansResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8599,7 +9092,13 @@ export const CreateSiteLanRequest = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   staticAddressing: Schema.optional(
@@ -8623,6 +9122,7 @@ export const CreateSiteLanRequest = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -8630,6 +9130,7 @@ export const CreateSiteLanRequest = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -8640,7 +9141,10 @@ export const CreateSiteLanRequest = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    physport: "physport",
     haLink: "ha_link",
+    name: "name",
+    nat: "nat",
     routedSubnets: "routed_subnets",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
@@ -8700,7 +9204,13 @@ export const CreateSiteLanResponse = Schema.Array(
               staticPrefix: Schema.optional(Schema.String),
             }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
           ),
-        }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+        }).pipe(
+          Schema.encodeKeys({
+            nextHop: "next_hop",
+            prefix: "prefix",
+            nat: "nat",
+          }),
+        ),
       ),
     ),
     siteId: Schema.optional(Schema.String),
@@ -8725,6 +9235,7 @@ export const CreateSiteLanResponse = Schema.Array(
               dhcpPoolStart: "dhcp_pool_start",
               dnsServer: "dns_server",
               dnsServers: "dns_servers",
+              reservations: "reservations",
             }),
           ),
         ),
@@ -8732,6 +9243,7 @@ export const CreateSiteLanResponse = Schema.Array(
         virtualAddress: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          address: "address",
           dhcpRelay: "dhcp_relay",
           dhcpServer: "dhcp_server",
           secondaryAddress: "secondary_address",
@@ -8742,7 +9254,11 @@ export const CreateSiteLanResponse = Schema.Array(
     vlanTag: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       haLink: "ha_link",
+      name: "name",
+      nat: "nat",
+      physport: "physport",
       routedSubnets: "routed_subnets",
       siteId: "site_id",
       staticAddressing: "static_addressing",
@@ -8751,9 +9267,8 @@ export const CreateSiteLanResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateSiteLanResponse>;
 
-export const createSiteLan: (
-  input: CreateSiteLanRequest,
-) => Effect.Effect<
+export const createSiteLan: API.OperationMethod<
+  CreateSiteLanRequest,
   CreateSiteLanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8819,7 +9334,13 @@ export const PutSiteLanRequest = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   staticAddressing: Schema.optional(
@@ -8843,6 +9364,7 @@ export const PutSiteLanRequest = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -8850,6 +9372,7 @@ export const PutSiteLanRequest = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -8860,6 +9383,9 @@ export const PutSiteLanRequest = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    nat: "nat",
+    physport: "physport",
     routedSubnets: "routed_subnets",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
@@ -8923,7 +9449,13 @@ export const PutSiteLanResponse = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   siteId: Schema.optional(Schema.String),
@@ -8948,6 +9480,7 @@ export const PutSiteLanResponse = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -8955,6 +9488,7 @@ export const PutSiteLanResponse = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -8965,7 +9499,11 @@ export const PutSiteLanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     haLink: "ha_link",
+    name: "name",
+    nat: "nat",
+    physport: "physport",
     routedSubnets: "routed_subnets",
     siteId: "site_id",
     staticAddressing: "static_addressing",
@@ -8973,9 +9511,8 @@ export const PutSiteLanResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSiteLanResponse>;
 
-export const putSiteLan: (
-  input: PutSiteLanRequest,
-) => Effect.Effect<
+export const putSiteLan: API.OperationMethod<
+  PutSiteLanRequest,
   PutSiteLanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9041,7 +9578,13 @@ export const PatchSiteLanRequest = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   staticAddressing: Schema.optional(
@@ -9065,6 +9608,7 @@ export const PatchSiteLanRequest = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -9072,6 +9616,7 @@ export const PatchSiteLanRequest = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -9082,6 +9627,9 @@ export const PatchSiteLanRequest = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    nat: "nat",
+    physport: "physport",
     routedSubnets: "routed_subnets",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
@@ -9145,7 +9693,13 @@ export const PatchSiteLanResponse = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   siteId: Schema.optional(Schema.String),
@@ -9170,6 +9724,7 @@ export const PatchSiteLanResponse = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -9177,6 +9732,7 @@ export const PatchSiteLanResponse = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -9187,7 +9743,11 @@ export const PatchSiteLanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     haLink: "ha_link",
+    name: "name",
+    nat: "nat",
+    physport: "physport",
     routedSubnets: "routed_subnets",
     siteId: "site_id",
     staticAddressing: "static_addressing",
@@ -9195,9 +9755,8 @@ export const PatchSiteLanResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSiteLanResponse>;
 
-export const patchSiteLan: (
-  input: PatchSiteLanRequest,
-) => Effect.Effect<
+export const patchSiteLan: API.OperationMethod<
+  PatchSiteLanRequest,
   PatchSiteLanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9278,7 +9837,13 @@ export const DeleteSiteLanResponse = Schema.Struct({
             staticPrefix: Schema.optional(Schema.String),
           }).pipe(Schema.encodeKeys({ staticPrefix: "static_prefix" })),
         ),
-      }).pipe(Schema.encodeKeys({ nextHop: "next_hop" })),
+      }).pipe(
+        Schema.encodeKeys({
+          nextHop: "next_hop",
+          prefix: "prefix",
+          nat: "nat",
+        }),
+      ),
     ),
   ),
   siteId: Schema.optional(Schema.String),
@@ -9303,6 +9868,7 @@ export const DeleteSiteLanResponse = Schema.Struct({
             dhcpPoolStart: "dhcp_pool_start",
             dnsServer: "dns_server",
             dnsServers: "dns_servers",
+            reservations: "reservations",
           }),
         ),
       ),
@@ -9310,6 +9876,7 @@ export const DeleteSiteLanResponse = Schema.Struct({
       virtualAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         dhcpRelay: "dhcp_relay",
         dhcpServer: "dhcp_server",
         secondaryAddress: "secondary_address",
@@ -9320,7 +9887,11 @@ export const DeleteSiteLanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     haLink: "ha_link",
+    name: "name",
+    nat: "nat",
+    physport: "physport",
     routedSubnets: "routed_subnets",
     siteId: "site_id",
     staticAddressing: "static_addressing",
@@ -9328,9 +9899,8 @@ export const DeleteSiteLanResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteSiteLanResponse>;
 
-export const deleteSiteLan: (
-  input: DeleteSiteLanRequest,
-) => Effect.Effect<
+export const deleteSiteLan: API.OperationMethod<
+  DeleteSiteLanRequest,
   DeleteSiteLanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9397,6 +9967,7 @@ export const GetSiteWanResponse = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9405,16 +9976,19 @@ export const GetSiteWanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     healthCheckRate: "health_check_rate",
+    name: "name",
+    physport: "physport",
+    priority: "priority",
     siteId: "site_id",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
 ) as unknown as Schema.Schema<GetSiteWanResponse>;
 
-export const getSiteWan: (
-  input: GetSiteWanRequest,
-) => Effect.Effect<
+export const getSiteWan: API.OperationMethod<
+  GetSiteWanRequest,
   GetSiteWanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9470,6 +10044,7 @@ export const ListSiteWansResponse = Schema.Array(
         secondaryAddress: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          address: "address",
           gatewayAddress: "gateway_address",
           secondaryAddress: "secondary_address",
         }),
@@ -9478,7 +10053,11 @@ export const ListSiteWansResponse = Schema.Array(
     vlanTag: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       healthCheckRate: "health_check_rate",
+      name: "name",
+      physport: "physport",
+      priority: "priority",
       siteId: "site_id",
       staticAddressing: "static_addressing",
       vlanTag: "vlan_tag",
@@ -9486,9 +10065,8 @@ export const ListSiteWansResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSiteWansResponse>;
 
-export const listSiteWans: (
-  input: ListSiteWansRequest,
-) => Effect.Effect<
+export const listSiteWans: API.OperationMethod<
+  ListSiteWansRequest,
   ListSiteWansResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9531,6 +10109,7 @@ export const CreateSiteWanRequest = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9539,6 +10118,9 @@ export const CreateSiteWanRequest = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    physport: "physport",
+    name: "name",
+    priority: "priority",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
@@ -9578,6 +10160,7 @@ export const CreateSiteWanResponse = Schema.Array(
         secondaryAddress: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          address: "address",
           gatewayAddress: "gateway_address",
           secondaryAddress: "secondary_address",
         }),
@@ -9586,7 +10169,11 @@ export const CreateSiteWanResponse = Schema.Array(
     vlanTag: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       healthCheckRate: "health_check_rate",
+      name: "name",
+      physport: "physport",
+      priority: "priority",
       siteId: "site_id",
       staticAddressing: "static_addressing",
       vlanTag: "vlan_tag",
@@ -9594,9 +10181,8 @@ export const CreateSiteWanResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateSiteWanResponse>;
 
-export const createSiteWan: (
-  input: CreateSiteWanRequest,
-) => Effect.Effect<
+export const createSiteWan: API.OperationMethod<
+  CreateSiteWanRequest,
   CreateSiteWanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9641,6 +10227,7 @@ export const PutSiteWanRequest = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9649,6 +10236,9 @@ export const PutSiteWanRequest = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    physport: "physport",
+    priority: "priority",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
@@ -9693,6 +10283,7 @@ export const PutSiteWanResponse = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9701,16 +10292,19 @@ export const PutSiteWanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     healthCheckRate: "health_check_rate",
+    name: "name",
+    physport: "physport",
+    priority: "priority",
     siteId: "site_id",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
 ) as unknown as Schema.Schema<PutSiteWanResponse>;
 
-export const putSiteWan: (
-  input: PutSiteWanRequest,
-) => Effect.Effect<
+export const putSiteWan: API.OperationMethod<
+  PutSiteWanRequest,
   PutSiteWanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9755,6 +10349,7 @@ export const PatchSiteWanRequest = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9763,6 +10358,9 @@ export const PatchSiteWanRequest = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    physport: "physport",
+    priority: "priority",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
@@ -9807,6 +10405,7 @@ export const PatchSiteWanResponse = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9815,16 +10414,19 @@ export const PatchSiteWanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     healthCheckRate: "health_check_rate",
+    name: "name",
+    physport: "physport",
+    priority: "priority",
     siteId: "site_id",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
 ) as unknown as Schema.Schema<PatchSiteWanResponse>;
 
-export const patchSiteWan: (
-  input: PatchSiteWanRequest,
-) => Effect.Effect<
+export const patchSiteWan: API.OperationMethod<
+  PatchSiteWanRequest,
   PatchSiteWanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9887,6 +10489,7 @@ export const DeleteSiteWanResponse = Schema.Struct({
       secondaryAddress: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        address: "address",
         gatewayAddress: "gateway_address",
         secondaryAddress: "secondary_address",
       }),
@@ -9895,16 +10498,19 @@ export const DeleteSiteWanResponse = Schema.Struct({
   vlanTag: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     healthCheckRate: "health_check_rate",
+    name: "name",
+    physport: "physport",
+    priority: "priority",
     siteId: "site_id",
     staticAddressing: "static_addressing",
     vlanTag: "vlan_tag",
   }),
 ) as unknown as Schema.Schema<DeleteSiteWanResponse>;
 
-export const deleteSiteWan: (
-  input: DeleteSiteWanRequest,
-) => Effect.Effect<
+export const deleteSiteWan: API.OperationMethod<
+  DeleteSiteWanRequest,
   DeleteSiteWanResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

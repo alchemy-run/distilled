@@ -63,9 +63,8 @@ export const GetV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<GetV1Response>;
 
-export const getV1: (
-  input: GetV1Request,
-) => Effect.Effect<
+export const getV1: API.OperationMethod<
+  GetV1Request,
   GetV1Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -121,9 +120,8 @@ export const ListV1sResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListV1sResponse>;
 
-export const listV1s: (
-  input: ListV1sRequest,
-) => Effect.Effect<
+export const listV1s: API.OperationMethod<
+  ListV1sRequest,
   ListV1sResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -193,9 +191,8 @@ export const CreateV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<CreateV1Response>;
 
-export const createV1: (
-  input: CreateV1Request,
-) => Effect.Effect<
+export const createV1: API.OperationMethod<
+  CreateV1Request,
   CreateV1Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -257,9 +254,8 @@ export const PatchV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<PatchV1Response>;
 
-export const patchV1: (
-  input: PatchV1Request,
-) => Effect.Effect<
+export const patchV1: API.OperationMethod<
+  PatchV1Request,
   PatchV1Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -290,9 +286,8 @@ export type DeleteV1Response = string;
 export const DeleteV1Response =
   Schema.String as unknown as Schema.Schema<DeleteV1Response>;
 
-export const deleteV1: (
-  input: DeleteV1Request,
-) => Effect.Effect<
+export const deleteV1: API.OperationMethod<
+  DeleteV1Request,
   DeleteV1Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -327,9 +322,8 @@ export type GetV1BlobResponse = unknown;
 export const GetV1BlobResponse =
   Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
 
-export const getV1Blob: (
-  input: GetV1BlobRequest,
-) => Effect.Effect<
+export const getV1Blob: API.OperationMethod<
+  GetV1BlobRequest,
   GetV1BlobResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -369,9 +363,8 @@ export const ListV1KeysResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListV1KeysResponse>;
 
-export const listV1Keys: (
-  input: ListV1KeysRequest,
-) => Effect.Effect<
+export const listV1Keys: API.OperationMethod<
+  ListV1KeysRequest,
   ListV1KeysResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -412,9 +405,8 @@ export const PutV1KeyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PutV1KeyResponse>;
 
-export const putV1Key: (
-  input: PutV1KeyRequest,
-) => Effect.Effect<
+export const putV1Key: API.OperationMethod<
+  PutV1KeyRequest,
   PutV1KeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -455,9 +447,8 @@ export const DeleteV1KeyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DeleteV1KeyResponse>;
 
-export const deleteV1Key: (
-  input: DeleteV1KeyRequest,
-) => Effect.Effect<
+export const deleteV1Key: API.OperationMethod<
+  DeleteV1KeyRequest,
   DeleteV1KeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -495,9 +486,8 @@ export const GetV1StatResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetV1StatResponse>;
 
-export const getV1Stat: (
-  input: GetV1StatRequest,
-) => Effect.Effect<
+export const getV1Stat: API.OperationMethod<
+  GetV1StatRequest,
   GetV1StatResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -555,9 +545,8 @@ export const GetV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetV1VariantResponse>;
 
-export const getV1Variant: (
-  input: GetV1VariantRequest,
-) => Effect.Effect<
+export const getV1Variant: API.OperationMethod<
+  GetV1VariantRequest,
   GetV1VariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -602,9 +591,8 @@ export const ListV1VariantsResponse = Schema.Struct({
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ListV1VariantsResponse>;
 
-export const listV1Variants: (
-  input: ListV1VariantsRequest,
-) => Effect.Effect<
+export const listV1Variants: API.OperationMethod<
+  ListV1VariantsRequest,
   ListV1VariantsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -672,9 +660,8 @@ export const CreateV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateV1VariantResponse>;
 
-export const createV1Variant: (
-  input: CreateV1VariantRequest,
-) => Effect.Effect<
+export const createV1Variant: API.OperationMethod<
+  CreateV1VariantRequest,
   CreateV1VariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -744,9 +731,8 @@ export const PatchV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PatchV1VariantResponse>;
 
-export const patchV1Variant: (
-  input: PatchV1VariantRequest,
-) => Effect.Effect<
+export const patchV1Variant: API.OperationMethod<
+  PatchV1VariantRequest,
   PatchV1VariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -777,9 +763,8 @@ export type DeleteV1VariantResponse = string;
 export const DeleteV1VariantResponse =
   Schema.String as unknown as Schema.Schema<DeleteV1VariantResponse>;
 
-export const deleteV1Variant: (
-  input: DeleteV1VariantRequest,
-) => Effect.Effect<
+export const deleteV1Variant: API.OperationMethod<
+  DeleteV1VariantRequest,
   DeleteV1VariantResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -834,12 +819,14 @@ export const ListV2sResponse = Schema.Struct({
   ),
   images: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  Schema.encodeKeys({ continuationToken: "continuation_token" }),
+  Schema.encodeKeys({
+    continuationToken: "continuation_token",
+    images: "images",
+  }),
 ) as unknown as Schema.Schema<ListV2sResponse>;
 
-export const listV2s: (
-  input: ListV2sRequest,
-) => Effect.Effect<
+export const listV2s: API.OperationMethod<
+  ListV2sRequest,
   ListV2sResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -894,9 +881,8 @@ export const CreateV2DirectUploadResponse = Schema.Struct({
   uploadURL: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
 
-export const createV2DirectUpload: (
-  input: CreateV2DirectUploadRequest,
-) => Effect.Effect<
+export const createV2DirectUpload: API.OperationMethod<
+  CreateV2DirectUploadRequest,
   CreateV2DirectUploadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

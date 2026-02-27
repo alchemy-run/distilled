@@ -47,12 +47,14 @@ export const GetControlCmbConfigResponse = Schema.Struct({
   allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
   regions: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
+  Schema.encodeKeys({
+    allowOutOfRegionAccess: "allow_out_of_region_access",
+    regions: "regions",
+  }),
 ) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
 
-export const getControlCmbConfig: (
-  input: GetControlCmbConfigRequest,
-) => Effect.Effect<
+export const getControlCmbConfig: API.OperationMethod<
+  GetControlCmbConfigRequest,
   GetControlCmbConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -76,7 +78,10 @@ export const CreateControlCmbConfigRequest = Schema.Struct({
   allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
   regions: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
+  Schema.encodeKeys({
+    allowOutOfRegionAccess: "allow_out_of_region_access",
+    regions: "regions",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/logs/control/cmb/config",
@@ -94,12 +99,14 @@ export const CreateControlCmbConfigResponse = Schema.Struct({
   allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
   regions: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ allowOutOfRegionAccess: "allow_out_of_region_access" }),
+  Schema.encodeKeys({
+    allowOutOfRegionAccess: "allow_out_of_region_access",
+    regions: "regions",
+  }),
 ) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
 
-export const createControlCmbConfig: (
-  input: CreateControlCmbConfigRequest,
-) => Effect.Effect<
+export const createControlCmbConfig: API.OperationMethod<
+  CreateControlCmbConfigRequest,
   CreateControlCmbConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -128,9 +135,8 @@ export type DeleteControlCmbConfigResponse = unknown;
 export const DeleteControlCmbConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteControlCmbConfigResponse>;
 
-export const deleteControlCmbConfig: (
-  input: DeleteControlCmbConfigRequest,
-) => Effect.Effect<
+export const deleteControlCmbConfig: API.OperationMethod<
+  DeleteControlCmbConfigRequest,
   DeleteControlCmbConfigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -167,9 +173,8 @@ export const GetControlRetentionResponse = Schema.Struct({
   flag: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetControlRetentionResponse>;
 
-export const getControlRetention: (
-  input: GetControlRetentionRequest,
-) => Effect.Effect<
+export const getControlRetention: API.OperationMethod<
+  GetControlRetentionRequest,
   GetControlRetentionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -205,9 +210,8 @@ export const CreateControlRetentionResponse = Schema.Struct({
   flag: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateControlRetentionResponse>;
 
-export const createControlRetention: (
-  input: CreateControlRetentionRequest,
-) => Effect.Effect<
+export const createControlRetention: API.OperationMethod<
+  CreateControlRetentionRequest,
   CreateControlRetentionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -247,9 +251,8 @@ export type GetRayidResponse = string;
 export const GetRayidResponse =
   Schema.String as unknown as Schema.Schema<GetRayidResponse>;
 
-export const getRayid: (
-  input: GetRayidRequest,
-) => Effect.Effect<
+export const getRayid: API.OperationMethod<
+  GetRayidRequest,
   GetRayidResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -301,9 +304,8 @@ export type GetReceivedResponse = string;
 export const GetReceivedResponse =
   Schema.String as unknown as Schema.Schema<GetReceivedResponse>;
 
-export const getReceived: (
-  input: GetReceivedRequest,
-) => Effect.Effect<
+export const getReceived: API.OperationMethod<
+  GetReceivedRequest,
   GetReceivedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -336,9 +338,8 @@ export const GetReceivedFieldResponse = Schema.Struct({
   key: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetReceivedFieldResponse>;
 
-export const getReceivedField: (
-  input: GetReceivedFieldRequest,
-) => Effect.Effect<
+export const getReceivedField: API.OperationMethod<
+  GetReceivedFieldRequest,
   GetReceivedFieldResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

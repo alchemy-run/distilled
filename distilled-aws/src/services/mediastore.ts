@@ -760,9 +760,8 @@ export class CorsPolicyNotFoundException extends S.TaggedErrorClass<CorsPolicyNo
  * Creates a storage container to hold objects. A container is similar to a bucket in
  * the Amazon S3 service.
  */
-export const createContainer: (
-  input: CreateContainerInput,
-) => effect.Effect<
+export const createContainer: API.OperationMethod<
+  CreateContainerInput,
   CreateContainerOutput,
   | ContainerInUseException
   | InternalServerError
@@ -783,9 +782,8 @@ export const createContainer: (
  * request, delete any objects in the container or in any folders in the container. You can
  * delete only empty containers.
  */
-export const deleteContainer: (
-  input: DeleteContainerInput,
-) => effect.Effect<
+export const deleteContainer: API.OperationMethod<
+  DeleteContainerInput,
   DeleteContainerOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -804,9 +802,8 @@ export const deleteContainer: (
 /**
  * Deletes the access policy that is associated with the specified container.
  */
-export const deleteContainerPolicy: (
-  input: DeleteContainerPolicyInput,
-) => effect.Effect<
+export const deleteContainerPolicy: API.OperationMethod<
+  DeleteContainerPolicyInput,
   DeleteContainerPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -832,9 +829,8 @@ export const deleteContainerPolicy: (
  * `MediaStore:DeleteCorsPolicy` action. The container owner has this permission
  * by default and can grant this permission to others.
  */
-export const deleteCorsPolicy: (
-  input: DeleteCorsPolicyInput,
-) => effect.Effect<
+export const deleteCorsPolicy: API.OperationMethod<
+  DeleteCorsPolicyInput,
   DeleteCorsPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -855,9 +851,8 @@ export const deleteCorsPolicy: (
 /**
  * Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
  */
-export const deleteLifecyclePolicy: (
-  input: DeleteLifecyclePolicyInput,
-) => effect.Effect<
+export const deleteLifecyclePolicy: API.OperationMethod<
+  DeleteLifecyclePolicyInput,
   DeleteLifecyclePolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -878,9 +873,8 @@ export const deleteLifecyclePolicy: (
 /**
  * Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
  */
-export const deleteMetricPolicy: (
-  input: DeleteMetricPolicyInput,
-) => effect.Effect<
+export const deleteMetricPolicy: API.OperationMethod<
+  DeleteMetricPolicyInput,
   DeleteMetricPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -907,9 +901,8 @@ export const deleteMetricPolicy: (
  * `Container` objects that are associated with a specified AWS account, use
  * ListContainers.
  */
-export const describeContainer: (
-  input: DescribeContainerInput,
-) => effect.Effect<
+export const describeContainer: API.OperationMethod<
+  DescribeContainerInput,
   DescribeContainerOutput,
   ContainerNotFoundException | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -923,9 +916,8 @@ export const describeContainer: (
  * data that is included in an access policy, see the AWS Identity and Access Management User
  * Guide.
  */
-export const getContainerPolicy: (
-  input: GetContainerPolicyInput,
-) => effect.Effect<
+export const getContainerPolicy: API.OperationMethod<
+  GetContainerPolicyInput,
   GetContainerPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -951,9 +943,8 @@ export const getContainerPolicy: (
  * `MediaStore:GetCorsPolicy` action. By default, the container owner has this
  * permission and can grant it to others.
  */
-export const getCorsPolicy: (
-  input: GetCorsPolicyInput,
-) => effect.Effect<
+export const getCorsPolicy: API.OperationMethod<
+  GetCorsPolicyInput,
   GetCorsPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -974,9 +965,8 @@ export const getCorsPolicy: (
 /**
  * Retrieves the object lifecycle policy that is assigned to a container.
  */
-export const getLifecyclePolicy: (
-  input: GetLifecyclePolicyInput,
-) => effect.Effect<
+export const getLifecyclePolicy: API.OperationMethod<
+  GetLifecyclePolicyInput,
   GetLifecyclePolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -997,9 +987,8 @@ export const getLifecyclePolicy: (
 /**
  * Returns the metric policy for the specified container.
  */
-export const getMetricPolicy: (
-  input: GetMetricPolicyInput,
-) => effect.Effect<
+export const getMetricPolicy: API.OperationMethod<
+  GetMetricPolicyInput,
   GetMetricPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1030,14 +1019,12 @@ export const getMetricPolicy: (
  * See also DescribeContainer, which gets the properties of one
  * container.
  */
-export const listContainers: {
-  (
-    input: ListContainersInput,
-  ): effect.Effect<
-    ListContainersOutput,
-    InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContainers: API.OperationMethod<
+  ListContainersInput,
+  ListContainersOutput,
+  InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContainersInput,
   ) => stream.Stream<
@@ -1065,9 +1052,8 @@ export const listContainers: {
 /**
  * Returns a list of the tags assigned to the specified container.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1093,9 +1079,8 @@ export const listTagsForResource: (
  * you enter `PutContainerPolicy` twice, the second command modifies the existing
  * policy.
  */
-export const putContainerPolicy: (
-  input: PutContainerPolicyInput,
-) => effect.Effect<
+export const putContainerPolicy: API.OperationMethod<
+  PutContainerPolicyInput,
   PutContainerPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1126,9 +1111,8 @@ export const putContainerPolicy: (
  *
  * To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore.
  */
-export const putCorsPolicy: (
-  input: PutCorsPolicyInput,
-) => effect.Effect<
+export const putCorsPolicy: API.OperationMethod<
+  PutCorsPolicyInput,
   PutCorsPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1149,9 +1133,8 @@ export const putCorsPolicy: (
  *
  * For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy.
  */
-export const putLifecyclePolicy: (
-  input: PutLifecyclePolicyInput,
-) => effect.Effect<
+export const putLifecyclePolicy: API.OperationMethod<
+  PutLifecyclePolicyInput,
   PutLifecyclePolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1170,9 +1153,8 @@ export const putLifecyclePolicy: (
 /**
  * The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
  */
-export const putMetricPolicy: (
-  input: PutMetricPolicyInput,
-) => effect.Effect<
+export const putMetricPolicy: API.OperationMethod<
+  PutMetricPolicyInput,
   PutMetricPolicyOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1191,9 +1173,8 @@ export const putMetricPolicy: (
 /**
  * Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
  */
-export const startAccessLogging: (
-  input: StartAccessLoggingInput,
-) => effect.Effect<
+export const startAccessLogging: API.OperationMethod<
+  StartAccessLoggingInput,
   StartAccessLoggingOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1212,9 +1193,8 @@ export const startAccessLogging: (
 /**
  * Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
  */
-export const stopAccessLogging: (
-  input: StopAccessLoggingInput,
-) => effect.Effect<
+export const stopAccessLogging: API.OperationMethod<
+  StopAccessLoggingInput,
   StopAccessLoggingOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1235,9 +1215,8 @@ export const stopAccessLogging: (
  * tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50
  * tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ContainerInUseException
   | ContainerNotFoundException
@@ -1256,9 +1235,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified container. You can specify one or more tags to remove.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | ContainerInUseException
   | ContainerNotFoundException

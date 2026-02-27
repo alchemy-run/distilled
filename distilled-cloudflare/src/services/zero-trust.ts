@@ -62,17 +62,20 @@ export const ListAccessAiControlMcpPortalsResponse = Schema.Array(
     modifiedBy: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      hostname: "hostname",
+      name: "name",
       createdAt: "created_at",
       createdBy: "created_by",
+      description: "description",
       modifiedAt: "modified_at",
       modifiedBy: "modified_by",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessAiControlMcpPortalsResponse>;
 
-export const listAccessAiControlMcpPortals: (
-  input: ListAccessAiControlMcpPortalsRequest,
-) => Effect.Effect<
+export const listAccessAiControlMcpPortals: API.OperationMethod<
+  ListAccessAiControlMcpPortalsRequest,
   ListAccessAiControlMcpPortalsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -178,16 +181,19 @@ export const CreateAccessAiControlMcpPortalResponse = Schema.Struct({
   modifiedBy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    hostname: "hostname",
+    name: "name",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
   }),
 ) as unknown as Schema.Schema<CreateAccessAiControlMcpPortalResponse>;
 
-export const createAccessAiControlMcpPortal: (
-  input: CreateAccessAiControlMcpPortalRequest,
-) => Effect.Effect<
+export const createAccessAiControlMcpPortal: API.OperationMethod<
+  CreateAccessAiControlMcpPortalRequest,
   CreateAccessAiControlMcpPortalResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -292,16 +298,19 @@ export const UpdateAccessAiControlMcpPortalResponse = Schema.Struct({
   modifiedBy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    hostname: "hostname",
+    name: "name",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
   }),
 ) as unknown as Schema.Schema<UpdateAccessAiControlMcpPortalResponse>;
 
-export const updateAccessAiControlMcpPortal: (
-  input: UpdateAccessAiControlMcpPortalRequest,
-) => Effect.Effect<
+export const updateAccessAiControlMcpPortal: API.OperationMethod<
+  UpdateAccessAiControlMcpPortalRequest,
   UpdateAccessAiControlMcpPortalResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -349,16 +358,19 @@ export const DeleteAccessAiControlMcpPortalResponse = Schema.Struct({
   modifiedBy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    hostname: "hostname",
+    name: "name",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
   }),
 ) as unknown as Schema.Schema<DeleteAccessAiControlMcpPortalResponse>;
 
-export const deleteAccessAiControlMcpPortal: (
-  input: DeleteAccessAiControlMcpPortalRequest,
-) => Effect.Effect<
+export const deleteAccessAiControlMcpPortal: API.OperationMethod<
+  DeleteAccessAiControlMcpPortalRequest,
   DeleteAccessAiControlMcpPortalResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -441,16 +453,24 @@ export const ReadAccessAiControlMcpPortalResponse = Schema.Struct({
       status: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         authType: "auth_type",
+        hostname: "hostname",
+        name: "name",
+        prompts: "prompts",
+        tools: "tools",
         updatedPrompts: "updated_prompts",
         updatedTools: "updated_tools",
         createdAt: "created_at",
         createdBy: "created_by",
         defaultDisabled: "default_disabled",
+        description: "description",
+        error: "error",
         lastSynced: "last_synced",
         modifiedAt: "modified_at",
         modifiedBy: "modified_by",
         onBehalf: "on_behalf",
+        status: "status",
       }),
     ),
   ),
@@ -461,16 +481,20 @@ export const ReadAccessAiControlMcpPortalResponse = Schema.Struct({
   modifiedBy: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    hostname: "hostname",
+    name: "name",
+    servers: "servers",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
   }),
 ) as unknown as Schema.Schema<ReadAccessAiControlMcpPortalResponse>;
 
-export const readAccessAiControlMcpPortal: (
-  input: ReadAccessAiControlMcpPortalRequest,
-) => Effect.Effect<
+export const readAccessAiControlMcpPortal: API.OperationMethod<
+  ReadAccessAiControlMcpPortalRequest,
   ReadAccessAiControlMcpPortalResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -536,19 +560,26 @@ export const ListAccessAiControlMcpServersResponse = Schema.Array(
     status: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       authType: "auth_type",
+      hostname: "hostname",
+      name: "name",
+      prompts: "prompts",
+      tools: "tools",
       createdAt: "created_at",
       createdBy: "created_by",
+      description: "description",
+      error: "error",
       lastSynced: "last_synced",
       modifiedAt: "modified_at",
       modifiedBy: "modified_by",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessAiControlMcpServersResponse>;
 
-export const listAccessAiControlMcpServers: (
-  input: ListAccessAiControlMcpServersRequest,
-) => Effect.Effect<
+export const listAccessAiControlMcpServers: API.OperationMethod<
+  ListAccessAiControlMcpServersRequest,
   ListAccessAiControlMcpServersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -585,8 +616,12 @@ export const CreateAccessAiControlMcpServerRequest = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     authType: "auth_type",
+    hostname: "hostname",
+    name: "name",
     authCredentials: "auth_credentials",
+    description: "description",
   }),
   T.Http({
     method: "POST",
@@ -629,18 +664,25 @@ export const CreateAccessAiControlMcpServerResponse = Schema.Struct({
   status: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     authType: "auth_type",
+    hostname: "hostname",
+    name: "name",
+    prompts: "prompts",
+    tools: "tools",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
+    error: "error",
     lastSynced: "last_synced",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<CreateAccessAiControlMcpServerResponse>;
 
-export const createAccessAiControlMcpServer: (
-  input: CreateAccessAiControlMcpServerRequest,
-) => Effect.Effect<
+export const createAccessAiControlMcpServer: API.OperationMethod<
+  CreateAccessAiControlMcpServerRequest,
   CreateAccessAiControlMcpServerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -669,7 +711,11 @@ export const UpdateAccessAiControlMcpServerRequest = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ authCredentials: "auth_credentials" }),
+  Schema.encodeKeys({
+    authCredentials: "auth_credentials",
+    description: "description",
+    name: "name",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/access/ai-controls/mcp/servers/{id}",
@@ -711,18 +757,25 @@ export const UpdateAccessAiControlMcpServerResponse = Schema.Struct({
   status: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     authType: "auth_type",
+    hostname: "hostname",
+    name: "name",
+    prompts: "prompts",
+    tools: "tools",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
+    error: "error",
     lastSynced: "last_synced",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<UpdateAccessAiControlMcpServerResponse>;
 
-export const updateAccessAiControlMcpServer: (
-  input: UpdateAccessAiControlMcpServerRequest,
-) => Effect.Effect<
+export const updateAccessAiControlMcpServer: API.OperationMethod<
+  UpdateAccessAiControlMcpServerRequest,
   UpdateAccessAiControlMcpServerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -782,18 +835,25 @@ export const DeleteAccessAiControlMcpServerResponse = Schema.Struct({
   status: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     authType: "auth_type",
+    hostname: "hostname",
+    name: "name",
+    prompts: "prompts",
+    tools: "tools",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
+    error: "error",
     lastSynced: "last_synced",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<DeleteAccessAiControlMcpServerResponse>;
 
-export const deleteAccessAiControlMcpServer: (
-  input: DeleteAccessAiControlMcpServerRequest,
-) => Effect.Effect<
+export const deleteAccessAiControlMcpServer: API.OperationMethod<
+  DeleteAccessAiControlMcpServerRequest,
   DeleteAccessAiControlMcpServerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -853,18 +913,25 @@ export const ReadAccessAiControlMcpServerResponse = Schema.Struct({
   status: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     authType: "auth_type",
+    hostname: "hostname",
+    name: "name",
+    prompts: "prompts",
+    tools: "tools",
     createdAt: "created_at",
     createdBy: "created_by",
+    description: "description",
+    error: "error",
     lastSynced: "last_synced",
     modifiedAt: "modified_at",
     modifiedBy: "modified_by",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<ReadAccessAiControlMcpServerResponse>;
 
-export const readAccessAiControlMcpServer: (
-  input: ReadAccessAiControlMcpServerRequest,
-) => Effect.Effect<
+export const readAccessAiControlMcpServer: API.OperationMethod<
+  ReadAccessAiControlMcpServerRequest,
   ReadAccessAiControlMcpServerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -894,9 +961,8 @@ export type SyncAccessAiControlMcpServerResponse = unknown;
 export const SyncAccessAiControlMcpServerResponse =
   Schema.Unknown as unknown as Schema.Schema<SyncAccessAiControlMcpServerResponse>;
 
-export const syncAccessAiControlMcpServer: (
-  input: SyncAccessAiControlMcpServerRequest,
-) => Effect.Effect<
+export const syncAccessAiControlMcpServer: API.OperationMethod<
+  SyncAccessAiControlMcpServerRequest,
   SyncAccessAiControlMcpServerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1386,15 +1452,20 @@ export const GetAccessApplicationResponse = Schema.Union([
             vnetId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              cidr: "cidr",
+              hostname: "hostname",
               l4Protocol: "l4_protocol",
               portRange: "port_range",
+              type: "type",
               vnetId: "vnet_id",
             }),
           ),
           Schema.Struct({
             mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+          }).pipe(
+            Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -1426,12 +1497,19 @@ export const GetAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -1455,6 +1533,7 @@ export const GetAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -1468,6 +1547,7 @@ export const GetAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -1481,7 +1561,10 @@ export const GetAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -1492,21 +1575,28 @@ export const GetAccessApplicationResponse = Schema.Union([
     tags: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      domain: "domain",
+      type: "type",
+      id: "id",
       allowAuthenticateViaWarp: "allow_authenticate_via_warp",
       allowIframe: "allow_iframe",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       corsHeaders: "cors_headers",
       customDenyMessage: "custom_deny_message",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      destinations: "destinations",
       enableBindingCookie: "enable_binding_cookie",
       httpOnlyCookieAttribute: "http_only_cookie_attribute",
       logoUrl: "logo_url",
+      name: "name",
       optionsPreflightBypass: "options_preflight_bypass",
       pathCookieAttribute: "path_cookie_attribute",
+      policies: "policies",
       readServiceTokensFromHeader: "read_service_tokens_from_header",
       sameSiteCookieAttribute: "same_site_cookie_attribute",
       scimConfig: "scim_config",
@@ -1514,6 +1604,7 @@ export const GetAccessApplicationResponse = Schema.Union([
       serviceAuth_401Redirect: "service_auth_401_redirect",
       sessionDuration: "session_duration",
       skipInterstitial: "skip_interstitial",
+      tags: "tags",
     }),
   ),
   Schema.Struct({
@@ -1547,12 +1638,19 @@ export const GetAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -1575,6 +1673,7 @@ export const GetAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -1588,6 +1687,7 @@ export const GetAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -1601,7 +1701,10 @@ export const GetAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -1626,13 +1729,19 @@ export const GetAccessApplicationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       customPages: "custom_pages",
       logoUrl: "logo_url",
+      name: "name",
+      policies: "policies",
       saasApp: "saas_app",
       scimConfig: "scim_config",
+      tags: "tags",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -1683,6 +1792,8 @@ export const GetAccessApplicationResponse = Schema.Union([
           buttonColor: "button_color",
           buttonTextColor: "button_text_color",
           imageUrl: "image_url",
+          message: "message",
+          title: "title",
         }),
       ),
     ),
@@ -1709,12 +1820,19 @@ export const GetAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -1725,16 +1843,22 @@ export const GetAccessApplicationResponse = Schema.Union([
     skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      type: "type",
+      id: "id",
       allowedIdps: "allowed_idps",
       appLauncherLogoUrl: "app_launcher_logo_url",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       bgColor: "bg_color",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      domain: "domain",
       footerLinks: "footer_links",
       headerBgColor: "header_bg_color",
       landingPageDesign: "landing_page_design",
+      name: "name",
+      policies: "policies",
       sessionDuration: "session_duration",
       skipAppLauncherLoginPage: "skip_app_launcher_login_page",
     }),
@@ -1787,12 +1911,19 @@ export const GetAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -1802,11 +1933,17 @@ export const GetAccessApplicationResponse = Schema.Union([
     sessionDuration: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      type: "type",
+      id: "id",
       allowedIdps: "allowed_idps",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      domain: "domain",
+      name: "name",
+      policies: "policies",
       sessionDuration: "session_duration",
     }),
   ),
@@ -1838,8 +1975,14 @@ export const GetAccessApplicationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
+      domain: "domain",
       logoUrl: "logo_url",
+      name: "name",
+      tags: "tags",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -1848,7 +1991,13 @@ export const GetAccessApplicationResponse = Schema.Union([
         port: Schema.Number,
         protocol: Schema.Literal("SSH"),
         targetAttributes: Schema.Struct({}),
-      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          port: "port",
+          protocol: "protocol",
+          targetAttributes: "target_attributes",
+        }),
+      ),
     ),
     type: Schema.Literals([
       "self_hosted",
@@ -1887,17 +2036,38 @@ export const GetAccessApplicationResponse = Schema.Union([
                   usernames: Schema.Array(Schema.String),
                   allowEmailAlias: Schema.optional(Schema.Boolean),
                 }).pipe(
-                  Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                  Schema.encodeKeys({
+                    usernames: "usernames",
+                    allowEmailAlias: "allow_email_alias",
+                  }),
                 ),
               ),
             }),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-        }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
+        }).pipe(
+          Schema.encodeKeys({
+            decision: "decision",
+            include: "include",
+            name: "name",
+            connectionRules: "connection_rules",
+            exclude: "exclude",
+            require: "require",
+          }),
+        ),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
+  }).pipe(
+    Schema.encodeKeys({
+      targetCriteria: "target_criteria",
+      type: "type",
+      id: "id",
+      aud: "aud",
+      name: "name",
+      policies: "policies",
+    }),
+  ),
   Schema.Struct({
     domain: Schema.String,
     targetCriteria: Schema.Array(
@@ -1905,7 +2075,13 @@ export const GetAccessApplicationResponse = Schema.Union([
         port: Schema.Number,
         protocol: Schema.Literal("RDP"),
         targetAttributes: Schema.Struct({}),
-      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          port: "port",
+          protocol: "protocol",
+          targetAttributes: "target_attributes",
+        }),
+      ),
     ),
     type: Schema.Literals([
       "self_hosted",
@@ -1951,15 +2127,20 @@ export const GetAccessApplicationResponse = Schema.Union([
             vnetId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              cidr: "cidr",
+              hostname: "hostname",
               l4Protocol: "l4_protocol",
               portRange: "port_range",
+              type: "type",
               vnetId: "vnet_id",
             }),
           ),
           Schema.Struct({
             mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+          }).pipe(
+            Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -1991,12 +2172,19 @@ export const GetAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -2020,6 +2208,7 @@ export const GetAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -2033,6 +2222,7 @@ export const GetAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -2046,7 +2236,10 @@ export const GetAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -2057,22 +2250,29 @@ export const GetAccessApplicationResponse = Schema.Union([
     tags: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      domain: "domain",
       targetCriteria: "target_criteria",
+      type: "type",
+      id: "id",
       allowAuthenticateViaWarp: "allow_authenticate_via_warp",
       allowIframe: "allow_iframe",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       corsHeaders: "cors_headers",
       customDenyMessage: "custom_deny_message",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      destinations: "destinations",
       enableBindingCookie: "enable_binding_cookie",
       httpOnlyCookieAttribute: "http_only_cookie_attribute",
       logoUrl: "logo_url",
+      name: "name",
       optionsPreflightBypass: "options_preflight_bypass",
       pathCookieAttribute: "path_cookie_attribute",
+      policies: "policies",
       readServiceTokensFromHeader: "read_service_tokens_from_header",
       sameSiteCookieAttribute: "same_site_cookie_attribute",
       scimConfig: "scim_config",
@@ -2080,13 +2280,13 @@ export const GetAccessApplicationResponse = Schema.Union([
       serviceAuth_401Redirect: "service_auth_401_redirect",
       sessionDuration: "session_duration",
       skipInterstitial: "skip_interstitial",
+      tags: "tags",
     }),
   ),
 ]) as unknown as Schema.Schema<GetAccessApplicationResponse>;
 
-export const getAccessApplication: (
-  input: GetAccessApplicationRequest,
-) => Effect.Effect<
+export const getAccessApplication: API.OperationMethod<
+  GetAccessApplicationRequest,
   GetAccessApplicationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2574,15 +2774,20 @@ export const ListAccessApplicationsResponse = Schema.Array(
               vnetId: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                cidr: "cidr",
+                hostname: "hostname",
                 l4Protocol: "l4_protocol",
                 portRange: "port_range",
+                type: "type",
                 vnetId: "vnet_id",
               }),
             ),
             Schema.Struct({
               mcpServerId: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-            }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+            }).pipe(
+              Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+            ),
           ]),
         ),
       ),
@@ -2614,12 +2819,19 @@ export const ListAccessApplicationsResponse = Schema.Array(
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               approvalGroups: "approval_groups",
               approvalRequired: "approval_required",
               createdAt: "created_at",
+              decision: "decision",
+              exclude: "exclude",
+              include: "include",
               isolationRequired: "isolation_required",
+              name: "name",
+              precedence: "precedence",
               purposeJustificationPrompt: "purpose_justification_prompt",
               purposeJustificationRequired: "purpose_justification_required",
+              require: "require",
               sessionDuration: "session_duration",
               updatedAt: "updated_at",
             }),
@@ -2643,6 +2855,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
                 Schema.encodeKeys({
                   clientId: "client_id",
                   clientSecret: "client_secret",
+                  scheme: "scheme",
                 }),
               ),
               Schema.Array(
@@ -2656,6 +2869,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
                     Schema.encodeKeys({
                       clientId: "client_id",
                       clientSecret: "client_secret",
+                      scheme: "scheme",
                     }),
                   ),
                 ]),
@@ -2669,7 +2883,10 @@ export const ListAccessApplicationsResponse = Schema.Array(
           Schema.encodeKeys({
             idpUid: "idp_uid",
             remoteUri: "remote_uri",
+            authentication: "authentication",
             deactivateOnDelete: "deactivate_on_delete",
+            enabled: "enabled",
+            mappings: "mappings",
           }),
         ),
       ),
@@ -2680,21 +2897,28 @@ export const ListAccessApplicationsResponse = Schema.Array(
       tags: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        domain: "domain",
+        type: "type",
+        id: "id",
         allowAuthenticateViaWarp: "allow_authenticate_via_warp",
         allowIframe: "allow_iframe",
         allowedIdps: "allowed_idps",
         appLauncherVisible: "app_launcher_visible",
+        aud: "aud",
         autoRedirectToIdentity: "auto_redirect_to_identity",
         corsHeaders: "cors_headers",
         customDenyMessage: "custom_deny_message",
         customDenyUrl: "custom_deny_url",
         customNonIdentityDenyUrl: "custom_non_identity_deny_url",
         customPages: "custom_pages",
+        destinations: "destinations",
         enableBindingCookie: "enable_binding_cookie",
         httpOnlyCookieAttribute: "http_only_cookie_attribute",
         logoUrl: "logo_url",
+        name: "name",
         optionsPreflightBypass: "options_preflight_bypass",
         pathCookieAttribute: "path_cookie_attribute",
+        policies: "policies",
         readServiceTokensFromHeader: "read_service_tokens_from_header",
         sameSiteCookieAttribute: "same_site_cookie_attribute",
         scimConfig: "scim_config",
@@ -2702,6 +2926,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
         serviceAuth_401Redirect: "service_auth_401_redirect",
         sessionDuration: "session_duration",
         skipInterstitial: "skip_interstitial",
+        tags: "tags",
       }),
     ),
     Schema.Struct({
@@ -2735,12 +2960,19 @@ export const ListAccessApplicationsResponse = Schema.Array(
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               approvalGroups: "approval_groups",
               approvalRequired: "approval_required",
               createdAt: "created_at",
+              decision: "decision",
+              exclude: "exclude",
+              include: "include",
               isolationRequired: "isolation_required",
+              name: "name",
+              precedence: "precedence",
               purposeJustificationPrompt: "purpose_justification_prompt",
               purposeJustificationRequired: "purpose_justification_required",
+              require: "require",
               sessionDuration: "session_duration",
               updatedAt: "updated_at",
             }),
@@ -2763,6 +2995,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
                 Schema.encodeKeys({
                   clientId: "client_id",
                   clientSecret: "client_secret",
+                  scheme: "scheme",
                 }),
               ),
               Schema.Array(
@@ -2776,6 +3009,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
                     Schema.encodeKeys({
                       clientId: "client_id",
                       clientSecret: "client_secret",
+                      scheme: "scheme",
                     }),
                   ),
                 ]),
@@ -2789,7 +3023,10 @@ export const ListAccessApplicationsResponse = Schema.Array(
           Schema.encodeKeys({
             idpUid: "idp_uid",
             remoteUri: "remote_uri",
+            authentication: "authentication",
             deactivateOnDelete: "deactivate_on_delete",
+            enabled: "enabled",
+            mappings: "mappings",
           }),
         ),
       ),
@@ -2814,13 +3051,19 @@ export const ListAccessApplicationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         allowedIdps: "allowed_idps",
         appLauncherVisible: "app_launcher_visible",
+        aud: "aud",
         autoRedirectToIdentity: "auto_redirect_to_identity",
         customPages: "custom_pages",
         logoUrl: "logo_url",
+        name: "name",
+        policies: "policies",
         saasApp: "saas_app",
         scimConfig: "scim_config",
+        tags: "tags",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -2871,6 +3114,8 @@ export const ListAccessApplicationsResponse = Schema.Array(
             buttonColor: "button_color",
             buttonTextColor: "button_text_color",
             imageUrl: "image_url",
+            message: "message",
+            title: "title",
           }),
         ),
       ),
@@ -2897,12 +3142,19 @@ export const ListAccessApplicationsResponse = Schema.Array(
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               approvalGroups: "approval_groups",
               approvalRequired: "approval_required",
               createdAt: "created_at",
+              decision: "decision",
+              exclude: "exclude",
+              include: "include",
               isolationRequired: "isolation_required",
+              name: "name",
+              precedence: "precedence",
               purposeJustificationPrompt: "purpose_justification_prompt",
               purposeJustificationRequired: "purpose_justification_required",
+              require: "require",
               sessionDuration: "session_duration",
               updatedAt: "updated_at",
             }),
@@ -2913,16 +3165,22 @@ export const ListAccessApplicationsResponse = Schema.Array(
       skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        type: "type",
+        id: "id",
         allowedIdps: "allowed_idps",
         appLauncherLogoUrl: "app_launcher_logo_url",
+        aud: "aud",
         autoRedirectToIdentity: "auto_redirect_to_identity",
         bgColor: "bg_color",
         customDenyUrl: "custom_deny_url",
         customNonIdentityDenyUrl: "custom_non_identity_deny_url",
         customPages: "custom_pages",
+        domain: "domain",
         footerLinks: "footer_links",
         headerBgColor: "header_bg_color",
         landingPageDesign: "landing_page_design",
+        name: "name",
+        policies: "policies",
         sessionDuration: "session_duration",
         skipAppLauncherLoginPage: "skip_app_launcher_login_page",
       }),
@@ -2975,12 +3233,19 @@ export const ListAccessApplicationsResponse = Schema.Array(
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               approvalGroups: "approval_groups",
               approvalRequired: "approval_required",
               createdAt: "created_at",
+              decision: "decision",
+              exclude: "exclude",
+              include: "include",
               isolationRequired: "isolation_required",
+              name: "name",
+              precedence: "precedence",
               purposeJustificationPrompt: "purpose_justification_prompt",
               purposeJustificationRequired: "purpose_justification_required",
+              require: "require",
               sessionDuration: "session_duration",
               updatedAt: "updated_at",
             }),
@@ -2990,11 +3255,17 @@ export const ListAccessApplicationsResponse = Schema.Array(
       sessionDuration: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        type: "type",
+        id: "id",
         allowedIdps: "allowed_idps",
+        aud: "aud",
         autoRedirectToIdentity: "auto_redirect_to_identity",
         customDenyUrl: "custom_deny_url",
         customNonIdentityDenyUrl: "custom_non_identity_deny_url",
         customPages: "custom_pages",
+        domain: "domain",
+        name: "name",
+        policies: "policies",
         sessionDuration: "session_duration",
       }),
     ),
@@ -3026,8 +3297,14 @@ export const ListAccessApplicationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         appLauncherVisible: "app_launcher_visible",
+        aud: "aud",
+        domain: "domain",
         logoUrl: "logo_url",
+        name: "name",
+        tags: "tags",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -3036,7 +3313,13 @@ export const ListAccessApplicationsResponse = Schema.Array(
           port: Schema.Number,
           protocol: Schema.Literal("SSH"),
           targetAttributes: Schema.Struct({}),
-        }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+        }).pipe(
+          Schema.encodeKeys({
+            port: "port",
+            protocol: "protocol",
+            targetAttributes: "target_attributes",
+          }),
+        ),
       ),
       type: Schema.Literals([
         "self_hosted",
@@ -3075,17 +3358,38 @@ export const ListAccessApplicationsResponse = Schema.Array(
                     usernames: Schema.Array(Schema.String),
                     allowEmailAlias: Schema.optional(Schema.Boolean),
                   }).pipe(
-                    Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                    Schema.encodeKeys({
+                      usernames: "usernames",
+                      allowEmailAlias: "allow_email_alias",
+                    }),
                   ),
                 ),
               }),
             ),
             exclude: Schema.optional(Schema.Array(Schema.Unknown)),
             require: Schema.optional(Schema.Array(Schema.Unknown)),
-          }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
+          }).pipe(
+            Schema.encodeKeys({
+              decision: "decision",
+              include: "include",
+              name: "name",
+              connectionRules: "connection_rules",
+              exclude: "exclude",
+              require: "require",
+            }),
+          ),
         ),
       ),
-    }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
+    }).pipe(
+      Schema.encodeKeys({
+        targetCriteria: "target_criteria",
+        type: "type",
+        id: "id",
+        aud: "aud",
+        name: "name",
+        policies: "policies",
+      }),
+    ),
     Schema.Struct({
       domain: Schema.String,
       targetCriteria: Schema.Array(
@@ -3093,7 +3397,13 @@ export const ListAccessApplicationsResponse = Schema.Array(
           port: Schema.Number,
           protocol: Schema.Literal("RDP"),
           targetAttributes: Schema.Struct({}),
-        }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+        }).pipe(
+          Schema.encodeKeys({
+            port: "port",
+            protocol: "protocol",
+            targetAttributes: "target_attributes",
+          }),
+        ),
       ),
       type: Schema.Literals([
         "self_hosted",
@@ -3139,15 +3449,20 @@ export const ListAccessApplicationsResponse = Schema.Array(
               vnetId: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                cidr: "cidr",
+                hostname: "hostname",
                 l4Protocol: "l4_protocol",
                 portRange: "port_range",
+                type: "type",
                 vnetId: "vnet_id",
               }),
             ),
             Schema.Struct({
               mcpServerId: Schema.optional(Schema.String),
               type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-            }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+            }).pipe(
+              Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+            ),
           ]),
         ),
       ),
@@ -3179,12 +3494,19 @@ export const ListAccessApplicationsResponse = Schema.Array(
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               approvalGroups: "approval_groups",
               approvalRequired: "approval_required",
               createdAt: "created_at",
+              decision: "decision",
+              exclude: "exclude",
+              include: "include",
               isolationRequired: "isolation_required",
+              name: "name",
+              precedence: "precedence",
               purposeJustificationPrompt: "purpose_justification_prompt",
               purposeJustificationRequired: "purpose_justification_required",
+              require: "require",
               sessionDuration: "session_duration",
               updatedAt: "updated_at",
             }),
@@ -3208,6 +3530,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
                 Schema.encodeKeys({
                   clientId: "client_id",
                   clientSecret: "client_secret",
+                  scheme: "scheme",
                 }),
               ),
               Schema.Array(
@@ -3221,6 +3544,7 @@ export const ListAccessApplicationsResponse = Schema.Array(
                     Schema.encodeKeys({
                       clientId: "client_id",
                       clientSecret: "client_secret",
+                      scheme: "scheme",
                     }),
                   ),
                 ]),
@@ -3234,7 +3558,10 @@ export const ListAccessApplicationsResponse = Schema.Array(
           Schema.encodeKeys({
             idpUid: "idp_uid",
             remoteUri: "remote_uri",
+            authentication: "authentication",
             deactivateOnDelete: "deactivate_on_delete",
+            enabled: "enabled",
+            mappings: "mappings",
           }),
         ),
       ),
@@ -3245,22 +3572,29 @@ export const ListAccessApplicationsResponse = Schema.Array(
       tags: Schema.optional(Schema.Array(Schema.String)),
     }).pipe(
       Schema.encodeKeys({
+        domain: "domain",
         targetCriteria: "target_criteria",
+        type: "type",
+        id: "id",
         allowAuthenticateViaWarp: "allow_authenticate_via_warp",
         allowIframe: "allow_iframe",
         allowedIdps: "allowed_idps",
         appLauncherVisible: "app_launcher_visible",
+        aud: "aud",
         autoRedirectToIdentity: "auto_redirect_to_identity",
         corsHeaders: "cors_headers",
         customDenyMessage: "custom_deny_message",
         customDenyUrl: "custom_deny_url",
         customNonIdentityDenyUrl: "custom_non_identity_deny_url",
         customPages: "custom_pages",
+        destinations: "destinations",
         enableBindingCookie: "enable_binding_cookie",
         httpOnlyCookieAttribute: "http_only_cookie_attribute",
         logoUrl: "logo_url",
+        name: "name",
         optionsPreflightBypass: "options_preflight_bypass",
         pathCookieAttribute: "path_cookie_attribute",
+        policies: "policies",
         readServiceTokensFromHeader: "read_service_tokens_from_header",
         sameSiteCookieAttribute: "same_site_cookie_attribute",
         scimConfig: "scim_config",
@@ -3268,14 +3602,14 @@ export const ListAccessApplicationsResponse = Schema.Array(
         serviceAuth_401Redirect: "service_auth_401_redirect",
         sessionDuration: "session_duration",
         skipInterstitial: "skip_interstitial",
+        tags: "tags",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListAccessApplicationsResponse>;
 
-export const listAccessApplications: (
-  input: ListAccessApplicationsRequest,
-) => Effect.Effect<
+export const listAccessApplications: API.OperationMethod<
+  ListAccessApplicationsRequest,
   ListAccessApplicationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3508,15 +3842,20 @@ export const CreateAccessApplicationRequest = Schema.Struct({
           vnetId: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            cidr: "cidr",
+            hostname: "hostname",
             l4Protocol: "l4_protocol",
             portRange: "port_range",
+            type: "type",
             vnetId: "vnet_id",
           }),
         ),
         Schema.Struct({
           mcpServerId: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-        }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        }).pipe(
+          Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+        ),
       ]),
     ),
   ),
@@ -3545,9 +3884,11 @@ export const CreateAccessApplicationRequest = Schema.Struct({
           sessionDuration: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             isolationRequired: "isolation_required",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
             sessionDuration: "session_duration",
@@ -3573,6 +3914,7 @@ export const CreateAccessApplicationRequest = Schema.Struct({
             Schema.encodeKeys({
               clientId: "client_id",
               clientSecret: "client_secret",
+              scheme: "scheme",
             }),
           ),
           Schema.Array(
@@ -3586,6 +3928,7 @@ export const CreateAccessApplicationRequest = Schema.Struct({
                 Schema.encodeKeys({
                   clientId: "client_id",
                   clientSecret: "client_secret",
+                  scheme: "scheme",
                 }),
               ),
             ]),
@@ -3599,7 +3942,10 @@ export const CreateAccessApplicationRequest = Schema.Struct({
       Schema.encodeKeys({
         idpUid: "idp_uid",
         remoteUri: "remote_uri",
+        authentication: "authentication",
         deactivateOnDelete: "deactivate_on_delete",
+        enabled: "enabled",
+        mappings: "mappings",
       }),
     ),
   ),
@@ -3610,6 +3956,8 @@ export const CreateAccessApplicationRequest = Schema.Struct({
   tags: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    domain: "domain",
+    type: "type",
     allowAuthenticateViaWarp: "allow_authenticate_via_warp",
     allowIframe: "allow_iframe",
     allowedIdps: "allowed_idps",
@@ -3620,11 +3968,14 @@ export const CreateAccessApplicationRequest = Schema.Struct({
     customDenyUrl: "custom_deny_url",
     customNonIdentityDenyUrl: "custom_non_identity_deny_url",
     customPages: "custom_pages",
+    destinations: "destinations",
     enableBindingCookie: "enable_binding_cookie",
     httpOnlyCookieAttribute: "http_only_cookie_attribute",
     logoUrl: "logo_url",
+    name: "name",
     optionsPreflightBypass: "options_preflight_bypass",
     pathCookieAttribute: "path_cookie_attribute",
+    policies: "policies",
     readServiceTokensFromHeader: "read_service_tokens_from_header",
     sameSiteCookieAttribute: "same_site_cookie_attribute",
     scimConfig: "scim_config",
@@ -3632,6 +3983,7 @@ export const CreateAccessApplicationRequest = Schema.Struct({
     serviceAuth_401Redirect: "service_auth_401_redirect",
     sessionDuration: "session_duration",
     skipInterstitial: "skip_interstitial",
+    tags: "tags",
   }),
   T.Http({
     method: "POST",
@@ -4106,15 +4458,20 @@ export const CreateAccessApplicationResponse = Schema.Union([
             vnetId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              cidr: "cidr",
+              hostname: "hostname",
               l4Protocol: "l4_protocol",
               portRange: "port_range",
+              type: "type",
               vnetId: "vnet_id",
             }),
           ),
           Schema.Struct({
             mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+          }).pipe(
+            Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -4146,12 +4503,19 @@ export const CreateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -4175,6 +4539,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -4188,6 +4553,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -4201,7 +4567,10 @@ export const CreateAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -4212,21 +4581,28 @@ export const CreateAccessApplicationResponse = Schema.Union([
     tags: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      domain: "domain",
+      type: "type",
+      id: "id",
       allowAuthenticateViaWarp: "allow_authenticate_via_warp",
       allowIframe: "allow_iframe",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       corsHeaders: "cors_headers",
       customDenyMessage: "custom_deny_message",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      destinations: "destinations",
       enableBindingCookie: "enable_binding_cookie",
       httpOnlyCookieAttribute: "http_only_cookie_attribute",
       logoUrl: "logo_url",
+      name: "name",
       optionsPreflightBypass: "options_preflight_bypass",
       pathCookieAttribute: "path_cookie_attribute",
+      policies: "policies",
       readServiceTokensFromHeader: "read_service_tokens_from_header",
       sameSiteCookieAttribute: "same_site_cookie_attribute",
       scimConfig: "scim_config",
@@ -4234,6 +4610,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
       serviceAuth_401Redirect: "service_auth_401_redirect",
       sessionDuration: "session_duration",
       skipInterstitial: "skip_interstitial",
+      tags: "tags",
     }),
   ),
   Schema.Struct({
@@ -4267,12 +4644,19 @@ export const CreateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -4295,6 +4679,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -4308,6 +4693,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -4321,7 +4707,10 @@ export const CreateAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -4346,13 +4735,19 @@ export const CreateAccessApplicationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       customPages: "custom_pages",
       logoUrl: "logo_url",
+      name: "name",
+      policies: "policies",
       saasApp: "saas_app",
       scimConfig: "scim_config",
+      tags: "tags",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -4403,6 +4798,8 @@ export const CreateAccessApplicationResponse = Schema.Union([
           buttonColor: "button_color",
           buttonTextColor: "button_text_color",
           imageUrl: "image_url",
+          message: "message",
+          title: "title",
         }),
       ),
     ),
@@ -4429,12 +4826,19 @@ export const CreateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -4445,16 +4849,22 @@ export const CreateAccessApplicationResponse = Schema.Union([
     skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      type: "type",
+      id: "id",
       allowedIdps: "allowed_idps",
       appLauncherLogoUrl: "app_launcher_logo_url",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       bgColor: "bg_color",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      domain: "domain",
       footerLinks: "footer_links",
       headerBgColor: "header_bg_color",
       landingPageDesign: "landing_page_design",
+      name: "name",
+      policies: "policies",
       sessionDuration: "session_duration",
       skipAppLauncherLoginPage: "skip_app_launcher_login_page",
     }),
@@ -4507,12 +4917,19 @@ export const CreateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -4522,11 +4939,17 @@ export const CreateAccessApplicationResponse = Schema.Union([
     sessionDuration: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      type: "type",
+      id: "id",
       allowedIdps: "allowed_idps",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      domain: "domain",
+      name: "name",
+      policies: "policies",
       sessionDuration: "session_duration",
     }),
   ),
@@ -4558,8 +4981,14 @@ export const CreateAccessApplicationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
+      domain: "domain",
       logoUrl: "logo_url",
+      name: "name",
+      tags: "tags",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -4568,7 +4997,13 @@ export const CreateAccessApplicationResponse = Schema.Union([
         port: Schema.Number,
         protocol: Schema.Literal("SSH"),
         targetAttributes: Schema.Struct({}),
-      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          port: "port",
+          protocol: "protocol",
+          targetAttributes: "target_attributes",
+        }),
+      ),
     ),
     type: Schema.Literals([
       "self_hosted",
@@ -4607,17 +5042,38 @@ export const CreateAccessApplicationResponse = Schema.Union([
                   usernames: Schema.Array(Schema.String),
                   allowEmailAlias: Schema.optional(Schema.Boolean),
                 }).pipe(
-                  Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                  Schema.encodeKeys({
+                    usernames: "usernames",
+                    allowEmailAlias: "allow_email_alias",
+                  }),
                 ),
               ),
             }),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-        }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
+        }).pipe(
+          Schema.encodeKeys({
+            decision: "decision",
+            include: "include",
+            name: "name",
+            connectionRules: "connection_rules",
+            exclude: "exclude",
+            require: "require",
+          }),
+        ),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
+  }).pipe(
+    Schema.encodeKeys({
+      targetCriteria: "target_criteria",
+      type: "type",
+      id: "id",
+      aud: "aud",
+      name: "name",
+      policies: "policies",
+    }),
+  ),
   Schema.Struct({
     domain: Schema.String,
     targetCriteria: Schema.Array(
@@ -4625,7 +5081,13 @@ export const CreateAccessApplicationResponse = Schema.Union([
         port: Schema.Number,
         protocol: Schema.Literal("RDP"),
         targetAttributes: Schema.Struct({}),
-      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          port: "port",
+          protocol: "protocol",
+          targetAttributes: "target_attributes",
+        }),
+      ),
     ),
     type: Schema.Literals([
       "self_hosted",
@@ -4671,15 +5133,20 @@ export const CreateAccessApplicationResponse = Schema.Union([
             vnetId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              cidr: "cidr",
+              hostname: "hostname",
               l4Protocol: "l4_protocol",
               portRange: "port_range",
+              type: "type",
               vnetId: "vnet_id",
             }),
           ),
           Schema.Struct({
             mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+          }).pipe(
+            Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -4711,12 +5178,19 @@ export const CreateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -4740,6 +5214,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -4753,6 +5228,7 @@ export const CreateAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -4766,7 +5242,10 @@ export const CreateAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -4777,22 +5256,29 @@ export const CreateAccessApplicationResponse = Schema.Union([
     tags: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      domain: "domain",
       targetCriteria: "target_criteria",
+      type: "type",
+      id: "id",
       allowAuthenticateViaWarp: "allow_authenticate_via_warp",
       allowIframe: "allow_iframe",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       corsHeaders: "cors_headers",
       customDenyMessage: "custom_deny_message",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      destinations: "destinations",
       enableBindingCookie: "enable_binding_cookie",
       httpOnlyCookieAttribute: "http_only_cookie_attribute",
       logoUrl: "logo_url",
+      name: "name",
       optionsPreflightBypass: "options_preflight_bypass",
       pathCookieAttribute: "path_cookie_attribute",
+      policies: "policies",
       readServiceTokensFromHeader: "read_service_tokens_from_header",
       sameSiteCookieAttribute: "same_site_cookie_attribute",
       scimConfig: "scim_config",
@@ -4800,13 +5286,13 @@ export const CreateAccessApplicationResponse = Schema.Union([
       serviceAuth_401Redirect: "service_auth_401_redirect",
       sessionDuration: "session_duration",
       skipInterstitial: "skip_interstitial",
+      tags: "tags",
     }),
   ),
 ]) as unknown as Schema.Schema<CreateAccessApplicationResponse>;
 
-export const createAccessApplication: (
-  input: CreateAccessApplicationRequest,
-) => Effect.Effect<
+export const createAccessApplication: API.OperationMethod<
+  CreateAccessApplicationRequest,
   CreateAccessApplicationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5039,15 +5525,20 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
           vnetId: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            cidr: "cidr",
+            hostname: "hostname",
             l4Protocol: "l4_protocol",
             portRange: "port_range",
+            type: "type",
             vnetId: "vnet_id",
           }),
         ),
         Schema.Struct({
           mcpServerId: Schema.optional(Schema.String),
           type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-        }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+        }).pipe(
+          Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+        ),
       ]),
     ),
   ),
@@ -5076,9 +5567,11 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
           sessionDuration: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             isolationRequired: "isolation_required",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
             sessionDuration: "session_duration",
@@ -5104,6 +5597,7 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
             Schema.encodeKeys({
               clientId: "client_id",
               clientSecret: "client_secret",
+              scheme: "scheme",
             }),
           ),
           Schema.Array(
@@ -5117,6 +5611,7 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
                 Schema.encodeKeys({
                   clientId: "client_id",
                   clientSecret: "client_secret",
+                  scheme: "scheme",
                 }),
               ),
             ]),
@@ -5130,7 +5625,10 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
       Schema.encodeKeys({
         idpUid: "idp_uid",
         remoteUri: "remote_uri",
+        authentication: "authentication",
         deactivateOnDelete: "deactivate_on_delete",
+        enabled: "enabled",
+        mappings: "mappings",
       }),
     ),
   ),
@@ -5141,6 +5639,8 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
   tags: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   Schema.encodeKeys({
+    domain: "domain",
+    type: "type",
     allowAuthenticateViaWarp: "allow_authenticate_via_warp",
     allowIframe: "allow_iframe",
     allowedIdps: "allowed_idps",
@@ -5151,11 +5651,14 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
     customDenyUrl: "custom_deny_url",
     customNonIdentityDenyUrl: "custom_non_identity_deny_url",
     customPages: "custom_pages",
+    destinations: "destinations",
     enableBindingCookie: "enable_binding_cookie",
     httpOnlyCookieAttribute: "http_only_cookie_attribute",
     logoUrl: "logo_url",
+    name: "name",
     optionsPreflightBypass: "options_preflight_bypass",
     pathCookieAttribute: "path_cookie_attribute",
+    policies: "policies",
     readServiceTokensFromHeader: "read_service_tokens_from_header",
     sameSiteCookieAttribute: "same_site_cookie_attribute",
     scimConfig: "scim_config",
@@ -5163,6 +5666,7 @@ export const UpdateAccessApplicationRequest = Schema.Struct({
     serviceAuth_401Redirect: "service_auth_401_redirect",
     sessionDuration: "session_duration",
     skipInterstitial: "skip_interstitial",
+    tags: "tags",
   }),
   T.Http({
     method: "PUT",
@@ -5637,15 +6141,20 @@ export const UpdateAccessApplicationResponse = Schema.Union([
             vnetId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              cidr: "cidr",
+              hostname: "hostname",
               l4Protocol: "l4_protocol",
               portRange: "port_range",
+              type: "type",
               vnetId: "vnet_id",
             }),
           ),
           Schema.Struct({
             mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+          }).pipe(
+            Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -5677,12 +6186,19 @@ export const UpdateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -5706,6 +6222,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -5719,6 +6236,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -5732,7 +6250,10 @@ export const UpdateAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -5743,21 +6264,28 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     tags: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      domain: "domain",
+      type: "type",
+      id: "id",
       allowAuthenticateViaWarp: "allow_authenticate_via_warp",
       allowIframe: "allow_iframe",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       corsHeaders: "cors_headers",
       customDenyMessage: "custom_deny_message",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      destinations: "destinations",
       enableBindingCookie: "enable_binding_cookie",
       httpOnlyCookieAttribute: "http_only_cookie_attribute",
       logoUrl: "logo_url",
+      name: "name",
       optionsPreflightBypass: "options_preflight_bypass",
       pathCookieAttribute: "path_cookie_attribute",
+      policies: "policies",
       readServiceTokensFromHeader: "read_service_tokens_from_header",
       sameSiteCookieAttribute: "same_site_cookie_attribute",
       scimConfig: "scim_config",
@@ -5765,6 +6293,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
       serviceAuth_401Redirect: "service_auth_401_redirect",
       sessionDuration: "session_duration",
       skipInterstitial: "skip_interstitial",
+      tags: "tags",
     }),
   ),
   Schema.Struct({
@@ -5798,12 +6327,19 @@ export const UpdateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -5826,6 +6362,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -5839,6 +6376,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -5852,7 +6390,10 @@ export const UpdateAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -5877,13 +6418,19 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       customPages: "custom_pages",
       logoUrl: "logo_url",
+      name: "name",
+      policies: "policies",
       saasApp: "saas_app",
       scimConfig: "scim_config",
+      tags: "tags",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -5934,6 +6481,8 @@ export const UpdateAccessApplicationResponse = Schema.Union([
           buttonColor: "button_color",
           buttonTextColor: "button_text_color",
           imageUrl: "image_url",
+          message: "message",
+          title: "title",
         }),
       ),
     ),
@@ -5960,12 +6509,19 @@ export const UpdateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -5976,16 +6532,22 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     skipAppLauncherLoginPage: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      type: "type",
+      id: "id",
       allowedIdps: "allowed_idps",
       appLauncherLogoUrl: "app_launcher_logo_url",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       bgColor: "bg_color",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      domain: "domain",
       footerLinks: "footer_links",
       headerBgColor: "header_bg_color",
       landingPageDesign: "landing_page_design",
+      name: "name",
+      policies: "policies",
       sessionDuration: "session_duration",
       skipAppLauncherLoginPage: "skip_app_launcher_login_page",
     }),
@@ -6038,12 +6600,19 @@ export const UpdateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -6053,11 +6622,17 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     sessionDuration: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      type: "type",
+      id: "id",
       allowedIdps: "allowed_idps",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      domain: "domain",
+      name: "name",
+      policies: "policies",
       sessionDuration: "session_duration",
     }),
   ),
@@ -6089,8 +6664,14 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
+      domain: "domain",
       logoUrl: "logo_url",
+      name: "name",
+      tags: "tags",
+      type: "type",
     }),
   ),
   Schema.Struct({
@@ -6099,7 +6680,13 @@ export const UpdateAccessApplicationResponse = Schema.Union([
         port: Schema.Number,
         protocol: Schema.Literal("SSH"),
         targetAttributes: Schema.Struct({}),
-      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          port: "port",
+          protocol: "protocol",
+          targetAttributes: "target_attributes",
+        }),
+      ),
     ),
     type: Schema.Literals([
       "self_hosted",
@@ -6138,17 +6725,38 @@ export const UpdateAccessApplicationResponse = Schema.Union([
                   usernames: Schema.Array(Schema.String),
                   allowEmailAlias: Schema.optional(Schema.Boolean),
                 }).pipe(
-                  Schema.encodeKeys({ allowEmailAlias: "allow_email_alias" }),
+                  Schema.encodeKeys({
+                    usernames: "usernames",
+                    allowEmailAlias: "allow_email_alias",
+                  }),
                 ),
               ),
             }),
           ),
           exclude: Schema.optional(Schema.Array(Schema.Unknown)),
           require: Schema.optional(Schema.Array(Schema.Unknown)),
-        }).pipe(Schema.encodeKeys({ connectionRules: "connection_rules" })),
+        }).pipe(
+          Schema.encodeKeys({
+            decision: "decision",
+            include: "include",
+            name: "name",
+            connectionRules: "connection_rules",
+            exclude: "exclude",
+            require: "require",
+          }),
+        ),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ targetCriteria: "target_criteria" })),
+  }).pipe(
+    Schema.encodeKeys({
+      targetCriteria: "target_criteria",
+      type: "type",
+      id: "id",
+      aud: "aud",
+      name: "name",
+      policies: "policies",
+    }),
+  ),
   Schema.Struct({
     domain: Schema.String,
     targetCriteria: Schema.Array(
@@ -6156,7 +6764,13 @@ export const UpdateAccessApplicationResponse = Schema.Union([
         port: Schema.Number,
         protocol: Schema.Literal("RDP"),
         targetAttributes: Schema.Struct({}),
-      }).pipe(Schema.encodeKeys({ targetAttributes: "target_attributes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          port: "port",
+          protocol: "protocol",
+          targetAttributes: "target_attributes",
+        }),
+      ),
     ),
     type: Schema.Literals([
       "self_hosted",
@@ -6202,15 +6816,20 @@ export const UpdateAccessApplicationResponse = Schema.Union([
             vnetId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              cidr: "cidr",
+              hostname: "hostname",
               l4Protocol: "l4_protocol",
               portRange: "port_range",
+              type: "type",
               vnetId: "vnet_id",
             }),
           ),
           Schema.Struct({
             mcpServerId: Schema.optional(Schema.String),
             type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
-          }).pipe(Schema.encodeKeys({ mcpServerId: "mcp_server_id" })),
+          }).pipe(
+            Schema.encodeKeys({ mcpServerId: "mcp_server_id", type: "type" }),
+          ),
         ]),
       ),
     ),
@@ -6242,12 +6861,19 @@ export const UpdateAccessApplicationResponse = Schema.Union([
           updatedAt: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
             createdAt: "created_at",
+            decision: "decision",
+            exclude: "exclude",
+            include: "include",
             isolationRequired: "isolation_required",
+            name: "name",
+            precedence: "precedence",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
             updatedAt: "updated_at",
           }),
@@ -6271,6 +6897,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
               Schema.encodeKeys({
                 clientId: "client_id",
                 clientSecret: "client_secret",
+                scheme: "scheme",
               }),
             ),
             Schema.Array(
@@ -6284,6 +6911,7 @@ export const UpdateAccessApplicationResponse = Schema.Union([
                   Schema.encodeKeys({
                     clientId: "client_id",
                     clientSecret: "client_secret",
+                    scheme: "scheme",
                   }),
                 ),
               ]),
@@ -6297,7 +6925,10 @@ export const UpdateAccessApplicationResponse = Schema.Union([
         Schema.encodeKeys({
           idpUid: "idp_uid",
           remoteUri: "remote_uri",
+          authentication: "authentication",
           deactivateOnDelete: "deactivate_on_delete",
+          enabled: "enabled",
+          mappings: "mappings",
         }),
       ),
     ),
@@ -6308,22 +6939,29 @@ export const UpdateAccessApplicationResponse = Schema.Union([
     tags: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      domain: "domain",
       targetCriteria: "target_criteria",
+      type: "type",
+      id: "id",
       allowAuthenticateViaWarp: "allow_authenticate_via_warp",
       allowIframe: "allow_iframe",
       allowedIdps: "allowed_idps",
       appLauncherVisible: "app_launcher_visible",
+      aud: "aud",
       autoRedirectToIdentity: "auto_redirect_to_identity",
       corsHeaders: "cors_headers",
       customDenyMessage: "custom_deny_message",
       customDenyUrl: "custom_deny_url",
       customNonIdentityDenyUrl: "custom_non_identity_deny_url",
       customPages: "custom_pages",
+      destinations: "destinations",
       enableBindingCookie: "enable_binding_cookie",
       httpOnlyCookieAttribute: "http_only_cookie_attribute",
       logoUrl: "logo_url",
+      name: "name",
       optionsPreflightBypass: "options_preflight_bypass",
       pathCookieAttribute: "path_cookie_attribute",
+      policies: "policies",
       readServiceTokensFromHeader: "read_service_tokens_from_header",
       sameSiteCookieAttribute: "same_site_cookie_attribute",
       scimConfig: "scim_config",
@@ -6331,13 +6969,13 @@ export const UpdateAccessApplicationResponse = Schema.Union([
       serviceAuth_401Redirect: "service_auth_401_redirect",
       sessionDuration: "session_duration",
       skipInterstitial: "skip_interstitial",
+      tags: "tags",
     }),
   ),
 ]) as unknown as Schema.Schema<UpdateAccessApplicationResponse>;
 
-export const updateAccessApplication: (
-  input: UpdateAccessApplicationRequest,
-) => Effect.Effect<
+export const updateAccessApplication: API.OperationMethod<
+  UpdateAccessApplicationRequest,
   UpdateAccessApplicationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6365,9 +7003,8 @@ export const DeleteAccessApplicationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessApplicationResponse>;
 
-export const deleteAccessApplication: (
-  input: DeleteAccessApplicationRequest,
-) => Effect.Effect<
+export const deleteAccessApplication: API.OperationMethod<
+  DeleteAccessApplicationRequest,
   DeleteAccessApplicationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6408,12 +7045,11 @@ export const GetAccessApplicationCaResponse = Schema.Struct({
   aud: Schema.optional(Schema.String),
   publicKey: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ publicKey: "public_key" }),
+  Schema.encodeKeys({ id: "id", aud: "aud", publicKey: "public_key" }),
 ) as unknown as Schema.Schema<GetAccessApplicationCaResponse>;
 
-export const getAccessApplicationCa: (
-  input: GetAccessApplicationCaRequest,
-) => Effect.Effect<
+export const getAccessApplicationCa: API.OperationMethod<
+  GetAccessApplicationCaRequest,
   GetAccessApplicationCaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6443,12 +7079,11 @@ export const ListAccessApplicationCasResponse = Schema.Array(
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
     publicKey: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+  }).pipe(Schema.encodeKeys({ id: "id", aud: "aud", publicKey: "public_key" })),
 ) as unknown as Schema.Schema<ListAccessApplicationCasResponse>;
 
-export const listAccessApplicationCas: (
-  input: ListAccessApplicationCasRequest,
-) => Effect.Effect<
+export const listAccessApplicationCas: API.OperationMethod<
+  ListAccessApplicationCasRequest,
   ListAccessApplicationCasResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6485,12 +7120,11 @@ export const CreateAccessApplicationCaResponse = Schema.Struct({
   aud: Schema.optional(Schema.String),
   publicKey: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ publicKey: "public_key" }),
+  Schema.encodeKeys({ id: "id", aud: "aud", publicKey: "public_key" }),
 ) as unknown as Schema.Schema<CreateAccessApplicationCaResponse>;
 
-export const createAccessApplicationCa: (
-  input: CreateAccessApplicationCaRequest,
-) => Effect.Effect<
+export const createAccessApplicationCa: API.OperationMethod<
+  CreateAccessApplicationCaRequest,
   CreateAccessApplicationCaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6522,9 +7156,8 @@ export const DeleteAccessApplicationCaResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessApplicationCaResponse>;
 
-export const deleteAccessApplicationCa: (
-  input: DeleteAccessApplicationCaRequest,
-) => Effect.Effect<
+export const deleteAccessApplicationCa: API.OperationMethod<
+  DeleteAccessApplicationCaRequest,
   DeleteAccessApplicationCaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6743,6 +7376,7 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -6758,7 +7392,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -6816,7 +7453,11 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -6826,7 +7467,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -6849,7 +7493,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -6913,6 +7560,7 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -6928,7 +7576,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -6986,7 +7637,11 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -6996,7 +7651,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -7019,7 +7677,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -7088,6 +7749,7 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -7103,7 +7765,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -7161,7 +7826,11 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -7171,7 +7840,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -7194,7 +7866,10 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -7240,20 +7915,26 @@ export const GetAccessApplicationPolicyResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     createdAt: "created_at",
+    decision: "decision",
+    exclude: "exclude",
+    include: "include",
     isolationRequired: "isolation_required",
+    name: "name",
+    precedence: "precedence",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
     sessionDuration: "session_duration",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<GetAccessApplicationPolicyResponse>;
 
-export const getAccessApplicationPolicy: (
-  input: GetAccessApplicationPolicyRequest,
-) => Effect.Effect<
+export const getAccessApplicationPolicy: API.OperationMethod<
+  GetAccessApplicationPolicyRequest,
   GetAccessApplicationPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7454,6 +8135,7 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               identityProviderId: Schema.String,
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 acId: "ac_id",
                 identityProviderId: "identity_provider_id",
               }),
@@ -7469,7 +8151,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               id: Schema.String,
               identityProviderId: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                id: "id",
+                identityProviderId: "identity_provider_id",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7527,7 +8212,11 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               name: Schema.String,
               team: Schema.optional(Schema.String),
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                identityProviderId: "identity_provider_id",
+                name: "name",
+                team: "team",
+              }),
             ),
           }).pipe(
             Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -7537,7 +8226,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               email: Schema.String,
               identityProviderId: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                email: "email",
+                identityProviderId: "identity_provider_id",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7560,7 +8252,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               identityProviderId: Schema.String,
               name: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                identityProviderId: "identity_provider_id",
+                name: "name",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7624,6 +8319,7 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               identityProviderId: Schema.String,
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 acId: "ac_id",
                 identityProviderId: "identity_provider_id",
               }),
@@ -7639,7 +8335,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               id: Schema.String,
               identityProviderId: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                id: "id",
+                identityProviderId: "identity_provider_id",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7697,7 +8396,11 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               name: Schema.String,
               team: Schema.optional(Schema.String),
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                identityProviderId: "identity_provider_id",
+                name: "name",
+                team: "team",
+              }),
             ),
           }).pipe(
             Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -7707,7 +8410,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               email: Schema.String,
               identityProviderId: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                email: "email",
+                identityProviderId: "identity_provider_id",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7730,7 +8436,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               identityProviderId: Schema.String,
               name: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                identityProviderId: "identity_provider_id",
+                name: "name",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7799,6 +8508,7 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               identityProviderId: Schema.String,
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 acId: "ac_id",
                 identityProviderId: "identity_provider_id",
               }),
@@ -7814,7 +8524,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               id: Schema.String,
               identityProviderId: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                id: "id",
+                identityProviderId: "identity_provider_id",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7872,7 +8585,11 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               name: Schema.String,
               team: Schema.optional(Schema.String),
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                identityProviderId: "identity_provider_id",
+                name: "name",
+                team: "team",
+              }),
             ),
           }).pipe(
             Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -7882,7 +8599,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               email: Schema.String,
               identityProviderId: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                email: "email",
+                identityProviderId: "identity_provider_id",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7905,7 +8625,10 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
               identityProviderId: Schema.String,
               name: Schema.String,
             }).pipe(
-              Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+              Schema.encodeKeys({
+                identityProviderId: "identity_provider_id",
+                name: "name",
+              }),
             ),
           }),
           Schema.Struct({
@@ -7951,21 +8674,27 @@ export const ListAccessApplicationPoliciesResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       approvalGroups: "approval_groups",
       approvalRequired: "approval_required",
       createdAt: "created_at",
+      decision: "decision",
+      exclude: "exclude",
+      include: "include",
       isolationRequired: "isolation_required",
+      name: "name",
+      precedence: "precedence",
       purposeJustificationPrompt: "purpose_justification_prompt",
       purposeJustificationRequired: "purpose_justification_required",
+      require: "require",
       sessionDuration: "session_duration",
       updatedAt: "updated_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessApplicationPoliciesResponse>;
 
-export const listAccessApplicationPolicies: (
-  input: ListAccessApplicationPoliciesRequest,
-) => Effect.Effect<
+export const listAccessApplicationPolicies: API.OperationMethod<
+  ListAccessApplicationPoliciesRequest,
   ListAccessApplicationPoliciesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8013,6 +8742,7 @@ export const CreateAccessApplicationPolicyRequest = Schema.Struct({
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     isolationRequired: "isolation_required",
+    precedence: "precedence",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
     sessionDuration: "session_duration",
@@ -8213,6 +8943,7 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -8228,7 +8959,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8286,7 +9020,11 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -8296,7 +9034,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8319,7 +9060,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8383,6 +9127,7 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -8398,7 +9143,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8456,7 +9204,11 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -8466,7 +9218,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8489,7 +9244,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8558,6 +9316,7 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -8573,7 +9332,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8631,7 +9393,11 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -8641,7 +9407,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8664,7 +9433,10 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -8710,20 +9482,26 @@ export const CreateAccessApplicationPolicyResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     createdAt: "created_at",
+    decision: "decision",
+    exclude: "exclude",
+    include: "include",
     isolationRequired: "isolation_required",
+    name: "name",
+    precedence: "precedence",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
     sessionDuration: "session_duration",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<CreateAccessApplicationPolicyResponse>;
 
-export const createAccessApplicationPolicy: (
-  input: CreateAccessApplicationPolicyRequest,
-) => Effect.Effect<
+export const createAccessApplicationPolicy: API.OperationMethod<
+  CreateAccessApplicationPolicyRequest,
   CreateAccessApplicationPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8773,6 +9551,7 @@ export const UpdateAccessApplicationPolicyRequest = Schema.Struct({
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     isolationRequired: "isolation_required",
+    precedence: "precedence",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
     sessionDuration: "session_duration",
@@ -8973,6 +9752,7 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -8988,7 +9768,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9046,7 +9829,11 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -9056,7 +9843,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9079,7 +9869,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9143,6 +9936,7 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -9158,7 +9952,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9216,7 +10013,11 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -9226,7 +10027,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9249,7 +10053,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9318,6 +10125,7 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               acId: "ac_id",
               identityProviderId: "identity_provider_id",
             }),
@@ -9333,7 +10141,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             id: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              id: "id",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9391,7 +10202,11 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             name: Schema.String,
             team: Schema.optional(Schema.String),
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+              team: "team",
+            }),
           ),
         }).pipe(
           Schema.encodeKeys({ githubOrganization: "'github-organization'" }),
@@ -9401,7 +10216,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             email: Schema.String,
             identityProviderId: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              email: "email",
+              identityProviderId: "identity_provider_id",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9424,7 +10242,10 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
             identityProviderId: Schema.String,
             name: Schema.String,
           }).pipe(
-            Schema.encodeKeys({ identityProviderId: "identity_provider_id" }),
+            Schema.encodeKeys({
+              identityProviderId: "identity_provider_id",
+              name: "name",
+            }),
           ),
         }),
         Schema.Struct({
@@ -9470,20 +10291,26 @@ export const UpdateAccessApplicationPolicyResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     createdAt: "created_at",
+    decision: "decision",
+    exclude: "exclude",
+    include: "include",
     isolationRequired: "isolation_required",
+    name: "name",
+    precedence: "precedence",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
     sessionDuration: "session_duration",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<UpdateAccessApplicationPolicyResponse>;
 
-export const updateAccessApplicationPolicy: (
-  input: UpdateAccessApplicationPolicyRequest,
-) => Effect.Effect<
+export const updateAccessApplicationPolicy: API.OperationMethod<
+  UpdateAccessApplicationPolicyRequest,
   UpdateAccessApplicationPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9517,9 +10344,8 @@ export const DeleteAccessApplicationPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessApplicationPolicyResponse>;
 
-export const deleteAccessApplicationPolicy: (
-  input: DeleteAccessApplicationPolicyRequest,
-) => Effect.Effect<
+export const deleteAccessApplicationPolicy: API.OperationMethod<
+  DeleteAccessApplicationPolicyRequest,
   DeleteAccessApplicationPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9587,10 +10413,12 @@ export const GetAccessApplicationPolicyTestResponse = Schema.Struct({
   usersErrored: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     percentApproved: "percent_approved",
     percentBlocked: "percent_blocked",
     percentErrored: "percent_errored",
     percentUsersProcessed: "percent_users_processed",
+    status: "status",
     totalUsers: "total_users",
     usersApproved: "users_approved",
     usersBlocked: "users_blocked",
@@ -9598,9 +10426,8 @@ export const GetAccessApplicationPolicyTestResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccessApplicationPolicyTestResponse>;
 
-export const getAccessApplicationPolicyTest: (
-  input: GetAccessApplicationPolicyTestRequest,
-) => Effect.Effect<
+export const getAccessApplicationPolicyTest: API.OperationMethod<
+  GetAccessApplicationPolicyTestRequest,
   GetAccessApplicationPolicyTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9656,11 +10483,16 @@ export const CreateAccessApplicationPolicyTestRequest = Schema.Struct({
           sessionDuration: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            decision: "decision",
+            include: "include",
+            name: "name",
             approvalGroups: "approval_groups",
             approvalRequired: "approval_required",
+            exclude: "exclude",
             isolationRequired: "isolation_required",
             purposeJustificationPrompt: "purpose_justification_prompt",
             purposeJustificationRequired: "purpose_justification_required",
+            require: "require",
             sessionDuration: "session_duration",
           }),
         ),
@@ -9687,9 +10519,8 @@ export const CreateAccessApplicationPolicyTestResponse = Schema.Struct({
   status: Schema.optional(Schema.Literal("success")),
 }) as unknown as Schema.Schema<CreateAccessApplicationPolicyTestResponse>;
 
-export const createAccessApplicationPolicyTest: (
-  input: CreateAccessApplicationPolicyTestRequest,
-) => Effect.Effect<
+export const createAccessApplicationPolicyTest: API.OperationMethod<
+  CreateAccessApplicationPolicyTestRequest,
   CreateAccessApplicationPolicyTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9740,9 +10571,8 @@ export const ListAccessApplicationPolicyTestUsersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAccessApplicationPolicyTestUsersResponse>;
 
-export const listAccessApplicationPolicyTestUsers: (
-  input: ListAccessApplicationPolicyTestUsersRequest,
-) => Effect.Effect<
+export const listAccessApplicationPolicyTestUsers: API.OperationMethod<
+  ListAccessApplicationPolicyTestUsersRequest,
   ListAccessApplicationPolicyTestUsersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9800,9 +10630,8 @@ export const PutAccessApplicationSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAccessApplicationSettingResponse>;
 
-export const putAccessApplicationSetting: (
-  input: PutAccessApplicationSettingRequest,
-) => Effect.Effect<
+export const putAccessApplicationSetting: API.OperationMethod<
+  PutAccessApplicationSettingRequest,
   PutAccessApplicationSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9856,9 +10685,8 @@ export const PatchAccessApplicationSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchAccessApplicationSettingResponse>;
 
-export const patchAccessApplicationSetting: (
-  input: PatchAccessApplicationSettingRequest,
-) => Effect.Effect<
+export const patchAccessApplicationSetting: API.OperationMethod<
+  PatchAccessApplicationSettingRequest,
   PatchAccessApplicationSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9916,7 +10744,16 @@ export const ListAccessApplicationUserPolicyChecksResponse = Schema.Struct({
       name: Schema.optional(Schema.String),
       policies: Schema.optional(Schema.Array(Schema.Unknown)),
       status: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ appUid: "app_uid" })),
+    }).pipe(
+      Schema.encodeKeys({
+        appUid: "app_uid",
+        aud: "aud",
+        hostname: "hostname",
+        name: "name",
+        policies: "policies",
+        status: "status",
+      }),
+    ),
   ),
   userIdentity: Schema.optional(
     Schema.Struct({
@@ -9933,11 +10770,17 @@ export const ListAccessApplicationUserPolicyChecksResponse = Schema.Struct({
       version: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         accountId: "account_id",
         deviceSessions: "device_sessions",
+        email: "email",
+        geo: "geo",
+        iat: "iat",
         isGateway: "is_gateway",
         isWarp: "is_warp",
+        name: "name",
         userUuid: "user_uuid",
+        version: "version",
       }),
     ),
   ),
@@ -9945,9 +10788,8 @@ export const ListAccessApplicationUserPolicyChecksResponse = Schema.Struct({
   Schema.encodeKeys({ appState: "app_state", userIdentity: "user_identity" }),
 ) as unknown as Schema.Schema<ListAccessApplicationUserPolicyChecksResponse>;
 
-export const listAccessApplicationUserPolicyChecks: (
-  input: ListAccessApplicationUserPolicyChecksRequest,
-) => Effect.Effect<
+export const listAccessApplicationUserPolicyChecks: API.OperationMethod<
+  ListAccessApplicationUserPolicyChecksRequest,
   ListAccessApplicationUserPolicyChecksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -9997,14 +10839,16 @@ export const GetAccessBookmarkResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     appLauncherVisible: "app_launcher_visible",
+    domain: "domain",
     logoUrl: "logo_url",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<GetAccessBookmarkResponse>;
 
-export const getAccessBookmark: (
-  input: GetAccessBookmarkRequest,
-) => Effect.Effect<
+export const getAccessBookmark: API.OperationMethod<
+  GetAccessBookmarkRequest,
   GetAccessBookmarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10041,15 +10885,17 @@ export const ListAccessBookmarksResponse = Schema.Array(
     name: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       appLauncherVisible: "app_launcher_visible",
+      domain: "domain",
       logoUrl: "logo_url",
+      name: "name",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessBookmarksResponse>;
 
-export const listAccessBookmarks: (
-  input: ListAccessBookmarksRequest,
-) => Effect.Effect<
+export const listAccessBookmarks: API.OperationMethod<
+  ListAccessBookmarksRequest,
   ListAccessBookmarksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10099,14 +10945,16 @@ export const CreateAccessBookmarkResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     appLauncherVisible: "app_launcher_visible",
+    domain: "domain",
     logoUrl: "logo_url",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<CreateAccessBookmarkResponse>;
 
-export const createAccessBookmark: (
-  input: CreateAccessBookmarkRequest,
-) => Effect.Effect<
+export const createAccessBookmark: API.OperationMethod<
+  CreateAccessBookmarkRequest,
   CreateAccessBookmarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10156,14 +11004,16 @@ export const UpdateAccessBookmarkResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     appLauncherVisible: "app_launcher_visible",
+    domain: "domain",
     logoUrl: "logo_url",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<UpdateAccessBookmarkResponse>;
 
-export const updateAccessBookmark: (
-  input: UpdateAccessBookmarkRequest,
-) => Effect.Effect<
+export const updateAccessBookmark: API.OperationMethod<
+  UpdateAccessBookmarkRequest,
   UpdateAccessBookmarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10197,9 +11047,8 @@ export const DeleteAccessBookmarkResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessBookmarkResponse>;
 
-export const deleteAccessBookmark: (
-  input: DeleteAccessBookmarkRequest,
-) => Effect.Effect<
+export const deleteAccessBookmark: API.OperationMethod<
+  DeleteAccessBookmarkRequest,
   DeleteAccessBookmarkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10246,14 +11095,16 @@ export const GetAccessCertificateResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     associatedHostnames: "associated_hostnames",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<GetAccessCertificateResponse>;
 
-export const getAccessCertificate: (
-  input: GetAccessCertificateRequest,
-) => Effect.Effect<
+export const getAccessCertificate: API.OperationMethod<
+  GetAccessCertificateRequest,
   GetAccessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10289,15 +11140,17 @@ export const ListAccessCertificatesResponse = Schema.Array(
     name: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       associatedHostnames: "associated_hostnames",
       expiresOn: "expires_on",
+      fingerprint: "fingerprint",
+      name: "name",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessCertificatesResponse>;
 
-export const listAccessCertificates: (
-  input: ListAccessCertificatesRequest,
-) => Effect.Effect<
+export const listAccessCertificates: API.OperationMethod<
+  ListAccessCertificatesRequest,
   ListAccessCertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10327,7 +11180,11 @@ export const CreateAccessCertificateRequest = Schema.Struct({
   name: Schema.String,
   associatedHostnames: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  Schema.encodeKeys({ associatedHostnames: "associated_hostnames" }),
+  Schema.encodeKeys({
+    certificate: "certificate",
+    name: "name",
+    associatedHostnames: "associated_hostnames",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/certificates",
@@ -10354,14 +11211,16 @@ export const CreateAccessCertificateResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     associatedHostnames: "associated_hostnames",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<CreateAccessCertificateResponse>;
 
-export const createAccessCertificate: (
-  input: CreateAccessCertificateRequest,
-) => Effect.Effect<
+export const createAccessCertificate: API.OperationMethod<
+  CreateAccessCertificateRequest,
   CreateAccessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10390,7 +11249,10 @@ export const UpdateAccessCertificateRequest = Schema.Struct({
   associatedHostnames: Schema.Array(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ associatedHostnames: "associated_hostnames" }),
+  Schema.encodeKeys({
+    associatedHostnames: "associated_hostnames",
+    name: "name",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/certificates/{certificateId}",
@@ -10417,14 +11279,16 @@ export const UpdateAccessCertificateResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     associatedHostnames: "associated_hostnames",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<UpdateAccessCertificateResponse>;
 
-export const updateAccessCertificate: (
-  input: UpdateAccessCertificateRequest,
-) => Effect.Effect<
+export const updateAccessCertificate: API.OperationMethod<
+  UpdateAccessCertificateRequest,
   UpdateAccessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10456,9 +11320,8 @@ export const DeleteAccessCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessCertificateResponse>;
 
-export const deleteAccessCertificate: (
-  input: DeleteAccessCertificateRequest,
-) => Effect.Effect<
+export const deleteAccessCertificate: API.OperationMethod<
+  DeleteAccessCertificateRequest,
   DeleteAccessCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10496,13 +11359,13 @@ export const GetAccessCertificateSettingResponse = Schema.Array(
     Schema.encodeKeys({
       chinaNetwork: "china_network",
       clientCertificateForwarding: "client_certificate_forwarding",
+      hostname: "hostname",
     }),
   ),
 ) as unknown as Schema.Schema<GetAccessCertificateSettingResponse>;
 
-export const getAccessCertificateSetting: (
-  input: GetAccessCertificateSettingRequest,
-) => Effect.Effect<
+export const getAccessCertificateSetting: API.OperationMethod<
+  GetAccessCertificateSettingRequest,
   GetAccessCertificateSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10537,6 +11400,7 @@ export const UpdateAccessCertificateSettingRequest = Schema.Struct({
       Schema.encodeKeys({
         chinaNetwork: "china_network",
         clientCertificateForwarding: "client_certificate_forwarding",
+        hostname: "hostname",
       }),
     ),
   ),
@@ -10562,13 +11426,13 @@ export const UpdateAccessCertificateSettingResponse = Schema.Array(
     Schema.encodeKeys({
       chinaNetwork: "china_network",
       clientCertificateForwarding: "client_certificate_forwarding",
+      hostname: "hostname",
     }),
   ),
 ) as unknown as Schema.Schema<UpdateAccessCertificateSettingResponse>;
 
-export const updateAccessCertificateSetting: (
-  input: UpdateAccessCertificateSettingRequest,
-) => Effect.Effect<
+export const updateAccessCertificateSetting: API.OperationMethod<
+  UpdateAccessCertificateSettingRequest,
   UpdateAccessCertificateSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10615,12 +11479,16 @@ export const GetAccessCustomPageResponse = Schema.Struct({
   type: Schema.Literals(["identity_denied", "forbidden"]),
   uid: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ customHtml: "custom_html" }),
+  Schema.encodeKeys({
+    customHtml: "custom_html",
+    name: "name",
+    type: "type",
+    uid: "uid",
+  }),
 ) as unknown as Schema.Schema<GetAccessCustomPageResponse>;
 
-export const getAccessCustomPage: (
-  input: GetAccessCustomPageRequest,
-) => Effect.Effect<
+export const getAccessCustomPage: API.OperationMethod<
+  GetAccessCustomPageRequest,
   GetAccessCustomPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10655,9 +11523,8 @@ export const ListAccessCustomPagesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAccessCustomPagesResponse>;
 
-export const listAccessCustomPages: (
-  input: ListAccessCustomPagesRequest,
-) => Effect.Effect<
+export const listAccessCustomPages: API.OperationMethod<
+  ListAccessCustomPagesRequest,
   ListAccessCustomPagesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10684,7 +11551,7 @@ export const CreateAccessCustomPageRequest = Schema.Struct({
   name: Schema.String,
   type: Schema.Literals(["identity_denied", "forbidden"]),
 }).pipe(
-  Schema.encodeKeys({ customHtml: "custom_html" }),
+  Schema.encodeKeys({ customHtml: "custom_html", name: "name", type: "type" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/access/custom_pages",
@@ -10706,9 +11573,8 @@ export const CreateAccessCustomPageResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAccessCustomPageResponse>;
 
-export const createAccessCustomPage: (
-  input: CreateAccessCustomPageRequest,
-) => Effect.Effect<
+export const createAccessCustomPage: API.OperationMethod<
+  CreateAccessCustomPageRequest,
   CreateAccessCustomPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10737,7 +11603,7 @@ export const UpdateAccessCustomPageRequest = Schema.Struct({
   name: Schema.String,
   type: Schema.Literals(["identity_denied", "forbidden"]),
 }).pipe(
-  Schema.encodeKeys({ customHtml: "custom_html" }),
+  Schema.encodeKeys({ customHtml: "custom_html", name: "name", type: "type" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/access/custom_pages/{customPageId}",
@@ -10759,9 +11625,8 @@ export const UpdateAccessCustomPageResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateAccessCustomPageResponse>;
 
-export const updateAccessCustomPage: (
-  input: UpdateAccessCustomPageRequest,
-) => Effect.Effect<
+export const updateAccessCustomPage: API.OperationMethod<
+  UpdateAccessCustomPageRequest,
   UpdateAccessCustomPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10796,9 +11661,8 @@ export const DeleteAccessCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessCustomPageResponse>;
 
-export const deleteAccessCustomPage: (
-  input: DeleteAccessCustomPageRequest,
-) => Effect.Effect<
+export const deleteAccessCustomPage: API.OperationMethod<
+  DeleteAccessCustomPageRequest,
   DeleteAccessCustomPageResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10832,12 +11696,11 @@ export const ListAccessGatewayCasResponse = Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.String),
     publicKey: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+  }).pipe(Schema.encodeKeys({ id: "id", publicKey: "public_key" })),
 ) as unknown as Schema.Schema<ListAccessGatewayCasResponse>;
 
-export const listAccessGatewayCas: (
-  input: ListAccessGatewayCasRequest,
-) => Effect.Effect<
+export const listAccessGatewayCas: API.OperationMethod<
+  ListAccessGatewayCasRequest,
   ListAccessGatewayCasResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10869,12 +11732,11 @@ export const CreateAccessGatewayCaResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   publicKey: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ publicKey: "public_key" }),
+  Schema.encodeKeys({ id: "id", publicKey: "public_key" }),
 ) as unknown as Schema.Schema<CreateAccessGatewayCaResponse>;
 
-export const createAccessGatewayCa: (
-  input: CreateAccessGatewayCaRequest,
-) => Effect.Effect<
+export const createAccessGatewayCa: API.OperationMethod<
+  CreateAccessGatewayCaRequest,
   CreateAccessGatewayCaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10909,9 +11771,8 @@ export const DeleteAccessGatewayCaResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessGatewayCaResponse>;
 
-export const deleteAccessGatewayCa: (
-  input: DeleteAccessGatewayCaRequest,
-) => Effect.Effect<
+export const deleteAccessGatewayCa: API.OperationMethod<
+  DeleteAccessGatewayCaRequest,
   DeleteAccessGatewayCaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -10961,12 +11822,18 @@ export const GetAccessGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  Schema.encodeKeys({ isDefault: "is_default" }),
+  Schema.encodeKeys({
+    id: "id",
+    exclude: "exclude",
+    include: "include",
+    isDefault: "is_default",
+    name: "name",
+    require: "require",
+  }),
 ) as unknown as Schema.Schema<GetAccessGroupResponse>;
 
-export const getAccessGroup: (
-  input: GetAccessGroupRequest,
-) => Effect.Effect<
+export const getAccessGroup: API.OperationMethod<
+  GetAccessGroupRequest,
   GetAccessGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11002,12 +11869,20 @@ export const ListAccessGroupsResponse = Schema.Array(
     isDefault: Schema.optional(Schema.Array(Schema.Unknown)),
     name: Schema.optional(Schema.String),
     require: Schema.optional(Schema.Array(Schema.Unknown)),
-  }).pipe(Schema.encodeKeys({ isDefault: "is_default" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      exclude: "exclude",
+      include: "include",
+      isDefault: "is_default",
+      name: "name",
+      require: "require",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListAccessGroupsResponse>;
 
-export const listAccessGroups: (
-  input: ListAccessGroupsRequest,
-) => Effect.Effect<
+export const listAccessGroups: API.OperationMethod<
+  ListAccessGroupsRequest,
   ListAccessGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11043,7 +11918,13 @@ export const CreateAccessGroupRequest = Schema.Struct({
   isDefault: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  Schema.encodeKeys({ isDefault: "is_default" }),
+  Schema.encodeKeys({
+    include: "include",
+    name: "name",
+    exclude: "exclude",
+    isDefault: "is_default",
+    require: "require",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/groups",
@@ -11073,12 +11954,18 @@ export const CreateAccessGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  Schema.encodeKeys({ isDefault: "is_default" }),
+  Schema.encodeKeys({
+    id: "id",
+    exclude: "exclude",
+    include: "include",
+    isDefault: "is_default",
+    name: "name",
+    require: "require",
+  }),
 ) as unknown as Schema.Schema<CreateAccessGroupResponse>;
 
-export const createAccessGroup: (
-  input: CreateAccessGroupRequest,
-) => Effect.Effect<
+export const createAccessGroup: API.OperationMethod<
+  CreateAccessGroupRequest,
   CreateAccessGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11116,7 +12003,13 @@ export const UpdateAccessGroupRequest = Schema.Struct({
   isDefault: Schema.optional(Schema.Boolean),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  Schema.encodeKeys({ isDefault: "is_default" }),
+  Schema.encodeKeys({
+    include: "include",
+    name: "name",
+    exclude: "exclude",
+    isDefault: "is_default",
+    require: "require",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/groups/{groupId}",
@@ -11146,12 +12039,18 @@ export const UpdateAccessGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
   require: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  Schema.encodeKeys({ isDefault: "is_default" }),
+  Schema.encodeKeys({
+    id: "id",
+    exclude: "exclude",
+    include: "include",
+    isDefault: "is_default",
+    name: "name",
+    require: "require",
+  }),
 ) as unknown as Schema.Schema<UpdateAccessGroupResponse>;
 
-export const updateAccessGroup: (
-  input: UpdateAccessGroupRequest,
-) => Effect.Effect<
+export const updateAccessGroup: API.OperationMethod<
+  UpdateAccessGroupRequest,
   UpdateAccessGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11183,9 +12082,8 @@ export const DeleteAccessGroupResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessGroupResponse>;
 
-export const deleteAccessGroup: (
-  input: DeleteAccessGroupRequest,
-) => Effect.Effect<
+export const deleteAccessGroup: API.OperationMethod<
+  DeleteAccessGroupRequest,
   DeleteAccessGroupResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11261,12 +12159,17 @@ export const GetAccessInfrastructureTargetResponse = Schema.Struct({
   }),
   modifiedAt: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    hostname: "hostname",
+    ip: "ip",
+    modifiedAt: "modified_at",
+  }),
 ) as unknown as Schema.Schema<GetAccessInfrastructureTargetResponse>;
 
-export const getAccessInfrastructureTarget: (
-  input: GetAccessInfrastructureTargetRequest,
-) => Effect.Effect<
+export const getAccessInfrastructureTarget: API.OperationMethod<
+  GetAccessInfrastructureTargetRequest,
   GetAccessInfrastructureTargetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11420,13 +12323,18 @@ export const ListAccessInfrastructureTargetsResponse = Schema.Array(
     }),
     modifiedAt: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      hostname: "hostname",
+      ip: "ip",
+      modifiedAt: "modified_at",
+    }),
   ),
 ) as unknown as Schema.Schema<ListAccessInfrastructureTargetsResponse>;
 
-export const listAccessInfrastructureTargets: (
-  input: ListAccessInfrastructureTargetsRequest,
-) => Effect.Effect<
+export const listAccessInfrastructureTargets: API.OperationMethod<
+  ListAccessInfrastructureTargetsRequest,
   ListAccessInfrastructureTargetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11528,12 +12436,17 @@ export const CreateAccessInfrastructureTargetResponse = Schema.Struct({
   }),
   modifiedAt: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    hostname: "hostname",
+    ip: "ip",
+    modifiedAt: "modified_at",
+  }),
 ) as unknown as Schema.Schema<CreateAccessInfrastructureTargetResponse>;
 
-export const createAccessInfrastructureTarget: (
-  input: CreateAccessInfrastructureTargetRequest,
-) => Effect.Effect<
+export const createAccessInfrastructureTarget: API.OperationMethod<
+  CreateAccessInfrastructureTargetRequest,
   CreateAccessInfrastructureTargetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11637,12 +12550,17 @@ export const UpdateAccessInfrastructureTargetResponse = Schema.Struct({
   }),
   modifiedAt: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    hostname: "hostname",
+    ip: "ip",
+    modifiedAt: "modified_at",
+  }),
 ) as unknown as Schema.Schema<UpdateAccessInfrastructureTargetResponse>;
 
-export const updateAccessInfrastructureTarget: (
-  input: UpdateAccessInfrastructureTargetRequest,
-) => Effect.Effect<
+export const updateAccessInfrastructureTarget: API.OperationMethod<
+  UpdateAccessInfrastructureTargetRequest,
   UpdateAccessInfrastructureTargetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11673,9 +12591,8 @@ export type DeleteAccessInfrastructureTargetResponse = unknown;
 export const DeleteAccessInfrastructureTargetResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteAccessInfrastructureTargetResponse>;
 
-export const deleteAccessInfrastructureTarget: (
-  input: DeleteAccessInfrastructureTargetRequest,
-) => Effect.Effect<
+export const deleteAccessInfrastructureTarget: API.OperationMethod<
+  DeleteAccessInfrastructureTargetRequest,
   DeleteAccessInfrastructureTargetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11778,13 +12695,18 @@ export const BulkUpdateAccessInfrastructureTargetsResponse = Schema.Array(
     }),
     modifiedAt: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      hostname: "hostname",
+      ip: "ip",
+      modifiedAt: "modified_at",
+    }),
   ),
 ) as unknown as Schema.Schema<BulkUpdateAccessInfrastructureTargetsResponse>;
 
-export const bulkUpdateAccessInfrastructureTargets: (
-  input: BulkUpdateAccessInfrastructureTargetsRequest,
-) => Effect.Effect<
+export const bulkUpdateAccessInfrastructureTargets: API.OperationMethod<
+  BulkUpdateAccessInfrastructureTargetsRequest,
   BulkUpdateAccessInfrastructureTargetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11813,9 +12735,8 @@ export type BulkDeleteAccessInfrastructureTargetsResponse = unknown;
 export const BulkDeleteAccessInfrastructureTargetsResponse =
   Schema.Unknown as unknown as Schema.Schema<BulkDeleteAccessInfrastructureTargetsResponse>;
 
-export const bulkDeleteAccessInfrastructureTargets: (
-  input: BulkDeleteAccessInfrastructureTargetsRequest,
-) => Effect.Effect<
+export const bulkDeleteAccessInfrastructureTargets: API.OperationMethod<
+  BulkDeleteAccessInfrastructureTargetsRequest,
   BulkDeleteAccessInfrastructureTargetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11861,9 +12782,8 @@ export const GetAccessKeyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccessKeyResponse>;
 
-export const getAccessKey: (
-  input: GetAccessKeyRequest,
-) => Effect.Effect<
+export const getAccessKey: API.OperationMethod<
+  GetAccessKeyRequest,
   GetAccessKeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11909,9 +12829,8 @@ export const PutAccessKeyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAccessKeyResponse>;
 
-export const putAccessKey: (
-  input: PutAccessKeyRequest,
-) => Effect.Effect<
+export const putAccessKey: API.OperationMethod<
+  PutAccessKeyRequest,
   PutAccessKeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -11953,9 +12872,8 @@ export const RotateAccessKeyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<RotateAccessKeyResponse>;
 
-export const rotateAccessKey: (
-  input: RotateAccessKeyRequest,
-) => Effect.Effect<
+export const rotateAccessKey: API.OperationMethod<
+  RotateAccessKeyRequest,
   RotateAccessKeyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12018,9 +12936,8 @@ export const ListAccessLogAccessRequestsResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListAccessLogAccessRequestsResponse>;
 
-export const listAccessLogAccessRequests: (
-  input: ListAccessLogAccessRequestsRequest,
-) => Effect.Effect<
+export const listAccessLogAccessRequests: API.OperationMethod<
+  ListAccessLogAccessRequestsRequest,
   ListAccessLogAccessRequestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12139,13 +13056,13 @@ export const ListAccessLogScimUpdatesResponse = Schema.Array(
       resourceGroupName: "resource_group_name",
       resourceType: "resource_type",
       resourceUserEmail: "resource_user_email",
+      status: "status",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessLogScimUpdatesResponse>;
 
-export const listAccessLogScimUpdates: (
-  input: ListAccessLogScimUpdatesRequest,
-) => Effect.Effect<
+export const listAccessLogScimUpdates: API.OperationMethod<
+  ListAccessLogScimUpdatesRequest,
   ListAccessLogScimUpdatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12246,21 +13163,27 @@ export const GetAccessPolicyResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     appCount: "app_count",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     createdAt: "created_at",
+    decision: "decision",
+    exclude: "exclude",
+    include: "include",
     isolationRequired: "isolation_required",
+    name: "name",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
+    reusable: "reusable",
     sessionDuration: "session_duration",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<GetAccessPolicyResponse>;
 
-export const getAccessPolicy: (
-  input: GetAccessPolicyRequest,
-) => Effect.Effect<
+export const getAccessPolicy: API.OperationMethod<
+  GetAccessPolicyRequest,
   GetAccessPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12340,22 +13263,28 @@ export const ListAccessPoliciesResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       appCount: "app_count",
       approvalGroups: "approval_groups",
       approvalRequired: "approval_required",
       createdAt: "created_at",
+      decision: "decision",
+      exclude: "exclude",
+      include: "include",
       isolationRequired: "isolation_required",
+      name: "name",
       purposeJustificationPrompt: "purpose_justification_prompt",
       purposeJustificationRequired: "purpose_justification_required",
+      require: "require",
+      reusable: "reusable",
       sessionDuration: "session_duration",
       updatedAt: "updated_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessPoliciesResponse>;
 
-export const listAccessPolicies: (
-  input: ListAccessPoliciesRequest,
-) => Effect.Effect<
+export const listAccessPolicies: API.OperationMethod<
+  ListAccessPoliciesRequest,
   ListAccessPoliciesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12425,11 +13354,16 @@ export const CreateAccessPolicyRequest = Schema.Struct({
   sessionDuration: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    decision: "decision",
+    include: "include",
+    name: "name",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
+    exclude: "exclude",
     isolationRequired: "isolation_required",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
     sessionDuration: "session_duration",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/access/policies" }),
@@ -12506,21 +13440,27 @@ export const CreateAccessPolicyResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     appCount: "app_count",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     createdAt: "created_at",
+    decision: "decision",
+    exclude: "exclude",
+    include: "include",
     isolationRequired: "isolation_required",
+    name: "name",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
+    reusable: "reusable",
     sessionDuration: "session_duration",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<CreateAccessPolicyResponse>;
 
-export const createAccessPolicy: (
-  input: CreateAccessPolicyRequest,
-) => Effect.Effect<
+export const createAccessPolicy: API.OperationMethod<
+  CreateAccessPolicyRequest,
   CreateAccessPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12592,11 +13532,16 @@ export const UpdateAccessPolicyRequest = Schema.Struct({
   sessionDuration: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    decision: "decision",
+    include: "include",
+    name: "name",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
+    exclude: "exclude",
     isolationRequired: "isolation_required",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
     sessionDuration: "session_duration",
   }),
   T.Http({
@@ -12676,21 +13621,27 @@ export const UpdateAccessPolicyResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     appCount: "app_count",
     approvalGroups: "approval_groups",
     approvalRequired: "approval_required",
     createdAt: "created_at",
+    decision: "decision",
+    exclude: "exclude",
+    include: "include",
     isolationRequired: "isolation_required",
+    name: "name",
     purposeJustificationPrompt: "purpose_justification_prompt",
     purposeJustificationRequired: "purpose_justification_required",
+    require: "require",
+    reusable: "reusable",
     sessionDuration: "session_duration",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<UpdateAccessPolicyResponse>;
 
-export const updateAccessPolicy: (
-  input: UpdateAccessPolicyRequest,
-) => Effect.Effect<
+export const updateAccessPolicy: API.OperationMethod<
+  UpdateAccessPolicyRequest,
   UpdateAccessPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12725,9 +13676,8 @@ export const DeleteAccessPolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessPolicyResponse>;
 
-export const deleteAccessPolicy: (
-  input: DeleteAccessPolicyRequest,
-) => Effect.Effect<
+export const deleteAccessPolicy: API.OperationMethod<
+  DeleteAccessPolicyRequest,
   DeleteAccessPolicyResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12773,12 +13723,17 @@ export const GetAccessServiceTokenResponse = Schema.Struct({
   expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    clientId: "client_id",
+    duration: "duration",
+    expiresAt: "expires_at",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<GetAccessServiceTokenResponse>;
 
-export const getAccessServiceToken: (
-  input: GetAccessServiceTokenRequest,
-) => Effect.Effect<
+export const getAccessServiceToken: API.OperationMethod<
+  GetAccessServiceTokenRequest,
   GetAccessServiceTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12813,13 +13768,18 @@ export const ListAccessServiceTokensResponse = Schema.Array(
     expiresAt: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      clientId: "client_id",
+      duration: "duration",
+      expiresAt: "expires_at",
+      name: "name",
+    }),
   ),
 ) as unknown as Schema.Schema<ListAccessServiceTokensResponse>;
 
-export const listAccessServiceTokens: (
-  input: ListAccessServiceTokensRequest,
-) => Effect.Effect<
+export const listAccessServiceTokens: API.OperationMethod<
+  ListAccessServiceTokensRequest,
   ListAccessServiceTokensResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12853,7 +13813,9 @@ export const CreateAccessServiceTokenRequest = Schema.Struct({
   previousClientSecretExpiresAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     clientSecretVersion: "client_secret_version",
+    duration: "duration",
     previousClientSecretExpiresAt: "previous_client_secret_expires_at",
   }),
   T.Http({
@@ -12882,12 +13844,17 @@ export const CreateAccessServiceTokenResponse = Schema.Struct({
   duration: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ clientId: "client_id", clientSecret: "client_secret" }),
+  Schema.encodeKeys({
+    id: "id",
+    clientId: "client_id",
+    clientSecret: "client_secret",
+    duration: "duration",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<CreateAccessServiceTokenResponse>;
 
-export const createAccessServiceToken: (
-  input: CreateAccessServiceTokenRequest,
-) => Effect.Effect<
+export const createAccessServiceToken: API.OperationMethod<
+  CreateAccessServiceTokenRequest,
   CreateAccessServiceTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12924,6 +13891,8 @@ export const UpdateAccessServiceTokenRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     clientSecretVersion: "client_secret_version",
+    duration: "duration",
+    name: "name",
     previousClientSecretExpiresAt: "previous_client_secret_expires_at",
   }),
   T.Http({
@@ -12951,12 +13920,17 @@ export const UpdateAccessServiceTokenResponse = Schema.Struct({
   expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    clientId: "client_id",
+    duration: "duration",
+    expiresAt: "expires_at",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<UpdateAccessServiceTokenResponse>;
 
-export const updateAccessServiceToken: (
-  input: UpdateAccessServiceTokenRequest,
-) => Effect.Effect<
+export const updateAccessServiceToken: API.OperationMethod<
+  UpdateAccessServiceTokenRequest,
   UpdateAccessServiceTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -12998,12 +13972,17 @@ export const DeleteAccessServiceTokenResponse = Schema.Struct({
   expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    clientId: "client_id",
+    duration: "duration",
+    expiresAt: "expires_at",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<DeleteAccessServiceTokenResponse>;
 
-export const deleteAccessServiceToken: (
-  input: DeleteAccessServiceTokenRequest,
-) => Effect.Effect<
+export const deleteAccessServiceToken: API.OperationMethod<
+  DeleteAccessServiceTokenRequest,
   DeleteAccessServiceTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13048,12 +14027,17 @@ export const RefreshAccessServiceTokenResponse = Schema.Struct({
   expiresAt: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ clientId: "client_id", expiresAt: "expires_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    clientId: "client_id",
+    duration: "duration",
+    expiresAt: "expires_at",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<RefreshAccessServiceTokenResponse>;
 
-export const refreshAccessServiceToken: (
-  input: RefreshAccessServiceTokenRequest,
-) => Effect.Effect<
+export const refreshAccessServiceToken: API.OperationMethod<
+  RefreshAccessServiceTokenRequest,
   RefreshAccessServiceTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13105,12 +14089,17 @@ export const RotateAccessServiceTokenResponse = Schema.Struct({
   duration: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ clientId: "client_id", clientSecret: "client_secret" }),
+  Schema.encodeKeys({
+    id: "id",
+    clientId: "client_id",
+    clientSecret: "client_secret",
+    duration: "duration",
+    name: "name",
+  }),
 ) as unknown as Schema.Schema<RotateAccessServiceTokenResponse>;
 
-export const rotateAccessServiceToken: (
-  input: RotateAccessServiceTokenRequest,
-) => Effect.Effect<
+export const rotateAccessServiceToken: API.OperationMethod<
+  RotateAccessServiceTokenRequest,
   RotateAccessServiceTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13149,9 +14138,8 @@ export const GetAccessTagResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<GetAccessTagResponse>;
 
-export const getAccessTag: (
-  input: GetAccessTagRequest,
-) => Effect.Effect<
+export const getAccessTag: API.OperationMethod<
+  GetAccessTagRequest,
   GetAccessTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13180,9 +14168,8 @@ export const ListAccessTagsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAccessTagsResponse>;
 
-export const listAccessTags: (
-  input: ListAccessTagsRequest,
-) => Effect.Effect<
+export const listAccessTags: API.OperationMethod<
+  ListAccessTagsRequest,
   ListAccessTagsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13215,9 +14202,8 @@ export const CreateAccessTagResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<CreateAccessTagResponse>;
 
-export const createAccessTag: (
-  input: CreateAccessTagRequest,
-) => Effect.Effect<
+export const createAccessTag: API.OperationMethod<
+  CreateAccessTagRequest,
   CreateAccessTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13255,9 +14241,8 @@ export const UpdateAccessTagResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<UpdateAccessTagResponse>;
 
-export const updateAccessTag: (
-  input: UpdateAccessTagRequest,
-) => Effect.Effect<
+export const updateAccessTag: API.OperationMethod<
+  UpdateAccessTagRequest,
   UpdateAccessTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13292,9 +14277,8 @@ export const DeleteAccessTagResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAccessTagResponse>;
 
-export const deleteAccessTag: (
-  input: DeleteAccessTagRequest,
-) => Effect.Effect<
+export const deleteAccessTag: API.OperationMethod<
+  DeleteAccessTagRequest,
   DeleteAccessTagResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13357,20 +14341,23 @@ export const ListAccessUsersResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accessSeat: "access_seat",
       activeDeviceCount: "active_device_count",
       createdAt: "created_at",
+      email: "email",
       gatewaySeat: "gateway_seat",
       lastSuccessfulLogin: "last_successful_login",
+      name: "name",
       seatUid: "seat_uid",
+      uid: "uid",
       updatedAt: "updated_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListAccessUsersResponse>;
 
-export const listAccessUsers: (
-  input: ListAccessUsersRequest,
-) => Effect.Effect<
+export const listAccessUsers: API.OperationMethod<
+  ListAccessUsersRequest,
   ListAccessUsersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13478,18 +14465,25 @@ export const GetAccessUserActiveSessionResponse = Schema.Struct({
     commonName: "common_name",
     deviceId: "device_id",
     deviceSessions: "device_sessions",
+    devicePosture: "devicePosture",
+    email: "email",
+    geo: "geo",
+    iat: "iat",
+    idp: "idp",
+    ip: "ip",
     isGateway: "is_gateway",
     isWarp: "is_warp",
+    isActive: "isActive",
     mtlsAuth: "mtls_auth",
     serviceTokenId: "service_token_id",
     serviceTokenStatus: "service_token_status",
     userUuid: "user_uuid",
+    version: "version",
   }),
 ) as unknown as Schema.Schema<GetAccessUserActiveSessionResponse>;
 
-export const getAccessUserActiveSession: (
-  input: GetAccessUserActiveSessionRequest,
-) => Effect.Effect<
+export const getAccessUserActiveSession: API.OperationMethod<
+  GetAccessUserActiveSessionRequest,
   GetAccessUserActiveSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13543,9 +14537,8 @@ export const ListAccessUserActiveSessionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAccessUserActiveSessionsResponse>;
 
-export const listAccessUserActiveSessions: (
-  input: ListAccessUserActiveSessionsRequest,
-) => Effect.Effect<
+export const listAccessUserActiveSessions: API.OperationMethod<
+  ListAccessUserActiveSessionsRequest,
   ListAccessUserActiveSessionsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13587,9 +14580,8 @@ export const ListAccessUserFailedLoginsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAccessUserFailedLoginsResponse>;
 
-export const listAccessUserFailedLogins: (
-  input: ListAccessUserFailedLoginsRequest,
-) => Effect.Effect<
+export const listAccessUserFailedLogins: API.OperationMethod<
+  ListAccessUserFailedLoginsRequest,
   ListAccessUserFailedLoginsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13693,18 +14685,24 @@ export const GetAccessUserLastSeenIdentityResponse = Schema.Struct({
     commonName: "common_name",
     deviceId: "device_id",
     deviceSessions: "device_sessions",
+    devicePosture: "devicePosture",
+    email: "email",
+    geo: "geo",
+    iat: "iat",
+    idp: "idp",
+    ip: "ip",
     isGateway: "is_gateway",
     isWarp: "is_warp",
     mtlsAuth: "mtls_auth",
     serviceTokenId: "service_token_id",
     serviceTokenStatus: "service_token_status",
     userUuid: "user_uuid",
+    version: "version",
   }),
 ) as unknown as Schema.Schema<GetAccessUserLastSeenIdentityResponse>;
 
-export const getAccessUserLastSeenIdentity: (
-  input: GetAccessUserLastSeenIdentityRequest,
-) => Effect.Effect<
+export const getAccessUserLastSeenIdentity: API.OperationMethod<
+  GetAccessUserLastSeenIdentityRequest,
   GetAccessUserLastSeenIdentityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13749,9 +14747,8 @@ export const GetConnectivitySettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetConnectivitySettingResponse>;
 
-export const getConnectivitySetting: (
-  input: GetConnectivitySettingRequest,
-) => Effect.Effect<
+export const getConnectivitySetting: API.OperationMethod<
+  GetConnectivitySettingRequest,
   GetConnectivitySettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13802,9 +14799,8 @@ export const PatchConnectivitySettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchConnectivitySettingResponse>;
 
-export const patchConnectivitySetting: (
-  input: PatchConnectivitySettingRequest,
-) => Effect.Effect<
+export const patchConnectivitySetting: API.OperationMethod<
+  PatchConnectivitySettingRequest,
   PatchConnectivitySettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13875,7 +14871,13 @@ export const GetDeviceResponse = Schema.Struct({
       id: Schema.optional(Schema.String),
       accountType: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ accountType: "account_type" })),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountType: "account_type",
+        name: "name",
+      }),
+    ),
   ),
   created: Schema.optional(Schema.String),
   deleted: Schema.optional(Schema.Boolean),
@@ -13902,20 +14904,30 @@ export const GetDeviceResponse = Schema.Struct({
   version: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    account: "account",
+    created: "created",
+    deleted: "deleted",
     deviceType: "device_type",
     gatewayDeviceId: "gateway_device_id",
+    ip: "ip",
+    key: "key",
     keyType: "key_type",
     lastSeen: "last_seen",
     macAddress: "mac_address",
+    model: "model",
+    name: "name",
     osVersion: "os_version",
     serialNumber: "serial_number",
     tunnelType: "tunnel_type",
+    updated: "updated",
+    user: "user",
+    version: "version",
   }),
 ) as unknown as Schema.Schema<GetDeviceResponse>;
 
-export const getDevice: (
-  input: GetDeviceRequest,
-) => Effect.Effect<
+export const getDevice: API.OperationMethod<
+  GetDeviceRequest,
   GetDeviceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -13997,22 +15009,32 @@ export const ListDevicesResponse = Schema.Array(
     version: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      deleted: "deleted",
       deviceType: "device_type",
+      ip: "ip",
+      key: "key",
       lastSeen: "last_seen",
       macAddress: "mac_address",
+      manufacturer: "manufacturer",
+      model: "model",
+      name: "name",
       osDistroName: "os_distro_name",
       osDistroRevision: "os_distro_revision",
       osVersion: "os_version",
       osVersionExtra: "os_version_extra",
       revokedAt: "revoked_at",
       serialNumber: "serial_number",
+      updated: "updated",
+      user: "user",
+      version: "version",
     }),
   ),
 ) as unknown as Schema.Schema<ListDevicesResponse>;
 
-export const listDevices: (
-  input: ListDevicesRequest,
-) => Effect.Effect<
+export const listDevices: API.OperationMethod<
+  ListDevicesRequest,
   ListDevicesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14116,7 +15138,15 @@ export const GetDeviceDevices_Response = Schema.Struct({
               deleted: Schema.Boolean,
               name: Schema.String,
               updatedAt: Schema.String,
-            }).pipe(Schema.encodeKeys({ updatedAt: "updated_at" })),
+            }).pipe(
+              Schema.encodeKeys({
+                id: "id",
+                default: "default",
+                deleted: "deleted",
+                name: "name",
+                updatedAt: "updated_at",
+              }),
+            ),
             Schema.Null,
           ]),
         ),
@@ -14143,9 +15173,11 @@ export const GetDeviceDevices_Response = Schema.Struct({
   serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     activeRegistrations: "active_registrations",
     createdAt: "created_at",
     lastSeenAt: "last_seen_at",
+    name: "name",
     updatedAt: "updated_at",
     clientVersion: "client_version",
     deletedAt: "deleted_at",
@@ -14154,6 +15186,8 @@ export const GetDeviceDevices_Response = Schema.Struct({
     lastSeenRegistration: "last_seen_registration",
     lastSeenUser: "last_seen_user",
     macAddress: "mac_address",
+    manufacturer: "manufacturer",
+    model: "model",
     osVersion: "os_version",
     osVersionExtra: "os_version_extra",
     publicIp: "public_ip",
@@ -14161,9 +15195,8 @@ export const GetDeviceDevices_Response = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDeviceDevices_Response>;
 
-export const getDeviceDevices_: (
-  input: GetDeviceDevices_Request,
-) => Effect.Effect<
+export const getDeviceDevices_: API.OperationMethod<
+  GetDeviceDevices_Request,
   GetDeviceDevices_Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14193,9 +15226,8 @@ export type DeleteDeviceDevices_Response = unknown;
 export const DeleteDeviceDevices_Response =
   Schema.Unknown as unknown as Schema.Schema<DeleteDeviceDevices_Response>;
 
-export const deleteDeviceDevices_: (
-  input: DeleteDeviceDevices_Request,
-) => Effect.Effect<
+export const deleteDeviceDevices_: API.OperationMethod<
+  DeleteDeviceDevices_Request,
   DeleteDeviceDevices_Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14225,9 +15257,8 @@ export type RevokeDeviceDevices_Response = unknown;
 export const RevokeDeviceDevices_Response =
   Schema.Unknown as unknown as Schema.Schema<RevokeDeviceDevices_Response>;
 
-export const revokeDeviceDevices_: (
-  input: RevokeDeviceDevices_Request,
-) => Effect.Effect<
+export const revokeDeviceDevices_: API.OperationMethod<
+  RevokeDeviceDevices_Request,
   RevokeDeviceDevices_Response,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14360,7 +15391,15 @@ export const ListDeviceDevicesSResponse = Schema.Array(
                 deleted: Schema.Boolean,
                 name: Schema.String,
                 updatedAt: Schema.String,
-              }).pipe(Schema.encodeKeys({ updatedAt: "updated_at" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  id: "id",
+                  default: "default",
+                  deleted: "deleted",
+                  name: "name",
+                  updatedAt: "updated_at",
+                }),
+              ),
               Schema.Null,
             ]),
           ),
@@ -14387,9 +15426,11 @@ export const ListDeviceDevicesSResponse = Schema.Array(
     serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       activeRegistrations: "active_registrations",
       createdAt: "created_at",
       lastSeenAt: "last_seen_at",
+      name: "name",
       updatedAt: "updated_at",
       clientVersion: "client_version",
       deletedAt: "deleted_at",
@@ -14398,6 +15439,8 @@ export const ListDeviceDevicesSResponse = Schema.Array(
       lastSeenRegistration: "last_seen_registration",
       lastSeenUser: "last_seen_user",
       macAddress: "mac_address",
+      manufacturer: "manufacturer",
+      model: "model",
       osVersion: "os_version",
       osVersionExtra: "os_version_extra",
       publicIp: "public_ip",
@@ -14406,9 +15449,8 @@ export const ListDeviceDevicesSResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDeviceDevicesSResponse>;
 
-export const listDeviceDevicesS: (
-  input: ListDeviceDevicesSRequest,
-) => Effect.Effect<
+export const listDeviceDevicesS: API.OperationMethod<
+  ListDeviceDevicesSRequest,
   ListDeviceDevicesSResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14477,12 +15519,20 @@ export const GetDeviceDexTestResponse = Schema.Struct({
   targeted: Schema.optional(Schema.Boolean),
   testId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+  Schema.encodeKeys({
+    data: "data",
+    enabled: "enabled",
+    interval: "interval",
+    name: "name",
+    description: "description",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+    testId: "test_id",
+  }),
 ) as unknown as Schema.Schema<GetDeviceDexTestResponse>;
 
-export const getDeviceDexTest: (
-  input: GetDeviceDexTestRequest,
-) => Effect.Effect<
+export const getDeviceDexTest: API.OperationMethod<
+  GetDeviceDexTestRequest,
   GetDeviceDexTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14539,13 +15589,21 @@ export const ListDeviceDexTestsResponse = Schema.Array(
     targeted: Schema.optional(Schema.Boolean),
     testId: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+    Schema.encodeKeys({
+      data: "data",
+      enabled: "enabled",
+      interval: "interval",
+      name: "name",
+      description: "description",
+      targetPolicies: "target_policies",
+      targeted: "targeted",
+      testId: "test_id",
+    }),
   ),
 ) as unknown as Schema.Schema<ListDeviceDexTestsResponse>;
 
-export const listDeviceDexTests: (
-  input: ListDeviceDexTestsRequest,
-) => Effect.Effect<
+export const listDeviceDexTests: API.OperationMethod<
+  ListDeviceDexTestsRequest,
   ListDeviceDexTestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14596,7 +15654,15 @@ export const CreateDeviceDexTestRequest = Schema.Struct({
   ),
   targeted: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies" }),
+  Schema.encodeKeys({
+    data: "data",
+    enabled: "enabled",
+    interval: "interval",
+    name: "name",
+    description: "description",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dex/devices/dex_tests",
@@ -14643,12 +15709,20 @@ export const CreateDeviceDexTestResponse = Schema.Struct({
   targeted: Schema.optional(Schema.Boolean),
   testId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+  Schema.encodeKeys({
+    data: "data",
+    enabled: "enabled",
+    interval: "interval",
+    name: "name",
+    description: "description",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+    testId: "test_id",
+  }),
 ) as unknown as Schema.Schema<CreateDeviceDexTestResponse>;
 
-export const createDeviceDexTest: (
-  input: CreateDeviceDexTestRequest,
-) => Effect.Effect<
+export const createDeviceDexTest: API.OperationMethod<
+  CreateDeviceDexTestRequest,
   CreateDeviceDexTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14701,7 +15775,15 @@ export const UpdateDeviceDexTestRequest = Schema.Struct({
   ),
   targeted: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies" }),
+  Schema.encodeKeys({
+    data: "data",
+    enabled: "enabled",
+    interval: "interval",
+    name: "name",
+    description: "description",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/dex/devices/dex_tests/{dexTestId}",
@@ -14748,12 +15830,20 @@ export const UpdateDeviceDexTestResponse = Schema.Struct({
   targeted: Schema.optional(Schema.Boolean),
   testId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies", testId: "test_id" }),
+  Schema.encodeKeys({
+    data: "data",
+    enabled: "enabled",
+    interval: "interval",
+    name: "name",
+    description: "description",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+    testId: "test_id",
+  }),
 ) as unknown as Schema.Schema<UpdateDeviceDexTestResponse>;
 
-export const updateDeviceDexTest: (
-  input: UpdateDeviceDexTestRequest,
-) => Effect.Effect<
+export const updateDeviceDexTest: API.OperationMethod<
+  UpdateDeviceDexTestRequest,
   UpdateDeviceDexTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -14817,7 +15907,13 @@ export const DeleteDeviceDexTestResponse = Schema.Struct({
         testId: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          data: "data",
+          enabled: "enabled",
+          interval: "interval",
+          name: "name",
+          description: "description",
           targetPolicies: "target_policies",
+          targeted: "targeted",
           testId: "test_id",
         }),
       ),
@@ -14827,9 +15923,8 @@ export const DeleteDeviceDexTestResponse = Schema.Struct({
   Schema.encodeKeys({ dexTests: "dex_tests" }),
 ) as unknown as Schema.Schema<DeleteDeviceDexTestResponse>;
 
-export const deleteDeviceDexTest: (
-  input: DeleteDeviceDexTestRequest,
-) => Effect.Effect<
+export const deleteDeviceDexTest: API.OperationMethod<
+  DeleteDeviceDexTestRequest,
   DeleteDeviceDexTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15011,7 +16106,7 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           Schema.Struct({
             cpuPct: Schema.optional(Schema.Number),
             name: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ cpuPct: "cpu_pct" })),
+          }).pipe(Schema.encodeKeys({ cpuPct: "cpu_pct", name: "name" })),
         ),
       ),
       Schema.Null,
@@ -15032,8 +16127,10 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
             countryIso: "country_iso",
             stateIso: "state_iso",
+            zip: "zip",
           }),
         ),
       ),
@@ -15056,8 +16153,10 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
             countryIso: "country_iso",
             stateIso: "state_iso",
+            zip: "zip",
           }),
         ),
       ),
@@ -15087,8 +16186,10 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
             countryIso: "country_iso",
             stateIso: "state_iso",
+            zip: "zip",
           }),
         ),
       ),
@@ -15111,8 +16212,10 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
             countryIso: "country_iso",
             stateIso: "state_iso",
+            zip: "zip",
           }),
         ),
       ),
@@ -15138,8 +16241,10 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
             countryIso: "country_iso",
             stateIso: "state_iso",
+            zip: "zip",
           }),
         ),
       ),
@@ -15162,8 +16267,10 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }).pipe(
           Schema.encodeKeys({
+            city: "city",
             countryIso: "country_iso",
             stateIso: "state_iso",
+            zip: "zip",
           }),
         ),
       ),
@@ -15185,7 +16292,9 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
           Schema.Struct({
             name: Schema.optional(Schema.String),
             ramUsedPct: Schema.optional(Schema.Number),
-          }).pipe(Schema.encodeKeys({ ramUsedPct: "ram_used_pct" })),
+          }).pipe(
+            Schema.encodeKeys({ name: "name", ramUsedPct: "ram_used_pct" }),
+          ),
         ),
       ),
       Schema.Null,
@@ -15195,9 +16304,8 @@ export const GetDeviceFleetStatusResponse = Schema.Struct({
   wifiStrengthDbm: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetDeviceFleetStatusResponse>;
 
-export const getDeviceFleetStatus: (
-  input: GetDeviceFleetStatusRequest,
-) => Effect.Effect<
+export const getDeviceFleetStatus: API.OperationMethod<
+  GetDeviceFleetStatusRequest,
   GetDeviceFleetStatusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15242,18 +16350,24 @@ export const GetDeviceNetworkResponse = Schema.Struct({
     Schema.Struct({
       tlsSockaddr: Schema.String,
       sha256: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+    }).pipe(
+      Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" }),
+    ),
   ),
   name: Schema.optional(Schema.String),
   networkId: Schema.optional(Schema.String),
   type: Schema.optional(Schema.Literal("tls")),
 }).pipe(
-  Schema.encodeKeys({ networkId: "network_id" }),
+  Schema.encodeKeys({
+    config: "config",
+    name: "name",
+    networkId: "network_id",
+    type: "type",
+  }),
 ) as unknown as Schema.Schema<GetDeviceNetworkResponse>;
 
-export const getDeviceNetwork: (
-  input: GetDeviceNetworkRequest,
-) => Effect.Effect<
+export const getDeviceNetwork: API.OperationMethod<
+  GetDeviceNetworkRequest,
   GetDeviceNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15286,17 +16400,25 @@ export const ListDeviceNetworksResponse = Schema.Array(
       Schema.Struct({
         tlsSockaddr: Schema.String,
         sha256: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+      }).pipe(
+        Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" }),
+      ),
     ),
     name: Schema.optional(Schema.String),
     networkId: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literal("tls")),
-  }).pipe(Schema.encodeKeys({ networkId: "network_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      networkId: "network_id",
+      type: "type",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListDeviceNetworksResponse>;
 
-export const listDeviceNetworks: (
-  input: ListDeviceNetworksRequest,
-) => Effect.Effect<
+export const listDeviceNetworks: API.OperationMethod<
+  ListDeviceNetworksRequest,
   ListDeviceNetworksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15322,7 +16444,7 @@ export const CreateDeviceNetworkRequest = Schema.Struct({
   config: Schema.Struct({
     tlsSockaddr: Schema.String,
     sha256: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+  }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" })),
   name: Schema.String,
   type: Schema.Literal("tls"),
 }).pipe(
@@ -15345,18 +16467,24 @@ export const CreateDeviceNetworkResponse = Schema.Struct({
     Schema.Struct({
       tlsSockaddr: Schema.String,
       sha256: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+    }).pipe(
+      Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" }),
+    ),
   ),
   name: Schema.optional(Schema.String),
   networkId: Schema.optional(Schema.String),
   type: Schema.optional(Schema.Literal("tls")),
 }).pipe(
-  Schema.encodeKeys({ networkId: "network_id" }),
+  Schema.encodeKeys({
+    config: "config",
+    name: "name",
+    networkId: "network_id",
+    type: "type",
+  }),
 ) as unknown as Schema.Schema<CreateDeviceNetworkResponse>;
 
-export const createDeviceNetwork: (
-  input: CreateDeviceNetworkRequest,
-) => Effect.Effect<
+export const createDeviceNetwork: API.OperationMethod<
+  CreateDeviceNetworkRequest,
   CreateDeviceNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15385,7 +16513,9 @@ export const UpdateDeviceNetworkRequest = Schema.Struct({
     Schema.Struct({
       tlsSockaddr: Schema.String,
       sha256: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+    }).pipe(
+      Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" }),
+    ),
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(Schema.Literal("tls")),
@@ -15412,18 +16542,24 @@ export const UpdateDeviceNetworkResponse = Schema.Struct({
     Schema.Struct({
       tlsSockaddr: Schema.String,
       sha256: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+    }).pipe(
+      Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" }),
+    ),
   ),
   name: Schema.optional(Schema.String),
   networkId: Schema.optional(Schema.String),
   type: Schema.optional(Schema.Literal("tls")),
 }).pipe(
-  Schema.encodeKeys({ networkId: "network_id" }),
+  Schema.encodeKeys({
+    config: "config",
+    name: "name",
+    networkId: "network_id",
+    type: "type",
+  }),
 ) as unknown as Schema.Schema<UpdateDeviceNetworkResponse>;
 
-export const updateDeviceNetwork: (
-  input: UpdateDeviceNetworkRequest,
-) => Effect.Effect<
+export const updateDeviceNetwork: API.OperationMethod<
+  UpdateDeviceNetworkRequest,
   UpdateDeviceNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15461,17 +16597,25 @@ export const DeleteDeviceNetworkResponse = Schema.Array(
       Schema.Struct({
         tlsSockaddr: Schema.String,
         sha256: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr" })),
+      }).pipe(
+        Schema.encodeKeys({ tlsSockaddr: "tls_sockaddr", sha256: "sha256" }),
+      ),
     ),
     name: Schema.optional(Schema.String),
     networkId: Schema.optional(Schema.String),
     type: Schema.optional(Schema.Literal("tls")),
-  }).pipe(Schema.encodeKeys({ networkId: "network_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      networkId: "network_id",
+      type: "type",
+    }),
+  ),
 ) as unknown as Schema.Schema<DeleteDeviceNetworkResponse>;
 
-export const deleteDeviceNetwork: (
-  input: DeleteDeviceNetworkRequest,
-) => Effect.Effect<
+export const deleteDeviceNetwork: API.OperationMethod<
+  DeleteDeviceNetworkRequest,
   DeleteDeviceNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15510,9 +16654,8 @@ export const GetDeviceOverrideCodeResponse = Schema.Struct({
   Schema.encodeKeys({ disableForTime: "disable_for_time" }),
 ) as unknown as Schema.Schema<GetDeviceOverrideCodeResponse>;
 
-export const getDeviceOverrideCode: (
-  input: GetDeviceOverrideCodeRequest,
-) => Effect.Effect<
+export const getDeviceOverrideCode: API.OperationMethod<
+  GetDeviceOverrideCodeRequest,
   GetDeviceOverrideCodeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15543,9 +16686,8 @@ export const ListDeviceOverrideCodesResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListDeviceOverrideCodesResponse>;
 
-export const listDeviceOverrideCodes: (
-  input: ListDeviceOverrideCodesRequest,
-) => Effect.Effect<
+export const listDeviceOverrideCodes: API.OperationMethod<
+  ListDeviceOverrideCodesRequest,
   ListDeviceOverrideCodesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15579,9 +16721,8 @@ export type GetDevicePolicyCustomResponse = unknown;
 export const GetDevicePolicyCustomResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyCustomResponse>;
 
-export const getDevicePolicyCustom: (
-  input: GetDevicePolicyCustomRequest,
-) => Effect.Effect<
+export const getDevicePolicyCustom: API.OperationMethod<
+  GetDevicePolicyCustomRequest,
   GetDevicePolicyCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15606,9 +16747,8 @@ export type ListDevicePolicyCustomsResponse = unknown;
 export const ListDevicePolicyCustomsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListDevicePolicyCustomsResponse>;
 
-export const listDevicePolicyCustoms: (
-  input: ListDevicePolicyCustomsRequest,
-) => Effect.Effect<
+export const listDevicePolicyCustoms: API.OperationMethod<
+  ListDevicePolicyCustomsRequest,
   ListDevicePolicyCustomsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15698,13 +16838,20 @@ export const CreateDevicePolicyCustomRequest = Schema.Struct({
   tunnelProtocol: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    match: "match",
+    name: "name",
+    precedence: "precedence",
     allowModeSwitch: "allow_mode_switch",
     allowUpdates: "allow_updates",
     allowedToLeave: "allowed_to_leave",
     autoConnect: "auto_connect",
     captivePortal: "captive_portal",
+    description: "description",
     disableAutoFallback: "disable_auto_fallback",
+    enabled: "enabled",
+    exclude: "exclude",
     excludeOfficeIps: "exclude_office_ips",
+    include: "include",
     lanAllowMinutes: "lan_allow_minutes",
     lanAllowSubnetSize: "lan_allow_subnet_size",
     registerInterfaceIpWithDns: "register_interface_ip_with_dns",
@@ -15722,9 +16869,8 @@ export type CreateDevicePolicyCustomResponse = unknown;
 export const CreateDevicePolicyCustomResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateDevicePolicyCustomResponse>;
 
-export const createDevicePolicyCustom: (
-  input: CreateDevicePolicyCustomRequest,
-) => Effect.Effect<
+export const createDevicePolicyCustom: API.OperationMethod<
+  CreateDevicePolicyCustomRequest,
   CreateDevicePolicyCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15821,10 +16967,17 @@ export const PatchDevicePolicyCustomRequest = Schema.Struct({
     allowedToLeave: "allowed_to_leave",
     autoConnect: "auto_connect",
     captivePortal: "captive_portal",
+    description: "description",
     disableAutoFallback: "disable_auto_fallback",
+    enabled: "enabled",
+    exclude: "exclude",
     excludeOfficeIps: "exclude_office_ips",
+    include: "include",
     lanAllowMinutes: "lan_allow_minutes",
     lanAllowSubnetSize: "lan_allow_subnet_size",
+    match: "match",
+    name: "name",
+    precedence: "precedence",
     registerInterfaceIpWithDns: "register_interface_ip_with_dns",
     sccmVpnBoundarySupport: "sccm_vpn_boundary_support",
     serviceModeV2: "service_mode_v2",
@@ -15843,9 +16996,8 @@ export type PatchDevicePolicyCustomResponse = unknown;
 export const PatchDevicePolicyCustomResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchDevicePolicyCustomResponse>;
 
-export const patchDevicePolicyCustom: (
-  input: PatchDevicePolicyCustomRequest,
-) => Effect.Effect<
+export const patchDevicePolicyCustom: API.OperationMethod<
+  PatchDevicePolicyCustomRequest,
   PatchDevicePolicyCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15875,9 +17027,8 @@ export type DeleteDevicePolicyCustomResponse = unknown;
 export const DeleteDevicePolicyCustomResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDevicePolicyCustomResponse>;
 
-export const deleteDevicePolicyCustom: (
-  input: DeleteDevicePolicyCustomRequest,
-) => Effect.Effect<
+export const deleteDevicePolicyCustom: API.OperationMethod<
+  DeleteDevicePolicyCustomRequest,
   DeleteDevicePolicyCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15911,9 +17062,8 @@ export type GetDevicePolicyCustomExcludeResponse = unknown;
 export const GetDevicePolicyCustomExcludeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyCustomExcludeResponse>;
 
-export const getDevicePolicyCustomExclude: (
-  input: GetDevicePolicyCustomExcludeRequest,
-) => Effect.Effect<
+export const getDevicePolicyCustomExclude: API.OperationMethod<
+  GetDevicePolicyCustomExcludeRequest,
   GetDevicePolicyCustomExcludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15947,9 +17097,8 @@ export type UpdateDevicePolicyCustomExcludeResponse = unknown;
 export const UpdateDevicePolicyCustomExcludeResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDevicePolicyCustomExcludeResponse>;
 
-export const updateDevicePolicyCustomExclude: (
-  input: UpdateDevicePolicyCustomExcludeRequest,
-) => Effect.Effect<
+export const updateDevicePolicyCustomExclude: API.OperationMethod<
+  UpdateDevicePolicyCustomExcludeRequest,
   UpdateDevicePolicyCustomExcludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -15983,9 +17132,8 @@ export type GetDevicePolicyCustomFallbackDomainResponse = unknown;
 export const GetDevicePolicyCustomFallbackDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyCustomFallbackDomainResponse>;
 
-export const getDevicePolicyCustomFallbackDomain: (
-  input: GetDevicePolicyCustomFallbackDomainRequest,
-) => Effect.Effect<
+export const getDevicePolicyCustomFallbackDomain: API.OperationMethod<
+  GetDevicePolicyCustomFallbackDomainRequest,
   GetDevicePolicyCustomFallbackDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16019,9 +17167,8 @@ export type UpdateDevicePolicyCustomFallbackDomainResponse = unknown;
 export const UpdateDevicePolicyCustomFallbackDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDevicePolicyCustomFallbackDomainResponse>;
 
-export const updateDevicePolicyCustomFallbackDomain: (
-  input: UpdateDevicePolicyCustomFallbackDomainRequest,
-) => Effect.Effect<
+export const updateDevicePolicyCustomFallbackDomain: API.OperationMethod<
+  UpdateDevicePolicyCustomFallbackDomainRequest,
   UpdateDevicePolicyCustomFallbackDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16055,9 +17202,8 @@ export type GetDevicePolicyCustomIncludeResponse = unknown;
 export const GetDevicePolicyCustomIncludeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyCustomIncludeResponse>;
 
-export const getDevicePolicyCustomInclude: (
-  input: GetDevicePolicyCustomIncludeRequest,
-) => Effect.Effect<
+export const getDevicePolicyCustomInclude: API.OperationMethod<
+  GetDevicePolicyCustomIncludeRequest,
   GetDevicePolicyCustomIncludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16091,9 +17237,8 @@ export type UpdateDevicePolicyCustomIncludeResponse = unknown;
 export const UpdateDevicePolicyCustomIncludeResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDevicePolicyCustomIncludeResponse>;
 
-export const updateDevicePolicyCustomInclude: (
-  input: UpdateDevicePolicyCustomIncludeRequest,
-) => Effect.Effect<
+export const updateDevicePolicyCustomInclude: API.OperationMethod<
+  UpdateDevicePolicyCustomIncludeRequest,
   UpdateDevicePolicyCustomIncludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16187,10 +17332,14 @@ export const GetDevicePolicyDefaultResponse = Schema.Struct({
     allowedToLeave: "allowed_to_leave",
     autoConnect: "auto_connect",
     captivePortal: "captive_portal",
+    default: "default",
     disableAutoFallback: "disable_auto_fallback",
+    enabled: "enabled",
+    exclude: "exclude",
     excludeOfficeIps: "exclude_office_ips",
     fallbackDomains: "fallback_domains",
     gatewayUniqueId: "gateway_unique_id",
+    include: "include",
     registerInterfaceIpWithDns: "register_interface_ip_with_dns",
     sccmVpnBoundarySupport: "sccm_vpn_boundary_support",
     serviceModeV2: "service_mode_v2",
@@ -16200,9 +17349,8 @@ export const GetDevicePolicyDefaultResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDevicePolicyDefaultResponse>;
 
-export const getDevicePolicyDefault: (
-  input: GetDevicePolicyDefaultRequest,
-) => Effect.Effect<
+export const getDevicePolicyDefault: API.OperationMethod<
+  GetDevicePolicyDefaultRequest,
   GetDevicePolicyDefaultResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16283,7 +17431,9 @@ export const PatchDevicePolicyDefaultRequest = Schema.Struct({
     autoConnect: "auto_connect",
     captivePortal: "captive_portal",
     disableAutoFallback: "disable_auto_fallback",
+    exclude: "exclude",
     excludeOfficeIps: "exclude_office_ips",
+    include: "include",
     lanAllowMinutes: "lan_allow_minutes",
     lanAllowSubnetSize: "lan_allow_subnet_size",
     registerInterfaceIpWithDns: "register_interface_ip_with_dns",
@@ -16366,10 +17516,14 @@ export const PatchDevicePolicyDefaultResponse = Schema.Struct({
     allowedToLeave: "allowed_to_leave",
     autoConnect: "auto_connect",
     captivePortal: "captive_portal",
+    default: "default",
     disableAutoFallback: "disable_auto_fallback",
+    enabled: "enabled",
+    exclude: "exclude",
     excludeOfficeIps: "exclude_office_ips",
     fallbackDomains: "fallback_domains",
     gatewayUniqueId: "gateway_unique_id",
+    include: "include",
     registerInterfaceIpWithDns: "register_interface_ip_with_dns",
     sccmVpnBoundarySupport: "sccm_vpn_boundary_support",
     serviceModeV2: "service_mode_v2",
@@ -16379,9 +17533,8 @@ export const PatchDevicePolicyDefaultResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchDevicePolicyDefaultResponse>;
 
-export const patchDevicePolicyDefault: (
-  input: PatchDevicePolicyDefaultRequest,
-) => Effect.Effect<
+export const patchDevicePolicyDefault: API.OperationMethod<
+  PatchDevicePolicyDefaultRequest,
   PatchDevicePolicyDefaultResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16413,9 +17566,8 @@ export type GetDevicePolicyDefaultCertificateResponse = unknown;
 export const GetDevicePolicyDefaultCertificateResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyDefaultCertificateResponse>;
 
-export const getDevicePolicyDefaultCertificate: (
-  input: GetDevicePolicyDefaultCertificateRequest,
-) => Effect.Effect<
+export const getDevicePolicyDefaultCertificate: API.OperationMethod<
+  GetDevicePolicyDefaultCertificateRequest,
   GetDevicePolicyDefaultCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16447,9 +17599,8 @@ export type PatchDevicePolicyDefaultCertificateResponse = unknown;
 export const PatchDevicePolicyDefaultCertificateResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchDevicePolicyDefaultCertificateResponse>;
 
-export const patchDevicePolicyDefaultCertificate: (
-  input: PatchDevicePolicyDefaultCertificateRequest,
-) => Effect.Effect<
+export const patchDevicePolicyDefaultCertificate: API.OperationMethod<
+  PatchDevicePolicyDefaultCertificateRequest,
   PatchDevicePolicyDefaultCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16481,9 +17632,8 @@ export type GetDevicePolicyDefaultExcludeResponse = unknown;
 export const GetDevicePolicyDefaultExcludeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyDefaultExcludeResponse>;
 
-export const getDevicePolicyDefaultExclude: (
-  input: GetDevicePolicyDefaultExcludeRequest,
-) => Effect.Effect<
+export const getDevicePolicyDefaultExclude: API.OperationMethod<
+  GetDevicePolicyDefaultExcludeRequest,
   GetDevicePolicyDefaultExcludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16515,9 +17665,8 @@ export type UpdateDevicePolicyDefaultExcludeResponse = unknown;
 export const UpdateDevicePolicyDefaultExcludeResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDevicePolicyDefaultExcludeResponse>;
 
-export const updateDevicePolicyDefaultExclude: (
-  input: UpdateDevicePolicyDefaultExcludeRequest,
-) => Effect.Effect<
+export const updateDevicePolicyDefaultExclude: API.OperationMethod<
+  UpdateDevicePolicyDefaultExcludeRequest,
   UpdateDevicePolicyDefaultExcludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16549,9 +17698,8 @@ export type GetDevicePolicyDefaultFallbackDomainResponse = unknown;
 export const GetDevicePolicyDefaultFallbackDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyDefaultFallbackDomainResponse>;
 
-export const getDevicePolicyDefaultFallbackDomain: (
-  input: GetDevicePolicyDefaultFallbackDomainRequest,
-) => Effect.Effect<
+export const getDevicePolicyDefaultFallbackDomain: API.OperationMethod<
+  GetDevicePolicyDefaultFallbackDomainRequest,
   GetDevicePolicyDefaultFallbackDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16583,9 +17731,8 @@ export type UpdateDevicePolicyDefaultFallbackDomainResponse = unknown;
 export const UpdateDevicePolicyDefaultFallbackDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDevicePolicyDefaultFallbackDomainResponse>;
 
-export const updateDevicePolicyDefaultFallbackDomain: (
-  input: UpdateDevicePolicyDefaultFallbackDomainRequest,
-) => Effect.Effect<
+export const updateDevicePolicyDefaultFallbackDomain: API.OperationMethod<
+  UpdateDevicePolicyDefaultFallbackDomainRequest,
   UpdateDevicePolicyDefaultFallbackDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16617,9 +17764,8 @@ export type GetDevicePolicyDefaultIncludeResponse = unknown;
 export const GetDevicePolicyDefaultIncludeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyDefaultIncludeResponse>;
 
-export const getDevicePolicyDefaultInclude: (
-  input: GetDevicePolicyDefaultIncludeRequest,
-) => Effect.Effect<
+export const getDevicePolicyDefaultInclude: API.OperationMethod<
+  GetDevicePolicyDefaultIncludeRequest,
   GetDevicePolicyDefaultIncludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16651,9 +17797,8 @@ export type UpdateDevicePolicyDefaultIncludeResponse = unknown;
 export const UpdateDevicePolicyDefaultIncludeResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDevicePolicyDefaultIncludeResponse>;
 
-export const updateDevicePolicyDefaultInclude: (
-  input: UpdateDevicePolicyDefaultIncludeRequest,
-) => Effect.Effect<
+export const updateDevicePolicyDefaultInclude: API.OperationMethod<
+  UpdateDevicePolicyDefaultIncludeRequest,
   UpdateDevicePolicyDefaultIncludeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -16838,15 +17983,30 @@ export const GetDevicePostureResponse = Schema.Struct({
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          exists: "exists",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", operatingSystem: "operating_system" }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          domain: "domain",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -16857,6 +18017,8 @@ export const GetDevicePostureResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           operatingSystem: "operating_system",
+          operator: "operator",
+          version: "version",
           osDistroName: "os_distro_name",
           osDistroRevision: "os_distro_revision",
           osVersionExtra: "os_version_extra",
@@ -16865,13 +18027,25 @@ export const GetDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         operatingSystem: Schema.Literals(["windows", "mac"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          operatingSystem: "operating_system",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -16882,7 +18056,7 @@ export const GetDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         certificateId: Schema.String,
         cn: Schema.String,
-      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id", cn: "cn" })),
       Schema.Struct({
         certificateId: Schema.String,
         checkPrivateKey: Schema.Boolean,
@@ -16897,7 +18071,9 @@ export const GetDevicePostureResponse = Schema.Struct({
             trustStores: Schema.optional(
               Schema.Array(Schema.Literals(["system", "user"])),
             ),
-          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
+          }).pipe(
+            Schema.encodeKeys({ paths: "paths", trustStores: "trust_stores" }),
+          ),
         ),
         subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
@@ -16905,7 +18081,9 @@ export const GetDevicePostureResponse = Schema.Struct({
           certificateId: "certificate_id",
           checkPrivateKey: "check_private_key",
           operatingSystem: "operating_system",
+          cn: "cn",
           extendedKeyUsage: "extended_key_usage",
+          locations: "locations",
           subjectAlternativeNames: "subject_alternative_names",
         }),
       ),
@@ -16945,7 +18123,13 @@ export const GetDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           lastSeen: "last_seen",
+          operator: "operator",
+          os: "os",
+          overall: "overall",
           sensorConfig: "sensor_config",
+          state: "state",
+          version: "version",
+          versionOperator: "versionOperator",
         }),
       ),
       Schema.Struct({
@@ -16971,6 +18155,7 @@ export const GetDevicePostureResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           connectionId: "connection_id",
+          countOperator: "countOperator",
           issueCount: "issue_count",
         }),
       ),
@@ -16991,7 +18176,9 @@ export const GetDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           eidLastSeen: "eid_last_seen",
+          operator: "operator",
           riskLevel: "risk_level",
+          scoreOperator: "scoreOperator",
           totalScore: "total_score",
         }),
       ),
@@ -17026,16 +18213,24 @@ export const GetDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           activeThreats: "active_threats",
+          infected: "infected",
           isActive: "is_active",
           networkStatus: "network_status",
           operationalState: "operational_state",
+          operator: "operator",
         }),
       ),
       Schema.Struct({
         connectionId: Schema.String,
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          operator: "operator",
+          score: "score",
+        }),
+      ),
     ]),
   ),
   match: Schema.optional(
@@ -17085,9 +18280,8 @@ export const GetDevicePostureResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetDevicePostureResponse>;
 
-export const getDevicePosture: (
-  input: GetDevicePostureRequest,
-) => Effect.Effect<
+export const getDevicePosture: API.OperationMethod<
+  GetDevicePostureRequest,
   GetDevicePostureResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17256,15 +18450,30 @@ export const ListDevicePosturesResponse = Schema.Array(
           exists: Schema.optional(Schema.Boolean),
           sha256: Schema.optional(Schema.String),
           thumbprint: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+        }).pipe(
+          Schema.encodeKeys({
+            operatingSystem: "operating_system",
+            path: "path",
+            exists: "exists",
+            sha256: "sha256",
+            thumbprint: "thumbprint",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
-        }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+        }).pipe(
+          Schema.encodeKeys({ id: "id", operatingSystem: "operating_system" }),
+        ),
         Schema.Struct({
           operatingSystem: Schema.Literal("windows"),
           domain: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+        }).pipe(
+          Schema.encodeKeys({
+            operatingSystem: "operating_system",
+            domain: "domain",
+          }),
+        ),
         Schema.Struct({
           operatingSystem: Schema.Literal("windows"),
           operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -17275,6 +18484,8 @@ export const ListDevicePosturesResponse = Schema.Array(
         }).pipe(
           Schema.encodeKeys({
             operatingSystem: "operating_system",
+            operator: "operator",
+            version: "version",
             osDistroName: "os_distro_name",
             osDistroRevision: "os_distro_revision",
             osVersionExtra: "os_version_extra",
@@ -17283,13 +18494,25 @@ export const ListDevicePosturesResponse = Schema.Array(
         Schema.Struct({
           enabled: Schema.Boolean,
           operatingSystem: Schema.Literals(["windows", "mac"]),
-        }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            operatingSystem: "operating_system",
+          }),
+        ),
         Schema.Struct({
           operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
           path: Schema.String,
           sha256: Schema.optional(Schema.String),
           thumbprint: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+        }).pipe(
+          Schema.encodeKeys({
+            operatingSystem: "operating_system",
+            path: "path",
+            sha256: "sha256",
+            thumbprint: "thumbprint",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
         }),
@@ -17300,7 +18523,9 @@ export const ListDevicePosturesResponse = Schema.Array(
         Schema.Struct({
           certificateId: Schema.String,
           cn: Schema.String,
-        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+        }).pipe(
+          Schema.encodeKeys({ certificateId: "certificate_id", cn: "cn" }),
+        ),
         Schema.Struct({
           certificateId: Schema.String,
           checkPrivateKey: Schema.Boolean,
@@ -17315,7 +18540,12 @@ export const ListDevicePosturesResponse = Schema.Array(
               trustStores: Schema.optional(
                 Schema.Array(Schema.Literals(["system", "user"])),
               ),
-            }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
+            }).pipe(
+              Schema.encodeKeys({
+                paths: "paths",
+                trustStores: "trust_stores",
+              }),
+            ),
           ),
           subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
         }).pipe(
@@ -17323,7 +18553,9 @@ export const ListDevicePosturesResponse = Schema.Array(
             certificateId: "certificate_id",
             checkPrivateKey: "check_private_key",
             operatingSystem: "operating_system",
+            cn: "cn",
             extendedKeyUsage: "extended_key_usage",
+            locations: "locations",
             subjectAlternativeNames: "subject_alternative_names",
           }),
         ),
@@ -17363,7 +18595,13 @@ export const ListDevicePosturesResponse = Schema.Array(
           Schema.encodeKeys({
             connectionId: "connection_id",
             lastSeen: "last_seen",
+            operator: "operator",
+            os: "os",
+            overall: "overall",
             sensorConfig: "sensor_config",
+            state: "state",
+            version: "version",
+            versionOperator: "versionOperator",
           }),
         ),
         Schema.Struct({
@@ -17389,6 +18627,7 @@ export const ListDevicePosturesResponse = Schema.Array(
         }).pipe(
           Schema.encodeKeys({
             connectionId: "connection_id",
+            countOperator: "countOperator",
             issueCount: "issue_count",
           }),
         ),
@@ -17409,7 +18648,9 @@ export const ListDevicePosturesResponse = Schema.Array(
           Schema.encodeKeys({
             connectionId: "connection_id",
             eidLastSeen: "eid_last_seen",
+            operator: "operator",
             riskLevel: "risk_level",
+            scoreOperator: "scoreOperator",
             totalScore: "total_score",
           }),
         ),
@@ -17444,16 +18685,24 @@ export const ListDevicePosturesResponse = Schema.Array(
           Schema.encodeKeys({
             connectionId: "connection_id",
             activeThreats: "active_threats",
+            infected: "infected",
             isActive: "is_active",
             networkStatus: "network_status",
             operationalState: "operational_state",
+            operator: "operator",
           }),
         ),
         Schema.Struct({
           connectionId: Schema.String,
           operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
           score: Schema.Number,
-        }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            connectionId: "connection_id",
+            operator: "operator",
+            score: "score",
+          }),
+        ),
       ]),
     ),
     match: Schema.optional(
@@ -17504,9 +18753,8 @@ export const ListDevicePosturesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDevicePosturesResponse>;
 
-export const listDevicePostures: (
-  input: ListDevicePosturesRequest,
-) => Effect.Effect<
+export const listDevicePostures: API.OperationMethod<
+  ListDevicePosturesRequest,
   ListDevicePosturesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -17698,15 +18946,30 @@ export const CreateDevicePostureRequest = Schema.Struct({
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          exists: "exists",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", operatingSystem: "operating_system" }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          domain: "domain",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -17717,6 +18980,8 @@ export const CreateDevicePostureRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           operatingSystem: "operating_system",
+          operator: "operator",
+          version: "version",
           osDistroName: "os_distro_name",
           osDistroRevision: "os_distro_revision",
           osVersionExtra: "os_version_extra",
@@ -17725,13 +18990,25 @@ export const CreateDevicePostureRequest = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         operatingSystem: Schema.Literals(["windows", "mac"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          operatingSystem: "operating_system",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -17742,7 +19019,7 @@ export const CreateDevicePostureRequest = Schema.Struct({
       Schema.Struct({
         certificateId: Schema.String,
         cn: Schema.String,
-      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id", cn: "cn" })),
       Schema.Struct({
         certificateId: Schema.String,
         checkPrivateKey: Schema.Boolean,
@@ -17757,7 +19034,9 @@ export const CreateDevicePostureRequest = Schema.Struct({
             trustStores: Schema.optional(
               Schema.Array(Schema.Literals(["system", "user"])),
             ),
-          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
+          }).pipe(
+            Schema.encodeKeys({ paths: "paths", trustStores: "trust_stores" }),
+          ),
         ),
         subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
@@ -17765,7 +19044,9 @@ export const CreateDevicePostureRequest = Schema.Struct({
           certificateId: "certificate_id",
           checkPrivateKey: "check_private_key",
           operatingSystem: "operating_system",
+          cn: "cn",
           extendedKeyUsage: "extended_key_usage",
+          locations: "locations",
           subjectAlternativeNames: "subject_alternative_names",
         }),
       ),
@@ -17805,7 +19086,13 @@ export const CreateDevicePostureRequest = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           lastSeen: "last_seen",
+          operator: "operator",
+          os: "os",
+          overall: "overall",
           sensorConfig: "sensor_config",
+          state: "state",
+          version: "version",
+          versionOperator: "versionOperator",
         }),
       ),
       Schema.Struct({
@@ -17831,6 +19118,7 @@ export const CreateDevicePostureRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           connectionId: "connection_id",
+          countOperator: "countOperator",
           issueCount: "issue_count",
         }),
       ),
@@ -17851,7 +19139,9 @@ export const CreateDevicePostureRequest = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           eidLastSeen: "eid_last_seen",
+          operator: "operator",
           riskLevel: "risk_level",
+          scoreOperator: "scoreOperator",
           totalScore: "total_score",
         }),
       ),
@@ -17886,16 +19176,24 @@ export const CreateDevicePostureRequest = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           activeThreats: "active_threats",
+          infected: "infected",
           isActive: "is_active",
           networkStatus: "network_status",
           operationalState: "operational_state",
+          operator: "operator",
         }),
       ),
       Schema.Struct({
         connectionId: Schema.String,
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          operator: "operator",
+          score: "score",
+        }),
+      ),
     ]),
   ),
   match: Schema.optional(
@@ -18075,15 +19373,30 @@ export const CreateDevicePostureResponse = Schema.Struct({
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          exists: "exists",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", operatingSystem: "operating_system" }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          domain: "domain",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -18094,6 +19407,8 @@ export const CreateDevicePostureResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           operatingSystem: "operating_system",
+          operator: "operator",
+          version: "version",
           osDistroName: "os_distro_name",
           osDistroRevision: "os_distro_revision",
           osVersionExtra: "os_version_extra",
@@ -18102,13 +19417,25 @@ export const CreateDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         operatingSystem: Schema.Literals(["windows", "mac"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          operatingSystem: "operating_system",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -18119,7 +19446,7 @@ export const CreateDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         certificateId: Schema.String,
         cn: Schema.String,
-      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id", cn: "cn" })),
       Schema.Struct({
         certificateId: Schema.String,
         checkPrivateKey: Schema.Boolean,
@@ -18134,7 +19461,9 @@ export const CreateDevicePostureResponse = Schema.Struct({
             trustStores: Schema.optional(
               Schema.Array(Schema.Literals(["system", "user"])),
             ),
-          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
+          }).pipe(
+            Schema.encodeKeys({ paths: "paths", trustStores: "trust_stores" }),
+          ),
         ),
         subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
@@ -18142,7 +19471,9 @@ export const CreateDevicePostureResponse = Schema.Struct({
           certificateId: "certificate_id",
           checkPrivateKey: "check_private_key",
           operatingSystem: "operating_system",
+          cn: "cn",
           extendedKeyUsage: "extended_key_usage",
+          locations: "locations",
           subjectAlternativeNames: "subject_alternative_names",
         }),
       ),
@@ -18182,7 +19513,13 @@ export const CreateDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           lastSeen: "last_seen",
+          operator: "operator",
+          os: "os",
+          overall: "overall",
           sensorConfig: "sensor_config",
+          state: "state",
+          version: "version",
+          versionOperator: "versionOperator",
         }),
       ),
       Schema.Struct({
@@ -18208,6 +19545,7 @@ export const CreateDevicePostureResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           connectionId: "connection_id",
+          countOperator: "countOperator",
           issueCount: "issue_count",
         }),
       ),
@@ -18228,7 +19566,9 @@ export const CreateDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           eidLastSeen: "eid_last_seen",
+          operator: "operator",
           riskLevel: "risk_level",
+          scoreOperator: "scoreOperator",
           totalScore: "total_score",
         }),
       ),
@@ -18263,16 +19603,24 @@ export const CreateDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           activeThreats: "active_threats",
+          infected: "infected",
           isActive: "is_active",
           networkStatus: "network_status",
           operationalState: "operational_state",
+          operator: "operator",
         }),
       ),
       Schema.Struct({
         connectionId: Schema.String,
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          operator: "operator",
+          score: "score",
+        }),
+      ),
     ]),
   ),
   match: Schema.optional(
@@ -18322,9 +19670,8 @@ export const CreateDevicePostureResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateDevicePostureResponse>;
 
-export const createDevicePosture: (
-  input: CreateDevicePostureRequest,
-) => Effect.Effect<
+export const createDevicePosture: API.OperationMethod<
+  CreateDevicePostureRequest,
   CreateDevicePostureResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -18518,15 +19865,30 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          exists: "exists",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", operatingSystem: "operating_system" }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          domain: "domain",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -18537,6 +19899,8 @@ export const UpdateDevicePostureRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           operatingSystem: "operating_system",
+          operator: "operator",
+          version: "version",
           osDistroName: "os_distro_name",
           osDistroRevision: "os_distro_revision",
           osVersionExtra: "os_version_extra",
@@ -18545,13 +19909,25 @@ export const UpdateDevicePostureRequest = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         operatingSystem: Schema.Literals(["windows", "mac"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          operatingSystem: "operating_system",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -18562,7 +19938,7 @@ export const UpdateDevicePostureRequest = Schema.Struct({
       Schema.Struct({
         certificateId: Schema.String,
         cn: Schema.String,
-      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id", cn: "cn" })),
       Schema.Struct({
         certificateId: Schema.String,
         checkPrivateKey: Schema.Boolean,
@@ -18577,7 +19953,9 @@ export const UpdateDevicePostureRequest = Schema.Struct({
             trustStores: Schema.optional(
               Schema.Array(Schema.Literals(["system", "user"])),
             ),
-          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
+          }).pipe(
+            Schema.encodeKeys({ paths: "paths", trustStores: "trust_stores" }),
+          ),
         ),
         subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
@@ -18585,7 +19963,9 @@ export const UpdateDevicePostureRequest = Schema.Struct({
           certificateId: "certificate_id",
           checkPrivateKey: "check_private_key",
           operatingSystem: "operating_system",
+          cn: "cn",
           extendedKeyUsage: "extended_key_usage",
+          locations: "locations",
           subjectAlternativeNames: "subject_alternative_names",
         }),
       ),
@@ -18625,7 +20005,13 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           lastSeen: "last_seen",
+          operator: "operator",
+          os: "os",
+          overall: "overall",
           sensorConfig: "sensor_config",
+          state: "state",
+          version: "version",
+          versionOperator: "versionOperator",
         }),
       ),
       Schema.Struct({
@@ -18651,6 +20037,7 @@ export const UpdateDevicePostureRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           connectionId: "connection_id",
+          countOperator: "countOperator",
           issueCount: "issue_count",
         }),
       ),
@@ -18671,7 +20058,9 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           eidLastSeen: "eid_last_seen",
+          operator: "operator",
           riskLevel: "risk_level",
+          scoreOperator: "scoreOperator",
           totalScore: "total_score",
         }),
       ),
@@ -18706,16 +20095,24 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           activeThreats: "active_threats",
+          infected: "infected",
           isActive: "is_active",
           networkStatus: "network_status",
           operationalState: "operational_state",
+          operator: "operator",
         }),
       ),
       Schema.Struct({
         connectionId: Schema.String,
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          operator: "operator",
+          score: "score",
+        }),
+      ),
     ]),
   ),
   match: Schema.optional(
@@ -18898,15 +20295,30 @@ export const UpdateDevicePostureResponse = Schema.Struct({
         exists: Schema.optional(Schema.Boolean),
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          exists: "exists",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         operatingSystem: Schema.Literals(["android", "ios", "chromeos"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", operatingSystem: "operating_system" }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         domain: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          domain: "domain",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literal("windows"),
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
@@ -18917,6 +20329,8 @@ export const UpdateDevicePostureResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           operatingSystem: "operating_system",
+          operator: "operator",
+          version: "version",
           osDistroName: "os_distro_name",
           osDistroRevision: "os_distro_revision",
           osVersionExtra: "os_version_extra",
@@ -18925,13 +20339,25 @@ export const UpdateDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         operatingSystem: Schema.Literals(["windows", "mac"]),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          enabled: "enabled",
+          operatingSystem: "operating_system",
+        }),
+      ),
       Schema.Struct({
         operatingSystem: Schema.Literals(["windows", "linux", "mac"]),
         path: Schema.String,
         sha256: Schema.optional(Schema.String),
         thumbprint: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ operatingSystem: "operating_system" })),
+      }).pipe(
+        Schema.encodeKeys({
+          operatingSystem: "operating_system",
+          path: "path",
+          sha256: "sha256",
+          thumbprint: "thumbprint",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
       }),
@@ -18942,7 +20368,7 @@ export const UpdateDevicePostureResponse = Schema.Struct({
       Schema.Struct({
         certificateId: Schema.String,
         cn: Schema.String,
-      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
+      }).pipe(Schema.encodeKeys({ certificateId: "certificate_id", cn: "cn" })),
       Schema.Struct({
         certificateId: Schema.String,
         checkPrivateKey: Schema.Boolean,
@@ -18957,7 +20383,9 @@ export const UpdateDevicePostureResponse = Schema.Struct({
             trustStores: Schema.optional(
               Schema.Array(Schema.Literals(["system", "user"])),
             ),
-          }).pipe(Schema.encodeKeys({ trustStores: "trust_stores" })),
+          }).pipe(
+            Schema.encodeKeys({ paths: "paths", trustStores: "trust_stores" }),
+          ),
         ),
         subjectAlternativeNames: Schema.optional(Schema.Array(Schema.String)),
       }).pipe(
@@ -18965,7 +20393,9 @@ export const UpdateDevicePostureResponse = Schema.Struct({
           certificateId: "certificate_id",
           checkPrivateKey: "check_private_key",
           operatingSystem: "operating_system",
+          cn: "cn",
           extendedKeyUsage: "extended_key_usage",
+          locations: "locations",
           subjectAlternativeNames: "subject_alternative_names",
         }),
       ),
@@ -19005,7 +20435,13 @@ export const UpdateDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           lastSeen: "last_seen",
+          operator: "operator",
+          os: "os",
+          overall: "overall",
           sensorConfig: "sensor_config",
+          state: "state",
+          version: "version",
+          versionOperator: "versionOperator",
         }),
       ),
       Schema.Struct({
@@ -19031,6 +20467,7 @@ export const UpdateDevicePostureResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           connectionId: "connection_id",
+          countOperator: "countOperator",
           issueCount: "issue_count",
         }),
       ),
@@ -19051,7 +20488,9 @@ export const UpdateDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           eidLastSeen: "eid_last_seen",
+          operator: "operator",
           riskLevel: "risk_level",
+          scoreOperator: "scoreOperator",
           totalScore: "total_score",
         }),
       ),
@@ -19086,16 +20525,24 @@ export const UpdateDevicePostureResponse = Schema.Struct({
         Schema.encodeKeys({
           connectionId: "connection_id",
           activeThreats: "active_threats",
+          infected: "infected",
           isActive: "is_active",
           networkStatus: "network_status",
           operationalState: "operational_state",
+          operator: "operator",
         }),
       ),
       Schema.Struct({
         connectionId: Schema.String,
         operator: Schema.Literals(["<", "<=", ">", ">=", "=="]),
         score: Schema.Number,
-      }).pipe(Schema.encodeKeys({ connectionId: "connection_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          connectionId: "connection_id",
+          operator: "operator",
+          score: "score",
+        }),
+      ),
     ]),
   ),
   match: Schema.optional(
@@ -19145,9 +20592,8 @@ export const UpdateDevicePostureResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<UpdateDevicePostureResponse>;
 
-export const updateDevicePosture: (
-  input: UpdateDevicePostureRequest,
-) => Effect.Effect<
+export const updateDevicePosture: API.OperationMethod<
+  UpdateDevicePostureRequest,
   UpdateDevicePostureResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19181,9 +20627,8 @@ export const DeleteDevicePostureResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteDevicePostureResponse>;
 
-export const deleteDevicePosture: (
-  input: DeleteDevicePostureRequest,
-) => Effect.Effect<
+export const deleteDevicePosture: API.OperationMethod<
+  DeleteDevicePostureRequest,
   DeleteDevicePostureResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19264,9 +20709,8 @@ export const GetDevicePostureIntegrationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetDevicePostureIntegrationResponse>;
 
-export const getDevicePostureIntegration: (
-  input: GetDevicePostureIntegrationRequest,
-) => Effect.Effect<
+export const getDevicePostureIntegration: API.OperationMethod<
+  GetDevicePostureIntegrationRequest,
   GetDevicePostureIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19338,9 +20782,8 @@ export const ListDevicePostureIntegrationsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDevicePostureIntegrationsResponse>;
 
-export const listDevicePostureIntegrations: (
-  input: ListDevicePostureIntegrationsRequest,
-) => Effect.Effect<
+export const listDevicePostureIntegrations: API.OperationMethod<
+  ListDevicePostureIntegrationsRequest,
   ListDevicePostureIntegrationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19563,9 +21006,8 @@ export const CreateDevicePostureIntegrationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateDevicePostureIntegrationResponse>;
 
-export const createDevicePostureIntegration: (
-  input: CreateDevicePostureIntegrationRequest,
-) => Effect.Effect<
+export const createDevicePostureIntegration: API.OperationMethod<
+  CreateDevicePostureIntegrationRequest,
   CreateDevicePostureIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19794,9 +21236,8 @@ export const PatchDevicePostureIntegrationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PatchDevicePostureIntegrationResponse>;
 
-export const patchDevicePostureIntegration: (
-  input: PatchDevicePostureIntegrationRequest,
-) => Effect.Effect<
+export const patchDevicePostureIntegration: API.OperationMethod<
+  PatchDevicePostureIntegrationRequest,
   PatchDevicePostureIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19826,9 +21267,8 @@ export type DeleteDevicePostureIntegrationResponse = string;
 export const DeleteDevicePostureIntegrationResponse =
   Schema.String as unknown as Schema.Schema<DeleteDevicePostureIntegrationResponse>;
 
-export const deleteDevicePostureIntegration: (
-  input: DeleteDevicePostureIntegrationRequest,
-) => Effect.Effect<
+export const deleteDevicePostureIntegration: API.OperationMethod<
+  DeleteDevicePostureIntegrationRequest,
   DeleteDevicePostureIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -19900,7 +21340,13 @@ export const GetDeviceRegistrationResponse = Schema.Struct({
     id: Schema.String,
     name: Schema.String,
     clientVersion: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ clientVersion: "client_version" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      clientVersion: "client_version",
+    }),
+  ),
   key: Schema.String,
   lastSeenAt: Schema.String,
   updatedAt: Schema.String,
@@ -19913,7 +21359,15 @@ export const GetDeviceRegistrationResponse = Schema.Struct({
       deleted: Schema.Boolean,
       name: Schema.String,
       updatedAt: Schema.String,
-    }).pipe(Schema.encodeKeys({ updatedAt: "updated_at" })),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        default: "default",
+        deleted: "deleted",
+        name: "name",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
   revokedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   tunnelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -19926,19 +21380,23 @@ export const GetDeviceRegistrationResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    device: "device",
+    key: "key",
     lastSeenAt: "last_seen_at",
     updatedAt: "updated_at",
     deletedAt: "deleted_at",
     keyType: "key_type",
+    policy: "policy",
     revokedAt: "revoked_at",
     tunnelType: "tunnel_type",
+    user: "user",
   }),
 ) as unknown as Schema.Schema<GetDeviceRegistrationResponse>;
 
-export const getDeviceRegistration: (
-  input: GetDeviceRegistrationRequest,
-) => Effect.Effect<
+export const getDeviceRegistration: API.OperationMethod<
+  GetDeviceRegistrationRequest,
   GetDeviceRegistrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20041,7 +21499,13 @@ export const ListDeviceRegistrationsResponse = Schema.Array(
       id: Schema.String,
       name: Schema.String,
       clientVersion: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ clientVersion: "client_version" })),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        clientVersion: "client_version",
+      }),
+    ),
     key: Schema.String,
     lastSeenAt: Schema.String,
     updatedAt: Schema.String,
@@ -20054,7 +21518,15 @@ export const ListDeviceRegistrationsResponse = Schema.Array(
         deleted: Schema.Boolean,
         name: Schema.String,
         updatedAt: Schema.String,
-      }).pipe(Schema.encodeKeys({ updatedAt: "updated_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          default: "default",
+          deleted: "deleted",
+          name: "name",
+          updatedAt: "updated_at",
+        }),
+      ),
     ),
     revokedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     tunnelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -20067,20 +21539,24 @@ export const ListDeviceRegistrationsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      device: "device",
+      key: "key",
       lastSeenAt: "last_seen_at",
       updatedAt: "updated_at",
       deletedAt: "deleted_at",
       keyType: "key_type",
+      policy: "policy",
       revokedAt: "revoked_at",
       tunnelType: "tunnel_type",
+      user: "user",
     }),
   ),
 ) as unknown as Schema.Schema<ListDeviceRegistrationsResponse>;
 
-export const listDeviceRegistrations: (
-  input: ListDeviceRegistrationsRequest,
-) => Effect.Effect<
+export const listDeviceRegistrations: API.OperationMethod<
+  ListDeviceRegistrationsRequest,
   ListDeviceRegistrationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20110,9 +21586,8 @@ export type DeleteDeviceRegistrationResponse = unknown;
 export const DeleteDeviceRegistrationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDeviceRegistrationResponse>;
 
-export const deleteDeviceRegistration: (
-  input: DeleteDeviceRegistrationRequest,
-) => Effect.Effect<
+export const deleteDeviceRegistration: API.OperationMethod<
+  DeleteDeviceRegistrationRequest,
   DeleteDeviceRegistrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20144,9 +21619,8 @@ export type BulkDeleteDeviceRegistrationsResponse = unknown;
 export const BulkDeleteDeviceRegistrationsResponse =
   Schema.Unknown as unknown as Schema.Schema<BulkDeleteDeviceRegistrationsResponse>;
 
-export const bulkDeleteDeviceRegistrations: (
-  input: BulkDeleteDeviceRegistrationsRequest,
-) => Effect.Effect<
+export const bulkDeleteDeviceRegistrations: API.OperationMethod<
+  BulkDeleteDeviceRegistrationsRequest,
   BulkDeleteDeviceRegistrationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20178,9 +21652,8 @@ export type RevokeDeviceRegistrationResponse = unknown;
 export const RevokeDeviceRegistrationResponse =
   Schema.Unknown as unknown as Schema.Schema<RevokeDeviceRegistrationResponse>;
 
-export const revokeDeviceRegistration: (
-  input: RevokeDeviceRegistrationRequest,
-) => Effect.Effect<
+export const revokeDeviceRegistration: API.OperationMethod<
+  RevokeDeviceRegistrationRequest,
   RevokeDeviceRegistrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20212,9 +21685,8 @@ export type UnrevokeDeviceRegistrationResponse = unknown;
 export const UnrevokeDeviceRegistrationResponse =
   Schema.Unknown as unknown as Schema.Schema<UnrevokeDeviceRegistrationResponse>;
 
-export const unrevokeDeviceRegistration: (
-  input: UnrevokeDeviceRegistrationRequest,
-) => Effect.Effect<
+export const unrevokeDeviceRegistration: API.OperationMethod<
+  UnrevokeDeviceRegistrationRequest,
   UnrevokeDeviceRegistrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20253,9 +21725,8 @@ export const GetDeviceResilienceGlobalWarpOverrideResponse = Schema.Struct({
   timestamp: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetDeviceResilienceGlobalWarpOverrideResponse>;
 
-export const getDeviceResilienceGlobalWarpOverride: (
-  input: GetDeviceResilienceGlobalWarpOverrideRequest,
-) => Effect.Effect<
+export const getDeviceResilienceGlobalWarpOverride: API.OperationMethod<
+  GetDeviceResilienceGlobalWarpOverrideRequest,
   GetDeviceResilienceGlobalWarpOverrideResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20297,9 +21768,8 @@ export const CreateDeviceResilienceGlobalWarpOverrideResponse = Schema.Struct({
   timestamp: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDeviceResilienceGlobalWarpOverrideResponse>;
 
-export const createDeviceResilienceGlobalWarpOverride: (
-  input: CreateDeviceResilienceGlobalWarpOverrideRequest,
-) => Effect.Effect<
+export const createDeviceResilienceGlobalWarpOverride: API.OperationMethod<
+  CreateDeviceResilienceGlobalWarpOverrideRequest,
   CreateDeviceResilienceGlobalWarpOverrideResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20332,9 +21802,8 @@ export type CreateDeviceRevokeResponse = string;
 export const CreateDeviceRevokeResponse =
   Schema.String as unknown as Schema.Schema<CreateDeviceRevokeResponse>;
 
-export const createDeviceRevoke: (
-  input: CreateDeviceRevokeRequest,
-) => Effect.Effect<
+export const createDeviceRevoke: API.OperationMethod<
+  CreateDeviceRevokeRequest,
   CreateDeviceRevokeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20403,9 +21872,8 @@ export const GetDeviceSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDeviceSettingResponse>;
 
-export const getDeviceSetting: (
-  input: GetDeviceSettingRequest,
-) => Effect.Effect<
+export const getDeviceSetting: API.OperationMethod<
+  GetDeviceSettingRequest,
   GetDeviceSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20509,9 +21977,8 @@ export const PutDeviceSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutDeviceSettingResponse>;
 
-export const putDeviceSetting: (
-  input: PutDeviceSettingRequest,
-) => Effect.Effect<
+export const putDeviceSetting: API.OperationMethod<
+  PutDeviceSettingRequest,
   PutDeviceSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20615,9 +22082,8 @@ export const PatchDeviceSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchDeviceSettingResponse>;
 
-export const patchDeviceSetting: (
-  input: PatchDeviceSettingRequest,
-) => Effect.Effect<
+export const patchDeviceSetting: API.OperationMethod<
+  PatchDeviceSettingRequest,
   PatchDeviceSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20682,9 +22148,8 @@ export const DeleteDeviceSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteDeviceSettingResponse>;
 
-export const deleteDeviceSetting: (
-  input: DeleteDeviceSettingRequest,
-) => Effect.Effect<
+export const deleteDeviceSetting: API.OperationMethod<
+  DeleteDeviceSettingRequest,
   DeleteDeviceSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20717,9 +22182,8 @@ export type CreateDeviceUnrevokeResponse = string;
 export const CreateDeviceUnrevokeResponse =
   Schema.String as unknown as Schema.Schema<CreateDeviceUnrevokeResponse>;
 
-export const createDeviceUnrevoke: (
-  input: CreateDeviceUnrevokeRequest,
-) => Effect.Effect<
+export const createDeviceUnrevoke: API.OperationMethod<
+  CreateDeviceUnrevokeRequest,
   CreateDeviceUnrevokeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20761,9 +22225,8 @@ export const ListDexColosResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListDexColosResponse>;
 
-export const listDexColos: (
-  input: ListDexColosRequest,
-) => Effect.Effect<
+export const listDexColos: API.OperationMethod<
+  ListDexColosRequest,
   ListDexColosResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20838,9 +22301,13 @@ export const ListDexCommandsResponse = Schema.Array(
           userEmail: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             completedDate: "completed_date",
             createdDate: "created_date",
             deviceId: "device_id",
+            filename: "filename",
+            status: "status",
+            type: "type",
             userEmail: "user_email",
           }),
         ),
@@ -20849,9 +22316,8 @@ export const ListDexCommandsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDexCommandsResponse>;
 
-export const listDexCommands: (
-  input: ListDexCommandsRequest,
-) => Effect.Effect<
+export const listDexCommands: API.OperationMethod<
+  ListDexCommandsRequest,
   ListDexCommandsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -20897,6 +22363,7 @@ export const CreateDexCommandRequest = Schema.Struct({
           timeLimitMin: Schema.optional(Schema.Number),
         }).pipe(
           Schema.encodeKeys({
+            interfaces: "interfaces",
             maxFileSizeMb: "'max-file-size-mb'",
             packetSizeBytes: "'packet-size-bytes'",
             testAllRoutes: "'test-all-routes'",
@@ -20944,14 +22411,21 @@ export const CreateDexCommandResponse = Schema.Struct({
           ]),
         ),
         type: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ deviceId: "device_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          args: "args",
+          deviceId: "device_id",
+          status: "status",
+          type: "type",
+        }),
+      ),
     ),
   ),
 }) as unknown as Schema.Schema<CreateDexCommandResponse>;
 
-export const createDexCommand: (
-  input: CreateDexCommandRequest,
-) => Effect.Effect<
+export const createDexCommand: API.OperationMethod<
+  CreateDexCommandRequest,
   CreateDexCommandResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21016,9 +22490,8 @@ export const ListDexCommandDevicesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDexCommandDevicesResponse>;
 
-export const listDexCommandDevices: (
-  input: ListDexCommandDevicesRequest,
-) => Effect.Effect<
+export const listDexCommandDevices: API.OperationMethod<
+  ListDexCommandDevicesRequest,
   ListDexCommandDevicesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21055,9 +22528,8 @@ export type GetDexCommandDownloadResponse = unknown;
 export const GetDexCommandDownloadResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDexCommandDownloadResponse>;
 
-export const getDexCommandDownload: (
-  input: GetDexCommandDownloadRequest,
-) => Effect.Effect<
+export const getDexCommandDownload: API.OperationMethod<
+  GetDexCommandDownloadRequest,
   GetDexCommandDownloadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21096,12 +22568,15 @@ export const GetDexCommandQuotaResponse = Schema.Struct({
   quotaUsage: Schema.Number,
   resetTime: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ quotaUsage: "quota_usage", resetTime: "reset_time" }),
+  Schema.encodeKeys({
+    quota: "quota",
+    quotaUsage: "quota_usage",
+    resetTime: "reset_time",
+  }),
 ) as unknown as Schema.Schema<GetDexCommandQuotaResponse>;
 
-export const getDexCommandQuota: (
-  input: GetDexCommandQuotaRequest,
-) => Effect.Effect<
+export const getDexCommandQuota: API.OperationMethod<
+  GetDexCommandQuotaRequest,
   GetDexCommandQuotaResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21166,9 +22641,8 @@ export const LiveDexFleetStatusResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LiveDexFleetStatusResponse>;
 
-export const liveDexFleetStatus: (
-  input: LiveDexFleetStatusRequest,
-) => Effect.Effect<
+export const liveDexFleetStatus: API.OperationMethod<
+  LiveDexFleetStatusRequest,
   LiveDexFleetStatusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21382,7 +22856,7 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             Schema.Struct({
               cpuPct: Schema.optional(Schema.Number),
               name: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ cpuPct: "cpu_pct" })),
+            }).pipe(Schema.encodeKeys({ cpuPct: "cpu_pct", name: "name" })),
           ),
         ),
         Schema.Null,
@@ -21405,8 +22879,10 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }).pipe(
             Schema.encodeKeys({
+              city: "city",
               countryIso: "country_iso",
               stateIso: "state_iso",
+              zip: "zip",
             }),
           ),
         ),
@@ -21431,8 +22907,10 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }).pipe(
             Schema.encodeKeys({
+              city: "city",
               countryIso: "country_iso",
               stateIso: "state_iso",
+              zip: "zip",
             }),
           ),
         ),
@@ -21468,8 +22946,10 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }).pipe(
             Schema.encodeKeys({
+              city: "city",
               countryIso: "country_iso",
               stateIso: "state_iso",
+              zip: "zip",
             }),
           ),
         ),
@@ -21494,8 +22974,10 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }).pipe(
             Schema.encodeKeys({
+              city: "city",
               countryIso: "country_iso",
               stateIso: "state_iso",
+              zip: "zip",
             }),
           ),
         ),
@@ -21523,8 +23005,10 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }).pipe(
             Schema.encodeKeys({
+              city: "city",
               countryIso: "country_iso",
               stateIso: "state_iso",
+              zip: "zip",
             }),
           ),
         ),
@@ -21549,8 +23033,10 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             zip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }).pipe(
             Schema.encodeKeys({
+              city: "city",
               countryIso: "country_iso",
               stateIso: "state_iso",
+              zip: "zip",
             }),
           ),
         ),
@@ -21572,7 +23058,9 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
             Schema.Struct({
               name: Schema.optional(Schema.String),
               ramUsedPct: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ ramUsedPct: "ram_used_pct" })),
+            }).pipe(
+              Schema.encodeKeys({ name: "name", ramUsedPct: "ram_used_pct" }),
+            ),
           ),
         ),
         Schema.Null,
@@ -21585,9 +23073,8 @@ export const ListDexFleetStatusDevicesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDexFleetStatusDevicesResponse>;
 
-export const listDexFleetStatusDevices: (
-  input: ListDexFleetStatusDevicesRequest,
-) => Effect.Effect<
+export const listDexFleetStatusDevices: API.OperationMethod<
+  ListDexFleetStatusDevicesRequest,
   ListDexFleetStatusDevicesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21760,12 +23247,21 @@ export const GetDexHttpTestResponse = Schema.Struct({
   ),
   targeted: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies" }),
+  Schema.encodeKeys({
+    host: "host",
+    httpStats: "httpStats",
+    httpStatsByColo: "httpStatsByColo",
+    interval: "interval",
+    kind: "kind",
+    method: "method",
+    name: "name",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+  }),
 ) as unknown as Schema.Schema<GetDexHttpTestResponse>;
 
-export const getDexHttpTest: (
-  input: GetDexHttpTestRequest,
-) => Effect.Effect<
+export const getDexHttpTest: API.OperationMethod<
+  GetDexHttpTestRequest,
   GetDexHttpTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -21821,9 +23317,8 @@ export const GetDexHttpTestPercentileResponse = Schema.Struct({
   serverResponseTimeMs: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<GetDexHttpTestPercentileResponse>;
 
-export const getDexHttpTestPercentile: (
-  input: GetDexHttpTestPercentileRequest,
-) => Effect.Effect<
+export const getDexHttpTestPercentile: API.OperationMethod<
+  GetDexHttpTestPercentileRequest,
   GetDexHttpTestPercentileResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22114,14 +23609,32 @@ export const ListDexTestsResponse = Schema.Array(
             }),
           ),
         ),
-      }).pipe(Schema.encodeKeys({ targetPolicies: "target_policies" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          created: "created",
+          description: "description",
+          enabled: "enabled",
+          host: "host",
+          interval: "interval",
+          kind: "kind",
+          name: "name",
+          updated: "updated",
+          httpResults: "httpResults",
+          httpResultsByColo: "httpResultsByColo",
+          method: "method",
+          targetPolicies: "target_policies",
+          targeted: "targeted",
+          tracerouteResults: "tracerouteResults",
+          tracerouteResultsByColo: "tracerouteResultsByColo",
+        }),
+      ),
     ),
   }),
 ) as unknown as Schema.Schema<ListDexTestsResponse>;
 
-export const listDexTests: (
-  input: ListDexTestsRequest,
-) => Effect.Effect<
+export const listDexTests: API.OperationMethod<
+  ListDexTestsRequest,
   ListDexTestsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22166,9 +23679,8 @@ export const ListDexTestUniqueDevicesResponse = Schema.Struct({
   uniqueDevicesTotal: Schema.Number,
 }) as unknown as Schema.Schema<ListDexTestUniqueDevicesResponse>;
 
-export const listDexTestUniqueDevices: (
-  input: ListDexTestUniqueDevicesRequest,
-) => Effect.Effect<
+export const listDexTestUniqueDevices: API.OperationMethod<
+  ListDexTestUniqueDevicesRequest,
   ListDexTestUniqueDevicesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22336,12 +23848,20 @@ export const GetDexTracerouteTestResponse = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ targetPolicies: "target_policies" }),
+  Schema.encodeKeys({
+    host: "host",
+    interval: "interval",
+    kind: "kind",
+    name: "name",
+    targetPolicies: "target_policies",
+    targeted: "targeted",
+    tracerouteStats: "tracerouteStats",
+    tracerouteStatsByColo: "tracerouteStatsByColo",
+  }),
 ) as unknown as Schema.Schema<GetDexTracerouteTestResponse>;
 
-export const getDexTracerouteTest: (
-  input: GetDexTracerouteTestRequest,
-) => Effect.Effect<
+export const getDexTracerouteTest: API.OperationMethod<
+  GetDexTracerouteTestRequest,
   GetDexTracerouteTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22393,9 +23913,8 @@ export const PercentilesDexTracerouteTestResponse = Schema.Struct({
   roundTripTimeMs: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<PercentilesDexTracerouteTestResponse>;
 
-export const percentilesDexTracerouteTest: (
-  input: PercentilesDexTracerouteTestRequest,
-) => Effect.Effect<
+export const percentilesDexTracerouteTest: API.OperationMethod<
+  PercentilesDexTracerouteTestRequest,
   PercentilesDexTracerouteTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22496,9 +24015,8 @@ export const GetDexTracerouteTestResultNetworkPathResponse = Schema.Struct({
   testName: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetDexTracerouteTestResultNetworkPathResponse>;
 
-export const getDexTracerouteTestResultNetworkPath: (
-  input: GetDexTracerouteTestResultNetworkPathRequest,
-) => Effect.Effect<
+export const getDexTracerouteTestResultNetworkPath: API.OperationMethod<
+  GetDexTracerouteTestResultNetworkPathRequest,
   GetDexTracerouteTestResultNetworkPathResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22601,7 +24119,10 @@ export const GetDexWarpChangeEventResponse = Schema.Array(
         accountTag: "account_tag",
         deviceId: "device_id",
         deviceRegistration: "device_registration",
+        hostname: "hostname",
         serialNumber: "serial_number",
+        timestamp: "timestamp",
+        toggle: "toggle",
         userEmail: "user_email",
       }),
     ),
@@ -22642,16 +24163,19 @@ export const GetDexWarpChangeEventResponse = Schema.Array(
       Schema.encodeKeys({
         deviceId: "device_id",
         deviceRegistration: "device_registration",
+        from: "from",
+        hostname: "hostname",
         serialNumber: "serial_number",
+        timestamp: "timestamp",
+        to: "to",
         userEmail: "user_email",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<GetDexWarpChangeEventResponse>;
 
-export const getDexWarpChangeEvent: (
-  input: GetDexWarpChangeEventRequest,
-) => Effect.Effect<
+export const getDexWarpChangeEvent: API.OperationMethod<
+  GetDexWarpChangeEventRequest,
   GetDexWarpChangeEventResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22774,23 +24298,35 @@ export const GetDlpDatasetResponse = Schema.Struct({
         "complete",
       ]),
       version: Schema.Number,
-    }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
+    }).pipe(
+      Schema.encodeKeys({
+        numCells: "num_cells",
+        status: "status",
+        version: "version",
+      }),
+    ),
   ),
   caseSensitive: Schema.optional(Schema.Boolean),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    columns: "columns",
     createdAt: "created_at",
     encodingVersion: "encoding_version",
+    name: "name",
     numCells: "num_cells",
+    secret: "secret",
+    status: "status",
     updatedAt: "updated_at",
+    uploads: "uploads",
     caseSensitive: "case_sensitive",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<GetDlpDatasetResponse>;
 
-export const getDlpDataset: (
-  input: GetDlpDatasetRequest,
-) => Effect.Effect<
+export const getDlpDataset: API.OperationMethod<
+  GetDlpDatasetRequest,
   GetDlpDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22903,24 +24439,36 @@ export const ListDlpDatasetsResponse = Schema.Array(
           "complete",
         ]),
         version: Schema.Number,
-      }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
+      }).pipe(
+        Schema.encodeKeys({
+          numCells: "num_cells",
+          status: "status",
+          version: "version",
+        }),
+      ),
     ),
     caseSensitive: Schema.optional(Schema.Boolean),
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      columns: "columns",
       createdAt: "created_at",
       encodingVersion: "encoding_version",
+      name: "name",
       numCells: "num_cells",
+      secret: "secret",
+      status: "status",
       updatedAt: "updated_at",
+      uploads: "uploads",
       caseSensitive: "case_sensitive",
+      description: "description",
     }),
   ),
 ) as unknown as Schema.Schema<ListDlpDatasetsResponse>;
 
-export const listDlpDatasets: (
-  input: ListDlpDatasetsRequest,
-) => Effect.Effect<
+export const listDlpDatasets: API.OperationMethod<
+  ListDlpDatasetsRequest,
   ListDlpDatasetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -22954,8 +24502,11 @@ export const CreateDlpDatasetRequest = Schema.Struct({
   secret: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     caseSensitive: "case_sensitive",
+    description: "description",
     encodingVersion: "encoding_version",
+    secret: "secret",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/datasets" }),
 ) as unknown as Schema.Schema<CreateDlpDatasetRequest>;
@@ -23062,17 +24613,30 @@ export const CreateDlpDatasetResponse = Schema.Struct({
           "complete",
         ]),
         version: Schema.Number,
-      }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
+      }).pipe(
+        Schema.encodeKeys({
+          numCells: "num_cells",
+          status: "status",
+          version: "version",
+        }),
+      ),
     ),
     caseSensitive: Schema.optional(Schema.Boolean),
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      columns: "columns",
       createdAt: "created_at",
       encodingVersion: "encoding_version",
+      name: "name",
       numCells: "num_cells",
+      secret: "secret",
+      status: "status",
       updatedAt: "updated_at",
+      uploads: "uploads",
       caseSensitive: "case_sensitive",
+      description: "description",
     }),
   ),
   encodingVersion: Schema.Number,
@@ -23081,14 +24645,16 @@ export const CreateDlpDatasetResponse = Schema.Struct({
   secret: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    dataset: "dataset",
     encodingVersion: "encoding_version",
     maxCells: "max_cells",
+    version: "version",
+    secret: "secret",
   }),
 ) as unknown as Schema.Schema<CreateDlpDatasetResponse>;
 
-export const createDlpDataset: (
-  input: CreateDlpDatasetRequest,
-) => Effect.Effect<
+export const createDlpDataset: API.OperationMethod<
+  CreateDlpDatasetRequest,
   CreateDlpDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23117,7 +24683,11 @@ export const UpdateDlpDatasetRequest = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ caseSensitive: "case_sensitive" }),
+  Schema.encodeKeys({
+    caseSensitive: "case_sensitive",
+    description: "description",
+    name: "name",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/dlp/datasets/{datasetId}",
@@ -23218,23 +24788,35 @@ export const UpdateDlpDatasetResponse = Schema.Struct({
         "complete",
       ]),
       version: Schema.Number,
-    }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
+    }).pipe(
+      Schema.encodeKeys({
+        numCells: "num_cells",
+        status: "status",
+        version: "version",
+      }),
+    ),
   ),
   caseSensitive: Schema.optional(Schema.Boolean),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    columns: "columns",
     createdAt: "created_at",
     encodingVersion: "encoding_version",
+    name: "name",
     numCells: "num_cells",
+    secret: "secret",
+    status: "status",
     updatedAt: "updated_at",
+    uploads: "uploads",
     caseSensitive: "case_sensitive",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<UpdateDlpDatasetResponse>;
 
-export const updateDlpDataset: (
-  input: UpdateDlpDatasetRequest,
-) => Effect.Effect<
+export const updateDlpDataset: API.OperationMethod<
+  UpdateDlpDatasetRequest,
   UpdateDlpDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23264,9 +24846,8 @@ export type DeleteDlpDatasetResponse = unknown;
 export const DeleteDlpDatasetResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpDatasetResponse>;
 
-export const deleteDlpDataset: (
-  input: DeleteDlpDatasetRequest,
-) => Effect.Effect<
+export const deleteDlpDataset: API.OperationMethod<
+  DeleteDlpDatasetRequest,
   DeleteDlpDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23349,13 +24930,15 @@ export const CreateDlpDatasetUploadResponse = Schema.Struct({
   Schema.encodeKeys({
     encodingVersion: "encoding_version",
     maxCells: "max_cells",
+    version: "version",
     caseSensitive: "case_sensitive",
+    columns: "columns",
+    secret: "secret",
   }),
 ) as unknown as Schema.Schema<CreateDlpDatasetUploadResponse>;
 
-export const createDlpDatasetUpload: (
-  input: CreateDlpDatasetUploadRequest,
-) => Effect.Effect<
+export const createDlpDatasetUpload: API.OperationMethod<
+  CreateDlpDatasetUploadRequest,
   CreateDlpDatasetUploadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23477,23 +25060,35 @@ export const EditDlpDatasetUploadResponse = Schema.Struct({
         "complete",
       ]),
       version: Schema.Number,
-    }).pipe(Schema.encodeKeys({ numCells: "num_cells" })),
+    }).pipe(
+      Schema.encodeKeys({
+        numCells: "num_cells",
+        status: "status",
+        version: "version",
+      }),
+    ),
   ),
   caseSensitive: Schema.optional(Schema.Boolean),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    columns: "columns",
     createdAt: "created_at",
     encodingVersion: "encoding_version",
+    name: "name",
     numCells: "num_cells",
+    secret: "secret",
+    status: "status",
     updatedAt: "updated_at",
+    uploads: "uploads",
     caseSensitive: "case_sensitive",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<EditDlpDatasetUploadResponse>;
 
-export const editDlpDatasetUpload: (
-  input: EditDlpDatasetUploadRequest,
-) => Effect.Effect<
+export const editDlpDatasetUpload: API.OperationMethod<
+  EditDlpDatasetUploadRequest,
   EditDlpDatasetUploadResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23592,9 +25187,8 @@ export const CreateDlpDatasetVersionResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateDlpDatasetVersionResponse>;
 
-export const createDlpDatasetVersion: (
-  input: CreateDlpDatasetVersionRequest,
-) => Effect.Effect<
+export const createDlpDatasetVersion: API.OperationMethod<
+  CreateDlpDatasetVersionRequest,
   CreateDlpDatasetVersionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23662,9 +25256,8 @@ export const CreateDlpDatasetVersionEntryResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDlpDatasetVersionEntryResponse>;
 
-export const createDlpDatasetVersionEntry: (
-  input: CreateDlpDatasetVersionEntryRequest,
-) => Effect.Effect<
+export const createDlpDatasetVersionEntry: API.OperationMethod<
+  CreateDlpDatasetVersionEntryRequest,
   CreateDlpDatasetVersionEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23707,6 +25300,7 @@ export const GetDlpEmailAccountMappingResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         allowedMicrosoftOrganizations: "allowed_microsoft_organizations",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -23720,9 +25314,8 @@ export const GetDlpEmailAccountMappingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDlpEmailAccountMappingResponse>;
 
-export const getDlpEmailAccountMapping: (
-  input: GetDlpEmailAccountMappingRequest,
-) => Effect.Effect<
+export const getDlpEmailAccountMapping: API.OperationMethod<
+  GetDlpEmailAccountMappingRequest,
   GetDlpEmailAccountMappingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23750,6 +25343,7 @@ export const CreateDlpEmailAccountMappingRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         allowedMicrosoftOrganizations: "allowed_microsoft_organizations",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -23780,6 +25374,7 @@ export const CreateDlpEmailAccountMappingResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         allowedMicrosoftOrganizations: "allowed_microsoft_organizations",
+        type: "type",
       }),
     ),
     Schema.Struct({
@@ -23793,9 +25388,8 @@ export const CreateDlpEmailAccountMappingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDlpEmailAccountMappingResponse>;
 
-export const createDlpEmailAccountMapping: (
-  input: CreateDlpEmailAccountMappingRequest,
-) => Effect.Effect<
+export const createDlpEmailAccountMapping: API.OperationMethod<
+  CreateDlpEmailAccountMappingRequest,
   CreateDlpEmailAccountMappingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23867,15 +25461,20 @@ export const GetDlpEmailRuleResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    conditions: "conditions",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    priority: "priority",
     ruleId: "rule_id",
     updatedAt: "updated_at",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<GetDlpEmailRuleResponse>;
 
-export const getDlpEmailRule: (
-  input: GetDlpEmailRuleRequest,
-) => Effect.Effect<
+export const getDlpEmailRule: API.OperationMethod<
+  GetDlpEmailRuleRequest,
   GetDlpEmailRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -23938,16 +25537,21 @@ export const ListDlpEmailRulesResponse = Schema.Array(
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      action: "action",
+      conditions: "conditions",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      priority: "priority",
       ruleId: "rule_id",
       updatedAt: "updated_at",
+      description: "description",
     }),
   ),
 ) as unknown as Schema.Schema<ListDlpEmailRulesResponse>;
 
-export const listDlpEmailRules: (
-  input: ListDlpEmailRulesRequest,
-) => Effect.Effect<
+export const listDlpEmailRules: API.OperationMethod<
+  ListDlpEmailRulesRequest,
   ListDlpEmailRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24044,15 +25648,20 @@ export const CreateDlpEmailRuleResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    conditions: "conditions",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    priority: "priority",
     ruleId: "rule_id",
     updatedAt: "updated_at",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<CreateDlpEmailRuleResponse>;
 
-export const createDlpEmailRule: (
-  input: CreateDlpEmailRuleRequest,
-) => Effect.Effect<
+export const createDlpEmailRule: API.OperationMethod<
+  CreateDlpEmailRuleRequest,
   CreateDlpEmailRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24154,15 +25763,20 @@ export const UpdateDlpEmailRuleResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    conditions: "conditions",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    priority: "priority",
     ruleId: "rule_id",
     updatedAt: "updated_at",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<UpdateDlpEmailRuleResponse>;
 
-export const updateDlpEmailRule: (
-  input: UpdateDlpEmailRuleRequest,
-) => Effect.Effect<
+export const updateDlpEmailRule: API.OperationMethod<
+  UpdateDlpEmailRuleRequest,
   UpdateDlpEmailRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24230,15 +25844,20 @@ export const DeleteDlpEmailRuleResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    conditions: "conditions",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    priority: "priority",
     ruleId: "rule_id",
     updatedAt: "updated_at",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<DeleteDlpEmailRuleResponse>;
 
-export const deleteDlpEmailRule: (
-  input: DeleteDlpEmailRuleRequest,
-) => Effect.Effect<
+export const deleteDlpEmailRule: API.OperationMethod<
+  DeleteDlpEmailRuleRequest,
   DeleteDlpEmailRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24306,15 +25925,20 @@ export const BulkPatchDlpEmailRulesResponse = Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    conditions: "conditions",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    priority: "priority",
     ruleId: "rule_id",
     updatedAt: "updated_at",
+    description: "description",
   }),
 ) as unknown as Schema.Schema<BulkPatchDlpEmailRulesResponse>;
 
-export const bulkPatchDlpEmailRules: (
-  input: BulkPatchDlpEmailRulesRequest,
-) => Effect.Effect<
+export const bulkPatchDlpEmailRules: API.OperationMethod<
+  BulkPatchDlpEmailRulesRequest,
   BulkPatchDlpEmailRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24483,9 +26107,15 @@ export const GetDlpEntryResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      pattern: "pattern",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -24494,7 +26124,12 @@ export const GetDlpEntryResponse = Schema.Union([
     confidence: Schema.Struct({
       aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+    }).pipe(
+      Schema.encodeKeys({
+        aiContextAvailable: "ai_context_available",
+        available: "available",
+      }),
+    ),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
@@ -24524,12 +26159,25 @@ export const GetDlpEntryResponse = Schema.Union([
         description: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+      }).pipe(
+        Schema.encodeKeys({
+          topicType: "topic_type",
+          type: "type",
+          description: "description",
+        }),
+      ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      confidence: "confidence",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
+      variant: "variant",
     }),
   ),
   Schema.Struct({
@@ -24560,9 +26208,14 @@ export const GetDlpEntryResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -24595,9 +26248,15 @@ export const GetDlpEntryResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       caseSensitive: "case_sensitive",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      secret: "secret",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -24628,8 +26287,13 @@ export const GetDlpEntryResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -24662,18 +26326,22 @@ export const GetDlpEntryResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       wordList: "word_list",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
 ]) as unknown as Schema.Schema<GetDlpEntryResponse>;
 
-export const getDlpEntry: (
-  input: GetDlpEntryRequest,
-) => Effect.Effect<
+export const getDlpEntry: API.OperationMethod<
+  GetDlpEntryRequest,
   GetDlpEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -24821,7 +26489,12 @@ export const ListDlpEntriesResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        pattern: "pattern",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -24833,7 +26506,10 @@ export const ListDlpEntriesResponse = Schema.Array(
         aiContextAvailable: Schema.Boolean,
         available: Schema.Boolean,
       }).pipe(
-        Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+        Schema.encodeKeys({
+          aiContextAvailable: "ai_context_available",
+          available: "available",
+        }),
       ),
       enabled: Schema.Boolean,
       name: Schema.String,
@@ -24856,12 +26532,24 @@ export const ListDlpEntriesResponse = Schema.Array(
           description: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+        }).pipe(
+          Schema.encodeKeys({
+            topicType: "topic_type",
+            type: "type",
+            description: "description",
+          }),
+        ),
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        confidence: "confidence",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         profileId: "profile_id",
         uploadStatus: "upload_status",
+        variant: "variant",
       }),
     ),
     Schema.Struct({
@@ -24884,7 +26572,11 @@ export const ListDlpEntriesResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -24911,8 +26603,13 @@ export const ListDlpEntriesResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         caseSensitive: "case_sensitive",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        secret: "secret",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -24936,7 +26633,11 @@ export const ListDlpEntriesResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -24962,7 +26663,11 @@ export const ListDlpEntriesResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         wordList: "word_list",
         profileId: "profile_id",
@@ -24972,9 +26677,8 @@ export const ListDlpEntriesResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListDlpEntriesResponse>;
 
-export const listDlpEntries: (
-  input: ListDlpEntriesRequest,
-) => Effect.Effect<
+export const listDlpEntries: API.OperationMethod<
+  ListDlpEntriesRequest,
   ListDlpEntriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25004,7 +26708,12 @@ export const CreateDlpEntryRequest = Schema.Struct({
   pattern: Schema.Unknown,
   profileId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ profileId: "profile_id" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    name: "name",
+    pattern: "pattern",
+    profileId: "profile_id",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/entries" }),
 ) as unknown as Schema.Schema<CreateDlpEntryRequest>;
 
@@ -25028,15 +26737,18 @@ export const CreateDlpEntryResponse = Schema.Struct({
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    pattern: "pattern",
     updatedAt: "updated_at",
     profileId: "profile_id",
   }),
 ) as unknown as Schema.Schema<CreateDlpEntryResponse>;
 
-export const createDlpEntry: (
-  input: CreateDlpEntryRequest,
-) => Effect.Effect<
+export const createDlpEntry: API.OperationMethod<
+  CreateDlpEntryRequest,
   CreateDlpEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25148,7 +26860,12 @@ export const UpdateDlpEntryResponse = Schema.Union([
     profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      pattern: "pattern",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
     }),
@@ -25158,7 +26875,12 @@ export const UpdateDlpEntryResponse = Schema.Union([
     confidence: Schema.Struct({
       aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+    }).pipe(
+      Schema.encodeKeys({
+        aiContextAvailable: "ai_context_available",
+        available: "available",
+      }),
+    ),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
@@ -25170,9 +26892,25 @@ export const UpdateDlpEntryResponse = Schema.Union([
         description: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+      }).pipe(
+        Schema.encodeKeys({
+          topicType: "topic_type",
+          type: "type",
+          description: "description",
+        }),
+      ),
     ),
-  }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      confidence: "confidence",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
+      profileId: "profile_id",
+      variant: "variant",
+    }),
+  ),
   Schema.Struct({
     id: Schema.String,
     createdAt: Schema.String,
@@ -25183,7 +26921,11 @@ export const UpdateDlpEntryResponse = Schema.Union([
     profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
     }),
@@ -25199,8 +26941,13 @@ export const UpdateDlpEntryResponse = Schema.Union([
     updatedAt: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       caseSensitive: "case_sensitive",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      secret: "secret",
+      type: "type",
       updatedAt: "updated_at",
     }),
   ),
@@ -25212,7 +26959,14 @@ export const UpdateDlpEntryResponse = Schema.Union([
     type: Schema.Literal("document_fingerprint"),
     updatedAt: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
+      updatedAt: "updated_at",
+    }),
   ),
   Schema.Struct({
     id: Schema.String,
@@ -25225,7 +26979,11 @@ export const UpdateDlpEntryResponse = Schema.Union([
     profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       wordList: "word_list",
       profileId: "profile_id",
@@ -25233,9 +26991,8 @@ export const UpdateDlpEntryResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<UpdateDlpEntryResponse>;
 
-export const updateDlpEntry: (
-  input: UpdateDlpEntryRequest,
-) => Effect.Effect<
+export const updateDlpEntry: API.OperationMethod<
+  UpdateDlpEntryRequest,
   UpdateDlpEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25265,9 +27022,8 @@ export type DeleteDlpEntryResponse = unknown;
 export const DeleteDlpEntryResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpEntryResponse>;
 
-export const deleteDlpEntry: (
-  input: DeleteDlpEntryRequest,
-) => Effect.Effect<
+export const deleteDlpEntry: API.OperationMethod<
+  DeleteDlpEntryRequest,
   DeleteDlpEntryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25436,9 +27192,15 @@ export const GetDlpEntryCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      pattern: "pattern",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -25447,7 +27209,12 @@ export const GetDlpEntryCustomResponse = Schema.Union([
     confidence: Schema.Struct({
       aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+    }).pipe(
+      Schema.encodeKeys({
+        aiContextAvailable: "ai_context_available",
+        available: "available",
+      }),
+    ),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
@@ -25477,12 +27244,25 @@ export const GetDlpEntryCustomResponse = Schema.Union([
         description: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+      }).pipe(
+        Schema.encodeKeys({
+          topicType: "topic_type",
+          type: "type",
+          description: "description",
+        }),
+      ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      confidence: "confidence",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
+      variant: "variant",
     }),
   ),
   Schema.Struct({
@@ -25513,9 +27293,14 @@ export const GetDlpEntryCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -25548,9 +27333,15 @@ export const GetDlpEntryCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       caseSensitive: "case_sensitive",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      secret: "secret",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -25581,8 +27372,13 @@ export const GetDlpEntryCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -25615,18 +27411,22 @@ export const GetDlpEntryCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       wordList: "word_list",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
 ]) as unknown as Schema.Schema<GetDlpEntryCustomResponse>;
 
-export const getDlpEntryCustom: (
-  input: GetDlpEntryCustomRequest,
-) => Effect.Effect<
+export const getDlpEntryCustom: API.OperationMethod<
+  GetDlpEntryCustomRequest,
   GetDlpEntryCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25774,7 +27574,12 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        pattern: "pattern",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -25786,7 +27591,10 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
         aiContextAvailable: Schema.Boolean,
         available: Schema.Boolean,
       }).pipe(
-        Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+        Schema.encodeKeys({
+          aiContextAvailable: "ai_context_available",
+          available: "available",
+        }),
       ),
       enabled: Schema.Boolean,
       name: Schema.String,
@@ -25809,12 +27617,24 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
           description: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+        }).pipe(
+          Schema.encodeKeys({
+            topicType: "topic_type",
+            type: "type",
+            description: "description",
+          }),
+        ),
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        confidence: "confidence",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         profileId: "profile_id",
         uploadStatus: "upload_status",
+        variant: "variant",
       }),
     ),
     Schema.Struct({
@@ -25837,7 +27657,11 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -25864,8 +27688,13 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         caseSensitive: "case_sensitive",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        secret: "secret",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -25889,7 +27718,11 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -25915,7 +27748,11 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         wordList: "word_list",
         profileId: "profile_id",
@@ -25925,9 +27762,8 @@ export const ListDlpEntryCustomsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListDlpEntryCustomsResponse>;
 
-export const listDlpEntryCustoms: (
-  input: ListDlpEntryCustomsRequest,
-) => Effect.Effect<
+export const listDlpEntryCustoms: API.OperationMethod<
+  ListDlpEntryCustomsRequest,
   ListDlpEntryCustomsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -25957,7 +27793,12 @@ export const CreateDlpEntryCustomRequest = Schema.Struct({
   pattern: Schema.Unknown,
   profileId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ profileId: "profile_id" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    name: "name",
+    pattern: "pattern",
+    profileId: "profile_id",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/entries" }),
 ) as unknown as Schema.Schema<CreateDlpEntryCustomRequest>;
 
@@ -25981,15 +27822,18 @@ export const CreateDlpEntryCustomResponse = Schema.Struct({
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    pattern: "pattern",
     updatedAt: "updated_at",
     profileId: "profile_id",
   }),
 ) as unknown as Schema.Schema<CreateDlpEntryCustomResponse>;
 
-export const createDlpEntryCustom: (
-  input: CreateDlpEntryCustomRequest,
-) => Effect.Effect<
+export const createDlpEntryCustom: API.OperationMethod<
+  CreateDlpEntryCustomRequest,
   CreateDlpEntryCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26044,15 +27888,18 @@ export const UpdateDlpEntryCustomResponse = Schema.Struct({
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
+    pattern: "pattern",
     updatedAt: "updated_at",
     profileId: "profile_id",
   }),
 ) as unknown as Schema.Schema<UpdateDlpEntryCustomResponse>;
 
-export const updateDlpEntryCustom: (
-  input: UpdateDlpEntryCustomRequest,
-) => Effect.Effect<
+export const updateDlpEntryCustom: API.OperationMethod<
+  UpdateDlpEntryCustomRequest,
   UpdateDlpEntryCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26082,9 +27929,8 @@ export type DeleteDlpEntryCustomResponse = unknown;
 export const DeleteDlpEntryCustomResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpEntryCustomResponse>;
 
-export const deleteDlpEntryCustom: (
-  input: DeleteDlpEntryCustomRequest,
-) => Effect.Effect<
+export const deleteDlpEntryCustom: API.OperationMethod<
+  DeleteDlpEntryCustomRequest,
   DeleteDlpEntryCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26253,9 +28099,15 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      pattern: "pattern",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -26264,7 +28116,12 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
     confidence: Schema.Struct({
       aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+    }).pipe(
+      Schema.encodeKeys({
+        aiContextAvailable: "ai_context_available",
+        available: "available",
+      }),
+    ),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
@@ -26294,12 +28151,25 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
         description: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+      }).pipe(
+        Schema.encodeKeys({
+          topicType: "topic_type",
+          type: "type",
+          description: "description",
+        }),
+      ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      confidence: "confidence",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
+      variant: "variant",
     }),
   ),
   Schema.Struct({
@@ -26330,9 +28200,14 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -26365,9 +28240,15 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       caseSensitive: "case_sensitive",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      secret: "secret",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -26398,8 +28279,13 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -26432,18 +28318,22 @@ export const GetDlpEntryIntegrationResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       wordList: "word_list",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
 ]) as unknown as Schema.Schema<GetDlpEntryIntegrationResponse>;
 
-export const getDlpEntryIntegration: (
-  input: GetDlpEntryIntegrationRequest,
-) => Effect.Effect<
+export const getDlpEntryIntegration: API.OperationMethod<
+  GetDlpEntryIntegrationRequest,
   GetDlpEntryIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26591,7 +28481,12 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        pattern: "pattern",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -26603,7 +28498,10 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
         aiContextAvailable: Schema.Boolean,
         available: Schema.Boolean,
       }).pipe(
-        Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+        Schema.encodeKeys({
+          aiContextAvailable: "ai_context_available",
+          available: "available",
+        }),
       ),
       enabled: Schema.Boolean,
       name: Schema.String,
@@ -26626,12 +28524,24 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
           description: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+        }).pipe(
+          Schema.encodeKeys({
+            topicType: "topic_type",
+            type: "type",
+            description: "description",
+          }),
+        ),
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        confidence: "confidence",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         profileId: "profile_id",
         uploadStatus: "upload_status",
+        variant: "variant",
       }),
     ),
     Schema.Struct({
@@ -26654,7 +28564,11 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -26681,8 +28595,13 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         caseSensitive: "case_sensitive",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        secret: "secret",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -26706,7 +28625,11 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -26732,7 +28655,11 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         wordList: "word_list",
         profileId: "profile_id",
@@ -26742,9 +28669,8 @@ export const ListDlpEntryIntegrationsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListDlpEntryIntegrationsResponse>;
 
-export const listDlpEntryIntegrations: (
-  input: ListDlpEntryIntegrationsRequest,
-) => Effect.Effect<
+export const listDlpEntryIntegrations: API.OperationMethod<
+  ListDlpEntryIntegrationsRequest,
   ListDlpEntryIntegrationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26771,7 +28697,11 @@ export const CreateDlpEntryIntegrationRequest = Schema.Struct({
   entryId: Schema.String,
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ entryId: "entry_id", profileId: "profile_id" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    entryId: "entry_id",
+    profileId: "profile_id",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/entries/integration",
@@ -26796,15 +28726,17 @@ export const CreateDlpEntryIntegrationResponse = Schema.Struct({
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
     updatedAt: "updated_at",
     profileId: "profile_id",
   }),
 ) as unknown as Schema.Schema<CreateDlpEntryIntegrationResponse>;
 
-export const createDlpEntryIntegration: (
-  input: CreateDlpEntryIntegrationRequest,
-) => Effect.Effect<
+export const createDlpEntryIntegration: API.OperationMethod<
+  CreateDlpEntryIntegrationRequest,
   CreateDlpEntryIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26851,15 +28783,17 @@ export const UpdateDlpEntryIntegrationResponse = Schema.Struct({
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    enabled: "enabled",
+    name: "name",
     updatedAt: "updated_at",
     profileId: "profile_id",
   }),
 ) as unknown as Schema.Schema<UpdateDlpEntryIntegrationResponse>;
 
-export const updateDlpEntryIntegration: (
-  input: UpdateDlpEntryIntegrationRequest,
-) => Effect.Effect<
+export const updateDlpEntryIntegration: API.OperationMethod<
+  UpdateDlpEntryIntegrationRequest,
   UpdateDlpEntryIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -26889,9 +28823,8 @@ export type DeleteDlpEntryIntegrationResponse = unknown;
 export const DeleteDlpEntryIntegrationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpEntryIntegrationResponse>;
 
-export const deleteDlpEntryIntegration: (
-  input: DeleteDlpEntryIntegrationRequest,
-) => Effect.Effect<
+export const deleteDlpEntryIntegration: API.OperationMethod<
+  DeleteDlpEntryIntegrationRequest,
   DeleteDlpEntryIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27060,9 +28993,15 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      pattern: "pattern",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -27071,7 +29010,12 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
     confidence: Schema.Struct({
       aiContextAvailable: Schema.Boolean,
       available: Schema.Boolean,
-    }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+    }).pipe(
+      Schema.encodeKeys({
+        aiContextAvailable: "ai_context_available",
+        available: "available",
+      }),
+    ),
     enabled: Schema.Boolean,
     name: Schema.String,
     type: Schema.Literal("predefined"),
@@ -27101,12 +29045,25 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
         description: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+      }).pipe(
+        Schema.encodeKeys({
+          topicType: "topic_type",
+          type: "type",
+          description: "description",
+        }),
+      ),
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      confidence: "confidence",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
+      variant: "variant",
     }),
   ),
   Schema.Struct({
@@ -27137,9 +29094,14 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -27172,9 +29134,15 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       caseSensitive: "case_sensitive",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      secret: "secret",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -27205,8 +29173,13 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
@@ -27239,18 +29212,22 @@ export const GetDlpEntryPredefinedResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      enabled: "enabled",
+      name: "name",
+      type: "type",
       updatedAt: "updated_at",
       wordList: "word_list",
       profileId: "profile_id",
+      profiles: "profiles",
       uploadStatus: "upload_status",
     }),
   ),
 ]) as unknown as Schema.Schema<GetDlpEntryPredefinedResponse>;
 
-export const getDlpEntryPredefined: (
-  input: GetDlpEntryPredefinedRequest,
-) => Effect.Effect<
+export const getDlpEntryPredefined: API.OperationMethod<
+  GetDlpEntryPredefinedRequest,
   GetDlpEntryPredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27398,7 +29375,12 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        pattern: "pattern",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -27410,7 +29392,10 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
         aiContextAvailable: Schema.Boolean,
         available: Schema.Boolean,
       }).pipe(
-        Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+        Schema.encodeKeys({
+          aiContextAvailable: "ai_context_available",
+          available: "available",
+        }),
       ),
       enabled: Schema.Boolean,
       name: Schema.String,
@@ -27433,12 +29418,24 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
           description: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+        }).pipe(
+          Schema.encodeKeys({
+            topicType: "topic_type",
+            type: "type",
+            description: "description",
+          }),
+        ),
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        confidence: "confidence",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         profileId: "profile_id",
         uploadStatus: "upload_status",
+        variant: "variant",
       }),
     ),
     Schema.Struct({
@@ -27461,7 +29458,11 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         profileId: "profile_id",
         uploadStatus: "upload_status",
@@ -27488,8 +29489,13 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         caseSensitive: "case_sensitive",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        secret: "secret",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -27513,7 +29519,11 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         uploadStatus: "upload_status",
       }),
@@ -27539,7 +29549,11 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        enabled: "enabled",
+        name: "name",
+        type: "type",
         updatedAt: "updated_at",
         wordList: "word_list",
         profileId: "profile_id",
@@ -27549,9 +29563,8 @@ export const ListDlpEntryPredefinedsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListDlpEntryPredefinedsResponse>;
 
-export const listDlpEntryPredefineds: (
-  input: ListDlpEntryPredefinedsRequest,
-) => Effect.Effect<
+export const listDlpEntryPredefineds: API.OperationMethod<
+  ListDlpEntryPredefinedsRequest,
   ListDlpEntryPredefinedsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27578,7 +29591,11 @@ export const CreateDlpEntryPredefinedRequest = Schema.Struct({
   entryId: Schema.String,
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ entryId: "entry_id", profileId: "profile_id" }),
+  Schema.encodeKeys({
+    enabled: "enabled",
+    entryId: "entry_id",
+    profileId: "profile_id",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/entries/predefined",
@@ -27603,7 +29620,12 @@ export const CreateDlpEntryPredefinedResponse = Schema.Struct({
   confidence: Schema.Struct({
     aiContextAvailable: Schema.Boolean,
     available: Schema.Boolean,
-  }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+  }).pipe(
+    Schema.encodeKeys({
+      aiContextAvailable: "ai_context_available",
+      available: "available",
+    }),
+  ),
   enabled: Schema.Boolean,
   name: Schema.String,
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -27612,15 +29634,27 @@ export const CreateDlpEntryPredefinedResponse = Schema.Struct({
       topicType: Schema.Literals(["Intent", "Content"]),
       type: Schema.Literal("PromptTopic"),
       description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+    }).pipe(
+      Schema.encodeKeys({
+        topicType: "topic_type",
+        type: "type",
+        description: "description",
+      }),
+    ),
   ),
 }).pipe(
-  Schema.encodeKeys({ profileId: "profile_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    confidence: "confidence",
+    enabled: "enabled",
+    name: "name",
+    profileId: "profile_id",
+    variant: "variant",
+  }),
 ) as unknown as Schema.Schema<CreateDlpEntryPredefinedResponse>;
 
-export const createDlpEntryPredefined: (
-  input: CreateDlpEntryPredefinedRequest,
-) => Effect.Effect<
+export const createDlpEntryPredefined: API.OperationMethod<
+  CreateDlpEntryPredefinedRequest,
   CreateDlpEntryPredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27667,7 +29701,12 @@ export const UpdateDlpEntryPredefinedResponse = Schema.Struct({
   confidence: Schema.Struct({
     aiContextAvailable: Schema.Boolean,
     available: Schema.Boolean,
-  }).pipe(Schema.encodeKeys({ aiContextAvailable: "ai_context_available" })),
+  }).pipe(
+    Schema.encodeKeys({
+      aiContextAvailable: "ai_context_available",
+      available: "available",
+    }),
+  ),
   enabled: Schema.Boolean,
   name: Schema.String,
   profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -27676,15 +29715,27 @@ export const UpdateDlpEntryPredefinedResponse = Schema.Struct({
       topicType: Schema.Literals(["Intent", "Content"]),
       type: Schema.Literal("PromptTopic"),
       description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+    }).pipe(
+      Schema.encodeKeys({
+        topicType: "topic_type",
+        type: "type",
+        description: "description",
+      }),
+    ),
   ),
 }).pipe(
-  Schema.encodeKeys({ profileId: "profile_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    confidence: "confidence",
+    enabled: "enabled",
+    name: "name",
+    profileId: "profile_id",
+    variant: "variant",
+  }),
 ) as unknown as Schema.Schema<UpdateDlpEntryPredefinedResponse>;
 
-export const updateDlpEntryPredefined: (
-  input: UpdateDlpEntryPredefinedRequest,
-) => Effect.Effect<
+export const updateDlpEntryPredefined: API.OperationMethod<
+  UpdateDlpEntryPredefinedRequest,
   UpdateDlpEntryPredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27714,9 +29765,8 @@ export type DeleteDlpEntryPredefinedResponse = unknown;
 export const DeleteDlpEntryPredefinedResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpEntryPredefinedResponse>;
 
-export const deleteDlpEntryPredefined: (
-  input: DeleteDlpEntryPredefinedRequest,
-) => Effect.Effect<
+export const deleteDlpEntryPredefined: API.OperationMethod<
+  DeleteDlpEntryPredefinedRequest,
   DeleteDlpEntryPredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27750,9 +29800,8 @@ export const ListDlpLimitsResponse = Schema.Struct({
   Schema.encodeKeys({ maxDatasetCells: "max_dataset_cells" }),
 ) as unknown as Schema.Schema<ListDlpLimitsResponse>;
 
-export const listDlpLimits: (
-  input: ListDlpLimitsRequest,
-) => Effect.Effect<
+export const listDlpLimits: API.OperationMethod<
+  ListDlpLimitsRequest,
   ListDlpLimitsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27780,7 +29829,7 @@ export const ValidateDlpPatternRequest = Schema.Struct({
   regex: Schema.String,
   maxMatchBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ maxMatchBytes: "max_match_bytes" }),
+  Schema.encodeKeys({ regex: "regex", maxMatchBytes: "max_match_bytes" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/dlp/patterns/validate",
@@ -27795,9 +29844,8 @@ export const ValidateDlpPatternResponse = Schema.Struct({
   valid: Schema.Boolean,
 }) as unknown as Schema.Schema<ValidateDlpPatternResponse>;
 
-export const validateDlpPattern: (
-  input: ValidateDlpPatternRequest,
-) => Effect.Effect<
+export const validateDlpPattern: API.OperationMethod<
+  ValidateDlpPatternRequest,
   ValidateDlpPatternResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27833,9 +29881,8 @@ export const GetDlpPayloadLogResponse = Schema.Struct({
   Schema.encodeKeys({ updatedAt: "updated_at", publicKey: "public_key" }),
 ) as unknown as Schema.Schema<GetDlpPayloadLogResponse>;
 
-export const getDlpPayloadLog: (
-  input: GetDlpPayloadLogRequest,
-) => Effect.Effect<
+export const getDlpPayloadLog: API.OperationMethod<
+  GetDlpPayloadLogRequest,
   GetDlpPayloadLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -27872,9 +29919,8 @@ export const PutDlpPayloadLogResponse = Schema.Struct({
   Schema.encodeKeys({ updatedAt: "updated_at", publicKey: "public_key" }),
 ) as unknown as Schema.Schema<PutDlpPayloadLogResponse>;
 
-export const putDlpPayloadLog: (
-  input: PutDlpPayloadLogRequest,
-) => Effect.Effect<
+export const putDlpPayloadLog: API.OperationMethod<
+  PutDlpPayloadLogRequest,
   PutDlpPayloadLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28154,7 +30200,12 @@ export const GetDlpProfileResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              pattern: "pattern",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -28165,7 +30216,10 @@ export const GetDlpProfileResponse = Schema.Union([
               aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
             }).pipe(
-              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+              Schema.encodeKeys({
+                aiContextAvailable: "ai_context_available",
+                available: "available",
+              }),
             ),
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -28180,9 +30234,25 @@ export const GetDlpProfileResponse = Schema.Union([
                 description: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  topicType: "topic_type",
+                  type: "type",
+                  description: "description",
+                }),
+              ),
             ),
-          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              confidence: "confidence",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
+              profileId: "profile_id",
+              variant: "variant",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             createdAt: Schema.String,
@@ -28195,7 +30265,11 @@ export const GetDlpProfileResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -28211,8 +30285,13 @@ export const GetDlpProfileResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               caseSensitive: "case_sensitive",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              secret: "secret",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -28225,7 +30304,11 @@ export const GetDlpProfileResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -28242,7 +30325,11 @@ export const GetDlpProfileResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               wordList: "word_list",
               profileId: "profile_id",
@@ -28253,13 +30340,18 @@ export const GetDlpProfileResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
       createdAt: "created_at",
+      name: "name",
       ocrEnabled: "ocr_enabled",
+      type: "type",
       updatedAt: "updated_at",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
+      description: "description",
+      entries: "entries",
     }),
   ),
   Schema.Struct({
@@ -28280,7 +30372,12 @@ export const GetDlpProfileResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -28291,7 +30388,10 @@ export const GetDlpProfileResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -28306,9 +30406,25 @@ export const GetDlpProfileResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -28321,7 +30437,11 @@ export const GetDlpProfileResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -28337,8 +30457,13 @@ export const GetDlpProfileResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -28351,7 +30476,11 @@ export const GetDlpProfileResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -28368,7 +30497,11 @@ export const GetDlpProfileResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -28387,7 +30520,11 @@ export const GetDlpProfileResponse = Schema.Union([
     openAccess: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
+      entries: "entries",
+      name: "name",
+      type: "type",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
@@ -28413,7 +30550,12 @@ export const GetDlpProfileResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -28424,7 +30566,10 @@ export const GetDlpProfileResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -28439,9 +30584,25 @@ export const GetDlpProfileResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -28454,7 +30615,11 @@ export const GetDlpProfileResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -28470,8 +30635,13 @@ export const GetDlpProfileResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -28484,7 +30654,11 @@ export const GetDlpProfileResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -28501,7 +30675,11 @@ export const GetDlpProfileResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -28514,13 +30692,20 @@ export const GetDlpProfileResponse = Schema.Union([
     updatedAt: Schema.String,
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      entries: "entries",
+      name: "name",
+      type: "type",
+      updatedAt: "updated_at",
+      description: "description",
+    }),
   ),
 ]) as unknown as Schema.Schema<GetDlpProfileResponse>;
 
-export const getDlpProfile: (
-  input: GetDlpProfileRequest,
-) => Effect.Effect<
+export const getDlpProfile: API.OperationMethod<
+  GetDlpProfileRequest,
   GetDlpProfileResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -28797,7 +30982,12 @@ export const ListDlpProfilesResponse = Schema.Array(
               ),
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 createdAt: "created_at",
+                enabled: "enabled",
+                name: "name",
+                pattern: "pattern",
+                type: "type",
                 updatedAt: "updated_at",
                 profileId: "profile_id",
               }),
@@ -28810,6 +31000,7 @@ export const ListDlpProfilesResponse = Schema.Array(
               }).pipe(
                 Schema.encodeKeys({
                   aiContextAvailable: "ai_context_available",
+                  available: "available",
                 }),
               ),
               enabled: Schema.Boolean,
@@ -28825,9 +31016,25 @@ export const ListDlpProfilesResponse = Schema.Array(
                   description: Schema.optional(
                     Schema.Union([Schema.String, Schema.Null]),
                   ),
-                }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+                }).pipe(
+                  Schema.encodeKeys({
+                    topicType: "topic_type",
+                    type: "type",
+                    description: "description",
+                  }),
+                ),
               ),
-            }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+            }).pipe(
+              Schema.encodeKeys({
+                id: "id",
+                confidence: "confidence",
+                enabled: "enabled",
+                name: "name",
+                type: "type",
+                profileId: "profile_id",
+                variant: "variant",
+              }),
+            ),
             Schema.Struct({
               id: Schema.String,
               createdAt: Schema.String,
@@ -28840,7 +31047,11 @@ export const ListDlpProfilesResponse = Schema.Array(
               ),
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 createdAt: "created_at",
+                enabled: "enabled",
+                name: "name",
+                type: "type",
                 updatedAt: "updated_at",
                 profileId: "profile_id",
               }),
@@ -28856,8 +31067,13 @@ export const ListDlpProfilesResponse = Schema.Array(
               updatedAt: Schema.String,
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 caseSensitive: "case_sensitive",
                 createdAt: "created_at",
+                enabled: "enabled",
+                name: "name",
+                secret: "secret",
+                type: "type",
                 updatedAt: "updated_at",
               }),
             ),
@@ -28870,7 +31086,11 @@ export const ListDlpProfilesResponse = Schema.Array(
               updatedAt: Schema.String,
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 createdAt: "created_at",
+                enabled: "enabled",
+                name: "name",
+                type: "type",
                 updatedAt: "updated_at",
               }),
             ),
@@ -28887,7 +31107,11 @@ export const ListDlpProfilesResponse = Schema.Array(
               ),
             }).pipe(
               Schema.encodeKeys({
+                id: "id",
                 createdAt: "created_at",
+                enabled: "enabled",
+                name: "name",
+                type: "type",
                 updatedAt: "updated_at",
                 wordList: "word_list",
                 profileId: "profile_id",
@@ -28898,13 +31122,18 @@ export const ListDlpProfilesResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         allowedMatchCount: "allowed_match_count",
         createdAt: "created_at",
+        name: "name",
         ocrEnabled: "ocr_enabled",
+        type: "type",
         updatedAt: "updated_at",
         aiContextEnabled: "ai_context_enabled",
         confidenceThreshold: "confidence_threshold",
         contextAwareness: "context_awareness",
+        description: "description",
+        entries: "entries",
       }),
     ),
     Schema.Struct({
@@ -28925,7 +31154,12 @@ export const ListDlpProfilesResponse = Schema.Array(
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              pattern: "pattern",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -28936,7 +31170,10 @@ export const ListDlpProfilesResponse = Schema.Array(
               aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
             }).pipe(
-              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+              Schema.encodeKeys({
+                aiContextAvailable: "ai_context_available",
+                available: "available",
+              }),
             ),
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -28951,9 +31188,25 @@ export const ListDlpProfilesResponse = Schema.Array(
                 description: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  topicType: "topic_type",
+                  type: "type",
+                  description: "description",
+                }),
+              ),
             ),
-          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              confidence: "confidence",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
+              profileId: "profile_id",
+              variant: "variant",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             createdAt: Schema.String,
@@ -28966,7 +31219,11 @@ export const ListDlpProfilesResponse = Schema.Array(
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -28982,8 +31239,13 @@ export const ListDlpProfilesResponse = Schema.Array(
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               caseSensitive: "case_sensitive",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              secret: "secret",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -28996,7 +31258,11 @@ export const ListDlpProfilesResponse = Schema.Array(
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -29013,7 +31279,11 @@ export const ListDlpProfilesResponse = Schema.Array(
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               wordList: "word_list",
               profileId: "profile_id",
@@ -29032,7 +31302,11 @@ export const ListDlpProfilesResponse = Schema.Array(
       openAccess: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         allowedMatchCount: "allowed_match_count",
+        entries: "entries",
+        name: "name",
+        type: "type",
         aiContextEnabled: "ai_context_enabled",
         confidenceThreshold: "confidence_threshold",
         contextAwareness: "context_awareness",
@@ -29058,7 +31332,12 @@ export const ListDlpProfilesResponse = Schema.Array(
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              pattern: "pattern",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -29069,7 +31348,10 @@ export const ListDlpProfilesResponse = Schema.Array(
               aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
             }).pipe(
-              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+              Schema.encodeKeys({
+                aiContextAvailable: "ai_context_available",
+                available: "available",
+              }),
             ),
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -29084,9 +31366,25 @@ export const ListDlpProfilesResponse = Schema.Array(
                 description: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  topicType: "topic_type",
+                  type: "type",
+                  description: "description",
+                }),
+              ),
             ),
-          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              confidence: "confidence",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
+              profileId: "profile_id",
+              variant: "variant",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             createdAt: Schema.String,
@@ -29099,7 +31397,11 @@ export const ListDlpProfilesResponse = Schema.Array(
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -29115,8 +31417,13 @@ export const ListDlpProfilesResponse = Schema.Array(
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               caseSensitive: "case_sensitive",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              secret: "secret",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -29129,7 +31436,11 @@ export const ListDlpProfilesResponse = Schema.Array(
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -29146,7 +31457,11 @@ export const ListDlpProfilesResponse = Schema.Array(
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               wordList: "word_list",
               profileId: "profile_id",
@@ -29159,14 +31474,21 @@ export const ListDlpProfilesResponse = Schema.Array(
       updatedAt: Schema.String,
       description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
-      Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        entries: "entries",
+        name: "name",
+        type: "type",
+        updatedAt: "updated_at",
+        description: "description",
+      }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListDlpProfilesResponse>;
 
-export const listDlpProfiles: (
-  input: ListDlpProfilesRequest,
-) => Effect.Effect<
+export const listDlpProfiles: API.OperationMethod<
+  ListDlpProfilesRequest,
   ListDlpProfilesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29446,7 +31768,12 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              pattern: "pattern",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -29457,7 +31784,10 @@ export const GetDlpProfileCustomResponse = Schema.Union([
               aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
             }).pipe(
-              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+              Schema.encodeKeys({
+                aiContextAvailable: "ai_context_available",
+                available: "available",
+              }),
             ),
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -29472,9 +31802,25 @@ export const GetDlpProfileCustomResponse = Schema.Union([
                 description: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  topicType: "topic_type",
+                  type: "type",
+                  description: "description",
+                }),
+              ),
             ),
-          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              confidence: "confidence",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
+              profileId: "profile_id",
+              variant: "variant",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             createdAt: Schema.String,
@@ -29487,7 +31833,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -29503,8 +31853,13 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               caseSensitive: "case_sensitive",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              secret: "secret",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -29517,7 +31872,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -29534,7 +31893,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               wordList: "word_list",
               profileId: "profile_id",
@@ -29545,13 +31908,18 @@ export const GetDlpProfileCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
       createdAt: "created_at",
+      name: "name",
       ocrEnabled: "ocr_enabled",
+      type: "type",
       updatedAt: "updated_at",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
+      description: "description",
+      entries: "entries",
     }),
   ),
   Schema.Struct({
@@ -29572,7 +31940,12 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -29583,7 +31956,10 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -29598,9 +31974,25 @@ export const GetDlpProfileCustomResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -29613,7 +32005,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -29629,8 +32025,13 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -29643,7 +32044,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -29660,7 +32065,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -29679,7 +32088,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
     openAccess: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
+      entries: "entries",
+      name: "name",
+      type: "type",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
@@ -29705,7 +32118,12 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -29716,7 +32134,10 @@ export const GetDlpProfileCustomResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -29731,9 +32152,25 @@ export const GetDlpProfileCustomResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -29746,7 +32183,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -29762,8 +32203,13 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -29776,7 +32222,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -29793,7 +32243,11 @@ export const GetDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -29806,13 +32260,20 @@ export const GetDlpProfileCustomResponse = Schema.Union([
     updatedAt: Schema.String,
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      entries: "entries",
+      name: "name",
+      type: "type",
+      updatedAt: "updated_at",
+      description: "description",
+    }),
   ),
 ]) as unknown as Schema.Schema<GetDlpProfileCustomResponse>;
 
-export const getDlpProfileCustom: (
-  input: GetDlpProfileCustomRequest,
-) => Effect.Effect<
+export const getDlpProfileCustom: API.OperationMethod<
+  GetDlpProfileCustomRequest,
   GetDlpProfileCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -29880,15 +32341,18 @@ export const CreateDlpProfileCustomRequest = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         entryId: Schema.String,
-      }).pipe(Schema.encodeKeys({ entryId: "entry_id" })),
+      }).pipe(Schema.encodeKeys({ enabled: "enabled", entryId: "entry_id" })),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     aiContextEnabled: "ai_context_enabled",
     allowedMatchCount: "allowed_match_count",
     confidenceThreshold: "confidence_threshold",
     contextAwareness: "context_awareness",
+    description: "description",
+    entries: "entries",
     ocrEnabled: "ocr_enabled",
     sharedEntries: "shared_entries",
   }),
@@ -30149,7 +32613,12 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              pattern: "pattern",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -30160,7 +32629,10 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
               aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
             }).pipe(
-              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+              Schema.encodeKeys({
+                aiContextAvailable: "ai_context_available",
+                available: "available",
+              }),
             ),
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -30175,9 +32647,25 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
                 description: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  topicType: "topic_type",
+                  type: "type",
+                  description: "description",
+                }),
+              ),
             ),
-          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              confidence: "confidence",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
+              profileId: "profile_id",
+              variant: "variant",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             createdAt: Schema.String,
@@ -30190,7 +32678,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -30206,8 +32698,13 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               caseSensitive: "case_sensitive",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              secret: "secret",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -30220,7 +32717,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -30237,7 +32738,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               wordList: "word_list",
               profileId: "profile_id",
@@ -30248,13 +32753,18 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
       createdAt: "created_at",
+      name: "name",
       ocrEnabled: "ocr_enabled",
+      type: "type",
       updatedAt: "updated_at",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
+      description: "description",
+      entries: "entries",
     }),
   ),
   Schema.Struct({
@@ -30275,7 +32785,12 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -30286,7 +32801,10 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -30301,9 +32819,25 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -30316,7 +32850,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -30332,8 +32870,13 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -30346,7 +32889,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -30363,7 +32910,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -30382,7 +32933,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
     openAccess: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
+      entries: "entries",
+      name: "name",
+      type: "type",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
@@ -30408,7 +32963,12 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -30419,7 +32979,10 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -30434,9 +32997,25 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -30449,7 +33028,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -30465,8 +33048,13 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -30479,7 +33067,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -30496,7 +33088,11 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -30509,13 +33105,20 @@ export const CreateDlpProfileCustomResponse = Schema.Union([
     updatedAt: Schema.String,
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      entries: "entries",
+      name: "name",
+      type: "type",
+      updatedAt: "updated_at",
+      description: "description",
+    }),
   ),
 ]) as unknown as Schema.Schema<CreateDlpProfileCustomResponse>;
 
-export const createDlpProfileCustom: (
-  input: CreateDlpProfileCustomRequest,
-) => Effect.Effect<
+export const createDlpProfileCustom: API.OperationMethod<
+  CreateDlpProfileCustomRequest,
   CreateDlpProfileCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -30576,7 +33179,14 @@ export const UpdateDlpProfileCustomRequest = Schema.Struct({
             entryId: Schema.String,
             name: Schema.String,
             pattern: Schema.Unknown,
-          }).pipe(Schema.encodeKeys({ entryId: "entry_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              entryId: "entry_id",
+              name: "name",
+              pattern: "pattern",
+            }),
+          ),
           Schema.Struct({
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -30593,15 +33203,18 @@ export const UpdateDlpProfileCustomRequest = Schema.Struct({
       Schema.Struct({
         enabled: Schema.Boolean,
         entryId: Schema.String,
-      }).pipe(Schema.encodeKeys({ entryId: "entry_id" })),
+      }).pipe(Schema.encodeKeys({ enabled: "enabled", entryId: "entry_id" })),
     ),
   ),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     aiContextEnabled: "ai_context_enabled",
     allowedMatchCount: "allowed_match_count",
     confidenceThreshold: "confidence_threshold",
     contextAwareness: "context_awareness",
+    description: "description",
+    entries: "entries",
     ocrEnabled: "ocr_enabled",
     sharedEntries: "shared_entries",
   }),
@@ -30862,7 +33475,12 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              pattern: "pattern",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -30873,7 +33491,10 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
               aiContextAvailable: Schema.Boolean,
               available: Schema.Boolean,
             }).pipe(
-              Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+              Schema.encodeKeys({
+                aiContextAvailable: "ai_context_available",
+                available: "available",
+              }),
             ),
             enabled: Schema.Boolean,
             name: Schema.String,
@@ -30888,9 +33509,25 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
                 description: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
-              }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+              }).pipe(
+                Schema.encodeKeys({
+                  topicType: "topic_type",
+                  type: "type",
+                  description: "description",
+                }),
+              ),
             ),
-          }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              confidence: "confidence",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
+              profileId: "profile_id",
+              variant: "variant",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             createdAt: Schema.String,
@@ -30903,7 +33540,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               profileId: "profile_id",
             }),
@@ -30919,8 +33560,13 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               caseSensitive: "case_sensitive",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              secret: "secret",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -30933,7 +33579,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             updatedAt: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
             }),
           ),
@@ -30950,7 +33600,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             ),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              enabled: "enabled",
+              name: "name",
+              type: "type",
               updatedAt: "updated_at",
               wordList: "word_list",
               profileId: "profile_id",
@@ -30961,13 +33615,18 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
       createdAt: "created_at",
+      name: "name",
       ocrEnabled: "ocr_enabled",
+      type: "type",
       updatedAt: "updated_at",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
+      description: "description",
+      entries: "entries",
     }),
   ),
   Schema.Struct({
@@ -30988,7 +33647,12 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -30999,7 +33663,10 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -31014,9 +33681,25 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -31029,7 +33712,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -31045,8 +33732,13 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -31059,7 +33751,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -31076,7 +33772,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -31095,7 +33795,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
     openAccess: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       allowedMatchCount: "allowed_match_count",
+      entries: "entries",
+      name: "name",
+      type: "type",
       aiContextEnabled: "ai_context_enabled",
       confidenceThreshold: "confidence_threshold",
       contextAwareness: "context_awareness",
@@ -31121,7 +33825,12 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            pattern: "pattern",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -31132,7 +33841,10 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
             aiContextAvailable: Schema.Boolean,
             available: Schema.Boolean,
           }).pipe(
-            Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+            Schema.encodeKeys({
+              aiContextAvailable: "ai_context_available",
+              available: "available",
+            }),
           ),
           enabled: Schema.Boolean,
           name: Schema.String,
@@ -31147,9 +33859,25 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
               description: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                topicType: "topic_type",
+                type: "type",
+                description: "description",
+              }),
+            ),
           ),
-        }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            confidence: "confidence",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
+            profileId: "profile_id",
+            variant: "variant",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           createdAt: Schema.String,
@@ -31162,7 +33890,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             profileId: "profile_id",
           }),
@@ -31178,8 +33910,13 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             caseSensitive: "case_sensitive",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            secret: "secret",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -31192,7 +33929,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           updatedAt: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
           }),
         ),
@@ -31209,7 +33950,11 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
           ),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
+            enabled: "enabled",
+            name: "name",
+            type: "type",
             updatedAt: "updated_at",
             wordList: "word_list",
             profileId: "profile_id",
@@ -31222,13 +33967,20 @@ export const UpdateDlpProfileCustomResponse = Schema.Union([
     updatedAt: Schema.String,
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      entries: "entries",
+      name: "name",
+      type: "type",
+      updatedAt: "updated_at",
+      description: "description",
+    }),
   ),
 ]) as unknown as Schema.Schema<UpdateDlpProfileCustomResponse>;
 
-export const updateDlpProfileCustom: (
-  input: UpdateDlpProfileCustomRequest,
-) => Effect.Effect<
+export const updateDlpProfileCustom: API.OperationMethod<
+  UpdateDlpProfileCustomRequest,
   UpdateDlpProfileCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31258,9 +34010,8 @@ export type DeleteDlpProfileCustomResponse = unknown;
 export const DeleteDlpProfileCustomResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpProfileCustomResponse>;
 
-export const deleteDlpProfileCustom: (
-  input: DeleteDlpProfileCustomRequest,
-) => Effect.Effect<
+export const deleteDlpProfileCustom: API.OperationMethod<
+  DeleteDlpProfileCustomRequest,
   DeleteDlpProfileCustomResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31384,7 +34135,12 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
         profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          pattern: "pattern",
+          type: "type",
           updatedAt: "updated_at",
           profileId: "profile_id",
         }),
@@ -31395,7 +34151,10 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
           aiContextAvailable: Schema.Boolean,
           available: Schema.Boolean,
         }).pipe(
-          Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          Schema.encodeKeys({
+            aiContextAvailable: "ai_context_available",
+            available: "available",
+          }),
         ),
         enabled: Schema.Boolean,
         name: Schema.String,
@@ -31408,9 +34167,25 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
             description: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+          }).pipe(
+            Schema.encodeKeys({
+              topicType: "topic_type",
+              type: "type",
+              description: "description",
+            }),
+          ),
         ),
-      }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          confidence: "confidence",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
+          profileId: "profile_id",
+          variant: "variant",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         createdAt: Schema.String,
@@ -31421,7 +34196,11 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
         profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
           updatedAt: "updated_at",
           profileId: "profile_id",
         }),
@@ -31437,8 +34216,13 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
         updatedAt: Schema.String,
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           caseSensitive: "case_sensitive",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          secret: "secret",
+          type: "type",
           updatedAt: "updated_at",
         }),
       ),
@@ -31450,7 +34234,14 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
         type: Schema.Literal("document_fingerprint"),
         updatedAt: Schema.String,
       }).pipe(
-        Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
+          updatedAt: "updated_at",
+        }),
       ),
       Schema.Struct({
         id: Schema.String,
@@ -31463,7 +34254,11 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
         profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
           updatedAt: "updated_at",
           wordList: "word_list",
           profileId: "profile_id",
@@ -31477,18 +34272,20 @@ export const GetDlpProfilePredefinedResponse = Schema.Struct({
   openAccess: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedMatchCount: "allowed_match_count",
     confidenceThreshold: "confidence_threshold",
     enabledEntries: "enabled_entries",
+    entries: "entries",
+    name: "name",
     aiContextEnabled: "ai_context_enabled",
     ocrEnabled: "ocr_enabled",
     openAccess: "open_access",
   }),
 ) as unknown as Schema.Schema<GetDlpProfilePredefinedResponse>;
 
-export const getDlpProfilePredefined: (
-  input: GetDlpProfilePredefinedRequest,
-) => Effect.Effect<
+export const getDlpProfilePredefined: API.OperationMethod<
+  GetDlpProfilePredefinedRequest,
   GetDlpProfilePredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31544,6 +34341,7 @@ export const PutDlpProfilePredefinedRequest = Schema.Struct({
     allowedMatchCount: "allowed_match_count",
     confidenceThreshold: "confidence_threshold",
     enabledEntries: "enabled_entries",
+    entries: "entries",
     ocrEnabled: "ocr_enabled",
   }),
   T.Http({
@@ -31647,7 +34445,12 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
         profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          pattern: "pattern",
+          type: "type",
           updatedAt: "updated_at",
           profileId: "profile_id",
         }),
@@ -31658,7 +34461,10 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
           aiContextAvailable: Schema.Boolean,
           available: Schema.Boolean,
         }).pipe(
-          Schema.encodeKeys({ aiContextAvailable: "ai_context_available" }),
+          Schema.encodeKeys({
+            aiContextAvailable: "ai_context_available",
+            available: "available",
+          }),
         ),
         enabled: Schema.Boolean,
         name: Schema.String,
@@ -31671,9 +34477,25 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
             description: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ topicType: "topic_type" })),
+          }).pipe(
+            Schema.encodeKeys({
+              topicType: "topic_type",
+              type: "type",
+              description: "description",
+            }),
+          ),
         ),
-      }).pipe(Schema.encodeKeys({ profileId: "profile_id" })),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          confidence: "confidence",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
+          profileId: "profile_id",
+          variant: "variant",
+        }),
+      ),
       Schema.Struct({
         id: Schema.String,
         createdAt: Schema.String,
@@ -31684,7 +34506,11 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
         profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
           updatedAt: "updated_at",
           profileId: "profile_id",
         }),
@@ -31700,8 +34526,13 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
         updatedAt: Schema.String,
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           caseSensitive: "case_sensitive",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          secret: "secret",
+          type: "type",
           updatedAt: "updated_at",
         }),
       ),
@@ -31713,7 +34544,14 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
         type: Schema.Literal("document_fingerprint"),
         updatedAt: Schema.String,
       }).pipe(
-        Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
+          updatedAt: "updated_at",
+        }),
       ),
       Schema.Struct({
         id: Schema.String,
@@ -31726,7 +34564,11 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
         profileId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
+          enabled: "enabled",
+          name: "name",
+          type: "type",
           updatedAt: "updated_at",
           wordList: "word_list",
           profileId: "profile_id",
@@ -31740,18 +34582,20 @@ export const PutDlpProfilePredefinedResponse = Schema.Struct({
   openAccess: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     allowedMatchCount: "allowed_match_count",
     confidenceThreshold: "confidence_threshold",
     enabledEntries: "enabled_entries",
+    entries: "entries",
+    name: "name",
     aiContextEnabled: "ai_context_enabled",
     ocrEnabled: "ocr_enabled",
     openAccess: "open_access",
   }),
 ) as unknown as Schema.Schema<PutDlpProfilePredefinedResponse>;
 
-export const putDlpProfilePredefined: (
-  input: PutDlpProfilePredefinedRequest,
-) => Effect.Effect<
+export const putDlpProfilePredefined: API.OperationMethod<
+  PutDlpProfilePredefinedRequest,
   PutDlpProfilePredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31781,9 +34625,8 @@ export type DeleteDlpProfilePredefinedResponse = unknown;
 export const DeleteDlpProfilePredefinedResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDlpProfilePredefinedResponse>;
 
-export const deleteDlpProfilePredefined: (
-  input: DeleteDlpProfilePredefinedRequest,
-) => Effect.Effect<
+export const deleteDlpProfilePredefined: API.OperationMethod<
+  DeleteDlpProfilePredefinedRequest,
   DeleteDlpProfilePredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -31989,7 +34832,13 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
         expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          expiresAt: "expires_at",
+          duration: "duration",
+          expired: "expired",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -32076,7 +34925,13 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
             ipv4: Schema.optional(Schema.String),
             ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+          }).pipe(
+            Schema.encodeKeys({
+              ipv4: "ipv4",
+              ipv4Fallback: "ipv4_fallback",
+              ipv6: "ipv6",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -32110,7 +34965,9 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
             supportUrl: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               includeContext: "include_context",
+              msg: "msg",
               supportUrl: "support_url",
             }),
           ),
@@ -32176,7 +35033,9 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
           Schema.Struct({
             fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
             viewId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+          }).pipe(
+            Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -32205,15 +35064,19 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
         bypassParentRule: "bypass_parent_rule",
         checkSession: "check_session",
         dnsResolvers: "dns_resolvers",
+        egress: "egress",
         forensicCopy: "forensic_copy",
         ignoreCnameCategoryMatches: "ignore_cname_category_matches",
         insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
         ipCategories: "ip_categories",
         ipIndicatorFeeds: "ip_indicator_feeds",
+        l4override: "l4override",
         notificationSettings: "notification_settings",
         overrideHost: "override_host",
         overrideIps: "override_ips",
         payloadLog: "payload_log",
+        quarantine: "quarantine",
+        redirect: "redirect",
         resolveDnsInternally: "resolve_dns_internally",
         resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
         untrustedCert: "untrusted_cert",
@@ -32231,7 +35094,18 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
         timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+      }).pipe(
+        Schema.encodeKeys({
+          fri: "fri",
+          mon: "mon",
+          sat: "sat",
+          sun: "sun",
+          thu: "thu",
+          timeZone: "time_zone",
+          tue: "tue",
+          wed: "wed",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -32242,20 +35116,32 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
   warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    enabled: "enabled",
+    filters: "filters",
+    name: "name",
+    precedence: "precedence",
+    traffic: "traffic",
+    id: "id",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    description: "description",
     devicePosture: "device_posture",
+    expiration: "expiration",
+    identity: "identity",
     readOnly: "read_only",
     ruleSettings: "rule_settings",
+    schedule: "schedule",
+    sharable: "sharable",
     sourceAccount: "source_account",
     updatedAt: "updated_at",
+    version: "version",
     warningStatus: "warning_status",
   }),
 ) as unknown as Schema.Schema<ResetExpirationGatewayRuleResponse>;
 
-export const resetExpirationGatewayRule: (
-  input: ResetExpirationGatewayRuleRequest,
-) => Effect.Effect<
+export const resetExpirationGatewayRule: API.OperationMethod<
+  ResetExpirationGatewayRuleRequest,
   ResetExpirationGatewayRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32294,14 +35180,14 @@ export const ListGatewaysResponse = Schema.Struct({
   providerName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     gatewayTag: "gateway_tag",
     providerName: "provider_name",
   }),
 ) as unknown as Schema.Schema<ListGatewaysResponse>;
 
-export const listGateways: (
-  input: ListGatewaysRequest,
-) => Effect.Effect<
+export const listGateways: API.OperationMethod<
+  ListGatewaysRequest,
   ListGatewaysResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32336,14 +35222,14 @@ export const CreateGatewayResponse = Schema.Struct({
   providerName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     gatewayTag: "gateway_tag",
     providerName: "provider_name",
   }),
 ) as unknown as Schema.Schema<CreateGatewayResponse>;
 
-export const createGateway: (
-  input: CreateGatewayRequest,
-) => Effect.Effect<
+export const createGateway: API.OperationMethod<
+  CreateGatewayRequest,
   CreateGatewayResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32387,8 +35273,10 @@ export const ListGatewayAppTypesResponse = Schema.Array(
       name: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         applicationTypeId: "application_type_id",
         createdAt: "created_at",
+        name: "name",
       }),
     ),
     Schema.Struct({
@@ -32396,13 +35284,19 @@ export const ListGatewayAppTypesResponse = Schema.Array(
       createdAt: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        description: "description",
+        name: "name",
+      }),
+    ),
   ]),
 ) as unknown as Schema.Schema<ListGatewayAppTypesResponse>;
 
-export const listGatewayAppTypes: (
-  input: ListGatewayAppTypesRequest,
-) => Effect.Effect<
+export const listGatewayAppTypes: API.OperationMethod<
+  ListGatewayAppTypesRequest,
   ListGatewayAppTypesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32452,9 +35346,8 @@ export const GetGatewayAuditSshSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetGatewayAuditSshSettingResponse>;
 
-export const getGatewayAuditSshSetting: (
-  input: GetGatewayAuditSshSettingRequest,
-) => Effect.Effect<
+export const getGatewayAuditSshSetting: API.OperationMethod<
+  GetGatewayAuditSshSettingRequest,
   GetGatewayAuditSshSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32505,9 +35398,8 @@ export const PutGatewayAuditSshSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutGatewayAuditSshSettingResponse>;
 
-export const putGatewayAuditSshSetting: (
-  input: PutGatewayAuditSshSettingRequest,
-) => Effect.Effect<
+export const putGatewayAuditSshSetting: API.OperationMethod<
+  PutGatewayAuditSshSettingRequest,
   PutGatewayAuditSshSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32584,9 +35476,8 @@ export const ListGatewayCategoriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListGatewayCategoriesResponse>;
 
-export const listGatewayCategories: (
-  input: ListGatewayCategoriesRequest,
-) => Effect.Effect<
+export const listGatewayCategories: API.OperationMethod<
+  ListGatewayCategoriesRequest,
   ListGatewayCategoriesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32664,20 +35555,23 @@ export const GetGatewayCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bindingStatus: "binding_status",
+    certificate: "certificate",
     createdAt: "created_at",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
     inUse: "in_use",
     issuerOrg: "issuer_org",
     issuerRaw: "issuer_raw",
+    type: "type",
     updatedAt: "updated_at",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<GetGatewayCertificateResponse>;
 
-export const getGatewayCertificate: (
-  input: GetGatewayCertificateRequest,
-) => Effect.Effect<
+export const getGatewayCertificate: API.OperationMethod<
+  GetGatewayCertificateRequest,
   GetGatewayCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32742,21 +35636,24 @@ export const ListGatewayCertificatesResponse = Schema.Array(
     uploadedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       bindingStatus: "binding_status",
+      certificate: "certificate",
       createdAt: "created_at",
       expiresOn: "expires_on",
+      fingerprint: "fingerprint",
       inUse: "in_use",
       issuerOrg: "issuer_org",
       issuerRaw: "issuer_raw",
+      type: "type",
       updatedAt: "updated_at",
       uploadedOn: "uploaded_on",
     }),
   ),
 ) as unknown as Schema.Schema<ListGatewayCertificatesResponse>;
 
-export const listGatewayCertificates: (
-  input: ListGatewayCertificatesRequest,
-) => Effect.Effect<
+export const listGatewayCertificates: API.OperationMethod<
+  ListGatewayCertificatesRequest,
   ListGatewayCertificatesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32833,20 +35730,23 @@ export const CreateGatewayCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bindingStatus: "binding_status",
+    certificate: "certificate",
     createdAt: "created_at",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
     inUse: "in_use",
     issuerOrg: "issuer_org",
     issuerRaw: "issuer_raw",
+    type: "type",
     updatedAt: "updated_at",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<CreateGatewayCertificateResponse>;
 
-export const createGatewayCertificate: (
-  input: CreateGatewayCertificateRequest,
-) => Effect.Effect<
+export const createGatewayCertificate: API.OperationMethod<
+  CreateGatewayCertificateRequest,
   CreateGatewayCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -32920,20 +35820,23 @@ export const DeleteGatewayCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bindingStatus: "binding_status",
+    certificate: "certificate",
     createdAt: "created_at",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
     inUse: "in_use",
     issuerOrg: "issuer_org",
     issuerRaw: "issuer_raw",
+    type: "type",
     updatedAt: "updated_at",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<DeleteGatewayCertificateResponse>;
 
-export const deleteGatewayCertificate: (
-  input: DeleteGatewayCertificateRequest,
-) => Effect.Effect<
+export const deleteGatewayCertificate: API.OperationMethod<
+  DeleteGatewayCertificateRequest,
   DeleteGatewayCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33011,20 +35914,23 @@ export const ActivateGatewayCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bindingStatus: "binding_status",
+    certificate: "certificate",
     createdAt: "created_at",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
     inUse: "in_use",
     issuerOrg: "issuer_org",
     issuerRaw: "issuer_raw",
+    type: "type",
     updatedAt: "updated_at",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<ActivateGatewayCertificateResponse>;
 
-export const activateGatewayCertificate: (
-  input: ActivateGatewayCertificateRequest,
-) => Effect.Effect<
+export const activateGatewayCertificate: API.OperationMethod<
+  ActivateGatewayCertificateRequest,
   ActivateGatewayCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33102,20 +36008,23 @@ export const DeactivateGatewayCertificateResponse = Schema.Struct({
   uploadedOn: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     bindingStatus: "binding_status",
+    certificate: "certificate",
     createdAt: "created_at",
     expiresOn: "expires_on",
+    fingerprint: "fingerprint",
     inUse: "in_use",
     issuerOrg: "issuer_org",
     issuerRaw: "issuer_raw",
+    type: "type",
     updatedAt: "updated_at",
     uploadedOn: "uploaded_on",
   }),
 ) as unknown as Schema.Schema<DeactivateGatewayCertificateResponse>;
 
-export const deactivateGatewayCertificate: (
-  input: DeactivateGatewayCertificateRequest,
-) => Effect.Effect<
+export const deactivateGatewayCertificate: API.OperationMethod<
+  DeactivateGatewayCertificateRequest,
   DeactivateGatewayCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33241,7 +36150,9 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
                   supportUrl: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    enabled: "enabled",
                     includeContext: "include_context",
+                    msg: "msg",
                     supportUrl: "support_url",
                   }),
                 ),
@@ -33290,16 +36201,20 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               backgroundColor: "background_color",
+              enabled: "enabled",
               footerText: "footer_text",
               headerText: "header_text",
               includeContext: "include_context",
               logoPath: "logo_path",
               mailtoAddress: "mailto_address",
               mailtoSubject: "mailto_subject",
+              mode: "mode",
+              name: "name",
               readOnly: "read_only",
               sourceAccount: "source_account",
               suppressFooter: "suppress_footer",
               targetUri: "target_uri",
+              version: "version",
             }),
           ),
           Schema.Null,
@@ -33346,6 +36261,8 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
+              id: "id",
               bindingStatus: "binding_status",
               updatedAt: "updated_at",
             }),
@@ -33364,8 +36281,10 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
             version: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               readOnly: "read_only",
               sourceAccount: "source_account",
+              version: "version",
             }),
           ),
           Schema.Null,
@@ -33416,7 +36335,12 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ),
-          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              fallbackAction: "fallback_action",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -33431,25 +36355,33 @@ export const GetGatewayConfigurationResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         activityLog: "activity_log",
+        antivirus: "antivirus",
         blockPage: "block_page",
         bodyScanning: "body_scanning",
         browserIsolation: "browser_isolation",
+        certificate: "certificate",
         customCertificate: "custom_certificate",
         extendedEmailMatching: "extended_email_matching",
+        fips: "fips",
         hostSelector: "host_selector",
+        inspection: "inspection",
         protocolDetection: "protocol_detection",
+        sandbox: "sandbox",
         tlsDecrypt: "tls_decrypt",
       }),
     ),
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    settings: "settings",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<GetGatewayConfigurationResponse>;
 
-export const getGatewayConfiguration: (
-  input: GetGatewayConfigurationRequest,
-) => Effect.Effect<
+export const getGatewayConfiguration: API.OperationMethod<
+  GetGatewayConfigurationRequest,
   GetGatewayConfigurationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -33545,7 +36477,9 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
                   supportUrl: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    enabled: "enabled",
                     includeContext: "include_context",
+                    msg: "msg",
                     supportUrl: "support_url",
                   }),
                 ),
@@ -33585,12 +36519,15 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               backgroundColor: "background_color",
+              enabled: "enabled",
               footerText: "footer_text",
               headerText: "header_text",
               includeContext: "include_context",
               logoPath: "logo_path",
               mailtoAddress: "mailto_address",
               mailtoSubject: "mailto_subject",
+              mode: "mode",
+              name: "name",
               suppressFooter: "suppress_footer",
               targetUri: "target_uri",
             }),
@@ -33694,7 +36631,12 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ),
-          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              fallbackAction: "fallback_action",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -33709,13 +36651,18 @@ export const PutGatewayConfigurationRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         activityLog: "activity_log",
+        antivirus: "antivirus",
         blockPage: "block_page",
         bodyScanning: "body_scanning",
         browserIsolation: "browser_isolation",
+        certificate: "certificate",
         customCertificate: "custom_certificate",
         extendedEmailMatching: "extended_email_matching",
+        fips: "fips",
         hostSelector: "host_selector",
+        inspection: "inspection",
         protocolDetection: "protocol_detection",
+        sandbox: "sandbox",
         tlsDecrypt: "tls_decrypt",
       }),
     ),
@@ -33826,7 +36773,9 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
                   supportUrl: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    enabled: "enabled",
                     includeContext: "include_context",
+                    msg: "msg",
                     supportUrl: "support_url",
                   }),
                 ),
@@ -33875,16 +36824,20 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               backgroundColor: "background_color",
+              enabled: "enabled",
               footerText: "footer_text",
               headerText: "header_text",
               includeContext: "include_context",
               logoPath: "logo_path",
               mailtoAddress: "mailto_address",
               mailtoSubject: "mailto_subject",
+              mode: "mode",
+              name: "name",
               readOnly: "read_only",
               sourceAccount: "source_account",
               suppressFooter: "suppress_footer",
               targetUri: "target_uri",
+              version: "version",
             }),
           ),
           Schema.Null,
@@ -33931,6 +36884,8 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
+              id: "id",
               bindingStatus: "binding_status",
               updatedAt: "updated_at",
             }),
@@ -33949,8 +36904,10 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
             version: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               readOnly: "read_only",
               sourceAccount: "source_account",
+              version: "version",
             }),
           ),
           Schema.Null,
@@ -34001,7 +36958,12 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ),
-          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              fallbackAction: "fallback_action",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -34016,25 +36978,33 @@ export const PutGatewayConfigurationResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         activityLog: "activity_log",
+        antivirus: "antivirus",
         blockPage: "block_page",
         bodyScanning: "body_scanning",
         browserIsolation: "browser_isolation",
+        certificate: "certificate",
         customCertificate: "custom_certificate",
         extendedEmailMatching: "extended_email_matching",
+        fips: "fips",
         hostSelector: "host_selector",
+        inspection: "inspection",
         protocolDetection: "protocol_detection",
+        sandbox: "sandbox",
         tlsDecrypt: "tls_decrypt",
       }),
     ),
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    settings: "settings",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<PutGatewayConfigurationResponse>;
 
-export const putGatewayConfiguration: (
-  input: PutGatewayConfigurationRequest,
-) => Effect.Effect<
+export const putGatewayConfiguration: API.OperationMethod<
+  PutGatewayConfigurationRequest,
   PutGatewayConfigurationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34130,7 +37100,9 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
                   supportUrl: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    enabled: "enabled",
                     includeContext: "include_context",
+                    msg: "msg",
                     supportUrl: "support_url",
                   }),
                 ),
@@ -34170,12 +37142,15 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               backgroundColor: "background_color",
+              enabled: "enabled",
               footerText: "footer_text",
               headerText: "header_text",
               includeContext: "include_context",
               logoPath: "logo_path",
               mailtoAddress: "mailto_address",
               mailtoSubject: "mailto_subject",
+              mode: "mode",
+              name: "name",
               suppressFooter: "suppress_footer",
               targetUri: "target_uri",
             }),
@@ -34279,7 +37254,12 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ),
-          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              fallbackAction: "fallback_action",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -34294,13 +37274,18 @@ export const PatchGatewayConfigurationRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         activityLog: "activity_log",
+        antivirus: "antivirus",
         blockPage: "block_page",
         bodyScanning: "body_scanning",
         browserIsolation: "browser_isolation",
+        certificate: "certificate",
         customCertificate: "custom_certificate",
         extendedEmailMatching: "extended_email_matching",
+        fips: "fips",
         hostSelector: "host_selector",
+        inspection: "inspection",
         protocolDetection: "protocol_detection",
+        sandbox: "sandbox",
         tlsDecrypt: "tls_decrypt",
       }),
     ),
@@ -34411,7 +37396,9 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
                   supportUrl: Schema.optional(Schema.String),
                 }).pipe(
                   Schema.encodeKeys({
+                    enabled: "enabled",
                     includeContext: "include_context",
+                    msg: "msg",
                     supportUrl: "support_url",
                   }),
                 ),
@@ -34460,16 +37447,20 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
           }).pipe(
             Schema.encodeKeys({
               backgroundColor: "background_color",
+              enabled: "enabled",
               footerText: "footer_text",
               headerText: "header_text",
               includeContext: "include_context",
               logoPath: "logo_path",
               mailtoAddress: "mailto_address",
               mailtoSubject: "mailto_subject",
+              mode: "mode",
+              name: "name",
               readOnly: "read_only",
               sourceAccount: "source_account",
               suppressFooter: "suppress_footer",
               targetUri: "target_uri",
+              version: "version",
             }),
           ),
           Schema.Null,
@@ -34516,6 +37507,8 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
+              id: "id",
               bindingStatus: "binding_status",
               updatedAt: "updated_at",
             }),
@@ -34534,8 +37527,10 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
             version: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               readOnly: "read_only",
               sourceAccount: "source_account",
+              version: "version",
             }),
           ),
           Schema.Null,
@@ -34586,7 +37581,12 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
             fallbackAction: Schema.optional(
               Schema.Literals(["allow", "block"]),
             ),
-          }).pipe(Schema.encodeKeys({ fallbackAction: "fallback_action" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              fallbackAction: "fallback_action",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -34601,25 +37601,33 @@ export const PatchGatewayConfigurationResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         activityLog: "activity_log",
+        antivirus: "antivirus",
         blockPage: "block_page",
         bodyScanning: "body_scanning",
         browserIsolation: "browser_isolation",
+        certificate: "certificate",
         customCertificate: "custom_certificate",
         extendedEmailMatching: "extended_email_matching",
+        fips: "fips",
         hostSelector: "host_selector",
+        inspection: "inspection",
         protocolDetection: "protocol_detection",
+        sandbox: "sandbox",
         tlsDecrypt: "tls_decrypt",
       }),
     ),
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    settings: "settings",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<PatchGatewayConfigurationResponse>;
 
-export const patchGatewayConfiguration: (
-  input: PatchGatewayConfigurationRequest,
-) => Effect.Effect<
+export const patchGatewayConfiguration: API.OperationMethod<
+  PatchGatewayConfigurationRequest,
   PatchGatewayConfigurationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34651,9 +37659,8 @@ export type GetGatewayConfigurationCustomCertificateResponse = unknown;
 export const GetGatewayConfigurationCustomCertificateResponse =
   Schema.Unknown as unknown as Schema.Schema<GetGatewayConfigurationCustomCertificateResponse>;
 
-export const getGatewayConfigurationCustomCertificate: (
-  input: GetGatewayConfigurationCustomCertificateRequest,
-) => Effect.Effect<
+export const getGatewayConfigurationCustomCertificate: API.OperationMethod<
+  GetGatewayConfigurationCustomCertificateRequest,
   GetGatewayConfigurationCustomCertificateResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34718,7 +37725,13 @@ export const GetGatewayListResponse = Schema.Struct({
         createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          description: "description",
+          value: "value",
+        }),
+      ),
     ),
   ),
   name: Schema.optional(Schema.String),
@@ -34736,12 +37749,20 @@ export const GetGatewayListResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    count: "count",
+    createdAt: "created_at",
+    description: "description",
+    items: "items",
+    name: "name",
+    type: "type",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<GetGatewayListResponse>;
 
-export const getGatewayList: (
-  input: GetGatewayListRequest,
-) => Effect.Effect<
+export const getGatewayList: API.OperationMethod<
+  GetGatewayListRequest,
   GetGatewayListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34815,7 +37836,13 @@ export const ListGatewayListsResponse = Schema.Array(
           createdAt: Schema.optional(Schema.String),
           description: Schema.optional(Schema.String),
           value: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            createdAt: "created_at",
+            description: "description",
+            value: "value",
+          }),
+        ),
       ),
     ),
     name: Schema.optional(Schema.String),
@@ -34833,13 +37860,21 @@ export const ListGatewayListsResponse = Schema.Array(
     ),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      count: "count",
+      createdAt: "created_at",
+      description: "description",
+      items: "items",
+      name: "name",
+      type: "type",
+      updatedAt: "updated_at",
+    }),
   ),
 ) as unknown as Schema.Schema<ListGatewayListsResponse>;
 
-export const listGatewayLists: (
-  input: ListGatewayListsRequest,
-) => Effect.Effect<
+export const listGatewayLists: API.OperationMethod<
+  ListGatewayListsRequest,
   ListGatewayListsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -34929,7 +37964,13 @@ export const CreateGatewayListResponse = Schema.Struct({
         createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          description: "description",
+          value: "value",
+        }),
+      ),
     ),
   ),
   name: Schema.optional(Schema.String),
@@ -34947,12 +37988,19 @@ export const CreateGatewayListResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    description: "description",
+    items: "items",
+    name: "name",
+    type: "type",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<CreateGatewayListResponse>;
 
-export const createGatewayList: (
-  input: CreateGatewayListRequest,
-) => Effect.Effect<
+export const createGatewayList: API.OperationMethod<
+  CreateGatewayListRequest,
   CreateGatewayListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35030,7 +38078,13 @@ export const UpdateGatewayListResponse = Schema.Struct({
         createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          description: "description",
+          value: "value",
+        }),
+      ),
     ),
   ),
   name: Schema.optional(Schema.String),
@@ -35048,12 +38102,20 @@ export const UpdateGatewayListResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    count: "count",
+    createdAt: "created_at",
+    description: "description",
+    items: "items",
+    name: "name",
+    type: "type",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<UpdateGatewayListResponse>;
 
-export const updateGatewayList: (
-  input: UpdateGatewayListRequest,
-) => Effect.Effect<
+export const updateGatewayList: API.OperationMethod<
+  UpdateGatewayListRequest,
   UpdateGatewayListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35128,7 +38190,13 @@ export const PatchGatewayListResponse = Schema.Struct({
         createdAt: Schema.optional(Schema.String),
         description: Schema.optional(Schema.String),
         value: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          createdAt: "created_at",
+          description: "description",
+          value: "value",
+        }),
+      ),
     ),
   ),
   name: Schema.optional(Schema.String),
@@ -35146,12 +38214,20 @@ export const PatchGatewayListResponse = Schema.Struct({
   ),
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    count: "count",
+    createdAt: "created_at",
+    description: "description",
+    items: "items",
+    name: "name",
+    type: "type",
+    updatedAt: "updated_at",
+  }),
 ) as unknown as Schema.Schema<PatchGatewayListResponse>;
 
-export const patchGatewayList: (
-  input: PatchGatewayListRequest,
-) => Effect.Effect<
+export const patchGatewayList: API.OperationMethod<
+  PatchGatewayListRequest,
   PatchGatewayListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35181,9 +38257,8 @@ export type DeleteGatewayListResponse = unknown;
 export const DeleteGatewayListResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteGatewayListResponse>;
 
-export const deleteGatewayList: (
-  input: DeleteGatewayListRequest,
-) => Effect.Effect<
+export const deleteGatewayList: API.OperationMethod<
+  DeleteGatewayListRequest,
   DeleteGatewayListResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35218,9 +38293,8 @@ export const ListGatewayListItemsResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListGatewayListItemsResponse>;
 
-export const listGatewayListItems: (
-  input: ListGatewayListItemsRequest,
-) => Effect.Effect<
+export const listGatewayListItems: API.OperationMethod<
+  ListGatewayListItemsRequest,
   ListGatewayListItemsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35312,7 +38386,13 @@ export const GetGatewayLocationResponse = Schema.Struct({
             ]),
           ),
           requireToken: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            networks: "networks",
+            requireToken: "require_token",
+          }),
+        ),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
@@ -35363,21 +38443,25 @@ export const GetGatewayLocationResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     clientDefault: "client_default",
     createdAt: "created_at",
     dnsDestinationIpsId: "dns_destination_ips_id",
     dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
     dohSubdomain: "doh_subdomain",
     ecsSupport: "ecs_support",
+    endpoints: "endpoints",
+    ip: "ip",
     ipv4Destination: "ipv4_destination",
     ipv4DestinationBackup: "ipv4_destination_backup",
+    name: "name",
+    networks: "networks",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<GetGatewayLocationResponse>;
 
-export const getGatewayLocation: (
-  input: GetGatewayLocationRequest,
-) => Effect.Effect<
+export const getGatewayLocation: API.OperationMethod<
+  GetGatewayLocationRequest,
   GetGatewayLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35450,7 +38534,13 @@ export const ListGatewayLocationsResponse = Schema.Array(
               ]),
             ),
             requireToken: Schema.optional(Schema.Boolean),
-          }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              networks: "networks",
+              requireToken: "require_token",
+            }),
+          ),
           dot: Schema.Struct({
             enabled: Schema.optional(Schema.Boolean),
             networks: Schema.optional(
@@ -35501,22 +38591,26 @@ export const ListGatewayLocationsResponse = Schema.Array(
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       clientDefault: "client_default",
       createdAt: "created_at",
       dnsDestinationIpsId: "dns_destination_ips_id",
       dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
       dohSubdomain: "doh_subdomain",
       ecsSupport: "ecs_support",
+      endpoints: "endpoints",
+      ip: "ip",
       ipv4Destination: "ipv4_destination",
       ipv4DestinationBackup: "ipv4_destination_backup",
+      name: "name",
+      networks: "networks",
       updatedAt: "updated_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListGatewayLocationsResponse>;
 
-export const listGatewayLocations: (
-  input: ListGatewayLocationsRequest,
-) => Effect.Effect<
+export const listGatewayLocations: API.OperationMethod<
+  ListGatewayLocationsRequest,
   ListGatewayLocationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35574,7 +38668,13 @@ export const CreateGatewayLocationRequest = Schema.Struct({
             ]),
           ),
           requireToken: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            networks: "networks",
+            requireToken: "require_token",
+          }),
+        ),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
@@ -35620,9 +38720,12 @@ export const CreateGatewayLocationRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     clientDefault: "client_default",
     dnsDestinationIpsId: "dns_destination_ips_id",
     ecsSupport: "ecs_support",
+    endpoints: "endpoints",
+    networks: "networks",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/gateway/locations" }),
 ) as unknown as Schema.Schema<CreateGatewayLocationRequest>;
@@ -35690,7 +38793,13 @@ export const CreateGatewayLocationResponse = Schema.Struct({
             ]),
           ),
           requireToken: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            networks: "networks",
+            requireToken: "require_token",
+          }),
+        ),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
@@ -35741,21 +38850,25 @@ export const CreateGatewayLocationResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     clientDefault: "client_default",
     createdAt: "created_at",
     dnsDestinationIpsId: "dns_destination_ips_id",
     dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
     dohSubdomain: "doh_subdomain",
     ecsSupport: "ecs_support",
+    endpoints: "endpoints",
+    ip: "ip",
     ipv4Destination: "ipv4_destination",
     ipv4DestinationBackup: "ipv4_destination_backup",
+    name: "name",
+    networks: "networks",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<CreateGatewayLocationResponse>;
 
-export const createGatewayLocation: (
-  input: CreateGatewayLocationRequest,
-) => Effect.Effect<
+export const createGatewayLocation: API.OperationMethod<
+  CreateGatewayLocationRequest,
   CreateGatewayLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -35815,7 +38928,13 @@ export const UpdateGatewayLocationRequest = Schema.Struct({
             ]),
           ),
           requireToken: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            networks: "networks",
+            requireToken: "require_token",
+          }),
+        ),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
@@ -35861,9 +38980,12 @@ export const UpdateGatewayLocationRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     clientDefault: "client_default",
     dnsDestinationIpsId: "dns_destination_ips_id",
     ecsSupport: "ecs_support",
+    endpoints: "endpoints",
+    networks: "networks",
   }),
   T.Http({
     method: "PUT",
@@ -35934,7 +39056,13 @@ export const UpdateGatewayLocationResponse = Schema.Struct({
             ]),
           ),
           requireToken: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ requireToken: "require_token" })),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            networks: "networks",
+            requireToken: "require_token",
+          }),
+        ),
         dot: Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           networks: Schema.optional(
@@ -35985,21 +39113,25 @@ export const UpdateGatewayLocationResponse = Schema.Struct({
   updatedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     clientDefault: "client_default",
     createdAt: "created_at",
     dnsDestinationIpsId: "dns_destination_ips_id",
     dnsDestinationIpv6BlockId: "dns_destination_ipv6_block_id",
     dohSubdomain: "doh_subdomain",
     ecsSupport: "ecs_support",
+    endpoints: "endpoints",
+    ip: "ip",
     ipv4Destination: "ipv4_destination",
     ipv4DestinationBackup: "ipv4_destination_backup",
+    name: "name",
+    networks: "networks",
     updatedAt: "updated_at",
   }),
 ) as unknown as Schema.Schema<UpdateGatewayLocationResponse>;
 
-export const updateGatewayLocation: (
-  input: UpdateGatewayLocationRequest,
-) => Effect.Effect<
+export const updateGatewayLocation: API.OperationMethod<
+  UpdateGatewayLocationRequest,
   UpdateGatewayLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36029,9 +39161,8 @@ export type DeleteGatewayLocationResponse = unknown;
 export const DeleteGatewayLocationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteGatewayLocationResponse>;
 
-export const deleteGatewayLocation: (
-  input: DeleteGatewayLocationRequest,
-) => Effect.Effect<
+export const deleteGatewayLocation: API.OperationMethod<
+  DeleteGatewayLocationRequest,
   DeleteGatewayLocationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36103,9 +39234,8 @@ export const GetGatewayLoggingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetGatewayLoggingResponse>;
 
-export const getGatewayLogging: (
-  input: GetGatewayLoggingRequest,
-) => Effect.Effect<
+export const getGatewayLogging: API.OperationMethod<
+  GetGatewayLoggingRequest,
   GetGatewayLoggingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36215,9 +39345,8 @@ export const PutGatewayLoggingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutGatewayLoggingResponse>;
 
-export const putGatewayLogging: (
-  input: PutGatewayLoggingRequest,
-) => Effect.Effect<
+export const putGatewayLogging: API.OperationMethod<
+  PutGatewayLoggingRequest,
   PutGatewayLoggingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36275,7 +39404,15 @@ export const GetGatewayProxyEndpointResponse = Schema.Union([
     subdomain: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      ips: "ips",
+      name: "name",
+      id: "id",
+      createdAt: "created_at",
+      kind: "kind",
+      subdomain: "subdomain",
+      updatedAt: "updated_at",
+    }),
   ),
   Schema.Struct({
     kind: Schema.Literal("identity"),
@@ -36285,13 +39422,19 @@ export const GetGatewayProxyEndpointResponse = Schema.Union([
     subdomain: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      kind: "kind",
+      name: "name",
+      id: "id",
+      createdAt: "created_at",
+      subdomain: "subdomain",
+      updatedAt: "updated_at",
+    }),
   ),
 ]) as unknown as Schema.Schema<GetGatewayProxyEndpointResponse>;
 
-export const getGatewayProxyEndpoint: (
-  input: GetGatewayProxyEndpointRequest,
-) => Effect.Effect<
+export const getGatewayProxyEndpoint: API.OperationMethod<
+  GetGatewayProxyEndpointRequest,
   GetGatewayProxyEndpointResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36345,7 +39488,15 @@ export const ListGatewayProxyEndpointsResponse = Schema.Array(
       subdomain: Schema.optional(Schema.String),
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      Schema.encodeKeys({
+        ips: "ips",
+        name: "name",
+        id: "id",
+        createdAt: "created_at",
+        kind: "kind",
+        subdomain: "subdomain",
+        updatedAt: "updated_at",
+      }),
     ),
     Schema.Struct({
       kind: Schema.Literal("identity"),
@@ -36355,14 +39506,20 @@ export const ListGatewayProxyEndpointsResponse = Schema.Array(
       subdomain: Schema.optional(Schema.String),
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      Schema.encodeKeys({
+        kind: "kind",
+        name: "name",
+        id: "id",
+        createdAt: "created_at",
+        subdomain: "subdomain",
+        updatedAt: "updated_at",
+      }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListGatewayProxyEndpointsResponse>;
 
-export const listGatewayProxyEndpoints: (
-  input: ListGatewayProxyEndpointsRequest,
-) => Effect.Effect<
+export const listGatewayProxyEndpoints: API.OperationMethod<
+  ListGatewayProxyEndpointsRequest,
   ListGatewayProxyEndpointsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36421,7 +39578,15 @@ export const CreateGatewayProxyEndpointResponse = Schema.Union([
     subdomain: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      ips: "ips",
+      name: "name",
+      id: "id",
+      createdAt: "created_at",
+      kind: "kind",
+      subdomain: "subdomain",
+      updatedAt: "updated_at",
+    }),
   ),
   Schema.Struct({
     kind: Schema.Literal("identity"),
@@ -36431,13 +39596,19 @@ export const CreateGatewayProxyEndpointResponse = Schema.Union([
     subdomain: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      kind: "kind",
+      name: "name",
+      id: "id",
+      createdAt: "created_at",
+      subdomain: "subdomain",
+      updatedAt: "updated_at",
+    }),
   ),
 ]) as unknown as Schema.Schema<CreateGatewayProxyEndpointResponse>;
 
-export const createGatewayProxyEndpoint: (
-  input: CreateGatewayProxyEndpointRequest,
-) => Effect.Effect<
+export const createGatewayProxyEndpoint: API.OperationMethod<
+  CreateGatewayProxyEndpointRequest,
   CreateGatewayProxyEndpointResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36498,7 +39669,15 @@ export const PatchGatewayProxyEndpointResponse = Schema.Union([
     subdomain: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      ips: "ips",
+      name: "name",
+      id: "id",
+      createdAt: "created_at",
+      kind: "kind",
+      subdomain: "subdomain",
+      updatedAt: "updated_at",
+    }),
   ),
   Schema.Struct({
     kind: Schema.Literal("identity"),
@@ -36508,13 +39687,19 @@ export const PatchGatewayProxyEndpointResponse = Schema.Union([
     subdomain: Schema.optional(Schema.String),
     updatedAt: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      kind: "kind",
+      name: "name",
+      id: "id",
+      createdAt: "created_at",
+      subdomain: "subdomain",
+      updatedAt: "updated_at",
+    }),
   ),
 ]) as unknown as Schema.Schema<PatchGatewayProxyEndpointResponse>;
 
-export const patchGatewayProxyEndpoint: (
-  input: PatchGatewayProxyEndpointRequest,
-) => Effect.Effect<
+export const patchGatewayProxyEndpoint: API.OperationMethod<
+  PatchGatewayProxyEndpointRequest,
   PatchGatewayProxyEndpointResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36544,9 +39729,8 @@ export type DeleteGatewayProxyEndpointResponse = unknown;
 export const DeleteGatewayProxyEndpointResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteGatewayProxyEndpointResponse>;
 
-export const deleteGatewayProxyEndpoint: (
-  input: DeleteGatewayProxyEndpointRequest,
-) => Effect.Effect<
+export const deleteGatewayProxyEndpoint: API.OperationMethod<
+  DeleteGatewayProxyEndpointRequest,
   DeleteGatewayProxyEndpointResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -36752,7 +39936,13 @@ export const GetGatewayRuleResponse = Schema.Struct({
         expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          expiresAt: "expires_at",
+          duration: "duration",
+          expired: "expired",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -36839,7 +40029,13 @@ export const GetGatewayRuleResponse = Schema.Struct({
             ipv4: Schema.optional(Schema.String),
             ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+          }).pipe(
+            Schema.encodeKeys({
+              ipv4: "ipv4",
+              ipv4Fallback: "ipv4_fallback",
+              ipv6: "ipv6",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -36873,7 +40069,9 @@ export const GetGatewayRuleResponse = Schema.Struct({
             supportUrl: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               includeContext: "include_context",
+              msg: "msg",
               supportUrl: "support_url",
             }),
           ),
@@ -36939,7 +40137,9 @@ export const GetGatewayRuleResponse = Schema.Struct({
           Schema.Struct({
             fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
             viewId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+          }).pipe(
+            Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -36968,15 +40168,19 @@ export const GetGatewayRuleResponse = Schema.Struct({
         bypassParentRule: "bypass_parent_rule",
         checkSession: "check_session",
         dnsResolvers: "dns_resolvers",
+        egress: "egress",
         forensicCopy: "forensic_copy",
         ignoreCnameCategoryMatches: "ignore_cname_category_matches",
         insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
         ipCategories: "ip_categories",
         ipIndicatorFeeds: "ip_indicator_feeds",
+        l4override: "l4override",
         notificationSettings: "notification_settings",
         overrideHost: "override_host",
         overrideIps: "override_ips",
         payloadLog: "payload_log",
+        quarantine: "quarantine",
+        redirect: "redirect",
         resolveDnsInternally: "resolve_dns_internally",
         resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
         untrustedCert: "untrusted_cert",
@@ -36994,7 +40198,18 @@ export const GetGatewayRuleResponse = Schema.Struct({
         timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+      }).pipe(
+        Schema.encodeKeys({
+          fri: "fri",
+          mon: "mon",
+          sat: "sat",
+          sun: "sun",
+          thu: "thu",
+          timeZone: "time_zone",
+          tue: "tue",
+          wed: "wed",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -37005,20 +40220,32 @@ export const GetGatewayRuleResponse = Schema.Struct({
   warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    enabled: "enabled",
+    filters: "filters",
+    name: "name",
+    precedence: "precedence",
+    traffic: "traffic",
+    id: "id",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    description: "description",
     devicePosture: "device_posture",
+    expiration: "expiration",
+    identity: "identity",
     readOnly: "read_only",
     ruleSettings: "rule_settings",
+    schedule: "schedule",
+    sharable: "sharable",
     sourceAccount: "source_account",
     updatedAt: "updated_at",
+    version: "version",
     warningStatus: "warning_status",
   }),
 ) as unknown as Schema.Schema<GetGatewayRuleResponse>;
 
-export const getGatewayRule: (
-  input: GetGatewayRuleRequest,
-) => Effect.Effect<
+export const getGatewayRule: API.OperationMethod<
+  GetGatewayRuleRequest,
   GetGatewayRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37197,7 +40424,13 @@ export const ListGatewayRulesResponse = Schema.Array(
           expiresAt: Schema.String,
           duration: Schema.optional(Schema.Number),
           expired: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            expiresAt: "expires_at",
+            duration: "duration",
+            expired: "expired",
+          }),
+        ),
         Schema.Null,
       ]),
     ),
@@ -37286,7 +40519,13 @@ export const ListGatewayRulesResponse = Schema.Array(
               ipv4: Schema.optional(Schema.String),
               ipv4Fallback: Schema.optional(Schema.String),
               ipv6: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4: "ipv4",
+                ipv4Fallback: "ipv4_fallback",
+                ipv6: "ipv6",
+              }),
+            ),
             Schema.Null,
           ]),
         ),
@@ -37320,7 +40559,9 @@ export const ListGatewayRulesResponse = Schema.Array(
               supportUrl: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                enabled: "enabled",
                 includeContext: "include_context",
+                msg: "msg",
                 supportUrl: "support_url",
               }),
             ),
@@ -37388,7 +40629,9 @@ export const ListGatewayRulesResponse = Schema.Array(
                 Schema.Literals(["none", "public_dns"]),
               ),
               viewId: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+            }).pipe(
+              Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+            ),
             Schema.Null,
           ]),
         ),
@@ -37417,15 +40660,19 @@ export const ListGatewayRulesResponse = Schema.Array(
           bypassParentRule: "bypass_parent_rule",
           checkSession: "check_session",
           dnsResolvers: "dns_resolvers",
+          egress: "egress",
           forensicCopy: "forensic_copy",
           ignoreCnameCategoryMatches: "ignore_cname_category_matches",
           insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
           ipCategories: "ip_categories",
           ipIndicatorFeeds: "ip_indicator_feeds",
+          l4override: "l4override",
           notificationSettings: "notification_settings",
           overrideHost: "override_host",
           overrideIps: "override_ips",
           payloadLog: "payload_log",
+          quarantine: "quarantine",
+          redirect: "redirect",
           resolveDnsInternally: "resolve_dns_internally",
           resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
           untrustedCert: "untrusted_cert",
@@ -37443,7 +40690,18 @@ export const ListGatewayRulesResponse = Schema.Array(
           timeZone: Schema.optional(Schema.String),
           tue: Schema.optional(Schema.String),
           wed: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+        }).pipe(
+          Schema.encodeKeys({
+            fri: "fri",
+            mon: "mon",
+            sat: "sat",
+            sun: "sun",
+            thu: "thu",
+            timeZone: "time_zone",
+            tue: "tue",
+            wed: "wed",
+          }),
+        ),
         Schema.Null,
       ]),
     ),
@@ -37454,21 +40712,33 @@ export const ListGatewayRulesResponse = Schema.Array(
     warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      action: "action",
+      enabled: "enabled",
+      filters: "filters",
+      name: "name",
+      precedence: "precedence",
+      traffic: "traffic",
+      id: "id",
       createdAt: "created_at",
       deletedAt: "deleted_at",
+      description: "description",
       devicePosture: "device_posture",
+      expiration: "expiration",
+      identity: "identity",
       readOnly: "read_only",
       ruleSettings: "rule_settings",
+      schedule: "schedule",
+      sharable: "sharable",
       sourceAccount: "source_account",
       updatedAt: "updated_at",
+      version: "version",
       warningStatus: "warning_status",
     }),
   ),
 ) as unknown as Schema.Schema<ListGatewayRulesResponse>;
 
-export const listGatewayRules: (
-  input: ListGatewayRulesRequest,
-) => Effect.Effect<
+export const listGatewayRules: API.OperationMethod<
+  ListGatewayRulesRequest,
   ListGatewayRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -37629,7 +40899,9 @@ export const CreateGatewayRuleRequest = Schema.Struct({
       Schema.Struct({
         expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
-      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+      }).pipe(
+        Schema.encodeKeys({ expiresAt: "expires_at", duration: "duration" }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -37721,7 +40993,13 @@ export const CreateGatewayRuleRequest = Schema.Struct({
             ipv4: Schema.optional(Schema.String),
             ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+          }).pipe(
+            Schema.encodeKeys({
+              ipv4: "ipv4",
+              ipv4Fallback: "ipv4_fallback",
+              ipv6: "ipv6",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -37755,7 +41033,9 @@ export const CreateGatewayRuleRequest = Schema.Struct({
             supportUrl: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               includeContext: "include_context",
+              msg: "msg",
               supportUrl: "support_url",
             }),
           ),
@@ -37821,7 +41101,9 @@ export const CreateGatewayRuleRequest = Schema.Struct({
           Schema.Struct({
             fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
             viewId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+          }).pipe(
+            Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -37850,15 +41132,19 @@ export const CreateGatewayRuleRequest = Schema.Struct({
         bypassParentRule: "bypass_parent_rule",
         checkSession: "check_session",
         dnsResolvers: "dns_resolvers",
+        egress: "egress",
         forensicCopy: "forensic_copy",
         ignoreCnameCategoryMatches: "ignore_cname_category_matches",
         insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
         ipCategories: "ip_categories",
         ipIndicatorFeeds: "ip_indicator_feeds",
+        l4override: "l4override",
         notificationSettings: "notification_settings",
         overrideHost: "override_host",
         overrideIps: "override_ips",
         payloadLog: "payload_log",
+        quarantine: "quarantine",
+        redirect: "redirect",
         resolveDnsInternally: "resolve_dns_internally",
         resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
         untrustedCert: "untrusted_cert",
@@ -37876,15 +41162,36 @@ export const CreateGatewayRuleRequest = Schema.Struct({
         timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+      }).pipe(
+        Schema.encodeKeys({
+          fri: "fri",
+          mon: "mon",
+          sat: "sat",
+          sun: "sun",
+          thu: "thu",
+          timeZone: "time_zone",
+          tue: "tue",
+          wed: "wed",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
   traffic: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    name: "name",
+    description: "description",
     devicePosture: "device_posture",
+    enabled: "enabled",
+    expiration: "expiration",
+    filters: "filters",
+    identity: "identity",
+    precedence: "precedence",
     ruleSettings: "rule_settings",
+    schedule: "schedule",
+    traffic: "traffic",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/gateway/rules" }),
 ) as unknown as Schema.Schema<CreateGatewayRuleRequest>;
@@ -38066,7 +41373,13 @@ export const CreateGatewayRuleResponse = Schema.Struct({
         expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          expiresAt: "expires_at",
+          duration: "duration",
+          expired: "expired",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -38153,7 +41466,13 @@ export const CreateGatewayRuleResponse = Schema.Struct({
             ipv4: Schema.optional(Schema.String),
             ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+          }).pipe(
+            Schema.encodeKeys({
+              ipv4: "ipv4",
+              ipv4Fallback: "ipv4_fallback",
+              ipv6: "ipv6",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -38187,7 +41506,9 @@ export const CreateGatewayRuleResponse = Schema.Struct({
             supportUrl: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               includeContext: "include_context",
+              msg: "msg",
               supportUrl: "support_url",
             }),
           ),
@@ -38253,7 +41574,9 @@ export const CreateGatewayRuleResponse = Schema.Struct({
           Schema.Struct({
             fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
             viewId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+          }).pipe(
+            Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -38282,15 +41605,19 @@ export const CreateGatewayRuleResponse = Schema.Struct({
         bypassParentRule: "bypass_parent_rule",
         checkSession: "check_session",
         dnsResolvers: "dns_resolvers",
+        egress: "egress",
         forensicCopy: "forensic_copy",
         ignoreCnameCategoryMatches: "ignore_cname_category_matches",
         insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
         ipCategories: "ip_categories",
         ipIndicatorFeeds: "ip_indicator_feeds",
+        l4override: "l4override",
         notificationSettings: "notification_settings",
         overrideHost: "override_host",
         overrideIps: "override_ips",
         payloadLog: "payload_log",
+        quarantine: "quarantine",
+        redirect: "redirect",
         resolveDnsInternally: "resolve_dns_internally",
         resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
         untrustedCert: "untrusted_cert",
@@ -38308,7 +41635,18 @@ export const CreateGatewayRuleResponse = Schema.Struct({
         timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+      }).pipe(
+        Schema.encodeKeys({
+          fri: "fri",
+          mon: "mon",
+          sat: "sat",
+          sun: "sun",
+          thu: "thu",
+          timeZone: "time_zone",
+          tue: "tue",
+          wed: "wed",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -38319,20 +41657,32 @@ export const CreateGatewayRuleResponse = Schema.Struct({
   warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    enabled: "enabled",
+    filters: "filters",
+    name: "name",
+    precedence: "precedence",
+    traffic: "traffic",
+    id: "id",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    description: "description",
     devicePosture: "device_posture",
+    expiration: "expiration",
+    identity: "identity",
     readOnly: "read_only",
     ruleSettings: "rule_settings",
+    schedule: "schedule",
+    sharable: "sharable",
     sourceAccount: "source_account",
     updatedAt: "updated_at",
+    version: "version",
     warningStatus: "warning_status",
   }),
 ) as unknown as Schema.Schema<CreateGatewayRuleResponse>;
 
-export const createGatewayRule: (
-  input: CreateGatewayRuleRequest,
-) => Effect.Effect<
+export const createGatewayRule: API.OperationMethod<
+  CreateGatewayRuleRequest,
   CreateGatewayRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -38495,7 +41845,9 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
       Schema.Struct({
         expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
-      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+      }).pipe(
+        Schema.encodeKeys({ expiresAt: "expires_at", duration: "duration" }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -38587,7 +41939,13 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
             ipv4: Schema.optional(Schema.String),
             ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+          }).pipe(
+            Schema.encodeKeys({
+              ipv4: "ipv4",
+              ipv4Fallback: "ipv4_fallback",
+              ipv6: "ipv6",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -38621,7 +41979,9 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
             supportUrl: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               includeContext: "include_context",
+              msg: "msg",
               supportUrl: "support_url",
             }),
           ),
@@ -38687,7 +42047,9 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
           Schema.Struct({
             fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
             viewId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+          }).pipe(
+            Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -38716,15 +42078,19 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
         bypassParentRule: "bypass_parent_rule",
         checkSession: "check_session",
         dnsResolvers: "dns_resolvers",
+        egress: "egress",
         forensicCopy: "forensic_copy",
         ignoreCnameCategoryMatches: "ignore_cname_category_matches",
         insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
         ipCategories: "ip_categories",
         ipIndicatorFeeds: "ip_indicator_feeds",
+        l4override: "l4override",
         notificationSettings: "notification_settings",
         overrideHost: "override_host",
         overrideIps: "override_ips",
         payloadLog: "payload_log",
+        quarantine: "quarantine",
+        redirect: "redirect",
         resolveDnsInternally: "resolve_dns_internally",
         resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
         untrustedCert: "untrusted_cert",
@@ -38742,15 +42108,36 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
         timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+      }).pipe(
+        Schema.encodeKeys({
+          fri: "fri",
+          mon: "mon",
+          sat: "sat",
+          sun: "sun",
+          thu: "thu",
+          timeZone: "time_zone",
+          tue: "tue",
+          wed: "wed",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
   traffic: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    name: "name",
+    description: "description",
     devicePosture: "device_posture",
+    enabled: "enabled",
+    expiration: "expiration",
+    filters: "filters",
+    identity: "identity",
+    precedence: "precedence",
     ruleSettings: "rule_settings",
+    schedule: "schedule",
+    traffic: "traffic",
   }),
   T.Http({
     method: "PUT",
@@ -38935,7 +42322,13 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
         expiresAt: Schema.String,
         duration: Schema.optional(Schema.Number),
         expired: Schema.optional(Schema.Boolean),
-      }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+      }).pipe(
+        Schema.encodeKeys({
+          expiresAt: "expires_at",
+          duration: "duration",
+          expired: "expired",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -39022,7 +42415,13 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
             ipv4: Schema.optional(Schema.String),
             ipv4Fallback: Schema.optional(Schema.String),
             ipv6: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+          }).pipe(
+            Schema.encodeKeys({
+              ipv4: "ipv4",
+              ipv4Fallback: "ipv4_fallback",
+              ipv6: "ipv6",
+            }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -39056,7 +42455,9 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
             supportUrl: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              enabled: "enabled",
               includeContext: "include_context",
+              msg: "msg",
               supportUrl: "support_url",
             }),
           ),
@@ -39122,7 +42523,9 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
           Schema.Struct({
             fallback: Schema.optional(Schema.Literals(["none", "public_dns"])),
             viewId: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+          }).pipe(
+            Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+          ),
           Schema.Null,
         ]),
       ),
@@ -39151,15 +42554,19 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
         bypassParentRule: "bypass_parent_rule",
         checkSession: "check_session",
         dnsResolvers: "dns_resolvers",
+        egress: "egress",
         forensicCopy: "forensic_copy",
         ignoreCnameCategoryMatches: "ignore_cname_category_matches",
         insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
         ipCategories: "ip_categories",
         ipIndicatorFeeds: "ip_indicator_feeds",
+        l4override: "l4override",
         notificationSettings: "notification_settings",
         overrideHost: "override_host",
         overrideIps: "override_ips",
         payloadLog: "payload_log",
+        quarantine: "quarantine",
+        redirect: "redirect",
         resolveDnsInternally: "resolve_dns_internally",
         resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
         untrustedCert: "untrusted_cert",
@@ -39177,7 +42584,18 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
         timeZone: Schema.optional(Schema.String),
         tue: Schema.optional(Schema.String),
         wed: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+      }).pipe(
+        Schema.encodeKeys({
+          fri: "fri",
+          mon: "mon",
+          sat: "sat",
+          sun: "sun",
+          thu: "thu",
+          timeZone: "time_zone",
+          tue: "tue",
+          wed: "wed",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -39188,20 +42606,32 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
   warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    action: "action",
+    enabled: "enabled",
+    filters: "filters",
+    name: "name",
+    precedence: "precedence",
+    traffic: "traffic",
+    id: "id",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    description: "description",
     devicePosture: "device_posture",
+    expiration: "expiration",
+    identity: "identity",
     readOnly: "read_only",
     ruleSettings: "rule_settings",
+    schedule: "schedule",
+    sharable: "sharable",
     sourceAccount: "source_account",
     updatedAt: "updated_at",
+    version: "version",
     warningStatus: "warning_status",
   }),
 ) as unknown as Schema.Schema<UpdateGatewayRuleResponse>;
 
-export const updateGatewayRule: (
-  input: UpdateGatewayRuleRequest,
-) => Effect.Effect<
+export const updateGatewayRule: API.OperationMethod<
+  UpdateGatewayRuleRequest,
   UpdateGatewayRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39231,9 +42661,8 @@ export type DeleteGatewayRuleResponse = unknown;
 export const DeleteGatewayRuleResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteGatewayRuleResponse>;
 
-export const deleteGatewayRule: (
-  input: DeleteGatewayRuleRequest,
-) => Effect.Effect<
+export const deleteGatewayRule: API.OperationMethod<
+  DeleteGatewayRuleRequest,
   DeleteGatewayRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -39557,11 +42986,13 @@ export const GetIdentityProviderResponse = Schema.Union([
       supportGroups: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         conditionalAccessEnabled: "conditional_access_enabled",
         directoryId: "directory_id",
         emailClaimName: "email_claim_name",
+        prompt: "prompt",
         supportGroups: "support_groups",
       }),
     ),
@@ -39594,6 +43025,7 @@ export const GetIdentityProviderResponse = Schema.Union([
         userDeprovision: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          enabled: "enabled",
           identityUpdateBehavior: "identity_update_behavior",
           seatDeprovision: "seat_deprovision",
           userDeprovision: "user_deprovision",
@@ -39602,6 +43034,9 @@ export const GetIdentityProviderResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
       accountId: "account_id",
       zoneId: "zone_id",
       scimConfig: "scim_config",
@@ -39619,6 +43054,7 @@ export const GetIdentityProviderResponse = Schema.Union([
       Schema.encodeKeys({
         centrifyAccount: "centrify_account",
         centrifyAppId: "centrify_app_id",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -39643,7 +43079,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Unknown,
     name: Schema.String,
@@ -39665,7 +43109,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -39674,6 +43126,7 @@ export const GetIdentityProviderResponse = Schema.Union([
       emailClaimName: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -39698,7 +43151,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       appsDomain: Schema.optional(Schema.String),
@@ -39709,6 +43170,7 @@ export const GetIdentityProviderResponse = Schema.Union([
     }).pipe(
       Schema.encodeKeys({
         appsDomain: "apps_domain",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -39733,7 +43195,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       authUrl: Schema.optional(Schema.String),
@@ -39749,10 +43219,12 @@ export const GetIdentityProviderResponse = Schema.Union([
       Schema.encodeKeys({
         authUrl: "auth_url",
         certsUrl: "certs_url",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
         pkceEnabled: "pkce_enabled",
+        scopes: "scopes",
         tokenUrl: "token_url",
       }),
     ),
@@ -39775,7 +43247,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       authorizationServerId: Schema.optional(Schema.String),
@@ -39787,6 +43267,7 @@ export const GetIdentityProviderResponse = Schema.Union([
     }).pipe(
       Schema.encodeKeys({
         authorizationServerId: "authorization_server_id",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -39812,7 +43293,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -39822,6 +43311,7 @@ export const GetIdentityProviderResponse = Schema.Union([
       oneloginAccount: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -39847,7 +43337,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -39857,6 +43355,7 @@ export const GetIdentityProviderResponse = Schema.Union([
       pingEnvId: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -39882,7 +43381,15 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       attributes: Schema.optional(Schema.Array(Schema.String)),
@@ -39906,6 +43413,7 @@ export const GetIdentityProviderResponse = Schema.Union([
       ssoTargetUrl: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        attributes: "attributes",
         emailAttributeName: "email_attribute_name",
         headerAttributes: "header_attributes",
         idpPublicCerts: "idp_public_certs",
@@ -39933,12 +43441,19 @@ export const GetIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
 ]) as unknown as Schema.Schema<GetIdentityProviderResponse>;
 
-export const getIdentityProvider: (
-  input: GetIdentityProviderRequest,
-) => Effect.Effect<
+export const getIdentityProvider: API.OperationMethod<
+  GetIdentityProviderRequest,
   GetIdentityProviderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40256,11 +43771,13 @@ export const ListIdentityProvidersResponse = Schema.Array(
         supportGroups: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           conditionalAccessEnabled: "conditional_access_enabled",
           directoryId: "directory_id",
           emailClaimName: "email_claim_name",
+          prompt: "prompt",
           supportGroups: "support_groups",
         }),
       ),
@@ -40293,6 +43810,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
           userDeprovision: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            enabled: "enabled",
             identityUpdateBehavior: "identity_update_behavior",
             seatDeprovision: "seat_deprovision",
             userDeprovision: "user_deprovision",
@@ -40301,6 +43819,9 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
         accountId: "account_id",
         zoneId: "zone_id",
         scimConfig: "scim_config",
@@ -40318,6 +43839,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
         Schema.encodeKeys({
           centrifyAccount: "centrify_account",
           centrifyAppId: "centrify_app_id",
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
@@ -40342,7 +43864,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Unknown,
       name: Schema.String,
@@ -40364,7 +43894,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         claims: Schema.optional(Schema.Array(Schema.String)),
@@ -40373,6 +43911,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
         emailClaimName: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
@@ -40397,7 +43936,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         appsDomain: Schema.optional(Schema.String),
@@ -40408,6 +43955,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           appsDomain: "apps_domain",
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
@@ -40432,7 +43980,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         authUrl: Schema.optional(Schema.String),
@@ -40448,10 +44004,12 @@ export const ListIdentityProvidersResponse = Schema.Array(
         Schema.encodeKeys({
           authUrl: "auth_url",
           certsUrl: "certs_url",
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
           pkceEnabled: "pkce_enabled",
+          scopes: "scopes",
           tokenUrl: "token_url",
         }),
       ),
@@ -40474,7 +44032,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         authorizationServerId: Schema.optional(Schema.String),
@@ -40486,6 +44052,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           authorizationServerId: "authorization_server_id",
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
@@ -40511,7 +44078,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         claims: Schema.optional(Schema.Array(Schema.String)),
@@ -40521,6 +44096,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
         oneloginAccount: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
@@ -40546,7 +44122,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         claims: Schema.optional(Schema.Array(Schema.String)),
@@ -40556,6 +44140,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
         pingEnvId: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          claims: "claims",
           clientId: "client_id",
           clientSecret: "client_secret",
           emailClaimName: "email_claim_name",
@@ -40581,7 +44166,15 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
     Schema.Struct({
       config: Schema.Struct({
         attributes: Schema.optional(Schema.Array(Schema.String)),
@@ -40605,6 +44198,7 @@ export const ListIdentityProvidersResponse = Schema.Array(
         ssoTargetUrl: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          attributes: "attributes",
           emailAttributeName: "email_attribute_name",
           headerAttributes: "header_attributes",
           idpPublicCerts: "idp_public_certs",
@@ -40632,13 +44226,20 @@ export const ListIdentityProvidersResponse = Schema.Array(
       ]),
       id: Schema.optional(Schema.String),
       scimConfig: Schema.optional(Schema.Unknown),
-    }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        name: "name",
+        type: "type",
+        id: "id",
+        scimConfig: "scim_config",
+      }),
+    ),
   ]),
 ) as unknown as Schema.Schema<ListIdentityProvidersResponse>;
 
-export const listIdentityProviders: (
-  input: ListIdentityProvidersRequest,
-) => Effect.Effect<
+export const listIdentityProviders: API.OperationMethod<
+  ListIdentityProvidersRequest,
   ListIdentityProvidersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -40707,11 +44308,13 @@ export const CreateIdentityProviderRequest = Schema.Struct({
     supportGroups: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      claims: "claims",
       clientId: "client_id",
       clientSecret: "client_secret",
       conditionalAccessEnabled: "conditional_access_enabled",
       directoryId: "directory_id",
       emailClaimName: "email_claim_name",
+      prompt: "prompt",
       supportGroups: "support_groups",
     }),
   ),
@@ -40742,6 +44345,7 @@ export const CreateIdentityProviderRequest = Schema.Struct({
       userDeprovision: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         identityUpdateBehavior: "identity_update_behavior",
         seatDeprovision: "seat_deprovision",
         userDeprovision: "user_deprovision",
@@ -40749,7 +44353,12 @@ export const CreateIdentityProviderRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ scimConfig: "scim_config" }),
+  Schema.encodeKeys({
+    config: "config",
+    name: "name",
+    type: "type",
+    scimConfig: "scim_config",
+  }),
   T.Http({
     method: "POST",
     path: "/{accountOrZone}/{accountOrZoneId}/access/identity_providers",
@@ -41053,11 +44662,13 @@ export const CreateIdentityProviderResponse = Schema.Union([
       supportGroups: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         conditionalAccessEnabled: "conditional_access_enabled",
         directoryId: "directory_id",
         emailClaimName: "email_claim_name",
+        prompt: "prompt",
         supportGroups: "support_groups",
       }),
     ),
@@ -41090,6 +44701,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
         userDeprovision: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          enabled: "enabled",
           identityUpdateBehavior: "identity_update_behavior",
           seatDeprovision: "seat_deprovision",
           userDeprovision: "user_deprovision",
@@ -41098,6 +44710,9 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
       accountId: "account_id",
       zoneId: "zone_id",
       scimConfig: "scim_config",
@@ -41115,6 +44730,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
       Schema.encodeKeys({
         centrifyAccount: "centrify_account",
         centrifyAppId: "centrify_app_id",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41139,7 +44755,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Unknown,
     name: Schema.String,
@@ -41161,7 +44785,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -41170,6 +44802,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
       emailClaimName: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41194,7 +44827,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       appsDomain: Schema.optional(Schema.String),
@@ -41205,6 +44846,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
     }).pipe(
       Schema.encodeKeys({
         appsDomain: "apps_domain",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41229,7 +44871,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       authUrl: Schema.optional(Schema.String),
@@ -41245,10 +44895,12 @@ export const CreateIdentityProviderResponse = Schema.Union([
       Schema.encodeKeys({
         authUrl: "auth_url",
         certsUrl: "certs_url",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
         pkceEnabled: "pkce_enabled",
+        scopes: "scopes",
         tokenUrl: "token_url",
       }),
     ),
@@ -41271,7 +44923,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       authorizationServerId: Schema.optional(Schema.String),
@@ -41283,6 +44943,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
     }).pipe(
       Schema.encodeKeys({
         authorizationServerId: "authorization_server_id",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41308,7 +44969,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -41318,6 +44987,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
       oneloginAccount: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41343,7 +45013,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -41353,6 +45031,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
       pingEnvId: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41378,7 +45057,15 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       attributes: Schema.optional(Schema.Array(Schema.String)),
@@ -41402,6 +45089,7 @@ export const CreateIdentityProviderResponse = Schema.Union([
       ssoTargetUrl: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        attributes: "attributes",
         emailAttributeName: "email_attribute_name",
         headerAttributes: "header_attributes",
         idpPublicCerts: "idp_public_certs",
@@ -41429,12 +45117,19 @@ export const CreateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
 ]) as unknown as Schema.Schema<CreateIdentityProviderResponse>;
 
-export const createIdentityProvider: (
-  input: CreateIdentityProviderRequest,
-) => Effect.Effect<
+export const createIdentityProvider: API.OperationMethod<
+  CreateIdentityProviderRequest,
   CreateIdentityProviderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -41505,11 +45200,13 @@ export const UpdateIdentityProviderRequest = Schema.Struct({
     supportGroups: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      claims: "claims",
       clientId: "client_id",
       clientSecret: "client_secret",
       conditionalAccessEnabled: "conditional_access_enabled",
       directoryId: "directory_id",
       emailClaimName: "email_claim_name",
+      prompt: "prompt",
       supportGroups: "support_groups",
     }),
   ),
@@ -41540,6 +45237,7 @@ export const UpdateIdentityProviderRequest = Schema.Struct({
       userDeprovision: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        enabled: "enabled",
         identityUpdateBehavior: "identity_update_behavior",
         seatDeprovision: "seat_deprovision",
         userDeprovision: "user_deprovision",
@@ -41547,7 +45245,12 @@ export const UpdateIdentityProviderRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  Schema.encodeKeys({ scimConfig: "scim_config" }),
+  Schema.encodeKeys({
+    config: "config",
+    name: "name",
+    type: "type",
+    scimConfig: "scim_config",
+  }),
   T.Http({
     method: "PUT",
     path: "/{accountOrZone}/{accountOrZoneId}/access/identity_providers/{identityProviderId}",
@@ -41851,11 +45554,13 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       supportGroups: Schema.optional(Schema.Boolean),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         conditionalAccessEnabled: "conditional_access_enabled",
         directoryId: "directory_id",
         emailClaimName: "email_claim_name",
+        prompt: "prompt",
         supportGroups: "support_groups",
       }),
     ),
@@ -41888,6 +45593,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
         userDeprovision: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          enabled: "enabled",
           identityUpdateBehavior: "identity_update_behavior",
           seatDeprovision: "seat_deprovision",
           userDeprovision: "user_deprovision",
@@ -41896,6 +45602,9 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ),
   }).pipe(
     Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
       accountId: "account_id",
       zoneId: "zone_id",
       scimConfig: "scim_config",
@@ -41913,6 +45622,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       Schema.encodeKeys({
         centrifyAccount: "centrify_account",
         centrifyAppId: "centrify_app_id",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41937,7 +45647,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Unknown,
     name: Schema.String,
@@ -41959,7 +45677,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -41968,6 +45694,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       emailClaimName: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -41992,7 +45719,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       appsDomain: Schema.optional(Schema.String),
@@ -42003,6 +45738,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     }).pipe(
       Schema.encodeKeys({
         appsDomain: "apps_domain",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -42027,7 +45763,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       authUrl: Schema.optional(Schema.String),
@@ -42043,10 +45787,12 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       Schema.encodeKeys({
         authUrl: "auth_url",
         certsUrl: "certs_url",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
         pkceEnabled: "pkce_enabled",
+        scopes: "scopes",
         tokenUrl: "token_url",
       }),
     ),
@@ -42069,7 +45815,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       authorizationServerId: Schema.optional(Schema.String),
@@ -42081,6 +45835,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     }).pipe(
       Schema.encodeKeys({
         authorizationServerId: "authorization_server_id",
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -42106,7 +45861,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -42116,6 +45879,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       oneloginAccount: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -42141,7 +45905,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
@@ -42151,6 +45923,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       pingEnvId: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        claims: "claims",
         clientId: "client_id",
         clientSecret: "client_secret",
         emailClaimName: "email_claim_name",
@@ -42176,7 +45949,15 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
   Schema.Struct({
     config: Schema.Struct({
       attributes: Schema.optional(Schema.Array(Schema.String)),
@@ -42200,6 +45981,7 @@ export const UpdateIdentityProviderResponse = Schema.Union([
       ssoTargetUrl: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        attributes: "attributes",
         emailAttributeName: "email_attribute_name",
         headerAttributes: "header_attributes",
         idpPublicCerts: "idp_public_certs",
@@ -42227,12 +46009,19 @@ export const UpdateIdentityProviderResponse = Schema.Union([
     ]),
     id: Schema.optional(Schema.String),
     scimConfig: Schema.optional(Schema.Unknown),
-  }).pipe(Schema.encodeKeys({ scimConfig: "scim_config" })),
+  }).pipe(
+    Schema.encodeKeys({
+      config: "config",
+      name: "name",
+      type: "type",
+      id: "id",
+      scimConfig: "scim_config",
+    }),
+  ),
 ]) as unknown as Schema.Schema<UpdateIdentityProviderResponse>;
 
-export const updateIdentityProvider: (
-  input: UpdateIdentityProviderRequest,
-) => Effect.Effect<
+export const updateIdentityProvider: API.OperationMethod<
+  UpdateIdentityProviderRequest,
   UpdateIdentityProviderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42264,9 +46053,8 @@ export const DeleteIdentityProviderResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteIdentityProviderResponse>;
 
-export const deleteIdentityProvider: (
-  input: DeleteIdentityProviderRequest,
-) => Effect.Effect<
+export const deleteIdentityProvider: API.OperationMethod<
+  DeleteIdentityProviderRequest,
   DeleteIdentityProviderResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42314,9 +46102,8 @@ export type ListIdentityProviderScimGroupsResponse = unknown;
 export const ListIdentityProviderScimGroupsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListIdentityProviderScimGroupsResponse>;
 
-export const listIdentityProviderScimGroups: (
-  input: ListIdentityProviderScimGroupsRequest,
-) => Effect.Effect<
+export const listIdentityProviderScimGroups: API.OperationMethod<
+  ListIdentityProviderScimGroupsRequest,
   ListIdentityProviderScimGroupsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42370,9 +46157,8 @@ export type ListIdentityProviderScimUsersResponse = unknown;
 export const ListIdentityProviderScimUsersResponse =
   Schema.Unknown as unknown as Schema.Schema<ListIdentityProviderScimUsersResponse>;
 
-export const listIdentityProviderScimUsers: (
-  input: ListIdentityProviderScimUsersRequest,
-) => Effect.Effect<
+export const listIdentityProviderScimUsers: API.OperationMethod<
+  ListIdentityProviderScimUsersRequest,
   ListIdentityProviderScimUsersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42429,16 +46215,18 @@ export const GetNetworkHostnameRouteResponse = Schema.Struct({
   tunnelName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    hostname: "hostname",
     tunnelId: "tunnel_id",
     tunnelName: "tunnel_name",
   }),
 ) as unknown as Schema.Schema<GetNetworkHostnameRouteResponse>;
 
-export const getNetworkHostnameRoute: (
-  input: GetNetworkHostnameRouteRequest,
-) => Effect.Effect<
+export const getNetworkHostnameRoute: API.OperationMethod<
+  GetNetworkHostnameRouteRequest,
   GetNetworkHostnameRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42501,17 +46289,19 @@ export const ListNetworkHostnameRoutesResponse = Schema.Array(
     tunnelName: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
       createdAt: "created_at",
       deletedAt: "deleted_at",
+      hostname: "hostname",
       tunnelId: "tunnel_id",
       tunnelName: "tunnel_name",
     }),
   ),
 ) as unknown as Schema.Schema<ListNetworkHostnameRoutesResponse>;
 
-export const listNetworkHostnameRoutes: (
-  input: ListNetworkHostnameRoutesRequest,
-) => Effect.Effect<
+export const listNetworkHostnameRoutes: API.OperationMethod<
+  ListNetworkHostnameRoutesRequest,
   ListNetworkHostnameRoutesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42538,7 +46328,11 @@ export const CreateNetworkHostnameRouteRequest = Schema.Struct({
   hostname: Schema.optional(Schema.String),
   tunnelId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ tunnelId: "tunnel_id" }),
+  Schema.encodeKeys({
+    comment: "comment",
+    hostname: "hostname",
+    tunnelId: "tunnel_id",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/zerotrust/routes/hostname",
@@ -42572,16 +46366,18 @@ export const CreateNetworkHostnameRouteResponse = Schema.Struct({
   tunnelName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    hostname: "hostname",
     tunnelId: "tunnel_id",
     tunnelName: "tunnel_name",
   }),
 ) as unknown as Schema.Schema<CreateNetworkHostnameRouteResponse>;
 
-export const createNetworkHostnameRoute: (
-  input: CreateNetworkHostnameRouteRequest,
-) => Effect.Effect<
+export const createNetworkHostnameRoute: API.OperationMethod<
+  CreateNetworkHostnameRouteRequest,
   CreateNetworkHostnameRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42610,7 +46406,11 @@ export const PatchNetworkHostnameRouteRequest = Schema.Struct({
   hostname: Schema.optional(Schema.String),
   tunnelId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ tunnelId: "tunnel_id" }),
+  Schema.encodeKeys({
+    comment: "comment",
+    hostname: "hostname",
+    tunnelId: "tunnel_id",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/zerotrust/routes/hostname/{hostnameRouteId}",
@@ -42644,16 +46444,18 @@ export const PatchNetworkHostnameRouteResponse = Schema.Struct({
   tunnelName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    hostname: "hostname",
     tunnelId: "tunnel_id",
     tunnelName: "tunnel_name",
   }),
 ) as unknown as Schema.Schema<PatchNetworkHostnameRouteResponse>;
 
-export const patchNetworkHostnameRoute: (
-  input: PatchNetworkHostnameRouteRequest,
-) => Effect.Effect<
+export const patchNetworkHostnameRoute: API.OperationMethod<
+  PatchNetworkHostnameRouteRequest,
   PatchNetworkHostnameRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42706,16 +46508,18 @@ export const DeleteNetworkHostnameRouteResponse = Schema.Struct({
   tunnelName: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    hostname: "hostname",
     tunnelId: "tunnel_id",
     tunnelName: "tunnel_name",
   }),
 ) as unknown as Schema.Schema<DeleteNetworkHostnameRouteResponse>;
 
-export const deleteNetworkHostnameRoute: (
-  input: DeleteNetworkHostnameRouteRequest,
-) => Effect.Effect<
+export const deleteNetworkHostnameRoute: API.OperationMethod<
+  DeleteNetworkHostnameRouteRequest,
   DeleteNetworkHostnameRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42772,16 +46576,18 @@ export const GetNetworkRouteResponse = Schema.Struct({
   virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    network: "network",
     tunnelId: "tunnel_id",
     virtualNetworkId: "virtual_network_id",
   }),
 ) as unknown as Schema.Schema<GetNetworkRouteResponse>;
 
-export const getNetworkRoute: (
-  input: GetNetworkRouteRequest,
-) => Effect.Effect<
+export const getNetworkRoute: API.OperationMethod<
+  GetNetworkRouteRequest,
   GetNetworkRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42899,8 +46705,11 @@ export const ListNetworkRoutesResponse = Schema.Array(
     virtualNetworkName: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
       createdAt: "created_at",
       deletedAt: "deleted_at",
+      network: "network",
       tunType: "tun_type",
       tunnelId: "tunnel_id",
       tunnelName: "tunnel_name",
@@ -42910,9 +46719,8 @@ export const ListNetworkRoutesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListNetworkRoutesResponse>;
 
-export const listNetworkRoutes: (
-  input: ListNetworkRoutesRequest,
-) => Effect.Effect<
+export const listNetworkRoutes: API.OperationMethod<
+  ListNetworkRoutesRequest,
   ListNetworkRoutesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -42943,7 +46751,9 @@ export const CreateNetworkRouteRequest = Schema.Struct({
   virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    network: "network",
     tunnelId: "tunnel_id",
+    comment: "comment",
     virtualNetworkId: "virtual_network_id",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/teamnet/routes" }),
@@ -42976,16 +46786,18 @@ export const CreateNetworkRouteResponse = Schema.Struct({
   virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    network: "network",
     tunnelId: "tunnel_id",
     virtualNetworkId: "virtual_network_id",
   }),
 ) as unknown as Schema.Schema<CreateNetworkRouteResponse>;
 
-export const createNetworkRoute: (
-  input: CreateNetworkRouteRequest,
-) => Effect.Effect<
+export const createNetworkRoute: API.OperationMethod<
+  CreateNetworkRouteRequest,
   CreateNetworkRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43018,6 +46830,8 @@ export const PatchNetworkRouteRequest = Schema.Struct({
   virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    comment: "comment",
+    network: "network",
     tunnelId: "tunnel_id",
     virtualNetworkId: "virtual_network_id",
   }),
@@ -43054,16 +46868,18 @@ export const PatchNetworkRouteResponse = Schema.Struct({
   virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    network: "network",
     tunnelId: "tunnel_id",
     virtualNetworkId: "virtual_network_id",
   }),
 ) as unknown as Schema.Schema<PatchNetworkRouteResponse>;
 
-export const patchNetworkRoute: (
-  input: PatchNetworkRouteRequest,
-) => Effect.Effect<
+export const patchNetworkRoute: API.OperationMethod<
+  PatchNetworkRouteRequest,
   PatchNetworkRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43116,16 +46932,18 @@ export const DeleteNetworkRouteResponse = Schema.Struct({
   virtualNetworkId: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    network: "network",
     tunnelId: "tunnel_id",
     virtualNetworkId: "virtual_network_id",
   }),
 ) as unknown as Schema.Schema<DeleteNetworkRouteResponse>;
 
-export const deleteNetworkRoute: (
-  input: DeleteNetworkRouteRequest,
-) => Effect.Effect<
+export const deleteNetworkRoute: API.OperationMethod<
+  DeleteNetworkRouteRequest,
   DeleteNetworkRouteResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43170,9 +46988,8 @@ export type GetNetworkRouteIpResponse = unknown;
 export const GetNetworkRouteIpResponse =
   Schema.Unknown as unknown as Schema.Schema<GetNetworkRouteIpResponse>;
 
-export const getNetworkRouteIp: (
-  input: GetNetworkRouteIpRequest,
-) => Effect.Effect<
+export const getNetworkRouteIp: API.OperationMethod<
+  GetNetworkRouteIpRequest,
   GetNetworkRouteIpResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43207,6 +47024,7 @@ export const CreateNetworkRouteNetworkRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     tunnelId: "tunnel_id",
+    comment: "comment",
     virtualNetworkId: "virtual_network_id",
   }),
   T.Http({
@@ -43220,9 +47038,8 @@ export type CreateNetworkRouteNetworkResponse = unknown;
 export const CreateNetworkRouteNetworkResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateNetworkRouteNetworkResponse>;
 
-export const createNetworkRouteNetwork: (
-  input: CreateNetworkRouteNetworkRequest,
-) => Effect.Effect<
+export const createNetworkRouteNetwork: API.OperationMethod<
+  CreateNetworkRouteNetworkRequest,
   CreateNetworkRouteNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43253,9 +47070,8 @@ export type PatchNetworkRouteNetworkResponse = unknown;
 export const PatchNetworkRouteNetworkResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchNetworkRouteNetworkResponse>;
 
-export const patchNetworkRouteNetwork: (
-  input: PatchNetworkRouteNetworkRequest,
-) => Effect.Effect<
+export const patchNetworkRouteNetwork: API.OperationMethod<
+  PatchNetworkRouteNetworkRequest,
   PatchNetworkRouteNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43314,9 +47130,8 @@ export type DeleteNetworkRouteNetworkResponse = unknown;
 export const DeleteNetworkRouteNetworkResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteNetworkRouteNetworkResponse>;
 
-export const deleteNetworkRouteNetwork: (
-  input: DeleteNetworkRouteNetworkRequest,
-) => Effect.Effect<
+export const deleteNetworkRouteNetwork: API.OperationMethod<
+  DeleteNetworkRouteNetworkRequest,
   DeleteNetworkRouteNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43399,17 +47214,20 @@ export const ListNetworkSubnetsResponse = Schema.Array(
     subnetType: Schema.optional(Schema.Literal("cloudflare_source")),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
       createdAt: "created_at",
       deletedAt: "deleted_at",
       isDefaultNetwork: "is_default_network",
+      name: "name",
+      network: "network",
       subnetType: "subnet_type",
     }),
   ),
 ) as unknown as Schema.Schema<ListNetworkSubnetsResponse>;
 
-export const listNetworkSubnets: (
-  input: ListNetworkSubnetsRequest,
-) => Effect.Effect<
+export const listNetworkSubnets: API.OperationMethod<
+  ListNetworkSubnetsRequest,
   ListNetworkSubnetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43480,16 +47298,19 @@ export const PatchNetworkSubnetCloudflareSourceResponse = Schema.Struct({
   subnetType: Schema.optional(Schema.Literal("cloudflare_source")),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     deletedAt: "deleted_at",
     isDefaultNetwork: "is_default_network",
+    name: "name",
+    network: "network",
     subnetType: "subnet_type",
   }),
 ) as unknown as Schema.Schema<PatchNetworkSubnetCloudflareSourceResponse>;
 
-export const patchNetworkSubnetCloudflareSource: (
-  input: PatchNetworkSubnetCloudflareSourceRequest,
-) => Effect.Effect<
+export const patchNetworkSubnetCloudflareSource: API.OperationMethod<
+  PatchNetworkSubnetCloudflareSourceRequest,
   PatchNetworkSubnetCloudflareSourceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43543,15 +47364,17 @@ export const GetNetworkVirtualNetworkResponse = Schema.Struct({
   deletedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     isDefaultNetwork: "is_default_network",
+    name: "name",
     deletedAt: "deleted_at",
   }),
 ) as unknown as Schema.Schema<GetNetworkVirtualNetworkResponse>;
 
-export const getNetworkVirtualNetwork: (
-  input: GetNetworkVirtualNetworkRequest,
-) => Effect.Effect<
+export const getNetworkVirtualNetwork: API.OperationMethod<
+  GetNetworkVirtualNetworkRequest,
   GetNetworkVirtualNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43611,16 +47434,18 @@ export const ListNetworkVirtualNetworksResponse = Schema.Array(
     deletedAt: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
       createdAt: "created_at",
       isDefaultNetwork: "is_default_network",
+      name: "name",
       deletedAt: "deleted_at",
     }),
   ),
 ) as unknown as Schema.Schema<ListNetworkVirtualNetworksResponse>;
 
-export const listNetworkVirtualNetworks: (
-  input: ListNetworkVirtualNetworksRequest,
-) => Effect.Effect<
+export const listNetworkVirtualNetworks: API.OperationMethod<
+  ListNetworkVirtualNetworksRequest,
   ListNetworkVirtualNetworksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43651,6 +47476,8 @@ export const CreateNetworkVirtualNetworkRequest = Schema.Struct({
   isDefaultNetwork: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
+    comment: "comment",
     isDefault: "is_default",
     isDefaultNetwork: "is_default_network",
   }),
@@ -43684,15 +47511,17 @@ export const CreateNetworkVirtualNetworkResponse = Schema.Struct({
   deletedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     isDefaultNetwork: "is_default_network",
+    name: "name",
     deletedAt: "deleted_at",
   }),
 ) as unknown as Schema.Schema<CreateNetworkVirtualNetworkResponse>;
 
-export const createNetworkVirtualNetwork: (
-  input: CreateNetworkVirtualNetworkRequest,
-) => Effect.Effect<
+export const createNetworkVirtualNetwork: API.OperationMethod<
+  CreateNetworkVirtualNetworkRequest,
   CreateNetworkVirtualNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43721,7 +47550,11 @@ export const PatchNetworkVirtualNetworkRequest = Schema.Struct({
   isDefaultNetwork: Schema.optional(Schema.Boolean),
   name: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ isDefaultNetwork: "is_default_network" }),
+  Schema.encodeKeys({
+    comment: "comment",
+    isDefaultNetwork: "is_default_network",
+    name: "name",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/teamnet/virtual_networks/{virtualNetworkId}",
@@ -43752,15 +47585,17 @@ export const PatchNetworkVirtualNetworkResponse = Schema.Struct({
   deletedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     isDefaultNetwork: "is_default_network",
+    name: "name",
     deletedAt: "deleted_at",
   }),
 ) as unknown as Schema.Schema<PatchNetworkVirtualNetworkResponse>;
 
-export const patchNetworkVirtualNetwork: (
-  input: PatchNetworkVirtualNetworkRequest,
-) => Effect.Effect<
+export const patchNetworkVirtualNetwork: API.OperationMethod<
+  PatchNetworkVirtualNetworkRequest,
   PatchNetworkVirtualNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43810,15 +47645,17 @@ export const DeleteNetworkVirtualNetworkResponse = Schema.Struct({
   deletedAt: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    comment: "comment",
     createdAt: "created_at",
     isDefaultNetwork: "is_default_network",
+    name: "name",
     deletedAt: "deleted_at",
   }),
 ) as unknown as Schema.Schema<DeleteNetworkVirtualNetworkResponse>;
 
-export const deleteNetworkVirtualNetwork: (
-  input: DeleteNetworkVirtualNetworkRequest,
-) => Effect.Effect<
+export const deleteNetworkVirtualNetwork: API.OperationMethod<
+  DeleteNetworkVirtualNetworkRequest,
   DeleteNetworkVirtualNetworkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43878,7 +47715,12 @@ export const ListOrganizationsResponse = Schema.Struct({
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
       identityDenied: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
+    }).pipe(
+      Schema.encodeKeys({
+        forbidden: "forbidden",
+        identityDenied: "identity_denied",
+      }),
+    ),
   ),
   isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
@@ -43911,6 +47753,7 @@ export const ListOrganizationsResponse = Schema.Struct({
     customPages: "custom_pages",
     isUiReadOnly: "is_ui_read_only",
     loginDesign: "login_design",
+    name: "name",
     sessionDuration: "session_duration",
     uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
     userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
@@ -43918,9 +47761,8 @@ export const ListOrganizationsResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
-export const listOrganizations: (
-  input: ListOrganizationsRequest,
-) => Effect.Effect<
+export const listOrganizations: API.OperationMethod<
+  ListOrganizationsRequest,
   ListOrganizationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -43995,6 +47837,7 @@ export const CreateOrganizationRequest = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     authDomain: "auth_domain",
+    name: "name",
     allowAuthenticateViaWarp: "allow_authenticate_via_warp",
     autoRedirectToIdentity: "auto_redirect_to_identity",
     isUiReadOnly: "is_ui_read_only",
@@ -44047,7 +47890,12 @@ export const CreateOrganizationResponse = Schema.Struct({
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
       identityDenied: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
+    }).pipe(
+      Schema.encodeKeys({
+        forbidden: "forbidden",
+        identityDenied: "identity_denied",
+      }),
+    ),
   ),
   isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
@@ -44080,6 +47928,7 @@ export const CreateOrganizationResponse = Schema.Struct({
     customPages: "custom_pages",
     isUiReadOnly: "is_ui_read_only",
     loginDesign: "login_design",
+    name: "name",
     sessionDuration: "session_duration",
     uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
     userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
@@ -44087,9 +47936,8 @@ export const CreateOrganizationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateOrganizationResponse>;
 
-export const createOrganization: (
-  input: CreateOrganizationRequest,
-) => Effect.Effect<
+export const createOrganization: API.OperationMethod<
+  CreateOrganizationRequest,
   CreateOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44144,7 +47992,12 @@ export const UpdateOrganizationRequest = Schema.Struct({
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
       identityDenied: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
+    }).pipe(
+      Schema.encodeKeys({
+        forbidden: "forbidden",
+        identityDenied: "identity_denied",
+      }),
+    ),
   ),
   isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
@@ -44177,6 +48030,7 @@ export const UpdateOrganizationRequest = Schema.Struct({
     customPages: "custom_pages",
     isUiReadOnly: "is_ui_read_only",
     loginDesign: "login_design",
+    name: "name",
     sessionDuration: "session_duration",
     uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
     userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
@@ -44225,7 +48079,12 @@ export const UpdateOrganizationResponse = Schema.Struct({
     Schema.Struct({
       forbidden: Schema.optional(Schema.String),
       identityDenied: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ identityDenied: "identity_denied" })),
+    }).pipe(
+      Schema.encodeKeys({
+        forbidden: "forbidden",
+        identityDenied: "identity_denied",
+      }),
+    ),
   ),
   isUiReadOnly: Schema.optional(Schema.Boolean),
   loginDesign: Schema.optional(
@@ -44258,6 +48117,7 @@ export const UpdateOrganizationResponse = Schema.Struct({
     customPages: "custom_pages",
     isUiReadOnly: "is_ui_read_only",
     loginDesign: "login_design",
+    name: "name",
     sessionDuration: "session_duration",
     uiReadOnlyToggleReason: "ui_read_only_toggle_reason",
     userSeatExpirationInactiveTime: "user_seat_expiration_inactive_time",
@@ -44265,9 +48125,8 @@ export const UpdateOrganizationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateOrganizationResponse>;
 
-export const updateOrganization: (
-  input: UpdateOrganizationRequest,
-) => Effect.Effect<
+export const updateOrganization: API.OperationMethod<
+  UpdateOrganizationRequest,
   UpdateOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44318,15 +48177,17 @@ export const GetOrganizationDohResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     clientId: "client_id",
     dohJwtDuration: "doh_jwt_duration",
+    duration: "duration",
     expiresAt: "expires_at",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<GetOrganizationDohResponse>;
 
-export const getOrganizationDoh: (
-  input: GetOrganizationDohRequest,
-) => Effect.Effect<
+export const getOrganizationDoh: API.OperationMethod<
+  GetOrganizationDohRequest,
   GetOrganizationDohResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44383,15 +48244,17 @@ export const PutOrganizationDohResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     clientId: "client_id",
     dohJwtDuration: "doh_jwt_duration",
+    duration: "duration",
     expiresAt: "expires_at",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<PutOrganizationDohResponse>;
 
-export const putOrganizationDoh: (
-  input: PutOrganizationDohRequest,
-) => Effect.Effect<
+export const putOrganizationDoh: API.OperationMethod<
+  PutOrganizationDohRequest,
   PutOrganizationDohResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44438,9 +48301,8 @@ export type NetworkPathDexTracerouteTestResponse = unknown;
 export const NetworkPathDexTracerouteTestResponse =
   Schema.Unknown as unknown as Schema.Schema<NetworkPathDexTracerouteTestResponse>;
 
-export const networkPathDexTracerouteTest: (
-  input: NetworkPathDexTracerouteTestRequest,
-) => Effect.Effect<
+export const networkPathDexTracerouteTest: API.OperationMethod<
+  NetworkPathDexTracerouteTestRequest,
   NetworkPathDexTracerouteTestResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44494,7 +48356,10 @@ export const GetRiskScoringResponse = Schema.Struct({
       eventDetails: Schema.optional(Schema.Unknown),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        name: "name",
         riskLevel: "risk_level",
+        timestamp: "timestamp",
         eventDetails: "event_details",
       }),
     ),
@@ -44504,14 +48369,16 @@ export const GetRiskScoringResponse = Schema.Struct({
   riskLevel: Schema.optional(Schema.Literals(["low", "medium", "high"])),
 }).pipe(
   Schema.encodeKeys({
+    email: "email",
+    events: "events",
+    name: "name",
     lastResetTime: "last_reset_time",
     riskLevel: "risk_level",
   }),
 ) as unknown as Schema.Schema<GetRiskScoringResponse>;
 
-export const getRiskScoring: (
-  input: GetRiskScoringRequest,
-) => Effect.Effect<
+export const getRiskScoring: API.OperationMethod<
+  GetRiskScoringRequest,
   GetRiskScoringResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44541,9 +48408,8 @@ export type ResetRiskScoringResponse = unknown;
 export const ResetRiskScoringResponse =
   Schema.Unknown as unknown as Schema.Schema<ResetRiskScoringResponse>;
 
-export const resetRiskScoring: (
-  input: ResetRiskScoringRequest,
-) => Effect.Effect<
+export const resetRiskScoring: API.OperationMethod<
+  ResetRiskScoringRequest,
   ResetRiskScoringResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44578,9 +48444,8 @@ export const GetRiskScoringBehaviourResponse = Schema.Struct({
   behaviors: Schema.Struct({}),
 }) as unknown as Schema.Schema<GetRiskScoringBehaviourResponse>;
 
-export const getRiskScoringBehaviour: (
-  input: GetRiskScoringBehaviourRequest,
-) => Effect.Effect<
+export const getRiskScoringBehaviour: API.OperationMethod<
+  GetRiskScoringBehaviourRequest,
   GetRiskScoringBehaviourResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44615,9 +48480,8 @@ export const PutRiskScoringBehaviourResponse = Schema.Struct({
   behaviors: Schema.Struct({}),
 }) as unknown as Schema.Schema<PutRiskScoringBehaviourResponse>;
 
-export const putRiskScoringBehaviour: (
-  input: PutRiskScoringBehaviourRequest,
-) => Effect.Effect<
+export const putRiskScoringBehaviour: API.OperationMethod<
+  PutRiskScoringBehaviourRequest,
   PutRiskScoringBehaviourResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44675,7 +48539,9 @@ export const GetRiskScoringIntegrationResponse = Schema.Struct({
   wellKnownUrl: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    active: "active",
     createdAt: "created_at",
     integrationType: "integration_type",
     referenceId: "reference_id",
@@ -44684,9 +48550,8 @@ export const GetRiskScoringIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRiskScoringIntegrationResponse>;
 
-export const getRiskScoringIntegration: (
-  input: GetRiskScoringIntegrationRequest,
-) => Effect.Effect<
+export const getRiskScoringIntegration: API.OperationMethod<
+  GetRiskScoringIntegrationRequest,
   GetRiskScoringIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44732,7 +48597,9 @@ export const ListRiskScoringIntegrationsResponse = Schema.Array(
     wellKnownUrl: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountTag: "account_tag",
+      active: "active",
       createdAt: "created_at",
       integrationType: "integration_type",
       referenceId: "reference_id",
@@ -44742,9 +48609,8 @@ export const ListRiskScoringIntegrationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListRiskScoringIntegrationsResponse>;
 
-export const listRiskScoringIntegrations: (
-  input: ListRiskScoringIntegrationsRequest,
-) => Effect.Effect<
+export const listRiskScoringIntegrations: API.OperationMethod<
+  ListRiskScoringIntegrationsRequest,
   ListRiskScoringIntegrationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44811,7 +48677,9 @@ export const CreateRiskScoringIntegrationResponse = Schema.Struct({
   wellKnownUrl: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    active: "active",
     createdAt: "created_at",
     integrationType: "integration_type",
     referenceId: "reference_id",
@@ -44820,9 +48688,8 @@ export const CreateRiskScoringIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRiskScoringIntegrationResponse>;
 
-export const createRiskScoringIntegration: (
-  input: CreateRiskScoringIntegrationRequest,
-) => Effect.Effect<
+export const createRiskScoringIntegration: API.OperationMethod<
+  CreateRiskScoringIntegrationRequest,
   CreateRiskScoringIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44851,7 +48718,11 @@ export const UpdateRiskScoringIntegrationRequest = Schema.Struct({
   tenantUrl: Schema.String,
   referenceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ tenantUrl: "tenant_url", referenceId: "reference_id" }),
+  Schema.encodeKeys({
+    active: "active",
+    tenantUrl: "tenant_url",
+    referenceId: "reference_id",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/zt_risk_scoring/integrations/{integrationId}",
@@ -44887,7 +48758,9 @@ export const UpdateRiskScoringIntegrationResponse = Schema.Struct({
   wellKnownUrl: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    active: "active",
     createdAt: "created_at",
     integrationType: "integration_type",
     referenceId: "reference_id",
@@ -44896,9 +48769,8 @@ export const UpdateRiskScoringIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRiskScoringIntegrationResponse>;
 
-export const updateRiskScoringIntegration: (
-  input: UpdateRiskScoringIntegrationRequest,
-) => Effect.Effect<
+export const updateRiskScoringIntegration: API.OperationMethod<
+  UpdateRiskScoringIntegrationRequest,
   UpdateRiskScoringIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44928,9 +48800,8 @@ export type DeleteRiskScoringIntegrationResponse = unknown;
 export const DeleteRiskScoringIntegrationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteRiskScoringIntegrationResponse>;
 
-export const deleteRiskScoringIntegration: (
-  input: DeleteRiskScoringIntegrationRequest,
-) => Effect.Effect<
+export const deleteRiskScoringIntegration: API.OperationMethod<
+  DeleteRiskScoringIntegrationRequest,
   DeleteRiskScoringIntegrationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -44988,7 +48859,9 @@ export const GetRiskScoringIntegrationReferenceResponse = Schema.Struct({
   wellKnownUrl: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    active: "active",
     createdAt: "created_at",
     integrationType: "integration_type",
     referenceId: "reference_id",
@@ -44997,9 +48870,8 @@ export const GetRiskScoringIntegrationReferenceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRiskScoringIntegrationReferenceResponse>;
 
-export const getRiskScoringIntegrationReference: (
-  input: GetRiskScoringIntegrationReferenceRequest,
-) => Effect.Effect<
+export const getRiskScoringIntegrationReference: API.OperationMethod<
+  GetRiskScoringIntegrationReferenceRequest,
   GetRiskScoringIntegrationReferenceResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45048,18 +48920,19 @@ export const GetRiskScoringSummaryResponse = Schema.Struct({
       userId: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        email: "email",
         eventCount: "event_count",
         lastEvent: "last_event",
         maxRiskLevel: "max_risk_level",
+        name: "name",
         userId: "user_id",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<GetRiskScoringSummaryResponse>;
 
-export const getRiskScoringSummary: (
-  input: GetRiskScoringSummaryRequest,
-) => Effect.Effect<
+export const getRiskScoringSummary: API.OperationMethod<
+  GetRiskScoringSummaryRequest,
   GetRiskScoringSummaryResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45125,9 +48998,8 @@ export const EditSeatResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<EditSeatResponse>;
 
-export const editSeat: (
-  input: EditSeatRequest,
-) => Effect.Effect<
+export const editSeat: API.OperationMethod<
+  EditSeatRequest,
   EditSeatResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45177,9 +49049,8 @@ export const RotateSeedGatewayAuditSshSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<RotateSeedGatewayAuditSshSettingResponse>;
 
-export const rotateSeedGatewayAuditSshSetting: (
-  input: RotateSeedGatewayAuditSshSettingRequest,
-) => Effect.Effect<
+export const rotateSeedGatewayAuditSshSetting: API.OperationMethod<
+  RotateSeedGatewayAuditSshSettingRequest,
   RotateSeedGatewayAuditSshSettingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45365,7 +49236,13 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
           expiresAt: Schema.String,
           duration: Schema.optional(Schema.Number),
           expired: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ expiresAt: "expires_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            expiresAt: "expires_at",
+            duration: "duration",
+            expired: "expired",
+          }),
+        ),
         Schema.Null,
       ]),
     ),
@@ -45454,7 +49331,13 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
               ipv4: Schema.optional(Schema.String),
               ipv4Fallback: Schema.optional(Schema.String),
               ipv6: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ ipv4Fallback: "ipv4_fallback" })),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4: "ipv4",
+                ipv4Fallback: "ipv4_fallback",
+                ipv6: "ipv6",
+              }),
+            ),
             Schema.Null,
           ]),
         ),
@@ -45488,7 +49371,9 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
               supportUrl: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                enabled: "enabled",
                 includeContext: "include_context",
+                msg: "msg",
                 supportUrl: "support_url",
               }),
             ),
@@ -45556,7 +49441,9 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
                 Schema.Literals(["none", "public_dns"]),
               ),
               viewId: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ viewId: "view_id" })),
+            }).pipe(
+              Schema.encodeKeys({ fallback: "fallback", viewId: "view_id" }),
+            ),
             Schema.Null,
           ]),
         ),
@@ -45585,15 +49472,19 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
           bypassParentRule: "bypass_parent_rule",
           checkSession: "check_session",
           dnsResolvers: "dns_resolvers",
+          egress: "egress",
           forensicCopy: "forensic_copy",
           ignoreCnameCategoryMatches: "ignore_cname_category_matches",
           insecureDisableDnssecValidation: "insecure_disable_dnssec_validation",
           ipCategories: "ip_categories",
           ipIndicatorFeeds: "ip_indicator_feeds",
+          l4override: "l4override",
           notificationSettings: "notification_settings",
           overrideHost: "override_host",
           overrideIps: "override_ips",
           payloadLog: "payload_log",
+          quarantine: "quarantine",
+          redirect: "redirect",
           resolveDnsInternally: "resolve_dns_internally",
           resolveDnsThroughCloudflare: "resolve_dns_through_cloudflare",
           untrustedCert: "untrusted_cert",
@@ -45611,7 +49502,18 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
           timeZone: Schema.optional(Schema.String),
           tue: Schema.optional(Schema.String),
           wed: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ timeZone: "time_zone" })),
+        }).pipe(
+          Schema.encodeKeys({
+            fri: "fri",
+            mon: "mon",
+            sat: "sat",
+            sun: "sun",
+            thu: "thu",
+            timeZone: "time_zone",
+            tue: "tue",
+            wed: "wed",
+          }),
+        ),
         Schema.Null,
       ]),
     ),
@@ -45622,21 +49524,33 @@ export const ListTenantGatewayRuleResponse = Schema.Array(
     warningStatus: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      action: "action",
+      enabled: "enabled",
+      filters: "filters",
+      name: "name",
+      precedence: "precedence",
+      traffic: "traffic",
+      id: "id",
       createdAt: "created_at",
       deletedAt: "deleted_at",
+      description: "description",
       devicePosture: "device_posture",
+      expiration: "expiration",
+      identity: "identity",
       readOnly: "read_only",
       ruleSettings: "rule_settings",
+      schedule: "schedule",
+      sharable: "sharable",
       sourceAccount: "source_account",
       updatedAt: "updated_at",
+      version: "version",
       warningStatus: "warning_status",
     }),
   ),
 ) as unknown as Schema.Schema<ListTenantGatewayRuleResponse>;
 
-export const listTenantGatewayRule: (
-  input: ListTenantGatewayRuleRequest,
-) => Effect.Effect<
+export const listTenantGatewayRule: API.OperationMethod<
+  ListTenantGatewayRuleRequest,
   ListTenantGatewayRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45681,9 +49595,8 @@ export type OverTimeDexFleetStatusResponse = unknown;
 export const OverTimeDexFleetStatusResponse =
   Schema.Unknown as unknown as Schema.Schema<OverTimeDexFleetStatusResponse>;
 
-export const overTimeDexFleetStatus: (
-  input: OverTimeDexFleetStatusRequest,
-) => Effect.Effect<
+export const overTimeDexFleetStatus: API.OperationMethod<
+  OverTimeDexFleetStatusRequest,
   OverTimeDexFleetStatusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45711,9 +49624,8 @@ export type RevokeTokensAccessApplicationResponse = unknown;
 export const RevokeTokensAccessApplicationResponse =
   Schema.Unknown as unknown as Schema.Schema<RevokeTokensAccessApplicationResponse>;
 
-export const revokeTokensAccessApplication: (
-  input: RevokeTokensAccessApplicationRequest,
-) => Effect.Effect<
+export const revokeTokensAccessApplication: API.OperationMethod<
+  RevokeTokensAccessApplicationRequest,
   RevokeTokensAccessApplicationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45850,12 +49762,14 @@ export const ListTunnelsResponse = Schema.Array(
             uuid: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               clientId: "client_id",
               clientVersion: "client_version",
               coloName: "colo_name",
               isPendingReconnect: "is_pending_reconnect",
               openedAt: "opened_at",
               originIp: "origin_ip",
+              uuid: "uuid",
             }),
           ),
         ),
@@ -45882,20 +49796,24 @@ export const ListTunnelsResponse = Schema.Array(
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         accountTag: "account_tag",
+        connections: "connections",
         connsActiveAt: "conns_active_at",
         connsInactiveAt: "conns_inactive_at",
         createdAt: "created_at",
         deletedAt: "deleted_at",
+        metadata: "metadata",
+        name: "name",
+        status: "status",
         tunType: "tun_type",
       }),
     ),
   ]),
 ) as unknown as Schema.Schema<ListTunnelsResponse>;
 
-export const listTunnels: (
-  input: ListTunnelsRequest,
-) => Effect.Effect<
+export const listTunnels: API.OperationMethod<
+  ListTunnelsRequest,
   ListTunnelsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45930,9 +49848,8 @@ export type GetTunnelCloudflaredResponse = unknown;
 export const GetTunnelCloudflaredResponse =
   Schema.Unknown as unknown as Schema.Schema<GetTunnelCloudflaredResponse>;
 
-export const getTunnelCloudflared: (
-  input: GetTunnelCloudflaredRequest,
-) => Effect.Effect<
+export const getTunnelCloudflared: API.OperationMethod<
+  GetTunnelCloudflaredRequest,
   GetTunnelCloudflaredResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -45995,9 +49912,8 @@ export type ListTunnelCloudflaredsResponse = unknown;
 export const ListTunnelCloudflaredsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListTunnelCloudflaredsResponse>;
 
-export const listTunnelCloudflareds: (
-  input: ListTunnelCloudflaredsRequest,
-) => Effect.Effect<
+export const listTunnelCloudflareds: API.OperationMethod<
+  ListTunnelCloudflaredsRequest,
   ListTunnelCloudflaredsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46024,7 +49940,11 @@ export const CreateTunnelCloudflaredRequest = Schema.Struct({
   configSrc: Schema.optional(Schema.Literals(["local", "cloudflare"])),
   tunnelSecret: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ configSrc: "config_src", tunnelSecret: "tunnel_secret" }),
+  Schema.encodeKeys({
+    name: "name",
+    configSrc: "config_src",
+    tunnelSecret: "tunnel_secret",
+  }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/cfd_tunnel" }),
 ) as unknown as Schema.Schema<CreateTunnelCloudflaredRequest>;
 
@@ -46033,9 +49953,8 @@ export type CreateTunnelCloudflaredResponse = unknown;
 export const CreateTunnelCloudflaredResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateTunnelCloudflaredResponse>;
 
-export const createTunnelCloudflared: (
-  input: CreateTunnelCloudflaredRequest,
-) => Effect.Effect<
+export const createTunnelCloudflared: API.OperationMethod<
+  CreateTunnelCloudflaredRequest,
   CreateTunnelCloudflaredResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46061,7 +49980,7 @@ export const PatchTunnelCloudflaredRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   tunnelSecret: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ tunnelSecret: "tunnel_secret" }),
+  Schema.encodeKeys({ name: "name", tunnelSecret: "tunnel_secret" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/cfd_tunnel/{tunnelId}",
@@ -46073,9 +49992,8 @@ export type PatchTunnelCloudflaredResponse = unknown;
 export const PatchTunnelCloudflaredResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchTunnelCloudflaredResponse>;
 
-export const patchTunnelCloudflared: (
-  input: PatchTunnelCloudflaredRequest,
-) => Effect.Effect<
+export const patchTunnelCloudflared: API.OperationMethod<
+  PatchTunnelCloudflaredRequest,
   PatchTunnelCloudflaredResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46106,9 +50024,8 @@ export type DeleteTunnelCloudflaredResponse = unknown;
 export const DeleteTunnelCloudflaredResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteTunnelCloudflaredResponse>;
 
-export const deleteTunnelCloudflared: (
-  input: DeleteTunnelCloudflaredRequest,
-) => Effect.Effect<
+export const deleteTunnelCloudflared: API.OperationMethod<
+  DeleteTunnelCloudflaredRequest,
   DeleteTunnelCloudflaredResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46264,14 +50181,16 @@ export const GetTunnelCloudflaredConfigurationResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     accountId: "account_id",
+    config: "config",
     createdAt: "created_at",
+    source: "source",
     tunnelId: "tunnel_id",
+    version: "version",
   }),
 ) as unknown as Schema.Schema<GetTunnelCloudflaredConfigurationResponse>;
 
-export const getTunnelCloudflaredConfiguration: (
-  input: GetTunnelCloudflaredConfigurationRequest,
-) => Effect.Effect<
+export const getTunnelCloudflaredConfiguration: API.OperationMethod<
+  GetTunnelCloudflaredConfigurationRequest,
   GetTunnelCloudflaredConfigurationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46528,14 +50447,16 @@ export const PutTunnelCloudflaredConfigurationResponse = Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     accountId: "account_id",
+    config: "config",
     createdAt: "created_at",
+    source: "source",
     tunnelId: "tunnel_id",
+    version: "version",
   }),
 ) as unknown as Schema.Schema<PutTunnelCloudflaredConfigurationResponse>;
 
-export const putTunnelCloudflaredConfiguration: (
-  input: PutTunnelCloudflaredConfigurationRequest,
-) => Effect.Effect<
+export const putTunnelCloudflaredConfiguration: API.OperationMethod<
+  PutTunnelCloudflaredConfigurationRequest,
   PutTunnelCloudflaredConfigurationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46602,12 +50523,14 @@ export const GetTunnelCloudflaredConnectionResponse = Schema.Array(
           uuid: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             clientId: "client_id",
             clientVersion: "client_version",
             coloName: "colo_name",
             isPendingReconnect: "is_pending_reconnect",
             openedAt: "opened_at",
             originIp: "origin_ip",
+            uuid: "uuid",
           }),
         ),
       ),
@@ -46616,13 +50539,20 @@ export const GetTunnelCloudflaredConnectionResponse = Schema.Array(
     runAt: Schema.optional(Schema.String),
     version: Schema.optional(Schema.String),
   }).pipe(
-    Schema.encodeKeys({ configVersion: "config_version", runAt: "run_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      arch: "arch",
+      configVersion: "config_version",
+      conns: "conns",
+      features: "features",
+      runAt: "run_at",
+      version: "version",
+    }),
   ),
 ) as unknown as Schema.Schema<GetTunnelCloudflaredConnectionResponse>;
 
-export const getTunnelCloudflaredConnection: (
-  input: GetTunnelCloudflaredConnectionRequest,
-) => Effect.Effect<
+export const getTunnelCloudflaredConnection: API.OperationMethod<
+  GetTunnelCloudflaredConnectionRequest,
   GetTunnelCloudflaredConnectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46656,9 +50586,8 @@ export type DeleteTunnelCloudflaredConnectionResponse = unknown;
 export const DeleteTunnelCloudflaredConnectionResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteTunnelCloudflaredConnectionResponse>;
 
-export const deleteTunnelCloudflaredConnection: (
-  input: DeleteTunnelCloudflaredConnectionRequest,
-) => Effect.Effect<
+export const deleteTunnelCloudflaredConnection: API.OperationMethod<
+  DeleteTunnelCloudflaredConnectionRequest,
   DeleteTunnelCloudflaredConnectionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46695,9 +50624,8 @@ export type GetTunnelCloudflaredConnectorResponse = unknown;
 export const GetTunnelCloudflaredConnectorResponse =
   Schema.Unknown as unknown as Schema.Schema<GetTunnelCloudflaredConnectorResponse>;
 
-export const getTunnelCloudflaredConnector: (
-  input: GetTunnelCloudflaredConnectorRequest,
-) => Effect.Effect<
+export const getTunnelCloudflaredConnector: API.OperationMethod<
+  GetTunnelCloudflaredConnectorRequest,
   GetTunnelCloudflaredConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46735,9 +50663,8 @@ export type CreateTunnelCloudflaredManagementResponse = string;
 export const CreateTunnelCloudflaredManagementResponse =
   Schema.String as unknown as Schema.Schema<CreateTunnelCloudflaredManagementResponse>;
 
-export const createTunnelCloudflaredManagement: (
-  input: CreateTunnelCloudflaredManagementRequest,
-) => Effect.Effect<
+export const createTunnelCloudflaredManagement: API.OperationMethod<
+  CreateTunnelCloudflaredManagementRequest,
   CreateTunnelCloudflaredManagementResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46772,9 +50699,8 @@ export type GetTunnelCloudflaredTokenResponse = string;
 export const GetTunnelCloudflaredTokenResponse =
   Schema.String as unknown as Schema.Schema<GetTunnelCloudflaredTokenResponse>;
 
-export const getTunnelCloudflaredToken: (
-  input: GetTunnelCloudflaredTokenRequest,
-) => Effect.Effect<
+export const getTunnelCloudflaredToken: API.OperationMethod<
+  GetTunnelCloudflaredTokenRequest,
   GetTunnelCloudflaredTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -46861,12 +50787,14 @@ export const GetTunnelWarpConnectorResponse = Schema.Struct({
         uuid: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           clientId: "client_id",
           clientVersion: "client_version",
           coloName: "colo_name",
           isPendingReconnect: "is_pending_reconnect",
           openedAt: "opened_at",
           originIp: "origin_ip",
+          uuid: "uuid",
         }),
       ),
     ),
@@ -46893,18 +50821,22 @@ export const GetTunnelWarpConnectorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    connections: "connections",
     connsActiveAt: "conns_active_at",
     connsInactiveAt: "conns_inactive_at",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    metadata: "metadata",
+    name: "name",
+    status: "status",
     tunType: "tun_type",
   }),
 ) as unknown as Schema.Schema<GetTunnelWarpConnectorResponse>;
 
-export const getTunnelWarpConnector: (
-  input: GetTunnelWarpConnectorRequest,
-) => Effect.Effect<
+export const getTunnelWarpConnector: API.OperationMethod<
+  GetTunnelWarpConnectorRequest,
   GetTunnelWarpConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47009,12 +50941,14 @@ export const ListTunnelWarpConnectorsResponse = Schema.Array(
           uuid: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             clientId: "client_id",
             clientVersion: "client_version",
             coloName: "colo_name",
             isPendingReconnect: "is_pending_reconnect",
             openedAt: "opened_at",
             originIp: "origin_ip",
+            uuid: "uuid",
           }),
         ),
       ),
@@ -47041,19 +50975,23 @@ export const ListTunnelWarpConnectorsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountTag: "account_tag",
+      connections: "connections",
       connsActiveAt: "conns_active_at",
       connsInactiveAt: "conns_inactive_at",
       createdAt: "created_at",
       deletedAt: "deleted_at",
+      metadata: "metadata",
+      name: "name",
+      status: "status",
       tunType: "tun_type",
     }),
   ),
 ) as unknown as Schema.Schema<ListTunnelWarpConnectorsResponse>;
 
-export const listTunnelWarpConnectors: (
-  input: ListTunnelWarpConnectorsRequest,
-) => Effect.Effect<
+export const listTunnelWarpConnectors: API.OperationMethod<
+  ListTunnelWarpConnectorsRequest,
   ListTunnelWarpConnectorsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47134,12 +51072,14 @@ export const CreateTunnelWarpConnectorResponse = Schema.Struct({
         uuid: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           clientId: "client_id",
           clientVersion: "client_version",
           coloName: "colo_name",
           isPendingReconnect: "is_pending_reconnect",
           openedAt: "opened_at",
           originIp: "origin_ip",
+          uuid: "uuid",
         }),
       ),
     ),
@@ -47166,18 +51106,22 @@ export const CreateTunnelWarpConnectorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    connections: "connections",
     connsActiveAt: "conns_active_at",
     connsInactiveAt: "conns_inactive_at",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    metadata: "metadata",
+    name: "name",
+    status: "status",
     tunType: "tun_type",
   }),
 ) as unknown as Schema.Schema<CreateTunnelWarpConnectorResponse>;
 
-export const createTunnelWarpConnector: (
-  input: CreateTunnelWarpConnectorRequest,
-) => Effect.Effect<
+export const createTunnelWarpConnector: API.OperationMethod<
+  CreateTunnelWarpConnectorRequest,
   CreateTunnelWarpConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47203,7 +51147,7 @@ export const PatchTunnelWarpConnectorRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   tunnelSecret: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ tunnelSecret: "tunnel_secret" }),
+  Schema.encodeKeys({ name: "name", tunnelSecret: "tunnel_secret" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/warp_connector/{tunnelId}",
@@ -47267,12 +51211,14 @@ export const PatchTunnelWarpConnectorResponse = Schema.Struct({
         uuid: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           clientId: "client_id",
           clientVersion: "client_version",
           coloName: "colo_name",
           isPendingReconnect: "is_pending_reconnect",
           openedAt: "opened_at",
           originIp: "origin_ip",
+          uuid: "uuid",
         }),
       ),
     ),
@@ -47299,18 +51245,22 @@ export const PatchTunnelWarpConnectorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    connections: "connections",
     connsActiveAt: "conns_active_at",
     connsInactiveAt: "conns_inactive_at",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    metadata: "metadata",
+    name: "name",
+    status: "status",
     tunType: "tun_type",
   }),
 ) as unknown as Schema.Schema<PatchTunnelWarpConnectorResponse>;
 
-export const patchTunnelWarpConnector: (
-  input: PatchTunnelWarpConnectorRequest,
-) => Effect.Effect<
+export const patchTunnelWarpConnector: API.OperationMethod<
+  PatchTunnelWarpConnectorRequest,
   PatchTunnelWarpConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47393,12 +51343,14 @@ export const DeleteTunnelWarpConnectorResponse = Schema.Struct({
         uuid: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           clientId: "client_id",
           clientVersion: "client_version",
           coloName: "colo_name",
           isPendingReconnect: "is_pending_reconnect",
           openedAt: "opened_at",
           originIp: "origin_ip",
+          uuid: "uuid",
         }),
       ),
     ),
@@ -47425,18 +51377,22 @@ export const DeleteTunnelWarpConnectorResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountTag: "account_tag",
+    connections: "connections",
     connsActiveAt: "conns_active_at",
     connsInactiveAt: "conns_inactive_at",
     createdAt: "created_at",
     deletedAt: "deleted_at",
+    metadata: "metadata",
+    name: "name",
+    status: "status",
     tunType: "tun_type",
   }),
 ) as unknown as Schema.Schema<DeleteTunnelWarpConnectorResponse>;
 
-export const deleteTunnelWarpConnector: (
-  input: DeleteTunnelWarpConnectorRequest,
-) => Effect.Effect<
+export const deleteTunnelWarpConnector: API.OperationMethod<
+  DeleteTunnelWarpConnectorRequest,
   DeleteTunnelWarpConnectorResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47471,9 +51427,8 @@ export type GetTunnelWarpConnectorTokenResponse = string;
 export const GetTunnelWarpConnectorTokenResponse =
   Schema.String as unknown as Schema.Schema<GetTunnelWarpConnectorTokenResponse>;
 
-export const getTunnelWarpConnectorToken: (
-  input: GetTunnelWarpConnectorTokenRequest,
-) => Effect.Effect<
+export const getTunnelWarpConnectorToken: API.OperationMethod<
+  GetTunnelWarpConnectorTokenRequest,
   GetTunnelWarpConnectorTokenResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47516,6 +51471,7 @@ export const RevokeUsersOrganizationRequest = Schema.Struct({
   warpSessionReauth: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    email: "email",
     bodyDevices: "body_devices",
     userUid: "user_uid",
     warpSessionReauth: "warp_session_reauth",
@@ -47533,9 +51489,8 @@ export const RevokeUsersOrganizationResponse = Schema.Literals([
   false,
 ]) as unknown as Schema.Schema<RevokeUsersOrganizationResponse>;
 
-export const revokeUsersOrganization: (
-  input: RevokeUsersOrganizationRequest,
-) => Effect.Effect<
+export const revokeUsersOrganization: API.OperationMethod<
+  RevokeUsersOrganizationRequest,
   RevokeUsersOrganizationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -47572,9 +51527,8 @@ export type BulkDeleteV2AccessInfrastructureTargetsResponse = unknown;
 export const BulkDeleteV2AccessInfrastructureTargetsResponse =
   Schema.Unknown as unknown as Schema.Schema<BulkDeleteV2AccessInfrastructureTargetsResponse>;
 
-export const bulkDeleteV2AccessInfrastructureTargets: (
-  input: BulkDeleteV2AccessInfrastructureTargetsRequest,
-) => Effect.Effect<
+export const bulkDeleteV2AccessInfrastructureTargets: API.OperationMethod<
+  BulkDeleteV2AccessInfrastructureTargetsRequest,
   BulkDeleteV2AccessInfrastructureTargetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

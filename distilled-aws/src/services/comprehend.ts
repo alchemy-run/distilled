@@ -4681,9 +4681,8 @@ export class TooManyTagKeysException extends S.TaggedErrorClass<TooManyTagKeysEx
  * Determines the dominant language of the input text for a batch of documents. For a list
  * of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
-export const batchDetectDominantLanguage: (
-  input: BatchDetectDominantLanguageRequest,
-) => effect.Effect<
+export const batchDetectDominantLanguage: API.OperationMethod<
+  BatchDetectDominantLanguageRequest,
   BatchDetectDominantLanguageResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -4706,9 +4705,8 @@ export const batchDetectDominantLanguage: (
  * about them. For more information about named entities, see
  * Entities in the Comprehend Developer Guide.
  */
-export const batchDetectEntities: (
-  input: BatchDetectEntitiesRequest,
-) => effect.Effect<
+export const batchDetectEntities: API.OperationMethod<
+  BatchDetectEntitiesRequest,
   BatchDetectEntitiesResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -4731,9 +4729,8 @@ export const batchDetectEntities: (
 /**
  * Detects the key noun phrases found in a batch of documents.
  */
-export const batchDetectKeyPhrases: (
-  input: BatchDetectKeyPhrasesRequest,
-) => effect.Effect<
+export const batchDetectKeyPhrases: API.OperationMethod<
+  BatchDetectKeyPhrasesRequest,
   BatchDetectKeyPhrasesResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -4758,9 +4755,8 @@ export const batchDetectKeyPhrases: (
  * `POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`,
  * in each one.
  */
-export const batchDetectSentiment: (
-  input: BatchDetectSentimentRequest,
-) => effect.Effect<
+export const batchDetectSentiment: API.OperationMethod<
+  BatchDetectSentimentRequest,
   BatchDetectSentimentResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -4785,9 +4781,8 @@ export const batchDetectSentiment: (
  * in the document and returns information about them. For more information, see
  * Syntax in the Comprehend Developer Guide.
  */
-export const batchDetectSyntax: (
-  input: BatchDetectSyntaxRequest,
-) => effect.Effect<
+export const batchDetectSyntax: API.OperationMethod<
+  BatchDetectSyntaxRequest,
   BatchDetectSyntaxResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -4813,9 +4808,8 @@ export const batchDetectSyntax: (
  *
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
-export const batchDetectTargetedSentiment: (
-  input: BatchDetectTargetedSentimentRequest,
-) => effect.Effect<
+export const batchDetectTargetedSentiment: API.OperationMethod<
+  BatchDetectTargetedSentimentRequest,
   BatchDetectTargetedSentimentResponse,
   | BatchSizeLimitExceededException
   | InternalServerException
@@ -4858,9 +4852,8 @@ export const batchDetectTargetedSentiment: (
  *
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
-export const classifyDocument: (
-  input: ClassifyDocumentRequest,
-) => effect.Effect<
+export const classifyDocument: API.OperationMethod<
+  ClassifyDocumentRequest,
   ClassifyDocumentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4883,9 +4876,8 @@ export const classifyDocument: (
  * returns the labels of identified PII entity types such as name, address, bank account number,
  * or phone number.
  */
-export const containsPiiEntities: (
-  input: ContainsPiiEntitiesRequest,
-) => effect.Effect<
+export const containsPiiEntities: API.OperationMethod<
+  ContainsPiiEntitiesRequest,
   ContainsPiiEntitiesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4908,9 +4900,8 @@ export const containsPiiEntities: (
  * For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4941,9 +4932,8 @@ export const createDataset: (
  * Training classifier models
  * in the Comprehend Developer Guide.
  */
-export const createDocumentClassifier: (
-  input: CreateDocumentClassifierRequest,
-) => effect.Effect<
+export const createDocumentClassifier: API.OperationMethod<
+  CreateDocumentClassifierRequest,
   CreateDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4974,9 +4964,8 @@ export const createDocumentClassifier: (
  * custom model
  * For information about endpoints, see Managing endpoints.
  */
-export const createEndpoint: (
-  input: CreateEndpointRequest,
-) => effect.Effect<
+export const createEndpoint: API.OperationMethod<
+  CreateEndpointRequest,
   CreateEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5007,9 +4996,8 @@ export const createEndpoint: (
  * `CreateEntityRecognizer` request is submitted, you can check job status using the
  * `DescribeEntityRecognizer` API.
  */
-export const createEntityRecognizer: (
-  input: CreateEntityRecognizerRequest,
-) => effect.Effect<
+export const createEntityRecognizer: API.OperationMethod<
+  CreateEntityRecognizerRequest,
   CreateEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5052,9 +5040,8 @@ export const createEntityRecognizer: (
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const createFlywheel: (
-  input: CreateFlywheelRequest,
-) => effect.Effect<
+export const createFlywheel: API.OperationMethod<
+  CreateFlywheelRequest,
   CreateFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5095,9 +5082,8 @@ export const createFlywheel: (
  * then removed by a background job. Once removed, the classifier disappears from your account
  * and is no longer available for use.
  */
-export const deleteDocumentClassifier: (
-  input: DeleteDocumentClassifierRequest,
-) => effect.Effect<
+export const deleteDocumentClassifier: API.OperationMethod<
+  DeleteDocumentClassifierRequest,
   DeleteDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5124,9 +5110,8 @@ export const deleteDocumentClassifier: (
  * must be deleted in order for the model to be deleted.
  * For information about endpoints, see Managing endpoints.
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointRequest,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointRequest,
   DeleteEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5157,9 +5142,8 @@ export const deleteEndpoint: (
  * then removed by a background job. Once removed, the recognizer disappears from your account
  * and is no longer available for use.
  */
-export const deleteEntityRecognizer: (
-  input: DeleteEntityRecognizerRequest,
-) => effect.Effect<
+export const deleteEntityRecognizer: API.OperationMethod<
+  DeleteEntityRecognizerRequest,
   DeleteEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5188,9 +5172,8 @@ export const deleteEntityRecognizer: (
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const deleteFlywheel: (
-  input: DeleteFlywheelRequest,
-) => effect.Effect<
+export const deleteFlywheel: API.OperationMethod<
+  DeleteFlywheelRequest,
   DeleteFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5215,9 +5198,8 @@ export const deleteFlywheel: (
 /**
  * Deletes a resource-based policy that is attached to a custom model.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5238,9 +5220,8 @@ export const deleteResourcePolicy: (
  * For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5262,9 +5243,8 @@ export const describeDataset: (
  * Gets the properties associated with a document classification job. Use this operation to
  * get the status of a classification job.
  */
-export const describeDocumentClassificationJob: (
-  input: DescribeDocumentClassificationJobRequest,
-) => effect.Effect<
+export const describeDocumentClassificationJob: API.OperationMethod<
+  DescribeDocumentClassificationJobRequest,
   DescribeDocumentClassificationJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5285,9 +5265,8 @@ export const describeDocumentClassificationJob: (
 /**
  * Gets the properties associated with a document classifier.
  */
-export const describeDocumentClassifier: (
-  input: DescribeDocumentClassifierRequest,
-) => effect.Effect<
+export const describeDocumentClassifier: API.OperationMethod<
+  DescribeDocumentClassifierRequest,
   DescribeDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5309,9 +5288,8 @@ export const describeDocumentClassifier: (
  * Gets the properties associated with a dominant language detection job. Use this operation
  * to get the status of a detection job.
  */
-export const describeDominantLanguageDetectionJob: (
-  input: DescribeDominantLanguageDetectionJobRequest,
-) => effect.Effect<
+export const describeDominantLanguageDetectionJob: API.OperationMethod<
+  DescribeDominantLanguageDetectionJobRequest,
   DescribeDominantLanguageDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5334,9 +5312,8 @@ export const describeDominantLanguageDetectionJob: (
  * status of an endpoint.
  * For information about endpoints, see Managing endpoints.
  */
-export const describeEndpoint: (
-  input: DescribeEndpointRequest,
-) => effect.Effect<
+export const describeEndpoint: API.OperationMethod<
+  DescribeEndpointRequest,
   DescribeEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5358,9 +5335,8 @@ export const describeEndpoint: (
  * Gets the properties associated with an entities detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeEntitiesDetectionJob: (
-  input: DescribeEntitiesDetectionJobRequest,
-) => effect.Effect<
+export const describeEntitiesDetectionJob: API.OperationMethod<
+  DescribeEntitiesDetectionJobRequest,
   DescribeEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5382,9 +5358,8 @@ export const describeEntitiesDetectionJob: (
  * Provides details about an entity recognizer including status, S3 buckets containing
  * training data, recognizer metadata, metrics, and so on.
  */
-export const describeEntityRecognizer: (
-  input: DescribeEntityRecognizerRequest,
-) => effect.Effect<
+export const describeEntityRecognizer: API.OperationMethod<
+  DescribeEntityRecognizerRequest,
   DescribeEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5405,9 +5380,8 @@ export const describeEntityRecognizer: (
 /**
  * Gets the status and details of an events detection job.
  */
-export const describeEventsDetectionJob: (
-  input: DescribeEventsDetectionJobRequest,
-) => effect.Effect<
+export const describeEventsDetectionJob: API.OperationMethod<
+  DescribeEventsDetectionJobRequest,
   DescribeEventsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5429,9 +5403,8 @@ export const describeEventsDetectionJob: (
  * Provides configuration information about the flywheel. For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const describeFlywheel: (
-  input: DescribeFlywheelRequest,
-) => effect.Effect<
+export const describeFlywheel: API.OperationMethod<
+  DescribeFlywheelRequest,
   DescribeFlywheelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5454,9 +5427,8 @@ export const describeFlywheel: (
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const describeFlywheelIteration: (
-  input: DescribeFlywheelIterationRequest,
-) => effect.Effect<
+export const describeFlywheelIteration: API.OperationMethod<
+  DescribeFlywheelIterationRequest,
   DescribeFlywheelIterationResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5478,9 +5450,8 @@ export const describeFlywheelIteration: (
  * Gets the properties associated with a key phrases detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeKeyPhrasesDetectionJob: (
-  input: DescribeKeyPhrasesDetectionJobRequest,
-) => effect.Effect<
+export const describeKeyPhrasesDetectionJob: API.OperationMethod<
+  DescribeKeyPhrasesDetectionJobRequest,
   DescribeKeyPhrasesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5502,9 +5473,8 @@ export const describeKeyPhrasesDetectionJob: (
  * Gets the properties associated with a PII entities detection job. For example, you can use
  * this operation to get the job status.
  */
-export const describePiiEntitiesDetectionJob: (
-  input: DescribePiiEntitiesDetectionJobRequest,
-) => effect.Effect<
+export const describePiiEntitiesDetectionJob: API.OperationMethod<
+  DescribePiiEntitiesDetectionJobRequest,
   DescribePiiEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5526,9 +5496,8 @@ export const describePiiEntitiesDetectionJob: (
  * Gets the details of a resource-based policy that is attached to a custom model, including
  * the JSON body of the policy.
  */
-export const describeResourcePolicy: (
-  input: DescribeResourcePolicyRequest,
-) => effect.Effect<
+export const describeResourcePolicy: API.OperationMethod<
+  DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5548,9 +5517,8 @@ export const describeResourcePolicy: (
  * Gets the properties associated with a sentiment detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeSentimentDetectionJob: (
-  input: DescribeSentimentDetectionJobRequest,
-) => effect.Effect<
+export const describeSentimentDetectionJob: API.OperationMethod<
+  DescribeSentimentDetectionJobRequest,
   DescribeSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5572,9 +5540,8 @@ export const describeSentimentDetectionJob: (
  * Gets the properties associated with a targeted sentiment detection job. Use this operation
  * to get the status of the job.
  */
-export const describeTargetedSentimentDetectionJob: (
-  input: DescribeTargetedSentimentDetectionJobRequest,
-) => effect.Effect<
+export const describeTargetedSentimentDetectionJob: API.OperationMethod<
+  DescribeTargetedSentimentDetectionJobRequest,
   DescribeTargetedSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5596,9 +5563,8 @@ export const describeTargetedSentimentDetectionJob: (
  * Gets the properties associated with a topic detection job. Use this operation to get
  * the status of a detection job.
  */
-export const describeTopicsDetectionJob: (
-  input: DescribeTopicsDetectionJobRequest,
-) => effect.Effect<
+export const describeTopicsDetectionJob: API.OperationMethod<
+  DescribeTopicsDetectionJobRequest,
   DescribeTopicsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5620,9 +5586,8 @@ export const describeTopicsDetectionJob: (
  * Determines the dominant language of the input text. For a list of languages that Amazon
  * Comprehend can detect, see Amazon Comprehend Supported Languages.
  */
-export const detectDominantLanguage: (
-  input: DetectDominantLanguageRequest,
-) => effect.Effect<
+export const detectDominantLanguage: API.OperationMethod<
+  DetectDominantLanguageRequest,
   DetectDominantLanguageResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5658,9 +5623,8 @@ export const detectDominantLanguage: (
  *
  * Errors in semi-structured documents in the Comprehend Developer Guide.
  */
-export const detectEntities: (
-  input: DetectEntitiesRequest,
-) => effect.Effect<
+export const detectEntities: API.OperationMethod<
+  DetectEntitiesRequest,
   DetectEntitiesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5683,9 +5647,8 @@ export const detectEntities: (
 /**
  * Detects the key noun phrases found in the text.
  */
-export const detectKeyPhrases: (
-  input: DetectKeyPhrasesRequest,
-) => effect.Effect<
+export const detectKeyPhrases: API.OperationMethod<
+  DetectKeyPhrasesRequest,
   DetectKeyPhrasesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5707,9 +5670,8 @@ export const detectKeyPhrases: (
  * Inspects the input text for entities that contain personally identifiable information
  * (PII) and returns information about them.
  */
-export const detectPiiEntities: (
-  input: DetectPiiEntitiesRequest,
-) => effect.Effect<
+export const detectPiiEntities: API.OperationMethod<
+  DetectPiiEntitiesRequest,
   DetectPiiEntitiesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5731,9 +5693,8 @@ export const detectPiiEntities: (
  * Inspects text and returns an inference of the prevailing sentiment
  * (`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`).
  */
-export const detectSentiment: (
-  input: DetectSentimentRequest,
-) => effect.Effect<
+export const detectSentiment: API.OperationMethod<
+  DetectSentimentRequest,
   DetectSentimentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5756,9 +5717,8 @@ export const detectSentiment: (
  * information, see
  * Syntax in the Comprehend Developer Guide.
  */
-export const detectSyntax: (
-  input: DetectSyntaxRequest,
-) => effect.Effect<
+export const detectSyntax: API.OperationMethod<
+  DetectSyntaxRequest,
   DetectSyntaxResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5781,9 +5741,8 @@ export const detectSyntax: (
  *
  * For more information about targeted sentiment, see Targeted sentiment in the *Amazon Comprehend Developer Guide*.
  */
-export const detectTargetedSentiment: (
-  input: DetectTargetedSentimentRequest,
-) => effect.Effect<
+export const detectTargetedSentiment: API.OperationMethod<
+  DetectTargetedSentimentRequest,
   DetectTargetedSentimentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5806,9 +5765,8 @@ export const detectTargetedSentiment: (
  * The API response contains a results list that matches the size of the input list.
  * For more information about toxicity detection, see Toxicity detection in the *Amazon Comprehend Developer Guide*.
  */
-export const detectToxicContent: (
-  input: DetectToxicContentRequest,
-) => effect.Effect<
+export const detectToxicContent: API.OperationMethod<
+  DetectToxicContentRequest,
   DetectToxicContentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5836,9 +5794,8 @@ export const detectToxicContent: (
  * The source model must be in the same Amazon Web Services Region that you're using when you import. You
  * can't import a model that's in a different Region.
  */
-export const importModel: (
-  input: ImportModelRequest,
-) => effect.Effect<
+export const importModel: API.OperationMethod<
+  ImportModelRequest,
   ImportModelResponse,
   | InternalServerException
   | InvalidRequestException
@@ -5870,19 +5827,17 @@ export const importModel: (
  * List the datasets that you have configured in this Region. For more information about datasets, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const listDatasets: {
-  (
-    input: ListDatasetsRequest,
-  ): effect.Effect<
-    ListDatasetsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
+  ListDatasetsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
@@ -5926,18 +5881,16 @@ export const listDatasets: {
 /**
  * Gets a list of the documentation classification jobs that you have submitted.
  */
-export const listDocumentClassificationJobs: {
-  (
-    input: ListDocumentClassificationJobsRequest,
-  ): effect.Effect<
-    ListDocumentClassificationJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDocumentClassificationJobs: API.OperationMethod<
+  ListDocumentClassificationJobsRequest,
+  ListDocumentClassificationJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDocumentClassificationJobsRequest,
   ) => stream.Stream<
@@ -5978,18 +5931,16 @@ export const listDocumentClassificationJobs: {
 /**
  * Gets a list of the document classifiers that you have created.
  */
-export const listDocumentClassifiers: {
-  (
-    input: ListDocumentClassifiersRequest,
-  ): effect.Effect<
-    ListDocumentClassifiersResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDocumentClassifiers: API.OperationMethod<
+  ListDocumentClassifiersRequest,
+  ListDocumentClassifiersResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDocumentClassifiersRequest,
   ) => stream.Stream<
@@ -6030,17 +5981,15 @@ export const listDocumentClassifiers: {
 /**
  * Gets a list of summaries of the document classifiers that you have created
  */
-export const listDocumentClassifierSummaries: {
-  (
-    input: ListDocumentClassifierSummariesRequest,
-  ): effect.Effect<
-    ListDocumentClassifierSummariesResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDocumentClassifierSummaries: API.OperationMethod<
+  ListDocumentClassifierSummariesRequest,
+  ListDocumentClassifierSummariesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDocumentClassifierSummariesRequest,
   ) => stream.Stream<
@@ -6078,18 +6027,16 @@ export const listDocumentClassifierSummaries: {
 /**
  * Gets a list of the dominant language detection jobs that you have submitted.
  */
-export const listDominantLanguageDetectionJobs: {
-  (
-    input: ListDominantLanguageDetectionJobsRequest,
-  ): effect.Effect<
-    ListDominantLanguageDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDominantLanguageDetectionJobs: API.OperationMethod<
+  ListDominantLanguageDetectionJobsRequest,
+  ListDominantLanguageDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDominantLanguageDetectionJobsRequest,
   ) => stream.Stream<
@@ -6131,17 +6078,15 @@ export const listDominantLanguageDetectionJobs: {
  * Gets a list of all existing endpoints that you've created.
  * For information about endpoints, see Managing endpoints.
  */
-export const listEndpoints: {
-  (
-    input: ListEndpointsRequest,
-  ): effect.Effect<
-    ListEndpointsResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpoints: API.OperationMethod<
+  ListEndpointsRequest,
+  ListEndpointsResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointsRequest,
   ) => stream.Stream<
@@ -6180,18 +6125,16 @@ export const listEndpoints: {
 /**
  * Gets a list of the entity detection jobs that you have submitted.
  */
-export const listEntitiesDetectionJobs: {
-  (
-    input: ListEntitiesDetectionJobsRequest,
-  ): effect.Effect<
-    ListEntitiesDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntitiesDetectionJobs: API.OperationMethod<
+  ListEntitiesDetectionJobsRequest,
+  ListEntitiesDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitiesDetectionJobsRequest,
   ) => stream.Stream<
@@ -6238,18 +6181,16 @@ export const listEntitiesDetectionJobs: {
  * The results of this list are not in any particular order. Please get the list and sort
  * locally if needed.
  */
-export const listEntityRecognizers: {
-  (
-    input: ListEntityRecognizersRequest,
-  ): effect.Effect<
-    ListEntityRecognizersResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntityRecognizers: API.OperationMethod<
+  ListEntityRecognizersRequest,
+  ListEntityRecognizersResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntityRecognizersRequest,
   ) => stream.Stream<
@@ -6290,17 +6231,15 @@ export const listEntityRecognizers: {
 /**
  * Gets a list of summaries for the entity recognizers that you have created.
  */
-export const listEntityRecognizerSummaries: {
-  (
-    input: ListEntityRecognizerSummariesRequest,
-  ): effect.Effect<
-    ListEntityRecognizerSummariesResponse,
-    | InternalServerException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntityRecognizerSummaries: API.OperationMethod<
+  ListEntityRecognizerSummariesRequest,
+  ListEntityRecognizerSummariesResponse,
+  | InternalServerException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntityRecognizerSummariesRequest,
   ) => stream.Stream<
@@ -6338,18 +6277,16 @@ export const listEntityRecognizerSummaries: {
 /**
  * Gets a list of the events detection jobs that you have submitted.
  */
-export const listEventsDetectionJobs: {
-  (
-    input: ListEventsDetectionJobsRequest,
-  ): effect.Effect<
-    ListEventsDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventsDetectionJobs: API.OperationMethod<
+  ListEventsDetectionJobsRequest,
+  ListEventsDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventsDetectionJobsRequest,
   ) => stream.Stream<
@@ -6392,19 +6329,17 @@ export const listEventsDetectionJobs: {
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const listFlywheelIterationHistory: {
-  (
-    input: ListFlywheelIterationHistoryRequest,
-  ): effect.Effect<
-    ListFlywheelIterationHistoryResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlywheelIterationHistory: API.OperationMethod<
+  ListFlywheelIterationHistoryRequest,
+  ListFlywheelIterationHistoryResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlywheelIterationHistoryRequest,
   ) => stream.Stream<
@@ -6448,18 +6383,16 @@ export const listFlywheelIterationHistory: {
 /**
  * Gets a list of the flywheels that you have created.
  */
-export const listFlywheels: {
-  (
-    input: ListFlywheelsRequest,
-  ): effect.Effect<
-    ListFlywheelsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlywheels: API.OperationMethod<
+  ListFlywheelsRequest,
+  ListFlywheelsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlywheelsRequest,
   ) => stream.Stream<
@@ -6500,18 +6433,16 @@ export const listFlywheels: {
 /**
  * Get a list of key phrase detection jobs that you have submitted.
  */
-export const listKeyPhrasesDetectionJobs: {
-  (
-    input: ListKeyPhrasesDetectionJobsRequest,
-  ): effect.Effect<
-    ListKeyPhrasesDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeyPhrasesDetectionJobs: API.OperationMethod<
+  ListKeyPhrasesDetectionJobsRequest,
+  ListKeyPhrasesDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeyPhrasesDetectionJobsRequest,
   ) => stream.Stream<
@@ -6552,18 +6483,16 @@ export const listKeyPhrasesDetectionJobs: {
 /**
  * Gets a list of the PII entity detection jobs that you have submitted.
  */
-export const listPiiEntitiesDetectionJobs: {
-  (
-    input: ListPiiEntitiesDetectionJobsRequest,
-  ): effect.Effect<
-    ListPiiEntitiesDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPiiEntitiesDetectionJobs: API.OperationMethod<
+  ListPiiEntitiesDetectionJobsRequest,
+  ListPiiEntitiesDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPiiEntitiesDetectionJobsRequest,
   ) => stream.Stream<
@@ -6605,18 +6534,16 @@ export const listPiiEntitiesDetectionJobs: {
 /**
  * Gets a list of sentiment detection jobs that you have submitted.
  */
-export const listSentimentDetectionJobs: {
-  (
-    input: ListSentimentDetectionJobsRequest,
-  ): effect.Effect<
-    ListSentimentDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSentimentDetectionJobs: API.OperationMethod<
+  ListSentimentDetectionJobsRequest,
+  ListSentimentDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSentimentDetectionJobsRequest,
   ) => stream.Stream<
@@ -6657,9 +6584,8 @@ export const listSentimentDetectionJobs: {
 /**
  * Lists all tags associated with a given Amazon Comprehend resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6678,18 +6604,16 @@ export const listTagsForResource: (
 /**
  * Gets a list of targeted sentiment detection jobs that you have submitted.
  */
-export const listTargetedSentimentDetectionJobs: {
-  (
-    input: ListTargetedSentimentDetectionJobsRequest,
-  ): effect.Effect<
-    ListTargetedSentimentDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetedSentimentDetectionJobs: API.OperationMethod<
+  ListTargetedSentimentDetectionJobsRequest,
+  ListTargetedSentimentDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetedSentimentDetectionJobsRequest,
   ) => stream.Stream<
@@ -6730,18 +6654,16 @@ export const listTargetedSentimentDetectionJobs: {
 /**
  * Gets a list of the topic detection jobs that you have submitted.
  */
-export const listTopicsDetectionJobs: {
-  (
-    input: ListTopicsDetectionJobsRequest,
-  ): effect.Effect<
-    ListTopicsDetectionJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTopicsDetectionJobs: API.OperationMethod<
+  ListTopicsDetectionJobsRequest,
+  ListTopicsDetectionJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTopicsDetectionJobsRequest,
   ) => stream.Stream<
@@ -6784,9 +6706,8 @@ export const listTopicsDetectionJobs: {
  * an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon
  * Comprehend in their account.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6807,9 +6728,8 @@ export const putResourcePolicy: (
  * `DescribeDocumentClassificationJob`
  * operation to track the progress of the job.
  */
-export const startDocumentClassificationJob: (
-  input: StartDocumentClassificationJobRequest,
-) => effect.Effect<
+export const startDocumentClassificationJob: API.OperationMethod<
+  StartDocumentClassificationJobRequest,
   StartDocumentClassificationJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6840,9 +6760,8 @@ export const startDocumentClassificationJob: (
  * the operation to track the status
  * of a job.
  */
-export const startDominantLanguageDetectionJob: (
-  input: StartDominantLanguageDetectionJobRequest,
-) => effect.Effect<
+export const startDominantLanguageDetectionJob: API.OperationMethod<
+  StartDominantLanguageDetectionJobRequest,
   StartDominantLanguageDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6872,9 +6791,8 @@ export const startDominantLanguageDetectionJob: (
  * must be used in order to provide access to the recognizer being used to detect the custom
  * entity.
  */
-export const startEntitiesDetectionJob: (
-  input: StartEntitiesDetectionJobRequest,
-) => effect.Effect<
+export const startEntitiesDetectionJob: API.OperationMethod<
+  StartEntitiesDetectionJobRequest,
   StartEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6903,9 +6821,8 @@ export const startEntitiesDetectionJob: (
 /**
  * Starts an asynchronous event detection job for a collection of documents.
  */
-export const startEventsDetectionJob: (
-  input: StartEventsDetectionJobRequest,
-) => effect.Effect<
+export const startEventsDetectionJob: API.OperationMethod<
+  StartEventsDetectionJobRequest,
   StartEventsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6932,9 +6849,8 @@ export const startEventsDetectionJob: (
  * For more information about flywheels, see
  * Flywheel overview in the *Amazon Comprehend Developer Guide*.
  */
-export const startFlywheelIteration: (
-  input: StartFlywheelIterationRequest,
-) => effect.Effect<
+export const startFlywheelIteration: API.OperationMethod<
+  StartFlywheelIterationRequest,
   StartFlywheelIterationResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6959,9 +6875,8 @@ export const startFlywheelIteration: (
  * operation to track the status of a
  * job.
  */
-export const startKeyPhrasesDetectionJob: (
-  input: StartKeyPhrasesDetectionJobRequest,
-) => effect.Effect<
+export const startKeyPhrasesDetectionJob: API.OperationMethod<
+  StartKeyPhrasesDetectionJobRequest,
   StartKeyPhrasesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -6986,9 +6901,8 @@ export const startKeyPhrasesDetectionJob: (
 /**
  * Starts an asynchronous PII entity detection job for a collection of documents.
  */
-export const startPiiEntitiesDetectionJob: (
-  input: StartPiiEntitiesDetectionJobRequest,
-) => effect.Effect<
+export const startPiiEntitiesDetectionJob: API.OperationMethod<
+  StartPiiEntitiesDetectionJobRequest,
   StartPiiEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7015,9 +6929,8 @@ export const startPiiEntitiesDetectionJob: (
  * operation to track the status of a
  * job.
  */
-export const startSentimentDetectionJob: (
-  input: StartSentimentDetectionJobRequest,
-) => effect.Effect<
+export const startSentimentDetectionJob: API.OperationMethod<
+  StartSentimentDetectionJobRequest,
   StartSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7044,9 +6957,8 @@ export const startSentimentDetectionJob: (
  * `DescribeTargetedSentimentDetectionJob` operation to track the status of a
  * job.
  */
-export const startTargetedSentimentDetectionJob: (
-  input: StartTargetedSentimentDetectionJobRequest,
-) => effect.Effect<
+export const startTargetedSentimentDetectionJob: API.OperationMethod<
+  StartTargetedSentimentDetectionJobRequest,
   StartTargetedSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7072,9 +6984,8 @@ export const startTargetedSentimentDetectionJob: (
  * Starts an asynchronous topic detection job. Use the
  * `DescribeTopicDetectionJob` operation to track the status of a job.
  */
-export const startTopicsDetectionJob: (
-  input: StartTopicsDetectionJobRequest,
-) => effect.Effect<
+export const startTopicsDetectionJob: API.OperationMethod<
+  StartTopicsDetectionJobRequest,
   StartTopicsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7111,9 +7022,8 @@ export const startTopicsDetectionJob: (
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopDominantLanguageDetectionJob: (
-  input: StopDominantLanguageDetectionJobRequest,
-) => effect.Effect<
+export const stopDominantLanguageDetectionJob: API.OperationMethod<
+  StopDominantLanguageDetectionJobRequest,
   StopDominantLanguageDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7144,9 +7054,8 @@ export const stopDominantLanguageDetectionJob: (
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopEntitiesDetectionJob: (
-  input: StopEntitiesDetectionJobRequest,
-) => effect.Effect<
+export const stopEntitiesDetectionJob: API.OperationMethod<
+  StopEntitiesDetectionJobRequest,
   StopEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7165,9 +7074,8 @@ export const stopEntitiesDetectionJob: (
 /**
  * Stops an events detection job in progress.
  */
-export const stopEventsDetectionJob: (
-  input: StopEventsDetectionJobRequest,
-) => effect.Effect<
+export const stopEventsDetectionJob: API.OperationMethod<
+  StopEventsDetectionJobRequest,
   StopEventsDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7198,9 +7106,8 @@ export const stopEventsDetectionJob: (
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopKeyPhrasesDetectionJob: (
-  input: StopKeyPhrasesDetectionJobRequest,
-) => effect.Effect<
+export const stopKeyPhrasesDetectionJob: API.OperationMethod<
+  StopKeyPhrasesDetectionJobRequest,
   StopKeyPhrasesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7219,9 +7126,8 @@ export const stopKeyPhrasesDetectionJob: (
 /**
  * Stops a PII entities detection job in progress.
  */
-export const stopPiiEntitiesDetectionJob: (
-  input: StopPiiEntitiesDetectionJobRequest,
-) => effect.Effect<
+export const stopPiiEntitiesDetectionJob: API.OperationMethod<
+  StopPiiEntitiesDetectionJobRequest,
   StopPiiEntitiesDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7252,9 +7158,8 @@ export const stopPiiEntitiesDetectionJob: (
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopSentimentDetectionJob: (
-  input: StopSentimentDetectionJobRequest,
-) => effect.Effect<
+export const stopSentimentDetectionJob: API.OperationMethod<
+  StopSentimentDetectionJobRequest,
   StopSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7285,9 +7190,8 @@ export const stopSentimentDetectionJob: (
  * When a job is stopped, any documents already processed are written to the output
  * location.
  */
-export const stopTargetedSentimentDetectionJob: (
-  input: StopTargetedSentimentDetectionJobRequest,
-) => effect.Effect<
+export const stopTargetedSentimentDetectionJob: API.OperationMethod<
+  StopTargetedSentimentDetectionJobRequest,
   StopTargetedSentimentDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7312,9 +7216,8 @@ export const stopTargetedSentimentDetectionJob: (
  * put into the `STOPPED` state and the service sends back an HTTP 200 response with
  * an empty HTTP body.
  */
-export const stopTrainingDocumentClassifier: (
-  input: StopTrainingDocumentClassifierRequest,
-) => effect.Effect<
+export const stopTrainingDocumentClassifier: API.OperationMethod<
+  StopTrainingDocumentClassifierRequest,
   StopTrainingDocumentClassifierResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7341,9 +7244,8 @@ export const stopTrainingDocumentClassifier: (
  * putted into the `STOPPED` state and the service sends back an HTTP 200 response
  * with an empty HTTP body.
  */
-export const stopTrainingEntityRecognizer: (
-  input: StopTrainingEntityRecognizerRequest,
-) => effect.Effect<
+export const stopTrainingEntityRecognizer: API.OperationMethod<
+  StopTrainingEntityRecognizerRequest,
   StopTrainingEntityRecognizerResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7366,9 +7268,8 @@ export const stopTrainingEntityRecognizer: (
  * that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
  * "Sales" as the key might be added to a resource to indicate its use by the sales department.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -7391,9 +7292,8 @@ export const tagResource: (
 /**
  * Removes a specific tag associated with an Amazon Comprehend resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -7417,9 +7317,8 @@ export const untagResource: (
  * Updates information about the specified endpoint.
  * For information about endpoints, see Managing endpoints.
  */
-export const updateEndpoint: (
-  input: UpdateEndpointRequest,
-) => effect.Effect<
+export const updateEndpoint: API.OperationMethod<
+  UpdateEndpointRequest,
   UpdateEndpointResponse,
   | InternalServerException
   | InvalidRequestException
@@ -7446,9 +7345,8 @@ export const updateEndpoint: (
 /**
  * Update the configuration information for an existing flywheel.
  */
-export const updateFlywheel: (
-  input: UpdateFlywheelRequest,
-) => effect.Effect<
+export const updateFlywheel: API.OperationMethod<
+  UpdateFlywheelRequest,
   UpdateFlywheelResponse,
   | InternalServerException
   | InvalidRequestException

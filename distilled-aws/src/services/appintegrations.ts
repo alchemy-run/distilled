@@ -1331,9 +1331,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Creates and persists an Application resource.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -1364,9 +1363,8 @@ export const createApplication: (
  * previously associated. Use a different DataIntegration, or recreate the DataIntegration
  * using the `CreateDataIntegration` API.
  */
-export const createDataIntegration: (
-  input: CreateDataIntegrationRequest,
-) => effect.Effect<
+export const createDataIntegration: API.OperationMethod<
+  CreateDataIntegrationRequest,
   CreateDataIntegrationResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -1391,9 +1389,8 @@ export const createDataIntegration: (
 /**
  * Creates and persists a DataIntegrationAssociation resource.
  */
-export const createDataIntegrationAssociation: (
-  input: CreateDataIntegrationAssociationRequest,
-) => effect.Effect<
+export const createDataIntegrationAssociation: API.OperationMethod<
+  CreateDataIntegrationAssociationRequest,
   CreateDataIntegrationAssociationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1421,9 +1418,8 @@ export const createDataIntegrationAssociation: (
  * that bus. No objects are created in the your account, only metadata that is persisted on the
  * EventIntegration control plane.
  */
-export const createEventIntegration: (
-  input: CreateEventIntegrationRequest,
-) => effect.Effect<
+export const createEventIntegration: API.OperationMethod<
+  CreateEventIntegrationRequest,
   CreateEventIntegrationResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -1449,9 +1445,8 @@ export const createEventIntegration: (
  * Deletes the Application. Only Applications that don't have any Application Associations
  * can be deleted.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1480,9 +1475,8 @@ export const deleteApplication: (
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const deleteDataIntegration: (
-  input: DeleteDataIntegrationRequest,
-) => effect.Effect<
+export const deleteDataIntegration: API.OperationMethod<
+  DeleteDataIntegrationRequest,
   DeleteDataIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1506,9 +1500,8 @@ export const deleteDataIntegration: (
  * Deletes the specified existing event integration. If the event integration is associated
  * with clients, the request is rejected.
  */
-export const deleteEventIntegration: (
-  input: DeleteEventIntegrationRequest,
-) => effect.Effect<
+export const deleteEventIntegration: API.OperationMethod<
+  DeleteEventIntegrationRequest,
   DeleteEventIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1531,9 +1524,8 @@ export const deleteEventIntegration: (
 /**
  * Get an Application resource.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1560,9 +1552,8 @@ export const getApplication: (
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const getDataIntegration: (
-  input: GetDataIntegrationRequest,
-) => effect.Effect<
+export const getDataIntegration: API.OperationMethod<
+  GetDataIntegrationRequest,
   GetDataIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1585,9 +1576,8 @@ export const getDataIntegration: (
 /**
  * Returns information about the event integration.
  */
-export const getEventIntegration: (
-  input: GetEventIntegrationRequest,
-) => effect.Effect<
+export const getEventIntegration: API.OperationMethod<
+  GetEventIntegrationRequest,
   GetEventIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -1610,19 +1600,17 @@ export const getEventIntegration: (
 /**
  * Returns a paginated list of application associations for an application.
  */
-export const listApplicationAssociations: {
-  (
-    input: ListApplicationAssociationsRequest,
-  ): effect.Effect<
-    ListApplicationAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationAssociations: API.OperationMethod<
+  ListApplicationAssociationsRequest,
+  ListApplicationAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationAssociationsRequest,
   ) => stream.Stream<
@@ -1667,18 +1655,16 @@ export const listApplicationAssociations: {
 /**
  * Lists applications in the account.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | AccessDeniedException
-    | InternalServiceError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -1724,19 +1710,17 @@ export const listApplications: {
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const listDataIntegrationAssociations: {
-  (
-    input: ListDataIntegrationAssociationsRequest,
-  ): effect.Effect<
-    ListDataIntegrationAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataIntegrationAssociations: API.OperationMethod<
+  ListDataIntegrationAssociationsRequest,
+  ListDataIntegrationAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataIntegrationAssociationsRequest,
   ) => stream.Stream<
@@ -1785,18 +1769,16 @@ export const listDataIntegrationAssociations: {
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const listDataIntegrations: {
-  (
-    input: ListDataIntegrationsRequest,
-  ): effect.Effect<
-    ListDataIntegrationsResponse,
-    | AccessDeniedException
-    | InternalServiceError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataIntegrations: API.OperationMethod<
+  ListDataIntegrationsRequest,
+  ListDataIntegrationsResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataIntegrationsRequest,
   ) => stream.Stream<
@@ -1838,19 +1820,17 @@ export const listDataIntegrations: {
 /**
  * Returns a paginated list of event integration associations in the account.
  */
-export const listEventIntegrationAssociations: {
-  (
-    input: ListEventIntegrationAssociationsRequest,
-  ): effect.Effect<
-    ListEventIntegrationAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventIntegrationAssociations: API.OperationMethod<
+  ListEventIntegrationAssociationsRequest,
+  ListEventIntegrationAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventIntegrationAssociationsRequest,
   ) => stream.Stream<
@@ -1895,18 +1875,16 @@ export const listEventIntegrationAssociations: {
 /**
  * Returns a paginated list of event integrations in the account.
  */
-export const listEventIntegrations: {
-  (
-    input: ListEventIntegrationsRequest,
-  ): effect.Effect<
-    ListEventIntegrationsResponse,
-    | AccessDeniedException
-    | InternalServiceError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventIntegrations: API.OperationMethod<
+  ListEventIntegrationsRequest,
+  ListEventIntegrationsResponse,
+  | AccessDeniedException
+  | InternalServiceError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventIntegrationsRequest,
   ) => stream.Stream<
@@ -1948,9 +1926,8 @@ export const listEventIntegrations: {
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1971,9 +1948,8 @@ export const listTagsForResource: (
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -1994,9 +1970,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -2017,9 +1992,8 @@ export const untagResource: (
 /**
  * Updates and persists an Application resource.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -2048,9 +2022,8 @@ export const updateApplication: (
  * Use a different DataIntegration, or recreate the DataIntegration using the
  * CreateDataIntegration API.
  */
-export const updateDataIntegration: (
-  input: UpdateDataIntegrationRequest,
-) => effect.Effect<
+export const updateDataIntegration: API.OperationMethod<
+  UpdateDataIntegrationRequest,
   UpdateDataIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -2075,9 +2048,8 @@ export const updateDataIntegration: (
  *
  * Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
  */
-export const updateDataIntegrationAssociation: (
-  input: UpdateDataIntegrationAssociationRequest,
-) => effect.Effect<
+export const updateDataIntegrationAssociation: API.OperationMethod<
+  UpdateDataIntegrationAssociationRequest,
   UpdateDataIntegrationAssociationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -2100,9 +2072,8 @@ export const updateDataIntegrationAssociation: (
 /**
  * Updates the description of an event integration.
  */
-export const updateEventIntegration: (
-  input: UpdateEventIntegrationRequest,
-) => effect.Effect<
+export const updateEventIntegration: API.OperationMethod<
+  UpdateEventIntegrationRequest,
   UpdateEventIntegrationResponse,
   | AccessDeniedException
   | InternalServiceError

@@ -2690,9 +2690,8 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 /**
  * Associates a phone number with the specified Amazon Chime user.
  */
-export const associatePhoneNumberWithUser: (
-  input: AssociatePhoneNumberWithUserRequest,
-) => effect.Effect<
+export const associatePhoneNumberWithUser: API.OperationMethod<
+  AssociatePhoneNumberWithUserRequest,
   AssociatePhoneNumberWithUserResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2721,9 +2720,8 @@ export const associatePhoneNumberWithUser: (
 /**
  * Associates the specified sign-in delegate groups with the specified Amazon Chime account.
  */
-export const associateSigninDelegateGroupsWithAccount: (
-  input: AssociateSigninDelegateGroupsWithAccountRequest,
-) => effect.Effect<
+export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
+  AssociateSigninDelegateGroupsWithAccountRequest,
   AssociateSigninDelegateGroupsWithAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -2751,9 +2749,8 @@ export const associateSigninDelegateGroupsWithAccount: (
  * Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a
  * chat room administrator or a general chat room member.
  */
-export const batchCreateRoomMembership: (
-  input: BatchCreateRoomMembershipRequest,
-) => effect.Effect<
+export const batchCreateRoomMembership: API.OperationMethod<
+  BatchCreateRoomMembershipRequest,
   BatchCreateRoomMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -2784,9 +2781,8 @@ export const batchCreateRoomMembership: (
  * Phone numbers remain in the
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
-export const batchDeletePhoneNumber: (
-  input: BatchDeletePhoneNumberRequest,
-) => effect.Effect<
+export const batchDeletePhoneNumber: API.OperationMethod<
+  BatchDeletePhoneNumberRequest,
   BatchDeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -2827,9 +2823,8 @@ export const batchDeletePhoneNumber: (
  * To sign out users without suspending them, use the
  * LogoutUser action.
  */
-export const batchSuspendUser: (
-  input: BatchSuspendUserRequest,
-) => effect.Effect<
+export const batchSuspendUser: API.OperationMethod<
+  BatchSuspendUserRequest,
   BatchSuspendUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2865,9 +2860,8 @@ export const batchSuspendUser: (
  * `Registered`
  * status. Users who are not previously suspended are ignored.
  */
-export const batchUnsuspendUser: (
-  input: BatchUnsuspendUserRequest,
-) => effect.Effect<
+export const batchUnsuspendUser: API.OperationMethod<
+  BatchUnsuspendUserRequest,
   BatchUnsuspendUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2898,9 +2892,8 @@ export const batchUnsuspendUser: (
  *
  * Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
-export const batchUpdatePhoneNumber: (
-  input: BatchUpdatePhoneNumberRequest,
-) => effect.Effect<
+export const batchUpdatePhoneNumber: API.OperationMethod<
+  BatchUpdatePhoneNumberRequest,
   BatchUpdatePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -2927,9 +2920,8 @@ export const batchUpdatePhoneNumber: (
 /**
  * Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this action.
  */
-export const batchUpdateUser: (
-  input: BatchUpdateUserRequest,
-) => effect.Effect<
+export const batchUpdateUser: API.OperationMethod<
+  BatchUpdateUserRequest,
   BatchUpdateUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2959,9 +2951,8 @@ export const batchUpdateUser: (
  * Managing Your Amazon Chime Accounts in the Amazon Chime
  * Administration Guide.
  */
-export const createAccount: (
-  input: CreateAccountRequest,
-) => effect.Effect<
+export const createAccount: API.OperationMethod<
+  CreateAccountRequest,
   CreateAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -2988,9 +2979,8 @@ export const createAccount: (
 /**
  * Creates a bot for an Amazon Chime Enterprise account.
  */
-export const createBot: (
-  input: CreateBotRequest,
-) => effect.Effect<
+export const createBot: API.OperationMethod<
+  CreateBotRequest,
   CreateBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -3025,9 +3015,8 @@ export const createBot: (
  *
  * **This API is not available in a dedicated namespace.**
  */
-export const createMeetingDialOut: (
-  input: CreateMeetingDialOutRequest,
-) => effect.Effect<
+export const createMeetingDialOut: API.OperationMethod<
+  CreateMeetingDialOutRequest,
   CreateMeetingDialOutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3057,9 +3046,8 @@ export const createMeetingDialOut: (
  * Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type.
  * For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
  */
-export const createPhoneNumberOrder: (
-  input: CreatePhoneNumberOrderRequest,
-) => effect.Effect<
+export const createPhoneNumberOrder: API.OperationMethod<
+  CreatePhoneNumberOrderRequest,
   CreatePhoneNumberOrderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3088,9 +3076,8 @@ export const createPhoneNumberOrder: (
 /**
  * Creates a chat room for the specified Amazon Chime Enterprise account.
  */
-export const createRoom: (
-  input: CreateRoomRequest,
-) => effect.Effect<
+export const createRoom: API.OperationMethod<
+  CreateRoomRequest,
   CreateRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -3119,9 +3106,8 @@ export const createRoom: (
 /**
  * Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
  */
-export const createRoomMembership: (
-  input: CreateRoomMembershipRequest,
-) => effect.Effect<
+export const createRoomMembership: API.OperationMethod<
+  CreateRoomMembershipRequest,
   CreateRoomMembershipResponse,
   | BadRequestException
   | ConflictException
@@ -3152,9 +3138,8 @@ export const createRoomMembership: (
 /**
  * Creates a user under the specified Amazon Chime account.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | BadRequestException
   | ConflictException
@@ -3196,9 +3181,8 @@ export const createUser: (
  * After 90 days, deleted accounts are permanently removed from your
  * `Disabled` accounts list.
  */
-export const deleteAccount: (
-  input: DeleteAccountRequest,
-) => effect.Effect<
+export const deleteAccount: API.OperationMethod<
+  DeleteAccountRequest,
   DeleteAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -3227,9 +3211,8 @@ export const deleteAccount: (
 /**
  * Deletes the events configuration that allows a bot to receive outgoing events.
  */
-export const deleteEventsConfiguration: (
-  input: DeleteEventsConfigurationRequest,
-) => effect.Effect<
+export const deleteEventsConfiguration: API.OperationMethod<
+  DeleteEventsConfigurationRequest,
   DeleteEventsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3260,9 +3243,8 @@ export const deleteEventsConfiguration: (
  * **Deletion queue**
  * for 7 days before they are deleted permanently.
  */
-export const deletePhoneNumber: (
-  input: DeletePhoneNumberRequest,
-) => effect.Effect<
+export const deletePhoneNumber: API.OperationMethod<
+  DeletePhoneNumberRequest,
   DeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -3289,9 +3271,8 @@ export const deletePhoneNumber: (
 /**
  * Deletes a chat room in an Amazon Chime Enterprise account.
  */
-export const deleteRoom: (
-  input: DeleteRoomRequest,
-) => effect.Effect<
+export const deleteRoom: API.OperationMethod<
+  DeleteRoomRequest,
   DeleteRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -3318,9 +3299,8 @@ export const deleteRoom: (
 /**
  * Removes a member from a chat room in an Amazon Chime Enterprise account.
  */
-export const deleteRoomMembership: (
-  input: DeleteRoomMembershipRequest,
-) => effect.Effect<
+export const deleteRoomMembership: API.OperationMethod<
+  DeleteRoomMembershipRequest,
   DeleteRoomMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -3347,9 +3327,8 @@ export const deleteRoomMembership: (
 /**
  * Disassociates the primary provisioned phone number from the specified Amazon Chime user.
  */
-export const disassociatePhoneNumberFromUser: (
-  input: DisassociatePhoneNumberFromUserRequest,
-) => effect.Effect<
+export const disassociatePhoneNumberFromUser: API.OperationMethod<
+  DisassociatePhoneNumberFromUserRequest,
   DisassociatePhoneNumberFromUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3376,9 +3355,8 @@ export const disassociatePhoneNumberFromUser: (
 /**
  * Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
  */
-export const disassociateSigninDelegateGroupsFromAccount: (
-  input: DisassociateSigninDelegateGroupsFromAccountRequest,
-) => effect.Effect<
+export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
+  DisassociateSigninDelegateGroupsFromAccountRequest,
   DisassociateSigninDelegateGroupsFromAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -3406,9 +3384,8 @@ export const disassociateSigninDelegateGroupsFromAccount: (
  * Retrieves details for the specified Amazon Chime account, such as account type and supported
  * licenses.
  */
-export const getAccount: (
-  input: GetAccountRequest,
-) => effect.Effect<
+export const getAccount: API.OperationMethod<
+  GetAccountRequest,
   GetAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -3437,9 +3414,8 @@ export const getAccount: (
  * and dialout settings. For more information about these settings, see
  * Use the Policies Page in the *Amazon Chime Administration Guide*.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   GetAccountSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3466,9 +3442,8 @@ export const getAccountSettings: (
 /**
  * Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
  */
-export const getBot: (
-  input: GetBotRequest,
-) => effect.Effect<
+export const getBot: API.OperationMethod<
+  GetBotRequest,
   GetBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -3495,9 +3470,8 @@ export const getBot: (
 /**
  * Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
  */
-export const getEventsConfiguration: (
-  input: GetEventsConfigurationRequest,
-) => effect.Effect<
+export const getEventsConfiguration: API.OperationMethod<
+  GetEventsConfigurationRequest,
   GetEventsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3525,9 +3499,8 @@ export const getEventsConfiguration: (
  * Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business
  * Calling and Amazon Chime Voice Connector settings.
  */
-export const getGlobalSettings: (
-  input: GetGlobalSettingsRequest,
-) => effect.Effect<
+export const getGlobalSettings: API.OperationMethod<
+  GetGlobalSettingsRequest,
   GetGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3552,9 +3525,8 @@ export const getGlobalSettings: (
 /**
  * Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
  */
-export const getPhoneNumber: (
-  input: GetPhoneNumberRequest,
-) => effect.Effect<
+export const getPhoneNumber: API.OperationMethod<
+  GetPhoneNumberRequest,
   GetPhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -3582,9 +3554,8 @@ export const getPhoneNumber: (
  * Retrieves details for the specified phone number order, such as the order creation timestamp, phone
  * numbers in E.164 format, product type, and order status.
  */
-export const getPhoneNumberOrder: (
-  input: GetPhoneNumberOrderRequest,
-) => effect.Effect<
+export const getPhoneNumberOrder: API.OperationMethod<
+  GetPhoneNumberOrderRequest,
   GetPhoneNumberOrderResponse,
   | BadRequestException
   | ForbiddenException
@@ -3611,9 +3582,8 @@ export const getPhoneNumberOrder: (
 /**
  * Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
  */
-export const getPhoneNumberSettings: (
-  input: GetPhoneNumberSettingsRequest,
-) => effect.Effect<
+export const getPhoneNumberSettings: API.OperationMethod<
+  GetPhoneNumberSettingsRequest,
   GetPhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3639,9 +3609,8 @@ export const getPhoneNumberSettings: (
  * Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see
  * Managing Chat Retention Policies in the *Amazon Chime Administration Guide*.
  */
-export const getRetentionSettings: (
-  input: GetRetentionSettingsRequest,
-) => effect.Effect<
+export const getRetentionSettings: API.OperationMethod<
+  GetRetentionSettingsRequest,
   GetRetentionSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3668,9 +3637,8 @@ export const getRetentionSettings: (
 /**
  * Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
-export const getRoom: (
-  input: GetRoomRequest,
-) => effect.Effect<
+export const getRoom: API.OperationMethod<
+  GetRoomRequest,
   GetRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -3700,9 +3668,8 @@ export const getRoom: (
  * To retrieve user details with an email address instead of a user ID, use the
  * ListUsers action, and then filter by email address.
  */
-export const getUser: (
-  input: GetUserRequest,
-) => effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3729,9 +3696,8 @@ export const getUser: (
 /**
  * Retrieves settings for the specified user ID, such as any associated phone number settings.
  */
-export const getUserSettings: (
-  input: GetUserSettingsRequest,
-) => effect.Effect<
+export const getUserSettings: API.OperationMethod<
+  GetUserSettingsRequest,
   GetUserSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3760,9 +3726,8 @@ export const getUserSettings: (
  * `Team` account. Only `Team` account types are currently
  * supported for this action.
  */
-export const inviteUsers: (
-  input: InviteUsersRequest,
-) => effect.Effect<
+export const inviteUsers: API.OperationMethod<
+  InviteUsersRequest,
   InviteUsersResponse,
   | BadRequestException
   | ForbiddenException
@@ -3791,21 +3756,19 @@ export const inviteUsers: (
  * by account name prefix. To find out which Amazon Chime account a user belongs to, you can
  * filter by the user's email address, which returns one account result.
  */
-export const listAccounts: {
-  (
-    input: ListAccountsRequest,
-  ): effect.Effect<
-    ListAccountsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccounts: API.OperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsRequest,
   ) => stream.Stream<
@@ -3855,21 +3818,19 @@ export const listAccounts: {
 /**
  * Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
  */
-export const listBots: {
-  (
-    input: ListBotsRequest,
-  ): effect.Effect<
-    ListBotsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBots: API.OperationMethod<
+  ListBotsRequest,
+  ListBotsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
@@ -3919,20 +3880,18 @@ export const listBots: {
 /**
  * Lists the phone number orders for the administrator's Amazon Chime account.
  */
-export const listPhoneNumberOrders: {
-  (
-    input: ListPhoneNumberOrdersRequest,
-  ): effect.Effect<
-    ListPhoneNumberOrdersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumberOrders: API.OperationMethod<
+  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumberOrdersRequest,
   ) => stream.Stream<
@@ -3979,21 +3938,19 @@ export const listPhoneNumberOrders: {
 /**
  * Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
  */
-export const listPhoneNumbers: {
-  (
-    input: ListPhoneNumbersRequest,
-  ): effect.Effect<
-    ListPhoneNumbersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumbers: API.OperationMethod<
+  ListPhoneNumbersRequest,
+  ListPhoneNumbersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
@@ -4044,21 +4001,19 @@ export const listPhoneNumbers: {
  * Lists the membership details for the specified room in an Amazon Chime Enterprise account,
  * such as the members' IDs, email addresses, and names.
  */
-export const listRoomMemberships: {
-  (
-    input: ListRoomMembershipsRequest,
-  ): effect.Effect<
-    ListRoomMembershipsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoomMemberships: API.OperationMethod<
+  ListRoomMembershipsRequest,
+  ListRoomMembershipsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoomMembershipsRequest,
   ) => stream.Stream<
@@ -4108,21 +4063,19 @@ export const listRoomMemberships: {
 /**
  * Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
  */
-export const listRooms: {
-  (
-    input: ListRoomsRequest,
-  ): effect.Effect<
-    ListRoomsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRooms: API.OperationMethod<
+  ListRoomsRequest,
+  ListRoomsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoomsRequest,
   ) => stream.Stream<
@@ -4172,9 +4125,8 @@ export const listRooms: {
 /**
  * Lists supported phone number countries.
  */
-export const listSupportedPhoneNumberCountries: (
-  input: ListSupportedPhoneNumberCountriesRequest,
-) => effect.Effect<
+export const listSupportedPhoneNumberCountries: API.OperationMethod<
+  ListSupportedPhoneNumberCountriesRequest,
   ListSupportedPhoneNumberCountriesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4202,21 +4154,19 @@ export const listSupportedPhoneNumberCountries: (
  * Lists the users that belong to the specified Amazon Chime account. You can specify an email
  * address to list only the user that the email address belongs to.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -4266,9 +4216,8 @@ export const listUsers: {
 /**
  * Logs out the specified user from all of the devices they are currently logged into.
  */
-export const logoutUser: (
-  input: LogoutUserRequest,
-) => effect.Effect<
+export const logoutUser: API.OperationMethod<
+  LogoutUserRequest,
   LogoutUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -4297,9 +4246,8 @@ export const logoutUser: (
  * Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information,
  * see Bot.
  */
-export const putEventsConfiguration: (
-  input: PutEventsConfigurationRequest,
-) => effect.Effect<
+export const putEventsConfiguration: API.OperationMethod<
+  PutEventsConfigurationRequest,
   PutEventsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4336,9 +4284,8 @@ export const putEventsConfiguration: (
  * Managing Chat Retention Policies
  * in the *Amazon Chime Administration Guide*.
  */
-export const putRetentionSettings: (
-  input: PutRetentionSettingsRequest,
-) => effect.Effect<
+export const putRetentionSettings: API.OperationMethod<
+  PutRetentionSettingsRequest,
   PutRetentionSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -4367,9 +4314,8 @@ export const putRetentionSettings: (
 /**
  * Redacts the specified message from the specified Amazon Chime conversation.
  */
-export const redactConversationMessage: (
-  input: RedactConversationMessageRequest,
-) => effect.Effect<
+export const redactConversationMessage: API.OperationMethod<
+  RedactConversationMessageRequest,
   RedactConversationMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -4396,9 +4342,8 @@ export const redactConversationMessage: (
 /**
  * Redacts the specified message from the specified Amazon Chime channel.
  */
-export const redactRoomMessage: (
-  input: RedactRoomMessageRequest,
-) => effect.Effect<
+export const redactRoomMessage: API.OperationMethod<
+  RedactRoomMessageRequest,
   RedactRoomMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -4425,9 +4370,8 @@ export const redactRoomMessage: (
 /**
  * Regenerates the security token for a bot.
  */
-export const regenerateSecurityToken: (
-  input: RegenerateSecurityTokenRequest,
-) => effect.Effect<
+export const regenerateSecurityToken: API.OperationMethod<
+  RegenerateSecurityTokenRequest,
   RegenerateSecurityTokenResponse,
   | BadRequestException
   | ForbiddenException
@@ -4455,9 +4399,8 @@ export const regenerateSecurityToken: (
  * Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns
  * the User object with the updated personal meeting PIN.
  */
-export const resetPersonalPIN: (
-  input: ResetPersonalPINRequest,
-) => effect.Effect<
+export const resetPersonalPIN: API.OperationMethod<
+  ResetPersonalPINRequest,
   ResetPersonalPINResponse,
   | BadRequestException
   | ForbiddenException
@@ -4485,9 +4428,8 @@ export const resetPersonalPIN: (
  * Moves a phone number from the **Deletion queue** back into the
  * phone number **Inventory**.
  */
-export const restorePhoneNumber: (
-  input: RestorePhoneNumberRequest,
-) => effect.Effect<
+export const restorePhoneNumber: API.OperationMethod<
+  RestorePhoneNumberRequest,
   RestorePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -4520,21 +4462,19 @@ export const restorePhoneNumber: (
  * `City`, you must also provide `State`. Numbers outside the US only
  * support the `PhoneNumberType` filter, which you must use.
  */
-export const searchAvailablePhoneNumbers: {
-  (
-    input: SearchAvailablePhoneNumbersRequest,
-  ): effect.Effect<
-    SearchAvailablePhoneNumbersResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchAvailablePhoneNumbers: API.OperationMethod<
+  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
@@ -4584,9 +4524,8 @@ export const searchAvailablePhoneNumbers: {
 /**
  * Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
  */
-export const updateAccount: (
-  input: UpdateAccountRequest,
-) => effect.Effect<
+export const updateAccount: API.OperationMethod<
+  UpdateAccountRequest,
   UpdateAccountResponse,
   | BadRequestException
   | ForbiddenException
@@ -4617,9 +4556,8 @@ export const updateAccount: (
  * the Policies Page in the Amazon Chime Administration
  * Guide.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsRequest,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsRequest,
   UpdateAccountSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -4648,9 +4586,8 @@ export const updateAccountSettings: (
 /**
  * Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
  */
-export const updateBot: (
-  input: UpdateBotRequest,
-) => effect.Effect<
+export const updateBot: API.OperationMethod<
+  UpdateBotRequest,
   UpdateBotResponse,
   | BadRequestException
   | ForbiddenException
@@ -4677,9 +4614,8 @@ export const updateBot: (
 /**
  * Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
  */
-export const updateGlobalSettings: (
-  input: UpdateGlobalSettingsRequest,
-) => effect.Effect<
+export const updateGlobalSettings: API.OperationMethod<
+  UpdateGlobalSettingsRequest,
   UpdateGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4708,9 +4644,8 @@ export const updateGlobalSettings: (
  *
  * Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
  */
-export const updatePhoneNumber: (
-  input: UpdatePhoneNumberRequest,
-) => effect.Effect<
+export const updatePhoneNumber: API.OperationMethod<
+  UpdatePhoneNumberRequest,
   UpdatePhoneNumberResponse,
   | BadRequestException
   | ConflictException
@@ -4741,9 +4676,8 @@ export const updatePhoneNumber: (
  * outbound calling name. You can update the default outbound calling name once every seven
  * days. Outbound calling names can take up to 72 hours to update.
  */
-export const updatePhoneNumberSettings: (
-  input: UpdatePhoneNumberSettingsRequest,
-) => effect.Effect<
+export const updatePhoneNumberSettings: API.OperationMethod<
+  UpdatePhoneNumberSettingsRequest,
   UpdatePhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -4768,9 +4702,8 @@ export const updatePhoneNumberSettings: (
 /**
  * Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
  */
-export const updateRoom: (
-  input: UpdateRoomRequest,
-) => effect.Effect<
+export const updateRoom: API.OperationMethod<
+  UpdateRoomRequest,
   UpdateRoomResponse,
   | BadRequestException
   | ForbiddenException
@@ -4800,9 +4733,8 @@ export const updateRoom: (
  * administrator or a general chat room member. The member role can be updated only for
  * user IDs.
  */
-export const updateRoomMembership: (
-  input: UpdateRoomMembershipRequest,
-) => effect.Effect<
+export const updateRoomMembership: API.OperationMethod<
+  UpdateRoomMembershipRequest,
   UpdateRoomMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -4829,9 +4761,8 @@ export const updateRoomMembership: (
 /**
  * Updates user details for a specified user ID. Currently, only `LicenseType` updates are supported for this action.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -4858,9 +4789,8 @@ export const updateUser: (
 /**
  * Updates the settings for the specified user, such as phone number settings.
  */
-export const updateUserSettings: (
-  input: UpdateUserSettingsRequest,
-) => effect.Effect<
+export const updateUserSettings: API.OperationMethod<
+  UpdateUserSettingsRequest,
   UpdateUserSettingsResponse,
   | BadRequestException
   | ForbiddenException

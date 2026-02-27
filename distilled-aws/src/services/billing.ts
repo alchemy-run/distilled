@@ -689,9 +689,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
  */
-export const associateSourceViews: (
-  input: AssociateSourceViewsRequest,
-) => effect.Effect<
+export const associateSourceViews: API.OperationMethod<
+  AssociateSourceViewsRequest,
   AssociateSourceViewsResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -720,9 +719,8 @@ export const associateSourceViews: (
 /**
  * Creates a billing view with the specified billing view attributes.
  */
-export const createBillingView: (
-  input: CreateBillingViewRequest,
-) => effect.Effect<
+export const createBillingView: API.OperationMethod<
+  CreateBillingViewRequest,
   CreateBillingViewResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -751,9 +749,8 @@ export const createBillingView: (
 /**
  * Deletes the specified billing view.
  */
-export const deleteBillingView: (
-  input: DeleteBillingViewRequest,
-) => effect.Effect<
+export const deleteBillingView: API.OperationMethod<
+  DeleteBillingViewRequest,
   DeleteBillingViewResponse,
   | AccessDeniedException
   | ConflictException
@@ -776,9 +773,8 @@ export const deleteBillingView: (
 /**
  * Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
  */
-export const disassociateSourceViews: (
-  input: DisassociateSourceViewsRequest,
-) => effect.Effect<
+export const disassociateSourceViews: API.OperationMethod<
+  DisassociateSourceViewsRequest,
   DisassociateSourceViewsResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -805,9 +801,8 @@ export const disassociateSourceViews: (
 /**
  * Returns the metadata associated to the specified billing view ARN.
  */
-export const getBillingView: (
-  input: GetBillingViewRequest,
-) => effect.Effect<
+export const getBillingView: API.OperationMethod<
+  GetBillingViewRequest,
   GetBillingViewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -830,9 +825,8 @@ export const getBillingView: (
 /**
  * Returns the resource-based policy document attached to the resource in `JSON` format.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -857,18 +851,16 @@ export const getResourcePolicy: (
  *
  * Every Amazon Web Services account has a unique `PRIMARY` billing view that represents the billing data available by default. Accounts that use Billing Conductor also have `BILLING_GROUP` billing views representing pro forma costs associated with each created billing group.
  */
-export const listBillingViews: {
-  (
-    input: ListBillingViewsRequest,
-  ): effect.Effect<
-    ListBillingViewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillingViews: API.OperationMethod<
+  ListBillingViewsRequest,
+  ListBillingViewsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillingViewsRequest,
   ) => stream.Stream<
@@ -910,19 +902,17 @@ export const listBillingViews: {
 /**
  * Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
  */
-export const listSourceViewsForBillingView: {
-  (
-    input: ListSourceViewsForBillingViewRequest,
-  ): effect.Effect<
-    ListSourceViewsForBillingViewResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceViewsForBillingView: API.OperationMethod<
+  ListSourceViewsForBillingViewRequest,
+  ListSourceViewsForBillingViewResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceViewsForBillingViewRequest,
   ) => stream.Stream<
@@ -967,9 +957,8 @@ export const listSourceViewsForBillingView: {
 /**
  * Lists tags associated with the billing view resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -992,9 +981,8 @@ export const listTagsForResource: (
 /**
  * An API operation for adding one or more tags (key-value pairs) to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1017,9 +1005,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1042,9 +1029,8 @@ export const untagResource: (
 /**
  * An API to update the attributes of the billing view.
  */
-export const updateBillingView: (
-  input: UpdateBillingViewRequest,
-) => effect.Effect<
+export const updateBillingView: API.OperationMethod<
+  UpdateBillingViewRequest,
   UpdateBillingViewResponse,
   | AccessDeniedException
   | BillingViewHealthStatusException

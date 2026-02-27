@@ -4524,9 +4524,8 @@ export class InvalidRestoreFault extends S.TaggedErrorClass<InvalidRestoreFault>
  * Associates an Identity and Access Management (IAM) role with an
  * Neptune DB cluster.
  */
-export const addRoleToDBCluster: (
-  input: AddRoleToDBClusterMessage,
-) => effect.Effect<
+export const addRoleToDBCluster: API.OperationMethod<
+  AddRoleToDBClusterMessage,
   AddRoleToDBClusterResponse,
   | DBClusterNotFoundFault
   | DBClusterRoleAlreadyExistsFault
@@ -4547,9 +4546,8 @@ export const addRoleToDBCluster: (
 /**
  * Adds a source identifier to an existing event notification subscription.
  */
-export const addSourceIdentifierToSubscription: (
-  input: AddSourceIdentifierToSubscriptionMessage,
-) => effect.Effect<
+export const addSourceIdentifierToSubscription: API.OperationMethod<
+  AddSourceIdentifierToSubscriptionMessage,
   AddSourceIdentifierToSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4563,9 +4561,8 @@ export const addSourceIdentifierToSubscription: (
  * allocation reporting to track cost associated with Amazon Neptune resources, or used in a
  * Condition statement in an IAM policy for Amazon Neptune.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceMessage,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceMessage,
   AddTagsToResourceResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -4584,9 +4581,8 @@ export const addTagsToResource: (
 /**
  * Applies a pending maintenance action to a resource (for example, to a DB instance).
  */
-export const applyPendingMaintenanceAction: (
-  input: ApplyPendingMaintenanceActionMessage,
-) => effect.Effect<
+export const applyPendingMaintenanceAction: API.OperationMethod<
+  ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResult,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4598,9 +4594,8 @@ export const applyPendingMaintenanceAction: (
 /**
  * Copies the specified DB cluster parameter group.
  */
-export const copyDBClusterParameterGroup: (
-  input: CopyDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const copyDBClusterParameterGroup: API.OperationMethod<
+  CopyDBClusterParameterGroupMessage,
   CopyDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -4623,9 +4618,8 @@ export const copyDBClusterParameterGroup: (
  * `SourceDBClusterSnapshotIdentifier` must be the Amazon Resource Name (ARN) of the
  * shared DB cluster snapshot.
  */
-export const copyDBClusterSnapshot: (
-  input: CopyDBClusterSnapshotMessage,
-) => effect.Effect<
+export const copyDBClusterSnapshot: API.OperationMethod<
+  CopyDBClusterSnapshotMessage,
   CopyDBClusterSnapshotResult,
   | DBClusterSnapshotAlreadyExistsFault
   | DBClusterSnapshotNotFoundFault
@@ -4650,9 +4644,8 @@ export const copyDBClusterSnapshot: (
 /**
  * Copies the specified DB parameter group.
  */
-export const copyDBParameterGroup: (
-  input: CopyDBParameterGroupMessage,
-) => effect.Effect<
+export const copyDBParameterGroup: API.OperationMethod<
+  CopyDBParameterGroupMessage,
   CopyDBParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -4679,9 +4672,8 @@ export const copyDBParameterGroup: (
  * the console, deletion protection is enabled by default). You can only delete a DB
  * cluster if its `DeletionProtection` field is set to `false`.
  */
-export const createDBCluster: (
-  input: CreateDBClusterMessage,
-) => effect.Effect<
+export const createDBCluster: API.OperationMethod<
+  CreateDBClusterMessage,
   CreateDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -4728,9 +4720,8 @@ export const createDBCluster: (
 /**
  * Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
  */
-export const createDBClusterEndpoint: (
-  input: CreateDBClusterEndpointMessage,
-) => effect.Effect<
+export const createDBClusterEndpoint: API.OperationMethod<
+  CreateDBClusterEndpointMessage,
   CreateDBClusterEndpointOutput,
   | DBClusterEndpointAlreadyExistsFault
   | DBClusterEndpointQuotaExceededFault
@@ -4780,9 +4771,8 @@ export const createDBClusterEndpoint: (
  * console or the DescribeDBClusterParameters
  * command to verify that your DB cluster parameter group has been created or modified.
  */
-export const createDBClusterParameterGroup: (
-  input: CreateDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const createDBClusterParameterGroup: API.OperationMethod<
+  CreateDBClusterParameterGroupMessage,
   CreateDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -4799,9 +4789,8 @@ export const createDBClusterParameterGroup: (
 /**
  * Creates a snapshot of a DB cluster.
  */
-export const createDBClusterSnapshot: (
-  input: CreateDBClusterSnapshotMessage,
-) => effect.Effect<
+export const createDBClusterSnapshot: API.OperationMethod<
+  CreateDBClusterSnapshotMessage,
   CreateDBClusterSnapshotResult,
   | DBClusterNotFoundFault
   | DBClusterSnapshotAlreadyExistsFault
@@ -4824,9 +4813,8 @@ export const createDBClusterSnapshot: (
 /**
  * Creates a new DB instance.
  */
-export const createDBInstance: (
-  input: CreateDBInstanceMessage,
-) => effect.Effect<
+export const createDBInstance: API.OperationMethod<
+  CreateDBInstanceMessage,
   CreateDBInstanceResult,
   | AuthorizationNotFoundFault
   | DBClusterNotFoundFault
@@ -4894,9 +4882,8 @@ export const createDBInstance: (
  * *DescribeDBParameters* command to verify that your DB parameter group has
  * been created or modified.
  */
-export const createDBParameterGroup: (
-  input: CreateDBParameterGroupMessage,
-) => effect.Effect<
+export const createDBParameterGroup: API.OperationMethod<
+  CreateDBParameterGroupMessage,
   CreateDBParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -4914,9 +4901,8 @@ export const createDBParameterGroup: (
  * Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at
  * least two AZs in the Amazon Region.
  */
-export const createDBSubnetGroup: (
-  input: CreateDBSubnetGroupMessage,
-) => effect.Effect<
+export const createDBSubnetGroup: API.OperationMethod<
+  CreateDBSubnetGroupMessage,
   CreateDBSubnetGroupResult,
   | DBSubnetGroupAlreadyExistsFault
   | DBSubnetGroupDoesNotCoverEnoughAZs
@@ -4955,9 +4941,8 @@ export const createDBSubnetGroup: (
  * specify either the SourceType nor the SourceIdentifier, you are notified of events generated
  * from all Neptune sources belonging to your customer account.
  */
-export const createEventSubscription: (
-  input: CreateEventSubscriptionMessage,
-) => effect.Effect<
+export const createEventSubscription: API.OperationMethod<
+  CreateEventSubscriptionMessage,
   CreateEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -4993,9 +4978,8 @@ export const createEventSubscription: (
  * an existing Neptune cluster during the create operation to become the
  * primary cluster of the global database.
  */
-export const createGlobalCluster: (
-  input: CreateGlobalClusterMessage,
-) => effect.Effect<
+export const createGlobalCluster: API.OperationMethod<
+  CreateGlobalClusterMessage,
   CreateGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterAlreadyExistsFault
@@ -5022,9 +5006,8 @@ export const createGlobalCluster: (
  * delete it, you must first set its `DeletionProtection` field to
  * `False`.
  */
-export const deleteDBCluster: (
-  input: DeleteDBClusterMessage,
-) => effect.Effect<
+export const deleteDBCluster: API.OperationMethod<
+  DeleteDBClusterMessage,
   DeleteDBClusterResult,
   | DBClusterNotFoundFault
   | DBClusterSnapshotAlreadyExistsFault
@@ -5047,9 +5030,8 @@ export const deleteDBCluster: (
 /**
  * Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
  */
-export const deleteDBClusterEndpoint: (
-  input: DeleteDBClusterEndpointMessage,
-) => effect.Effect<
+export const deleteDBClusterEndpoint: API.OperationMethod<
+  DeleteDBClusterEndpointMessage,
   DeleteDBClusterEndpointOutput,
   | DBClusterEndpointNotFoundFault
   | InvalidDBClusterEndpointStateFault
@@ -5069,9 +5051,8 @@ export const deleteDBClusterEndpoint: (
  * Deletes a specified DB cluster parameter group. The DB cluster parameter group to be
  * deleted can't be associated with any DB clusters.
  */
-export const deleteDBClusterParameterGroup: (
-  input: DeleteDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const deleteDBClusterParameterGroup: API.OperationMethod<
+  DeleteDBClusterParameterGroupMessage,
   DeleteDBClusterParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -5089,9 +5070,8 @@ export const deleteDBClusterParameterGroup: (
  * The DB cluster snapshot must be in the `available` state to be
  * deleted.
  */
-export const deleteDBClusterSnapshot: (
-  input: DeleteDBClusterSnapshotMessage,
-) => effect.Effect<
+export const deleteDBClusterSnapshot: API.OperationMethod<
+  DeleteDBClusterSnapshotMessage,
   DeleteDBClusterSnapshotResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -5121,9 +5101,8 @@ export const deleteDBClusterSnapshot: (
  * You can't delete a DB instance if it is the only instance in the DB cluster, or
  * if it has deletion protection enabled.
  */
-export const deleteDBInstance: (
-  input: DeleteDBInstanceMessage,
-) => effect.Effect<
+export const deleteDBInstance: API.OperationMethod<
+  DeleteDBInstanceMessage,
   DeleteDBInstanceResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -5147,9 +5126,8 @@ export const deleteDBInstance: (
  * Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't be
  * associated with any DB instances.
  */
-export const deleteDBParameterGroup: (
-  input: DeleteDBParameterGroupMessage,
-) => effect.Effect<
+export const deleteDBParameterGroup: API.OperationMethod<
+  DeleteDBParameterGroupMessage,
   DeleteDBParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -5165,9 +5143,8 @@ export const deleteDBParameterGroup: (
  *
  * The specified database subnet group must not be associated with any DB instances.
  */
-export const deleteDBSubnetGroup: (
-  input: DeleteDBSubnetGroupMessage,
-) => effect.Effect<
+export const deleteDBSubnetGroup: API.OperationMethod<
+  DeleteDBSubnetGroupMessage,
   DeleteDBSubnetGroupResponse,
   | DBSubnetGroupNotFoundFault
   | InvalidDBSubnetGroupStateFault
@@ -5186,9 +5163,8 @@ export const deleteDBSubnetGroup: (
 /**
  * Deletes an event notification subscription.
  */
-export const deleteEventSubscription: (
-  input: DeleteEventSubscriptionMessage,
-) => effect.Effect<
+export const deleteEventSubscription: API.OperationMethod<
+  DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResult,
   InvalidEventSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5201,9 +5177,8 @@ export const deleteEventSubscription: (
  * Deletes a global database. The primary and all secondary clusters must
  * already be detached or deleted first.
  */
-export const deleteGlobalCluster: (
-  input: DeleteGlobalClusterMessage,
-) => effect.Effect<
+export const deleteGlobalCluster: API.OperationMethod<
+  DeleteGlobalClusterMessage,
   DeleteGlobalClusterResult,
   GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5218,14 +5193,12 @@ export const deleteGlobalCluster: (
  * This operation can also return information for Amazon RDS clusters
  * and Amazon DocDB clusters.
  */
-export const describeDBClusterEndpoints: {
-  (
-    input: DescribeDBClusterEndpointsMessage,
-  ): effect.Effect<
-    DBClusterEndpointMessage,
-    DBClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterEndpoints: API.OperationMethod<
+  DescribeDBClusterEndpointsMessage,
+  DBClusterEndpointMessage,
+  DBClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterEndpointsMessage,
   ) => stream.Stream<
@@ -5256,14 +5229,12 @@ export const describeDBClusterEndpoints: {
  * `DBClusterParameterGroupName` parameter is specified, the list will contain only
  * the description of the specified DB cluster parameter group.
  */
-export const describeDBClusterParameterGroups: {
-  (
-    input: DescribeDBClusterParameterGroupsMessage,
-  ): effect.Effect<
-    DBClusterParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterParameterGroups: API.OperationMethod<
+  DescribeDBClusterParameterGroupsMessage,
+  DBClusterParameterGroupsMessage,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
@@ -5292,14 +5263,12 @@ export const describeDBClusterParameterGroups: {
 /**
  * Returns the detailed parameter list for a particular DB cluster parameter group.
  */
-export const describeDBClusterParameters: {
-  (
-    input: DescribeDBClusterParametersMessage,
-  ): effect.Effect<
-    DBClusterParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterParameters: API.OperationMethod<
+  DescribeDBClusterParametersMessage,
+  DBClusterParameterGroupDetails,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
@@ -5332,14 +5301,12 @@ export const describeDBClusterParameters: {
  * This operation can also return information for Amazon RDS clusters
  * and Amazon DocDB clusters.
  */
-export const describeDBClusters: {
-  (
-    input: DescribeDBClustersMessage,
-  ): effect.Effect<
-    DBClusterMessage,
-    DBClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusters: API.OperationMethod<
+  DescribeDBClustersMessage,
+  DBClusterMessage,
+  DBClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
@@ -5379,9 +5346,8 @@ export const describeDBClusters: {
  * To add or remove access for an Amazon account to copy or restore a manual DB cluster
  * snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.
  */
-export const describeDBClusterSnapshotAttributes: (
-  input: DescribeDBClusterSnapshotAttributesMessage,
-) => effect.Effect<
+export const describeDBClusterSnapshotAttributes: API.OperationMethod<
+  DescribeDBClusterSnapshotAttributesMessage,
   DescribeDBClusterSnapshotAttributesResult,
   DBClusterSnapshotNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5394,14 +5360,12 @@ export const describeDBClusterSnapshotAttributes: (
  * Returns information about DB cluster snapshots. This API action supports
  * pagination.
  */
-export const describeDBClusterSnapshots: {
-  (
-    input: DescribeDBClusterSnapshotsMessage,
-  ): effect.Effect<
-    DBClusterSnapshotMessage,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterSnapshots: API.OperationMethod<
+  DescribeDBClusterSnapshotsMessage,
+  DBClusterSnapshotMessage,
+  DBClusterSnapshotNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
@@ -5430,14 +5394,12 @@ export const describeDBClusterSnapshots: {
 /**
  * Returns a list of the available DB engines.
  */
-export const describeDBEngineVersions: {
-  (
-    input: DescribeDBEngineVersionsMessage,
-  ): effect.Effect<
-    DBEngineVersionMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBEngineVersions: API.OperationMethod<
+  DescribeDBEngineVersionsMessage,
+  DBEngineVersionMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
@@ -5469,14 +5431,12 @@ export const describeDBEngineVersions: {
  * This operation can also return information for Amazon RDS instances
  * and Amazon DocDB instances.
  */
-export const describeDBInstances: {
-  (
-    input: DescribeDBInstancesMessage,
-  ): effect.Effect<
-    DBInstanceMessage,
-    DBInstanceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBInstances: API.OperationMethod<
+  DescribeDBInstancesMessage,
+  DBInstanceMessage,
+  DBInstanceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
@@ -5507,14 +5467,12 @@ export const describeDBInstances: {
  * `DBParameterGroupName` is specified, the list will contain only the description of
  * the specified DB parameter group.
  */
-export const describeDBParameterGroups: {
-  (
-    input: DescribeDBParameterGroupsMessage,
-  ): effect.Effect<
-    DBParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBParameterGroups: API.OperationMethod<
+  DescribeDBParameterGroupsMessage,
+  DBParameterGroupsMessage,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBParameterGroupsMessage,
   ) => stream.Stream<
@@ -5543,14 +5501,12 @@ export const describeDBParameterGroups: {
 /**
  * Returns the detailed parameter list for a particular DB parameter group.
  */
-export const describeDBParameters: {
-  (
-    input: DescribeDBParametersMessage,
-  ): effect.Effect<
-    DBParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBParameters: API.OperationMethod<
+  DescribeDBParametersMessage,
+  DBParameterGroupDetails,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBParametersMessage,
   ) => stream.Stream<
@@ -5582,14 +5538,12 @@ export const describeDBParameters: {
  *
  * For an overview of CIDR ranges, go to the Wikipedia Tutorial.
  */
-export const describeDBSubnetGroups: {
-  (
-    input: DescribeDBSubnetGroupsMessage,
-  ): effect.Effect<
-    DBSubnetGroupMessage,
-    DBSubnetGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBSubnetGroups: API.OperationMethod<
+  DescribeDBSubnetGroupsMessage,
+  DBSubnetGroupMessage,
+  DBSubnetGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
@@ -5619,9 +5573,8 @@ export const describeDBSubnetGroups: {
  * Returns the default engine and system parameter information for the cluster database
  * engine.
  */
-export const describeEngineDefaultClusterParameters: (
-  input: DescribeEngineDefaultClusterParametersMessage,
-) => effect.Effect<
+export const describeEngineDefaultClusterParameters: API.OperationMethod<
+  DescribeEngineDefaultClusterParametersMessage,
   DescribeEngineDefaultClusterParametersResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5634,14 +5587,12 @@ export const describeEngineDefaultClusterParameters: (
  * Returns the default engine and system parameter information for the specified database
  * engine.
  */
-export const describeEngineDefaultParameters: {
-  (
-    input: DescribeEngineDefaultParametersMessage,
-  ): effect.Effect<
-    DescribeEngineDefaultParametersResult,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEngineDefaultParameters: API.OperationMethod<
+  DescribeEngineDefaultParametersMessage,
+  DescribeEngineDefaultParametersResult,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
@@ -5671,9 +5622,8 @@ export const describeEngineDefaultParameters: {
  * Displays a list of categories for all event source types, or, if specified, for a
  * specified source type.
  */
-export const describeEventCategories: (
-  input: DescribeEventCategoriesMessage,
-) => effect.Effect<
+export const describeEventCategories: API.OperationMethod<
+  DescribeEventCategoriesMessage,
   EventCategoriesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5688,14 +5638,12 @@ export const describeEventCategories: (
  * database snapshot, or DB parameter group can be obtained by providing the name as a parameter.
  * By default, the past hour of events are returned.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    EventsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  EventsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -5728,14 +5676,12 @@ export const describeEvents: {
  *
  * If you specify a SubscriptionName, lists the description for that subscription.
  */
-export const describeEventSubscriptions: {
-  (
-    input: DescribeEventSubscriptionsMessage,
-  ): effect.Effect<
-    EventSubscriptionsMessage,
-    SubscriptionNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEventSubscriptions: API.OperationMethod<
+  DescribeEventSubscriptionsMessage,
+  EventSubscriptionsMessage,
+  SubscriptionNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
@@ -5765,14 +5711,12 @@ export const describeEventSubscriptions: {
  * Returns information about Neptune global database clusters. This API
  * supports pagination.
  */
-export const describeGlobalClusters: {
-  (
-    input: DescribeGlobalClustersMessage,
-  ): effect.Effect<
-    GlobalClustersMessage,
-    GlobalClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGlobalClusters: API.OperationMethod<
+  DescribeGlobalClustersMessage,
+  GlobalClustersMessage,
+  GlobalClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
@@ -5801,14 +5745,12 @@ export const describeGlobalClusters: {
 /**
  * Returns a list of orderable DB instance options for the specified engine.
  */
-export const describeOrderableDBInstanceOptions: {
-  (
-    input: DescribeOrderableDBInstanceOptionsMessage,
-  ): effect.Effect<
-    OrderableDBInstanceOptionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrderableDBInstanceOptions: API.OperationMethod<
+  DescribeOrderableDBInstanceOptionsMessage,
+  OrderableDBInstanceOptionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
@@ -5838,14 +5780,12 @@ export const describeOrderableDBInstanceOptions: {
  * Returns a list of resources (for example, DB instances) that have at least one pending
  * maintenance action.
  */
-export const describePendingMaintenanceActions: {
-  (
-    input: DescribePendingMaintenanceActionsMessage,
-  ): effect.Effect<
-    PendingMaintenanceActionsMessage,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePendingMaintenanceActions: API.OperationMethod<
+  DescribePendingMaintenanceActionsMessage,
+  PendingMaintenanceActionsMessage,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
@@ -5876,9 +5816,8 @@ export const describePendingMaintenanceActions: {
  * to learn what modifications you can make to your DB instance. You can use this
  * information when you call ModifyDBInstance.
  */
-export const describeValidDBInstanceModifications: (
-  input: DescribeValidDBInstanceModificationsMessage,
-) => effect.Effect<
+export const describeValidDBInstanceModifications: API.OperationMethod<
+  DescribeValidDBInstanceModificationsMessage,
   DescribeValidDBInstanceModificationsResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5899,9 +5838,8 @@ export const describeValidDBInstanceModifications: (
  * address, you will need to clean up and re-establish any existing connections that use those
  * endpoint addresses when the failover is complete.
  */
-export const failoverDBCluster: (
-  input: FailoverDBClusterMessage,
-) => effect.Effect<
+export const failoverDBCluster: API.OperationMethod<
+  FailoverDBClusterMessage,
   FailoverDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -5933,9 +5871,8 @@ export const failoverDBCluster: (
  * outages, to test disaster recovery scenarios or to reconfigure the global
  * database topology.
  */
-export const failoverGlobalCluster: (
-  input: FailoverGlobalClusterMessage,
-) => effect.Effect<
+export const failoverGlobalCluster: API.OperationMethod<
+  FailoverGlobalClusterMessage,
   FailoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -5956,9 +5893,8 @@ export const failoverGlobalCluster: (
 /**
  * Lists all tags on an Amazon Neptune resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceMessage,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
   TagListMessage,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -5978,9 +5914,8 @@ export const listTagsForResource: (
  * Modify a setting for a DB cluster. You can change one or more database configuration
  * parameters by specifying these parameters and the new values in the request.
  */
-export const modifyDBCluster: (
-  input: ModifyDBClusterMessage,
-) => effect.Effect<
+export const modifyDBCluster: API.OperationMethod<
+  ModifyDBClusterMessage,
   ModifyDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -6017,9 +5952,8 @@ export const modifyDBCluster: (
 /**
  * Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
  */
-export const modifyDBClusterEndpoint: (
-  input: ModifyDBClusterEndpointMessage,
-) => effect.Effect<
+export const modifyDBClusterEndpoint: API.OperationMethod<
+  ModifyDBClusterEndpointMessage,
   ModifyDBClusterEndpointOutput,
   | DBClusterEndpointNotFoundFault
   | DBInstanceNotFoundFault
@@ -6059,9 +5993,8 @@ export const modifyDBClusterEndpoint: (
  * Groups option of the Amazon Neptune console or the DescribeDBClusterParameters command to verify that your DB cluster parameter
  * group has been created or modified.
  */
-export const modifyDBClusterParameterGroup: (
-  input: ModifyDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const modifyDBClusterParameterGroup: API.OperationMethod<
+  ModifyDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -6090,9 +6023,8 @@ export const modifyDBClusterParameterGroup: (
  * To view which Amazon accounts have access to copy or restore a manual DB cluster snapshot, or
  * whether a manual DB cluster snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.
  */
-export const modifyDBClusterSnapshotAttribute: (
-  input: ModifyDBClusterSnapshotAttributeMessage,
-) => effect.Effect<
+export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
+  ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -6113,9 +6045,8 @@ export const modifyDBClusterSnapshotAttribute: (
  * parameters by specifying these parameters and the new values in the request. To learn what
  * modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
  */
-export const modifyDBInstance: (
-  input: ModifyDBInstanceMessage,
-) => effect.Effect<
+export const modifyDBInstance: API.OperationMethod<
+  ModifyDBInstanceMessage,
   ModifyDBInstanceResult,
   | AuthorizationNotFoundFault
   | CertificateNotFoundFault
@@ -6177,9 +6108,8 @@ export const modifyDBInstance: (
  * *DescribeDBParameters* command to verify that your DB parameter group has
  * been created or modified.
  */
-export const modifyDBParameterGroup: (
-  input: ModifyDBParameterGroupMessage,
-) => effect.Effect<
+export const modifyDBParameterGroup: API.OperationMethod<
+  ModifyDBParameterGroupMessage,
   DBParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -6194,9 +6124,8 @@ export const modifyDBParameterGroup: (
  * Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in
  * at least two AZs in the Amazon Region.
  */
-export const modifyDBSubnetGroup: (
-  input: ModifyDBSubnetGroupMessage,
-) => effect.Effect<
+export const modifyDBSubnetGroup: API.OperationMethod<
+  ModifyDBSubnetGroupMessage,
   ModifyDBSubnetGroupResult,
   | DBSubnetGroupDoesNotCoverEnoughAZs
   | DBSubnetGroupNotFoundFault
@@ -6224,9 +6153,8 @@ export const modifyDBSubnetGroup: (
  * You can see a list of the event categories for a given SourceType
  * by using the **DescribeEventCategories** action.
  */
-export const modifyEventSubscription: (
-  input: ModifyEventSubscriptionMessage,
-) => effect.Effect<
+export const modifyEventSubscription: API.OperationMethod<
+  ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -6253,9 +6181,8 @@ export const modifyEventSubscription: (
  * or more database configuration parameters by specifying these parameters
  * and their new values in the request.
  */
-export const modifyGlobalCluster: (
-  input: ModifyGlobalClusterMessage,
-) => effect.Effect<
+export const modifyGlobalCluster: API.OperationMethod<
+  ModifyGlobalClusterMessage,
   ModifyGlobalClusterResult,
   | GlobalClusterAlreadyExistsFault
   | GlobalClusterNotFoundFault
@@ -6278,9 +6205,8 @@ export const modifyGlobalCluster: (
 /**
  * Not supported.
  */
-export const promoteReadReplicaDBCluster: (
-  input: PromoteReadReplicaDBClusterMessage,
-) => effect.Effect<
+export const promoteReadReplicaDBCluster: API.OperationMethod<
+  PromoteReadReplicaDBClusterMessage,
   PromoteReadReplicaDBClusterResult,
   DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6297,9 +6223,8 @@ export const promoteReadReplicaDBCluster: (
  * Rebooting a DB instance restarts the database engine service. Rebooting a DB instance
  * results in a momentary outage, during which the DB instance status is set to rebooting.
  */
-export const rebootDBInstance: (
-  input: RebootDBInstanceMessage,
-) => effect.Effect<
+export const rebootDBInstance: API.OperationMethod<
+  RebootDBInstanceMessage,
   RebootDBInstanceResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6314,9 +6239,8 @@ export const rebootDBInstance: (
  * instead of being read-only, and no longer receives data from a the
  * primary cluster.
  */
-export const removeFromGlobalCluster: (
-  input: RemoveFromGlobalClusterMessage,
-) => effect.Effect<
+export const removeFromGlobalCluster: API.OperationMethod<
+  RemoveFromGlobalClusterMessage,
   RemoveFromGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -6335,9 +6259,8 @@ export const removeFromGlobalCluster: (
 /**
  * Disassociates an Identity and Access Management (IAM) role from a DB cluster.
  */
-export const removeRoleFromDBCluster: (
-  input: RemoveRoleFromDBClusterMessage,
-) => effect.Effect<
+export const removeRoleFromDBCluster: API.OperationMethod<
+  RemoveRoleFromDBClusterMessage,
   RemoveRoleFromDBClusterResponse,
   | DBClusterNotFoundFault
   | DBClusterRoleNotFoundFault
@@ -6356,9 +6279,8 @@ export const removeRoleFromDBCluster: (
 /**
  * Removes a source identifier from an existing event notification subscription.
  */
-export const removeSourceIdentifierFromSubscription: (
-  input: RemoveSourceIdentifierFromSubscriptionMessage,
-) => effect.Effect<
+export const removeSourceIdentifierFromSubscription: API.OperationMethod<
+  RemoveSourceIdentifierFromSubscriptionMessage,
   RemoveSourceIdentifierFromSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6370,9 +6292,8 @@ export const removeSourceIdentifierFromSubscription: (
 /**
  * Removes metadata tags from an Amazon Neptune resource.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceMessage,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceMessage,
   RemoveTagsFromResourceResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -6399,9 +6320,8 @@ export const removeTagsFromResource: (
  * restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster
  * that you want the updated static parameter to apply to.
  */
-export const resetDBClusterParameterGroup: (
-  input: ResetDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const resetDBClusterParameterGroup: API.OperationMethod<
+  ResetDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -6421,9 +6341,8 @@ export const resetDBClusterParameterGroup: (
  * are set to `pending-reboot` to take effect on the next DB instance restart or
  * `RebootDBInstance` request.
  */
-export const resetDBParameterGroup: (
-  input: ResetDBParameterGroupMessage,
-) => effect.Effect<
+export const resetDBParameterGroup: API.OperationMethod<
+  ResetDBParameterGroupMessage,
   DBParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -6444,9 +6363,8 @@ export const resetDBParameterGroup: (
  * cluster restore point with the same configuration as the original source DB cluster, except
  * that the new DB cluster is created with the default security group.
  */
-export const restoreDBClusterFromSnapshot: (
-  input: RestoreDBClusterFromSnapshotMessage,
-) => effect.Effect<
+export const restoreDBClusterFromSnapshot: API.OperationMethod<
+  RestoreDBClusterFromSnapshotMessage,
   RestoreDBClusterFromSnapshotResult,
   | DBClusterAlreadyExistsFault
   | DBClusterParameterGroupNotFoundFault
@@ -6502,9 +6420,8 @@ export const restoreDBClusterFromSnapshot: (
  * `RestoreDBClusterToPointInTime` action has completed and the DB cluster is
  * available.
  */
-export const restoreDBClusterToPointInTime: (
-  input: RestoreDBClusterToPointInTimeMessage,
-) => effect.Effect<
+export const restoreDBClusterToPointInTime: API.OperationMethod<
+  RestoreDBClusterToPointInTimeMessage,
   RestoreDBClusterToPointInTimeResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -6552,9 +6469,8 @@ export const restoreDBClusterToPointInTime: (
  * Starts an Amazon Neptune DB cluster that was stopped using the Amazon
  * console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
  */
-export const startDBCluster: (
-  input: StartDBClusterMessage,
-) => effect.Effect<
+export const startDBCluster: API.OperationMethod<
+  StartDBClusterMessage,
   StartDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -6578,9 +6494,8 @@ export const startDBCluster: (
  * Neptune also retains the transaction logs so you can do a point-in-time
  * restore if necessary.
  */
-export const stopDBCluster: (
-  input: StopDBClusterMessage,
-) => effect.Effect<
+export const stopDBCluster: API.OperationMethod<
+  StopDBClusterMessage,
   StopDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -6609,9 +6524,8 @@ export const stopDBCluster: (
  * This operation is intended for controlled environments, for operations such as "regional rotation" or
  * to fall back to the original primary after a global database failover.
  */
-export const switchoverGlobalCluster: (
-  input: SwitchoverGlobalClusterMessage,
-) => effect.Effect<
+export const switchoverGlobalCluster: API.OperationMethod<
+  SwitchoverGlobalClusterMessage,
   SwitchoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault

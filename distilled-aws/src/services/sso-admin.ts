@@ -2870,9 +2870,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  *
  * - ListRegions
  */
-export const addRegion: (
-  input: AddRegionRequest,
-) => effect.Effect<
+export const addRegion: API.OperationMethod<
+  AddRegionRequest,
   AddRegionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2897,9 +2896,8 @@ export const addRegion: (
 /**
  * Attaches the specified customer managed policy to the specified PermissionSet.
  */
-export const attachCustomerManagedPolicyReferenceToPermissionSet: (
-  input: AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
-) => effect.Effect<
+export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationMethod<
+  AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
   AttachCustomerManagedPolicyReferenceToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2928,9 +2926,8 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: (
  *
  * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this operation. Calling `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned accounts.
  */
-export const attachManagedPolicyToPermissionSet: (
-  input: AttachManagedPolicyToPermissionSetRequest,
-) => effect.Effect<
+export const attachManagedPolicyToPermissionSet: API.OperationMethod<
+  AttachManagedPolicyToPermissionSetRequest,
   AttachManagedPolicyToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2963,9 +2960,8 @@ export const attachManagedPolicyToPermissionSet: (
  *
  * After a successful response, call `DescribeAccountAssignmentCreationStatus` to describe the status of an assignment creation request.
  */
-export const createAccountAssignment: (
-  input: CreateAccountAssignmentRequest,
-) => effect.Effect<
+export const createAccountAssignment: API.OperationMethod<
+  CreateAccountAssignmentRequest,
   CreateAccountAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2994,9 +2990,8 @@ export const createAccountAssignment: (
  *
  * This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications. For more information on these application types, see Amazon Web Services managed applications.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3023,9 +3018,8 @@ export const createApplication: (
 /**
  * Grant application access to a user or group.
  */
-export const createApplicationAssignment: (
-  input: CreateApplicationAssignmentRequest,
-) => effect.Effect<
+export const createApplicationAssignment: API.OperationMethod<
+  CreateApplicationAssignmentRequest,
   CreateApplicationAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3058,9 +3052,8 @@ export const createApplicationAssignment: (
  *
  * - An instance already exists in the same account.
  */
-export const createInstance: (
-  input: CreateInstanceRequest,
-) => effect.Effect<
+export const createInstance: API.OperationMethod<
+  CreateInstanceRequest,
   CreateInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3087,9 +3080,8 @@ export const createInstance: (
  *
  * After a successful response, call `DescribeInstanceAccessControlAttributeConfiguration` to validate that `InstanceAccessControlAttributeConfiguration` was created.
  */
-export const createInstanceAccessControlAttributeConfiguration: (
-  input: CreateInstanceAccessControlAttributeConfigurationRequest,
-) => effect.Effect<
+export const createInstanceAccessControlAttributeConfiguration: API.OperationMethod<
+  CreateInstanceAccessControlAttributeConfigurationRequest,
   CreateInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3116,9 +3108,8 @@ export const createInstanceAccessControlAttributeConfiguration: (
  *
  * To grant users and groups access to Amazon Web Services account resources, use ` CreateAccountAssignment `.
  */
-export const createPermissionSet: (
-  input: CreatePermissionSetRequest,
-) => effect.Effect<
+export const createPermissionSet: API.OperationMethod<
+  CreatePermissionSetRequest,
   CreatePermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3147,9 +3138,8 @@ export const createPermissionSet: (
  *
  * This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
  */
-export const createTrustedTokenIssuer: (
-  input: CreateTrustedTokenIssuerRequest,
-) => effect.Effect<
+export const createTrustedTokenIssuer: API.OperationMethod<
+  CreateTrustedTokenIssuerRequest,
   CreateTrustedTokenIssuerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3176,9 +3166,8 @@ export const createTrustedTokenIssuer: (
  *
  * After a successful response, call `DescribeAccountAssignmentDeletionStatus` to describe the status of an assignment deletion request.
  */
-export const deleteAccountAssignment: (
-  input: DeleteAccountAssignmentRequest,
-) => effect.Effect<
+export const deleteAccountAssignment: API.OperationMethod<
+  DeleteAccountAssignmentRequest,
   DeleteAccountAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3203,9 +3192,8 @@ export const deleteAccountAssignment: (
 /**
  * Deletes the association with the application. The connected service resource still exists.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3230,9 +3218,8 @@ export const deleteApplication: (
 /**
  * Revoke application access to an application by deleting application assignments for a user or group.
  */
-export const deleteApplicationAssignment: (
-  input: DeleteApplicationAssignmentRequest,
-) => effect.Effect<
+export const deleteApplicationAssignment: API.OperationMethod<
+  DeleteApplicationAssignmentRequest,
   DeleteApplicationAssignmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3257,9 +3244,8 @@ export const deleteApplicationAssignment: (
 /**
  * Deletes the inline policy from a specified permission set.
  */
-export const deleteInlinePolicyFromPermissionSet: (
-  input: DeleteInlinePolicyFromPermissionSetRequest,
-) => effect.Effect<
+export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
+  DeleteInlinePolicyFromPermissionSetRequest,
   DeleteInlinePolicyFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3284,9 +3270,8 @@ export const deleteInlinePolicyFromPermissionSet: (
 /**
  * Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
  */
-export const deleteInstance: (
-  input: DeleteInstanceRequest,
-) => effect.Effect<
+export const deleteInstance: API.OperationMethod<
+  DeleteInstanceRequest,
   DeleteInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3309,9 +3294,8 @@ export const deleteInstance: (
 /**
  * Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
-export const deleteInstanceAccessControlAttributeConfiguration: (
-  input: DeleteInstanceAccessControlAttributeConfigurationRequest,
-) => effect.Effect<
+export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMethod<
+  DeleteInstanceAccessControlAttributeConfigurationRequest,
   DeleteInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3336,9 +3320,8 @@ export const deleteInstanceAccessControlAttributeConfiguration: (
 /**
  * Deletes the permissions boundary from a specified PermissionSet.
  */
-export const deletePermissionsBoundaryFromPermissionSet: (
-  input: DeletePermissionsBoundaryFromPermissionSetRequest,
-) => effect.Effect<
+export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
+  DeletePermissionsBoundaryFromPermissionSetRequest,
   DeletePermissionsBoundaryFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3363,9 +3346,8 @@ export const deletePermissionsBoundaryFromPermissionSet: (
 /**
  * Deletes the specified permission set.
  */
-export const deletePermissionSet: (
-  input: DeletePermissionSetRequest,
-) => effect.Effect<
+export const deletePermissionSet: API.OperationMethod<
+  DeletePermissionSetRequest,
   DeletePermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3392,9 +3374,8 @@ export const deletePermissionSet: (
  *
  * Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
  */
-export const deleteTrustedTokenIssuer: (
-  input: DeleteTrustedTokenIssuerRequest,
-) => effect.Effect<
+export const deleteTrustedTokenIssuer: API.OperationMethod<
+  DeleteTrustedTokenIssuerRequest,
   DeleteTrustedTokenIssuerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3419,9 +3400,8 @@ export const deleteTrustedTokenIssuer: (
 /**
  * Describes the status of the assignment creation request.
  */
-export const describeAccountAssignmentCreationStatus: (
-  input: DescribeAccountAssignmentCreationStatusRequest,
-) => effect.Effect<
+export const describeAccountAssignmentCreationStatus: API.OperationMethod<
+  DescribeAccountAssignmentCreationStatusRequest,
   DescribeAccountAssignmentCreationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3444,9 +3424,8 @@ export const describeAccountAssignmentCreationStatus: (
 /**
  * Describes the status of the assignment deletion request.
  */
-export const describeAccountAssignmentDeletionStatus: (
-  input: DescribeAccountAssignmentDeletionStatusRequest,
-) => effect.Effect<
+export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
+  DescribeAccountAssignmentDeletionStatusRequest,
   DescribeAccountAssignmentDeletionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3469,9 +3448,8 @@ export const describeAccountAssignmentDeletionStatus: (
 /**
  * Retrieves the details of an application associated with an instance of IAM Identity Center.
  */
-export const describeApplication: (
-  input: DescribeApplicationRequest,
-) => effect.Effect<
+export const describeApplication: API.OperationMethod<
+  DescribeApplicationRequest,
   DescribeApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3494,9 +3472,8 @@ export const describeApplication: (
 /**
  * Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
  */
-export const describeApplicationAssignment: (
-  input: DescribeApplicationAssignmentRequest,
-) => effect.Effect<
+export const describeApplicationAssignment: API.OperationMethod<
+  DescribeApplicationAssignmentRequest,
   DescribeApplicationAssignmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3519,9 +3496,8 @@ export const describeApplicationAssignment: (
 /**
  * Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
  */
-export const describeApplicationProvider: (
-  input: DescribeApplicationProviderRequest,
-) => effect.Effect<
+export const describeApplicationProvider: API.OperationMethod<
+  DescribeApplicationProviderRequest,
   DescribeApplicationProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3550,9 +3526,8 @@ export const describeApplicationProvider: (
  *
  * - `ACTIVE` - The instance is active.
  */
-export const describeInstance: (
-  input: DescribeInstanceRequest,
-) => effect.Effect<
+export const describeInstance: API.OperationMethod<
+  DescribeInstanceRequest,
   DescribeInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3573,9 +3548,8 @@ export const describeInstance: (
 /**
  * Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
-export const describeInstanceAccessControlAttributeConfiguration: (
-  input: DescribeInstanceAccessControlAttributeConfigurationRequest,
-) => effect.Effect<
+export const describeInstanceAccessControlAttributeConfiguration: API.OperationMethod<
+  DescribeInstanceAccessControlAttributeConfigurationRequest,
   DescribeInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3598,9 +3572,8 @@ export const describeInstanceAccessControlAttributeConfiguration: (
 /**
  * Gets the details of the permission set.
  */
-export const describePermissionSet: (
-  input: DescribePermissionSetRequest,
-) => effect.Effect<
+export const describePermissionSet: API.OperationMethod<
+  DescribePermissionSetRequest,
   DescribePermissionSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3623,9 +3596,8 @@ export const describePermissionSet: (
 /**
  * Describes the status for the given permission set provisioning request.
  */
-export const describePermissionSetProvisioningStatus: (
-  input: DescribePermissionSetProvisioningStatusRequest,
-) => effect.Effect<
+export const describePermissionSetProvisioningStatus: API.OperationMethod<
+  DescribePermissionSetProvisioningStatusRequest,
   DescribePermissionSetProvisioningStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3656,9 +3628,8 @@ export const describePermissionSetProvisioningStatus: (
  *
  * - ListRegions
  */
-export const describeRegion: (
-  input: DescribeRegionRequest,
-) => effect.Effect<
+export const describeRegion: API.OperationMethod<
+  DescribeRegionRequest,
   DescribeRegionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3681,9 +3652,8 @@ export const describeRegion: (
 /**
  * Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
  */
-export const describeTrustedTokenIssuer: (
-  input: DescribeTrustedTokenIssuerRequest,
-) => effect.Effect<
+export const describeTrustedTokenIssuer: API.OperationMethod<
+  DescribeTrustedTokenIssuerRequest,
   DescribeTrustedTokenIssuerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3706,9 +3676,8 @@ export const describeTrustedTokenIssuer: (
 /**
  * Detaches the specified customer managed policy from the specified PermissionSet.
  */
-export const detachCustomerManagedPolicyReferenceFromPermissionSet: (
-  input: DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
-) => effect.Effect<
+export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.OperationMethod<
+  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
   DetachCustomerManagedPolicyReferenceFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3733,9 +3702,8 @@ export const detachCustomerManagedPolicyReferenceFromPermissionSet: (
 /**
  * Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
  */
-export const detachManagedPolicyFromPermissionSet: (
-  input: DetachManagedPolicyFromPermissionSetRequest,
-) => effect.Effect<
+export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
+  DetachManagedPolicyFromPermissionSetRequest,
   DetachManagedPolicyFromPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3760,9 +3728,8 @@ export const detachManagedPolicyFromPermissionSet: (
 /**
  * Retrieves the configuration of PutApplicationAssignmentConfiguration.
  */
-export const getApplicationAssignmentConfiguration: (
-  input: GetApplicationAssignmentConfigurationRequest,
-) => effect.Effect<
+export const getApplicationAssignmentConfiguration: API.OperationMethod<
+  GetApplicationAssignmentConfigurationRequest,
   GetApplicationAssignmentConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3787,9 +3754,8 @@ export const getApplicationAssignmentConfiguration: (
  *
  * The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
  */
-export const getApplicationSessionConfiguration: (
-  input: GetApplicationSessionConfigurationRequest,
-) => effect.Effect<
+export const getApplicationSessionConfiguration: API.OperationMethod<
+  GetApplicationSessionConfigurationRequest,
   GetApplicationSessionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3812,9 +3778,8 @@ export const getApplicationSessionConfiguration: (
 /**
  * Obtains the inline policy assigned to the permission set.
  */
-export const getInlinePolicyForPermissionSet: (
-  input: GetInlinePolicyForPermissionSetRequest,
-) => effect.Effect<
+export const getInlinePolicyForPermissionSet: API.OperationMethod<
+  GetInlinePolicyForPermissionSetRequest,
   GetInlinePolicyForPermissionSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3837,9 +3802,8 @@ export const getInlinePolicyForPermissionSet: (
 /**
  * Obtains the permissions boundary for a specified PermissionSet.
  */
-export const getPermissionsBoundaryForPermissionSet: (
-  input: GetPermissionsBoundaryForPermissionSetRequest,
-) => effect.Effect<
+export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
+  GetPermissionsBoundaryForPermissionSetRequest,
   GetPermissionsBoundaryForPermissionSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3862,19 +3826,17 @@ export const getPermissionsBoundaryForPermissionSet: (
 /**
  * Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
  */
-export const listAccountAssignmentCreationStatus: {
-  (
-    input: ListAccountAssignmentCreationStatusRequest,
-  ): effect.Effect<
-    ListAccountAssignmentCreationStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAssignmentCreationStatus: API.OperationMethod<
+  ListAccountAssignmentCreationStatusRequest,
+  ListAccountAssignmentCreationStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAssignmentCreationStatusRequest,
   ) => stream.Stream<
@@ -3919,19 +3881,17 @@ export const listAccountAssignmentCreationStatus: {
 /**
  * Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
  */
-export const listAccountAssignmentDeletionStatus: {
-  (
-    input: ListAccountAssignmentDeletionStatusRequest,
-  ): effect.Effect<
-    ListAccountAssignmentDeletionStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAssignmentDeletionStatus: API.OperationMethod<
+  ListAccountAssignmentDeletionStatusRequest,
+  ListAccountAssignmentDeletionStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAssignmentDeletionStatusRequest,
   ) => stream.Stream<
@@ -3976,19 +3936,17 @@ export const listAccountAssignmentDeletionStatus: {
 /**
  * Lists the assignee of the specified Amazon Web Services account with the specified permission set.
  */
-export const listAccountAssignments: {
-  (
-    input: ListAccountAssignmentsRequest,
-  ): effect.Effect<
-    ListAccountAssignmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAssignments: API.OperationMethod<
+  ListAccountAssignmentsRequest,
+  ListAccountAssignmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAssignmentsRequest,
   ) => stream.Stream<
@@ -4033,19 +3991,17 @@ export const listAccountAssignments: {
 /**
  * Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
  */
-export const listAccountAssignmentsForPrincipal: {
-  (
-    input: ListAccountAssignmentsForPrincipalRequest,
-  ): effect.Effect<
-    ListAccountAssignmentsForPrincipalResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAssignmentsForPrincipal: API.OperationMethod<
+  ListAccountAssignmentsForPrincipalRequest,
+  ListAccountAssignmentsForPrincipalResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAssignmentsForPrincipalRequest,
   ) => stream.Stream<
@@ -4090,19 +4046,17 @@ export const listAccountAssignmentsForPrincipal: {
 /**
  * Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
  */
-export const listAccountsForProvisionedPermissionSet: {
-  (
-    input: ListAccountsForProvisionedPermissionSetRequest,
-  ): effect.Effect<
-    ListAccountsForProvisionedPermissionSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountsForProvisionedPermissionSet: API.OperationMethod<
+  ListAccountsForProvisionedPermissionSetRequest,
+  ListAccountsForProvisionedPermissionSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsForProvisionedPermissionSetRequest,
   ) => stream.Stream<
@@ -4147,19 +4101,17 @@ export const listAccountsForProvisionedPermissionSet: {
 /**
  * Lists Amazon Web Services account users that are assigned to an application.
  */
-export const listApplicationAssignments: {
-  (
-    input: ListApplicationAssignmentsRequest,
-  ): effect.Effect<
-    ListApplicationAssignmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationAssignments: API.OperationMethod<
+  ListApplicationAssignmentsRequest,
+  ListApplicationAssignmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationAssignmentsRequest,
   ) => stream.Stream<
@@ -4204,19 +4156,17 @@ export const listApplicationAssignments: {
 /**
  * Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
  */
-export const listApplicationAssignmentsForPrincipal: {
-  (
-    input: ListApplicationAssignmentsForPrincipalRequest,
-  ): effect.Effect<
-    ListApplicationAssignmentsForPrincipalResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationAssignmentsForPrincipal: API.OperationMethod<
+  ListApplicationAssignmentsForPrincipalRequest,
+  ListApplicationAssignmentsForPrincipalResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationAssignmentsForPrincipalRequest,
   ) => stream.Stream<
@@ -4261,18 +4211,16 @@ export const listApplicationAssignmentsForPrincipal: {
 /**
  * Lists the application providers configured in the IAM Identity Center identity store.
  */
-export const listApplicationProviders: {
-  (
-    input: ListApplicationProvidersRequest,
-  ): effect.Effect<
-    ListApplicationProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationProviders: API.OperationMethod<
+  ListApplicationProvidersRequest,
+  ListApplicationProvidersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationProvidersRequest,
   ) => stream.Stream<
@@ -4314,18 +4262,16 @@ export const listApplicationProviders: {
 /**
  * Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the `applicationAccount` parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -4367,19 +4313,17 @@ export const listApplications: {
 /**
  * Lists all customer managed policies attached to a specified PermissionSet.
  */
-export const listCustomerManagedPolicyReferencesInPermissionSet: {
-  (
-    input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
-  ): effect.Effect<
-    ListCustomerManagedPolicyReferencesInPermissionSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomerManagedPolicyReferencesInPermissionSet: API.OperationMethod<
+  ListCustomerManagedPolicyReferencesInPermissionSetRequest,
+  ListCustomerManagedPolicyReferencesInPermissionSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomerManagedPolicyReferencesInPermissionSetRequest,
   ) => stream.Stream<
@@ -4424,18 +4368,16 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: {
 /**
  * Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
  */
-export const listInstances: {
-  (
-    input: ListInstancesRequest,
-  ): effect.Effect<
-    ListInstancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
+  ListInstancesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
@@ -4477,19 +4419,17 @@ export const listInstances: {
 /**
  * Lists the Amazon Web Services managed policy that is attached to a specified permission set.
  */
-export const listManagedPoliciesInPermissionSet: {
-  (
-    input: ListManagedPoliciesInPermissionSetRequest,
-  ): effect.Effect<
-    ListManagedPoliciesInPermissionSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedPoliciesInPermissionSet: API.OperationMethod<
+  ListManagedPoliciesInPermissionSetRequest,
+  ListManagedPoliciesInPermissionSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedPoliciesInPermissionSetRequest,
   ) => stream.Stream<
@@ -4534,19 +4474,17 @@ export const listManagedPoliciesInPermissionSet: {
 /**
  * Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
  */
-export const listPermissionSetProvisioningStatus: {
-  (
-    input: ListPermissionSetProvisioningStatusRequest,
-  ): effect.Effect<
-    ListPermissionSetProvisioningStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissionSetProvisioningStatus: API.OperationMethod<
+  ListPermissionSetProvisioningStatusRequest,
+  ListPermissionSetProvisioningStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionSetProvisioningStatusRequest,
   ) => stream.Stream<
@@ -4591,19 +4529,17 @@ export const listPermissionSetProvisioningStatus: {
 /**
  * Lists the PermissionSets in an IAM Identity Center instance.
  */
-export const listPermissionSets: {
-  (
-    input: ListPermissionSetsRequest,
-  ): effect.Effect<
-    ListPermissionSetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissionSets: API.OperationMethod<
+  ListPermissionSetsRequest,
+  ListPermissionSetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionSetsRequest,
   ) => stream.Stream<
@@ -4648,19 +4584,17 @@ export const listPermissionSets: {
 /**
  * Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
  */
-export const listPermissionSetsProvisionedToAccount: {
-  (
-    input: ListPermissionSetsProvisionedToAccountRequest,
-  ): effect.Effect<
-    ListPermissionSetsProvisionedToAccountResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissionSetsProvisionedToAccount: API.OperationMethod<
+  ListPermissionSetsProvisionedToAccountRequest,
+  ListPermissionSetsProvisionedToAccountResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionSetsProvisionedToAccountRequest,
   ) => stream.Stream<
@@ -4713,18 +4647,16 @@ export const listPermissionSetsProvisionedToAccount: {
  *
  * - DescribeRegion
  */
-export const listRegions: {
-  (
-    input: ListRegionsRequest,
-  ): effect.Effect<
-    ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRegions: API.OperationMethod<
+  ListRegionsRequest,
+  ListRegionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegionsRequest,
   ) => stream.Stream<
@@ -4766,19 +4698,17 @@ export const listRegions: {
 /**
  * Lists the tags that are attached to a specified resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -4822,18 +4752,16 @@ export const listTagsForResource: {
 /**
  * Lists all the trusted token issuers configured in an instance of IAM Identity Center.
  */
-export const listTrustedTokenIssuers: {
-  (
-    input: ListTrustedTokenIssuersRequest,
-  ): effect.Effect<
-    ListTrustedTokenIssuersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrustedTokenIssuers: API.OperationMethod<
+  ListTrustedTokenIssuersRequest,
+  ListTrustedTokenIssuersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrustedTokenIssuersRequest,
   ) => stream.Stream<
@@ -4875,9 +4803,8 @@ export const listTrustedTokenIssuers: {
 /**
  * The process by which a specified permission set is provisioned to the specified target.
  */
-export const provisionPermissionSet: (
-  input: ProvisionPermissionSetRequest,
-) => effect.Effect<
+export const provisionPermissionSet: API.OperationMethod<
+  ProvisionPermissionSetRequest,
   ProvisionPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4902,9 +4829,8 @@ export const provisionPermissionSet: (
 /**
  * Configure how users gain access to an application. If `AssignmentsRequired` is `true` (default value), users don’t have access to the application unless an assignment is created using the CreateApplicationAssignment API. If `false`, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if `AssignmentsRequired` is set to `true`.
  */
-export const putApplicationAssignmentConfiguration: (
-  input: PutApplicationAssignmentConfigurationRequest,
-) => effect.Effect<
+export const putApplicationAssignmentConfiguration: API.OperationMethod<
+  PutApplicationAssignmentConfigurationRequest,
   PutApplicationAssignmentConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4931,9 +4857,8 @@ export const putApplicationAssignmentConfiguration: (
  *
  * The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
  */
-export const putApplicationSessionConfiguration: (
-  input: PutApplicationSessionConfigurationRequest,
-) => effect.Effect<
+export const putApplicationSessionConfiguration: API.OperationMethod<
+  PutApplicationSessionConfigurationRequest,
   PutApplicationSessionConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4960,9 +4885,8 @@ export const putApplicationSessionConfiguration: (
  *
  * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this action to apply the corresponding IAM policy updates to all assigned accounts.
  */
-export const putInlinePolicyToPermissionSet: (
-  input: PutInlinePolicyToPermissionSetRequest,
-) => effect.Effect<
+export const putInlinePolicyToPermissionSet: API.OperationMethod<
+  PutInlinePolicyToPermissionSetRequest,
   PutInlinePolicyToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4989,9 +4913,8 @@ export const putInlinePolicyToPermissionSet: (
 /**
  * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
  */
-export const putPermissionsBoundaryToPermissionSet: (
-  input: PutPermissionsBoundaryToPermissionSetRequest,
-) => effect.Effect<
+export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
+  PutPermissionsBoundaryToPermissionSetRequest,
   PutPermissionsBoundaryToPermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5024,9 +4947,8 @@ export const putPermissionsBoundaryToPermissionSet: (
  *
  * - ListRegions
  */
-export const removeRegion: (
-  input: RemoveRegionRequest,
-) => effect.Effect<
+export const removeRegion: API.OperationMethod<
+  RemoveRegionRequest,
   RemoveRegionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5051,9 +4973,8 @@ export const removeRegion: (
 /**
  * Associates a set of tags with a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5080,9 +5001,8 @@ export const tagResource: (
 /**
  * Disassociates a set of tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5107,9 +5027,8 @@ export const untagResource: (
 /**
  * Updates application properties.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5134,9 +5053,8 @@ export const updateApplication: (
 /**
  * Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
  */
-export const updateInstance: (
-  input: UpdateInstanceRequest,
-) => effect.Effect<
+export const updateInstance: API.OperationMethod<
+  UpdateInstanceRequest,
   UpdateInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5161,9 +5079,8 @@ export const updateInstance: (
 /**
  * Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
-export const updateInstanceAccessControlAttributeConfiguration: (
-  input: UpdateInstanceAccessControlAttributeConfigurationRequest,
-) => effect.Effect<
+export const updateInstanceAccessControlAttributeConfiguration: API.OperationMethod<
+  UpdateInstanceAccessControlAttributeConfigurationRequest,
   UpdateInstanceAccessControlAttributeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5188,9 +5105,8 @@ export const updateInstanceAccessControlAttributeConfiguration: (
 /**
  * Updates an existing permission set.
  */
-export const updatePermissionSet: (
-  input: UpdatePermissionSetRequest,
-) => effect.Effect<
+export const updatePermissionSet: API.OperationMethod<
+  UpdatePermissionSetRequest,
   UpdatePermissionSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5217,9 +5133,8 @@ export const updatePermissionSet: (
  *
  * Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
  */
-export const updateTrustedTokenIssuer: (
-  input: UpdateTrustedTokenIssuerRequest,
-) => effect.Effect<
+export const updateTrustedTokenIssuer: API.OperationMethod<
+  UpdateTrustedTokenIssuerRequest,
   UpdateTrustedTokenIssuerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5244,9 +5159,8 @@ export const updateTrustedTokenIssuer: (
 /**
  * Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
  */
-export const putApplicationAccessScope: (
-  input: PutApplicationAccessScopeRequest,
-) => effect.Effect<
+export const putApplicationAccessScope: API.OperationMethod<
+  PutApplicationAccessScopeRequest,
   PutApplicationAccessScopeResponse,
   | AccessDeniedException
   | ConflictException
@@ -5271,9 +5185,8 @@ export const putApplicationAccessScope: (
 /**
  * Retrieves the authorized targets for an IAM Identity Center access scope for an application.
  */
-export const getApplicationAccessScope: (
-  input: GetApplicationAccessScopeRequest,
-) => effect.Effect<
+export const getApplicationAccessScope: API.OperationMethod<
+  GetApplicationAccessScopeRequest,
   GetApplicationAccessScopeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5296,9 +5209,8 @@ export const getApplicationAccessScope: (
 /**
  * Deletes an IAM Identity Center access scope from an application.
  */
-export const deleteApplicationAccessScope: (
-  input: DeleteApplicationAccessScopeRequest,
-) => effect.Effect<
+export const deleteApplicationAccessScope: API.OperationMethod<
+  DeleteApplicationAccessScopeRequest,
   DeleteApplicationAccessScopeResponse,
   | AccessDeniedException
   | ConflictException
@@ -5323,19 +5235,17 @@ export const deleteApplicationAccessScope: (
 /**
  * Lists the access scopes and authorized targets associated with an application.
  */
-export const listApplicationAccessScopes: {
-  (
-    input: ListApplicationAccessScopesRequest,
-  ): effect.Effect<
-    ListApplicationAccessScopesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationAccessScopes: API.OperationMethod<
+  ListApplicationAccessScopesRequest,
+  ListApplicationAccessScopesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationAccessScopesRequest,
   ) => stream.Stream<
@@ -5380,9 +5290,8 @@ export const listApplicationAccessScopes: {
 /**
  * Adds or updates an authentication method for an application.
  */
-export const putApplicationAuthenticationMethod: (
-  input: PutApplicationAuthenticationMethodRequest,
-) => effect.Effect<
+export const putApplicationAuthenticationMethod: API.OperationMethod<
+  PutApplicationAuthenticationMethodRequest,
   PutApplicationAuthenticationMethodResponse,
   | AccessDeniedException
   | ConflictException
@@ -5407,9 +5316,8 @@ export const putApplicationAuthenticationMethod: (
 /**
  * Retrieves details about an authentication method used by an application.
  */
-export const getApplicationAuthenticationMethod: (
-  input: GetApplicationAuthenticationMethodRequest,
-) => effect.Effect<
+export const getApplicationAuthenticationMethod: API.OperationMethod<
+  GetApplicationAuthenticationMethodRequest,
   GetApplicationAuthenticationMethodResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5432,9 +5340,8 @@ export const getApplicationAuthenticationMethod: (
 /**
  * Deletes an authentication method from an application.
  */
-export const deleteApplicationAuthenticationMethod: (
-  input: DeleteApplicationAuthenticationMethodRequest,
-) => effect.Effect<
+export const deleteApplicationAuthenticationMethod: API.OperationMethod<
+  DeleteApplicationAuthenticationMethodRequest,
   DeleteApplicationAuthenticationMethodResponse,
   | AccessDeniedException
   | ConflictException
@@ -5459,19 +5366,17 @@ export const deleteApplicationAuthenticationMethod: (
 /**
  * Lists all of the authentication methods supported by the specified application.
  */
-export const listApplicationAuthenticationMethods: {
-  (
-    input: ListApplicationAuthenticationMethodsRequest,
-  ): effect.Effect<
-    ListApplicationAuthenticationMethodsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationAuthenticationMethods: API.OperationMethod<
+  ListApplicationAuthenticationMethodsRequest,
+  ListApplicationAuthenticationMethodsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationAuthenticationMethodsRequest,
   ) => stream.Stream<
@@ -5540,9 +5445,8 @@ export const listApplicationAuthenticationMethods: {
  *
  * - Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
  */
-export const putApplicationGrant: (
-  input: PutApplicationGrantRequest,
-) => effect.Effect<
+export const putApplicationGrant: API.OperationMethod<
+  PutApplicationGrantRequest,
   PutApplicationGrantResponse,
   | AccessDeniedException
   | ConflictException
@@ -5567,9 +5471,8 @@ export const putApplicationGrant: (
 /**
  * Retrieves details about an application grant.
  */
-export const getApplicationGrant: (
-  input: GetApplicationGrantRequest,
-) => effect.Effect<
+export const getApplicationGrant: API.OperationMethod<
+  GetApplicationGrantRequest,
   GetApplicationGrantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5592,9 +5495,8 @@ export const getApplicationGrant: (
 /**
  * Deletes a grant from an application.
  */
-export const deleteApplicationGrant: (
-  input: DeleteApplicationGrantRequest,
-) => effect.Effect<
+export const deleteApplicationGrant: API.OperationMethod<
+  DeleteApplicationGrantRequest,
   DeleteApplicationGrantResponse,
   | AccessDeniedException
   | ConflictException
@@ -5619,19 +5521,17 @@ export const deleteApplicationGrant: (
 /**
  * List the grants associated with an application.
  */
-export const listApplicationGrants: {
-  (
-    input: ListApplicationGrantsRequest,
-  ): effect.Effect<
-    ListApplicationGrantsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationGrants: API.OperationMethod<
+  ListApplicationGrantsRequest,
+  ListApplicationGrantsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationGrantsRequest,
   ) => stream.Stream<

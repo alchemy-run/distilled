@@ -1000,9 +1000,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  *
  * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
  */
-export const associateUser: (
-  input: AssociateUserRequest,
-) => effect.Effect<
+export const associateUser: API.OperationMethod<
+  AssociateUserRequest,
   AssociateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -1029,9 +1028,8 @@ export const associateUser: (
 /**
  * Creates a network endpoint for the Remote Desktop Services (RDS) license server.
  */
-export const createLicenseServerEndpoint: (
-  input: CreateLicenseServerEndpointRequest,
-) => effect.Effect<
+export const createLicenseServerEndpoint: API.OperationMethod<
+  CreateLicenseServerEndpointRequest,
   CreateLicenseServerEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -1058,9 +1056,8 @@ export const createLicenseServerEndpoint: (
 /**
  * Deletes a `LicenseServerEndpoint` resource.
  */
-export const deleteLicenseServerEndpoint: (
-  input: DeleteLicenseServerEndpointRequest,
-) => effect.Effect<
+export const deleteLicenseServerEndpoint: API.OperationMethod<
+  DeleteLicenseServerEndpointRequest,
   DeleteLicenseServerEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -1087,9 +1084,8 @@ export const deleteLicenseServerEndpoint: (
 /**
  * Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
  */
-export const deregisterIdentityProvider: (
-  input: DeregisterIdentityProviderRequest,
-) => effect.Effect<
+export const deregisterIdentityProvider: API.OperationMethod<
+  DeregisterIdentityProviderRequest,
   DeregisterIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -1116,9 +1112,8 @@ export const deregisterIdentityProvider: (
 /**
  * Disassociates the user from an EC2 instance providing user-based subscriptions.
  */
-export const disassociateUser: (
-  input: DisassociateUserRequest,
-) => effect.Effect<
+export const disassociateUser: API.OperationMethod<
+  DisassociateUserRequest,
   DisassociateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -1145,21 +1140,19 @@ export const disassociateUser: (
 /**
  * Lists the Active Directory identity providers for user-based subscriptions.
  */
-export const listIdentityProviders: {
-  (
-    input: ListIdentityProvidersRequest,
-  ): effect.Effect<
-    ListIdentityProvidersResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdentityProviders: API.OperationMethod<
+  ListIdentityProvidersRequest,
+  ListIdentityProvidersResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentityProvidersRequest,
   ) => stream.Stream<
@@ -1210,21 +1203,19 @@ export const listIdentityProviders: {
 /**
  * Lists the EC2 instances providing user-based subscriptions.
  */
-export const listInstances: {
-  (
-    input: ListInstancesRequest,
-  ): effect.Effect<
-    ListInstancesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
+  ListInstancesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
@@ -1275,20 +1266,18 @@ export const listInstances: {
 /**
  * List the Remote Desktop Services (RDS) License Server endpoints
  */
-export const listLicenseServerEndpoints: {
-  (
-    input: ListLicenseServerEndpointsRequest,
-  ): effect.Effect<
-    ListLicenseServerEndpointsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLicenseServerEndpoints: API.OperationMethod<
+  ListLicenseServerEndpointsRequest,
+  ListLicenseServerEndpointsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLicenseServerEndpointsRequest,
   ) => stream.Stream<
@@ -1336,21 +1325,19 @@ export const listLicenseServerEndpoints: {
 /**
  * Lists the user-based subscription products available from an identity provider.
  */
-export const listProductSubscriptions: {
-  (
-    input: ListProductSubscriptionsRequest,
-  ): effect.Effect<
-    ListProductSubscriptionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProductSubscriptions: API.OperationMethod<
+  ListProductSubscriptionsRequest,
+  ListProductSubscriptionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProductSubscriptionsRequest,
   ) => stream.Stream<
@@ -1401,9 +1388,8 @@ export const listProductSubscriptions: {
 /**
  * Returns the list of tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1422,21 +1408,19 @@ export const listTagsForResource: (
 /**
  * Lists user associations for an identity provider.
  */
-export const listUserAssociations: {
-  (
-    input: ListUserAssociationsRequest,
-  ): effect.Effect<
-    ListUserAssociationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserAssociations: API.OperationMethod<
+  ListUserAssociationsRequest,
+  ListUserAssociationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserAssociationsRequest,
   ) => stream.Stream<
@@ -1487,9 +1471,8 @@ export const listUserAssociations: {
 /**
  * Registers an identity provider for user-based subscriptions.
  */
-export const registerIdentityProvider: (
-  input: RegisterIdentityProviderRequest,
-) => effect.Effect<
+export const registerIdentityProvider: API.OperationMethod<
+  RegisterIdentityProviderRequest,
   RegisterIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -1518,9 +1501,8 @@ export const registerIdentityProvider: (
  *
  * Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as **Pending** billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the *Amazon Web Services Billing User Guide*.
  */
-export const startProductSubscription: (
-  input: StartProductSubscriptionRequest,
-) => effect.Effect<
+export const startProductSubscription: API.OperationMethod<
+  StartProductSubscriptionRequest,
   StartProductSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1547,9 +1529,8 @@ export const startProductSubscription: (
 /**
  * Stops a product subscription for a user with the specified identity provider.
  */
-export const stopProductSubscription: (
-  input: StopProductSubscriptionRequest,
-) => effect.Effect<
+export const stopProductSubscription: API.OperationMethod<
+  StopProductSubscriptionRequest,
   StopProductSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1576,9 +1557,8 @@ export const stopProductSubscription: (
 /**
  * Adds tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1597,9 +1577,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1611,9 +1590,8 @@ export const untagResource: (
 /**
  * Updates additional product configuration settings for the registered identity provider.
  */
-export const updateIdentityProviderSettings: (
-  input: UpdateIdentityProviderSettingsRequest,
-) => effect.Effect<
+export const updateIdentityProviderSettings: API.OperationMethod<
+  UpdateIdentityProviderSettingsRequest,
   UpdateIdentityProviderSettingsResponse,
   | AccessDeniedException
   | InternalServerException

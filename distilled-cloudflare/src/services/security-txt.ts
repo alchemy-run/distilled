@@ -60,9 +60,8 @@ export const GetSecurityTXTResponse = Schema.Struct({
   preferredLanguages: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSecurityTXTResponse>;
 
-export const getSecurityTXT: (
-  input: GetSecurityTXTRequest,
-) => Effect.Effect<
+export const getSecurityTXT: API.OperationMethod<
+  GetSecurityTXTRequest,
   GetSecurityTXTResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -141,7 +140,14 @@ export const PutSecurityTXTResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -153,14 +159,20 @@ export const PutSecurityTXTResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<PutSecurityTXTResponse>;
 
-export const putSecurityTXT: (
-  input: PutSecurityTXTRequest,
-) => Effect.Effect<
+export const putSecurityTXT: API.OperationMethod<
+  PutSecurityTXTRequest,
   PutSecurityTXTResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -212,7 +224,14 @@ export const DeleteSecurityTXTResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -224,14 +243,20 @@ export const DeleteSecurityTXTResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteSecurityTXTResponse>;
 
-export const deleteSecurityTXT: (
-  input: DeleteSecurityTXTRequest,
-) => Effect.Effect<
+export const deleteSecurityTXT: API.OperationMethod<
+  DeleteSecurityTXTRequest,
   DeleteSecurityTXTResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

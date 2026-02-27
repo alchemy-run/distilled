@@ -1681,9 +1681,8 @@ export class NoDataRetentionException extends S.TaggedErrorClass<NoDataRetention
  *
  * `CreateSignalingChannel` is an asynchronous operation.
  */
-export const createSignalingChannel: (
-  input: CreateSignalingChannelInput,
-) => effect.Effect<
+export const createSignalingChannel: API.OperationMethod<
+  CreateSignalingChannelInput,
   CreateSignalingChannelOutput,
   | AccessDeniedException
   | AccountChannelLimitExceededException
@@ -1718,9 +1717,8 @@ export const createSignalingChannel: (
  * You must have permissions for the `KinesisVideo:CreateStream`
  * action.
  */
-export const createStream: (
-  input: CreateStreamInput,
-) => effect.Effect<
+export const createStream: API.OperationMethod<
+  CreateStreamInput,
   CreateStreamOutput,
   | AccountStreamLimitExceededException
   | ClientLimitExceededException
@@ -1751,9 +1749,8 @@ export const createStream: (
  *
  * When the deletion process has completed successfully, the edge configuration is no longer accessible.
  */
-export const deleteEdgeConfiguration: (
-  input: DeleteEdgeConfigurationInput,
-) => effect.Effect<
+export const deleteEdgeConfiguration: API.OperationMethod<
+  DeleteEdgeConfigurationInput,
   DeleteEdgeConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1778,9 +1775,8 @@ export const deleteEdgeConfiguration: (
  * asynchronous operation. If you don't specify the channel's current version, the most
  * recent version is deleted.
  */
-export const deleteSignalingChannel: (
-  input: DeleteSignalingChannelInput,
-) => effect.Effect<
+export const deleteSignalingChannel: API.OperationMethod<
+  DeleteSignalingChannelInput,
   DeleteSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1816,9 +1812,8 @@ export const deleteSignalingChannel: (
  * This operation requires permission for the `KinesisVideo:DeleteStream`
  * action.
  */
-export const deleteStream: (
-  input: DeleteStreamInput,
-) => effect.Effect<
+export const deleteStream: API.OperationMethod<
+  DeleteStreamInput,
   DeleteStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -1847,9 +1842,8 @@ export const deleteStream: (
  * to determine if the configuration is in sync with the Edge Agent. Use this API to
  * evaluate the health of the Edge Agent.
  */
-export const describeEdgeConfiguration: (
-  input: DescribeEdgeConfigurationInput,
-) => effect.Effect<
+export const describeEdgeConfiguration: API.OperationMethod<
+  DescribeEdgeConfigurationInput,
   DescribeEdgeConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1872,9 +1866,8 @@ export const describeEdgeConfiguration: (
 /**
  * Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
  */
-export const describeImageGenerationConfiguration: (
-  input: DescribeImageGenerationConfigurationInput,
-) => effect.Effect<
+export const describeImageGenerationConfiguration: API.OperationMethod<
+  DescribeImageGenerationConfigurationInput,
   DescribeImageGenerationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1896,18 +1889,16 @@ export const describeImageGenerationConfiguration: (
  * Returns the most current information about the stream. The `streamName`
  * or `streamARN` should be provided in the input.
  */
-export const describeMappedResourceConfiguration: {
-  (
-    input: DescribeMappedResourceConfigurationInput,
-  ): effect.Effect<
-    DescribeMappedResourceConfigurationOutput,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMappedResourceConfiguration: API.OperationMethod<
+  DescribeMappedResourceConfigurationInput,
+  DescribeMappedResourceConfigurationOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMappedResourceConfigurationInput,
   ) => stream.Stream<
@@ -1950,9 +1941,8 @@ export const describeMappedResourceConfiguration: {
  * Returns the most current information about the channel. Specify the `ChannelName`
  * or `ChannelARN` in the input.
  */
-export const describeMediaStorageConfiguration: (
-  input: DescribeMediaStorageConfigurationInput,
-) => effect.Effect<
+export const describeMediaStorageConfiguration: API.OperationMethod<
+  DescribeMediaStorageConfigurationInput,
   DescribeMediaStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1973,9 +1963,8 @@ export const describeMediaStorageConfiguration: (
 /**
  * Gets the `NotificationConfiguration` for a given Kinesis video stream.
  */
-export const describeNotificationConfiguration: (
-  input: DescribeNotificationConfigurationInput,
-) => effect.Effect<
+export const describeNotificationConfiguration: API.OperationMethod<
+  DescribeNotificationConfigurationInput,
   DescribeNotificationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -1998,9 +1987,8 @@ export const describeNotificationConfiguration: (
  * either the name or the Amazon Resource Name (ARN) of the channel that you want to
  * describe.
  */
-export const describeSignalingChannel: (
-  input: DescribeSignalingChannelInput,
-) => effect.Effect<
+export const describeSignalingChannel: API.OperationMethod<
+  DescribeSignalingChannelInput,
   DescribeSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2022,9 +2010,8 @@ export const describeSignalingChannel: (
  * Returns the most current information about the specified stream. You must specify
  * either the `StreamName` or the `StreamARN`.
  */
-export const describeStream: (
-  input: DescribeStreamInput,
-) => effect.Effect<
+export const describeStream: API.OperationMethod<
+  DescribeStreamInput,
   DescribeStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2049,9 +2036,8 @@ export const describeStream: (
  *
  * You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
  */
-export const describeStreamStorageConfiguration: (
-  input: DescribeStreamStorageConfigurationInput,
-) => effect.Effect<
+export const describeStreamStorageConfiguration: API.OperationMethod<
+  DescribeStreamStorageConfigurationInput,
   DescribeStreamStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2081,9 +2067,8 @@ export const describeStreamStorageConfiguration: (
  * In the request, specify the stream either by `StreamName` or
  * `StreamARN`.
  */
-export const getDataEndpoint: (
-  input: GetDataEndpointInput,
-) => effect.Effect<
+export const getDataEndpoint: API.OperationMethod<
+  GetDataEndpointInput,
   GetDataEndpointOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2118,9 +2103,8 @@ export const getDataEndpoint: (
  * of the viewers on the channel. A `VIEWER` role results in this API generating
  * an endpoint that a client can use to communicate only with a `MASTER`.
  */
-export const getSignalingChannelEndpoint: (
-  input: GetSignalingChannelEndpointInput,
-) => effect.Effect<
+export const getSignalingChannelEndpoint: API.OperationMethod<
+  GetSignalingChannelEndpointInput,
   GetSignalingChannelEndpointOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2145,17 +2129,15 @@ export const getSignalingChannelEndpoint: (
  *
  * In the request, you must specify the Edge Agent `HubDeviceArn`.
  */
-export const listEdgeAgentConfigurations: {
-  (
-    input: ListEdgeAgentConfigurationsInput,
-  ): effect.Effect<
-    ListEdgeAgentConfigurationsOutput,
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEdgeAgentConfigurations: API.OperationMethod<
+  ListEdgeAgentConfigurationsInput,
+  ListEdgeAgentConfigurationsOutput,
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEdgeAgentConfigurationsInput,
   ) => stream.Stream<
@@ -2196,17 +2178,15 @@ export const listEdgeAgentConfigurations: {
  * signaling channel. To retrieve only those channels that satisfy a specific condition,
  * you can specify a `ChannelNameCondition`.
  */
-export const listSignalingChannels: {
-  (
-    input: ListSignalingChannelsInput,
-  ): effect.Effect<
-    ListSignalingChannelsOutput,
-    | AccessDeniedException
-    | ClientLimitExceededException
-    | InvalidArgumentException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSignalingChannels: API.OperationMethod<
+  ListSignalingChannelsInput,
+  ListSignalingChannelsOutput,
+  | AccessDeniedException
+  | ClientLimitExceededException
+  | InvalidArgumentException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSignalingChannelsInput,
   ) => stream.Stream<
@@ -2247,14 +2227,12 @@ export const listSignalingChannels: {
  * stream. To retrieve only streams that satisfy a specific condition, you can specify a
  * `StreamNameCondition`.
  */
-export const listStreams: {
-  (
-    input: ListStreamsInput,
-  ): effect.Effect<
-    ListStreamsOutput,
-    ClientLimitExceededException | InvalidArgumentException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreams: API.OperationMethod<
+  ListStreamsInput,
+  ListStreamsOutput,
+  ClientLimitExceededException | InvalidArgumentException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamsInput,
   ) => stream.Stream<
@@ -2283,9 +2261,8 @@ export const listStreams: {
 /**
  * Returns a list of tags associated with the specified signaling channel.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2309,9 +2286,8 @@ export const listTagsForResource: (
  * In the request, you must specify either the `StreamName` or the
  * `StreamARN`.
  */
-export const listTagsForStream: (
-  input: ListTagsForStreamInput,
-) => effect.Effect<
+export const listTagsForStream: API.OperationMethod<
+  ListTagsForStreamInput,
   ListTagsForStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2349,9 +2325,8 @@ export const listTagsForStream: (
  * To move an edge configuration from one device to another, use DeleteEdgeConfiguration to delete
  * the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
  */
-export const startEdgeConfigurationUpdate: (
-  input: StartEdgeConfigurationUpdateInput,
-) => effect.Effect<
+export const startEdgeConfigurationUpdate: API.OperationMethod<
+  StartEdgeConfigurationUpdateInput,
   StartEdgeConfigurationUpdateOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2381,9 +2356,8 @@ export const startEdgeConfigurationUpdate: (
  * Tags in the Billing and Cost Management and Cost Management User
  * Guide.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2418,9 +2392,8 @@ export const tagResource: (
  *
  * A Kinesis video stream can support up to 50 tags.
  */
-export const tagStream: (
-  input: TagStreamInput,
-) => effect.Effect<
+export const tagStream: API.OperationMethod<
+  TagStreamInput,
   TagStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2447,9 +2420,8 @@ export const tagStream: (
  * key or keys; don't specify the value. If you specify a tag key that does not exist, it's
  * ignored.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2475,9 +2447,8 @@ export const untagResource: (
  * In the request, you must provide the `StreamName` or
  * `StreamARN`.
  */
-export const untagStream: (
-  input: UntagStreamInput,
-) => effect.Effect<
+export const untagStream: API.OperationMethod<
+  UntagStreamInput,
   UntagStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2519,9 +2490,8 @@ export const untagStream: (
  * from seven hours to one hour, all existing data is retained for one hour, and
  * any data older than one hour is deleted immediately.
  */
-export const updateDataRetention: (
-  input: UpdateDataRetentionInput,
-) => effect.Effect<
+export const updateDataRetention: API.OperationMethod<
+  UpdateDataRetentionInput,
   UpdateDataRetentionOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2546,9 +2516,8 @@ export const updateDataRetention: (
 /**
  * Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
  */
-export const updateImageGenerationConfiguration: (
-  input: UpdateImageGenerationConfigurationInput,
-) => effect.Effect<
+export const updateImageGenerationConfiguration: API.OperationMethod<
+  UpdateImageGenerationConfigurationInput,
   UpdateImageGenerationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2586,9 +2555,8 @@ export const updateImageGenerationConfiguration: (
  * `JoinStorageSession` API to trigger an SDP offer send and establish a
  * connection between a peer and the storage session.
  */
-export const updateMediaStorageConfiguration: (
-  input: UpdateMediaStorageConfigurationInput,
-) => effect.Effect<
+export const updateMediaStorageConfiguration: API.OperationMethod<
+  UpdateMediaStorageConfigurationInput,
   UpdateMediaStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2613,9 +2581,8 @@ export const updateMediaStorageConfiguration: (
 /**
  * Updates the notification information for a stream.
  */
-export const updateNotificationConfiguration: (
-  input: UpdateNotificationConfigurationInput,
-) => effect.Effect<
+export const updateNotificationConfiguration: API.OperationMethod<
+  UpdateNotificationConfigurationInput,
   UpdateNotificationConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2646,9 +2613,8 @@ export const updateNotificationConfiguration: (
  * messages are still expired as per the previous `MessageTtlSeconds`
  * value.
  */
-export const updateSignalingChannel: (
-  input: UpdateSignalingChannelInput,
-) => effect.Effect<
+export const updateSignalingChannel: API.OperationMethod<
+  UpdateSignalingChannelInput,
   UpdateSignalingChannelOutput,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -2684,9 +2650,8 @@ export const updateSignalingChannel: (
  * `UpdateStream` is an asynchronous operation, and takes time to
  * complete.
  */
-export const updateStream: (
-  input: UpdateStreamInput,
-) => effect.Effect<
+export const updateStream: API.OperationMethod<
+  UpdateStreamInput,
   UpdateStreamOutput,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -2717,9 +2682,8 @@ export const updateStream: (
  *
  * You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
  */
-export const updateStreamStorageConfiguration: (
-  input: UpdateStreamStorageConfigurationInput,
-) => effect.Effect<
+export const updateStreamStorageConfiguration: API.OperationMethod<
+  UpdateStreamStorageConfigurationInput,
   UpdateStreamStorageConfigurationOutput,
   | AccessDeniedException
   | ClientLimitExceededException

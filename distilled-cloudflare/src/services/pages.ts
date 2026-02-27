@@ -44,9 +44,8 @@ export type PurgeBuildCacheProjectResponse = unknown;
 export const PurgeBuildCacheProjectResponse =
   Schema.Unknown as unknown as Schema.Schema<PurgeBuildCacheProjectResponse>;
 
-export const purgeBuildCacheProject: (
-  input: PurgeBuildCacheProjectRequest,
-) => Effect.Effect<
+export const purgeBuildCacheProject: API.OperationMethod<
+  PurgeBuildCacheProjectRequest,
   PurgeBuildCacheProjectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -322,6 +321,7 @@ export const GetProjectResponse = Schema.Struct({
           commitMessage: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            branch: "branch",
             commitDirty: "commit_dirty",
             commitHash: "commit_hash",
             commitMessage: "commit_message",
@@ -357,6 +357,7 @@ export const GetProjectResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -379,16 +380,22 @@ export const GetProjectResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        aliases: "aliases",
         buildConfig: "build_config",
         createdOn: "created_on",
         deploymentTrigger: "deployment_trigger",
         envVars: "env_vars",
+        environment: "environment",
         isSkipped: "is_skipped",
         latestStage: "latest_stage",
         modifiedOn: "modified_on",
         projectId: "project_id",
         projectName: "project_name",
         shortId: "short_id",
+        source: "source",
+        stages: "stages",
+        url: "url",
         usesFunctions: "uses_functions",
       }),
     ),
@@ -435,6 +442,7 @@ export const GetProjectResponse = Schema.Struct({
         alwaysUseLatestCompatibilityDate:
           "always_use_latest_compatibility_date",
         analyticsEngineDatasets: "analytics_engine_datasets",
+        browsers: "browsers",
         buildImageMajorVersion: "build_image_major_version",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
@@ -444,9 +452,12 @@ export const GetProjectResponse = Schema.Struct({
         failOpen: "fail_open",
         hyperdriveBindings: "hyperdrive_bindings",
         kvNamespaces: "kv_namespaces",
+        limits: "limits",
         mtlsCertificates: "mtls_certificates",
+        placement: "placement",
         queueProducers: "queue_producers",
         r2Buckets: "r2_buckets",
+        services: "services",
         usageModel: "usage_model",
         vectorizeBindings: "vectorize_bindings",
         wranglerConfigHash: "wrangler_config_hash",
@@ -491,6 +502,7 @@ export const GetProjectResponse = Schema.Struct({
         alwaysUseLatestCompatibilityDate:
           "always_use_latest_compatibility_date",
         analyticsEngineDatasets: "analytics_engine_datasets",
+        browsers: "browsers",
         buildImageMajorVersion: "build_image_major_version",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
@@ -500,9 +512,12 @@ export const GetProjectResponse = Schema.Struct({
         failOpen: "fail_open",
         hyperdriveBindings: "hyperdrive_bindings",
         kvNamespaces: "kv_namespaces",
+        limits: "limits",
         mtlsCertificates: "mtls_certificates",
+        placement: "placement",
         queueProducers: "queue_producers",
         r2Buckets: "r2_buckets",
+        services: "services",
         usageModel: "usage_model",
         vectorizeBindings: "vectorize_bindings",
         wranglerConfigHash: "wrangler_config_hash",
@@ -547,6 +562,7 @@ export const GetProjectResponse = Schema.Struct({
           commitMessage: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            branch: "branch",
             commitDirty: "commit_dirty",
             commitHash: "commit_hash",
             commitMessage: "commit_message",
@@ -582,6 +598,7 @@ export const GetProjectResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -604,16 +621,22 @@ export const GetProjectResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        aliases: "aliases",
         buildConfig: "build_config",
         createdOn: "created_on",
         deploymentTrigger: "deployment_trigger",
         envVars: "env_vars",
+        environment: "environment",
         isSkipped: "is_skipped",
         latestStage: "latest_stage",
         modifiedOn: "modified_on",
         projectId: "project_id",
         projectName: "project_name",
         shortId: "short_id",
+        source: "source",
+        stages: "stages",
+        url: "url",
         usesFunctions: "uses_functions",
       }),
     ),
@@ -669,6 +692,7 @@ export const GetProjectResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           deploymentsEnabled: "deployments_enabled",
+          owner: "owner",
           ownerId: "owner_id",
           pathExcludes: "path_excludes",
           pathIncludes: "path_includes",
@@ -688,22 +712,27 @@ export const GetProjectResponse = Schema.Struct({
   subdomain: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canonicalDeployment: "canonical_deployment",
     createdOn: "created_on",
     deploymentConfigs: "deployment_configs",
+    framework: "framework",
     frameworkVersion: "framework_version",
     latestDeployment: "latest_deployment",
+    name: "name",
     previewScriptName: "preview_script_name",
     productionBranch: "production_branch",
     productionScriptName: "production_script_name",
     usesFunctions: "uses_functions",
     buildConfig: "build_config",
+    domains: "domains",
+    source: "source",
+    subdomain: "subdomain",
   }),
 ) as unknown as Schema.Schema<GetProjectResponse>;
 
-export const getProject: (
-  input: GetProjectRequest,
-) => Effect.Effect<
+export const getProject: API.OperationMethod<
+  GetProjectRequest,
   GetProjectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -955,6 +984,7 @@ export const ListProjectsResponse = Schema.Array(
             commitMessage: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              branch: "branch",
               commitDirty: "commit_dirty",
               commitHash: "commit_hash",
               commitMessage: "commit_message",
@@ -990,6 +1020,7 @@ export const ListProjectsResponse = Schema.Array(
           }).pipe(
             Schema.encodeKeys({
               deploymentsEnabled: "deployments_enabled",
+              owner: "owner",
               ownerId: "owner_id",
               pathExcludes: "path_excludes",
               pathIncludes: "path_includes",
@@ -1012,16 +1043,22 @@ export const ListProjectsResponse = Schema.Array(
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          aliases: "aliases",
           buildConfig: "build_config",
           createdOn: "created_on",
           deploymentTrigger: "deployment_trigger",
           envVars: "env_vars",
+          environment: "environment",
           isSkipped: "is_skipped",
           latestStage: "latest_stage",
           modifiedOn: "modified_on",
           projectId: "project_id",
           projectName: "project_name",
           shortId: "short_id",
+          source: "source",
+          stages: "stages",
+          url: "url",
           usesFunctions: "uses_functions",
         }),
       ),
@@ -1068,6 +1105,7 @@ export const ListProjectsResponse = Schema.Array(
           alwaysUseLatestCompatibilityDate:
             "always_use_latest_compatibility_date",
           analyticsEngineDatasets: "analytics_engine_datasets",
+          browsers: "browsers",
           buildImageMajorVersion: "build_image_major_version",
           compatibilityDate: "compatibility_date",
           compatibilityFlags: "compatibility_flags",
@@ -1077,9 +1115,12 @@ export const ListProjectsResponse = Schema.Array(
           failOpen: "fail_open",
           hyperdriveBindings: "hyperdrive_bindings",
           kvNamespaces: "kv_namespaces",
+          limits: "limits",
           mtlsCertificates: "mtls_certificates",
+          placement: "placement",
           queueProducers: "queue_producers",
           r2Buckets: "r2_buckets",
+          services: "services",
           usageModel: "usage_model",
           vectorizeBindings: "vectorize_bindings",
           wranglerConfigHash: "wrangler_config_hash",
@@ -1124,6 +1165,7 @@ export const ListProjectsResponse = Schema.Array(
           alwaysUseLatestCompatibilityDate:
             "always_use_latest_compatibility_date",
           analyticsEngineDatasets: "analytics_engine_datasets",
+          browsers: "browsers",
           buildImageMajorVersion: "build_image_major_version",
           compatibilityDate: "compatibility_date",
           compatibilityFlags: "compatibility_flags",
@@ -1133,9 +1175,12 @@ export const ListProjectsResponse = Schema.Array(
           failOpen: "fail_open",
           hyperdriveBindings: "hyperdrive_bindings",
           kvNamespaces: "kv_namespaces",
+          limits: "limits",
           mtlsCertificates: "mtls_certificates",
+          placement: "placement",
           queueProducers: "queue_producers",
           r2Buckets: "r2_buckets",
+          services: "services",
           usageModel: "usage_model",
           vectorizeBindings: "vectorize_bindings",
           wranglerConfigHash: "wrangler_config_hash",
@@ -1180,6 +1225,7 @@ export const ListProjectsResponse = Schema.Array(
             commitMessage: Schema.String,
           }).pipe(
             Schema.encodeKeys({
+              branch: "branch",
               commitDirty: "commit_dirty",
               commitHash: "commit_hash",
               commitMessage: "commit_message",
@@ -1215,6 +1261,7 @@ export const ListProjectsResponse = Schema.Array(
           }).pipe(
             Schema.encodeKeys({
               deploymentsEnabled: "deployments_enabled",
+              owner: "owner",
               ownerId: "owner_id",
               pathExcludes: "path_excludes",
               pathIncludes: "path_includes",
@@ -1237,16 +1284,22 @@ export const ListProjectsResponse = Schema.Array(
         ),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
+          aliases: "aliases",
           buildConfig: "build_config",
           createdOn: "created_on",
           deploymentTrigger: "deployment_trigger",
           envVars: "env_vars",
+          environment: "environment",
           isSkipped: "is_skipped",
           latestStage: "latest_stage",
           modifiedOn: "modified_on",
           projectId: "project_id",
           projectName: "project_name",
           shortId: "short_id",
+          source: "source",
+          stages: "stages",
+          url: "url",
           usesFunctions: "uses_functions",
         }),
       ),
@@ -1304,6 +1357,7 @@ export const ListProjectsResponse = Schema.Array(
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -1323,23 +1377,28 @@ export const ListProjectsResponse = Schema.Array(
     subdomain: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       canonicalDeployment: "canonical_deployment",
       createdOn: "created_on",
       deploymentConfigs: "deployment_configs",
+      framework: "framework",
       frameworkVersion: "framework_version",
       latestDeployment: "latest_deployment",
+      name: "name",
       previewScriptName: "preview_script_name",
       productionBranch: "production_branch",
       productionScriptName: "production_script_name",
       usesFunctions: "uses_functions",
       buildConfig: "build_config",
+      domains: "domains",
+      source: "source",
+      subdomain: "subdomain",
     }),
   ),
 ) as unknown as Schema.Schema<ListProjectsResponse>;
 
-export const listProjects: (
-  input: ListProjectsRequest,
-) => Effect.Effect<
+export const listProjects: API.OperationMethod<
+  ListProjectsRequest,
   ListProjectsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1506,6 +1565,7 @@ export const CreateProjectRequest = Schema.Struct({
             alwaysUseLatestCompatibilityDate:
               "always_use_latest_compatibility_date",
             analyticsEngineDatasets: "analytics_engine_datasets",
+            browsers: "browsers",
             buildImageMajorVersion: "build_image_major_version",
             compatibilityDate: "compatibility_date",
             compatibilityFlags: "compatibility_flags",
@@ -1515,9 +1575,12 @@ export const CreateProjectRequest = Schema.Struct({
             failOpen: "fail_open",
             hyperdriveBindings: "hyperdrive_bindings",
             kvNamespaces: "kv_namespaces",
+            limits: "limits",
             mtlsCertificates: "mtls_certificates",
+            placement: "placement",
             queueProducers: "queue_producers",
             r2Buckets: "r2_buckets",
+            services: "services",
             usageModel: "usage_model",
             vectorizeBindings: "vectorize_bindings",
             wranglerConfigHash: "wrangler_config_hash",
@@ -1564,6 +1627,7 @@ export const CreateProjectRequest = Schema.Struct({
             alwaysUseLatestCompatibilityDate:
               "always_use_latest_compatibility_date",
             analyticsEngineDatasets: "analytics_engine_datasets",
+            browsers: "browsers",
             buildImageMajorVersion: "build_image_major_version",
             compatibilityDate: "compatibility_date",
             compatibilityFlags: "compatibility_flags",
@@ -1573,9 +1637,12 @@ export const CreateProjectRequest = Schema.Struct({
             failOpen: "fail_open",
             hyperdriveBindings: "hyperdrive_bindings",
             kvNamespaces: "kv_namespaces",
+            limits: "limits",
             mtlsCertificates: "mtls_certificates",
+            placement: "placement",
             queueProducers: "queue_producers",
             r2Buckets: "r2_buckets",
+            services: "services",
             usageModel: "usage_model",
             vectorizeBindings: "vectorize_bindings",
             wranglerConfigHash: "wrangler_config_hash",
@@ -1605,6 +1672,7 @@ export const CreateProjectRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           deploymentsEnabled: "deployments_enabled",
+          owner: "owner",
           ownerId: "owner_id",
           pathExcludes: "path_excludes",
           pathIncludes: "path_includes",
@@ -1623,9 +1691,11 @@ export const CreateProjectRequest = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    name: "name",
     productionBranch: "production_branch",
     buildConfig: "build_config",
     deploymentConfigs: "deployment_configs",
+    source: "source",
   }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/pages/projects" }),
 ) as unknown as Schema.Schema<CreateProjectRequest>;
@@ -1876,6 +1946,7 @@ export const CreateProjectResponse = Schema.Struct({
           commitMessage: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            branch: "branch",
             commitDirty: "commit_dirty",
             commitHash: "commit_hash",
             commitMessage: "commit_message",
@@ -1911,6 +1982,7 @@ export const CreateProjectResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -1933,16 +2005,22 @@ export const CreateProjectResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        aliases: "aliases",
         buildConfig: "build_config",
         createdOn: "created_on",
         deploymentTrigger: "deployment_trigger",
         envVars: "env_vars",
+        environment: "environment",
         isSkipped: "is_skipped",
         latestStage: "latest_stage",
         modifiedOn: "modified_on",
         projectId: "project_id",
         projectName: "project_name",
         shortId: "short_id",
+        source: "source",
+        stages: "stages",
+        url: "url",
         usesFunctions: "uses_functions",
       }),
     ),
@@ -1989,6 +2067,7 @@ export const CreateProjectResponse = Schema.Struct({
         alwaysUseLatestCompatibilityDate:
           "always_use_latest_compatibility_date",
         analyticsEngineDatasets: "analytics_engine_datasets",
+        browsers: "browsers",
         buildImageMajorVersion: "build_image_major_version",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
@@ -1998,9 +2077,12 @@ export const CreateProjectResponse = Schema.Struct({
         failOpen: "fail_open",
         hyperdriveBindings: "hyperdrive_bindings",
         kvNamespaces: "kv_namespaces",
+        limits: "limits",
         mtlsCertificates: "mtls_certificates",
+        placement: "placement",
         queueProducers: "queue_producers",
         r2Buckets: "r2_buckets",
+        services: "services",
         usageModel: "usage_model",
         vectorizeBindings: "vectorize_bindings",
         wranglerConfigHash: "wrangler_config_hash",
@@ -2045,6 +2127,7 @@ export const CreateProjectResponse = Schema.Struct({
         alwaysUseLatestCompatibilityDate:
           "always_use_latest_compatibility_date",
         analyticsEngineDatasets: "analytics_engine_datasets",
+        browsers: "browsers",
         buildImageMajorVersion: "build_image_major_version",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
@@ -2054,9 +2137,12 @@ export const CreateProjectResponse = Schema.Struct({
         failOpen: "fail_open",
         hyperdriveBindings: "hyperdrive_bindings",
         kvNamespaces: "kv_namespaces",
+        limits: "limits",
         mtlsCertificates: "mtls_certificates",
+        placement: "placement",
         queueProducers: "queue_producers",
         r2Buckets: "r2_buckets",
+        services: "services",
         usageModel: "usage_model",
         vectorizeBindings: "vectorize_bindings",
         wranglerConfigHash: "wrangler_config_hash",
@@ -2101,6 +2187,7 @@ export const CreateProjectResponse = Schema.Struct({
           commitMessage: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            branch: "branch",
             commitDirty: "commit_dirty",
             commitHash: "commit_hash",
             commitMessage: "commit_message",
@@ -2136,6 +2223,7 @@ export const CreateProjectResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -2158,16 +2246,22 @@ export const CreateProjectResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        aliases: "aliases",
         buildConfig: "build_config",
         createdOn: "created_on",
         deploymentTrigger: "deployment_trigger",
         envVars: "env_vars",
+        environment: "environment",
         isSkipped: "is_skipped",
         latestStage: "latest_stage",
         modifiedOn: "modified_on",
         projectId: "project_id",
         projectName: "project_name",
         shortId: "short_id",
+        source: "source",
+        stages: "stages",
+        url: "url",
         usesFunctions: "uses_functions",
       }),
     ),
@@ -2223,6 +2317,7 @@ export const CreateProjectResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           deploymentsEnabled: "deployments_enabled",
+          owner: "owner",
           ownerId: "owner_id",
           pathExcludes: "path_excludes",
           pathIncludes: "path_includes",
@@ -2242,22 +2337,27 @@ export const CreateProjectResponse = Schema.Struct({
   subdomain: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canonicalDeployment: "canonical_deployment",
     createdOn: "created_on",
     deploymentConfigs: "deployment_configs",
+    framework: "framework",
     frameworkVersion: "framework_version",
     latestDeployment: "latest_deployment",
+    name: "name",
     previewScriptName: "preview_script_name",
     productionBranch: "production_branch",
     productionScriptName: "production_script_name",
     usesFunctions: "uses_functions",
     buildConfig: "build_config",
+    domains: "domains",
+    source: "source",
+    subdomain: "subdomain",
   }),
 ) as unknown as Schema.Schema<CreateProjectResponse>;
 
-export const createProject: (
-  input: CreateProjectRequest,
-) => Effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
   CreateProjectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2424,6 +2524,7 @@ export const PatchProjectRequest = Schema.Struct({
             alwaysUseLatestCompatibilityDate:
               "always_use_latest_compatibility_date",
             analyticsEngineDatasets: "analytics_engine_datasets",
+            browsers: "browsers",
             buildImageMajorVersion: "build_image_major_version",
             compatibilityDate: "compatibility_date",
             compatibilityFlags: "compatibility_flags",
@@ -2433,9 +2534,12 @@ export const PatchProjectRequest = Schema.Struct({
             failOpen: "fail_open",
             hyperdriveBindings: "hyperdrive_bindings",
             kvNamespaces: "kv_namespaces",
+            limits: "limits",
             mtlsCertificates: "mtls_certificates",
+            placement: "placement",
             queueProducers: "queue_producers",
             r2Buckets: "r2_buckets",
+            services: "services",
             usageModel: "usage_model",
             vectorizeBindings: "vectorize_bindings",
             wranglerConfigHash: "wrangler_config_hash",
@@ -2482,6 +2586,7 @@ export const PatchProjectRequest = Schema.Struct({
             alwaysUseLatestCompatibilityDate:
               "always_use_latest_compatibility_date",
             analyticsEngineDatasets: "analytics_engine_datasets",
+            browsers: "browsers",
             buildImageMajorVersion: "build_image_major_version",
             compatibilityDate: "compatibility_date",
             compatibilityFlags: "compatibility_flags",
@@ -2491,9 +2596,12 @@ export const PatchProjectRequest = Schema.Struct({
             failOpen: "fail_open",
             hyperdriveBindings: "hyperdrive_bindings",
             kvNamespaces: "kv_namespaces",
+            limits: "limits",
             mtlsCertificates: "mtls_certificates",
+            placement: "placement",
             queueProducers: "queue_producers",
             r2Buckets: "r2_buckets",
+            services: "services",
             usageModel: "usage_model",
             vectorizeBindings: "vectorize_bindings",
             wranglerConfigHash: "wrangler_config_hash",
@@ -2525,6 +2633,7 @@ export const PatchProjectRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           deploymentsEnabled: "deployments_enabled",
+          owner: "owner",
           ownerId: "owner_id",
           pathExcludes: "path_excludes",
           pathIncludes: "path_includes",
@@ -2545,7 +2654,9 @@ export const PatchProjectRequest = Schema.Struct({
   Schema.encodeKeys({
     buildConfig: "build_config",
     deploymentConfigs: "deployment_configs",
+    name: "name",
     productionBranch: "production_branch",
+    source: "source",
   }),
   T.Http({
     method: "PATCH",
@@ -2799,6 +2910,7 @@ export const PatchProjectResponse = Schema.Struct({
           commitMessage: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            branch: "branch",
             commitDirty: "commit_dirty",
             commitHash: "commit_hash",
             commitMessage: "commit_message",
@@ -2834,6 +2946,7 @@ export const PatchProjectResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -2856,16 +2969,22 @@ export const PatchProjectResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        aliases: "aliases",
         buildConfig: "build_config",
         createdOn: "created_on",
         deploymentTrigger: "deployment_trigger",
         envVars: "env_vars",
+        environment: "environment",
         isSkipped: "is_skipped",
         latestStage: "latest_stage",
         modifiedOn: "modified_on",
         projectId: "project_id",
         projectName: "project_name",
         shortId: "short_id",
+        source: "source",
+        stages: "stages",
+        url: "url",
         usesFunctions: "uses_functions",
       }),
     ),
@@ -2912,6 +3031,7 @@ export const PatchProjectResponse = Schema.Struct({
         alwaysUseLatestCompatibilityDate:
           "always_use_latest_compatibility_date",
         analyticsEngineDatasets: "analytics_engine_datasets",
+        browsers: "browsers",
         buildImageMajorVersion: "build_image_major_version",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
@@ -2921,9 +3041,12 @@ export const PatchProjectResponse = Schema.Struct({
         failOpen: "fail_open",
         hyperdriveBindings: "hyperdrive_bindings",
         kvNamespaces: "kv_namespaces",
+        limits: "limits",
         mtlsCertificates: "mtls_certificates",
+        placement: "placement",
         queueProducers: "queue_producers",
         r2Buckets: "r2_buckets",
+        services: "services",
         usageModel: "usage_model",
         vectorizeBindings: "vectorize_bindings",
         wranglerConfigHash: "wrangler_config_hash",
@@ -2968,6 +3091,7 @@ export const PatchProjectResponse = Schema.Struct({
         alwaysUseLatestCompatibilityDate:
           "always_use_latest_compatibility_date",
         analyticsEngineDatasets: "analytics_engine_datasets",
+        browsers: "browsers",
         buildImageMajorVersion: "build_image_major_version",
         compatibilityDate: "compatibility_date",
         compatibilityFlags: "compatibility_flags",
@@ -2977,9 +3101,12 @@ export const PatchProjectResponse = Schema.Struct({
         failOpen: "fail_open",
         hyperdriveBindings: "hyperdrive_bindings",
         kvNamespaces: "kv_namespaces",
+        limits: "limits",
         mtlsCertificates: "mtls_certificates",
+        placement: "placement",
         queueProducers: "queue_producers",
         r2Buckets: "r2_buckets",
+        services: "services",
         usageModel: "usage_model",
         vectorizeBindings: "vectorize_bindings",
         wranglerConfigHash: "wrangler_config_hash",
@@ -3024,6 +3151,7 @@ export const PatchProjectResponse = Schema.Struct({
           commitMessage: Schema.String,
         }).pipe(
           Schema.encodeKeys({
+            branch: "branch",
             commitDirty: "commit_dirty",
             commitHash: "commit_hash",
             commitMessage: "commit_message",
@@ -3059,6 +3187,7 @@ export const PatchProjectResponse = Schema.Struct({
         }).pipe(
           Schema.encodeKeys({
             deploymentsEnabled: "deployments_enabled",
+            owner: "owner",
             ownerId: "owner_id",
             pathExcludes: "path_excludes",
             pathIncludes: "path_includes",
@@ -3081,16 +3210,22 @@ export const PatchProjectResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        aliases: "aliases",
         buildConfig: "build_config",
         createdOn: "created_on",
         deploymentTrigger: "deployment_trigger",
         envVars: "env_vars",
+        environment: "environment",
         isSkipped: "is_skipped",
         latestStage: "latest_stage",
         modifiedOn: "modified_on",
         projectId: "project_id",
         projectName: "project_name",
         shortId: "short_id",
+        source: "source",
+        stages: "stages",
+        url: "url",
         usesFunctions: "uses_functions",
       }),
     ),
@@ -3146,6 +3281,7 @@ export const PatchProjectResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           deploymentsEnabled: "deployments_enabled",
+          owner: "owner",
           ownerId: "owner_id",
           pathExcludes: "path_excludes",
           pathIncludes: "path_includes",
@@ -3165,22 +3301,27 @@ export const PatchProjectResponse = Schema.Struct({
   subdomain: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     canonicalDeployment: "canonical_deployment",
     createdOn: "created_on",
     deploymentConfigs: "deployment_configs",
+    framework: "framework",
     frameworkVersion: "framework_version",
     latestDeployment: "latest_deployment",
+    name: "name",
     previewScriptName: "preview_script_name",
     productionBranch: "production_branch",
     productionScriptName: "production_script_name",
     usesFunctions: "uses_functions",
     buildConfig: "build_config",
+    domains: "domains",
+    source: "source",
+    subdomain: "subdomain",
   }),
 ) as unknown as Schema.Schema<PatchProjectResponse>;
 
-export const patchProject: (
-  input: PatchProjectRequest,
-) => Effect.Effect<
+export const patchProject: API.OperationMethod<
+  PatchProjectRequest,
   PatchProjectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3211,9 +3352,8 @@ export type DeleteProjectResponse = unknown;
 export const DeleteProjectResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteProjectResponse>;
 
-export const deleteProject: (
-  input: DeleteProjectRequest,
-) => Effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest,
   DeleteProjectResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3343,6 +3483,7 @@ export const GetProjectDeploymentResponse = Schema.Struct({
       commitMessage: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        branch: "branch",
         commitDirty: "commit_dirty",
         commitHash: "commit_hash",
         commitMessage: "commit_message",
@@ -3376,6 +3517,7 @@ export const GetProjectDeploymentResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         deploymentsEnabled: "deployments_enabled",
+        owner: "owner",
         ownerId: "owner_id",
         pathExcludes: "path_excludes",
         pathIncludes: "path_includes",
@@ -3396,23 +3538,28 @@ export const GetProjectDeploymentResponse = Schema.Struct({
   usesFunctions: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    aliases: "aliases",
     buildConfig: "build_config",
     createdOn: "created_on",
     deploymentTrigger: "deployment_trigger",
     envVars: "env_vars",
+    environment: "environment",
     isSkipped: "is_skipped",
     latestStage: "latest_stage",
     modifiedOn: "modified_on",
     projectId: "project_id",
     projectName: "project_name",
     shortId: "short_id",
+    source: "source",
+    stages: "stages",
+    url: "url",
     usesFunctions: "uses_functions",
   }),
 ) as unknown as Schema.Schema<GetProjectDeploymentResponse>;
 
-export const getProjectDeployment: (
-  input: GetProjectDeploymentRequest,
-) => Effect.Effect<
+export const getProjectDeployment: API.OperationMethod<
+  GetProjectDeploymentRequest,
   GetProjectDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3529,6 +3676,7 @@ export const ListProjectDeploymentsResponse = Schema.Array(
         commitMessage: Schema.String,
       }).pipe(
         Schema.encodeKeys({
+          branch: "branch",
           commitDirty: "commit_dirty",
           commitHash: "commit_hash",
           commitMessage: "commit_message",
@@ -3562,6 +3710,7 @@ export const ListProjectDeploymentsResponse = Schema.Array(
       }).pipe(
         Schema.encodeKeys({
           deploymentsEnabled: "deployments_enabled",
+          owner: "owner",
           ownerId: "owner_id",
           pathExcludes: "path_excludes",
           pathIncludes: "path_includes",
@@ -3582,24 +3731,29 @@ export const ListProjectDeploymentsResponse = Schema.Array(
     usesFunctions: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      aliases: "aliases",
       buildConfig: "build_config",
       createdOn: "created_on",
       deploymentTrigger: "deployment_trigger",
       envVars: "env_vars",
+      environment: "environment",
       isSkipped: "is_skipped",
       latestStage: "latest_stage",
       modifiedOn: "modified_on",
       projectId: "project_id",
       projectName: "project_name",
       shortId: "short_id",
+      source: "source",
+      stages: "stages",
+      url: "url",
       usesFunctions: "uses_functions",
     }),
   ),
 ) as unknown as Schema.Schema<ListProjectDeploymentsResponse>;
 
-export const listProjectDeployments: (
-  input: ListProjectDeploymentsRequest,
-) => Effect.Effect<
+export const listProjectDeployments: API.OperationMethod<
+  ListProjectDeploymentsRequest,
   ListProjectDeploymentsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3666,11 +3820,13 @@ export const CreateProjectDeploymentRequest = Schema.Struct({
     "Routes.json": "'_routes.json'",
     "Worker.bundle": "'_worker.bundle'",
     "Worker.js": "'_worker.js'",
+    branch: "branch",
     commitDirty: "commit_dirty",
     commitHash: "commit_hash",
     commitMessage: "commit_message",
     "functionsFilepathRoutingConfig.json":
       "'functions-filepath-routing-config.json'",
+    manifest: "manifest",
     pagesBuildOutputDir: "pages_build_output_dir",
     wranglerConfigHash: "wrangler_config_hash",
   }),
@@ -3779,6 +3935,7 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
       commitMessage: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        branch: "branch",
         commitDirty: "commit_dirty",
         commitHash: "commit_hash",
         commitMessage: "commit_message",
@@ -3812,6 +3969,7 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         deploymentsEnabled: "deployments_enabled",
+        owner: "owner",
         ownerId: "owner_id",
         pathExcludes: "path_excludes",
         pathIncludes: "path_includes",
@@ -3832,23 +3990,28 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
   usesFunctions: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    aliases: "aliases",
     buildConfig: "build_config",
     createdOn: "created_on",
     deploymentTrigger: "deployment_trigger",
     envVars: "env_vars",
+    environment: "environment",
     isSkipped: "is_skipped",
     latestStage: "latest_stage",
     modifiedOn: "modified_on",
     projectId: "project_id",
     projectName: "project_name",
     shortId: "short_id",
+    source: "source",
+    stages: "stages",
+    url: "url",
     usesFunctions: "uses_functions",
   }),
 ) as unknown as Schema.Schema<CreateProjectDeploymentResponse>;
 
-export const createProjectDeployment: (
-  input: CreateProjectDeploymentRequest,
-) => Effect.Effect<
+export const createProjectDeployment: API.OperationMethod<
+  CreateProjectDeploymentRequest,
   CreateProjectDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3881,9 +4044,8 @@ export type DeleteProjectDeploymentResponse = unknown;
 export const DeleteProjectDeploymentResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteProjectDeploymentResponse>;
 
-export const deleteProjectDeployment: (
-  input: DeleteProjectDeploymentRequest,
-) => Effect.Effect<
+export const deleteProjectDeployment: API.OperationMethod<
+  DeleteProjectDeploymentRequest,
   DeleteProjectDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4009,6 +4171,7 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
       commitMessage: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        branch: "branch",
         commitDirty: "commit_dirty",
         commitHash: "commit_hash",
         commitMessage: "commit_message",
@@ -4042,6 +4205,7 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         deploymentsEnabled: "deployments_enabled",
+        owner: "owner",
         ownerId: "owner_id",
         pathExcludes: "path_excludes",
         pathIncludes: "path_includes",
@@ -4062,23 +4226,28 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
   usesFunctions: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    aliases: "aliases",
     buildConfig: "build_config",
     createdOn: "created_on",
     deploymentTrigger: "deployment_trigger",
     envVars: "env_vars",
+    environment: "environment",
     isSkipped: "is_skipped",
     latestStage: "latest_stage",
     modifiedOn: "modified_on",
     projectId: "project_id",
     projectName: "project_name",
     shortId: "short_id",
+    source: "source",
+    stages: "stages",
+    url: "url",
     usesFunctions: "uses_functions",
   }),
 ) as unknown as Schema.Schema<RetryProjectDeploymentResponse>;
 
-export const retryProjectDeployment: (
-  input: RetryProjectDeploymentRequest,
-) => Effect.Effect<
+export const retryProjectDeployment: API.OperationMethod<
+  RetryProjectDeploymentRequest,
   RetryProjectDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4204,6 +4373,7 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
       commitMessage: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        branch: "branch",
         commitDirty: "commit_dirty",
         commitHash: "commit_hash",
         commitMessage: "commit_message",
@@ -4237,6 +4407,7 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         deploymentsEnabled: "deployments_enabled",
+        owner: "owner",
         ownerId: "owner_id",
         pathExcludes: "path_excludes",
         pathIncludes: "path_includes",
@@ -4257,23 +4428,28 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
   usesFunctions: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    aliases: "aliases",
     buildConfig: "build_config",
     createdOn: "created_on",
     deploymentTrigger: "deployment_trigger",
     envVars: "env_vars",
+    environment: "environment",
     isSkipped: "is_skipped",
     latestStage: "latest_stage",
     modifiedOn: "modified_on",
     projectId: "project_id",
     projectName: "project_name",
     shortId: "short_id",
+    source: "source",
+    stages: "stages",
+    url: "url",
     usesFunctions: "uses_functions",
   }),
 ) as unknown as Schema.Schema<RollbackProjectDeploymentResponse>;
 
-export const rollbackProjectDeployment: (
-  input: RollbackProjectDeploymentRequest,
-) => Effect.Effect<
+export const rollbackProjectDeployment: API.OperationMethod<
+  RollbackProjectDeploymentRequest,
   RollbackProjectDeploymentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4321,12 +4497,15 @@ export const GetProjectDeploymentHistoryLogResponse = Schema.Struct({
   includesContainerLogs: Schema.Boolean,
   total: Schema.Number,
 }).pipe(
-  Schema.encodeKeys({ includesContainerLogs: "includes_container_logs" }),
+  Schema.encodeKeys({
+    data: "data",
+    includesContainerLogs: "includes_container_logs",
+    total: "total",
+  }),
 ) as unknown as Schema.Schema<GetProjectDeploymentHistoryLogResponse>;
 
-export const getProjectDeploymentHistoryLog: (
-  input: GetProjectDeploymentHistoryLogRequest,
-) => Effect.Effect<
+export const getProjectDeploymentHistoryLog: API.OperationMethod<
+  GetProjectDeploymentHistoryLogRequest,
   GetProjectDeploymentHistoryLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4414,6 +4593,8 @@ export const GetProjectDomainResponse = Schema.Struct({
     txtValue: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      method: "method",
+      status: "status",
       errorMessage: "error_message",
       txtName: "txt_name",
       txtValue: "txt_value",
@@ -4428,22 +4609,26 @@ export const GetProjectDomainResponse = Schema.Struct({
       "error",
     ]),
     errorMessage: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ errorMessage: "error_message" })),
+  }).pipe(
+    Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
+  ),
   zoneTag: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     certificateAuthority: "certificate_authority",
     createdOn: "created_on",
     domainId: "domain_id",
+    name: "name",
+    status: "status",
     validationData: "validation_data",
     verificationData: "verification_data",
     zoneTag: "zone_tag",
   }),
 ) as unknown as Schema.Schema<GetProjectDomainResponse>;
 
-export const getProjectDomain: (
-  input: GetProjectDomainRequest,
-) => Effect.Effect<
+export const getProjectDomain: API.OperationMethod<
+  GetProjectDomainRequest,
   GetProjectDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4525,6 +4710,8 @@ export const ListProjectDomainsResponse = Schema.Array(
       txtValue: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        method: "method",
+        status: "status",
         errorMessage: "error_message",
         txtName: "txt_name",
         txtValue: "txt_value",
@@ -4539,13 +4726,18 @@ export const ListProjectDomainsResponse = Schema.Array(
         "error",
       ]),
       errorMessage: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ errorMessage: "error_message" })),
+    }).pipe(
+      Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
+    ),
     zoneTag: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       certificateAuthority: "certificate_authority",
       createdOn: "created_on",
       domainId: "domain_id",
+      name: "name",
+      status: "status",
       validationData: "validation_data",
       verificationData: "verification_data",
       zoneTag: "zone_tag",
@@ -4553,9 +4745,8 @@ export const ListProjectDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListProjectDomainsResponse>;
 
-export const listProjectDomains: (
-  input: ListProjectDomainsRequest,
-) => Effect.Effect<
+export const listProjectDomains: API.OperationMethod<
+  ListProjectDomainsRequest,
   ListProjectDomainsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4640,6 +4831,8 @@ export const CreateProjectDomainResponse = Schema.Struct({
     txtValue: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      method: "method",
+      status: "status",
       errorMessage: "error_message",
       txtName: "txt_name",
       txtValue: "txt_value",
@@ -4654,22 +4847,26 @@ export const CreateProjectDomainResponse = Schema.Struct({
       "error",
     ]),
     errorMessage: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ errorMessage: "error_message" })),
+  }).pipe(
+    Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
+  ),
   zoneTag: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     certificateAuthority: "certificate_authority",
     createdOn: "created_on",
     domainId: "domain_id",
+    name: "name",
+    status: "status",
     validationData: "validation_data",
     verificationData: "verification_data",
     zoneTag: "zone_tag",
   }),
 ) as unknown as Schema.Schema<CreateProjectDomainResponse>;
 
-export const createProjectDomain: (
-  input: CreateProjectDomainRequest,
-) => Effect.Effect<
+export const createProjectDomain: API.OperationMethod<
+  CreateProjectDomainRequest,
   CreateProjectDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4753,6 +4950,8 @@ export const PatchProjectDomainResponse = Schema.Struct({
     txtValue: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      method: "method",
+      status: "status",
       errorMessage: "error_message",
       txtName: "txt_name",
       txtValue: "txt_value",
@@ -4767,22 +4966,26 @@ export const PatchProjectDomainResponse = Schema.Struct({
       "error",
     ]),
     errorMessage: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ errorMessage: "error_message" })),
+  }).pipe(
+    Schema.encodeKeys({ status: "status", errorMessage: "error_message" }),
+  ),
   zoneTag: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     certificateAuthority: "certificate_authority",
     createdOn: "created_on",
     domainId: "domain_id",
+    name: "name",
+    status: "status",
     validationData: "validation_data",
     verificationData: "verification_data",
     zoneTag: "zone_tag",
   }),
 ) as unknown as Schema.Schema<PatchProjectDomainResponse>;
 
-export const patchProjectDomain: (
-  input: PatchProjectDomainRequest,
-) => Effect.Effect<
+export const patchProjectDomain: API.OperationMethod<
+  PatchProjectDomainRequest,
   PatchProjectDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4815,9 +5018,8 @@ export type DeleteProjectDomainResponse = unknown;
 export const DeleteProjectDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteProjectDomainResponse>;
 
-export const deleteProjectDomain: (
-  input: DeleteProjectDomainRequest,
-) => Effect.Effect<
+export const deleteProjectDomain: API.OperationMethod<
+  DeleteProjectDomainRequest,
   DeleteProjectDomainResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

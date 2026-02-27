@@ -270,9 +270,8 @@ export const BatchPutMetricsResponse = S.suspend(() =>
 /**
  * Used to retrieve training metrics from SageMaker.
  */
-export const batchGetMetrics: (
-  input: BatchGetMetricsRequest,
-) => effect.Effect<
+export const batchGetMetrics: API.OperationMethod<
+  BatchGetMetricsRequest,
   BatchGetMetricsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -284,9 +283,8 @@ export const batchGetMetrics: (
 /**
  * Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
  */
-export const batchPutMetrics: (
-  input: BatchPutMetricsRequest,
-) => effect.Effect<
+export const batchPutMetrics: API.OperationMethod<
+  BatchPutMetricsRequest,
   BatchPutMetricsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -452,9 +452,8 @@ export class ModelStreamError extends S.TaggedErrorClass<ModelStreamError>()(
  * not contain the account ID, but Amazon SageMaker AI determines the account ID from
  * the authentication token that is supplied by the caller.
  */
-export const invokeEndpoint: (
-  input: InvokeEndpointInput,
-) => effect.Effect<
+export const invokeEndpoint: API.OperationMethod<
+  InvokeEndpointInput,
   InvokeEndpointOutput,
   | InternalDependencyException
   | InternalFailure
@@ -493,9 +492,8 @@ export const invokeEndpoint: (
  * Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature Version 4. For information, see Authenticating
  * Requests (Amazon Web Services Signature Version 4) in the *Amazon S3 API Reference*.
  */
-export const invokeEndpointAsync: (
-  input: InvokeEndpointAsyncInput,
-) => effect.Effect<
+export const invokeEndpointAsync: API.OperationMethod<
+  InvokeEndpointAsyncInput,
   InvokeEndpointAsyncOutput,
   InternalFailure | ServiceUnavailable | ValidationError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -530,9 +528,8 @@ export const invokeEndpointAsync: (
  * Amazon Web Services Signature Version 4. For information, see Authenticating Requests (Amazon Web Services Signature Version 4) in the
  * *Amazon S3 API Reference*.
  */
-export const invokeEndpointWithResponseStream: (
-  input: InvokeEndpointWithResponseStreamInput,
-) => effect.Effect<
+export const invokeEndpointWithResponseStream: API.OperationMethod<
+  InvokeEndpointWithResponseStreamInput,
   InvokeEndpointWithResponseStreamOutput,
   | InternalFailure
   | InternalStreamFailure

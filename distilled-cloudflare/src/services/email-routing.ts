@@ -64,9 +64,8 @@ export const GetAddressResponse = Schema.Struct({
   verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetAddressResponse>;
 
-export const getAddress: (
-  input: GetAddressRequest,
-) => Effect.Effect<
+export const getAddress: API.OperationMethod<
+  GetAddressRequest,
   GetAddressResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -120,9 +119,8 @@ export const ListAddressesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAddressesResponse>;
 
-export const listAddresses: (
-  input: ListAddressesRequest,
-) => Effect.Effect<
+export const listAddresses: API.OperationMethod<
+  ListAddressesRequest,
   ListAddressesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -173,9 +171,8 @@ export const CreateAddressResponse = Schema.Struct({
   verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAddressResponse>;
 
-export const createAddress: (
-  input: CreateAddressRequest,
-) => Effect.Effect<
+export const createAddress: API.OperationMethod<
+  CreateAddressRequest,
   CreateAddressResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -227,9 +224,8 @@ export const DeleteAddressResponse = Schema.Struct({
   verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAddressResponse>;
 
-export const deleteAddress: (
-  input: DeleteAddressRequest,
-) => Effect.Effect<
+export const deleteAddress: API.OperationMethod<
+  DeleteAddressRequest,
   DeleteAddressResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -318,7 +314,14 @@ export const GetDnsResponse = Schema.Union([
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
     ),
     messages: Schema.Array(
       Schema.Struct({
@@ -330,7 +333,14 @@ export const GetDnsResponse = Schema.Union([
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
     ),
     success: Schema.Literal(true),
     result: Schema.optional(
@@ -353,10 +363,23 @@ export const GetDnsResponse = Schema.Union([
         perPage: Schema.optional(Schema.Number),
         totalCount: Schema.optional(Schema.Number),
       }).pipe(
-        Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ resultInfo: "result_info" })),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      result: "result",
+      resultInfo: "result_info",
+    }),
+  ),
   Schema.Struct({
     errors: Schema.Array(
       Schema.Struct({
@@ -368,7 +391,14 @@ export const GetDnsResponse = Schema.Union([
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
     ),
     messages: Schema.Array(
       Schema.Struct({
@@ -380,7 +410,14 @@ export const GetDnsResponse = Schema.Union([
             pointer: Schema.optional(Schema.String),
           }),
         ),
-      }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
     ),
     success: Schema.Literal(true),
     result: Schema.optional(Schema.Array(Schema.Unknown)),
@@ -391,15 +428,27 @@ export const GetDnsResponse = Schema.Union([
         perPage: Schema.optional(Schema.Number),
         totalCount: Schema.optional(Schema.Number),
       }).pipe(
-        Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
       ),
     ),
-  }).pipe(Schema.encodeKeys({ resultInfo: "result_info" })),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      result: "result",
+      resultInfo: "result_info",
+    }),
+  ),
 ]) as unknown as Schema.Schema<GetDnsResponse>;
 
-export const getDns: (
-  input: GetDnsRequest,
-) => Effect.Effect<
+export const getDns: API.OperationMethod<
+  GetDnsRequest,
   GetDnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -428,9 +477,8 @@ export type CreateDnsResponse = unknown;
 export const CreateDnsResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateDnsResponse>;
 
-export const createDns: (
-  input: CreateDnsRequest,
-) => Effect.Effect<
+export const createDns: API.OperationMethod<
+  CreateDnsRequest,
   CreateDnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -459,9 +507,8 @@ export type PatchDnsResponse = unknown;
 export const PatchDnsResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchDnsResponse>;
 
-export const patchDns: (
-  input: PatchDnsRequest,
-) => Effect.Effect<
+export const patchDns: API.OperationMethod<
+  PatchDnsRequest,
   PatchDnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -539,9 +586,8 @@ export const DeleteDnsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<DeleteDnsResponse>;
 
-export const deleteDns: (
-  input: DeleteDnsRequest,
-) => Effect.Effect<
+export const deleteDns: API.OperationMethod<
+  DeleteDnsRequest,
   DeleteDnsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -608,12 +654,20 @@ export const GetEmailRoutingResponse = Schema.Struct({
   ),
   tag: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ skipWizard: "skip_wizard" }),
+  Schema.encodeKeys({
+    id: "id",
+    enabled: "enabled",
+    name: "name",
+    created: "created",
+    modified: "modified",
+    skipWizard: "skip_wizard",
+    status: "status",
+    tag: "tag",
+  }),
 ) as unknown as Schema.Schema<GetEmailRoutingResponse>;
 
-export const getEmailRouting: (
-  input: GetEmailRoutingRequest,
-) => Effect.Effect<
+export const getEmailRouting: API.OperationMethod<
+  GetEmailRoutingRequest,
   GetEmailRoutingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -679,12 +733,20 @@ export const EnableEmailRoutingResponse = Schema.Struct({
   ),
   tag: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ skipWizard: "skip_wizard" }),
+  Schema.encodeKeys({
+    id: "id",
+    enabled: "enabled",
+    name: "name",
+    created: "created",
+    modified: "modified",
+    skipWizard: "skip_wizard",
+    status: "status",
+    tag: "tag",
+  }),
 ) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
 
-export const enableEmailRouting: (
-  input: EnableEmailRoutingRequest,
-) => Effect.Effect<
+export const enableEmailRouting: API.OperationMethod<
+  EnableEmailRoutingRequest,
   EnableEmailRoutingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -750,12 +812,20 @@ export const DisableEmailRoutingResponse = Schema.Struct({
   ),
   tag: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ skipWizard: "skip_wizard" }),
+  Schema.encodeKeys({
+    id: "id",
+    enabled: "enabled",
+    name: "name",
+    created: "created",
+    modified: "modified",
+    skipWizard: "skip_wizard",
+    status: "status",
+    tag: "tag",
+  }),
 ) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
 
-export const disableEmailRouting: (
-  input: DisableEmailRoutingRequest,
-) => Effect.Effect<
+export const disableEmailRouting: API.OperationMethod<
+  DisableEmailRoutingRequest,
   DisableEmailRoutingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -827,9 +897,8 @@ export const GetRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
-export const getRule: (
-  input: GetRuleRequest,
-) => Effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -892,9 +961,8 @@ export const ListRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
-export const listRules: (
-  input: ListRulesRequest,
-) => Effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -983,9 +1051,8 @@ export const CreateRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateRuleResponse>;
 
-export const createRule: (
-  input: CreateRuleRequest,
-) => Effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1079,9 +1146,8 @@ export const UpdateRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateRuleResponse>;
 
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => Effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1149,9 +1215,8 @@ export const DeleteRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => Effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1216,9 +1281,8 @@ export const GetRuleCatchAllResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleCatchAllResponse>;
 
-export const getRuleCatchAll: (
-  input: GetRuleCatchAllRequest,
-) => Effect.Effect<
+export const getRuleCatchAll: API.OperationMethod<
+  GetRuleCatchAllRequest,
   GetRuleCatchAllResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1300,9 +1364,8 @@ export const PutRuleCatchAllResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutRuleCatchAllResponse>;
 
-export const putRuleCatchAll: (
-  input: PutRuleCatchAllRequest,
-) => Effect.Effect<
+export const putRuleCatchAll: API.OperationMethod<
+  PutRuleCatchAllRequest,
   PutRuleCatchAllResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

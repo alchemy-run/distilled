@@ -1264,9 +1264,8 @@ export class SubnetInUse extends S.TaggedErrorClass<SubnetInUse>()(
 /**
  * Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | ClusterAlreadyExistsFault
   | ClusterQuotaForCustomerExceededFault
@@ -1310,9 +1309,8 @@ export const createCluster: (
  * Creates a new parameter group. A parameter group is a collection of parameters that
  * you apply to all of the nodes in a DAX cluster.
  */
-export const createParameterGroup: (
-  input: CreateParameterGroupRequest,
-) => effect.Effect<
+export const createParameterGroup: API.OperationMethod<
+  CreateParameterGroupRequest,
   CreateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -1337,9 +1335,8 @@ export const createParameterGroup: (
 /**
  * Creates a new subnet group.
  */
-export const createSubnetGroup: (
-  input: CreateSubnetGroupRequest,
-) => effect.Effect<
+export const createSubnetGroup: API.OperationMethod<
+  CreateSubnetGroupRequest,
   CreateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -1368,9 +1365,8 @@ export const createSubnetGroup: (
  * in a DAX cluster. If you need to do this, use
  * `DeleteCluster` instead.
  */
-export const decreaseReplicationFactor: (
-  input: DecreaseReplicationFactorRequest,
-) => effect.Effect<
+export const decreaseReplicationFactor: API.OperationMethod<
+  DecreaseReplicationFactorRequest,
   DecreaseReplicationFactorResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1399,9 +1395,8 @@ export const decreaseReplicationFactor: (
  * action, DAX immediately begins deleting the cluster; you cannot cancel or
  * revert this action.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1425,9 +1420,8 @@ export const deleteCluster: (
  * Deletes the specified parameter group. You cannot delete a parameter group if it is
  * associated with any DAX clusters.
  */
-export const deleteParameterGroup: (
-  input: DeleteParameterGroupRequest,
-) => effect.Effect<
+export const deleteParameterGroup: API.OperationMethod<
+  DeleteParameterGroupRequest,
   DeleteParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -1453,9 +1447,8 @@ export const deleteParameterGroup: (
  * You cannot delete a subnet group if it is associated with any DAX
  * clusters.
  */
-export const deleteSubnetGroup: (
-  input: DeleteSubnetGroupRequest,
-) => effect.Effect<
+export const deleteSubnetGroup: API.OperationMethod<
+  DeleteSubnetGroupRequest,
   DeleteSubnetGroupResponse,
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupInUseFault
@@ -1490,9 +1483,8 @@ export const deleteSubnetGroup: (
  * If nodes are currently being removed from the DAX cluster, no
  * endpoint information for the removed nodes is displayed.
  */
-export const describeClusters: (
-  input: DescribeClustersRequest,
-) => effect.Effect<
+export const describeClusters: API.OperationMethod<
+  DescribeClustersRequest,
   DescribeClustersResponse,
   | ClusterNotFoundFault
   | InvalidParameterCombinationException
@@ -1514,9 +1506,8 @@ export const describeClusters: (
  * Returns the default system parameter information for the DAX caching
  * software.
  */
-export const describeDefaultParameters: (
-  input: DescribeDefaultParametersRequest,
-) => effect.Effect<
+export const describeDefaultParameters: API.OperationMethod<
+  DescribeDefaultParametersRequest,
   DescribeDefaultParametersResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1540,9 +1531,8 @@ export const describeDefaultParameters: (
  * By default, only the events occurring within the last 24 hours are returned;
  * however, you can retrieve up to 14 days' worth of events if necessary.
  */
-export const describeEvents: (
-  input: DescribeEventsRequest,
-) => effect.Effect<
+export const describeEvents: API.OperationMethod<
+  DescribeEventsRequest,
   DescribeEventsResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1562,9 +1552,8 @@ export const describeEvents: (
  * Returns a list of parameter group descriptions. If a parameter group name is
  * specified, the list will contain only the descriptions for that group.
  */
-export const describeParameterGroups: (
-  input: DescribeParameterGroupsRequest,
-) => effect.Effect<
+export const describeParameterGroups: API.OperationMethod<
+  DescribeParameterGroupsRequest,
   DescribeParameterGroupsResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1585,9 +1574,8 @@ export const describeParameterGroups: (
 /**
  * Returns the detailed parameter list for a particular parameter group.
  */
-export const describeParameters: (
-  input: DescribeParametersRequest,
-) => effect.Effect<
+export const describeParameters: API.OperationMethod<
+  DescribeParametersRequest,
   DescribeParametersResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -1609,9 +1597,8 @@ export const describeParameters: (
  * Returns a list of subnet group descriptions. If a subnet group name is specified,
  * the list will contain only the description of that group.
  */
-export const describeSubnetGroups: (
-  input: DescribeSubnetGroupsRequest,
-) => effect.Effect<
+export const describeSubnetGroups: API.OperationMethod<
+  DescribeSubnetGroupsRequest,
   DescribeSubnetGroupsResponse,
   ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1623,9 +1610,8 @@ export const describeSubnetGroups: (
 /**
  * Adds one or more nodes to a DAX cluster.
  */
-export const increaseReplicationFactor: (
-  input: IncreaseReplicationFactorRequest,
-) => effect.Effect<
+export const increaseReplicationFactor: API.OperationMethod<
+  IncreaseReplicationFactorRequest,
   IncreaseReplicationFactorResponse,
   | ClusterNotFoundFault
   | InsufficientClusterCapacityFault
@@ -1657,9 +1643,8 @@ export const increaseReplicationFactor: (
  * List all of the tags for a DAX cluster. You can call
  * `ListTags` up to 10 times per second, per account.
  */
-export const listTags: (
-  input: ListTagsRequest,
-) => effect.Effect<
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
   ListTagsResponse,
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -1689,9 +1674,8 @@ export const listTags: (
  * `RebootNode` restarts the DAX engine process and does not remove the
  * contents of the cache.
  */
-export const rebootNode: (
-  input: RebootNodeRequest,
-) => effect.Effect<
+export const rebootNode: API.OperationMethod<
+  RebootNodeRequest,
   RebootNodeResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1718,9 +1702,8 @@ export const rebootNode: (
  * You can call `TagResource` up to
  * 5 times per second, per account.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -1748,9 +1731,8 @@ export const tagResource: (
  * Removes the association of tags from a DAX resource. You can call
  * `UntagResource` up to 5 times per second, per account.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ClusterNotFoundFault
   | InvalidARNFault
@@ -1779,9 +1761,8 @@ export const untagResource: (
  * change one or more cluster configuration parameters by specifying the parameters and the
  * new values.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -1809,9 +1790,8 @@ export const updateCluster: (
  * Modifies the parameters of a parameter group. You can modify up to 20 parameters in
  * a single request by submitting a list parameter name and value pairs.
  */
-export const updateParameterGroup: (
-  input: UpdateParameterGroupRequest,
-) => effect.Effect<
+export const updateParameterGroup: API.OperationMethod<
+  UpdateParameterGroupRequest,
   UpdateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -1834,9 +1814,8 @@ export const updateParameterGroup: (
 /**
  * Modifies an existing subnet group.
  */
-export const updateSubnetGroup: (
-  input: UpdateSubnetGroupRequest,
-) => effect.Effect<
+export const updateSubnetGroup: API.OperationMethod<
+  UpdateSubnetGroupRequest,
   UpdateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault

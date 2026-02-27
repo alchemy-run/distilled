@@ -2066,9 +2066,8 @@ export class SendingPausedException extends S.TaggedErrorClass<SendingPausedExce
  * email. When you apply a configuration set to an email, all of the rules in that
  * configuration set are applied to the email.
  */
-export const createConfigurationSet: (
-  input: CreateConfigurationSetRequest,
-) => effect.Effect<
+export const createConfigurationSet: API.OperationMethod<
+  CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -2100,9 +2099,8 @@ export const createConfigurationSet: (
  *
  * A single configuration set can include more than one event destination.
  */
-export const createConfigurationSetEventDestination: (
-  input: CreateConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const createConfigurationSetEventDestination: API.OperationMethod<
+  CreateConfigurationSetEventDestinationRequest,
   CreateConfigurationSetEventDestinationResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -2128,9 +2126,8 @@ export const createConfigurationSetEventDestination: (
  * a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint
  * sends it using only the IP addresses in the associated pool.
  */
-export const createDedicatedIpPool: (
-  input: CreateDedicatedIpPoolRequest,
-) => effect.Effect<
+export const createDedicatedIpPool: API.OperationMethod<
+  CreateDedicatedIpPoolRequest,
   CreateDedicatedIpPoolResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -2159,9 +2156,8 @@ export const createDedicatedIpPool: (
  * `GetDeliverabilityTestReport` operation to view the results of the
  * test.
  */
-export const createDeliverabilityTestReport: (
-  input: CreateDeliverabilityTestReportRequest,
-) => effect.Effect<
+export const createDeliverabilityTestReport: API.OperationMethod<
+  CreateDeliverabilityTestReportRequest,
   CreateDeliverabilityTestReportResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -2205,9 +2201,8 @@ export const createDeliverabilityTestReport: (
  * configuration for your domain. It usually takes around 72 hours to complete the domain
  * verification process.
  */
-export const createEmailIdentity: (
-  input: CreateEmailIdentityRequest,
-) => effect.Effect<
+export const createEmailIdentity: API.OperationMethod<
+  CreateEmailIdentityRequest,
   CreateEmailIdentityResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -2234,9 +2229,8 @@ export const createEmailIdentity: (
  * configuration set to an email, all of the rules in that configuration set are applied to
  * the email.
  */
-export const deleteConfigurationSet: (
-  input: DeleteConfigurationSetRequest,
-) => effect.Effect<
+export const deleteConfigurationSet: API.OperationMethod<
+  DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -2263,9 +2257,8 @@ export const deleteConfigurationSet: (
  * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
-export const deleteConfigurationSetEventDestination: (
-  input: DeleteConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const deleteConfigurationSetEventDestination: API.OperationMethod<
+  DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -2280,9 +2273,8 @@ export const deleteConfigurationSetEventDestination: (
 /**
  * Delete a dedicated IP pool.
  */
-export const deleteDedicatedIpPool: (
-  input: DeleteDedicatedIpPoolRequest,
-) => effect.Effect<
+export const deleteDedicatedIpPool: API.OperationMethod<
+  DeleteDedicatedIpPoolRequest,
   DeleteDedicatedIpPoolResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -2304,9 +2296,8 @@ export const deleteDedicatedIpPool: (
  * Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity
  * can be either an email address or a domain name.
  */
-export const deleteEmailIdentity: (
-  input: DeleteEmailIdentityRequest,
-) => effect.Effect<
+export const deleteEmailIdentity: API.OperationMethod<
+  DeleteEmailIdentityRequest,
   DeleteEmailIdentityResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -2328,9 +2319,8 @@ export const deleteEmailIdentity: (
  * Obtain information about the email-sending status and capabilities of your Amazon Pinpoint
  * account in the current AWS Region.
  */
-export const getAccount: (
-  input: GetAccountRequest,
-) => effect.Effect<
+export const getAccount: API.OperationMethod<
+  GetAccountRequest,
   GetAccountResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2342,9 +2332,8 @@ export const getAccount: (
 /**
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
-export const getBlacklistReports: (
-  input: GetBlacklistReportsRequest,
-) => effect.Effect<
+export const getBlacklistReports: API.OperationMethod<
+  GetBlacklistReportsRequest,
   GetBlacklistReportsResponse,
   | BadRequestException
   | NotFoundException
@@ -2367,9 +2356,8 @@ export const getBlacklistReports: (
  * configuration set to an email, all of the rules in that configuration set are applied to
  * the email.
  */
-export const getConfigurationSet: (
-  input: GetConfigurationSetRequest,
-) => effect.Effect<
+export const getConfigurationSet: API.OperationMethod<
+  GetConfigurationSetRequest,
   GetConfigurationSetResponse,
   | BadRequestException
   | NotFoundException
@@ -2391,9 +2379,8 @@ export const getConfigurationSet: (
  * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
-export const getConfigurationSetEventDestinations: (
-  input: GetConfigurationSetEventDestinationsRequest,
-) => effect.Effect<
+export const getConfigurationSetEventDestinations: API.OperationMethod<
+  GetConfigurationSetEventDestinationsRequest,
   GetConfigurationSetEventDestinationsResponse,
   | BadRequestException
   | NotFoundException
@@ -2410,9 +2397,8 @@ export const getConfigurationSetEventDestinations: (
  * pool that it's associated with, as well information about the automatic warm-up process
  * for the address.
  */
-export const getDedicatedIp: (
-  input: GetDedicatedIpRequest,
-) => effect.Effect<
+export const getDedicatedIp: API.OperationMethod<
+  GetDedicatedIpRequest,
   GetDedicatedIpResponse,
   | BadRequestException
   | NotFoundException
@@ -2428,17 +2414,15 @@ export const getDedicatedIp: (
  * List the dedicated IP addresses that are associated with your Amazon Pinpoint
  * account.
  */
-export const getDedicatedIps: {
-  (
-    input: GetDedicatedIpsRequest,
-  ): effect.Effect<
-    GetDedicatedIpsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDedicatedIps: API.OperationMethod<
+  GetDedicatedIpsRequest,
+  GetDedicatedIpsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDedicatedIpsRequest,
   ) => stream.Stream<
@@ -2479,9 +2463,8 @@ export const getDedicatedIps: {
  * to any other fees that you accrue by using Amazon Pinpoint. For more information about the
  * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
  */
-export const getDeliverabilityDashboardOptions: (
-  input: GetDeliverabilityDashboardOptionsRequest,
-) => effect.Effect<
+export const getDeliverabilityDashboardOptions: API.OperationMethod<
+  GetDeliverabilityDashboardOptionsRequest,
   GetDeliverabilityDashboardOptionsResponse,
   | BadRequestException
   | LimitExceededException
@@ -2500,9 +2483,8 @@ export const getDeliverabilityDashboardOptions: (
 /**
  * Retrieve the results of a predictive inbox placement test.
  */
-export const getDeliverabilityTestReport: (
-  input: GetDeliverabilityTestReportRequest,
-) => effect.Effect<
+export const getDeliverabilityTestReport: API.OperationMethod<
+  GetDeliverabilityTestReportRequest,
   GetDeliverabilityTestReportResponse,
   | BadRequestException
   | NotFoundException
@@ -2520,9 +2502,8 @@ export const getDeliverabilityTestReport: (
  * Deliverability dashboard is enabled for (`PutDeliverabilityDashboardOption`
  * operation).
  */
-export const getDomainDeliverabilityCampaign: (
-  input: GetDomainDeliverabilityCampaignRequest,
-) => effect.Effect<
+export const getDomainDeliverabilityCampaign: API.OperationMethod<
+  GetDomainDeliverabilityCampaignRequest,
   GetDomainDeliverabilityCampaignResponse,
   | BadRequestException
   | NotFoundException
@@ -2538,9 +2519,8 @@ export const getDomainDeliverabilityCampaign: (
  * Retrieve inbox placement and engagement rates for the domains that you use to send
  * email.
  */
-export const getDomainStatisticsReport: (
-  input: GetDomainStatisticsReportRequest,
-) => effect.Effect<
+export const getDomainStatisticsReport: API.OperationMethod<
+  GetDomainStatisticsReportRequest,
   GetDomainStatisticsReportResponse,
   | BadRequestException
   | NotFoundException
@@ -2557,9 +2537,8 @@ export const getDomainStatisticsReport: (
  * including the identity's verification status, its DKIM authentication status, and its
  * custom Mail-From settings.
  */
-export const getEmailIdentity: (
-  input: GetEmailIdentityRequest,
-) => effect.Effect<
+export const getEmailIdentity: API.OperationMethod<
+  GetEmailIdentityRequest,
   GetEmailIdentityResponse,
   | BadRequestException
   | NotFoundException
@@ -2581,14 +2560,12 @@ export const getEmailIdentity: (
  * configuration set to an email, all of the rules in that configuration set are applied to
  * the email.
  */
-export const listConfigurationSets: {
-  (
-    input: ListConfigurationSetsRequest,
-  ): effect.Effect<
-    ListConfigurationSetsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationSets: API.OperationMethod<
+  ListConfigurationSetsRequest,
+  ListConfigurationSetsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationSetsRequest,
   ) => stream.Stream<
@@ -2617,14 +2594,12 @@ export const listConfigurationSets: {
  * List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current
  * AWS Region.
  */
-export const listDedicatedIpPools: {
-  (
-    input: ListDedicatedIpPoolsRequest,
-  ): effect.Effect<
-    ListDedicatedIpPoolsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDedicatedIpPools: API.OperationMethod<
+  ListDedicatedIpPoolsRequest,
+  ListDedicatedIpPoolsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDedicatedIpPoolsRequest,
   ) => stream.Stream<
@@ -2654,17 +2629,15 @@ export const listDedicatedIpPools: {
  * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
  * operation to view the results.
  */
-export const listDeliverabilityTestReports: {
-  (
-    input: ListDeliverabilityTestReportsRequest,
-  ): effect.Effect<
-    ListDeliverabilityTestReportsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeliverabilityTestReports: API.OperationMethod<
+  ListDeliverabilityTestReportsRequest,
+  ListDeliverabilityTestReportsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeliverabilityTestReportsRequest,
   ) => stream.Stream<
@@ -2701,17 +2674,15 @@ export const listDeliverabilityTestReports: {
  * enabled the Deliverability dashboard (`PutDeliverabilityDashboardOption` operation)
  * for the domain.
  */
-export const listDomainDeliverabilityCampaigns: {
-  (
-    input: ListDomainDeliverabilityCampaignsRequest,
-  ): effect.Effect<
-    ListDomainDeliverabilityCampaignsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainDeliverabilityCampaigns: API.OperationMethod<
+  ListDomainDeliverabilityCampaignsRequest,
+  ListDomainDeliverabilityCampaignsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainDeliverabilityCampaignsRequest,
   ) => stream.Stream<
@@ -2747,14 +2718,12 @@ export const listDomainDeliverabilityCampaigns: {
  * account. An identity can be either an email address or a domain. This operation returns
  * identities that are verified as well as those that aren't.
  */
-export const listEmailIdentities: {
-  (
-    input: ListEmailIdentitiesRequest,
-  ): effect.Effect<
-    ListEmailIdentitiesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEmailIdentities: API.OperationMethod<
+  ListEmailIdentitiesRequest,
+  ListEmailIdentitiesResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEmailIdentitiesRequest,
   ) => stream.Stream<
@@ -2787,9 +2756,8 @@ export const listEmailIdentities: {
  * is a general label that acts as a category for more specific tag values. A tag value
  * acts as a descriptor within a tag key.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | NotFoundException
@@ -2804,9 +2772,8 @@ export const listTagsForResource: (
 /**
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
-export const putAccountDedicatedIpWarmupAttributes: (
-  input: PutAccountDedicatedIpWarmupAttributesRequest,
-) => effect.Effect<
+export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
+  PutAccountDedicatedIpWarmupAttributesRequest,
   PutAccountDedicatedIpWarmupAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2818,9 +2785,8 @@ export const putAccountDedicatedIpWarmupAttributes: (
 /**
  * Enable or disable the ability of your account to send email.
  */
-export const putAccountSendingAttributes: (
-  input: PutAccountSendingAttributesRequest,
-) => effect.Effect<
+export const putAccountSendingAttributes: API.OperationMethod<
+  PutAccountSendingAttributesRequest,
   PutAccountSendingAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2833,9 +2799,8 @@ export const putAccountSendingAttributes: (
  * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
  * to create groups of dedicated IP addresses for sending specific types of email.
  */
-export const putConfigurationSetDeliveryOptions: (
-  input: PutConfigurationSetDeliveryOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetDeliveryOptions: API.OperationMethod<
+  PutConfigurationSetDeliveryOptionsRequest,
   PutConfigurationSetDeliveryOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -2851,9 +2816,8 @@ export const putConfigurationSetDeliveryOptions: (
  * Enable or disable collection of reputation metrics for emails that you send using a
  * particular configuration set in a specific AWS Region.
  */
-export const putConfigurationSetReputationOptions: (
-  input: PutConfigurationSetReputationOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetReputationOptions: API.OperationMethod<
+  PutConfigurationSetReputationOptionsRequest,
   PutConfigurationSetReputationOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -2869,9 +2833,8 @@ export const putConfigurationSetReputationOptions: (
  * Enable or disable email sending for messages that use a particular configuration set
  * in a specific AWS Region.
  */
-export const putConfigurationSetSendingOptions: (
-  input: PutConfigurationSetSendingOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetSendingOptions: API.OperationMethod<
+  PutConfigurationSetSendingOptionsRequest,
   PutConfigurationSetSendingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -2887,9 +2850,8 @@ export const putConfigurationSetSendingOptions: (
  * Specify a custom domain to use for open and click tracking elements in email that you
  * send using Amazon Pinpoint.
  */
-export const putConfigurationSetTrackingOptions: (
-  input: PutConfigurationSetTrackingOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetTrackingOptions: API.OperationMethod<
+  PutConfigurationSetTrackingOptionsRequest,
   PutConfigurationSetTrackingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -2910,9 +2872,8 @@ export const putConfigurationSetTrackingOptions: (
  * The dedicated IP pool you specify must already exist. You can create a new pool by
  * using the `CreateDedicatedIpPool` operation.
  */
-export const putDedicatedIpInPool: (
-  input: PutDedicatedIpInPoolRequest,
-) => effect.Effect<
+export const putDedicatedIpInPool: API.OperationMethod<
+  PutDedicatedIpInPoolRequest,
   PutDedicatedIpInPoolResponse,
   | BadRequestException
   | NotFoundException
@@ -2927,9 +2888,8 @@ export const putDedicatedIpInPool: (
 /**
  *
  */
-export const putDedicatedIpWarmupAttributes: (
-  input: PutDedicatedIpWarmupAttributesRequest,
-) => effect.Effect<
+export const putDedicatedIpWarmupAttributes: API.OperationMethod<
+  PutDedicatedIpWarmupAttributesRequest,
   PutDedicatedIpWarmupAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -2951,9 +2911,8 @@ export const putDedicatedIpWarmupAttributes: (
  * to any other fees that you accrue by using Amazon Pinpoint. For more information about the
  * features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
  */
-export const putDeliverabilityDashboardOption: (
-  input: PutDeliverabilityDashboardOptionRequest,
-) => effect.Effect<
+export const putDeliverabilityDashboardOption: API.OperationMethod<
+  PutDeliverabilityDashboardOptionRequest,
   PutDeliverabilityDashboardOptionResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -2976,9 +2935,8 @@ export const putDeliverabilityDashboardOption: (
 /**
  * Used to enable or disable DKIM authentication for an email identity.
  */
-export const putEmailIdentityDkimAttributes: (
-  input: PutEmailIdentityDkimAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityDkimAttributes: API.OperationMethod<
+  PutEmailIdentityDkimAttributesRequest,
   PutEmailIdentityDkimAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -3005,9 +2963,8 @@ export const putEmailIdentityDkimAttributes: (
  * bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events
  * occur (even if this setting is disabled).
  */
-export const putEmailIdentityFeedbackAttributes: (
-  input: PutEmailIdentityFeedbackAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
+  PutEmailIdentityFeedbackAttributesRequest,
   PutEmailIdentityFeedbackAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -3023,9 +2980,8 @@ export const putEmailIdentityFeedbackAttributes: (
  * Used to enable or disable the custom Mail-From domain configuration for an email
  * identity.
  */
-export const putEmailIdentityMailFromAttributes: (
-  input: PutEmailIdentityMailFromAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityMailFromAttributes: API.OperationMethod<
+  PutEmailIdentityMailFromAttributesRequest,
   PutEmailIdentityMailFromAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -3051,9 +3007,8 @@ export const putEmailIdentityMailFromAttributes: (
  * send messages that contain attachments. The message that you specify has to be a
  * valid MIME message.
  */
-export const sendEmail: (
-  input: SendEmailRequest,
-) => effect.Effect<
+export const sendEmail: API.OperationMethod<
+  SendEmailRequest,
   SendEmailResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -3091,9 +3046,8 @@ export const sendEmail: (
  * general label that acts as a category for more specific tag values. A tag value acts as
  * a descriptor within a tag key.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -3114,9 +3068,8 @@ export const tagResource: (
 /**
  * Remove one or more tags (keys and values) from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -3143,9 +3096,8 @@ export const untagResource: (
  * Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
  * Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
  */
-export const updateConfigurationSetEventDestination: (
-  input: UpdateConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const updateConfigurationSetEventDestination: API.OperationMethod<
+  UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
   | BadRequestException
   | NotFoundException

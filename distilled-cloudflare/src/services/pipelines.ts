@@ -119,9 +119,8 @@ export const GetPipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<GetPipelineResponse>;
 
-export const getPipeline: (
-  input: GetPipelineRequest,
-) => Effect.Effect<
+export const getPipeline: API.OperationMethod<
+  GetPipelineRequest,
   GetPipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -196,7 +195,12 @@ export const ListPipelinesResponse = Schema.Struct({
     perPage: Schema.Number,
     totalCount: Schema.Number,
   }).pipe(
-    Schema.encodeKeys({ perPage: "per_page", totalCount: "total_count" }),
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
   ),
   results: Schema.Array(
     Schema.Struct({
@@ -250,12 +254,15 @@ export const ListPipelinesResponse = Schema.Struct({
   ),
   success: Schema.Boolean,
 }).pipe(
-  Schema.encodeKeys({ resultInfo: "result_info" }),
+  Schema.encodeKeys({
+    resultInfo: "result_info",
+    results: "results",
+    success: "success",
+  }),
 ) as unknown as Schema.Schema<ListPipelinesResponse>;
 
-export const listPipelines: (
-  input: ListPipelinesRequest,
-) => Effect.Effect<
+export const listPipelines: API.OperationMethod<
+  ListPipelinesRequest,
   ListPipelinesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -324,6 +331,7 @@ export const CreatePipelineRequest = Schema.Struct({
     }).pipe(
       Schema.encodeKeys({
         accessKeyId: "access_key_id",
+        endpoint: "endpoint",
         secretAccessKey: "secret_access_key",
       }),
     ),
@@ -440,9 +448,8 @@ export const CreatePipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<CreatePipelineResponse>;
 
-export const createPipeline: (
-  input: CreatePipelineRequest,
-) => Effect.Effect<
+export const createPipeline: API.OperationMethod<
+  CreatePipelineRequest,
   CreatePipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -522,6 +529,7 @@ export const UpdatePipelineRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           accessKeyId: "access_key_id",
+          endpoint: "endpoint",
           secretAccessKey: "secret_access_key",
         }),
       ),
@@ -634,9 +642,8 @@ export const UpdatePipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<UpdatePipelineResponse>;
 
-export const updatePipeline: (
-  input: UpdatePipelineRequest,
-) => Effect.Effect<
+export const updatePipeline: API.OperationMethod<
+  UpdatePipelineRequest,
   UpdatePipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -667,9 +674,8 @@ export type DeletePipelineResponse = unknown;
 export const DeletePipelineResponse =
   Schema.Unknown as unknown as Schema.Schema<DeletePipelineResponse>;
 
-export const deletePipeline: (
-  input: DeletePipelineRequest,
-) => Effect.Effect<
+export const deletePipeline: API.OperationMethod<
+  DeletePipelineRequest,
   DeletePipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -887,7 +893,12 @@ export const GetSinkResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           accountId: "account_id",
+          bucket: "bucket",
+          credentials: "credentials",
           fileNaming: "file_naming",
+          jurisdiction: "jurisdiction",
+          partitioning: "partitioning",
+          path: "path",
           rollingPolicy: "rolling_policy",
         }),
       ),
@@ -912,8 +923,11 @@ export const GetSinkResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          token: "token",
           accountId: "account_id",
+          bucket: "bucket",
           tableName: "table_name",
+          namespace: "namespace",
           rollingPolicy: "rolling_policy",
         }),
       ),
@@ -932,8 +946,10 @@ export const GetSinkResponse = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -944,7 +960,13 @@ export const GetSinkResponse = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
   schema: Schema.optional(
@@ -962,7 +984,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -976,7 +1001,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -990,7 +1018,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1004,7 +1035,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1018,7 +1052,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1032,7 +1069,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1046,7 +1086,10 @@ export const GetSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1068,8 +1111,12 @@ export const GetSinkResponse = Schema.Struct({
               ),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
+                unit: "unit",
               }),
             ),
             Schema.Struct({
@@ -1083,8 +1130,10 @@ export const GetSinkResponse = Schema.Struct({
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Unknown,
@@ -1104,8 +1153,10 @@ export const GetSinkResponse = Schema.Struct({
             unstructured: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               decimalEncoding: "decimal_encoding",
               timestampFormat: "timestamp_format",
+              unstructured: "unstructured",
             }),
           ),
           Schema.Struct({
@@ -1122,19 +1173,33 @@ export const GetSinkResponse = Schema.Struct({
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+          }).pipe(
+            Schema.encodeKeys({
+              type: "type",
+              compression: "compression",
+              rowGroupBytes: "row_group_bytes",
+            }),
+          ),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    name: "name",
+    type: "type",
+    config: "config",
+    format: "format",
+    schema: "schema",
+  }),
 ) as unknown as Schema.Schema<GetSinkResponse>;
 
-export const getSink: (
-  input: GetSinkRequest,
-) => Effect.Effect<
+export const getSink: API.OperationMethod<
+  GetSinkRequest,
   GetSinkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1343,7 +1408,12 @@ export const ListSinksResponse = Schema.Array(
         }).pipe(
           Schema.encodeKeys({
             accountId: "account_id",
+            bucket: "bucket",
+            credentials: "credentials",
             fileNaming: "file_naming",
+            jurisdiction: "jurisdiction",
+            partitioning: "partitioning",
+            path: "path",
             rollingPolicy: "rolling_policy",
           }),
         ),
@@ -1368,8 +1438,11 @@ export const ListSinksResponse = Schema.Array(
           ),
         }).pipe(
           Schema.encodeKeys({
+            token: "token",
             accountId: "account_id",
+            bucket: "bucket",
             tableName: "table_name",
+            namespace: "namespace",
             rollingPolicy: "rolling_policy",
           }),
         ),
@@ -1388,8 +1461,10 @@ export const ListSinksResponse = Schema.Array(
           unstructured: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            type: "type",
             decimalEncoding: "decimal_encoding",
             timestampFormat: "timestamp_format",
+            unstructured: "unstructured",
           }),
         ),
         Schema.Struct({
@@ -1400,7 +1475,13 @@ export const ListSinksResponse = Schema.Array(
           rowGroupBytes: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        }).pipe(
+          Schema.encodeKeys({
+            type: "type",
+            compression: "compression",
+            rowGroupBytes: "row_group_bytes",
+          }),
+        ),
       ]),
     ),
     schema: Schema.optional(
@@ -1418,7 +1499,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1432,7 +1516,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1446,7 +1533,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1460,7 +1550,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1474,7 +1567,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1488,7 +1584,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1502,7 +1601,10 @@ export const ListSinksResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -1524,8 +1626,12 @@ export const ListSinksResponse = Schema.Array(
                 ),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
+                  unit: "unit",
                 }),
               ),
               Schema.Struct({
@@ -1539,8 +1645,10 @@ export const ListSinksResponse = Schema.Array(
                 unstructured: Schema.optional(Schema.Boolean),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   decimalEncoding: "decimal_encoding",
                   timestampFormat: "timestamp_format",
+                  unstructured: "unstructured",
                 }),
               ),
               Schema.Unknown,
@@ -1560,8 +1668,10 @@ export const ListSinksResponse = Schema.Array(
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Struct({
@@ -1578,20 +1688,34 @@ export const ListSinksResponse = Schema.Array(
               rowGroupBytes: Schema.optional(
                 Schema.Union([Schema.Number, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            }).pipe(
+              Schema.encodeKeys({
+                type: "type",
+                compression: "compression",
+                rowGroupBytes: "row_group_bytes",
+              }),
+            ),
           ]),
         ),
         inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       }),
     ),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      modifiedAt: "modified_at",
+      name: "name",
+      type: "type",
+      config: "config",
+      format: "format",
+      schema: "schema",
+    }),
   ),
 ) as unknown as Schema.Schema<ListSinksResponse>;
 
-export const listSinks: (
-  input: ListSinksRequest,
-) => Effect.Effect<
+export const listSinks: API.OperationMethod<
+  ListSinksRequest,
   ListSinksResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1787,7 +1911,12 @@ export const CreateSinkRequest = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           accountId: "account_id",
+          bucket: "bucket",
+          credentials: "credentials",
           fileNaming: "file_naming",
+          jurisdiction: "jurisdiction",
+          partitioning: "partitioning",
+          path: "path",
           rollingPolicy: "rolling_policy",
         }),
       ),
@@ -1812,8 +1941,11 @@ export const CreateSinkRequest = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          token: "token",
           accountId: "account_id",
+          bucket: "bucket",
           tableName: "table_name",
+          namespace: "namespace",
           rollingPolicy: "rolling_policy",
         }),
       ),
@@ -1832,8 +1964,10 @@ export const CreateSinkRequest = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -1844,7 +1978,13 @@ export const CreateSinkRequest = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
   schema: Schema.optional(
@@ -1862,7 +2002,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1876,7 +2019,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1890,7 +2036,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1904,7 +2053,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1918,7 +2070,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1932,7 +2087,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1946,7 +2104,10 @@ export const CreateSinkRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -1968,8 +2129,12 @@ export const CreateSinkRequest = Schema.Struct({
               ),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
+                unit: "unit",
               }),
             ),
             Schema.Struct({
@@ -1983,8 +2148,10 @@ export const CreateSinkRequest = Schema.Struct({
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Unknown,
@@ -2004,8 +2171,10 @@ export const CreateSinkRequest = Schema.Struct({
             unstructured: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               decimalEncoding: "decimal_encoding",
               timestampFormat: "timestamp_format",
+              unstructured: "unstructured",
             }),
           ),
           Schema.Struct({
@@ -2022,7 +2191,13 @@ export const CreateSinkRequest = Schema.Struct({
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+          }).pipe(
+            Schema.encodeKeys({
+              type: "type",
+              compression: "compression",
+              rowGroupBytes: "row_group_bytes",
+            }),
+          ),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -2220,7 +2395,12 @@ export const CreateSinkResponse = Schema.Struct({
       }).pipe(
         Schema.encodeKeys({
           accountId: "account_id",
+          bucket: "bucket",
+          credentials: "credentials",
           fileNaming: "file_naming",
+          jurisdiction: "jurisdiction",
+          partitioning: "partitioning",
+          path: "path",
           rollingPolicy: "rolling_policy",
         }),
       ),
@@ -2245,8 +2425,11 @@ export const CreateSinkResponse = Schema.Struct({
         ),
       }).pipe(
         Schema.encodeKeys({
+          token: "token",
           accountId: "account_id",
+          bucket: "bucket",
           tableName: "table_name",
+          namespace: "namespace",
           rollingPolicy: "rolling_policy",
         }),
       ),
@@ -2265,8 +2448,10 @@ export const CreateSinkResponse = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -2277,7 +2462,13 @@ export const CreateSinkResponse = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
   schema: Schema.optional(
@@ -2295,7 +2486,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2309,7 +2503,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2323,7 +2520,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2337,7 +2537,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2351,7 +2554,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2365,7 +2571,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2379,7 +2588,10 @@ export const CreateSinkResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2401,8 +2613,12 @@ export const CreateSinkResponse = Schema.Struct({
               ),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
+                unit: "unit",
               }),
             ),
             Schema.Struct({
@@ -2416,8 +2632,10 @@ export const CreateSinkResponse = Schema.Struct({
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Unknown,
@@ -2437,8 +2655,10 @@ export const CreateSinkResponse = Schema.Struct({
             unstructured: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               decimalEncoding: "decimal_encoding",
               timestampFormat: "timestamp_format",
+              unstructured: "unstructured",
             }),
           ),
           Schema.Struct({
@@ -2455,19 +2675,33 @@ export const CreateSinkResponse = Schema.Struct({
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+          }).pipe(
+            Schema.encodeKeys({
+              type: "type",
+              compression: "compression",
+              rowGroupBytes: "row_group_bytes",
+            }),
+          ),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    name: "name",
+    type: "type",
+    config: "config",
+    format: "format",
+    schema: "schema",
+  }),
 ) as unknown as Schema.Schema<CreateSinkResponse>;
 
-export const createSink: (
-  input: CreateSinkRequest,
-) => Effect.Effect<
+export const createSink: API.OperationMethod<
+  CreateSinkRequest,
   CreateSinkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2501,9 +2735,8 @@ export type DeleteSinkResponse = unknown;
 export const DeleteSinkResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteSinkResponse>;
 
-export const deleteSink: (
-  input: DeleteSinkRequest,
-) => Effect.Effect<
+export const deleteSink: API.OperationMethod<
+  DeleteSinkRequest,
   DeleteSinkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2581,15 +2814,21 @@ export const ValidateSqlPipelineResponse = Schema.Struct({
           nodeId: Schema.Number,
           operator: Schema.String,
           parallelism: Schema.Number,
-        }).pipe(Schema.encodeKeys({ nodeId: "node_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            description: "description",
+            nodeId: "node_id",
+            operator: "operator",
+            parallelism: "parallelism",
+          }),
+        ),
       ),
     }),
   ),
 }) as unknown as Schema.Schema<ValidateSqlPipelineResponse>;
 
-export const validateSqlPipeline: (
-  input: ValidateSqlPipelineRequest,
-) => Effect.Effect<
+export const validateSqlPipeline: API.OperationMethod<
+  ValidateSqlPipelineRequest,
   ValidateSqlPipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2763,8 +3002,10 @@ export const GetStreamResponse = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -2775,7 +3016,13 @@ export const GetStreamResponse = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
   schema: Schema.optional(
@@ -2793,7 +3040,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2807,7 +3057,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2821,7 +3074,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2835,7 +3091,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2849,7 +3108,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2863,7 +3125,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2877,7 +3142,10 @@ export const GetStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -2899,8 +3167,12 @@ export const GetStreamResponse = Schema.Struct({
               ),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
+                unit: "unit",
               }),
             ),
             Schema.Struct({
@@ -2914,8 +3186,10 @@ export const GetStreamResponse = Schema.Struct({
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Unknown,
@@ -2935,8 +3209,10 @@ export const GetStreamResponse = Schema.Struct({
             unstructured: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               decimalEncoding: "decimal_encoding",
               timestampFormat: "timestamp_format",
+              unstructured: "unstructured",
             }),
           ),
           Schema.Struct({
@@ -2953,7 +3229,13 @@ export const GetStreamResponse = Schema.Struct({
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+          }).pipe(
+            Schema.encodeKeys({
+              type: "type",
+              compression: "compression",
+              rowGroupBytes: "row_group_bytes",
+            }),
+          ),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -2961,15 +3243,21 @@ export const GetStreamResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    http: "http",
     modifiedAt: "modified_at",
+    name: "name",
+    version: "version",
     workerBinding: "worker_binding",
+    endpoint: "endpoint",
+    format: "format",
+    schema: "schema",
   }),
 ) as unknown as Schema.Schema<GetStreamResponse>;
 
-export const getStream: (
-  input: GetStreamRequest,
-) => Effect.Effect<
+export const getStream: API.OperationMethod<
+  GetStreamRequest,
   GetStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3137,8 +3425,10 @@ export const ListStreamsResponse = Schema.Array(
           unstructured: Schema.optional(Schema.Boolean),
         }).pipe(
           Schema.encodeKeys({
+            type: "type",
             decimalEncoding: "decimal_encoding",
             timestampFormat: "timestamp_format",
+            unstructured: "unstructured",
           }),
         ),
         Schema.Struct({
@@ -3149,7 +3439,13 @@ export const ListStreamsResponse = Schema.Array(
           rowGroupBytes: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
           ),
-        }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+        }).pipe(
+          Schema.encodeKeys({
+            type: "type",
+            compression: "compression",
+            rowGroupBytes: "row_group_bytes",
+          }),
+        ),
       ]),
     ),
     schema: Schema.optional(
@@ -3167,7 +3463,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3181,7 +3480,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3195,7 +3497,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3209,7 +3514,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3223,7 +3531,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3237,7 +3548,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3251,7 +3565,10 @@ export const ListStreamsResponse = Schema.Array(
                 sqlName: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
                 }),
               ),
@@ -3273,8 +3590,12 @@ export const ListStreamsResponse = Schema.Array(
                 ),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   metadataKey: "metadata_key",
+                  name: "name",
+                  required: "required",
                   sqlName: "sql_name",
+                  unit: "unit",
                 }),
               ),
               Schema.Struct({
@@ -3288,8 +3609,10 @@ export const ListStreamsResponse = Schema.Array(
                 unstructured: Schema.optional(Schema.Boolean),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   decimalEncoding: "decimal_encoding",
                   timestampFormat: "timestamp_format",
+                  unstructured: "unstructured",
                 }),
               ),
               Schema.Unknown,
@@ -3309,8 +3632,10 @@ export const ListStreamsResponse = Schema.Array(
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Struct({
@@ -3327,7 +3652,13 @@ export const ListStreamsResponse = Schema.Array(
               rowGroupBytes: Schema.optional(
                 Schema.Union([Schema.Number, Schema.Null]),
               ),
-            }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+            }).pipe(
+              Schema.encodeKeys({
+                type: "type",
+                compression: "compression",
+                rowGroupBytes: "row_group_bytes",
+              }),
+            ),
           ]),
         ),
         inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -3335,16 +3666,22 @@ export const ListStreamsResponse = Schema.Array(
     ),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
+      http: "http",
       modifiedAt: "modified_at",
+      name: "name",
+      version: "version",
       workerBinding: "worker_binding",
+      endpoint: "endpoint",
+      format: "format",
+      schema: "schema",
     }),
   ),
 ) as unknown as Schema.Schema<ListStreamsResponse>;
 
-export const listStreams: (
-  input: ListStreamsRequest,
-) => Effect.Effect<
+export const listStreams: API.OperationMethod<
+  ListStreamsRequest,
   ListStreamsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3480,8 +3817,10 @@ export const CreateStreamRequest = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -3492,7 +3831,13 @@ export const CreateStreamRequest = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
   http: Schema.optional(
@@ -3521,7 +3866,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3535,7 +3883,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3549,7 +3900,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3563,7 +3917,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3577,7 +3934,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3591,7 +3951,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3605,7 +3968,10 @@ export const CreateStreamRequest = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3627,8 +3993,12 @@ export const CreateStreamRequest = Schema.Struct({
               ),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
+                unit: "unit",
               }),
             ),
             Schema.Struct({
@@ -3642,8 +4012,10 @@ export const CreateStreamRequest = Schema.Struct({
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Unknown,
@@ -3663,8 +4035,10 @@ export const CreateStreamRequest = Schema.Struct({
             unstructured: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               decimalEncoding: "decimal_encoding",
               timestampFormat: "timestamp_format",
+              unstructured: "unstructured",
             }),
           ),
           Schema.Struct({
@@ -3681,7 +4055,13 @@ export const CreateStreamRequest = Schema.Struct({
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+          }).pipe(
+            Schema.encodeKeys({
+              type: "type",
+              compression: "compression",
+              rowGroupBytes: "row_group_bytes",
+            }),
+          ),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -3693,7 +4073,13 @@ export const CreateStreamRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ workerBinding: "worker_binding" }),
+  Schema.encodeKeys({
+    name: "name",
+    format: "format",
+    http: "http",
+    schema: "schema",
+    workerBinding: "worker_binding",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/pipelines/v1/streams",
@@ -3844,8 +4230,10 @@ export const CreateStreamResponse = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -3856,7 +4244,13 @@ export const CreateStreamResponse = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
   schema: Schema.optional(
@@ -3874,7 +4268,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3888,7 +4285,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3902,7 +4302,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3916,7 +4319,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3930,7 +4336,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3944,7 +4353,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3958,7 +4370,10 @@ export const CreateStreamResponse = Schema.Struct({
               sqlName: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
               }),
             ),
@@ -3980,8 +4395,12 @@ export const CreateStreamResponse = Schema.Struct({
               ),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 metadataKey: "metadata_key",
+                name: "name",
+                required: "required",
                 sqlName: "sql_name",
+                unit: "unit",
               }),
             ),
             Schema.Struct({
@@ -3995,8 +4414,10 @@ export const CreateStreamResponse = Schema.Struct({
               unstructured: Schema.optional(Schema.Boolean),
             }).pipe(
               Schema.encodeKeys({
+                type: "type",
                 decimalEncoding: "decimal_encoding",
                 timestampFormat: "timestamp_format",
+                unstructured: "unstructured",
               }),
             ),
             Schema.Unknown,
@@ -4016,8 +4437,10 @@ export const CreateStreamResponse = Schema.Struct({
             unstructured: Schema.optional(Schema.Boolean),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               decimalEncoding: "decimal_encoding",
               timestampFormat: "timestamp_format",
+              unstructured: "unstructured",
             }),
           ),
           Schema.Struct({
@@ -4034,7 +4457,13 @@ export const CreateStreamResponse = Schema.Struct({
             rowGroupBytes: Schema.optional(
               Schema.Union([Schema.Number, Schema.Null]),
             ),
-          }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+          }).pipe(
+            Schema.encodeKeys({
+              type: "type",
+              compression: "compression",
+              rowGroupBytes: "row_group_bytes",
+            }),
+          ),
         ]),
       ),
       inferred: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -4042,15 +4471,21 @@ export const CreateStreamResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    http: "http",
     modifiedAt: "modified_at",
+    name: "name",
+    version: "version",
     workerBinding: "worker_binding",
+    endpoint: "endpoint",
+    format: "format",
+    schema: "schema",
   }),
 ) as unknown as Schema.Schema<CreateStreamResponse>;
 
-export const createStream: (
-  input: CreateStreamRequest,
-) => Effect.Effect<
+export const createStream: API.OperationMethod<
+  CreateStreamRequest,
   CreateStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4094,7 +4529,7 @@ export const PatchStreamRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ workerBinding: "worker_binding" }),
+  Schema.encodeKeys({ http: "http", workerBinding: "worker_binding" }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/pipelines/v1/streams/{streamId}",
@@ -4164,8 +4599,10 @@ export const PatchStreamResponse = Schema.Struct({
         unstructured: Schema.optional(Schema.Boolean),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           decimalEncoding: "decimal_encoding",
           timestampFormat: "timestamp_format",
+          unstructured: "unstructured",
         }),
       ),
       Schema.Struct({
@@ -4176,20 +4613,31 @@ export const PatchStreamResponse = Schema.Struct({
         rowGroupBytes: Schema.optional(
           Schema.Union([Schema.Number, Schema.Null]),
         ),
-      }).pipe(Schema.encodeKeys({ rowGroupBytes: "row_group_bytes" })),
+      }).pipe(
+        Schema.encodeKeys({
+          type: "type",
+          compression: "compression",
+          rowGroupBytes: "row_group_bytes",
+        }),
+      ),
     ]),
   ),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdAt: "created_at",
+    http: "http",
     modifiedAt: "modified_at",
+    name: "name",
+    version: "version",
     workerBinding: "worker_binding",
+    endpoint: "endpoint",
+    format: "format",
   }),
 ) as unknown as Schema.Schema<PatchStreamResponse>;
 
-export const patchStream: (
-  input: PatchStreamRequest,
-) => Effect.Effect<
+export const patchStream: API.OperationMethod<
+  PatchStreamRequest,
   PatchStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4223,9 +4671,8 @@ export type DeleteStreamResponse = unknown;
 export const DeleteStreamResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteStreamResponse>;
 
-export const deleteStream: (
-  input: DeleteStreamRequest,
-) => Effect.Effect<
+export const deleteStream: API.OperationMethod<
+  DeleteStreamRequest,
   DeleteStreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4293,12 +4740,19 @@ export const GetV1PipelineResponse = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    name: "name",
+    sql: "sql",
+    status: "status",
+    tables: "tables",
+  }),
 ) as unknown as Schema.Schema<GetV1PipelineResponse>;
 
-export const getV1Pipeline: (
-  input: GetV1PipelineRequest,
-) => Effect.Effect<
+export const getV1Pipeline: API.OperationMethod<
+  GetV1PipelineRequest,
   GetV1PipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4340,13 +4794,19 @@ export const ListV1PipelineResponse = Schema.Array(
     sql: Schema.String,
     status: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      modifiedAt: "modified_at",
+      name: "name",
+      sql: "sql",
+      status: "status",
+    }),
   ),
 ) as unknown as Schema.Schema<ListV1PipelineResponse>;
 
-export const listV1Pipeline: (
-  input: ListV1PipelineRequest,
-) => Effect.Effect<
+export const listV1Pipeline: API.OperationMethod<
+  ListV1PipelineRequest,
   ListV1PipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4397,12 +4857,18 @@ export const CreateV1PipelineResponse = Schema.Struct({
   sql: Schema.String,
   status: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+  Schema.encodeKeys({
+    id: "id",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    name: "name",
+    sql: "sql",
+    status: "status",
+  }),
 ) as unknown as Schema.Schema<CreateV1PipelineResponse>;
 
-export const createV1Pipeline: (
-  input: CreateV1PipelineRequest,
-) => Effect.Effect<
+export const createV1Pipeline: API.OperationMethod<
+  CreateV1PipelineRequest,
   CreateV1PipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4433,9 +4899,8 @@ export type DeleteV1PipelineResponse = unknown;
 export const DeleteV1PipelineResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteV1PipelineResponse>;
 
-export const deleteV1Pipeline: (
-  input: DeleteV1PipelineRequest,
-) => Effect.Effect<
+export const deleteV1Pipeline: API.OperationMethod<
+  DeleteV1PipelineRequest,
   DeleteV1PipelineResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

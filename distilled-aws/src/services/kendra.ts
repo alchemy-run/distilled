@@ -5271,9 +5271,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
  * experience, see Building
  * a search experience with no code.
  */
-export const associateEntitiesToExperience: (
-  input: AssociateEntitiesToExperienceRequest,
-) => effect.Effect<
+export const associateEntitiesToExperience: API.OperationMethod<
+  AssociateEntitiesToExperienceRequest,
   AssociateEntitiesToExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5302,9 +5301,8 @@ export const associateEntitiesToExperience: (
  * search application experience, see Building
  * a search experience with no code.
  */
-export const associatePersonasToEntities: (
-  input: AssociatePersonasToEntitiesRequest,
-) => effect.Effect<
+export const associatePersonasToEntities: API.OperationMethod<
+  AssociatePersonasToEntitiesRequest,
   AssociatePersonasToEntitiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5340,9 +5338,8 @@ export const associatePersonasToEntities: (
  * Deleting documents from an index using `BatchDeleteDocument` could take up
  * to an hour or more, depending on the number of documents you want to delete.
  */
-export const batchDeleteDocument: (
-  input: BatchDeleteDocumentRequest,
-) => effect.Effect<
+export const batchDeleteDocument: API.OperationMethod<
+  BatchDeleteDocumentRequest,
   BatchDeleteDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5369,9 +5366,8 @@ export const batchDeleteDocument: (
  * above all other results for certain queries. If there's an exact match of a
  * query, then one or more specific documents are featured in the search results.
  */
-export const batchDeleteFeaturedResultsSet: (
-  input: BatchDeleteFeaturedResultsSetRequest,
-) => effect.Effect<
+export const batchDeleteFeaturedResultsSet: API.OperationMethod<
+  BatchDeleteFeaturedResultsSetRequest,
   BatchDeleteFeaturedResultsSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5404,9 +5400,8 @@ export const batchDeleteFeaturedResultsSet: (
  * the
  * BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns `NOT_FOUND` as the status.
  */
-export const batchGetDocumentStatus: (
-  input: BatchGetDocumentStatusRequest,
-) => effect.Effect<
+export const batchGetDocumentStatus: API.OperationMethod<
+  BatchGetDocumentStatusRequest,
   BatchGetDocumentStatusResponse,
   | AccessDeniedException
   | ConflictException
@@ -5446,9 +5441,8 @@ export const batchGetDocumentStatus: (
  * For an example of ingesting inline documents using Python and Java SDKs, see Adding files
  * directly to an index.
  */
-export const batchPutDocument: (
-  input: BatchPutDocumentRequest,
-) => effect.Effect<
+export const batchPutDocument: API.OperationMethod<
+  BatchPutDocumentRequest,
   BatchPutDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5485,9 +5479,8 @@ export const batchPutDocument: (
  * `ClearQuerySuggestions` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const clearQuerySuggestions: (
-  input: ClearQuerySuggestionsRequest,
-) => effect.Effect<
+export const clearQuerySuggestions: API.OperationMethod<
+  ClearQuerySuggestionsRequest,
   ClearQuerySuggestionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5537,9 +5530,8 @@ export const clearQuerySuggestions: (
  * Edition index. Amazon Kendra will return a `ValidationException` error for a
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
-export const createAccessControlConfiguration: (
-  input: CreateAccessControlConfigurationRequest,
-) => effect.Effect<
+export const createAccessControlConfiguration: API.OperationMethod<
+  CreateAccessControlConfigurationRequest,
   CreateAccessControlConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5578,9 +5570,8 @@ export const createAccessControlConfiguration: (
  * Getting started with Java
  * SDK.
  */
-export const createDataSource: (
-  input: CreateDataSourceRequest,
-) => effect.Effect<
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceRequest,
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5612,9 +5603,8 @@ export const createDataSource: (
  * see Building a
  * search experience with no code.
  */
-export const createExperience: (
-  input: CreateExperienceRequest,
-) => effect.Effect<
+export const createExperience: API.OperationMethod<
+  CreateExperienceRequest,
   CreateExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5646,9 +5636,8 @@ export const createExperience: (
  *
  * For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
  */
-export const createFaq: (
-  input: CreateFaqRequest,
-) => effect.Effect<
+export const createFaq: API.OperationMethod<
+  CreateFaqRequest,
   CreateFaqResponse,
   | AccessDeniedException
   | ConflictException
@@ -5682,9 +5671,8 @@ export const createFaq: (
  * You can create up to 50 sets of featured results per index. You can request to
  * increase this limit by contacting Support.
  */
-export const createFeaturedResultsSet: (
-  input: CreateFeaturedResultsSetRequest,
-) => effect.Effect<
+export const createFeaturedResultsSet: API.OperationMethod<
+  CreateFeaturedResultsSetRequest,
   CreateFeaturedResultsSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5722,9 +5710,8 @@ export const createFeaturedResultsSet: (
  * Getting started with Java
  * SDK.
  */
-export const createIndex: (
-  input: CreateIndexRequest,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
   CreateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -5769,9 +5756,8 @@ export const createIndex: (
  * Python SDK, see Query
  * suggestions block list.
  */
-export const createQuerySuggestionsBlockList: (
-  input: CreateQuerySuggestionsBlockListRequest,
-) => effect.Effect<
+export const createQuerySuggestionsBlockList: API.OperationMethod<
+  CreateQuerySuggestionsBlockListRequest,
   CreateQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | ConflictException
@@ -5803,9 +5789,8 @@ export const createQuerySuggestionsBlockList: (
  * Adding
  * custom synonyms to an index.
  */
-export const createThesaurus: (
-  input: CreateThesaurusRequest,
-) => effect.Effect<
+export const createThesaurus: API.OperationMethod<
+  CreateThesaurusRequest,
   CreateThesaurusResponse,
   | AccessDeniedException
   | ConflictException
@@ -5835,9 +5820,8 @@ export const createThesaurus: (
  * useful for user context filtering, where search results are filtered based on the user
  * or their group access to documents.
  */
-export const deleteAccessControlConfiguration: (
-  input: DeleteAccessControlConfigurationRequest,
-) => effect.Effect<
+export const deleteAccessControlConfiguration: API.OperationMethod<
+  DeleteAccessControlConfigurationRequest,
   DeleteAccessControlConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5869,9 +5853,8 @@ export const deleteAccessControlConfiguration: (
  * from a data source could take up to an hour or more, depending on the number of documents you
  * want to delete.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceRequest,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
   DeleteDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5898,9 +5881,8 @@ export const deleteDataSource: (
  * creating a search application experience, see Building a search
  * experience with no code.
  */
-export const deleteExperience: (
-  input: DeleteExperienceRequest,
-) => effect.Effect<
+export const deleteExperience: API.OperationMethod<
+  DeleteExperienceRequest,
   DeleteExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5925,9 +5907,8 @@ export const deleteExperience: (
 /**
  * Removes a FAQ from an index.
  */
-export const deleteFaq: (
-  input: DeleteFaqRequest,
-) => effect.Effect<
+export const deleteFaq: API.OperationMethod<
+  DeleteFaqRequest,
   DeleteFaqResponse,
   | AccessDeniedException
   | ConflictException
@@ -5954,9 +5935,8 @@ export const deleteFaq: (
  * being deleted. While the index is being deleted, the `Status` field returned by a
  * call to the `DescribeIndex` API is set to `DELETING`.
  */
-export const deleteIndex: (
-  input: DeleteIndexRequest,
-) => effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
   DeleteIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -5995,9 +5975,8 @@ export const deleteIndex: (
  *
  * `DeletePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
-export const deletePrincipalMapping: (
-  input: DeletePrincipalMappingRequest,
-) => effect.Effect<
+export const deletePrincipalMapping: API.OperationMethod<
+  DeletePrincipalMappingRequest,
   DeletePrincipalMappingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6029,9 +6008,8 @@ export const deletePrincipalMapping: (
  * `DeleteQuerySuggestionsBlockList` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const deleteQuerySuggestionsBlockList: (
-  input: DeleteQuerySuggestionsBlockListRequest,
-) => effect.Effect<
+export const deleteQuerySuggestionsBlockList: API.OperationMethod<
+  DeleteQuerySuggestionsBlockListRequest,
   DeleteQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | ConflictException
@@ -6056,9 +6034,8 @@ export const deleteQuerySuggestionsBlockList: (
 /**
  * Deletes an Amazon Kendra thesaurus.
  */
-export const deleteThesaurus: (
-  input: DeleteThesaurusRequest,
-) => effect.Effect<
+export const deleteThesaurus: API.OperationMethod<
+  DeleteThesaurusRequest,
   DeleteThesaurusResponse,
   | AccessDeniedException
   | ConflictException
@@ -6086,9 +6063,8 @@ export const deleteThesaurus: (
  * documents. This is useful for user context filtering, where search results are filtered
  * based on the user or their group access to documents.
  */
-export const describeAccessControlConfiguration: (
-  input: DescribeAccessControlConfigurationRequest,
-) => effect.Effect<
+export const describeAccessControlConfiguration: API.OperationMethod<
+  DescribeAccessControlConfigurationRequest,
   DescribeAccessControlConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6111,9 +6087,8 @@ export const describeAccessControlConfiguration: (
 /**
  * Gets information about an Amazon Kendra data source connector.
  */
-export const describeDataSource: (
-  input: DescribeDataSourceRequest,
-) => effect.Effect<
+export const describeDataSource: API.OperationMethod<
+  DescribeDataSourceRequest,
   DescribeDataSourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6139,9 +6114,8 @@ export const describeDataSource: (
  * see Building
  * a search experience with no code.
  */
-export const describeExperience: (
-  input: DescribeExperienceRequest,
-) => effect.Effect<
+export const describeExperience: API.OperationMethod<
+  DescribeExperienceRequest,
   DescribeExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6164,9 +6138,8 @@ export const describeExperience: (
 /**
  * Gets information about a FAQ.
  */
-export const describeFaq: (
-  input: DescribeFaqRequest,
-) => effect.Effect<
+export const describeFaq: API.OperationMethod<
+  DescribeFaqRequest,
   DescribeFaqResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6191,9 +6164,8 @@ export const describeFaq: (
  * above all other results for certain queries. If there's an exact match of a query,
  * then one or more specific documents are featured in the search results.
  */
-export const describeFeaturedResultsSet: (
-  input: DescribeFeaturedResultsSetRequest,
-) => effect.Effect<
+export const describeFeaturedResultsSet: API.OperationMethod<
+  DescribeFeaturedResultsSetRequest,
   DescribeFeaturedResultsSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6216,9 +6188,8 @@ export const describeFeaturedResultsSet: (
 /**
  * Gets information about an Amazon Kendra index.
  */
-export const describeIndex: (
-  input: DescribeIndexRequest,
-) => effect.Effect<
+export const describeIndex: API.OperationMethod<
+  DescribeIndexRequest,
   DescribeIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6248,9 +6219,8 @@ export const describeIndex: (
  *
  * `DescribePrincipalMapping` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
-export const describePrincipalMapping: (
-  input: DescribePrincipalMappingRequest,
-) => effect.Effect<
+export const describePrincipalMapping: API.OperationMethod<
+  DescribePrincipalMappingRequest,
   DescribePrincipalMappingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6280,9 +6250,8 @@ export const describePrincipalMapping: (
  * `DescribeQuerySuggestionsBlockList` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const describeQuerySuggestionsBlockList: (
-  input: DescribeQuerySuggestionsBlockListRequest,
-) => effect.Effect<
+export const describeQuerySuggestionsBlockList: API.OperationMethod<
+  DescribeQuerySuggestionsBlockListRequest,
   DescribeQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6311,9 +6280,8 @@ export const describeQuerySuggestionsBlockList: (
  * `DescribeQuerySuggestionsConfig` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const describeQuerySuggestionsConfig: (
-  input: DescribeQuerySuggestionsConfigRequest,
-) => effect.Effect<
+export const describeQuerySuggestionsConfig: API.OperationMethod<
+  DescribeQuerySuggestionsConfigRequest,
   DescribeQuerySuggestionsConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6336,9 +6304,8 @@ export const describeQuerySuggestionsConfig: (
 /**
  * Gets information about an Amazon Kendra thesaurus.
  */
-export const describeThesaurus: (
-  input: DescribeThesaurusRequest,
-) => effect.Effect<
+export const describeThesaurus: API.OperationMethod<
+  DescribeThesaurusRequest,
   DescribeThesaurusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6365,9 +6332,8 @@ export const describeThesaurus: (
  * application experience, see Building
  * a search experience with no code.
  */
-export const disassociateEntitiesFromExperience: (
-  input: DisassociateEntitiesFromExperienceRequest,
-) => effect.Effect<
+export const disassociateEntitiesFromExperience: API.OperationMethod<
+  DisassociateEntitiesFromExperienceRequest,
   DisassociateEntitiesFromExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6394,9 +6360,8 @@ export const disassociateEntitiesFromExperience: (
  * search application experience, see Building a
  * search experience with no code.
  */
-export const disassociatePersonasFromEntities: (
-  input: DisassociatePersonasFromEntitiesRequest,
-) => effect.Effect<
+export const disassociatePersonasFromEntities: API.OperationMethod<
+  DisassociatePersonasFromEntitiesRequest,
   DisassociatePersonasFromEntitiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6422,9 +6387,8 @@ export const disassociatePersonasFromEntities: (
  * `GetQuerySuggestions` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const getQuerySuggestions: (
-  input: GetQuerySuggestionsRequest,
-) => effect.Effect<
+export const getQuerySuggestions: API.OperationMethod<
+  GetQuerySuggestionsRequest,
   GetQuerySuggestionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6452,18 +6416,16 @@ export const getQuerySuggestions: (
  * Retrieves search metrics data. The data provides a snapshot of how your users interact
  * with your search application and how effective the application is.
  */
-export const getSnapshots: {
-  (
-    input: GetSnapshotsRequest,
-  ): effect.Effect<
-    GetSnapshotsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSnapshots: API.OperationMethod<
+  GetSnapshotsRequest,
+  GetSnapshotsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSnapshotsRequest,
   ) => stream.Stream<
@@ -6507,19 +6469,17 @@ export const getSnapshots: {
  * where search results are filtered based on the user or their group access to
  * documents.
  */
-export const listAccessControlConfigurations: {
-  (
-    input: ListAccessControlConfigurationsRequest,
-  ): effect.Effect<
-    ListAccessControlConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessControlConfigurations: API.OperationMethod<
+  ListAccessControlConfigurationsRequest,
+  ListAccessControlConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessControlConfigurationsRequest,
   ) => stream.Stream<
@@ -6563,19 +6523,17 @@ export const listAccessControlConfigurations: {
 /**
  * Lists the data source connectors that you have created.
  */
-export const listDataSources: {
-  (
-    input: ListDataSourcesRequest,
-  ): effect.Effect<
-    ListDataSourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
+  ListDataSourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
@@ -6619,20 +6577,18 @@ export const listDataSources: {
 /**
  * Gets statistics about synchronizing a data source connector.
  */
-export const listDataSourceSyncJobs: {
-  (
-    input: ListDataSourceSyncJobsRequest,
-  ): effect.Effect<
-    ListDataSourceSyncJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSourceSyncJobs: API.OperationMethod<
+  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourceSyncJobsRequest,
   ) => stream.Stream<
@@ -6680,19 +6636,17 @@ export const listDataSourceSyncJobs: {
  * Lists specific permissions of users and groups with access to your
  * Amazon Kendra experience.
  */
-export const listEntityPersonas: {
-  (
-    input: ListEntityPersonasRequest,
-  ): effect.Effect<
-    ListEntityPersonasResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntityPersonas: API.OperationMethod<
+  ListEntityPersonasRequest,
+  ListEntityPersonasResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntityPersonasRequest,
   ) => stream.Stream<
@@ -6740,19 +6694,17 @@ export const listEntityPersonas: {
  * application experience, see Building
  * a search experience with no code.
  */
-export const listExperienceEntities: {
-  (
-    input: ListExperienceEntitiesRequest,
-  ): effect.Effect<
-    ListExperienceEntitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExperienceEntities: API.OperationMethod<
+  ListExperienceEntitiesRequest,
+  ListExperienceEntitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExperienceEntitiesRequest,
   ) => stream.Stream<
@@ -6795,19 +6747,17 @@ export const listExperienceEntities: {
  * experience, see Building a
  * search experience with no code.
  */
-export const listExperiences: {
-  (
-    input: ListExperiencesRequest,
-  ): effect.Effect<
-    ListExperiencesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExperiences: API.OperationMethod<
+  ListExperiencesRequest,
+  ListExperiencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExperiencesRequest,
   ) => stream.Stream<
@@ -6851,19 +6801,17 @@ export const listExperiences: {
 /**
  * Gets a list of FAQs associated with an index.
  */
-export const listFaqs: {
-  (
-    input: ListFaqsRequest,
-  ): effect.Effect<
-    ListFaqsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFaqs: API.OperationMethod<
+  ListFaqsRequest,
+  ListFaqsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFaqsRequest,
   ) => stream.Stream<
@@ -6909,9 +6857,8 @@ export const listFaqs: {
  * are placed above all other results for certain queries. If there's an exact match
  * of a query, then one or more specific documents are featured in the search results.
  */
-export const listFeaturedResultsSets: (
-  input: ListFeaturedResultsSetsRequest,
-) => effect.Effect<
+export const listFeaturedResultsSets: API.OperationMethod<
+  ListFeaturedResultsSetsRequest,
   ListFeaturedResultsSetsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6937,20 +6884,18 @@ export const listFeaturedResultsSets: (
  *
  * `ListGroupsOlderThanOrderingId` is currently not supported in the Amazon Web Services GovCloud (US-West) region.
  */
-export const listGroupsOlderThanOrderingId: {
-  (
-    input: ListGroupsOlderThanOrderingIdRequest,
-  ): effect.Effect<
-    ListGroupsOlderThanOrderingIdResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupsOlderThanOrderingId: API.OperationMethod<
+  ListGroupsOlderThanOrderingIdRequest,
+  ListGroupsOlderThanOrderingIdResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsOlderThanOrderingIdRequest,
   ) => stream.Stream<
@@ -6997,18 +6942,16 @@ export const listGroupsOlderThanOrderingId: {
 /**
  * Lists the Amazon Kendra indexes that you created.
  */
-export const listIndices: {
-  (
-    input: ListIndicesRequest,
-  ): effect.Effect<
-    ListIndicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndices: API.OperationMethod<
+  ListIndicesRequest,
+  ListIndicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndicesRequest,
   ) => stream.Stream<
@@ -7056,19 +6999,17 @@ export const listIndices: {
  * `ListQuerySuggestionsBlockLists` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const listQuerySuggestionsBlockLists: {
-  (
-    input: ListQuerySuggestionsBlockListsRequest,
-  ): effect.Effect<
-    ListQuerySuggestionsBlockListsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQuerySuggestionsBlockLists: API.OperationMethod<
+  ListQuerySuggestionsBlockListsRequest,
+  ListQuerySuggestionsBlockListsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQuerySuggestionsBlockListsRequest,
   ) => stream.Stream<
@@ -7113,9 +7054,8 @@ export const listQuerySuggestionsBlockLists: {
  * Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and
  * other resources can have tags associated with them.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7138,19 +7078,17 @@ export const listTagsForResource: (
 /**
  * Lists the thesauri for an index.
  */
-export const listThesauri: {
-  (
-    input: ListThesauriRequest,
-  ): effect.Effect<
-    ListThesauriResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThesauri: API.OperationMethod<
+  ListThesauriRequest,
+  ListThesauriResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThesauriRequest,
   ) => stream.Stream<
@@ -7208,9 +7146,8 @@ export const listThesauri: {
  * If more than five `PUT` actions for a group are currently processing, a
  * validation exception is thrown.
  */
-export const putPrincipalMapping: (
-  input: PutPrincipalMappingRequest,
-) => effect.Effect<
+export const putPrincipalMapping: API.OperationMethod<
+  PutPrincipalMappingRequest,
   PutPrincipalMappingResponse,
   | AccessDeniedException
   | ConflictException
@@ -7269,9 +7206,8 @@ export const putPrincipalMapping: (
  * `USER_TOKEN` to configure user context policy, Amazon Kendra returns a
  * `ValidationException` error.
  */
-export const query: (
-  input: QueryRequest,
-) => effect.Effect<
+export const query: API.OperationMethod<
+  QueryRequest,
   QueryResult,
   | AccessDeniedException
   | ConflictException
@@ -7336,9 +7272,8 @@ export const query: (
  * `USER_TOKEN` to configure user context policy, Amazon Kendra returns a
  * `ValidationException` error.
  */
-export const retrieve: (
-  input: RetrieveRequest,
-) => effect.Effect<
+export const retrieve: API.OperationMethod<
+  RetrieveRequest,
   RetrieveResult,
   | AccessDeniedException
   | ConflictException
@@ -7371,9 +7306,8 @@ export const retrieve: (
  * documents from your data source respository could take up to an hour or more, depending on
  * the number of documents to sync.
  */
-export const startDataSourceSyncJob: (
-  input: StartDataSourceSyncJobRequest,
-) => effect.Effect<
+export const startDataSourceSyncJob: API.OperationMethod<
+  StartDataSourceSyncJobRequest,
   StartDataSourceSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7401,9 +7335,8 @@ export const startDataSourceSyncJob: (
  * Stops a synchronization job that is currently running. You can't stop a scheduled
  * synchronization job.
  */
-export const stopDataSourceSyncJob: (
-  input: StopDataSourceSyncJobRequest,
-) => effect.Effect<
+export const stopDataSourceSyncJob: API.OperationMethod<
+  StopDataSourceSyncJobRequest,
   StopDataSourceSyncJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7430,9 +7363,8 @@ export const stopDataSourceSyncJob: (
  * `SubmitFeedback` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const submitFeedback: (
-  input: SubmitFeedbackRequest,
-) => effect.Effect<
+export const submitFeedback: API.OperationMethod<
+  SubmitFeedbackRequest,
   SubmitFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7458,9 +7390,8 @@ export const submitFeedback: (
  * Adds the specified tag to the specified index, FAQ, data source, or other resource. If
  * the tag already exists, the existing value is replaced with the new value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7483,9 +7414,8 @@ export const tagResource: (
 /**
  * Removes a tag from an index, FAQ, data source, or other resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7533,9 +7463,8 @@ export const untagResource: (
  * Edition index. Amazon Kendra will return a `ValidationException` error for a
  * `Gen_AI_ENTERPRISE_EDITION` index.
  */
-export const updateAccessControlConfiguration: (
-  input: UpdateAccessControlConfigurationRequest,
-) => effect.Effect<
+export const updateAccessControlConfiguration: API.OperationMethod<
+  UpdateAccessControlConfigurationRequest,
   UpdateAccessControlConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7562,9 +7491,8 @@ export const updateAccessControlConfiguration: (
 /**
  * Updates an Amazon Kendra data source connector.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceRequest,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7591,9 +7519,8 @@ export const updateDataSource: (
  * creating a search application experience, see Building a
  * search experience with no code.
  */
-export const updateExperience: (
-  input: UpdateExperienceRequest,
-) => effect.Effect<
+export const updateExperience: API.OperationMethod<
+  UpdateExperienceRequest,
   UpdateExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7622,9 +7549,8 @@ export const updateExperience: (
  * for featuring in the results. If a query contains an exact match of a query, then one
  * or more specific documents are featured in the search results.
  */
-export const updateFeaturedResultsSet: (
-  input: UpdateFeaturedResultsSetRequest,
-) => effect.Effect<
+export const updateFeaturedResultsSet: API.OperationMethod<
+  UpdateFeaturedResultsSetRequest,
   UpdateFeaturedResultsSetResponse,
   | AccessDeniedException
   | FeaturedResultsConflictException
@@ -7649,9 +7575,8 @@ export const updateFeaturedResultsSet: (
 /**
  * Updates an Amazon Kendra index.
  */
-export const updateIndex: (
-  input: UpdateIndexRequest,
-) => effect.Effect<
+export const updateIndex: API.OperationMethod<
+  UpdateIndexRequest,
   UpdateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -7691,9 +7616,8 @@ export const updateIndex: (
  * `UpdateQuerySuggestionsBlockList` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const updateQuerySuggestionsBlockList: (
-  input: UpdateQuerySuggestionsBlockListRequest,
-) => effect.Effect<
+export const updateQuerySuggestionsBlockList: API.OperationMethod<
+  UpdateQuerySuggestionsBlockListRequest,
   UpdateQuerySuggestionsBlockListResponse,
   | AccessDeniedException
   | ConflictException
@@ -7733,9 +7657,8 @@ export const updateQuerySuggestionsBlockList: (
  * `UpdateQuerySuggestionsConfig` is currently not supported in the
  * Amazon Web Services GovCloud (US-West) region.
  */
-export const updateQuerySuggestionsConfig: (
-  input: UpdateQuerySuggestionsConfigRequest,
-) => effect.Effect<
+export const updateQuerySuggestionsConfig: API.OperationMethod<
+  UpdateQuerySuggestionsConfigRequest,
   UpdateQuerySuggestionsConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -7760,9 +7683,8 @@ export const updateQuerySuggestionsConfig: (
 /**
  * Updates a thesaurus for an index.
  */
-export const updateThesaurus: (
-  input: UpdateThesaurusRequest,
-) => effect.Effect<
+export const updateThesaurus: API.OperationMethod<
+  UpdateThesaurusRequest,
   UpdateThesaurusResponse,
   | AccessDeniedException
   | ConflictException

@@ -1356,9 +1356,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Retrieves details about a list of views.
  */
-export const batchGetView: (
-  input: BatchGetViewInput,
-) => effect.Effect<
+export const batchGetView: API.OperationMethod<
+  BatchGetViewInput,
   BatchGetViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1381,9 +1380,8 @@ export const batchGetView: (
 /**
  * Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
  */
-export const createResourceExplorerSetup: (
-  input: CreateResourceExplorerSetupInput,
-) => effect.Effect<
+export const createResourceExplorerSetup: API.OperationMethod<
+  CreateResourceExplorerSetupInput,
   CreateResourceExplorerSetupOutput,
   | AccessDeniedException
   | ConflictException
@@ -1406,9 +1404,8 @@ export const createResourceExplorerSetup: (
 /**
  * Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
  */
-export const deleteResourceExplorerSetup: (
-  input: DeleteResourceExplorerSetupInput,
-) => effect.Effect<
+export const deleteResourceExplorerSetup: API.OperationMethod<
+  DeleteResourceExplorerSetupInput,
   DeleteResourceExplorerSetupOutput,
   | AccessDeniedException
   | ConflictException
@@ -1433,9 +1430,8 @@ export const deleteResourceExplorerSetup: (
  *
  * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
  */
-export const disassociateDefaultView: (
-  input: DisassociateDefaultViewRequest,
-) => effect.Effect<
+export const disassociateDefaultView: API.OperationMethod<
+  DisassociateDefaultViewRequest,
   DisassociateDefaultViewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1458,9 +1454,8 @@ export const disassociateDefaultView: (
 /**
  * Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
  */
-export const getAccountLevelServiceConfiguration: (
-  input: GetAccountLevelServiceConfigurationRequest,
-) => effect.Effect<
+export const getAccountLevelServiceConfiguration: API.OperationMethod<
+  GetAccountLevelServiceConfigurationRequest,
   GetAccountLevelServiceConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1481,9 +1476,8 @@ export const getAccountLevelServiceConfiguration: (
 /**
  * Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call GetView to retrieve the details of that view.
  */
-export const getDefaultView: (
-  input: GetDefaultViewRequest,
-) => effect.Effect<
+export const getDefaultView: API.OperationMethod<
+  GetDefaultViewRequest,
   GetDefaultViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1506,9 +1500,8 @@ export const getDefaultView: (
 /**
  * Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
  */
-export const getIndex: (
-  input: GetIndexRequest,
-) => effect.Effect<
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
   GetIndexOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1531,9 +1524,8 @@ export const getIndex: (
 /**
  * Retrieves details of the specified Amazon Web Services-managed view.
  */
-export const getManagedView: (
-  input: GetManagedViewInput,
-) => effect.Effect<
+export const getManagedView: API.OperationMethod<
+  GetManagedViewInput,
   GetManagedViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1558,19 +1550,17 @@ export const getManagedView: (
 /**
  * Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
  */
-export const getResourceExplorerSetup: {
-  (
-    input: GetResourceExplorerSetupInput,
-  ): effect.Effect<
-    GetResourceExplorerSetupOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceExplorerSetup: API.OperationMethod<
+  GetResourceExplorerSetupInput,
+  GetResourceExplorerSetupOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceExplorerSetupInput,
   ) => stream.Stream<
@@ -1615,9 +1605,8 @@ export const getResourceExplorerSetup: {
 /**
  * Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
  */
-export const getServiceIndex: (
-  input: GetServiceIndexRequest,
-) => effect.Effect<
+export const getServiceIndex: API.OperationMethod<
+  GetServiceIndexRequest,
   GetServiceIndexOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1640,9 +1629,8 @@ export const getServiceIndex: (
 /**
  * Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
  */
-export const getServiceView: (
-  input: GetServiceViewInput,
-) => effect.Effect<
+export const getServiceView: API.OperationMethod<
+  GetServiceViewInput,
   GetServiceViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1665,18 +1653,16 @@ export const getServiceView: (
 /**
  * Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
  */
-export const listIndexesForMembers: {
-  (
-    input: ListIndexesForMembersInput,
-  ): effect.Effect<
-    ListIndexesForMembersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndexesForMembers: API.OperationMethod<
+  ListIndexesForMembersInput,
+  ListIndexesForMembersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndexesForMembersInput,
   ) => stream.Stream<
@@ -1718,19 +1704,17 @@ export const listIndexesForMembers: {
 /**
  * Lists the Amazon resource names (ARNs) of the Amazon Web Services-managed views available in the Amazon Web Services Region in which you call this operation.
  */
-export const listManagedViews: {
-  (
-    input: ListManagedViewsInput,
-  ): effect.Effect<
-    ListManagedViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedViews: API.OperationMethod<
+  ListManagedViewsInput,
+  ListManagedViewsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedViewsInput,
   ) => stream.Stream<
@@ -1775,20 +1759,18 @@ export const listManagedViews: {
 /**
  * Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
  */
-export const listResources: {
-  (
-    input: ListResourcesInput,
-  ): effect.Effect<
-    ListResourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResources: API.OperationMethod<
+  ListResourcesInput,
+  ListResourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesInput,
   ) => stream.Stream<
@@ -1836,18 +1818,16 @@ export const listResources: {
 /**
  * Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
  */
-export const listServiceIndexes: {
-  (
-    input: ListServiceIndexesInput,
-  ): effect.Effect<
-    ListServiceIndexesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceIndexes: API.OperationMethod<
+  ListServiceIndexesInput,
+  ListServiceIndexesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceIndexesInput,
   ) => stream.Stream<
@@ -1889,18 +1869,16 @@ export const listServiceIndexes: {
 /**
  * Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
  */
-export const listServiceViews: {
-  (
-    input: ListServiceViewsInput,
-  ): effect.Effect<
-    ListServiceViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceViews: API.OperationMethod<
+  ListServiceViewsInput,
+  ListServiceViewsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceViewsInput,
   ) => stream.Stream<
@@ -1942,17 +1920,15 @@ export const listServiceViews: {
 /**
  * Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
  */
-export const listStreamingAccessForServices: {
-  (
-    input: ListStreamingAccessForServicesInput,
-  ): effect.Effect<
-    ListStreamingAccessForServicesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreamingAccessForServices: API.OperationMethod<
+  ListStreamingAccessForServicesInput,
+  ListStreamingAccessForServicesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamingAccessForServicesInput,
   ) => stream.Stream<
@@ -1987,18 +1963,16 @@ export const listStreamingAccessForServices: {
 /**
  * Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
  */
-export const listSupportedResourceTypes: {
-  (
-    input: ListSupportedResourceTypesInput,
-  ): effect.Effect<
-    ListSupportedResourceTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSupportedResourceTypes: API.OperationMethod<
+  ListSupportedResourceTypesInput,
+  ListSupportedResourceTypesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSupportedResourceTypesInput,
   ) => stream.Stream<
@@ -2040,9 +2014,8 @@ export const listSupportedResourceTypes: {
 /**
  * Lists the tags that are attached to the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2073,20 +2046,18 @@ export const listTagsForResource: (
  *
  * If your search results are empty, or are missing results that you think should be there, see Troubleshooting Resource Explorer search.
  */
-export const search: {
-  (
-    input: SearchInput,
-  ): effect.Effect<
-    SearchOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const search: API.OperationMethod<
+  SearchInput,
+  SearchOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchInput,
   ) => stream.Stream<
@@ -2134,9 +2105,8 @@ export const search: {
 /**
  * Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -2161,9 +2131,8 @@ export const tagResource: (
 /**
  * Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2208,9 +2177,8 @@ export const untagResource: (
  *
  * This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the service-linked role needed to index the resources in your account. Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
  */
-export const createIndex: (
-  input: CreateIndexInput,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexInput,
   CreateIndexOutput,
   | AccessDeniedException
   | ConflictException
@@ -2249,9 +2217,8 @@ export const createIndex: (
  *
  * After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
  */
-export const updateIndexType: (
-  input: UpdateIndexTypeInput,
-) => effect.Effect<
+export const updateIndexType: API.OperationMethod<
+  UpdateIndexTypeInput,
   UpdateIndexTypeOutput,
   | AccessDeniedException
   | ConflictException
@@ -2280,9 +2247,8 @@ export const updateIndexType: (
  *
  * If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
  */
-export const deleteIndex: (
-  input: DeleteIndexInput,
-) => effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexInput,
   DeleteIndexOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2305,18 +2271,16 @@ export const deleteIndex: (
 /**
  * Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
  */
-export const listIndexes: {
-  (
-    input: ListIndexesInput,
-  ): effect.Effect<
-    ListIndexesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndexes: API.OperationMethod<
+  ListIndexesInput,
+  ListIndexesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndexesInput,
   ) => stream.Stream<
@@ -2360,9 +2324,8 @@ export const listIndexes: {
  *
  * Only the principals with an IAM identity-based policy that grants `Allow` to the `Search` action on a `Resource` with the Amazon resource name (ARN) of this view can Search using views you create with this operation.
  */
-export const createView: (
-  input: CreateViewInput,
-) => effect.Effect<
+export const createView: API.OperationMethod<
+  CreateViewInput,
   CreateViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -2389,9 +2352,8 @@ export const createView: (
 /**
  * Retrieves details of the specified view.
  */
-export const getView: (
-  input: GetViewInput,
-) => effect.Effect<
+export const getView: API.OperationMethod<
+  GetViewInput,
   GetViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2416,9 +2378,8 @@ export const getView: (
 /**
  * Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
  */
-export const updateView: (
-  input: UpdateViewInput,
-) => effect.Effect<
+export const updateView: API.OperationMethod<
+  UpdateViewInput,
   UpdateViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2445,9 +2406,8 @@ export const updateView: (
  *
  * If the specified view is the default view for its Amazon Web Services Region, then all Search operations in that Region must explicitly specify the view to use until you configure a new default by calling the AssociateDefaultView operation.
  */
-export const deleteView: (
-  input: DeleteViewInput,
-) => effect.Effect<
+export const deleteView: API.OperationMethod<
+  DeleteViewInput,
   DeleteViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2474,18 +2434,16 @@ export const deleteView: (
  *
  * Always check the `NextToken` response parameter for a `null` value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The `NextToken` response parameter value is `null` *only* when there are no more results to display.
  */
-export const listViews: {
-  (
-    input: ListViewsInput,
-  ): effect.Effect<
-    ListViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listViews: API.OperationMethod<
+  ListViewsInput,
+  ListViewsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListViewsInput,
   ) => stream.Stream<
@@ -2529,9 +2487,8 @@ export const listViews: {
  *
  * If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every `Search` operation performed in that Region.
  */
-export const associateDefaultView: (
-  input: AssociateDefaultViewInput,
-) => effect.Effect<
+export const associateDefaultView: API.OperationMethod<
+  AssociateDefaultViewInput,
   AssociateDefaultViewOutput,
   | AccessDeniedException
   | InternalServerException

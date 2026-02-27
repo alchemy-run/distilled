@@ -118,10 +118,17 @@ export const GetProfileResponse = Schema.Struct({
   zipcode: Schema.optional(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountType: "account_type",
+    address: "address",
+    address2: "address2",
+    balance: "balance",
     cardExpiryMonth: "card_expiry_month",
     cardExpiryYear: "card_expiry_year",
     cardNumber: "card_number",
+    city: "city",
+    company: "company",
+    country: "country",
     createdOn: "created_on",
     deviceData: "device_data",
     editedOn: "edited_on",
@@ -143,15 +150,18 @@ export const GetProfileResponse = Schema.Struct({
     paymentState: "payment_state",
     paymentZipcode: "payment_zipcode",
     primaryEmail: "primary_email",
+    state: "state",
     taxIdType: "tax_id_type",
+    telephone: "telephone",
     useLegacy: "use_legacy",
     validationCode: "validation_code",
+    vat: "vat",
+    zipcode: "zipcode",
   }),
 ) as unknown as Schema.Schema<GetProfileResponse>;
 
-export const getProfile: (
-  input: GetProfileRequest,
-) => Effect.Effect<
+export const getProfile: API.OperationMethod<
+  GetProfileRequest,
   GetProfileResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

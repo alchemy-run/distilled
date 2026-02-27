@@ -4195,9 +4195,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * For more information, see How Amazon VPC Lattice works with IAM in the *Amazon VPC Lattice User Guide*.
  */
-export const batchUpdateRule: (
-  input: BatchUpdateRuleRequest,
-) => effect.Effect<
+export const batchUpdateRule: API.OperationMethod<
+  BatchUpdateRuleRequest,
   BatchUpdateRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -4222,9 +4221,8 @@ export const batchUpdateRule: (
 /**
  * Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
  */
-export const deleteAuthPolicy: (
-  input: DeleteAuthPolicyRequest,
-) => effect.Effect<
+export const deleteAuthPolicy: API.OperationMethod<
+  DeleteAuthPolicyRequest,
   DeleteAuthPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4247,9 +4245,8 @@ export const deleteAuthPolicy: (
 /**
  * Deletes the specified resource policy.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4272,9 +4269,8 @@ export const deleteResourcePolicy: (
 /**
  * Retrieves information about the auth policy for the specified service or service network.
  */
-export const getAuthPolicy: (
-  input: GetAuthPolicyRequest,
-) => effect.Effect<
+export const getAuthPolicy: API.OperationMethod<
+  GetAuthPolicyRequest,
   GetAuthPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4297,9 +4293,8 @@ export const getAuthPolicy: (
 /**
  * Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4322,18 +4317,16 @@ export const getResourcePolicy: (
 /**
  * Lists the associations between a service network and a VPC endpoint.
  */
-export const listServiceNetworkVpcEndpointAssociations: {
-  (
-    input: ListServiceNetworkVpcEndpointAssociationsRequest,
-  ): effect.Effect<
-    ListServiceNetworkVpcEndpointAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceNetworkVpcEndpointAssociations: API.OperationMethod<
+  ListServiceNetworkVpcEndpointAssociationsRequest,
+  ListServiceNetworkVpcEndpointAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceNetworkVpcEndpointAssociationsRequest,
   ) => stream.Stream<
@@ -4375,9 +4368,8 @@ export const listServiceNetworkVpcEndpointAssociations: {
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4400,9 +4392,8 @@ export const listTagsForResource: (
  *
  * For more information, see Auth policies in the *Amazon VPC Lattice User Guide*.
  */
-export const putAuthPolicy: (
-  input: PutAuthPolicyRequest,
-) => effect.Effect<
+export const putAuthPolicy: API.OperationMethod<
+  PutAuthPolicyRequest,
   PutAuthPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4425,9 +4416,8 @@ export const putAuthPolicy: (
 /**
  * Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4450,9 +4440,8 @@ export const putResourcePolicy: (
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4475,9 +4464,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4498,9 +4486,8 @@ export const untagResource: (
 /**
  * Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the *Amazon VPC Lattice User Guide*.
  */
-export const createAccessLogSubscription: (
-  input: CreateAccessLogSubscriptionRequest,
-) => effect.Effect<
+export const createAccessLogSubscription: API.OperationMethod<
+  CreateAccessLogSubscriptionRequest,
   CreateAccessLogSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4525,9 +4512,8 @@ export const createAccessLogSubscription: (
 /**
  * Retrieves information about the specified access log subscription.
  */
-export const getAccessLogSubscription: (
-  input: GetAccessLogSubscriptionRequest,
-) => effect.Effect<
+export const getAccessLogSubscription: API.OperationMethod<
+  GetAccessLogSubscriptionRequest,
   GetAccessLogSubscriptionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4550,9 +4536,8 @@ export const getAccessLogSubscription: (
 /**
  * Updates the specified access log subscription.
  */
-export const updateAccessLogSubscription: (
-  input: UpdateAccessLogSubscriptionRequest,
-) => effect.Effect<
+export const updateAccessLogSubscription: API.OperationMethod<
+  UpdateAccessLogSubscriptionRequest,
   UpdateAccessLogSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4577,9 +4562,8 @@ export const updateAccessLogSubscription: (
 /**
  * Deletes the specified access log subscription.
  */
-export const deleteAccessLogSubscription: (
-  input: DeleteAccessLogSubscriptionRequest,
-) => effect.Effect<
+export const deleteAccessLogSubscription: API.OperationMethod<
+  DeleteAccessLogSubscriptionRequest,
   DeleteAccessLogSubscriptionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4602,18 +4586,16 @@ export const deleteAccessLogSubscription: (
 /**
  * Lists the access log subscriptions for the specified service network or service.
  */
-export const listAccessLogSubscriptions: {
-  (
-    input: ListAccessLogSubscriptionsRequest,
-  ): effect.Effect<
-    ListAccessLogSubscriptionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessLogSubscriptions: API.OperationMethod<
+  ListAccessLogSubscriptionsRequest,
+  ListAccessLogSubscriptionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessLogSubscriptionsRequest,
   ) => stream.Stream<
@@ -4655,9 +4637,8 @@ export const listAccessLogSubscriptions: {
 /**
  * Starts the domain verification process for a custom domain name.
  */
-export const startDomainVerification: (
-  input: StartDomainVerificationRequest,
-) => effect.Effect<
+export const startDomainVerification: API.OperationMethod<
+  StartDomainVerificationRequest,
   StartDomainVerificationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4682,9 +4663,8 @@ export const startDomainVerification: (
 /**
  * Retrieves information about a domain verification.ß
  */
-export const getDomainVerification: (
-  input: GetDomainVerificationRequest,
-) => effect.Effect<
+export const getDomainVerification: API.OperationMethod<
+  GetDomainVerificationRequest,
   GetDomainVerificationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4707,9 +4687,8 @@ export const getDomainVerification: (
 /**
  * Deletes the specified domain verification.
  */
-export const deleteDomainVerification: (
-  input: DeleteDomainVerificationRequest,
-) => effect.Effect<
+export const deleteDomainVerification: API.OperationMethod<
+  DeleteDomainVerificationRequest,
   DeleteDomainVerificationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4732,19 +4711,17 @@ export const deleteDomainVerification: (
 /**
  * Lists the domain verifications.
  */
-export const listDomainVerifications: {
-  (
-    input: ListDomainVerificationsRequest,
-  ): effect.Effect<
-    ListDomainVerificationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainVerifications: API.OperationMethod<
+  ListDomainVerificationsRequest,
+  ListDomainVerificationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainVerificationsRequest,
   ) => stream.Stream<
@@ -4789,9 +4766,8 @@ export const listDomainVerifications: {
 /**
  * Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see Listeners in the *Amazon VPC Lattice User Guide*.
  */
-export const createListener: (
-  input: CreateListenerRequest,
-) => effect.Effect<
+export const createListener: API.OperationMethod<
+  CreateListenerRequest,
   CreateListenerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4818,9 +4794,8 @@ export const createListener: (
 /**
  * Retrieves information about the specified listener for the specified service.
  */
-export const getListener: (
-  input: GetListenerRequest,
-) => effect.Effect<
+export const getListener: API.OperationMethod<
+  GetListenerRequest,
   GetListenerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4843,9 +4818,8 @@ export const getListener: (
 /**
  * Updates the specified listener for the specified service.
  */
-export const updateListener: (
-  input: UpdateListenerRequest,
-) => effect.Effect<
+export const updateListener: API.OperationMethod<
+  UpdateListenerRequest,
   UpdateListenerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4872,9 +4846,8 @@ export const updateListener: (
 /**
  * Deletes the specified listener.
  */
-export const deleteListener: (
-  input: DeleteListenerRequest,
-) => effect.Effect<
+export const deleteListener: API.OperationMethod<
+  DeleteListenerRequest,
   DeleteListenerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4899,19 +4872,17 @@ export const deleteListener: (
 /**
  * Lists the listeners for the specified service.
  */
-export const listListeners: {
-  (
-    input: ListListenersRequest,
-  ): effect.Effect<
-    ListListenersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listListeners: API.OperationMethod<
+  ListListenersRequest,
+  ListListenersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListListenersRequest,
   ) => stream.Stream<
@@ -4956,9 +4927,8 @@ export const listListeners: {
 /**
  * Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
  */
-export const createResourceConfiguration: (
-  input: CreateResourceConfigurationRequest,
-) => effect.Effect<
+export const createResourceConfiguration: API.OperationMethod<
+  CreateResourceConfigurationRequest,
   CreateResourceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4985,9 +4955,8 @@ export const createResourceConfiguration: (
 /**
  * Retrieves information about the specified resource configuration.
  */
-export const getResourceConfiguration: (
-  input: GetResourceConfigurationRequest,
-) => effect.Effect<
+export const getResourceConfiguration: API.OperationMethod<
+  GetResourceConfigurationRequest,
   GetResourceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5010,9 +4979,8 @@ export const getResourceConfiguration: (
 /**
  * Updates the specified resource configuration.
  */
-export const updateResourceConfiguration: (
-  input: UpdateResourceConfigurationRequest,
-) => effect.Effect<
+export const updateResourceConfiguration: API.OperationMethod<
+  UpdateResourceConfigurationRequest,
   UpdateResourceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5037,9 +5005,8 @@ export const updateResourceConfiguration: (
 /**
  * Deletes the specified resource configuration.
  */
-export const deleteResourceConfiguration: (
-  input: DeleteResourceConfigurationRequest,
-) => effect.Effect<
+export const deleteResourceConfiguration: API.OperationMethod<
+  DeleteResourceConfigurationRequest,
   DeleteResourceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5064,18 +5031,16 @@ export const deleteResourceConfiguration: (
 /**
  * Lists the resource configurations owned by or shared with this account.
  */
-export const listResourceConfigurations: {
-  (
-    input: ListResourceConfigurationsRequest,
-  ): effect.Effect<
-    ListResourceConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceConfigurations: API.OperationMethod<
+  ListResourceConfigurationsRequest,
+  ListResourceConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceConfigurationsRequest,
   ) => stream.Stream<
@@ -5117,9 +5082,8 @@ export const listResourceConfigurations: {
 /**
  * Disassociates the resource configuration from the resource VPC endpoint.
  */
-export const deleteResourceEndpointAssociation: (
-  input: DeleteResourceEndpointAssociationRequest,
-) => effect.Effect<
+export const deleteResourceEndpointAssociation: API.OperationMethod<
+  DeleteResourceEndpointAssociationRequest,
   DeleteResourceEndpointAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5142,18 +5106,16 @@ export const deleteResourceEndpointAssociation: (
 /**
  * Lists the associations for the specified VPC endpoint.
  */
-export const listResourceEndpointAssociations: {
-  (
-    input: ListResourceEndpointAssociationsRequest,
-  ): effect.Effect<
-    ListResourceEndpointAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceEndpointAssociations: API.OperationMethod<
+  ListResourceEndpointAssociationsRequest,
+  ListResourceEndpointAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceEndpointAssociationsRequest,
   ) => stream.Stream<
@@ -5195,9 +5157,8 @@ export const listResourceEndpointAssociations: {
 /**
  * A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
  */
-export const createResourceGateway: (
-  input: CreateResourceGatewayRequest,
-) => effect.Effect<
+export const createResourceGateway: API.OperationMethod<
+  CreateResourceGatewayRequest,
   CreateResourceGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5224,9 +5185,8 @@ export const createResourceGateway: (
 /**
  * Retrieves information about the specified resource gateway.
  */
-export const getResourceGateway: (
-  input: GetResourceGatewayRequest,
-) => effect.Effect<
+export const getResourceGateway: API.OperationMethod<
+  GetResourceGatewayRequest,
   GetResourceGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5249,9 +5209,8 @@ export const getResourceGateway: (
 /**
  * Updates the specified resource gateway.
  */
-export const updateResourceGateway: (
-  input: UpdateResourceGatewayRequest,
-) => effect.Effect<
+export const updateResourceGateway: API.OperationMethod<
+  UpdateResourceGatewayRequest,
   UpdateResourceGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5276,9 +5235,8 @@ export const updateResourceGateway: (
 /**
  * Deletes the specified resource gateway.
  */
-export const deleteResourceGateway: (
-  input: DeleteResourceGatewayRequest,
-) => effect.Effect<
+export const deleteResourceGateway: API.OperationMethod<
+  DeleteResourceGatewayRequest,
   DeleteResourceGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5303,18 +5261,16 @@ export const deleteResourceGateway: (
 /**
  * Lists the resource gateways that you own or that were shared with you.
  */
-export const listResourceGateways: {
-  (
-    input: ListResourceGatewaysRequest,
-  ): effect.Effect<
-    ListResourceGatewaysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceGateways: API.OperationMethod<
+  ListResourceGatewaysRequest,
+  ListResourceGatewaysResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceGatewaysRequest,
   ) => stream.Stream<
@@ -5356,9 +5312,8 @@ export const listResourceGateways: {
 /**
  * Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
-export const createRule: (
-  input: CreateRuleRequest,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5385,9 +5340,8 @@ export const createRule: (
 /**
  * Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
-export const getRule: (
-  input: GetRuleRequest,
-) => effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5410,9 +5364,8 @@ export const getRule: (
 /**
  * Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use `UpdateListener`.
  */
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5441,9 +5394,8 @@ export const updateRule: (
  *
  * For more information, see Listener rules in the *Amazon VPC Lattice User Guide*.
  */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5468,19 +5420,17 @@ export const deleteRule: (
 /**
  * Lists the rules for the specified listener.
  */
-export const listRules: {
-  (
-    input: ListRulesRequest,
-  ): effect.Effect<
-    ListRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
+  ListRulesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesRequest,
   ) => stream.Stream<
@@ -5527,9 +5477,8 @@ export const listRules: {
  *
  * For more information, see Services in the *Amazon VPC Lattice User Guide*.
  */
-export const createService: (
-  input: CreateServiceRequest,
-) => effect.Effect<
+export const createService: API.OperationMethod<
+  CreateServiceRequest,
   CreateServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5556,9 +5505,8 @@ export const createService: (
 /**
  * Retrieves information about the specified service.
  */
-export const getService: (
-  input: GetServiceRequest,
-) => effect.Effect<
+export const getService: API.OperationMethod<
+  GetServiceRequest,
   GetServiceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5581,9 +5529,8 @@ export const getService: (
 /**
  * Updates the specified service.
  */
-export const updateService: (
-  input: UpdateServiceRequest,
-) => effect.Effect<
+export const updateService: API.OperationMethod<
+  UpdateServiceRequest,
   UpdateServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5610,9 +5557,8 @@ export const updateService: (
 /**
  * Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the *Amazon VPC Lattice User Guide*.
  */
-export const deleteService: (
-  input: DeleteServiceRequest,
-) => effect.Effect<
+export const deleteService: API.OperationMethod<
+  DeleteServiceRequest,
   DeleteServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5637,18 +5583,16 @@ export const deleteService: (
 /**
  * Lists the services owned by the caller account or shared with the caller account.
  */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
@@ -5692,9 +5636,8 @@ export const listServices: {
  *
  * For more information, see Service networks in the *Amazon VPC Lattice User Guide*.
  */
-export const createServiceNetwork: (
-  input: CreateServiceNetworkRequest,
-) => effect.Effect<
+export const createServiceNetwork: API.OperationMethod<
+  CreateServiceNetworkRequest,
   CreateServiceNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5721,9 +5664,8 @@ export const createServiceNetwork: (
 /**
  * Retrieves information about the specified service network.
  */
-export const getServiceNetwork: (
-  input: GetServiceNetworkRequest,
-) => effect.Effect<
+export const getServiceNetwork: API.OperationMethod<
+  GetServiceNetworkRequest,
   GetServiceNetworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5746,9 +5688,8 @@ export const getServiceNetwork: (
 /**
  * Updates the specified service network.
  */
-export const updateServiceNetwork: (
-  input: UpdateServiceNetworkRequest,
-) => effect.Effect<
+export const updateServiceNetwork: API.OperationMethod<
+  UpdateServiceNetworkRequest,
   UpdateServiceNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5773,9 +5714,8 @@ export const updateServiceNetwork: (
 /**
  * Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the *Amazon VPC Lattice User Guide*.
  */
-export const deleteServiceNetwork: (
-  input: DeleteServiceNetworkRequest,
-) => effect.Effect<
+export const deleteServiceNetwork: API.OperationMethod<
+  DeleteServiceNetworkRequest,
   DeleteServiceNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5800,18 +5740,16 @@ export const deleteServiceNetwork: (
 /**
  * Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
  */
-export const listServiceNetworks: {
-  (
-    input: ListServiceNetworksRequest,
-  ): effect.Effect<
-    ListServiceNetworksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceNetworks: API.OperationMethod<
+  ListServiceNetworksRequest,
+  ListServiceNetworksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceNetworksRequest,
   ) => stream.Stream<
@@ -5853,9 +5791,8 @@ export const listServiceNetworks: {
 /**
  * Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
  */
-export const createServiceNetworkResourceAssociation: (
-  input: CreateServiceNetworkResourceAssociationRequest,
-) => effect.Effect<
+export const createServiceNetworkResourceAssociation: API.OperationMethod<
+  CreateServiceNetworkResourceAssociationRequest,
   CreateServiceNetworkResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5882,9 +5819,8 @@ export const createServiceNetworkResourceAssociation: (
 /**
  * Retrieves information about the specified association between a service network and a resource configuration.
  */
-export const getServiceNetworkResourceAssociation: (
-  input: GetServiceNetworkResourceAssociationRequest,
-) => effect.Effect<
+export const getServiceNetworkResourceAssociation: API.OperationMethod<
+  GetServiceNetworkResourceAssociationRequest,
   GetServiceNetworkResourceAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5907,9 +5843,8 @@ export const getServiceNetworkResourceAssociation: (
 /**
  * Deletes the association between a service network and a resource configuration.
  */
-export const deleteServiceNetworkResourceAssociation: (
-  input: DeleteServiceNetworkResourceAssociationRequest,
-) => effect.Effect<
+export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
+  DeleteServiceNetworkResourceAssociationRequest,
   DeleteServiceNetworkResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5934,18 +5869,16 @@ export const deleteServiceNetworkResourceAssociation: (
 /**
  * Lists the associations between a service network and a resource configuration.
  */
-export const listServiceNetworkResourceAssociations: {
-  (
-    input: ListServiceNetworkResourceAssociationsRequest,
-  ): effect.Effect<
-    ListServiceNetworkResourceAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceNetworkResourceAssociations: API.OperationMethod<
+  ListServiceNetworkResourceAssociationsRequest,
+  ListServiceNetworkResourceAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceNetworkResourceAssociationsRequest,
   ) => stream.Stream<
@@ -5993,9 +5926,8 @@ export const listServiceNetworkResourceAssociations: {
  *
  * As a result of this operation, the association is created in the service network account and the association owner account.
  */
-export const createServiceNetworkServiceAssociation: (
-  input: CreateServiceNetworkServiceAssociationRequest,
-) => effect.Effect<
+export const createServiceNetworkServiceAssociation: API.OperationMethod<
+  CreateServiceNetworkServiceAssociationRequest,
   CreateServiceNetworkServiceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6022,9 +5954,8 @@ export const createServiceNetworkServiceAssociation: (
 /**
  * Retrieves information about the specified association between a service network and a service.
  */
-export const getServiceNetworkServiceAssociation: (
-  input: GetServiceNetworkServiceAssociationRequest,
-) => effect.Effect<
+export const getServiceNetworkServiceAssociation: API.OperationMethod<
+  GetServiceNetworkServiceAssociationRequest,
   GetServiceNetworkServiceAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6047,9 +5978,8 @@ export const getServiceNetworkServiceAssociation: (
 /**
  * Deletes the association between a service and a service network. This operation fails if an association is still in progress.
  */
-export const deleteServiceNetworkServiceAssociation: (
-  input: DeleteServiceNetworkServiceAssociationRequest,
-) => effect.Effect<
+export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
+  DeleteServiceNetworkServiceAssociationRequest,
   DeleteServiceNetworkServiceAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6076,18 +6006,16 @@ export const deleteServiceNetworkServiceAssociation: (
  *
  * Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
  */
-export const listServiceNetworkServiceAssociations: {
-  (
-    input: ListServiceNetworkServiceAssociationsRequest,
-  ): effect.Effect<
-    ListServiceNetworkServiceAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceNetworkServiceAssociations: API.OperationMethod<
+  ListServiceNetworkServiceAssociationsRequest,
+  ListServiceNetworkServiceAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceNetworkServiceAssociationsRequest,
   ) => stream.Stream<
@@ -6135,9 +6063,8 @@ export const listServiceNetworkServiceAssociations: {
  *
  * If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
  */
-export const createServiceNetworkVpcAssociation: (
-  input: CreateServiceNetworkVpcAssociationRequest,
-) => effect.Effect<
+export const createServiceNetworkVpcAssociation: API.OperationMethod<
+  CreateServiceNetworkVpcAssociationRequest,
   CreateServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6164,9 +6091,8 @@ export const createServiceNetworkVpcAssociation: (
 /**
  * Retrieves information about the specified association between a service network and a VPC.
  */
-export const getServiceNetworkVpcAssociation: (
-  input: GetServiceNetworkVpcAssociationRequest,
-) => effect.Effect<
+export const getServiceNetworkVpcAssociation: API.OperationMethod<
+  GetServiceNetworkVpcAssociationRequest,
   GetServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6189,9 +6115,8 @@ export const getServiceNetworkVpcAssociation: (
 /**
  * Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
  */
-export const updateServiceNetworkVpcAssociation: (
-  input: UpdateServiceNetworkVpcAssociationRequest,
-) => effect.Effect<
+export const updateServiceNetworkVpcAssociation: API.OperationMethod<
+  UpdateServiceNetworkVpcAssociationRequest,
   UpdateServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6216,9 +6141,8 @@ export const updateServiceNetworkVpcAssociation: (
 /**
  * Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
  */
-export const deleteServiceNetworkVpcAssociation: (
-  input: DeleteServiceNetworkVpcAssociationRequest,
-) => effect.Effect<
+export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
+  DeleteServiceNetworkVpcAssociationRequest,
   DeleteServiceNetworkVpcAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6243,18 +6167,16 @@ export const deleteServiceNetworkVpcAssociation: (
 /**
  * Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
  */
-export const listServiceNetworkVpcAssociations: {
-  (
-    input: ListServiceNetworkVpcAssociationsRequest,
-  ): effect.Effect<
-    ListServiceNetworkVpcAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceNetworkVpcAssociations: API.OperationMethod<
+  ListServiceNetworkVpcAssociationsRequest,
+  ListServiceNetworkVpcAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceNetworkVpcAssociationsRequest,
   ) => stream.Stream<
@@ -6298,9 +6220,8 @@ export const listServiceNetworkVpcAssociations: {
  *
  * For more information, see Target groups in the *Amazon VPC Lattice User Guide*.
  */
-export const createTargetGroup: (
-  input: CreateTargetGroupRequest,
-) => effect.Effect<
+export const createTargetGroup: API.OperationMethod<
+  CreateTargetGroupRequest,
   CreateTargetGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6327,9 +6248,8 @@ export const createTargetGroup: (
 /**
  * Retrieves information about the specified target group.
  */
-export const getTargetGroup: (
-  input: GetTargetGroupRequest,
-) => effect.Effect<
+export const getTargetGroup: API.OperationMethod<
+  GetTargetGroupRequest,
   GetTargetGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6352,9 +6272,8 @@ export const getTargetGroup: (
 /**
  * Updates the specified target group.
  */
-export const updateTargetGroup: (
-  input: UpdateTargetGroupRequest,
-) => effect.Effect<
+export const updateTargetGroup: API.OperationMethod<
+  UpdateTargetGroupRequest,
   UpdateTargetGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6381,9 +6300,8 @@ export const updateTargetGroup: (
 /**
  * Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
  */
-export const deleteTargetGroup: (
-  input: DeleteTargetGroupRequest,
-) => effect.Effect<
+export const deleteTargetGroup: API.OperationMethod<
+  DeleteTargetGroupRequest,
   DeleteTargetGroupResponse,
   | ConflictException
   | InternalServerException
@@ -6406,18 +6324,16 @@ export const deleteTargetGroup: (
 /**
  * Lists your target groups. You can narrow your search by using the filters below in your request.
  */
-export const listTargetGroups: {
-  (
-    input: ListTargetGroupsRequest,
-  ): effect.Effect<
-    ListTargetGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetGroups: API.OperationMethod<
+  ListTargetGroupsRequest,
+  ListTargetGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetGroupsRequest,
   ) => stream.Stream<
@@ -6459,9 +6375,8 @@ export const listTargetGroups: {
 /**
  * Deregisters the specified targets from the specified target group.
  */
-export const deregisterTargets: (
-  input: DeregisterTargetsRequest,
-) => effect.Effect<
+export const deregisterTargets: API.OperationMethod<
+  DeregisterTargetsRequest,
   DeregisterTargetsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6486,19 +6401,17 @@ export const deregisterTargets: (
 /**
  * Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
  */
-export const listTargets: {
-  (
-    input: ListTargetsRequest,
-  ): effect.Effect<
-    ListTargetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargets: API.OperationMethod<
+  ListTargetsRequest,
+  ListTargetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetsRequest,
   ) => stream.Stream<
@@ -6543,9 +6456,8 @@ export const listTargets: {
 /**
  * Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
  */
-export const registerTargets: (
-  input: RegisterTargetsRequest,
-) => effect.Effect<
+export const registerTargets: API.OperationMethod<
+  RegisterTargetsRequest,
   RegisterTargetsResponse,
   | AccessDeniedException
   | ConflictException

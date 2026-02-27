@@ -19092,9 +19092,8 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 /**
  * Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
  */
-export const acceptInputDeviceTransfer: (
-  input: AcceptInputDeviceTransferRequest,
-) => effect.Effect<
+export const acceptInputDeviceTransfer: API.OperationMethod<
+  AcceptInputDeviceTransferRequest,
   AcceptInputDeviceTransferResponse,
   | BadGatewayException
   | BadRequestException
@@ -19125,9 +19124,8 @@ export const acceptInputDeviceTransfer: (
 /**
  * Starts delete of resources.
  */
-export const batchDelete: (
-  input: BatchDeleteRequest,
-) => effect.Effect<
+export const batchDelete: API.OperationMethod<
+  BatchDeleteRequest,
   BatchDeleteResponse,
   | BadGatewayException
   | BadRequestException
@@ -19156,9 +19154,8 @@ export const batchDelete: (
 /**
  * Starts existing resources
  */
-export const batchStart: (
-  input: BatchStartRequest,
-) => effect.Effect<
+export const batchStart: API.OperationMethod<
+  BatchStartRequest,
   BatchStartResponse,
   | BadGatewayException
   | BadRequestException
@@ -19187,9 +19184,8 @@ export const batchStart: (
 /**
  * Stops running resources
  */
-export const batchStop: (
-  input: BatchStopRequest,
-) => effect.Effect<
+export const batchStop: API.OperationMethod<
+  BatchStopRequest,
   BatchStopResponse,
   | BadGatewayException
   | BadRequestException
@@ -19218,9 +19214,8 @@ export const batchStop: (
 /**
  * Update a channel schedule
  */
-export const batchUpdateSchedule: (
-  input: BatchUpdateScheduleRequest,
-) => effect.Effect<
+export const batchUpdateSchedule: API.OperationMethod<
+  BatchUpdateScheduleRequest,
   BatchUpdateScheduleResponse,
   | BadGatewayException
   | BadRequestException
@@ -19249,9 +19244,8 @@ export const batchUpdateSchedule: (
 /**
  * Cancel an input device transfer that you have requested.
  */
-export const cancelInputDeviceTransfer: (
-  input: CancelInputDeviceTransferRequest,
-) => effect.Effect<
+export const cancelInputDeviceTransfer: API.OperationMethod<
+  CancelInputDeviceTransferRequest,
   CancelInputDeviceTransferResponse,
   | BadGatewayException
   | BadRequestException
@@ -19282,9 +19276,8 @@ export const cancelInputDeviceTransfer: (
 /**
  * Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
  */
-export const claimDevice: (
-  input: ClaimDeviceRequest,
-) => effect.Effect<
+export const claimDevice: API.OperationMethod<
+  ClaimDeviceRequest,
   ClaimDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -19313,9 +19306,8 @@ export const claimDevice: (
 /**
  * Creates a new channel
  */
-export const createChannel: (
-  input: CreateChannelRequest,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
   CreateChannelResponse,
   | BadGatewayException
   | BadRequestException
@@ -19344,9 +19336,8 @@ export const createChannel: (
 /**
  * Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
  */
-export const createChannelPlacementGroup: (
-  input: CreateChannelPlacementGroupRequest,
-) => effect.Effect<
+export const createChannelPlacementGroup: API.OperationMethod<
+  CreateChannelPlacementGroupRequest,
   CreateChannelPlacementGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -19373,9 +19364,8 @@ export const createChannelPlacementGroup: (
 /**
  * Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
  */
-export const createCloudWatchAlarmTemplate: (
-  input: CreateCloudWatchAlarmTemplateRequest,
-) => effect.Effect<
+export const createCloudWatchAlarmTemplate: API.OperationMethod<
+  CreateCloudWatchAlarmTemplateRequest,
   CreateCloudWatchAlarmTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -19400,9 +19390,8 @@ export const createCloudWatchAlarmTemplate: (
 /**
  * Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
  */
-export const createCloudWatchAlarmTemplateGroup: (
-  input: CreateCloudWatchAlarmTemplateGroupRequest,
-) => effect.Effect<
+export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  CreateCloudWatchAlarmTemplateGroupRequest,
   CreateCloudWatchAlarmTemplateGroupResponse,
   | BadRequestException
   | ConflictException
@@ -19427,9 +19416,8 @@ export const createCloudWatchAlarmTemplateGroup: (
 /**
  * Create a new Cluster.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | BadGatewayException
   | BadRequestException
@@ -19456,9 +19444,8 @@ export const createCluster: (
 /**
  * Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
  */
-export const createEventBridgeRuleTemplate: (
-  input: CreateEventBridgeRuleTemplateRequest,
-) => effect.Effect<
+export const createEventBridgeRuleTemplate: API.OperationMethod<
+  CreateEventBridgeRuleTemplateRequest,
   CreateEventBridgeRuleTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -19483,9 +19470,8 @@ export const createEventBridgeRuleTemplate: (
 /**
  * Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
  */
-export const createEventBridgeRuleTemplateGroup: (
-  input: CreateEventBridgeRuleTemplateGroupRequest,
-) => effect.Effect<
+export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
+  CreateEventBridgeRuleTemplateGroupRequest,
   CreateEventBridgeRuleTemplateGroupResponse,
   | BadRequestException
   | ConflictException
@@ -19510,9 +19496,8 @@ export const createEventBridgeRuleTemplateGroup: (
 /**
  * Create an input
  */
-export const createInput: (
-  input: CreateInputRequest,
-) => effect.Effect<
+export const createInput: API.OperationMethod<
+  CreateInputRequest,
   CreateInputResponse,
   | BadGatewayException
   | BadRequestException
@@ -19537,9 +19522,8 @@ export const createInput: (
 /**
  * Creates a Input Security Group
  */
-export const createInputSecurityGroup: (
-  input: CreateInputSecurityGroupRequest,
-) => effect.Effect<
+export const createInputSecurityGroup: API.OperationMethod<
+  CreateInputSecurityGroupRequest,
   CreateInputSecurityGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -19564,9 +19548,8 @@ export const createInputSecurityGroup: (
 /**
  * Create a new multiplex.
  */
-export const createMultiplex: (
-  input: CreateMultiplexRequest,
-) => effect.Effect<
+export const createMultiplex: API.OperationMethod<
+  CreateMultiplexRequest,
   CreateMultiplexResponse,
   | BadGatewayException
   | BadRequestException
@@ -19595,9 +19578,8 @@ export const createMultiplex: (
 /**
  * Create a new program in the multiplex.
  */
-export const createMultiplexProgram: (
-  input: CreateMultiplexProgramRequest,
-) => effect.Effect<
+export const createMultiplexProgram: API.OperationMethod<
+  CreateMultiplexProgramRequest,
   CreateMultiplexProgramResponse,
   | BadGatewayException
   | BadRequestException
@@ -19626,9 +19608,8 @@ export const createMultiplexProgram: (
 /**
  * Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
  */
-export const createNetwork: (
-  input: CreateNetworkRequest,
-) => effect.Effect<
+export const createNetwork: API.OperationMethod<
+  CreateNetworkRequest,
   CreateNetworkResponse,
   | BadGatewayException
   | BadRequestException
@@ -19655,9 +19636,8 @@ export const createNetwork: (
 /**
  * Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
  */
-export const createNode: (
-  input: CreateNodeRequest,
-) => effect.Effect<
+export const createNode: API.OperationMethod<
+  CreateNodeRequest,
   CreateNodeResponse,
   | BadGatewayException
   | BadRequestException
@@ -19684,9 +19664,8 @@ export const createNode: (
 /**
  * Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
  */
-export const createNodeRegistrationScript: (
-  input: CreateNodeRegistrationScriptRequest,
-) => effect.Effect<
+export const createNodeRegistrationScript: API.OperationMethod<
+  CreateNodeRegistrationScriptRequest,
   CreateNodeRegistrationScriptResponse,
   | BadGatewayException
   | BadRequestException
@@ -19713,9 +19692,8 @@ export const createNodeRegistrationScript: (
 /**
  * Create a partner input
  */
-export const createPartnerInput: (
-  input: CreatePartnerInputRequest,
-) => effect.Effect<
+export const createPartnerInput: API.OperationMethod<
+  CreatePartnerInputRequest,
   CreatePartnerInputResponse,
   | BadGatewayException
   | BadRequestException
@@ -19740,9 +19718,8 @@ export const createPartnerInput: (
 /**
  * Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
  */
-export const createSdiSource: (
-  input: CreateSdiSourceRequest,
-) => effect.Effect<
+export const createSdiSource: API.OperationMethod<
+  CreateSdiSourceRequest,
   CreateSdiSourceResponse,
   | BadGatewayException
   | BadRequestException
@@ -19769,9 +19746,8 @@ export const createSdiSource: (
 /**
  * Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
  */
-export const createSignalMap: (
-  input: CreateSignalMapRequest,
-) => effect.Effect<
+export const createSignalMap: API.OperationMethod<
+  CreateSignalMapRequest,
   CreateSignalMapResponse,
   | BadRequestException
   | ConflictException
@@ -19796,9 +19772,8 @@ export const createSignalMap: (
 /**
  * Create tags for a resource
  */
-export const createTags: (
-  input: CreateTagsRequest,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsRequest,
   CreateTagsResponse,
   | BadRequestException
   | ForbiddenException
@@ -19819,9 +19794,8 @@ export const createTags: (
 /**
  * Starts deletion of channel. The associated outputs are also deleted.
  */
-export const deleteChannel: (
-  input: DeleteChannelRequest,
-) => effect.Effect<
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
   DeleteChannelResponse,
   | BadGatewayException
   | BadRequestException
@@ -19850,9 +19824,8 @@ export const deleteChannel: (
 /**
  * Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
  */
-export const deleteChannelPlacementGroup: (
-  input: DeleteChannelPlacementGroupRequest,
-) => effect.Effect<
+export const deleteChannelPlacementGroup: API.OperationMethod<
+  DeleteChannelPlacementGroupRequest,
   DeleteChannelPlacementGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -19881,9 +19854,8 @@ export const deleteChannelPlacementGroup: (
 /**
  * Deletes a cloudwatch alarm template.
  */
-export const deleteCloudWatchAlarmTemplate: (
-  input: DeleteCloudWatchAlarmTemplateRequest,
-) => effect.Effect<
+export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
+  DeleteCloudWatchAlarmTemplateRequest,
   DeleteCloudWatchAlarmTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -19908,9 +19880,8 @@ export const deleteCloudWatchAlarmTemplate: (
 /**
  * Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
  */
-export const deleteCloudWatchAlarmTemplateGroup: (
-  input: DeleteCloudWatchAlarmTemplateGroupRequest,
-) => effect.Effect<
+export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  DeleteCloudWatchAlarmTemplateGroupRequest,
   DeleteCloudWatchAlarmTemplateGroupResponse,
   | BadRequestException
   | ConflictException
@@ -19935,9 +19906,8 @@ export const deleteCloudWatchAlarmTemplateGroup: (
 /**
  * Delete a Cluster. The Cluster must be idle.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | BadGatewayException
   | BadRequestException
@@ -19966,9 +19936,8 @@ export const deleteCluster: (
 /**
  * Deletes an eventbridge rule template.
  */
-export const deleteEventBridgeRuleTemplate: (
-  input: DeleteEventBridgeRuleTemplateRequest,
-) => effect.Effect<
+export const deleteEventBridgeRuleTemplate: API.OperationMethod<
+  DeleteEventBridgeRuleTemplateRequest,
   DeleteEventBridgeRuleTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -19993,9 +19962,8 @@ export const deleteEventBridgeRuleTemplate: (
 /**
  * Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
  */
-export const deleteEventBridgeRuleTemplateGroup: (
-  input: DeleteEventBridgeRuleTemplateGroupRequest,
-) => effect.Effect<
+export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
+  DeleteEventBridgeRuleTemplateGroupRequest,
   DeleteEventBridgeRuleTemplateGroupResponse,
   | BadRequestException
   | ConflictException
@@ -20020,9 +19988,8 @@ export const deleteEventBridgeRuleTemplateGroup: (
 /**
  * Deletes the input end point
  */
-export const deleteInput: (
-  input: DeleteInputRequest,
-) => effect.Effect<
+export const deleteInput: API.OperationMethod<
+  DeleteInputRequest,
   DeleteInputResponse,
   | BadGatewayException
   | BadRequestException
@@ -20051,9 +20018,8 @@ export const deleteInput: (
 /**
  * Deletes an Input Security Group
  */
-export const deleteInputSecurityGroup: (
-  input: DeleteInputSecurityGroupRequest,
-) => effect.Effect<
+export const deleteInputSecurityGroup: API.OperationMethod<
+  DeleteInputSecurityGroupRequest,
   DeleteInputSecurityGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -20080,9 +20046,8 @@ export const deleteInputSecurityGroup: (
 /**
  * Delete a multiplex. The multiplex must be idle.
  */
-export const deleteMultiplex: (
-  input: DeleteMultiplexRequest,
-) => effect.Effect<
+export const deleteMultiplex: API.OperationMethod<
+  DeleteMultiplexRequest,
   DeleteMultiplexResponse,
   | BadGatewayException
   | BadRequestException
@@ -20111,9 +20076,8 @@ export const deleteMultiplex: (
 /**
  * Delete a program from a multiplex.
  */
-export const deleteMultiplexProgram: (
-  input: DeleteMultiplexProgramRequest,
-) => effect.Effect<
+export const deleteMultiplexProgram: API.OperationMethod<
+  DeleteMultiplexProgramRequest,
   DeleteMultiplexProgramResponse,
   | BadGatewayException
   | BadRequestException
@@ -20142,9 +20106,8 @@ export const deleteMultiplexProgram: (
 /**
  * Delete a Network. The Network must have no resources associated with it.
  */
-export const deleteNetwork: (
-  input: DeleteNetworkRequest,
-) => effect.Effect<
+export const deleteNetwork: API.OperationMethod<
+  DeleteNetworkRequest,
   DeleteNetworkResponse,
   | BadGatewayException
   | BadRequestException
@@ -20173,9 +20136,8 @@ export const deleteNetwork: (
 /**
  * Delete a Node. The Node must be IDLE.
  */
-export const deleteNode: (
-  input: DeleteNodeRequest,
-) => effect.Effect<
+export const deleteNode: API.OperationMethod<
+  DeleteNodeRequest,
   DeleteNodeResponse,
   | BadGatewayException
   | BadRequestException
@@ -20204,9 +20166,8 @@ export const deleteNode: (
 /**
  * Delete an expired reservation.
  */
-export const deleteReservation: (
-  input: DeleteReservationRequest,
-) => effect.Effect<
+export const deleteReservation: API.OperationMethod<
+  DeleteReservationRequest,
   DeleteReservationResponse,
   | BadGatewayException
   | BadRequestException
@@ -20235,9 +20196,8 @@ export const deleteReservation: (
 /**
  * Delete all schedule actions on a channel.
  */
-export const deleteSchedule: (
-  input: DeleteScheduleRequest,
-) => effect.Effect<
+export const deleteSchedule: API.OperationMethod<
+  DeleteScheduleRequest,
   DeleteScheduleResponse,
   | BadGatewayException
   | BadRequestException
@@ -20264,9 +20224,8 @@ export const deleteSchedule: (
 /**
  * Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
  */
-export const deleteSdiSource: (
-  input: DeleteSdiSourceRequest,
-) => effect.Effect<
+export const deleteSdiSource: API.OperationMethod<
+  DeleteSdiSourceRequest,
   DeleteSdiSourceResponse,
   | BadGatewayException
   | BadRequestException
@@ -20295,9 +20254,8 @@ export const deleteSdiSource: (
 /**
  * Deletes the specified signal map.
  */
-export const deleteSignalMap: (
-  input: DeleteSignalMapRequest,
-) => effect.Effect<
+export const deleteSignalMap: API.OperationMethod<
+  DeleteSignalMapRequest,
   DeleteSignalMapResponse,
   | BadRequestException
   | ConflictException
@@ -20322,9 +20280,8 @@ export const deleteSignalMap: (
 /**
  * Removes tags for a resource
  */
-export const deleteTags: (
-  input: DeleteTagsRequest,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsRequest,
   DeleteTagsResponse,
   | BadRequestException
   | ForbiddenException
@@ -20345,9 +20302,8 @@ export const deleteTags: (
 /**
  * Describe account configuration
  */
-export const describeAccountConfiguration: (
-  input: DescribeAccountConfigurationRequest,
-) => effect.Effect<
+export const describeAccountConfiguration: API.OperationMethod<
+  DescribeAccountConfigurationRequest,
   DescribeAccountConfigurationResponse,
   | BadGatewayException
   | BadRequestException
@@ -20372,9 +20328,8 @@ export const describeAccountConfiguration: (
 /**
  * Gets details about a channel
  */
-export const describeChannel: (
-  input: DescribeChannelRequest,
-) => effect.Effect<
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
   DescribeChannelResponse,
   | BadGatewayException
   | BadRequestException
@@ -20401,9 +20356,8 @@ export const describeChannel: (
 /**
  * Get details about a ChannelPlacementGroup.
  */
-export const describeChannelPlacementGroup: (
-  input: DescribeChannelPlacementGroupRequest,
-) => effect.Effect<
+export const describeChannelPlacementGroup: API.OperationMethod<
+  DescribeChannelPlacementGroupRequest,
   DescribeChannelPlacementGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -20430,9 +20384,8 @@ export const describeChannelPlacementGroup: (
 /**
  * Get details about a Cluster.
  */
-export const describeCluster: (
-  input: DescribeClusterRequest,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
   DescribeClusterResponse,
   | BadGatewayException
   | BadRequestException
@@ -20459,9 +20412,8 @@ export const describeCluster: (
 /**
  * Produces details about an input
  */
-export const describeInput: (
-  input: DescribeInputRequest,
-) => effect.Effect<
+export const describeInput: API.OperationMethod<
+  DescribeInputRequest,
   DescribeInputResponse,
   | BadGatewayException
   | BadRequestException
@@ -20488,9 +20440,8 @@ export const describeInput: (
 /**
  * Gets the details for the input device
  */
-export const describeInputDevice: (
-  input: DescribeInputDeviceRequest,
-) => effect.Effect<
+export const describeInputDevice: API.OperationMethod<
+  DescribeInputDeviceRequest,
   DescribeInputDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -20517,9 +20468,8 @@ export const describeInputDevice: (
 /**
  * Get the latest thumbnail data for the input device.
  */
-export const describeInputDeviceThumbnail: (
-  input: DescribeInputDeviceThumbnailRequest,
-) => effect.Effect<
+export const describeInputDeviceThumbnail: API.OperationMethod<
+  DescribeInputDeviceThumbnailRequest,
   DescribeInputDeviceThumbnailResponse,
   | BadGatewayException
   | BadRequestException
@@ -20546,9 +20496,8 @@ export const describeInputDeviceThumbnail: (
 /**
  * Produces a summary of an Input Security Group
  */
-export const describeInputSecurityGroup: (
-  input: DescribeInputSecurityGroupRequest,
-) => effect.Effect<
+export const describeInputSecurityGroup: API.OperationMethod<
+  DescribeInputSecurityGroupRequest,
   DescribeInputSecurityGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -20575,9 +20524,8 @@ export const describeInputSecurityGroup: (
 /**
  * Gets details about a multiplex.
  */
-export const describeMultiplex: (
-  input: DescribeMultiplexRequest,
-) => effect.Effect<
+export const describeMultiplex: API.OperationMethod<
+  DescribeMultiplexRequest,
   DescribeMultiplexResponse,
   | BadGatewayException
   | BadRequestException
@@ -20604,9 +20552,8 @@ export const describeMultiplex: (
 /**
  * Get the details for a program in a multiplex.
  */
-export const describeMultiplexProgram: (
-  input: DescribeMultiplexProgramRequest,
-) => effect.Effect<
+export const describeMultiplexProgram: API.OperationMethod<
+  DescribeMultiplexProgramRequest,
   DescribeMultiplexProgramResponse,
   | BadGatewayException
   | BadRequestException
@@ -20633,9 +20580,8 @@ export const describeMultiplexProgram: (
 /**
  * Get details about a Network.
  */
-export const describeNetwork: (
-  input: DescribeNetworkRequest,
-) => effect.Effect<
+export const describeNetwork: API.OperationMethod<
+  DescribeNetworkRequest,
   DescribeNetworkResponse,
   | BadGatewayException
   | BadRequestException
@@ -20662,9 +20608,8 @@ export const describeNetwork: (
 /**
  * Get details about a Node in the specified Cluster.
  */
-export const describeNode: (
-  input: DescribeNodeRequest,
-) => effect.Effect<
+export const describeNode: API.OperationMethod<
+  DescribeNodeRequest,
   DescribeNodeResponse,
   | BadGatewayException
   | BadRequestException
@@ -20691,9 +20636,8 @@ export const describeNode: (
 /**
  * Get details for an offering.
  */
-export const describeOffering: (
-  input: DescribeOfferingRequest,
-) => effect.Effect<
+export const describeOffering: API.OperationMethod<
+  DescribeOfferingRequest,
   DescribeOfferingResponse,
   | BadGatewayException
   | BadRequestException
@@ -20720,9 +20664,8 @@ export const describeOffering: (
 /**
  * Get details for a reservation.
  */
-export const describeReservation: (
-  input: DescribeReservationRequest,
-) => effect.Effect<
+export const describeReservation: API.OperationMethod<
+  DescribeReservationRequest,
   DescribeReservationResponse,
   | BadGatewayException
   | BadRequestException
@@ -20749,21 +20692,19 @@ export const describeReservation: (
 /**
  * Get a channel schedule
  */
-export const describeSchedule: {
-  (
-    input: DescribeScheduleRequest,
-  ): effect.Effect<
-    DescribeScheduleResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSchedule: API.OperationMethod<
+  DescribeScheduleRequest,
+  DescribeScheduleResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeScheduleRequest,
   ) => stream.Stream<
@@ -20814,9 +20755,8 @@ export const describeSchedule: {
 /**
  * Gets details about a SdiSource.
  */
-export const describeSdiSource: (
-  input: DescribeSdiSourceRequest,
-) => effect.Effect<
+export const describeSdiSource: API.OperationMethod<
+  DescribeSdiSourceRequest,
   DescribeSdiSourceResponse,
   | BadGatewayException
   | BadRequestException
@@ -20843,9 +20783,8 @@ export const describeSdiSource: (
 /**
  * Describe the latest thumbnails data.
  */
-export const describeThumbnails: (
-  input: DescribeThumbnailsRequest,
-) => effect.Effect<
+export const describeThumbnails: API.OperationMethod<
+  DescribeThumbnailsRequest,
   DescribeThumbnailsResponse,
   | BadGatewayException
   | BadRequestException
@@ -20874,9 +20813,8 @@ export const describeThumbnails: (
 /**
  * Retrieves the specified cloudwatch alarm template.
  */
-export const getCloudWatchAlarmTemplate: (
-  input: GetCloudWatchAlarmTemplateRequest,
-) => effect.Effect<
+export const getCloudWatchAlarmTemplate: API.OperationMethod<
+  GetCloudWatchAlarmTemplateRequest,
   GetCloudWatchAlarmTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -20899,9 +20837,8 @@ export const getCloudWatchAlarmTemplate: (
 /**
  * Retrieves the specified cloudwatch alarm template group.
  */
-export const getCloudWatchAlarmTemplateGroup: (
-  input: GetCloudWatchAlarmTemplateGroupRequest,
-) => effect.Effect<
+export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  GetCloudWatchAlarmTemplateGroupRequest,
   GetCloudWatchAlarmTemplateGroupResponse,
   | BadRequestException
   | ForbiddenException
@@ -20924,9 +20861,8 @@ export const getCloudWatchAlarmTemplateGroup: (
 /**
  * Retrieves the specified eventbridge rule template.
  */
-export const getEventBridgeRuleTemplate: (
-  input: GetEventBridgeRuleTemplateRequest,
-) => effect.Effect<
+export const getEventBridgeRuleTemplate: API.OperationMethod<
+  GetEventBridgeRuleTemplateRequest,
   GetEventBridgeRuleTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -20949,9 +20885,8 @@ export const getEventBridgeRuleTemplate: (
 /**
  * Retrieves the specified eventbridge rule template group.
  */
-export const getEventBridgeRuleTemplateGroup: (
-  input: GetEventBridgeRuleTemplateGroupRequest,
-) => effect.Effect<
+export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
+  GetEventBridgeRuleTemplateGroupRequest,
   GetEventBridgeRuleTemplateGroupResponse,
   | BadRequestException
   | ForbiddenException
@@ -20974,9 +20909,8 @@ export const getEventBridgeRuleTemplateGroup: (
 /**
  * Retrieves the specified signal map.
  */
-export const getSignalMap: (
-  input: GetSignalMapRequest,
-) => effect.Effect<
+export const getSignalMap: API.OperationMethod<
+  GetSignalMapRequest,
   GetSignalMapResponse,
   | BadRequestException
   | ForbiddenException
@@ -20999,21 +20933,19 @@ export const getSignalMap: (
 /**
  * List the alerts for a channel with optional filtering based on alert state.
  */
-export const listAlerts: {
-  (
-    input: ListAlertsRequest,
-  ): effect.Effect<
-    ListAlertsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAlerts: API.OperationMethod<
+  ListAlertsRequest,
+  ListAlertsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAlertsRequest,
   ) => stream.Stream<
@@ -21064,20 +20996,18 @@ export const listAlerts: {
 /**
  * Retrieve the list of ChannelPlacementGroups in the specified Cluster.
  */
-export const listChannelPlacementGroups: {
-  (
-    input: ListChannelPlacementGroupsRequest,
-  ): effect.Effect<
-    ListChannelPlacementGroupsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelPlacementGroups: API.OperationMethod<
+  ListChannelPlacementGroupsRequest,
+  ListChannelPlacementGroupsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelPlacementGroupsRequest,
   ) => stream.Stream<
@@ -21125,20 +21055,18 @@ export const listChannelPlacementGroups: {
 /**
  * Produces list of channels that have been created
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -21186,19 +21114,17 @@ export const listChannels: {
 /**
  * Lists cloudwatch alarm template groups.
  */
-export const listCloudWatchAlarmTemplateGroups: {
-  (
-    input: ListCloudWatchAlarmTemplateGroupsRequest,
-  ): effect.Effect<
-    ListCloudWatchAlarmTemplateGroupsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudWatchAlarmTemplateGroups: API.OperationMethod<
+  ListCloudWatchAlarmTemplateGroupsRequest,
+  ListCloudWatchAlarmTemplateGroupsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudWatchAlarmTemplateGroupsRequest,
   ) => stream.Stream<
@@ -21243,19 +21169,17 @@ export const listCloudWatchAlarmTemplateGroups: {
 /**
  * Lists cloudwatch alarm templates.
  */
-export const listCloudWatchAlarmTemplates: {
-  (
-    input: ListCloudWatchAlarmTemplatesRequest,
-  ): effect.Effect<
-    ListCloudWatchAlarmTemplatesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudWatchAlarmTemplates: API.OperationMethod<
+  ListCloudWatchAlarmTemplatesRequest,
+  ListCloudWatchAlarmTemplatesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudWatchAlarmTemplatesRequest,
   ) => stream.Stream<
@@ -21300,21 +21224,19 @@ export const listCloudWatchAlarmTemplates: {
 /**
  * List the alerts for a cluster with optional filtering based on alert state.
  */
-export const listClusterAlerts: {
-  (
-    input: ListClusterAlertsRequest,
-  ): effect.Effect<
-    ListClusterAlertsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterAlerts: API.OperationMethod<
+  ListClusterAlertsRequest,
+  ListClusterAlertsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterAlertsRequest,
   ) => stream.Stream<
@@ -21365,20 +21287,18 @@ export const listClusterAlerts: {
 /**
  * Retrieve the list of Clusters.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -21426,19 +21346,17 @@ export const listClusters: {
 /**
  * Lists eventbridge rule template groups.
  */
-export const listEventBridgeRuleTemplateGroups: {
-  (
-    input: ListEventBridgeRuleTemplateGroupsRequest,
-  ): effect.Effect<
-    ListEventBridgeRuleTemplateGroupsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventBridgeRuleTemplateGroups: API.OperationMethod<
+  ListEventBridgeRuleTemplateGroupsRequest,
+  ListEventBridgeRuleTemplateGroupsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventBridgeRuleTemplateGroupsRequest,
   ) => stream.Stream<
@@ -21483,19 +21401,17 @@ export const listEventBridgeRuleTemplateGroups: {
 /**
  * Lists eventbridge rule templates.
  */
-export const listEventBridgeRuleTemplates: {
-  (
-    input: ListEventBridgeRuleTemplatesRequest,
-  ): effect.Effect<
-    ListEventBridgeRuleTemplatesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventBridgeRuleTemplates: API.OperationMethod<
+  ListEventBridgeRuleTemplatesRequest,
+  ListEventBridgeRuleTemplatesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventBridgeRuleTemplatesRequest,
   ) => stream.Stream<
@@ -21540,20 +21456,18 @@ export const listEventBridgeRuleTemplates: {
 /**
  * List input devices
  */
-export const listInputDevices: {
-  (
-    input: ListInputDevicesRequest,
-  ): effect.Effect<
-    ListInputDevicesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInputDevices: API.OperationMethod<
+  ListInputDevicesRequest,
+  ListInputDevicesResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInputDevicesRequest,
   ) => stream.Stream<
@@ -21601,21 +21515,19 @@ export const listInputDevices: {
 /**
  * List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
  */
-export const listInputDeviceTransfers: {
-  (
-    input: ListInputDeviceTransfersRequest,
-  ): effect.Effect<
-    ListInputDeviceTransfersResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInputDeviceTransfers: API.OperationMethod<
+  ListInputDeviceTransfersRequest,
+  ListInputDeviceTransfersResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInputDeviceTransfersRequest,
   ) => stream.Stream<
@@ -21666,20 +21578,18 @@ export const listInputDeviceTransfers: {
 /**
  * Produces list of inputs that have been created
  */
-export const listInputs: {
-  (
-    input: ListInputsRequest,
-  ): effect.Effect<
-    ListInputsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInputs: API.OperationMethod<
+  ListInputsRequest,
+  ListInputsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInputsRequest,
   ) => stream.Stream<
@@ -21727,20 +21637,18 @@ export const listInputs: {
 /**
  * Produces a list of Input Security Groups for an account
  */
-export const listInputSecurityGroups: {
-  (
-    input: ListInputSecurityGroupsRequest,
-  ): effect.Effect<
-    ListInputSecurityGroupsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInputSecurityGroups: API.OperationMethod<
+  ListInputSecurityGroupsRequest,
+  ListInputSecurityGroupsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInputSecurityGroupsRequest,
   ) => stream.Stream<
@@ -21788,21 +21696,19 @@ export const listInputSecurityGroups: {
 /**
  * List the alerts for a multiplex with optional filtering based on alert state.
  */
-export const listMultiplexAlerts: {
-  (
-    input: ListMultiplexAlertsRequest,
-  ): effect.Effect<
-    ListMultiplexAlertsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMultiplexAlerts: API.OperationMethod<
+  ListMultiplexAlertsRequest,
+  ListMultiplexAlertsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultiplexAlertsRequest,
   ) => stream.Stream<
@@ -21853,20 +21759,18 @@ export const listMultiplexAlerts: {
 /**
  * Retrieve a list of the existing multiplexes.
  */
-export const listMultiplexes: {
-  (
-    input: ListMultiplexesRequest,
-  ): effect.Effect<
-    ListMultiplexesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMultiplexes: API.OperationMethod<
+  ListMultiplexesRequest,
+  ListMultiplexesResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultiplexesRequest,
   ) => stream.Stream<
@@ -21914,21 +21818,19 @@ export const listMultiplexes: {
 /**
  * List the programs that currently exist for a specific multiplex.
  */
-export const listMultiplexPrograms: {
-  (
-    input: ListMultiplexProgramsRequest,
-  ): effect.Effect<
-    ListMultiplexProgramsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMultiplexPrograms: API.OperationMethod<
+  ListMultiplexProgramsRequest,
+  ListMultiplexProgramsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultiplexProgramsRequest,
   ) => stream.Stream<
@@ -21979,20 +21881,18 @@ export const listMultiplexPrograms: {
 /**
  * Retrieve the list of Networks.
  */
-export const listNetworks: {
-  (
-    input: ListNetworksRequest,
-  ): effect.Effect<
-    ListNetworksResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNetworks: API.OperationMethod<
+  ListNetworksRequest,
+  ListNetworksResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNetworksRequest,
   ) => stream.Stream<
@@ -22040,20 +21940,18 @@ export const listNetworks: {
 /**
  * Retrieve the list of Nodes.
  */
-export const listNodes: {
-  (
-    input: ListNodesRequest,
-  ): effect.Effect<
-    ListNodesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNodes: API.OperationMethod<
+  ListNodesRequest,
+  ListNodesResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
@@ -22101,20 +21999,18 @@ export const listNodes: {
 /**
  * List offerings available for purchase.
  */
-export const listOfferings: {
-  (
-    input: ListOfferingsRequest,
-  ): effect.Effect<
-    ListOfferingsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOfferings: API.OperationMethod<
+  ListOfferingsRequest,
+  ListOfferingsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
@@ -22162,20 +22058,18 @@ export const listOfferings: {
 /**
  * List purchased reservations.
  */
-export const listReservations: {
-  (
-    input: ListReservationsRequest,
-  ): effect.Effect<
-    ListReservationsResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReservations: API.OperationMethod<
+  ListReservationsRequest,
+  ListReservationsResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReservationsRequest,
   ) => stream.Stream<
@@ -22223,20 +22117,18 @@ export const listReservations: {
 /**
  * List all the SdiSources in the AWS account.
  */
-export const listSdiSources: {
-  (
-    input: ListSdiSourcesRequest,
-  ): effect.Effect<
-    ListSdiSourcesResponse,
-    | BadGatewayException
-    | BadRequestException
-    | ForbiddenException
-    | GatewayTimeoutException
-    | InternalServerErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSdiSources: API.OperationMethod<
+  ListSdiSourcesRequest,
+  ListSdiSourcesResponse,
+  | BadGatewayException
+  | BadRequestException
+  | ForbiddenException
+  | GatewayTimeoutException
+  | InternalServerErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSdiSourcesRequest,
   ) => stream.Stream<
@@ -22284,19 +22176,17 @@ export const listSdiSources: {
 /**
  * Lists signal maps.
  */
-export const listSignalMaps: {
-  (
-    input: ListSignalMapsRequest,
-  ): effect.Effect<
-    ListSignalMapsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSignalMaps: API.OperationMethod<
+  ListSignalMapsRequest,
+  ListSignalMapsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSignalMapsRequest,
   ) => stream.Stream<
@@ -22341,9 +22231,8 @@ export const listSignalMaps: {
 /**
  * Produces list of tags that have been created for a resource
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -22364,9 +22253,8 @@ export const listTagsForResource: (
 /**
  * Retrieves an array of all the encoder engine versions that are available in this AWS account.
  */
-export const listVersions: (
-  input: ListVersionsRequest,
-) => effect.Effect<
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
   ListVersionsResponse,
   | BadGatewayException
   | BadRequestException
@@ -22395,9 +22283,8 @@ export const listVersions: (
 /**
  * Purchase an offering and create a reservation.
  */
-export const purchaseOffering: (
-  input: PurchaseOfferingRequest,
-) => effect.Effect<
+export const purchaseOffering: API.OperationMethod<
+  PurchaseOfferingRequest,
   PurchaseOfferingResponse,
   | BadGatewayException
   | BadRequestException
@@ -22426,9 +22313,8 @@ export const purchaseOffering: (
 /**
  * Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
  */
-export const rebootInputDevice: (
-  input: RebootInputDeviceRequest,
-) => effect.Effect<
+export const rebootInputDevice: API.OperationMethod<
+  RebootInputDeviceRequest,
   RebootInputDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -22457,9 +22343,8 @@ export const rebootInputDevice: (
 /**
  * Reject the transfer of the specified input device to your AWS account.
  */
-export const rejectInputDeviceTransfer: (
-  input: RejectInputDeviceTransferRequest,
-) => effect.Effect<
+export const rejectInputDeviceTransfer: API.OperationMethod<
+  RejectInputDeviceTransferRequest,
   RejectInputDeviceTransferResponse,
   | BadGatewayException
   | BadRequestException
@@ -22490,9 +22375,8 @@ export const rejectInputDeviceTransfer: (
 /**
  * Restart pipelines in one channel that is currently running.
  */
-export const restartChannelPipelines: (
-  input: RestartChannelPipelinesRequest,
-) => effect.Effect<
+export const restartChannelPipelines: API.OperationMethod<
+  RestartChannelPipelinesRequest,
   RestartChannelPipelinesResponse,
   | BadGatewayException
   | BadRequestException
@@ -22521,9 +22405,8 @@ export const restartChannelPipelines: (
 /**
  * Starts an existing channel
  */
-export const startChannel: (
-  input: StartChannelRequest,
-) => effect.Effect<
+export const startChannel: API.OperationMethod<
+  StartChannelRequest,
   StartChannelResponse,
   | BadGatewayException
   | BadRequestException
@@ -22552,9 +22435,8 @@ export const startChannel: (
 /**
  * Initiates a deployment to delete the monitor of the specified signal map.
  */
-export const startDeleteMonitorDeployment: (
-  input: StartDeleteMonitorDeploymentRequest,
-) => effect.Effect<
+export const startDeleteMonitorDeployment: API.OperationMethod<
+  StartDeleteMonitorDeploymentRequest,
   StartDeleteMonitorDeploymentResponse,
   | BadRequestException
   | ConflictException
@@ -22579,9 +22461,8 @@ export const startDeleteMonitorDeployment: (
 /**
  * Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
  */
-export const startInputDevice: (
-  input: StartInputDeviceRequest,
-) => effect.Effect<
+export const startInputDevice: API.OperationMethod<
+  StartInputDeviceRequest,
   StartInputDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -22610,9 +22491,8 @@ export const startInputDevice: (
 /**
  * Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
  */
-export const startInputDeviceMaintenanceWindow: (
-  input: StartInputDeviceMaintenanceWindowRequest,
-) => effect.Effect<
+export const startInputDeviceMaintenanceWindow: API.OperationMethod<
+  StartInputDeviceMaintenanceWindowRequest,
   StartInputDeviceMaintenanceWindowResponse,
   | BadGatewayException
   | BadRequestException
@@ -22641,9 +22521,8 @@ export const startInputDeviceMaintenanceWindow: (
 /**
  * Initiates a deployment to deploy the latest monitor of the specified signal map.
  */
-export const startMonitorDeployment: (
-  input: StartMonitorDeploymentRequest,
-) => effect.Effect<
+export const startMonitorDeployment: API.OperationMethod<
+  StartMonitorDeploymentRequest,
   StartMonitorDeploymentResponse,
   | BadRequestException
   | ConflictException
@@ -22668,9 +22547,8 @@ export const startMonitorDeployment: (
 /**
  * Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
  */
-export const startMultiplex: (
-  input: StartMultiplexRequest,
-) => effect.Effect<
+export const startMultiplex: API.OperationMethod<
+  StartMultiplexRequest,
   StartMultiplexResponse,
   | BadGatewayException
   | BadRequestException
@@ -22699,9 +22577,8 @@ export const startMultiplex: (
 /**
  * Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
  */
-export const startUpdateSignalMap: (
-  input: StartUpdateSignalMapRequest,
-) => effect.Effect<
+export const startUpdateSignalMap: API.OperationMethod<
+  StartUpdateSignalMapRequest,
   StartUpdateSignalMapResponse,
   | BadRequestException
   | ConflictException
@@ -22726,9 +22603,8 @@ export const startUpdateSignalMap: (
 /**
  * Stops a running channel
  */
-export const stopChannel: (
-  input: StopChannelRequest,
-) => effect.Effect<
+export const stopChannel: API.OperationMethod<
+  StopChannelRequest,
   StopChannelResponse,
   | BadGatewayException
   | BadRequestException
@@ -22757,9 +22633,8 @@ export const stopChannel: (
 /**
  * Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
  */
-export const stopInputDevice: (
-  input: StopInputDeviceRequest,
-) => effect.Effect<
+export const stopInputDevice: API.OperationMethod<
+  StopInputDeviceRequest,
   StopInputDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -22788,9 +22663,8 @@ export const stopInputDevice: (
 /**
  * Stops a running multiplex. If the multiplex isn't running, this action has no effect.
  */
-export const stopMultiplex: (
-  input: StopMultiplexRequest,
-) => effect.Effect<
+export const stopMultiplex: API.OperationMethod<
+  StopMultiplexRequest,
   StopMultiplexResponse,
   | BadGatewayException
   | BadRequestException
@@ -22819,9 +22693,8 @@ export const stopMultiplex: (
 /**
  * Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
  */
-export const transferInputDevice: (
-  input: TransferInputDeviceRequest,
-) => effect.Effect<
+export const transferInputDevice: API.OperationMethod<
+  TransferInputDeviceRequest,
   TransferInputDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -22852,9 +22725,8 @@ export const transferInputDevice: (
 /**
  * Update account configuration
  */
-export const updateAccountConfiguration: (
-  input: UpdateAccountConfigurationRequest,
-) => effect.Effect<
+export const updateAccountConfiguration: API.OperationMethod<
+  UpdateAccountConfigurationRequest,
   UpdateAccountConfigurationResponse,
   | BadGatewayException
   | BadRequestException
@@ -22881,9 +22753,8 @@ export const updateAccountConfiguration: (
 /**
  * Updates a channel.
  */
-export const updateChannel: (
-  input: UpdateChannelRequest,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
   UpdateChannelResponse,
   | BadGatewayException
   | BadRequestException
@@ -22910,9 +22781,8 @@ export const updateChannel: (
 /**
  * Changes the class of the channel.
  */
-export const updateChannelClass: (
-  input: UpdateChannelClassRequest,
-) => effect.Effect<
+export const updateChannelClass: API.OperationMethod<
+  UpdateChannelClassRequest,
   UpdateChannelClassResponse,
   | BadGatewayException
   | BadRequestException
@@ -22943,9 +22813,8 @@ export const updateChannelClass: (
 /**
  * Change the settings for a ChannelPlacementGroup.
  */
-export const updateChannelPlacementGroup: (
-  input: UpdateChannelPlacementGroupRequest,
-) => effect.Effect<
+export const updateChannelPlacementGroup: API.OperationMethod<
+  UpdateChannelPlacementGroupRequest,
   UpdateChannelPlacementGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -22974,9 +22843,8 @@ export const updateChannelPlacementGroup: (
 /**
  * Updates the specified cloudwatch alarm template.
  */
-export const updateCloudWatchAlarmTemplate: (
-  input: UpdateCloudWatchAlarmTemplateRequest,
-) => effect.Effect<
+export const updateCloudWatchAlarmTemplate: API.OperationMethod<
+  UpdateCloudWatchAlarmTemplateRequest,
   UpdateCloudWatchAlarmTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -23001,9 +22869,8 @@ export const updateCloudWatchAlarmTemplate: (
 /**
  * Updates the specified cloudwatch alarm template group.
  */
-export const updateCloudWatchAlarmTemplateGroup: (
-  input: UpdateCloudWatchAlarmTemplateGroupRequest,
-) => effect.Effect<
+export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
+  UpdateCloudWatchAlarmTemplateGroupRequest,
   UpdateCloudWatchAlarmTemplateGroupResponse,
   | BadRequestException
   | ConflictException
@@ -23028,9 +22895,8 @@ export const updateCloudWatchAlarmTemplateGroup: (
 /**
  * Change the settings for a Cluster.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   | BadGatewayException
   | BadRequestException
@@ -23057,9 +22923,8 @@ export const updateCluster: (
 /**
  * Updates the specified eventbridge rule template.
  */
-export const updateEventBridgeRuleTemplate: (
-  input: UpdateEventBridgeRuleTemplateRequest,
-) => effect.Effect<
+export const updateEventBridgeRuleTemplate: API.OperationMethod<
+  UpdateEventBridgeRuleTemplateRequest,
   UpdateEventBridgeRuleTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -23084,9 +22949,8 @@ export const updateEventBridgeRuleTemplate: (
 /**
  * Updates the specified eventbridge rule template group.
  */
-export const updateEventBridgeRuleTemplateGroup: (
-  input: UpdateEventBridgeRuleTemplateGroupRequest,
-) => effect.Effect<
+export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
+  UpdateEventBridgeRuleTemplateGroupRequest,
   UpdateEventBridgeRuleTemplateGroupResponse,
   | BadRequestException
   | ConflictException
@@ -23111,9 +22975,8 @@ export const updateEventBridgeRuleTemplateGroup: (
 /**
  * Updates an input.
  */
-export const updateInput: (
-  input: UpdateInputRequest,
-) => effect.Effect<
+export const updateInput: API.OperationMethod<
+  UpdateInputRequest,
   UpdateInputResponse,
   | BadGatewayException
   | BadRequestException
@@ -23140,9 +23003,8 @@ export const updateInput: (
 /**
  * Updates the parameters for the input device.
  */
-export const updateInputDevice: (
-  input: UpdateInputDeviceRequest,
-) => effect.Effect<
+export const updateInputDevice: API.OperationMethod<
+  UpdateInputDeviceRequest,
   UpdateInputDeviceResponse,
   | BadGatewayException
   | BadRequestException
@@ -23171,9 +23033,8 @@ export const updateInputDevice: (
 /**
  * Update an Input Security Group's Whilelists.
  */
-export const updateInputSecurityGroup: (
-  input: UpdateInputSecurityGroupRequest,
-) => effect.Effect<
+export const updateInputSecurityGroup: API.OperationMethod<
+  UpdateInputSecurityGroupRequest,
   UpdateInputSecurityGroupResponse,
   | BadGatewayException
   | BadRequestException
@@ -23200,9 +23061,8 @@ export const updateInputSecurityGroup: (
 /**
  * Updates a multiplex.
  */
-export const updateMultiplex: (
-  input: UpdateMultiplexRequest,
-) => effect.Effect<
+export const updateMultiplex: API.OperationMethod<
+  UpdateMultiplexRequest,
   UpdateMultiplexResponse,
   | BadGatewayException
   | BadRequestException
@@ -23231,9 +23091,8 @@ export const updateMultiplex: (
 /**
  * Update a program in a multiplex.
  */
-export const updateMultiplexProgram: (
-  input: UpdateMultiplexProgramRequest,
-) => effect.Effect<
+export const updateMultiplexProgram: API.OperationMethod<
+  UpdateMultiplexProgramRequest,
   UpdateMultiplexProgramResponse,
   | BadGatewayException
   | BadRequestException
@@ -23262,9 +23121,8 @@ export const updateMultiplexProgram: (
 /**
  * Change the settings for a Network.
  */
-export const updateNetwork: (
-  input: UpdateNetworkRequest,
-) => effect.Effect<
+export const updateNetwork: API.OperationMethod<
+  UpdateNetworkRequest,
   UpdateNetworkResponse,
   | BadGatewayException
   | BadRequestException
@@ -23291,9 +23149,8 @@ export const updateNetwork: (
 /**
  * Change the settings for a Node.
  */
-export const updateNode: (
-  input: UpdateNodeRequest,
-) => effect.Effect<
+export const updateNode: API.OperationMethod<
+  UpdateNodeRequest,
   UpdateNodeResponse,
   | BadGatewayException
   | BadRequestException
@@ -23320,9 +23177,8 @@ export const updateNode: (
 /**
  * Update the state of a node.
  */
-export const updateNodeState: (
-  input: UpdateNodeStateRequest,
-) => effect.Effect<
+export const updateNodeState: API.OperationMethod<
+  UpdateNodeStateRequest,
   UpdateNodeStateResponse,
   | BadGatewayException
   | BadRequestException
@@ -23351,9 +23207,8 @@ export const updateNodeState: (
 /**
  * Update reservation.
  */
-export const updateReservation: (
-  input: UpdateReservationRequest,
-) => effect.Effect<
+export const updateReservation: API.OperationMethod<
+  UpdateReservationRequest,
   UpdateReservationResponse,
   | BadGatewayException
   | BadRequestException
@@ -23382,9 +23237,8 @@ export const updateReservation: (
 /**
  * Change some of the settings in an SdiSource.
  */
-export const updateSdiSource: (
-  input: UpdateSdiSourceRequest,
-) => effect.Effect<
+export const updateSdiSource: API.OperationMethod<
+  UpdateSdiSourceRequest,
   UpdateSdiSourceResponse,
   | BadGatewayException
   | BadRequestException

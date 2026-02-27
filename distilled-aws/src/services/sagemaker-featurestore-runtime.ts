@@ -366,9 +366,8 @@ export class ResourceNotFound extends S.TaggedErrorClass<ResourceNotFound>()(
 /**
  * Retrieves a batch of `Records` from a `FeatureGroup`.
  */
-export const batchGetRecord: (
-  input: BatchGetRecordRequest,
-) => effect.Effect<
+export const batchGetRecord: API.OperationMethod<
+  BatchGetRecordRequest,
   BatchGetRecordResponse,
   | AccessForbidden
   | InternalFailure
@@ -419,9 +418,8 @@ export const batchGetRecord: (
  * hard delete a record from the `OfflineStore` with the Iceberg table format
  * enabled, see Delete records from the offline store.
  */
-export const deleteRecord: (
-  input: DeleteRecordRequest,
-) => effect.Effect<
+export const deleteRecord: API.OperationMethod<
+  DeleteRecordRequest,
   DeleteRecordResponse,
   | AccessForbidden
   | InternalFailure
@@ -444,9 +442,8 @@ export const deleteRecord: (
  * latest records stored in the `OnlineStore` can be retrieved. If no Record with
  * `RecordIdentifierValue` is found, then an empty result is returned.
  */
-export const getRecord: (
-  input: GetRecordRequest,
-) => effect.Effect<
+export const getRecord: API.OperationMethod<
+  GetRecordRequest,
   GetRecordResponse,
   | AccessForbidden
   | InternalFailure
@@ -487,9 +484,8 @@ export const getRecord: (
  * group level `TtlDuration`. A record level `TtlDuration` supersedes
  * the group level `TtlDuration`.
  */
-export const putRecord: (
-  input: PutRecordRequest,
-) => effect.Effect<
+export const putRecord: API.OperationMethod<
+  PutRecordRequest,
   PutRecordResponse,
   | AccessForbidden
   | InternalFailure

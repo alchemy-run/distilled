@@ -240,9 +240,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * - `GetLatestConfiguration` is a priced call. For more information, see
  * Pricing.
  */
-export const getLatestConfiguration: (
-  input: GetLatestConfigurationRequest,
-) => effect.Effect<
+export const getLatestConfiguration: API.OperationMethod<
+  GetLatestConfigurationRequest,
   GetLatestConfigurationResponse,
   | BadRequestException
   | InternalServerException
@@ -266,9 +265,8 @@ export const getLatestConfiguration: (
  * it with the GetLatestConfiguration API action, see Retrieving the
  * configuration in the *AppConfig User Guide*.
  */
-export const startConfigurationSession: (
-  input: StartConfigurationSessionRequest,
-) => effect.Effect<
+export const startConfigurationSession: API.OperationMethod<
+  StartConfigurationSessionRequest,
   StartConfigurationSessionResponse,
   | BadRequestException
   | InternalServerException

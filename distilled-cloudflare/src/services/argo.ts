@@ -66,12 +66,16 @@ export const GetSmartRoutingResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetSmartRoutingResponse>;
 
-export const getSmartRouting: (
-  input: GetSmartRoutingRequest,
-) => Effect.Effect<
+export const getSmartRouting: API.OperationMethod<
+  GetSmartRoutingRequest,
   GetSmartRoutingResponse,
   CommonErrors | InvalidObjectIdentifier | NotAuthorized,
   ApiToken | HttpClient.HttpClient
@@ -112,12 +116,16 @@ export const PatchSmartRoutingResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
 
-export const patchSmartRouting: (
-  input: PatchSmartRoutingRequest,
-) => Effect.Effect<
+export const patchSmartRouting: API.OperationMethod<
+  PatchSmartRoutingRequest,
   PatchSmartRoutingResponse,
   CommonErrors | InvalidObjectIdentifier | NotAuthorized,
   ApiToken | HttpClient.HttpClient
@@ -159,12 +167,16 @@ export const GetTieredCachingResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetTieredCachingResponse>;
 
-export const getTieredCaching: (
-  input: GetTieredCachingRequest,
-) => Effect.Effect<
+export const getTieredCaching: API.OperationMethod<
+  GetTieredCachingRequest,
   GetTieredCachingResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
@@ -205,12 +217,16 @@ export const PatchTieredCachingResponse = Schema.Struct({
   value: Schema.Literals(["on", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PatchTieredCachingResponse>;
 
-export const patchTieredCaching: (
-  input: PatchTieredCachingRequest,
-) => Effect.Effect<
+export const patchTieredCaching: API.OperationMethod<
+  PatchTieredCachingRequest,
   PatchTieredCachingResponse,
   CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient

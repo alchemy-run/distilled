@@ -1766,9 +1766,8 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 /**
  * Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
  */
-export const associateUserToPermissionGroup: (
-  input: AssociateUserToPermissionGroupRequest,
-) => effect.Effect<
+export const associateUserToPermissionGroup: API.OperationMethod<
+  AssociateUserToPermissionGroupRequest,
   AssociateUserToPermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1793,9 +1792,8 @@ export const associateUserToPermissionGroup: (
 /**
  * Creates a new Changeset in a FinSpace Dataset.
  */
-export const createChangeset: (
-  input: CreateChangesetRequest,
-) => effect.Effect<
+export const createChangeset: API.OperationMethod<
+  CreateChangesetRequest,
   CreateChangesetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1822,9 +1820,8 @@ export const createChangeset: (
 /**
  * Creates a new FinSpace Dataset.
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1851,9 +1848,8 @@ export const createDataset: (
 /**
  * Creates a Dataview for a Dataset.
  */
-export const createDataView: (
-  input: CreateDataViewRequest,
-) => effect.Effect<
+export const createDataView: API.OperationMethod<
+  CreateDataViewRequest,
   CreateDataViewResponse,
   | ConflictException
   | InternalServerException
@@ -1878,9 +1874,8 @@ export const createDataView: (
 /**
  * Creates a group of permissions for various actions that a user can perform in FinSpace.
  */
-export const createPermissionGroup: (
-  input: CreatePermissionGroupRequest,
-) => effect.Effect<
+export const createPermissionGroup: API.OperationMethod<
+  CreatePermissionGroupRequest,
   CreatePermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1905,9 +1900,8 @@ export const createPermissionGroup: (
 /**
  * Creates a new user in FinSpace.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -1932,9 +1926,8 @@ export const createUser: (
 /**
  * Deletes a FinSpace Dataset.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1961,9 +1954,8 @@ export const deleteDataset: (
 /**
  * Deletes a permission group. This action is irreversible.
  */
-export const deletePermissionGroup: (
-  input: DeletePermissionGroupRequest,
-) => effect.Effect<
+export const deletePermissionGroup: API.OperationMethod<
+  DeletePermissionGroupRequest,
   DeletePermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1990,9 +1982,8 @@ export const deletePermissionGroup: (
 /**
  * Denies access to the FinSpace web application and API for the specified user.
  */
-export const disableUser: (
-  input: DisableUserRequest,
-) => effect.Effect<
+export const disableUser: API.OperationMethod<
+  DisableUserRequest,
   DisableUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -2017,9 +2008,8 @@ export const disableUser: (
 /**
  * Removes a user from a permission group.
  */
-export const disassociateUserFromPermissionGroup: (
-  input: DisassociateUserFromPermissionGroupRequest,
-) => effect.Effect<
+export const disassociateUserFromPermissionGroup: API.OperationMethod<
+  DisassociateUserFromPermissionGroupRequest,
   DisassociateUserFromPermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2044,9 +2034,8 @@ export const disassociateUserFromPermissionGroup: (
 /**
  * Allows the specified user to access the FinSpace web application and API.
  */
-export const enableUser: (
-  input: EnableUserRequest,
-) => effect.Effect<
+export const enableUser: API.OperationMethod<
+  EnableUserRequest,
   EnableUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -2073,9 +2062,8 @@ export const enableUser: (
 /**
  * Get information about a Changeset.
  */
-export const getChangeset: (
-  input: GetChangesetRequest,
-) => effect.Effect<
+export const getChangeset: API.OperationMethod<
+  GetChangesetRequest,
   GetChangesetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2100,9 +2088,8 @@ export const getChangeset: (
 /**
  * Returns information about a Dataset.
  */
-export const getDataset: (
-  input: GetDatasetRequest,
-) => effect.Effect<
+export const getDataset: API.OperationMethod<
+  GetDatasetRequest,
   GetDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2127,9 +2114,8 @@ export const getDataset: (
 /**
  * Gets information about a Dataview.
  */
-export const getDataView: (
-  input: GetDataViewRequest,
-) => effect.Effect<
+export const getDataView: API.OperationMethod<
+  GetDataViewRequest,
   GetDataViewResponse,
   | ConflictException
   | InternalServerException
@@ -2156,9 +2142,8 @@ export const getDataView: (
  *
  * - You must be a member of a FinSpace user group, where the dataset that you want to access has `Read Dataset Data` permissions.
  */
-export const getExternalDataViewAccessDetails: (
-  input: GetExternalDataViewAccessDetailsRequest,
-) => effect.Effect<
+export const getExternalDataViewAccessDetails: API.OperationMethod<
+  GetExternalDataViewAccessDetailsRequest,
   GetExternalDataViewAccessDetailsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2181,9 +2166,8 @@ export const getExternalDataViewAccessDetails: (
 /**
  * Retrieves the details of a specific permission group.
  */
-export const getPermissionGroup: (
-  input: GetPermissionGroupRequest,
-) => effect.Effect<
+export const getPermissionGroup: API.OperationMethod<
+  GetPermissionGroupRequest,
   GetPermissionGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2206,9 +2190,8 @@ export const getPermissionGroup: (
 /**
  * Request programmatic credentials to use with FinSpace SDK. For more information, see Step 2. Access credentials programmatically using IAM access key id and secret access key.
  */
-export const getProgrammaticAccessCredentials: (
-  input: GetProgrammaticAccessCredentialsRequest,
-) => effect.Effect<
+export const getProgrammaticAccessCredentials: API.OperationMethod<
+  GetProgrammaticAccessCredentialsRequest,
   GetProgrammaticAccessCredentialsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2229,9 +2212,8 @@ export const getProgrammaticAccessCredentials: (
 /**
  * Retrieves details for a specific user.
  */
-export const getUser: (
-  input: GetUserRequest,
-) => effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2255,9 +2237,8 @@ export const getUser: (
  * A temporary Amazon S3 location, where you can copy your files from a source location to stage or use
  * as a scratch space in FinSpace notebook.
  */
-export const getWorkingLocation: (
-  input: GetWorkingLocationRequest,
-) => effect.Effect<
+export const getWorkingLocation: API.OperationMethod<
+  GetWorkingLocationRequest,
   GetWorkingLocationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2278,20 +2259,18 @@ export const getWorkingLocation: (
 /**
  * Lists the FinSpace Changesets for a Dataset.
  */
-export const listChangesets: {
-  (
-    input: ListChangesetsRequest,
-  ): effect.Effect<
-    ListChangesetsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listChangesets: API.OperationMethod<
+  ListChangesetsRequest,
+  ListChangesetsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChangesetsRequest,
   ) => stream.Stream<
@@ -2339,19 +2318,17 @@ export const listChangesets: {
 /**
  * Lists all of the active Datasets that a user has access to.
  */
-export const listDatasets: {
-  (
-    input: ListDatasetsRequest,
-  ): effect.Effect<
-    ListDatasetsResponse,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
+  ListDatasetsResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
@@ -2396,19 +2373,17 @@ export const listDatasets: {
 /**
  * Lists all available Dataviews for a Dataset.
  */
-export const listDataViews: {
-  (
-    input: ListDataViewsRequest,
-  ): effect.Effect<
-    ListDataViewsResponse,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDataViews: API.OperationMethod<
+  ListDataViewsRequest,
+  ListDataViewsResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataViewsRequest,
   ) => stream.Stream<
@@ -2453,18 +2428,16 @@ export const listDataViews: {
 /**
  * Lists all available permission groups in FinSpace.
  */
-export const listPermissionGroups: {
-  (
-    input: ListPermissionGroupsRequest,
-  ): effect.Effect<
-    ListPermissionGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listPermissionGroups: API.OperationMethod<
+  ListPermissionGroupsRequest,
+  ListPermissionGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionGroupsRequest,
   ) => stream.Stream<
@@ -2506,9 +2479,8 @@ export const listPermissionGroups: {
 /**
  * Lists all the permission groups that are associated with a specific user.
  */
-export const listPermissionGroupsByUser: (
-  input: ListPermissionGroupsByUserRequest,
-) => effect.Effect<
+export const listPermissionGroupsByUser: API.OperationMethod<
+  ListPermissionGroupsByUserRequest,
   ListPermissionGroupsByUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2531,18 +2503,16 @@ export const listPermissionGroupsByUser: (
 /**
  * Lists all available users in FinSpace.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -2584,9 +2554,8 @@ export const listUsers: {
 /**
  * Lists details of all the users in a specific permission group.
  */
-export const listUsersByPermissionGroup: (
-  input: ListUsersByPermissionGroupRequest,
-) => effect.Effect<
+export const listUsersByPermissionGroup: API.OperationMethod<
+  ListUsersByPermissionGroupRequest,
   ListUsersByPermissionGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2609,9 +2578,8 @@ export const listUsersByPermissionGroup: (
 /**
  * Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
  */
-export const resetUserPassword: (
-  input: ResetUserPasswordRequest,
-) => effect.Effect<
+export const resetUserPassword: API.OperationMethod<
+  ResetUserPasswordRequest,
   ResetUserPasswordResponse,
   | AccessDeniedException
   | ConflictException
@@ -2636,9 +2604,8 @@ export const resetUserPassword: (
 /**
  * Updates a FinSpace Changeset.
  */
-export const updateChangeset: (
-  input: UpdateChangesetRequest,
-) => effect.Effect<
+export const updateChangeset: API.OperationMethod<
+  UpdateChangesetRequest,
   UpdateChangesetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2663,9 +2630,8 @@ export const updateChangeset: (
 /**
  * Updates a FinSpace Dataset.
  */
-export const updateDataset: (
-  input: UpdateDatasetRequest,
-) => effect.Effect<
+export const updateDataset: API.OperationMethod<
+  UpdateDatasetRequest,
   UpdateDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2690,9 +2656,8 @@ export const updateDataset: (
 /**
  * Modifies the details of a permission group. You cannot modify a `permissionGroupID`.
  */
-export const updatePermissionGroup: (
-  input: UpdatePermissionGroupRequest,
-) => effect.Effect<
+export const updatePermissionGroup: API.OperationMethod<
+  UpdatePermissionGroupRequest,
   UpdatePermissionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2717,9 +2682,8 @@ export const updatePermissionGroup: (
 /**
  * Modifies the details of the specified user. You cannot update the `userId` for a user.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | AccessDeniedException
   | ConflictException

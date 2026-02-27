@@ -5189,9 +5189,8 @@ export class IndexNotFoundException extends S.TaggedErrorClass<IndexNotFoundExce
  * succeeded. Error details for individual statements can be found under the Error field of the `BatchStatementResponse` for each
  * statement.
  */
-export const batchExecuteStatement: (
-  input: BatchExecuteStatementInput,
-) => effect.Effect<
+export const batchExecuteStatement: API.OperationMethod<
+  BatchExecuteStatementInput,
   BatchExecuteStatementOutput,
   | InternalServerError
   | RequestLimitExceeded
@@ -5261,9 +5260,8 @@ export const batchExecuteStatement: (
  * `BatchGetItem` will result in a `ValidationException` if the
  * same key is specified multiple times.
  */
-export const batchGetItem: (
-  input: BatchGetItemInput,
-) => effect.Effect<
+export const batchGetItem: API.OperationMethod<
+  BatchGetItemInput,
   BatchGetItemOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5371,9 +5369,8 @@ export const batchGetItem: (
  * partition key, the limit is 2048 bytes and for a sort key, the limit is 1024
  * bytes.
  */
-export const batchWriteItem: (
-  input: BatchWriteItemInput,
-) => effect.Effect<
+export const batchWriteItem: API.OperationMethod<
+  BatchWriteItemInput,
   BatchWriteItemOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5431,9 +5428,8 @@ export const batchWriteItem: (
  *
  * - Provisioned read and write capacity
  */
-export const createBackup: (
-  input: CreateBackupInput,
-) => effect.Effect<
+export const createBackup: API.OperationMethod<
+  CreateBackupInput,
   CreateBackupOutput,
   | BackupInUseException
   | ContinuousBackupsUnavailableException
@@ -5503,9 +5499,8 @@ export const createBackup: (
  * provision equal replicated write capacity units to matching secondary indexes across
  * your global table.
  */
-export const createGlobalTable: (
-  input: CreateGlobalTableInput,
-) => effect.Effect<
+export const createGlobalTable: API.OperationMethod<
+  CreateGlobalTableInput,
   CreateGlobalTableOutput,
   | GlobalTableAlreadyExistsException
   | InternalServerError
@@ -5542,9 +5537,8 @@ export const createGlobalTable: (
  *
  * You can use the `DescribeTable` action to check the table status.
  */
-export const createTable: (
-  input: CreateTableInput,
-) => effect.Effect<
+export const createTable: API.OperationMethod<
+  CreateTableInput,
   CreateTableOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5568,9 +5562,8 @@ export const createTable: (
  * You can call `DeleteBackup` at a maximum rate of 10 times per
  * second.
  */
-export const deleteBackup: (
-  input: DeleteBackupInput,
-) => effect.Effect<
+export const deleteBackup: API.OperationMethod<
+  DeleteBackupInput,
   DeleteBackupOutput,
   | BackupInUseException
   | BackupNotFoundException
@@ -5606,9 +5599,8 @@ export const deleteBackup: (
  * If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not
  * deleted.
  */
-export const deleteItem: (
-  input: DeleteItemInput,
-) => effect.Effect<
+export const deleteItem: API.OperationMethod<
+  DeleteItemInput,
   DeleteItemOutput,
   | ConditionalCheckFailedException
   | InternalServerError
@@ -5659,9 +5651,8 @@ export const deleteItem: (
  * deleted yet. Wait for a few seconds, and then try the `GetResourcePolicy`
  * request again.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyInput,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyInput,
   DeleteResourcePolicyOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5706,9 +5697,8 @@ export const deleteResourcePolicy: (
  *
  * Use the `DescribeTable` action to check the status of the table.
  */
-export const deleteTable: (
-  input: DeleteTableInput,
-) => effect.Effect<
+export const deleteTable: API.OperationMethod<
+  DeleteTableInput,
   DeleteTableOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5734,9 +5724,8 @@ export const deleteTable: (
  * You can call `DescribeBackup` at a maximum rate of 10 times per
  * second.
  */
-export const describeBackup: (
-  input: DescribeBackupInput,
-) => effect.Effect<
+export const describeBackup: API.OperationMethod<
+  DescribeBackupInput,
   DescribeBackupOutput,
   | BackupNotFoundException
   | InternalServerError
@@ -5769,9 +5758,8 @@ export const describeBackup: (
  * You can call `DescribeContinuousBackups` at a maximum rate of 10 times per
  * second.
  */
-export const describeContinuousBackups: (
-  input: DescribeContinuousBackupsInput,
-) => effect.Effect<
+export const describeContinuousBackups: API.OperationMethod<
+  DescribeContinuousBackupsInput,
   DescribeContinuousBackupsOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5791,9 +5779,8 @@ export const describeContinuousBackups: (
  * Returns information about contributor insights for a given table or global secondary
  * index.
  */
-export const describeContributorInsights: (
-  input: DescribeContributorInsightsInput,
-) => effect.Effect<
+export const describeContributorInsights: API.OperationMethod<
+  DescribeContributorInsightsInput,
   DescribeContributorInsightsOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5806,9 +5793,8 @@ export const describeContributorInsights: (
  * Returns the regional endpoint information. For more information on policy permissions,
  * please see Internetwork traffic privacy.
  */
-export const describeEndpoints: (
-  input: DescribeEndpointsRequest,
-) => effect.Effect<
+export const describeEndpoints: API.OperationMethod<
+  DescribeEndpointsRequest,
   DescribeEndpointsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5820,9 +5806,8 @@ export const describeEndpoints: (
 /**
  * Describes an existing table export.
  */
-export const describeExport: (
-  input: DescribeExportInput,
-) => effect.Effect<
+export const describeExport: API.OperationMethod<
+  DescribeExportInput,
   DescribeExportOutput,
   | ExportNotFoundException
   | InternalServerError
@@ -5845,9 +5830,8 @@ export const describeExport: (
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const describeGlobalTable: (
-  input: DescribeGlobalTableInput,
-) => effect.Effect<
+export const describeGlobalTable: API.OperationMethod<
+  DescribeGlobalTableInput,
   DescribeGlobalTableOutput,
   | GlobalTableNotFoundException
   | InternalServerError
@@ -5870,9 +5854,8 @@ export const describeGlobalTable: (
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const describeGlobalTableSettings: (
-  input: DescribeGlobalTableSettingsInput,
-) => effect.Effect<
+export const describeGlobalTableSettings: API.OperationMethod<
+  DescribeGlobalTableSettingsInput,
   DescribeGlobalTableSettingsOutput,
   | GlobalTableNotFoundException
   | InternalServerError
@@ -5891,9 +5874,8 @@ export const describeGlobalTableSettings: (
 /**
  * Represents the properties of the import.
  */
-export const describeImport: (
-  input: DescribeImportInput,
-) => effect.Effect<
+export const describeImport: API.OperationMethod<
+  DescribeImportInput,
   DescribeImportOutput,
   ImportNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5905,9 +5887,8 @@ export const describeImport: (
 /**
  * Returns information about the status of Kinesis streaming.
  */
-export const describeKinesisStreamingDestination: (
-  input: DescribeKinesisStreamingDestinationInput,
-) => effect.Effect<
+export const describeKinesisStreamingDestination: API.OperationMethod<
+  DescribeKinesisStreamingDestinationInput,
   DescribeKinesisStreamingDestinationOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -5988,9 +5969,8 @@ export const describeKinesisStreamingDestination: (
  *
  * The `DescribeLimits` Request element has no content.
  */
-export const describeLimits: (
-  input: DescribeLimitsInput,
-) => effect.Effect<
+export const describeLimits: API.OperationMethod<
+  DescribeLimitsInput,
   DescribeLimitsOutput,
   InternalServerError | InvalidEndpointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6010,9 +5990,8 @@ export const describeLimits: (
  * for your table might not be available at that moment. Wait for a few seconds, and
  * then try the `DescribeTable` request again.
  */
-export const describeTable: (
-  input: DescribeTableInput,
-) => effect.Effect<
+export const describeTable: API.OperationMethod<
+  DescribeTableInput,
   DescribeTableOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6031,9 +6010,8 @@ export const describeTable: (
 /**
  * Describes auto scaling settings across replicas of the global table at once.
  */
-export const describeTableReplicaAutoScaling: (
-  input: DescribeTableReplicaAutoScalingInput,
-) => effect.Effect<
+export const describeTableReplicaAutoScaling: API.OperationMethod<
+  DescribeTableReplicaAutoScalingInput,
   DescribeTableReplicaAutoScalingOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6045,9 +6023,8 @@ export const describeTableReplicaAutoScaling: (
 /**
  * Gives a description of the Time to Live (TTL) status on the specified table.
  */
-export const describeTimeToLive: (
-  input: DescribeTimeToLiveInput,
-) => effect.Effect<
+export const describeTimeToLive: API.OperationMethod<
+  DescribeTimeToLiveInput,
   DescribeTimeToLiveOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6067,9 +6044,8 @@ export const describeTimeToLive: (
  * Stops replication from the DynamoDB table to the Kinesis data stream. This
  * is done without deleting either of the resources.
  */
-export const disableKinesisStreamingDestination: (
-  input: KinesisStreamingDestinationInput,
-) => effect.Effect<
+export const disableKinesisStreamingDestination: API.OperationMethod<
+  KinesisStreamingDestinationInput,
   KinesisStreamingDestinationOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6095,9 +6071,8 @@ export const disableKinesisStreamingDestination: (
  * use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream
  * is ACTIVE.
  */
-export const enableKinesisStreamingDestination: (
-  input: KinesisStreamingDestinationInput,
-) => effect.Effect<
+export const enableKinesisStreamingDestination: API.OperationMethod<
+  KinesisStreamingDestinationInput,
   KinesisStreamingDestinationOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6134,9 +6109,8 @@ export const enableKinesisStreamingDestination: (
  * result set. If `NextToken` is present, you need to paginate the result set
  * and include `NextToken`.
  */
-export const executeStatement: (
-  input: ExecuteStatementInput,
-) => effect.Effect<
+export const executeStatement: API.OperationMethod<
+  ExecuteStatementInput,
   ExecuteStatementOutput,
   | ConditionalCheckFailedException
   | DuplicateItemException
@@ -6173,9 +6147,8 @@ export const executeStatement: (
  * be used to check the condition of specific attributes of the item in a similar
  * manner to `ConditionCheck` in the TransactWriteItems API.
  */
-export const executeTransaction: (
-  input: ExecuteTransactionInput,
-) => effect.Effect<
+export const executeTransaction: API.OperationMethod<
+  ExecuteTransactionInput,
   ExecuteTransactionOutput,
   | IdempotentParameterMismatchException
   | InternalServerError
@@ -6206,9 +6179,8 @@ export const executeTransaction: (
  * enabled, and you can export data from any time within the point in time recovery
  * window.
  */
-export const exportTableToPointInTime: (
-  input: ExportTableToPointInTimeInput,
-) => effect.Effect<
+export const exportTableToPointInTime: API.OperationMethod<
+  ExportTableToPointInTimeInput,
   ExportTableToPointInTimeOutput,
   | ExportConflictException
   | InternalServerError
@@ -6240,9 +6212,8 @@ export const exportTableToPointInTime: (
  * `true`. Although a strongly consistent read might take more time than an
  * eventually consistent read, it always returns the last updated value.
  */
-export const getItem: (
-  input: GetItemInput,
-) => effect.Effect<
+export const getItem: API.OperationMethod<
+  GetItemInput,
   GetItemOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6299,9 +6270,8 @@ export const getItem: (
  * Policies that you attach while creating a table using the `CreateTable`
  * request will always be applied to all requests for that table.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyInput,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyInput,
   GetResourcePolicyOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6322,9 +6292,8 @@ export const getResourcePolicy: (
 /**
  * Imports table data from an S3 bucket.
  */
-export const importTable: (
-  input: ImportTableInput,
-) => effect.Effect<
+export const importTable: API.OperationMethod<
+  ImportTableInput,
   ImportTableOutput,
   | ImportConflictException
   | LimitExceededException
@@ -6356,9 +6325,8 @@ export const importTable: (
  * Backup, use the Amazon Web Services Backup
  * list API.
  */
-export const listBackups: (
-  input: ListBackupsInput,
-) => effect.Effect<
+export const listBackups: API.OperationMethod<
+  ListBackupsInput,
   ListBackupsOutput,
   InternalServerError | InvalidEndpointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6371,14 +6339,12 @@ export const listBackups: (
  * Returns a list of ContributorInsightsSummary for a table and all its global secondary
  * indexes.
  */
-export const listContributorInsights: {
-  (
-    input: ListContributorInsightsInput,
-  ): effect.Effect<
-    ListContributorInsightsOutput,
-    InternalServerError | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContributorInsights: API.OperationMethod<
+  ListContributorInsightsInput,
+  ListContributorInsightsOutput,
+  InternalServerError | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContributorInsightsInput,
   ) => stream.Stream<
@@ -6406,14 +6372,12 @@ export const listContributorInsights: {
 /**
  * Lists completed exports within the past 90 days, in reverse alphanumeric order of `ExportArn`.
  */
-export const listExports: {
-  (
-    input: ListExportsInput,
-  ): effect.Effect<
-    ListExportsOutput,
-    InternalServerError | LimitExceededException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExports: API.OperationMethod<
+  ListExportsInput,
+  ListExportsOutput,
+  InternalServerError | LimitExceededException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportsInput,
   ) => stream.Stream<
@@ -6445,9 +6409,8 @@ export const listExports: {
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const listGlobalTables: (
-  input: ListGlobalTablesInput,
-) => effect.Effect<
+export const listGlobalTables: API.OperationMethod<
+  ListGlobalTablesInput,
   ListGlobalTablesOutput,
   InternalServerError | InvalidEndpointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6459,14 +6422,12 @@ export const listGlobalTables: (
 /**
  * Lists completed imports within the past 90 days.
  */
-export const listImports: {
-  (
-    input: ListImportsInput,
-  ): effect.Effect<
-    ListImportsOutput,
-    LimitExceededException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImports: API.OperationMethod<
+  ListImportsInput,
+  ListImportsOutput,
+  LimitExceededException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportsInput,
   ) => stream.Stream<
@@ -6496,14 +6457,12 @@ export const listImports: {
  * output from `ListTables` is paginated, with each page returning a maximum of
  * 100 table names.
  */
-export const listTables: {
-  (
-    input: ListTablesInput,
-  ): effect.Effect<
-    ListTablesOutput,
-    InternalServerError | InvalidEndpointException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTables: API.OperationMethod<
+  ListTablesInput,
+  ListTablesOutput,
+  InternalServerError | InvalidEndpointException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTablesInput,
   ) => stream.Stream<
@@ -6536,9 +6495,8 @@ export const listTables: {
  * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
  * in the *Amazon DynamoDB Developer Guide*.
  */
-export const listTagsOfResource: (
-  input: ListTagsOfResourceInput,
-) => effect.Effect<
+export const listTagsOfResource: API.OperationMethod<
+  ListTagsOfResourceInput,
   ListTagsOfResourceOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6584,9 +6542,8 @@ export const listTagsOfResource: (
  * For more information about `PutItem`, see Working with
  * Items in the *Amazon DynamoDB Developer Guide*.
  */
-export const putItem: (
-  input: PutItemInput,
-) => effect.Effect<
+export const putItem: API.OperationMethod<
+  PutItemInput,
   PutItemOutput,
   | ConditionalCheckFailedException
   | InternalServerError
@@ -6638,9 +6595,8 @@ export const putItem: (
  * metadata for your policy or table might not be available at that moment. Wait for a
  * few seconds, and then try the `GetResourcePolicy` request again.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyInput,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyInput,
   PutResourcePolicyOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6716,20 +6672,18 @@ export const putResourcePolicy: (
  * do not specify `ConsistentRead` when querying a global secondary
  * index.
  */
-export const query: {
-  (
-    input: QueryInput,
-  ): effect.Effect<
-    QueryOutput,
-    | InternalServerError
-    | InvalidEndpointException
-    | ProvisionedThroughputExceededException
-    | RequestLimitExceeded
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const query: API.OperationMethod<
+  QueryInput,
+  QueryOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: QueryInput,
   ) => stream.Stream<
@@ -6795,9 +6749,8 @@ export const query: {
  *
  * - Time to Live (TTL) settings
  */
-export const restoreTableFromBackup: (
-  input: RestoreTableFromBackupInput,
-) => effect.Effect<
+export const restoreTableFromBackup: API.OperationMethod<
+  RestoreTableFromBackupInput,
   RestoreTableFromBackupOutput,
   | BackupInUseException
   | BackupNotFoundException
@@ -6861,9 +6814,8 @@ export const restoreTableFromBackup: (
  *
  * - Point in time recovery settings
  */
-export const restoreTableToPointInTime: (
-  input: RestoreTableToPointInTimeInput,
-) => effect.Effect<
+export const restoreTableToPointInTime: API.OperationMethod<
+  RestoreTableToPointInTimeInput,
   RestoreTableToPointInTimeOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -6934,20 +6886,18 @@ export const restoreTableToPointInTime: (
  * operation does not guarantee that all reads in a scan see a consistent snapshot of
  * the table when the scan operation was requested.
  */
-export const scan: {
-  (
-    input: ScanInput,
-  ): effect.Effect<
-    ScanOutput,
-    | InternalServerError
-    | InvalidEndpointException
-    | ProvisionedThroughputExceededException
-    | RequestLimitExceeded
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const scan: API.OperationMethod<
+  ScanInput,
+  ScanOutput,
+  | InternalServerError
+  | InvalidEndpointException
+  | ProvisionedThroughputExceededException
+  | RequestLimitExceeded
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ScanInput,
   ) => stream.Stream<
@@ -7014,9 +6964,8 @@ export const scan: {
  * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
  * in the *Amazon DynamoDB Developer Guide*.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | InternalServerError
   | InvalidEndpointException
@@ -7059,9 +7008,8 @@ export const tagResource: (
  *
  * - The aggregate size of the items in the transaction exceeded 4 MB.
  */
-export const transactGetItems: (
-  input: TransactGetItemsInput,
-) => effect.Effect<
+export const transactGetItems: API.OperationMethod<
+  TransactGetItemsInput,
   TransactGetItemsOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -7143,9 +7091,8 @@ export const transactGetItems: (
  *
  * - There is a user error, such as an invalid data format.
  */
-export const transactWriteItems: (
-  input: TransactWriteItemsInput,
-) => effect.Effect<
+export const transactWriteItems: API.OperationMethod<
+  TransactWriteItemsInput,
   TransactWriteItemsOutput,
   | IdempotentParameterMismatchException
   | InternalServerError
@@ -7193,9 +7140,8 @@ export const transactWriteItems: (
  * For an overview on tagging DynamoDB resources, see Tagging for DynamoDB
  * in the *Amazon DynamoDB Developer Guide*.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | InternalServerError
   | InvalidEndpointException
@@ -7230,9 +7176,8 @@ export const untagResource: (
  * You can restore your table to any point in time in the last 35 days. You can set the
  * `RecoveryPeriodInDays` to any value between 1 and 35 days.
  */
-export const updateContinuousBackups: (
-  input: UpdateContinuousBackupsInput,
-) => effect.Effect<
+export const updateContinuousBackups: API.OperationMethod<
+  UpdateContinuousBackupsInput,
   UpdateContinuousBackupsOutput,
   | ContinuousBackupsUnavailableException
   | InternalServerError
@@ -7259,9 +7204,8 @@ export const updateContinuousBackups: (
  * customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB
  * for this table.
  */
-export const updateContributorInsights: (
-  input: UpdateContributorInsightsInput,
-) => effect.Effect<
+export const updateContributorInsights: API.OperationMethod<
+  UpdateContributorInsightsInput,
   UpdateContributorInsightsOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7298,9 +7242,8 @@ export const updateContributorInsights: (
  * - The global secondary indexes must have the same provisioned and maximum write
  * capacity units.
  */
-export const updateGlobalTable: (
-  input: UpdateGlobalTableInput,
-) => effect.Effect<
+export const updateGlobalTable: API.OperationMethod<
+  UpdateGlobalTableInput,
   UpdateGlobalTableOutput,
   | GlobalTableNotFoundException
   | InternalServerError
@@ -7329,9 +7272,8 @@ export const updateGlobalTable: (
  *
  * To determine which version you're using, see Determining the global table version you are using. To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
  */
-export const updateGlobalTableSettings: (
-  input: UpdateGlobalTableSettingsInput,
-) => effect.Effect<
+export const updateGlobalTableSettings: API.OperationMethod<
+  UpdateGlobalTableSettingsInput,
   UpdateGlobalTableSettingsOutput,
   | GlobalTableNotFoundException
   | IndexNotFoundException
@@ -7365,9 +7307,8 @@ export const updateGlobalTableSettings: (
  * You can also return the item's attribute values in the same `UpdateItem`
  * operation using the `ReturnValues` parameter.
  */
-export const updateItem: (
-  input: UpdateItemInput,
-) => effect.Effect<
+export const updateItem: API.OperationMethod<
+  UpdateItemInput,
   UpdateItemOutput,
   | ConditionalCheckFailedException
   | InternalServerError
@@ -7400,9 +7341,8 @@ export const updateItem: (
 /**
  * The command to update the Kinesis stream destination.
  */
-export const updateKinesisStreamingDestination: (
-  input: UpdateKinesisStreamingDestinationInput,
-) => effect.Effect<
+export const updateKinesisStreamingDestination: API.OperationMethod<
+  UpdateKinesisStreamingDestinationInput,
   UpdateKinesisStreamingDestinationOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -7442,9 +7382,8 @@ export const updateKinesisStreamingDestination: (
  * When the table returns to the `ACTIVE` state, the `UpdateTable`
  * operation is complete.
  */
-export const updateTable: (
-  input: UpdateTableInput,
-) => effect.Effect<
+export const updateTable: API.OperationMethod<
+  UpdateTableInput,
   UpdateTableOutput,
   | InternalServerError
   | InvalidEndpointException
@@ -7467,9 +7406,8 @@ export const updateTable: (
 /**
  * Updates auto scaling settings on your global tables at once.
  */
-export const updateTableReplicaAutoScaling: (
-  input: UpdateTableReplicaAutoScalingInput,
-) => effect.Effect<
+export const updateTableReplicaAutoScaling: API.OperationMethod<
+  UpdateTableReplicaAutoScalingInput,
   UpdateTableReplicaAutoScalingOutput,
   | InternalServerError
   | LimitExceededException
@@ -7516,9 +7454,8 @@ export const updateTableReplicaAutoScaling: (
  * For more information, see Time To Live in the
  * Amazon DynamoDB Developer Guide.
  */
-export const updateTimeToLive: (
-  input: UpdateTimeToLiveInput,
-) => effect.Effect<
+export const updateTimeToLive: API.OperationMethod<
+  UpdateTimeToLiveInput,
   UpdateTimeToLiveOutput,
   | InternalServerError
   | InvalidEndpointException

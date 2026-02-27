@@ -1871,9 +1871,8 @@ export class ServiceFault extends S.TaggedErrorClass<ServiceFault>()(
  * A successful request for the `AcceptQualificationRequest` operation
  * returns with no errors and an empty body.
  */
-export const acceptQualificationRequest: (
-  input: AcceptQualificationRequestRequest,
-) => effect.Effect<
+export const acceptQualificationRequest: API.OperationMethod<
+  AcceptQualificationRequestRequest,
   AcceptQualificationRequestResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1901,9 +1900,8 @@ export const acceptQualificationRequest: (
  * This only works on rejected assignments that were submitted within the previous 30 days
  * and only if the assignment's related HIT has not been deleted.
  */
-export const approveAssignment: (
-  input: ApproveAssignmentRequest,
-) => effect.Effect<
+export const approveAssignment: API.OperationMethod<
+  ApproveAssignmentRequest,
   ApproveAssignmentResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1927,9 +1925,8 @@ export const approveAssignment: (
  * request without affecting the Qualification the Worker already has, reject the
  * request with the `RejectQualificationRequest` operation.
  */
-export const associateQualificationWithWorker: (
-  input: AssociateQualificationWithWorkerRequest,
-) => effect.Effect<
+export const associateQualificationWithWorker: API.OperationMethod<
+  AssociateQualificationWithWorkerRequest,
   AssociateQualificationWithWorkerResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1954,9 +1951,8 @@ export const associateQualificationWithWorker: (
  * `AWS.MechanicalTurk.HITTooOldForExtension`
  * exception.
  */
-export const createAdditionalAssignmentsForHIT: (
-  input: CreateAdditionalAssignmentsForHITRequest,
-) => effect.Effect<
+export const createAdditionalAssignmentsForHIT: API.OperationMethod<
+  CreateAdditionalAssignmentsForHITRequest,
   CreateAdditionalAssignmentsForHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1981,9 +1977,8 @@ export const createAdditionalAssignmentsForHIT: (
  * If a HIT is created with 10 or more maximum assignments, there is an additional fee. For more information, see
  * Amazon Mechanical Turk Pricing.
  */
-export const createHIT: (
-  input: CreateHITRequest,
-) => effect.Effect<
+export const createHIT: API.OperationMethod<
+  CreateHITRequest,
   CreateHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1998,9 +1993,8 @@ export const createHIT: (
  * If you register a HIT type with values that match an existing HIT type, the HIT type
  * ID of the existing type will be returned.
  */
-export const createHITType: (
-  input: CreateHITTypeRequest,
-) => effect.Effect<
+export const createHITType: API.OperationMethod<
+  CreateHITTypeRequest,
   CreateHITTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2023,9 +2017,8 @@ export const createHITType: (
  * If a HIT is created with 10 or more maximum assignments, there is an additional fee.
  * For more information, see Amazon Mechanical Turk Pricing.
  */
-export const createHITWithHITType: (
-  input: CreateHITWithHITTypeRequest,
-) => effect.Effect<
+export const createHITWithHITType: API.OperationMethod<
+  CreateHITWithHITTypeRequest,
   CreateHITWithHITTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2041,9 +2034,8 @@ export const createHITWithHITType: (
  * `QualificationType`
  * data structure.
  */
-export const createQualificationType: (
-  input: CreateQualificationTypeRequest,
-) => effect.Effect<
+export const createQualificationType: API.OperationMethod<
+  CreateQualificationTypeRequest,
   CreateQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2055,9 +2047,8 @@ export const createQualificationType: (
 /**
  * The `CreateWorkerBlock` operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is producing poor quality work. You can block up to 100,000 Workers.
  */
-export const createWorkerBlock: (
-  input: CreateWorkerBlockRequest,
-) => effect.Effect<
+export const createWorkerBlock: API.OperationMethod<
+  CreateWorkerBlockRequest,
   CreateWorkerBlockResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2085,9 +2076,8 @@ export const createWorkerBlock: (
  *
  * - Disposing HITs can improve the performance of operations such as ListReviewableHITs and ListHITs.
  */
-export const deleteHIT: (
-  input: DeleteHITRequest,
-) => effect.Effect<
+export const deleteHIT: API.OperationMethod<
+  DeleteHITRequest,
   DeleteHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2115,9 +2105,8 @@ export const deleteHIT: (
  * the unique name of the Qualification type is available for reuse with
  * CreateQualificationType.
  */
-export const deleteQualificationType: (
-  input: DeleteQualificationTypeRequest,
-) => effect.Effect<
+export const deleteQualificationType: API.OperationMethod<
+  DeleteQualificationTypeRequest,
   DeleteQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2129,9 +2118,8 @@ export const deleteQualificationType: (
 /**
  * The `DeleteWorkerBlock` operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this operation. If the Worker ID is missing or invalid, this operation fails and returns the message “WorkerId is invalid.” If the specified Worker is not blocked, this operation returns successfully.
  */
-export const deleteWorkerBlock: (
-  input: DeleteWorkerBlockRequest,
-) => effect.Effect<
+export const deleteWorkerBlock: API.OperationMethod<
+  DeleteWorkerBlockRequest,
   DeleteWorkerBlockResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2147,9 +2135,8 @@ export const deleteWorkerBlock: (
  * You can provide a text message explaining why the Qualification was
  * revoked. The user who had the Qualification can see this message.
  */
-export const disassociateQualificationFromWorker: (
-  input: DisassociateQualificationFromWorkerRequest,
-) => effect.Effect<
+export const disassociateQualificationFromWorker: API.OperationMethod<
+  DisassociateQualificationFromWorkerRequest,
   DisassociateQualificationFromWorkerResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2163,9 +2150,8 @@ export const disassociateQualificationFromWorker: (
  * Alternatively, this operation will retrieve the remaining available AWS Billing usage if you have enabled AWS Billing.
  * Note: If you have enabled AWS Billing and still have a remaining Prepaid HITs balance, this balance can be viewed on the My Account page in the Requester console.
  */
-export const getAccountBalance: (
-  input: GetAccountBalanceRequest,
-) => effect.Effect<
+export const getAccountBalance: API.OperationMethod<
+  GetAccountBalanceRequest,
   GetAccountBalanceResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2177,9 +2163,8 @@ export const getAccountBalance: (
 /**
  * The `GetAssignment` operation retrieves the details of the specified Assignment.
  */
-export const getAssignment: (
-  input: GetAssignmentRequest,
-) => effect.Effect<
+export const getAssignment: API.OperationMethod<
+  GetAssignmentRequest,
   GetAssignmentResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2205,9 +2190,8 @@ export const getAssignment: (
  * Instead, we recommend that Requesters who want to create HITs asking
  * Workers to upload files to use Amazon S3.
  */
-export const getFileUploadURL: (
-  input: GetFileUploadURLRequest,
-) => effect.Effect<
+export const getFileUploadURL: API.OperationMethod<
+  GetFileUploadURLRequest,
   GetFileUploadURLResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2219,9 +2203,8 @@ export const getFileUploadURL: (
 /**
  * The `GetHIT` operation retrieves the details of the specified HIT.
  */
-export const getHIT: (
-  input: GetHITRequest,
-) => effect.Effect<
+export const getHIT: API.OperationMethod<
+  GetHITRequest,
   GetHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2244,9 +2227,8 @@ export const getHIT: (
  * Only the owner of a Qualification type can query the value of
  * a Worker's Qualification of that type.
  */
-export const getQualificationScore: (
-  input: GetQualificationScoreRequest,
-) => effect.Effect<
+export const getQualificationScore: API.OperationMethod<
+  GetQualificationScoreRequest,
   GetQualificationScoreResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2258,9 +2240,8 @@ export const getQualificationScore: (
 /**
  * The `GetQualificationType`operation retrieves information about a Qualification type using its ID.
  */
-export const getQualificationType: (
-  input: GetQualificationTypeRequest,
-) => effect.Effect<
+export const getQualificationType: API.OperationMethod<
+  GetQualificationTypeRequest,
   GetQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2296,14 +2277,12 @@ export const getQualificationType: (
  * parameters
  * of the operation to control sorting and pagination.
  */
-export const listAssignmentsForHIT: {
-  (
-    input: ListAssignmentsForHITRequest,
-  ): effect.Effect<
-    ListAssignmentsForHITResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssignmentsForHIT: API.OperationMethod<
+  ListAssignmentsForHITRequest,
+  ListAssignmentsForHITResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssignmentsForHITRequest,
   ) => stream.Stream<
@@ -2334,14 +2313,12 @@ export const listAssignmentsForHIT: {
  * operation retrieves the amounts of bonuses you have paid to Workers
  * for a given HIT or assignment.
  */
-export const listBonusPayments: {
-  (
-    input: ListBonusPaymentsRequest,
-  ): effect.Effect<
-    ListBonusPaymentsResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBonusPayments: API.OperationMethod<
+  ListBonusPaymentsRequest,
+  ListBonusPaymentsResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBonusPaymentsRequest,
   ) => stream.Stream<
@@ -2373,14 +2350,12 @@ export const listBonusPayments: {
  * HITs of any status, except for HITs that have been deleted of with
  * the DeleteHIT operation or that have been auto-deleted.
  */
-export const listHITs: {
-  (
-    input: ListHITsRequest,
-  ): effect.Effect<
-    ListHITsResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHITs: API.OperationMethod<
+  ListHITsRequest,
+  ListHITsResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHITsRequest,
   ) => stream.Stream<
@@ -2411,14 +2386,12 @@ export const listHITs: {
  * The operation returns HITs of any status, except for HITs that have been deleted
  * with the `DeleteHIT` operation or that have been auto-deleted.
  */
-export const listHITsForQualificationType: {
-  (
-    input: ListHITsForQualificationTypeRequest,
-  ): effect.Effect<
-    ListHITsForQualificationTypeResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHITsForQualificationType: API.OperationMethod<
+  ListHITsForQualificationTypeRequest,
+  ListHITsForQualificationTypeResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHITsForQualificationTypeRequest,
   ) => stream.Stream<
@@ -2451,14 +2424,12 @@ export const listHITsForQualificationType: {
  * operation to poll for pending requests, and accepts them using the
  * AcceptQualification operation.
  */
-export const listQualificationRequests: {
-  (
-    input: ListQualificationRequestsRequest,
-  ): effect.Effect<
-    ListQualificationRequestsResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQualificationRequests: API.OperationMethod<
+  ListQualificationRequestsRequest,
+  ListQualificationRequestsResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQualificationRequestsRequest,
   ) => stream.Stream<
@@ -2489,14 +2460,12 @@ export const listQualificationRequests: {
  * operation returns a list of Qualification types, filtered by
  * an optional search term.
  */
-export const listQualificationTypes: {
-  (
-    input: ListQualificationTypesRequest,
-  ): effect.Effect<
-    ListQualificationTypesResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQualificationTypes: API.OperationMethod<
+  ListQualificationTypesRequest,
+  ListQualificationTypesResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQualificationTypesRequest,
   ) => stream.Stream<
@@ -2525,14 +2494,12 @@ export const listQualificationTypes: {
  * The `ListReviewableHITs` operation retrieves the HITs with Status equal to
  * Reviewable or Status equal to Reviewing that belong to the Requester calling the operation.
  */
-export const listReviewableHITs: {
-  (
-    input: ListReviewableHITsRequest,
-  ): effect.Effect<
-    ListReviewableHITsResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReviewableHITs: API.OperationMethod<
+  ListReviewableHITsRequest,
+  ListReviewableHITsResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReviewableHITsRequest,
   ) => stream.Stream<
@@ -2564,14 +2531,12 @@ export const listReviewableHITs: {
  * see Review Policies. The ListReviewPolicyResultsForHIT operation can return results for both
  * Assignment-level and HIT-level review results.
  */
-export const listReviewPolicyResultsForHIT: {
-  (
-    input: ListReviewPolicyResultsForHITRequest,
-  ): effect.Effect<
-    ListReviewPolicyResultsForHITResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReviewPolicyResultsForHIT: API.OperationMethod<
+  ListReviewPolicyResultsForHITRequest,
+  ListReviewPolicyResultsForHITResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReviewPolicyResultsForHITRequest,
   ) => stream.Stream<
@@ -2599,14 +2564,12 @@ export const listReviewPolicyResultsForHIT: {
 /**
  * The `ListWorkersBlocks` operation retrieves a list of Workers who are blocked from working on your HITs.
  */
-export const listWorkerBlocks: {
-  (
-    input: ListWorkerBlocksRequest,
-  ): effect.Effect<
-    ListWorkerBlocksResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkerBlocks: API.OperationMethod<
+  ListWorkerBlocksRequest,
+  ListWorkerBlocksResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkerBlocksRequest,
   ) => stream.Stream<
@@ -2635,14 +2598,12 @@ export const listWorkerBlocks: {
  * The `ListWorkersWithQualificationType` operation returns all of the Workers
  * that have been associated with a given Qualification type.
  */
-export const listWorkersWithQualificationType: {
-  (
-    input: ListWorkersWithQualificationTypeRequest,
-  ): effect.Effect<
-    ListWorkersWithQualificationTypeResponse,
-    RequestError | ServiceFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkersWithQualificationType: API.OperationMethod<
+  ListWorkersWithQualificationTypeRequest,
+  ListWorkersWithQualificationTypeResponse,
+  RequestError | ServiceFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkersWithQualificationTypeRequest,
   ) => stream.Stream<
@@ -2677,9 +2638,8 @@ export const listWorkersWithQualificationType: {
  * only if you have previously approved or rejected work from the
  * Worker.
  */
-export const notifyWorkers: (
-  input: NotifyWorkersRequest,
-) => effect.Effect<
+export const notifyWorkers: API.OperationMethod<
+  NotifyWorkersRequest,
   NotifyWorkersResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2699,9 +2659,8 @@ export const notifyWorkers: (
  *
  * Only the Requester who created the HIT can reject an assignment for the HIT.
  */
-export const rejectAssignment: (
-  input: RejectAssignmentRequest,
-) => effect.Effect<
+export const rejectAssignment: API.OperationMethod<
+  RejectAssignmentRequest,
   RejectAssignmentResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2718,9 +2677,8 @@ export const rejectAssignment: (
  * You can provide a text message explaining why the request was
  * rejected. The Worker who made the request can see this message.
  */
-export const rejectQualificationRequest: (
-  input: RejectQualificationRequestRequest,
-) => effect.Effect<
+export const rejectQualificationRequest: API.OperationMethod<
+  RejectQualificationRequestRequest,
   RejectQualificationRequestResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2743,9 +2701,8 @@ export const rejectQualificationRequest: (
  * if your account does not have enough funds to pay for both the bonus
  * and the fees.
  */
-export const sendBonus: (
-  input: SendBonusRequest,
-) => effect.Effect<
+export const sendBonus: API.OperationMethod<
+  SendBonusRequest,
   SendBonusResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2761,9 +2718,8 @@ export const sendBonus: (
  * setting up notifications for a real HIT type and trying to trigger them using the website.
  * When you call this operation, the service attempts to send the test notification immediately.
  */
-export const sendTestEventNotification: (
-  input: SendTestEventNotificationRequest,
-) => effect.Effect<
+export const sendTestEventNotification: API.OperationMethod<
+  SendTestEventNotificationRequest,
   SendTestEventNotificationResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2776,9 +2732,8 @@ export const sendTestEventNotification: (
  * The `UpdateExpirationForHIT` operation allows you update the expiration time of a HIT.
  * If you update it to a time in the past, the HIT will be immediately expired.
  */
-export const updateExpirationForHIT: (
-  input: UpdateExpirationForHITRequest,
-) => effect.Effect<
+export const updateExpirationForHIT: API.OperationMethod<
+  UpdateExpirationForHITRequest,
   UpdateExpirationForHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2792,9 +2747,8 @@ export const updateExpirationForHIT: (
  * If the status is Reviewable, this operation can update the status to Reviewing,
  * or it can revert a Reviewing HIT back to the Reviewable status.
  */
-export const updateHITReviewStatus: (
-  input: UpdateHITReviewStatusRequest,
-) => effect.Effect<
+export const updateHITReviewStatus: API.OperationMethod<
+  UpdateHITReviewStatusRequest,
   UpdateHITReviewStatusResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2811,9 +2765,8 @@ export const updateHITReviewStatus: (
  * associates it with the new HITType properties. The HIT takes on the
  * properties of the new HITType in place of the old ones.
  */
-export const updateHITTypeOfHIT: (
-  input: UpdateHITTypeOfHITRequest,
-) => effect.Effect<
+export const updateHITTypeOfHIT: API.OperationMethod<
+  UpdateHITTypeOfHITRequest,
   UpdateHITTypeOfHITResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2834,9 +2787,8 @@ export const updateHITTypeOfHIT: (
  * the HIT type must already have a notification specification,
  * or one must be provided in the same call to `UpdateNotificationSettings`.
  */
-export const updateNotificationSettings: (
-  input: UpdateNotificationSettingsRequest,
-) => effect.Effect<
+export const updateNotificationSettings: API.OperationMethod<
+  UpdateNotificationSettingsRequest,
   UpdateNotificationSettingsResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2884,9 +2836,8 @@ export const updateNotificationSettings: (
  * You can also update the AutoGranted and AutoGrantedValue
  * attributes of the Qualification type.
  */
-export const updateQualificationType: (
-  input: UpdateQualificationTypeRequest,
-) => effect.Effect<
+export const updateQualificationType: API.OperationMethod<
+  UpdateQualificationTypeRequest,
   UpdateQualificationTypeResponse,
   RequestError | ServiceFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

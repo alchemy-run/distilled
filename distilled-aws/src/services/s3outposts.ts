@@ -386,9 +386,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  *
  * - ListEndpoints
  */
-export const createEndpoint: (
-  input: CreateEndpointRequest,
-) => effect.Effect<
+export const createEndpoint: API.OperationMethod<
+  CreateEndpointRequest,
   CreateEndpointResult,
   | AccessDeniedException
   | ConflictException
@@ -423,9 +422,8 @@ export const createEndpoint: (
  *
  * - ListEndpoints
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointRequest,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointRequest,
   DeleteEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -456,19 +454,17 @@ export const deleteEndpoint: (
  *
  * - DeleteEndpoint
  */
-export const listEndpoints: {
-  (
-    input: ListEndpointsRequest,
-  ): effect.Effect<
-    ListEndpointsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpoints: API.OperationMethod<
+  ListEndpointsRequest,
+  ListEndpointsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointsRequest,
   ) => stream.Stream<
@@ -515,18 +511,16 @@ export const listEndpoints: {
  * Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user
  * from Resource Access Manager (RAM).
  */
-export const listOutpostsWithS3: {
-  (
-    input: ListOutpostsWithS3Request,
-  ): effect.Effect<
-    ListOutpostsWithS3Result,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOutpostsWithS3: API.OperationMethod<
+  ListOutpostsWithS3Request,
+  ListOutpostsWithS3Result,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOutpostsWithS3Request,
   ) => stream.Stream<
@@ -574,19 +568,17 @@ export const listOutpostsWithS3: {
  *
  * - DeleteEndpoint
  */
-export const listSharedEndpoints: {
-  (
-    input: ListSharedEndpointsRequest,
-  ): effect.Effect<
-    ListSharedEndpointsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSharedEndpoints: API.OperationMethod<
+  ListSharedEndpointsRequest,
+  ListSharedEndpointsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSharedEndpointsRequest,
   ) => stream.Stream<

@@ -35014,9 +35014,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Creates an *association* between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const addAssociation: (
-  input: AddAssociationRequest,
-) => effect.Effect<
+export const addAssociation: API.OperationMethod<
+  AddAssociationRequest,
   AddAssociationResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35034,9 +35033,8 @@ export const addAssociation: (
  *
  * Tags that you add to a SageMaker Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the `Tags` parameter of CreateDomain or CreateUserProfile.
  */
-export const addTags: (
-  input: AddTagsInput,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsInput,
   AddTagsOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35048,9 +35046,8 @@ export const addTags: (
 /**
  * Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
  */
-export const associateTrialComponent: (
-  input: AssociateTrialComponentRequest,
-) => effect.Effect<
+export const associateTrialComponent: API.OperationMethod<
+  AssociateTrialComponentRequest,
   AssociateTrialComponentResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35064,9 +35061,8 @@ export const associateTrialComponent: (
  *
  * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
  */
-export const attachClusterNodeVolume: (
-  input: AttachClusterNodeVolumeRequest,
-) => effect.Effect<
+export const attachClusterNodeVolume: API.OperationMethod<
+  AttachClusterNodeVolumeRequest,
   AttachClusterNodeVolumeResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35080,9 +35076,8 @@ export const attachClusterNodeVolume: (
  *
  * This API is only supported for clusters using `Continuous` as the `NodeProvisioningMode`.
  */
-export const batchAddClusterNodes: (
-  input: BatchAddClusterNodesRequest,
-) => effect.Effect<
+export const batchAddClusterNodes: API.OperationMethod<
+  BatchAddClusterNodesRequest,
   BatchAddClusterNodesResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35098,9 +35093,8 @@ export const batchAddClusterNodes: (
  *
  * - If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.
  */
-export const batchDeleteClusterNodes: (
-  input: BatchDeleteClusterNodesRequest,
-) => effect.Effect<
+export const batchDeleteClusterNodes: API.OperationMethod<
+  BatchDeleteClusterNodesRequest,
   BatchDeleteClusterNodesResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35112,9 +35106,8 @@ export const batchDeleteClusterNodes: (
 /**
  * This action batch describes a list of versioned model packages
  */
-export const batchDescribeModelPackage: (
-  input: BatchDescribeModelPackageInput,
-) => effect.Effect<
+export const batchDescribeModelPackage: API.OperationMethod<
+  BatchDescribeModelPackageInput,
   BatchDescribeModelPackageOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35134,9 +35127,8 @@ export const batchDescribeModelPackage: (
  *
  * - For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
  */
-export const batchRebootClusterNodes: (
-  input: BatchRebootClusterNodesRequest,
-) => effect.Effect<
+export const batchRebootClusterNodes: API.OperationMethod<
+  BatchRebootClusterNodesRequest,
   BatchRebootClusterNodesResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35158,9 +35150,8 @@ export const batchRebootClusterNodes: (
  *
  * - You can replace up to 25 nodes in a single request.
  */
-export const batchReplaceClusterNodes: (
-  input: BatchReplaceClusterNodesRequest,
-) => effect.Effect<
+export const batchReplaceClusterNodes: API.OperationMethod<
+  BatchReplaceClusterNodesRequest,
   BatchReplaceClusterNodesResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35172,9 +35163,8 @@ export const batchReplaceClusterNodes: (
 /**
  * Creates an *action*. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const createAction: (
-  input: CreateActionRequest,
-) => effect.Effect<
+export const createAction: API.OperationMethod<
+  CreateActionRequest,
   CreateActionResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35186,9 +35176,8 @@ export const createAction: (
 /**
  * Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web Services Marketplace.
  */
-export const createAlgorithm: (
-  input: CreateAlgorithmInput,
-) => effect.Effect<
+export const createAlgorithm: API.OperationMethod<
+  CreateAlgorithmInput,
   CreateAlgorithmOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35200,9 +35189,8 @@ export const createAlgorithm: (
 /**
  * Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
  */
-export const createApp: (
-  input: CreateAppRequest,
-) => effect.Effect<
+export const createApp: API.OperationMethod<
+  CreateAppRequest,
   CreateAppResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35214,9 +35202,8 @@ export const createApp: (
 /**
  * Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
  */
-export const createAppImageConfig: (
-  input: CreateAppImageConfigRequest,
-) => effect.Effect<
+export const createAppImageConfig: API.OperationMethod<
+  CreateAppImageConfigRequest,
   CreateAppImageConfigResponse,
   ResourceInUse | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35228,9 +35215,8 @@ export const createAppImageConfig: (
 /**
  * Creates an *artifact*. An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const createArtifact: (
-  input: CreateArtifactRequest,
-) => effect.Effect<
+export const createArtifact: API.OperationMethod<
+  CreateArtifactRequest,
   CreateArtifactResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35254,9 +35240,8 @@ export const createArtifact: (
  *
  * You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
  */
-export const createAutoMLJob: (
-  input: CreateAutoMLJobRequest,
-) => effect.Effect<
+export const createAutoMLJob: API.OperationMethod<
+  CreateAutoMLJobRequest,
   CreateAutoMLJobResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35284,9 +35269,8 @@ export const createAutoMLJob: (
  *
  * You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
  */
-export const createAutoMLJobV2: (
-  input: CreateAutoMLJobV2Request,
-) => effect.Effect<
+export const createAutoMLJobV2: API.OperationMethod<
+  CreateAutoMLJobV2Request,
   CreateAutoMLJobV2Response,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35298,9 +35282,8 @@ export const createAutoMLJobV2: (
 /**
  * Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the *Amazon SageMaker Developer Guide*.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35312,9 +35295,8 @@ export const createCluster: (
 /**
  * Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
  */
-export const createClusterSchedulerConfig: (
-  input: CreateClusterSchedulerConfigRequest,
-) => effect.Effect<
+export const createClusterSchedulerConfig: API.OperationMethod<
+  CreateClusterSchedulerConfigRequest,
   CreateClusterSchedulerConfigResponse,
   ConflictException | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35328,9 +35310,8 @@ export const createClusterSchedulerConfig: (
  *
  * The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
  */
-export const createCodeRepository: (
-  input: CreateCodeRepositoryInput,
-) => effect.Effect<
+export const createCodeRepository: API.OperationMethod<
+  CreateCodeRepositoryInput,
   CreateCodeRepositoryOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35358,9 +35339,8 @@ export const createCodeRepository: (
  *
  * To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
  */
-export const createCompilationJob: (
-  input: CreateCompilationJobRequest,
-) => effect.Effect<
+export const createCompilationJob: API.OperationMethod<
+  CreateCompilationJobRequest,
   CreateCompilationJobResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35372,9 +35352,8 @@ export const createCompilationJob: (
 /**
  * Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities.
  */
-export const createComputeQuota: (
-  input: CreateComputeQuotaRequest,
-) => effect.Effect<
+export const createComputeQuota: API.OperationMethod<
+  CreateComputeQuotaRequest,
   CreateComputeQuotaResponse,
   ConflictException | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35386,9 +35365,8 @@ export const createComputeQuota: (
 /**
  * Creates a *context*. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking.
  */
-export const createContext: (
-  input: CreateContextRequest,
-) => effect.Effect<
+export const createContext: API.OperationMethod<
+  CreateContextRequest,
   CreateContextResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35400,9 +35378,8 @@ export const createContext: (
 /**
  * Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
  */
-export const createDataQualityJobDefinition: (
-  input: CreateDataQualityJobDefinitionRequest,
-) => effect.Effect<
+export const createDataQualityJobDefinition: API.OperationMethod<
+  CreateDataQualityJobDefinitionRequest,
   CreateDataQualityJobDefinitionResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35414,9 +35391,8 @@ export const createDataQualityJobDefinition: (
 /**
  * Creates a device fleet.
  */
-export const createDeviceFleet: (
-  input: CreateDeviceFleetRequest,
-) => effect.Effect<
+export const createDeviceFleet: API.OperationMethod<
+  CreateDeviceFleetRequest,
   CreateDeviceFleetResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35448,9 +35424,8 @@ export const createDeviceFleet: (
  *
  * For more information, see Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35462,9 +35437,8 @@ export const createDomain: (
 /**
  * Creates an edge deployment plan, consisting of multiple stages. Each stage may have a different deployment configuration and devices.
  */
-export const createEdgeDeploymentPlan: (
-  input: CreateEdgeDeploymentPlanRequest,
-) => effect.Effect<
+export const createEdgeDeploymentPlan: API.OperationMethod<
+  CreateEdgeDeploymentPlanRequest,
   CreateEdgeDeploymentPlanResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35476,9 +35450,8 @@ export const createEdgeDeploymentPlan: (
 /**
  * Creates a new stage in an existing edge deployment plan.
  */
-export const createEdgeDeploymentStage: (
-  input: CreateEdgeDeploymentStageRequest,
-) => effect.Effect<
+export const createEdgeDeploymentStage: API.OperationMethod<
+  CreateEdgeDeploymentStageRequest,
   CreateEdgeDeploymentStageResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35490,9 +35463,8 @@ export const createEdgeDeploymentStage: (
 /**
  * Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
  */
-export const createEdgePackagingJob: (
-  input: CreateEdgePackagingJobRequest,
-) => effect.Effect<
+export const createEdgePackagingJob: API.OperationMethod<
+  CreateEdgePackagingJobRequest,
   CreateEdgePackagingJobResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35536,9 +35508,8 @@ export const createEdgePackagingJob: (
  *
  * For more information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
  */
-export const createEndpoint: (
-  input: CreateEndpointInput,
-) => effect.Effect<
+export const createEndpoint: API.OperationMethod<
+  CreateEndpointInput,
   CreateEndpointOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35558,9 +35529,8 @@ export const createEndpoint: (
  *
  * When you call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting `Eventually Consistent Reads` , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent read.
  */
-export const createEndpointConfig: (
-  input: CreateEndpointConfigInput,
-) => effect.Effect<
+export const createEndpointConfig: API.OperationMethod<
+  CreateEndpointConfigInput,
   CreateEndpointConfigOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35584,9 +35554,8 @@ export const createEndpointConfig: (
  *
  * To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
  */
-export const createExperiment: (
-  input: CreateExperimentRequest,
-) => effect.Effect<
+export const createExperiment: API.OperationMethod<
+  CreateExperimentRequest,
   CreateExperimentResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35604,9 +35573,8 @@ export const createExperiment: (
  *
  * You must include at least one of `OnlineStoreConfig` and `OfflineStoreConfig` to create a `FeatureGroup`.
  */
-export const createFeatureGroup: (
-  input: CreateFeatureGroupRequest,
-) => effect.Effect<
+export const createFeatureGroup: API.OperationMethod<
+  CreateFeatureGroupRequest,
   CreateFeatureGroupResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35618,9 +35586,8 @@ export const createFeatureGroup: (
 /**
  * Creates a flow definition.
  */
-export const createFlowDefinition: (
-  input: CreateFlowDefinitionRequest,
-) => effect.Effect<
+export const createFlowDefinition: API.OperationMethod<
+  CreateFlowDefinitionRequest,
   CreateFlowDefinitionResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35632,9 +35599,8 @@ export const createFlowDefinition: (
 /**
  * Create a hub.
  */
-export const createHub: (
-  input: CreateHubRequest,
-) => effect.Effect<
+export const createHub: API.OperationMethod<
+  CreateHubRequest,
   CreateHubResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35646,14 +35612,12 @@ export const createHub: (
 /**
  * Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance.
  */
-export const createHubContentPresignedUrls: {
-  (
-    input: CreateHubContentPresignedUrlsRequest,
-  ): effect.Effect<
-    CreateHubContentPresignedUrlsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const createHubContentPresignedUrls: API.OperationMethod<
+  CreateHubContentPresignedUrlsRequest,
+  CreateHubContentPresignedUrlsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: CreateHubContentPresignedUrlsRequest,
   ) => stream.Stream<
@@ -35682,9 +35646,8 @@ export const createHubContentPresignedUrls: {
 /**
  * Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
  */
-export const createHubContentReference: (
-  input: CreateHubContentReferenceRequest,
-) => effect.Effect<
+export const createHubContentReference: API.OperationMethod<
+  CreateHubContentReferenceRequest,
   CreateHubContentReferenceResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35696,9 +35659,8 @@ export const createHubContentReference: (
 /**
  * Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
  */
-export const createHumanTaskUi: (
-  input: CreateHumanTaskUiRequest,
-) => effect.Effect<
+export const createHumanTaskUi: API.OperationMethod<
+  CreateHumanTaskUiRequest,
   CreateHumanTaskUiResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35714,9 +35676,8 @@ export const createHumanTaskUi: (
  *
  * Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request hyperparameter variable or plain text fields..
  */
-export const createHyperParameterTuningJob: (
-  input: CreateHyperParameterTuningJobRequest,
-) => effect.Effect<
+export const createHyperParameterTuningJob: API.OperationMethod<
+  CreateHyperParameterTuningJobRequest,
   CreateHyperParameterTuningJobResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35728,9 +35689,8 @@ export const createHyperParameterTuningJob: (
 /**
  * Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
  */
-export const createImage: (
-  input: CreateImageRequest,
-) => effect.Effect<
+export const createImage: API.OperationMethod<
+  CreateImageRequest,
   CreateImageResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35742,9 +35702,8 @@ export const createImage: (
 /**
  * Creates a version of the SageMaker AI image specified by `ImageName`. The version represents the Amazon ECR container image specified by `BaseImage`.
  */
-export const createImageVersion: (
-  input: CreateImageVersionRequest,
-) => effect.Effect<
+export const createImageVersion: API.OperationMethod<
+  CreateImageVersionRequest,
   CreateImageVersionResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35756,9 +35715,8 @@ export const createImageVersion: (
 /**
  * Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
  */
-export const createInferenceComponent: (
-  input: CreateInferenceComponentInput,
-) => effect.Effect<
+export const createInferenceComponent: API.OperationMethod<
+  CreateInferenceComponentInput,
   CreateInferenceComponentOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35776,9 +35734,8 @@ export const createInferenceComponent: (
  *
  * While the experiment is in progress or after it has concluded, you can view metrics that compare your model variants. For more information, see View, monitor, and edit shadow tests.
  */
-export const createInferenceExperiment: (
-  input: CreateInferenceExperimentRequest,
-) => effect.Effect<
+export const createInferenceExperiment: API.OperationMethod<
+  CreateInferenceExperimentRequest,
   CreateInferenceExperimentResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35790,9 +35747,8 @@ export const createInferenceExperiment: (
 /**
  * Starts a recommendation job. You can create either an instance recommendation or load test job.
  */
-export const createInferenceRecommendationsJob: (
-  input: CreateInferenceRecommendationsJobRequest,
-) => effect.Effect<
+export const createInferenceRecommendationsJob: API.OperationMethod<
+  CreateInferenceRecommendationsJobRequest,
   CreateInferenceRecommendationsJobResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35820,9 +35776,8 @@ export const createInferenceRecommendationsJob: (
  *
  * You can use this operation to create a static labeling job or a streaming labeling job. A static labeling job stops if all data objects in the input manifest file identified in `ManifestS3Uri` have been labeled. A streaming labeling job runs perpetually until it is manually stopped, or remains idle for 10 days. You can send new data objects to an active (`InProgress`) streaming labeling job in real time. To learn how to create a static labeling job, see Create a Labeling Job (API) in the Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job, see Create a Streaming Labeling Job.
  */
-export const createLabelingJob: (
-  input: CreateLabelingJobRequest,
-) => effect.Effect<
+export const createLabelingJob: API.OperationMethod<
+  CreateLabelingJobRequest,
   CreateLabelingJobResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35834,9 +35789,8 @@ export const createLabelingJob: (
 /**
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
  */
-export const createMlflowApp: (
-  input: CreateMlflowAppRequest,
-) => effect.Effect<
+export const createMlflowApp: API.OperationMethod<
+  CreateMlflowAppRequest,
   CreateMlflowAppResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35848,9 +35802,8 @@ export const createMlflowApp: (
 /**
  * Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server.
  */
-export const createMlflowTrackingServer: (
-  input: CreateMlflowTrackingServerRequest,
-) => effect.Effect<
+export const createMlflowTrackingServer: API.OperationMethod<
+  CreateMlflowTrackingServerRequest,
   CreateMlflowTrackingServerResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35870,9 +35823,8 @@ export const createMlflowTrackingServer: (
  *
  * In the request, you also provide an IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute hosting instances or for batch transform jobs. In addition, you also use the IAM role to manage permissions the inference code needs. For example, if the inference code access any other Amazon Web Services resources, you grant necessary permissions via this role.
  */
-export const createModel: (
-  input: CreateModelInput,
-) => effect.Effect<
+export const createModel: API.OperationMethod<
+  CreateModelInput,
   CreateModelOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35884,9 +35836,8 @@ export const createModel: (
 /**
  * Creates the definition for a model bias job.
  */
-export const createModelBiasJobDefinition: (
-  input: CreateModelBiasJobDefinitionRequest,
-) => effect.Effect<
+export const createModelBiasJobDefinition: API.OperationMethod<
+  CreateModelBiasJobDefinitionRequest,
   CreateModelBiasJobDefinitionResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35900,9 +35851,8 @@ export const createModelBiasJobDefinition: (
  *
  * For information about how to use model cards, see Amazon SageMaker Model Card.
  */
-export const createModelCard: (
-  input: CreateModelCardRequest,
-) => effect.Effect<
+export const createModelCard: API.OperationMethod<
+  CreateModelCardRequest,
   CreateModelCardResponse,
   ConflictException | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35914,9 +35864,8 @@ export const createModelCard: (
 /**
  * Creates an Amazon SageMaker Model Card export job.
  */
-export const createModelCardExportJob: (
-  input: CreateModelCardExportJobRequest,
-) => effect.Effect<
+export const createModelCardExportJob: API.OperationMethod<
+  CreateModelCardExportJobRequest,
   CreateModelCardExportJobResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35928,9 +35877,8 @@ export const createModelCardExportJob: (
 /**
  * Creates the definition for a model explainability job.
  */
-export const createModelExplainabilityJobDefinition: (
-  input: CreateModelExplainabilityJobDefinitionRequest,
-) => effect.Effect<
+export const createModelExplainabilityJobDefinition: API.OperationMethod<
+  CreateModelExplainabilityJobDefinitionRequest,
   CreateModelExplainabilityJobDefinitionResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35950,9 +35898,8 @@ export const createModelExplainabilityJobDefinition: (
  *
  * - Unversioned - a model package that is not part of a model group.
  */
-export const createModelPackage: (
-  input: CreateModelPackageInput,
-) => effect.Effect<
+export const createModelPackage: API.OperationMethod<
+  CreateModelPackageInput,
   CreateModelPackageOutput,
   ConflictException | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35964,9 +35911,8 @@ export const createModelPackage: (
 /**
  * Creates a model group. A model group contains a group of model versions.
  */
-export const createModelPackageGroup: (
-  input: CreateModelPackageGroupInput,
-) => effect.Effect<
+export const createModelPackageGroup: API.OperationMethod<
+  CreateModelPackageGroupInput,
   CreateModelPackageGroupOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35978,9 +35924,8 @@ export const createModelPackageGroup: (
 /**
  * Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
  */
-export const createModelQualityJobDefinition: (
-  input: CreateModelQualityJobDefinitionRequest,
-) => effect.Effect<
+export const createModelQualityJobDefinition: API.OperationMethod<
+  CreateModelQualityJobDefinitionRequest,
   CreateModelQualityJobDefinitionResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -35992,9 +35937,8 @@ export const createModelQualityJobDefinition: (
 /**
  * Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint.
  */
-export const createMonitoringSchedule: (
-  input: CreateMonitoringScheduleRequest,
-) => effect.Effect<
+export const createMonitoringSchedule: API.OperationMethod<
+  CreateMonitoringScheduleRequest,
   CreateMonitoringScheduleResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36024,9 +35968,8 @@ export const createMonitoringSchedule: (
  *
  * For more information, see How It Works.
  */
-export const createNotebookInstance: (
-  input: CreateNotebookInstanceInput,
-) => effect.Effect<
+export const createNotebookInstance: API.OperationMethod<
+  CreateNotebookInstanceInput,
   CreateNotebookInstanceOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36050,9 +35993,8 @@ export const createNotebookInstance: (
  *
  * Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
-export const createNotebookInstanceLifecycleConfig: (
-  input: CreateNotebookInstanceLifecycleConfigInput,
-) => effect.Effect<
+export const createNotebookInstanceLifecycleConfig: API.OperationMethod<
+  CreateNotebookInstanceLifecycleConfigInput,
   CreateNotebookInstanceLifecycleConfigOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36066,9 +36008,8 @@ export const createNotebookInstanceLifecycleConfig: (
  *
  * For more information about how to use this action, and about the supported optimization techniques, see Optimize model inference with Amazon SageMaker.
  */
-export const createOptimizationJob: (
-  input: CreateOptimizationJobRequest,
-) => effect.Effect<
+export const createOptimizationJob: API.OperationMethod<
+  CreateOptimizationJobRequest,
   CreateOptimizationJobResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36080,9 +36021,8 @@ export const createOptimizationJob: (
 /**
  * Creates an Amazon SageMaker Partner AI App.
  */
-export const createPartnerApp: (
-  input: CreatePartnerAppRequest,
-) => effect.Effect<
+export const createPartnerApp: API.OperationMethod<
+  CreatePartnerAppRequest,
   CreatePartnerAppResponse,
   ConflictException | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36094,9 +36034,8 @@ export const createPartnerApp: (
 /**
  * Creates a presigned URL to access an Amazon SageMaker Partner AI App.
  */
-export const createPartnerAppPresignedUrl: (
-  input: CreatePartnerAppPresignedUrlRequest,
-) => effect.Effect<
+export const createPartnerAppPresignedUrl: API.OperationMethod<
+  CreatePartnerAppPresignedUrlRequest,
   CreatePartnerAppPresignedUrlResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36108,9 +36047,8 @@ export const createPartnerAppPresignedUrl: (
 /**
  * Creates a pipeline using a JSON pipeline definition.
  */
-export const createPipeline: (
-  input: CreatePipelineRequest,
-) => effect.Effect<
+export const createPipeline: API.OperationMethod<
+  CreatePipelineRequest,
   CreatePipelineResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36130,9 +36068,8 @@ export const createPipeline: (
  *
  * - The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
  */
-export const createPresignedDomainUrl: (
-  input: CreatePresignedDomainUrlRequest,
-) => effect.Effect<
+export const createPresignedDomainUrl: API.OperationMethod<
+  CreatePresignedDomainUrlRequest,
   CreatePresignedDomainUrlResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36144,9 +36081,8 @@ export const createPresignedDomainUrl: (
 /**
  * Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
  */
-export const createPresignedMlflowAppUrl: (
-  input: CreatePresignedMlflowAppUrlRequest,
-) => effect.Effect<
+export const createPresignedMlflowAppUrl: API.OperationMethod<
+  CreatePresignedMlflowAppUrlRequest,
   CreatePresignedMlflowAppUrlResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36158,9 +36094,8 @@ export const createPresignedMlflowAppUrl: (
 /**
  * Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
  */
-export const createPresignedMlflowTrackingServerUrl: (
-  input: CreatePresignedMlflowTrackingServerUrlRequest,
-) => effect.Effect<
+export const createPresignedMlflowTrackingServerUrl: API.OperationMethod<
+  CreatePresignedMlflowTrackingServerUrlRequest,
   CreatePresignedMlflowTrackingServerUrlResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36178,9 +36113,8 @@ export const createPresignedMlflowTrackingServerUrl: (
  *
  * The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
  */
-export const createPresignedNotebookInstanceUrl: (
-  input: CreatePresignedNotebookInstanceUrlInput,
-) => effect.Effect<
+export const createPresignedNotebookInstanceUrl: API.OperationMethod<
+  CreatePresignedNotebookInstanceUrlInput,
   CreatePresignedNotebookInstanceUrlOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36192,9 +36126,8 @@ export const createPresignedNotebookInstanceUrl: (
 /**
  * Creates a processing job.
  */
-export const createProcessingJob: (
-  input: CreateProcessingJobRequest,
-) => effect.Effect<
+export const createProcessingJob: API.OperationMethod<
+  CreateProcessingJobRequest,
   CreateProcessingJobResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36206,9 +36139,8 @@ export const createProcessingJob: (
 /**
  * Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
  */
-export const createProject: (
-  input: CreateProjectInput,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectInput,
   CreateProjectOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36220,9 +36152,8 @@ export const createProject: (
 /**
  * Creates a private space or a space used for real time collaboration in a domain.
  */
-export const createSpace: (
-  input: CreateSpaceRequest,
-) => effect.Effect<
+export const createSpace: API.OperationMethod<
+  CreateSpaceRequest,
   CreateSpaceResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36234,9 +36165,8 @@ export const createSpace: (
 /**
  * Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
  */
-export const createStudioLifecycleConfig: (
-  input: CreateStudioLifecycleConfigRequest,
-) => effect.Effect<
+export const createStudioLifecycleConfig: API.OperationMethod<
+  CreateStudioLifecycleConfigRequest,
   CreateStudioLifecycleConfigResponse,
   ResourceInUse | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36278,9 +36208,8 @@ export const createStudioLifecycleConfig: (
  *
  * For more information about SageMaker, see How It Works.
  */
-export const createTrainingJob: (
-  input: CreateTrainingJobRequest,
-) => effect.Effect<
+export const createTrainingJob: API.OperationMethod<
+  CreateTrainingJobRequest,
   CreateTrainingJobResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36322,9 +36251,8 @@ export const createTrainingJob: (
  *
  * A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see ` ReservedCapacitySummary `.
  */
-export const createTrainingPlan: (
-  input: CreateTrainingPlanRequest,
-) => effect.Effect<
+export const createTrainingPlan: API.OperationMethod<
+  CreateTrainingPlanRequest,
   CreateTrainingPlanResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36352,9 +36280,8 @@ export const createTrainingPlan: (
  *
  * For more information about how batch transformation works, see Batch Transform.
  */
-export const createTransformJob: (
-  input: CreateTransformJobRequest,
-) => effect.Effect<
+export const createTransformJob: API.OperationMethod<
+  CreateTransformJobRequest,
   CreateTransformJobResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36372,9 +36299,8 @@ export const createTransformJob: (
  *
  * To get a list of all your trials, call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
  */
-export const createTrial: (
-  input: CreateTrialRequest,
-) => effect.Effect<
+export const createTrial: API.OperationMethod<
+  CreateTrialRequest,
   CreateTrialResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36392,9 +36318,8 @@ export const createTrial: (
  *
  * You can add tags to a trial component and then use the Search API to search for the tags.
  */
-export const createTrialComponent: (
-  input: CreateTrialComponentRequest,
-) => effect.Effect<
+export const createTrialComponent: API.OperationMethod<
+  CreateTrialComponentRequest,
   CreateTrialComponentResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36406,9 +36331,8 @@ export const createTrialComponent: (
 /**
  * Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System home directory.
  */
-export const createUserProfile: (
-  input: CreateUserProfileRequest,
-) => effect.Effect<
+export const createUserProfile: API.OperationMethod<
+  CreateUserProfileRequest,
   CreateUserProfileResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36426,9 +36350,8 @@ export const createUserProfile: (
  *
  * To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in `OidcConfig`. Your OIDC IdP must support *groups* because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see Create a Private Workforce (OIDC IdP).
  */
-export const createWorkforce: (
-  input: CreateWorkforceRequest,
-) => effect.Effect<
+export const createWorkforce: API.OperationMethod<
+  CreateWorkforceRequest,
   CreateWorkforceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36442,9 +36365,8 @@ export const createWorkforce: (
  *
  * You cannot create more than 25 work teams in an account and region.
  */
-export const createWorkteam: (
-  input: CreateWorkteamRequest,
-) => effect.Effect<
+export const createWorkteam: API.OperationMethod<
+  CreateWorkteamRequest,
   CreateWorkteamResponse,
   ResourceInUse | ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36456,9 +36378,8 @@ export const createWorkteam: (
 /**
  * Deletes an action.
  */
-export const deleteAction: (
-  input: DeleteActionRequest,
-) => effect.Effect<
+export const deleteAction: API.OperationMethod<
+  DeleteActionRequest,
   DeleteActionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36470,9 +36391,8 @@ export const deleteAction: (
 /**
  * Removes the specified algorithm from your account.
  */
-export const deleteAlgorithm: (
-  input: DeleteAlgorithmInput,
-) => effect.Effect<
+export const deleteAlgorithm: API.OperationMethod<
+  DeleteAlgorithmInput,
   DeleteAlgorithmResponse,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36484,9 +36404,8 @@ export const deleteAlgorithm: (
 /**
  * Used to stop and delete an app.
  */
-export const deleteApp: (
-  input: DeleteAppRequest,
-) => effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppRequest,
   DeleteAppResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36498,9 +36417,8 @@ export const deleteApp: (
 /**
  * Deletes an AppImageConfig.
  */
-export const deleteAppImageConfig: (
-  input: DeleteAppImageConfigRequest,
-) => effect.Effect<
+export const deleteAppImageConfig: API.OperationMethod<
+  DeleteAppImageConfigRequest,
   DeleteAppImageConfigResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36512,9 +36430,8 @@ export const deleteAppImageConfig: (
 /**
  * Deletes an artifact. Either `ArtifactArn` or `Source` must be specified.
  */
-export const deleteArtifact: (
-  input: DeleteArtifactRequest,
-) => effect.Effect<
+export const deleteArtifact: API.OperationMethod<
+  DeleteArtifactRequest,
   DeleteArtifactResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36526,9 +36443,8 @@ export const deleteArtifact: (
 /**
  * Deletes an association.
  */
-export const deleteAssociation: (
-  input: DeleteAssociationRequest,
-) => effect.Effect<
+export const deleteAssociation: API.OperationMethod<
+  DeleteAssociationRequest,
   DeleteAssociationResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36540,9 +36456,8 @@ export const deleteAssociation: (
 /**
  * Delete a SageMaker HyperPod cluster.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36554,9 +36469,8 @@ export const deleteCluster: (
 /**
  * Deletes the cluster policy of the cluster.
  */
-export const deleteClusterSchedulerConfig: (
-  input: DeleteClusterSchedulerConfigRequest,
-) => effect.Effect<
+export const deleteClusterSchedulerConfig: API.OperationMethod<
+  DeleteClusterSchedulerConfigRequest,
   DeleteClusterSchedulerConfigResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36568,9 +36482,8 @@ export const deleteClusterSchedulerConfig: (
 /**
  * Deletes the specified Git repository from your account.
  */
-export const deleteCodeRepository: (
-  input: DeleteCodeRepositoryInput,
-) => effect.Effect<
+export const deleteCodeRepository: API.OperationMethod<
+  DeleteCodeRepositoryInput,
   DeleteCodeRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36584,9 +36497,8 @@ export const deleteCodeRepository: (
  *
  * You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or `STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it after its status becomes `STOPPED`.
  */
-export const deleteCompilationJob: (
-  input: DeleteCompilationJobRequest,
-) => effect.Effect<
+export const deleteCompilationJob: API.OperationMethod<
+  DeleteCompilationJobRequest,
   DeleteCompilationJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36598,9 +36510,8 @@ export const deleteCompilationJob: (
 /**
  * Deletes the compute allocation from the cluster.
  */
-export const deleteComputeQuota: (
-  input: DeleteComputeQuotaRequest,
-) => effect.Effect<
+export const deleteComputeQuota: API.OperationMethod<
+  DeleteComputeQuotaRequest,
   DeleteComputeQuotaResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36612,9 +36523,8 @@ export const deleteComputeQuota: (
 /**
  * Deletes an context.
  */
-export const deleteContext: (
-  input: DeleteContextRequest,
-) => effect.Effect<
+export const deleteContext: API.OperationMethod<
+  DeleteContextRequest,
   DeleteContextResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36626,9 +36536,8 @@ export const deleteContext: (
 /**
  * Deletes a data quality monitoring job definition.
  */
-export const deleteDataQualityJobDefinition: (
-  input: DeleteDataQualityJobDefinitionRequest,
-) => effect.Effect<
+export const deleteDataQualityJobDefinition: API.OperationMethod<
+  DeleteDataQualityJobDefinitionRequest,
   DeleteDataQualityJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36640,9 +36549,8 @@ export const deleteDataQualityJobDefinition: (
 /**
  * Deletes a fleet.
  */
-export const deleteDeviceFleet: (
-  input: DeleteDeviceFleetRequest,
-) => effect.Effect<
+export const deleteDeviceFleet: API.OperationMethod<
+  DeleteDeviceFleetRequest,
   DeleteDeviceFleetResponse,
   ResourceInUse | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36654,9 +36562,8 @@ export const deleteDeviceFleet: (
 /**
  * Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36668,9 +36575,8 @@ export const deleteDomain: (
 /**
  * Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
  */
-export const deleteEdgeDeploymentPlan: (
-  input: DeleteEdgeDeploymentPlanRequest,
-) => effect.Effect<
+export const deleteEdgeDeploymentPlan: API.OperationMethod<
+  DeleteEdgeDeploymentPlanRequest,
   DeleteEdgeDeploymentPlanResponse,
   ResourceInUse | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36682,9 +36588,8 @@ export const deleteEdgeDeploymentPlan: (
 /**
  * Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
  */
-export const deleteEdgeDeploymentStage: (
-  input: DeleteEdgeDeploymentStageRequest,
-) => effect.Effect<
+export const deleteEdgeDeploymentStage: API.OperationMethod<
+  DeleteEdgeDeploymentStageRequest,
   DeleteEdgeDeploymentStageResponse,
   ResourceInUse | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36700,9 +36605,8 @@ export const deleteEdgeDeploymentStage: (
  *
  * When you delete your endpoint, SageMaker asynchronously deletes associated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissions for your ` ExecutionRoleArn `, otherwise SageMaker cannot delete these resources.
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointInput,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointInput,
   DeleteEndpointResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36716,9 +36620,8 @@ export const deleteEndpoint: (
  *
  * You must not delete an `EndpointConfig` in use by an endpoint that is live or while the `UpdateEndpoint` or `CreateEndpoint` operations are being performed on the endpoint. If you delete the `EndpointConfig` of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
  */
-export const deleteEndpointConfig: (
-  input: DeleteEndpointConfigInput,
-) => effect.Effect<
+export const deleteEndpointConfig: API.OperationMethod<
+  DeleteEndpointConfigInput,
   DeleteEndpointConfigResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36730,9 +36633,8 @@ export const deleteEndpointConfig: (
 /**
  * Deletes an SageMaker experiment. All trials associated with the experiment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment.
  */
-export const deleteExperiment: (
-  input: DeleteExperimentRequest,
-) => effect.Effect<
+export const deleteExperiment: API.OperationMethod<
+  DeleteExperimentRequest,
   DeleteExperimentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36748,9 +36650,8 @@ export const deleteExperiment: (
  *
  * Note that it can take approximately 10-15 minutes to delete an `OnlineStore` `FeatureGroup` with the `InMemory` `StorageType`.
  */
-export const deleteFeatureGroup: (
-  input: DeleteFeatureGroupRequest,
-) => effect.Effect<
+export const deleteFeatureGroup: API.OperationMethod<
+  DeleteFeatureGroupRequest,
   DeleteFeatureGroupResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36762,9 +36663,8 @@ export const deleteFeatureGroup: (
 /**
  * Deletes the specified flow definition.
  */
-export const deleteFlowDefinition: (
-  input: DeleteFlowDefinitionRequest,
-) => effect.Effect<
+export const deleteFlowDefinition: API.OperationMethod<
+  DeleteFlowDefinitionRequest,
   DeleteFlowDefinitionResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36776,9 +36676,8 @@ export const deleteFlowDefinition: (
 /**
  * Delete a hub.
  */
-export const deleteHub: (
-  input: DeleteHubRequest,
-) => effect.Effect<
+export const deleteHub: API.OperationMethod<
+  DeleteHubRequest,
   DeleteHubResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36790,9 +36689,8 @@ export const deleteHub: (
 /**
  * Delete the contents of a hub.
  */
-export const deleteHubContent: (
-  input: DeleteHubContentRequest,
-) => effect.Effect<
+export const deleteHubContent: API.OperationMethod<
+  DeleteHubContentRequest,
   DeleteHubContentResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36804,9 +36702,8 @@ export const deleteHubContent: (
 /**
  * Delete a hub content reference in order to remove a model from a private hub.
  */
-export const deleteHubContentReference: (
-  input: DeleteHubContentReferenceRequest,
-) => effect.Effect<
+export const deleteHubContentReference: API.OperationMethod<
+  DeleteHubContentReferenceRequest,
   DeleteHubContentReferenceResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36820,9 +36717,8 @@ export const deleteHubContentReference: (
  *
  * To see a list of human task user interfaces (work task templates) in your account, use ListHumanTaskUis. When you delete a worker task template, it no longer appears when you call `ListHumanTaskUis`.
  */
-export const deleteHumanTaskUi: (
-  input: DeleteHumanTaskUiRequest,
-) => effect.Effect<
+export const deleteHumanTaskUi: API.OperationMethod<
+  DeleteHumanTaskUiRequest,
   DeleteHumanTaskUiResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36834,9 +36730,8 @@ export const deleteHumanTaskUi: (
 /**
  * Deletes a hyperparameter tuning job. The `DeleteHyperParameterTuningJob` API deletes only the tuning job entry that was created in SageMaker when you called the `CreateHyperParameterTuningJob` API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model.
  */
-export const deleteHyperParameterTuningJob: (
-  input: DeleteHyperParameterTuningJobRequest,
-) => effect.Effect<
+export const deleteHyperParameterTuningJob: API.OperationMethod<
+  DeleteHyperParameterTuningJobRequest,
   DeleteHyperParameterTuningJobResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36848,9 +36743,8 @@ export const deleteHyperParameterTuningJob: (
 /**
  * Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
  */
-export const deleteImage: (
-  input: DeleteImageRequest,
-) => effect.Effect<
+export const deleteImage: API.OperationMethod<
+  DeleteImageRequest,
   DeleteImageResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36862,9 +36756,8 @@ export const deleteImage: (
 /**
  * Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
  */
-export const deleteImageVersion: (
-  input: DeleteImageVersionRequest,
-) => effect.Effect<
+export const deleteImageVersion: API.OperationMethod<
+  DeleteImageVersionRequest,
   DeleteImageVersionResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36876,9 +36769,8 @@ export const deleteImageVersion: (
 /**
  * Deletes an inference component.
  */
-export const deleteInferenceComponent: (
-  input: DeleteInferenceComponentInput,
-) => effect.Effect<
+export const deleteInferenceComponent: API.OperationMethod<
+  DeleteInferenceComponentInput,
   DeleteInferenceComponentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36892,9 +36784,8 @@ export const deleteInferenceComponent: (
  *
  * This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment.
  */
-export const deleteInferenceExperiment: (
-  input: DeleteInferenceExperimentRequest,
-) => effect.Effect<
+export const deleteInferenceExperiment: API.OperationMethod<
+  DeleteInferenceExperimentRequest,
   DeleteInferenceExperimentResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36906,9 +36797,8 @@ export const deleteInferenceExperiment: (
 /**
  * Deletes an MLflow App.
  */
-export const deleteMlflowApp: (
-  input: DeleteMlflowAppRequest,
-) => effect.Effect<
+export const deleteMlflowApp: API.OperationMethod<
+  DeleteMlflowAppRequest,
   DeleteMlflowAppResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36920,9 +36810,8 @@ export const deleteMlflowApp: (
 /**
  * Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources.
  */
-export const deleteMlflowTrackingServer: (
-  input: DeleteMlflowTrackingServerRequest,
-) => effect.Effect<
+export const deleteMlflowTrackingServer: API.OperationMethod<
+  DeleteMlflowTrackingServerRequest,
   DeleteMlflowTrackingServerResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36934,9 +36823,8 @@ export const deleteMlflowTrackingServer: (
 /**
  * Deletes a model. The `DeleteModel` API deletes only the model entry that was created in SageMaker when you called the `CreateModel` API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model.
  */
-export const deleteModel: (
-  input: DeleteModelInput,
-) => effect.Effect<
+export const deleteModel: API.OperationMethod<
+  DeleteModelInput,
   DeleteModelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36948,9 +36836,8 @@ export const deleteModel: (
 /**
  * Deletes an Amazon SageMaker AI model bias job definition.
  */
-export const deleteModelBiasJobDefinition: (
-  input: DeleteModelBiasJobDefinitionRequest,
-) => effect.Effect<
+export const deleteModelBiasJobDefinition: API.OperationMethod<
+  DeleteModelBiasJobDefinitionRequest,
   DeleteModelBiasJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36962,9 +36849,8 @@ export const deleteModelBiasJobDefinition: (
 /**
  * Deletes an Amazon SageMaker Model Card.
  */
-export const deleteModelCard: (
-  input: DeleteModelCardRequest,
-) => effect.Effect<
+export const deleteModelCard: API.OperationMethod<
+  DeleteModelCardRequest,
   DeleteModelCardResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36976,9 +36862,8 @@ export const deleteModelCard: (
 /**
  * Deletes an Amazon SageMaker AI model explainability job definition.
  */
-export const deleteModelExplainabilityJobDefinition: (
-  input: DeleteModelExplainabilityJobDefinitionRequest,
-) => effect.Effect<
+export const deleteModelExplainabilityJobDefinition: API.OperationMethod<
+  DeleteModelExplainabilityJobDefinitionRequest,
   DeleteModelExplainabilityJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -36992,9 +36877,8 @@ export const deleteModelExplainabilityJobDefinition: (
  *
  * A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
  */
-export const deleteModelPackage: (
-  input: DeleteModelPackageInput,
-) => effect.Effect<
+export const deleteModelPackage: API.OperationMethod<
+  DeleteModelPackageInput,
   DeleteModelPackageResponse,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37006,9 +36890,8 @@ export const deleteModelPackage: (
 /**
  * Deletes the specified model group.
  */
-export const deleteModelPackageGroup: (
-  input: DeleteModelPackageGroupInput,
-) => effect.Effect<
+export const deleteModelPackageGroup: API.OperationMethod<
+  DeleteModelPackageGroupInput,
   DeleteModelPackageGroupResponse,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37020,9 +36903,8 @@ export const deleteModelPackageGroup: (
 /**
  * Deletes a model group resource policy.
  */
-export const deleteModelPackageGroupPolicy: (
-  input: DeleteModelPackageGroupPolicyInput,
-) => effect.Effect<
+export const deleteModelPackageGroupPolicy: API.OperationMethod<
+  DeleteModelPackageGroupPolicyInput,
   DeleteModelPackageGroupPolicyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37034,9 +36916,8 @@ export const deleteModelPackageGroupPolicy: (
 /**
  * Deletes the secified model quality monitoring job definition.
  */
-export const deleteModelQualityJobDefinition: (
-  input: DeleteModelQualityJobDefinitionRequest,
-) => effect.Effect<
+export const deleteModelQualityJobDefinition: API.OperationMethod<
+  DeleteModelQualityJobDefinitionRequest,
   DeleteModelQualityJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37048,9 +36929,8 @@ export const deleteModelQualityJobDefinition: (
 /**
  * Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
  */
-export const deleteMonitoringSchedule: (
-  input: DeleteMonitoringScheduleRequest,
-) => effect.Effect<
+export const deleteMonitoringSchedule: API.OperationMethod<
+  DeleteMonitoringScheduleRequest,
   DeleteMonitoringScheduleResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37064,9 +36944,8 @@ export const deleteMonitoringSchedule: (
  *
  * When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
  */
-export const deleteNotebookInstance: (
-  input: DeleteNotebookInstanceInput,
-) => effect.Effect<
+export const deleteNotebookInstance: API.OperationMethod<
+  DeleteNotebookInstanceInput,
   DeleteNotebookInstanceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37078,9 +36957,8 @@ export const deleteNotebookInstance: (
 /**
  * Deletes a notebook instance lifecycle configuration.
  */
-export const deleteNotebookInstanceLifecycleConfig: (
-  input: DeleteNotebookInstanceLifecycleConfigInput,
-) => effect.Effect<
+export const deleteNotebookInstanceLifecycleConfig: API.OperationMethod<
+  DeleteNotebookInstanceLifecycleConfigInput,
   DeleteNotebookInstanceLifecycleConfigResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37092,9 +36970,8 @@ export const deleteNotebookInstanceLifecycleConfig: (
 /**
  * Deletes an optimization job.
  */
-export const deleteOptimizationJob: (
-  input: DeleteOptimizationJobRequest,
-) => effect.Effect<
+export const deleteOptimizationJob: API.OperationMethod<
+  DeleteOptimizationJobRequest,
   DeleteOptimizationJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37106,9 +36983,8 @@ export const deleteOptimizationJob: (
 /**
  * Deletes a SageMaker Partner AI App.
  */
-export const deletePartnerApp: (
-  input: DeletePartnerAppRequest,
-) => effect.Effect<
+export const deletePartnerApp: API.OperationMethod<
+  DeletePartnerAppRequest,
   DeletePartnerAppResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37120,9 +36996,8 @@ export const deletePartnerApp: (
 /**
  * Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the `StopPipelineExecution` API. When you delete a pipeline, all instances of the pipeline are deleted.
  */
-export const deletePipeline: (
-  input: DeletePipelineRequest,
-) => effect.Effect<
+export const deletePipeline: API.OperationMethod<
+  DeletePipelineRequest,
   DeletePipelineResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37134,9 +37009,8 @@ export const deletePipeline: (
 /**
  * Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`). You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another processing job.
  */
-export const deleteProcessingJob: (
-  input: DeleteProcessingJobRequest,
-) => effect.Effect<
+export const deleteProcessingJob: API.OperationMethod<
+  DeleteProcessingJobRequest,
   DeleteProcessingJobResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37148,9 +37022,8 @@ export const deleteProcessingJob: (
 /**
  * Delete the specified project.
  */
-export const deleteProject: (
-  input: DeleteProjectInput,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectInput,
   DeleteProjectResponse,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37162,9 +37035,8 @@ export const deleteProject: (
 /**
  * Used to delete a space.
  */
-export const deleteSpace: (
-  input: DeleteSpaceRequest,
-) => effect.Effect<
+export const deleteSpace: API.OperationMethod<
+  DeleteSpaceRequest,
   DeleteSpaceResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37176,9 +37048,8 @@ export const deleteSpace: (
 /**
  * Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
  */
-export const deleteStudioLifecycleConfig: (
-  input: DeleteStudioLifecycleConfigRequest,
-) => effect.Effect<
+export const deleteStudioLifecycleConfig: API.OperationMethod<
+  DeleteStudioLifecycleConfigRequest,
   DeleteStudioLifecycleConfigResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37196,9 +37067,8 @@ export const deleteStudioLifecycleConfig: (
  *
  * When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you called this API.
  */
-export const deleteTags: (
-  input: DeleteTagsInput,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsInput,
   DeleteTagsOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37210,9 +37080,8 @@ export const deleteTags: (
 /**
  * Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (`Stopped`, `Failed`, or `Completed`) and don't retain an `Available` managed warm pool. You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create another training job.
  */
-export const deleteTrainingJob: (
-  input: DeleteTrainingJobRequest,
-) => effect.Effect<
+export const deleteTrainingJob: API.OperationMethod<
+  DeleteTrainingJobRequest,
   DeleteTrainingJobResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37224,9 +37093,8 @@ export const deleteTrainingJob: (
 /**
  * Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
  */
-export const deleteTrial: (
-  input: DeleteTrialRequest,
-) => effect.Effect<
+export const deleteTrial: API.OperationMethod<
+  DeleteTrialRequest,
   DeleteTrialResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37238,9 +37106,8 @@ export const deleteTrial: (
 /**
  * Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
  */
-export const deleteTrialComponent: (
-  input: DeleteTrialComponentRequest,
-) => effect.Effect<
+export const deleteTrialComponent: API.OperationMethod<
+  DeleteTrialComponentRequest,
   DeleteTrialComponentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37252,9 +37119,8 @@ export const deleteTrialComponent: (
 /**
  * Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
  */
-export const deleteUserProfile: (
-  input: DeleteUserProfileRequest,
-) => effect.Effect<
+export const deleteUserProfile: API.OperationMethod<
+  DeleteUserProfileRequest,
   DeleteUserProfileResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37270,9 +37136,8 @@ export const deleteUserProfile: (
  *
  * If a private workforce contains one or more work teams, you must use the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will receive a `ResourceInUse` error.
  */
-export const deleteWorkforce: (
-  input: DeleteWorkforceRequest,
-) => effect.Effect<
+export const deleteWorkforce: API.OperationMethod<
+  DeleteWorkforceRequest,
   DeleteWorkforceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37284,9 +37149,8 @@ export const deleteWorkforce: (
 /**
  * Deletes an existing work team. This operation can't be undone.
  */
-export const deleteWorkteam: (
-  input: DeleteWorkteamRequest,
-) => effect.Effect<
+export const deleteWorkteam: API.OperationMethod<
+  DeleteWorkteamRequest,
   DeleteWorkteamResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37298,9 +37162,8 @@ export const deleteWorkteam: (
 /**
  * Deregisters the specified devices. After you deregister a device, you will need to re-register the devices.
  */
-export const deregisterDevices: (
-  input: DeregisterDevicesRequest,
-) => effect.Effect<
+export const deregisterDevices: API.OperationMethod<
+  DeregisterDevicesRequest,
   DeregisterDevicesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37312,9 +37175,8 @@ export const deregisterDevices: (
 /**
  * Describes an action.
  */
-export const describeAction: (
-  input: DescribeActionRequest,
-) => effect.Effect<
+export const describeAction: API.OperationMethod<
+  DescribeActionRequest,
   DescribeActionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37326,9 +37188,8 @@ export const describeAction: (
 /**
  * Returns a description of the specified algorithm that is in your account.
  */
-export const describeAlgorithm: (
-  input: DescribeAlgorithmInput,
-) => effect.Effect<
+export const describeAlgorithm: API.OperationMethod<
+  DescribeAlgorithmInput,
   DescribeAlgorithmOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37340,9 +37201,8 @@ export const describeAlgorithm: (
 /**
  * Describes the app.
  */
-export const describeApp: (
-  input: DescribeAppRequest,
-) => effect.Effect<
+export const describeApp: API.OperationMethod<
+  DescribeAppRequest,
   DescribeAppResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37354,9 +37214,8 @@ export const describeApp: (
 /**
  * Describes an AppImageConfig.
  */
-export const describeAppImageConfig: (
-  input: DescribeAppImageConfigRequest,
-) => effect.Effect<
+export const describeAppImageConfig: API.OperationMethod<
+  DescribeAppImageConfigRequest,
   DescribeAppImageConfigResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37368,9 +37227,8 @@ export const describeAppImageConfig: (
 /**
  * Describes an artifact.
  */
-export const describeArtifact: (
-  input: DescribeArtifactRequest,
-) => effect.Effect<
+export const describeArtifact: API.OperationMethod<
+  DescribeArtifactRequest,
   DescribeArtifactResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37384,9 +37242,8 @@ export const describeArtifact: (
  *
  * AutoML jobs created by calling CreateAutoMLJobV2 cannot be described by `DescribeAutoMLJob`.
  */
-export const describeAutoMLJob: (
-  input: DescribeAutoMLJobRequest,
-) => effect.Effect<
+export const describeAutoMLJob: API.OperationMethod<
+  DescribeAutoMLJobRequest,
   DescribeAutoMLJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37398,9 +37255,8 @@ export const describeAutoMLJob: (
 /**
  * Returns information about an AutoML job created by calling CreateAutoMLJobV2 or CreateAutoMLJob.
  */
-export const describeAutoMLJobV2: (
-  input: DescribeAutoMLJobV2Request,
-) => effect.Effect<
+export const describeAutoMLJobV2: API.OperationMethod<
+  DescribeAutoMLJobV2Request,
   DescribeAutoMLJobV2Response,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37412,9 +37268,8 @@ export const describeAutoMLJobV2: (
 /**
  * Retrieves information of a SageMaker HyperPod cluster.
  */
-export const describeCluster: (
-  input: DescribeClusterRequest,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
   DescribeClusterResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37426,9 +37281,8 @@ export const describeCluster: (
 /**
  * Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
  */
-export const describeClusterEvent: (
-  input: DescribeClusterEventRequest,
-) => effect.Effect<
+export const describeClusterEvent: API.OperationMethod<
+  DescribeClusterEventRequest,
   DescribeClusterEventResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37440,9 +37294,8 @@ export const describeClusterEvent: (
 /**
  * Retrieves information of a node (also called a *instance* interchangeably) of a SageMaker HyperPod cluster.
  */
-export const describeClusterNode: (
-  input: DescribeClusterNodeRequest,
-) => effect.Effect<
+export const describeClusterNode: API.OperationMethod<
+  DescribeClusterNodeRequest,
   DescribeClusterNodeResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37454,9 +37307,8 @@ export const describeClusterNode: (
 /**
  * Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
  */
-export const describeClusterSchedulerConfig: (
-  input: DescribeClusterSchedulerConfigRequest,
-) => effect.Effect<
+export const describeClusterSchedulerConfig: API.OperationMethod<
+  DescribeClusterSchedulerConfigRequest,
   DescribeClusterSchedulerConfigResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37468,9 +37320,8 @@ export const describeClusterSchedulerConfig: (
 /**
  * Gets details about the specified Git repository.
  */
-export const describeCodeRepository: (
-  input: DescribeCodeRepositoryInput,
-) => effect.Effect<
+export const describeCodeRepository: API.OperationMethod<
+  DescribeCodeRepositoryInput,
   DescribeCodeRepositoryOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37484,9 +37335,8 @@ export const describeCodeRepository: (
  *
  * To create a model compilation job, use CreateCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
  */
-export const describeCompilationJob: (
-  input: DescribeCompilationJobRequest,
-) => effect.Effect<
+export const describeCompilationJob: API.OperationMethod<
+  DescribeCompilationJobRequest,
   DescribeCompilationJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37498,9 +37348,8 @@ export const describeCompilationJob: (
 /**
  * Description of the compute allocation definition.
  */
-export const describeComputeQuota: (
-  input: DescribeComputeQuotaRequest,
-) => effect.Effect<
+export const describeComputeQuota: API.OperationMethod<
+  DescribeComputeQuotaRequest,
   DescribeComputeQuotaResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37512,9 +37361,8 @@ export const describeComputeQuota: (
 /**
  * Describes a context.
  */
-export const describeContext: (
-  input: DescribeContextRequest,
-) => effect.Effect<
+export const describeContext: API.OperationMethod<
+  DescribeContextRequest,
   DescribeContextResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37526,9 +37374,8 @@ export const describeContext: (
 /**
  * Gets the details of a data quality monitoring job definition.
  */
-export const describeDataQualityJobDefinition: (
-  input: DescribeDataQualityJobDefinitionRequest,
-) => effect.Effect<
+export const describeDataQualityJobDefinition: API.OperationMethod<
+  DescribeDataQualityJobDefinitionRequest,
   DescribeDataQualityJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37540,9 +37387,8 @@ export const describeDataQualityJobDefinition: (
 /**
  * Describes the device.
  */
-export const describeDevice: (
-  input: DescribeDeviceRequest,
-) => effect.Effect<
+export const describeDevice: API.OperationMethod<
+  DescribeDeviceRequest,
   DescribeDeviceResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37554,9 +37400,8 @@ export const describeDevice: (
 /**
  * A description of the fleet the device belongs to.
  */
-export const describeDeviceFleet: (
-  input: DescribeDeviceFleetRequest,
-) => effect.Effect<
+export const describeDeviceFleet: API.OperationMethod<
+  DescribeDeviceFleetRequest,
   DescribeDeviceFleetResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37568,9 +37413,8 @@ export const describeDeviceFleet: (
 /**
  * The description of the domain.
  */
-export const describeDomain: (
-  input: DescribeDomainRequest,
-) => effect.Effect<
+export const describeDomain: API.OperationMethod<
+  DescribeDomainRequest,
   DescribeDomainResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37582,9 +37426,8 @@ export const describeDomain: (
 /**
  * Describes an edge deployment plan with deployment status per stage.
  */
-export const describeEdgeDeploymentPlan: (
-  input: DescribeEdgeDeploymentPlanRequest,
-) => effect.Effect<
+export const describeEdgeDeploymentPlan: API.OperationMethod<
+  DescribeEdgeDeploymentPlanRequest,
   DescribeEdgeDeploymentPlanResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37596,9 +37439,8 @@ export const describeEdgeDeploymentPlan: (
 /**
  * A description of edge packaging jobs.
  */
-export const describeEdgePackagingJob: (
-  input: DescribeEdgePackagingJobRequest,
-) => effect.Effect<
+export const describeEdgePackagingJob: API.OperationMethod<
+  DescribeEdgePackagingJobRequest,
   DescribeEdgePackagingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37610,9 +37452,8 @@ export const describeEdgePackagingJob: (
 /**
  * Returns the description of an endpoint.
  */
-export const describeEndpoint: (
-  input: DescribeEndpointInput,
-) => effect.Effect<
+export const describeEndpoint: API.OperationMethod<
+  DescribeEndpointInput,
   DescribeEndpointOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37624,9 +37465,8 @@ export const describeEndpoint: (
 /**
  * Returns the description of an endpoint configuration created using the `CreateEndpointConfig` API.
  */
-export const describeEndpointConfig: (
-  input: DescribeEndpointConfigInput,
-) => effect.Effect<
+export const describeEndpointConfig: API.OperationMethod<
+  DescribeEndpointConfigInput,
   DescribeEndpointConfigOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37638,9 +37478,8 @@ export const describeEndpointConfig: (
 /**
  * Provides a list of an experiment's properties.
  */
-export const describeExperiment: (
-  input: DescribeExperimentRequest,
-) => effect.Effect<
+export const describeExperiment: API.OperationMethod<
+  DescribeExperimentRequest,
   DescribeExperimentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37652,9 +37491,8 @@ export const describeExperiment: (
 /**
  * Use this operation to describe a `FeatureGroup`. The response includes information on the creation time, `FeatureGroup` name, the unique identifier for each `FeatureGroup`, and more.
  */
-export const describeFeatureGroup: (
-  input: DescribeFeatureGroupRequest,
-) => effect.Effect<
+export const describeFeatureGroup: API.OperationMethod<
+  DescribeFeatureGroupRequest,
   DescribeFeatureGroupResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37666,9 +37504,8 @@ export const describeFeatureGroup: (
 /**
  * Shows the metadata for a feature within a feature group.
  */
-export const describeFeatureMetadata: (
-  input: DescribeFeatureMetadataRequest,
-) => effect.Effect<
+export const describeFeatureMetadata: API.OperationMethod<
+  DescribeFeatureMetadataRequest,
   DescribeFeatureMetadataResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37680,9 +37517,8 @@ export const describeFeatureMetadata: (
 /**
  * Returns information about the specified flow definition.
  */
-export const describeFlowDefinition: (
-  input: DescribeFlowDefinitionRequest,
-) => effect.Effect<
+export const describeFlowDefinition: API.OperationMethod<
+  DescribeFlowDefinitionRequest,
   DescribeFlowDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37694,9 +37530,8 @@ export const describeFlowDefinition: (
 /**
  * Describes a hub.
  */
-export const describeHub: (
-  input: DescribeHubRequest,
-) => effect.Effect<
+export const describeHub: API.OperationMethod<
+  DescribeHubRequest,
   DescribeHubResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37708,9 +37543,8 @@ export const describeHub: (
 /**
  * Describe the content of a hub.
  */
-export const describeHubContent: (
-  input: DescribeHubContentRequest,
-) => effect.Effect<
+export const describeHubContent: API.OperationMethod<
+  DescribeHubContentRequest,
   DescribeHubContentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37722,9 +37556,8 @@ export const describeHubContent: (
 /**
  * Returns information about the requested human task user interface (worker task template).
  */
-export const describeHumanTaskUi: (
-  input: DescribeHumanTaskUiRequest,
-) => effect.Effect<
+export const describeHumanTaskUi: API.OperationMethod<
+  DescribeHumanTaskUiRequest,
   DescribeHumanTaskUiResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37736,9 +37569,8 @@ export const describeHumanTaskUi: (
 /**
  * Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
  */
-export const describeHyperParameterTuningJob: (
-  input: DescribeHyperParameterTuningJobRequest,
-) => effect.Effect<
+export const describeHyperParameterTuningJob: API.OperationMethod<
+  DescribeHyperParameterTuningJobRequest,
   DescribeHyperParameterTuningJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37750,9 +37582,8 @@ export const describeHyperParameterTuningJob: (
 /**
  * Describes a SageMaker AI image.
  */
-export const describeImage: (
-  input: DescribeImageRequest,
-) => effect.Effect<
+export const describeImage: API.OperationMethod<
+  DescribeImageRequest,
   DescribeImageResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37764,9 +37595,8 @@ export const describeImage: (
 /**
  * Describes a version of a SageMaker AI image.
  */
-export const describeImageVersion: (
-  input: DescribeImageVersionRequest,
-) => effect.Effect<
+export const describeImageVersion: API.OperationMethod<
+  DescribeImageVersionRequest,
   DescribeImageVersionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37778,9 +37608,8 @@ export const describeImageVersion: (
 /**
  * Returns information about an inference component.
  */
-export const describeInferenceComponent: (
-  input: DescribeInferenceComponentInput,
-) => effect.Effect<
+export const describeInferenceComponent: API.OperationMethod<
+  DescribeInferenceComponentInput,
   DescribeInferenceComponentOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37792,9 +37621,8 @@ export const describeInferenceComponent: (
 /**
  * Returns details about an inference experiment.
  */
-export const describeInferenceExperiment: (
-  input: DescribeInferenceExperimentRequest,
-) => effect.Effect<
+export const describeInferenceExperiment: API.OperationMethod<
+  DescribeInferenceExperimentRequest,
   DescribeInferenceExperimentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37806,9 +37634,8 @@ export const describeInferenceExperiment: (
 /**
  * Provides the results of the Inference Recommender job. One or more recommendation jobs are returned.
  */
-export const describeInferenceRecommendationsJob: (
-  input: DescribeInferenceRecommendationsJobRequest,
-) => effect.Effect<
+export const describeInferenceRecommendationsJob: API.OperationMethod<
+  DescribeInferenceRecommendationsJobRequest,
   DescribeInferenceRecommendationsJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37820,9 +37647,8 @@ export const describeInferenceRecommendationsJob: (
 /**
  * Gets information about a labeling job.
  */
-export const describeLabelingJob: (
-  input: DescribeLabelingJobRequest,
-) => effect.Effect<
+export const describeLabelingJob: API.OperationMethod<
+  DescribeLabelingJobRequest,
   DescribeLabelingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37834,9 +37660,8 @@ export const describeLabelingJob: (
 /**
  * Provides a list of properties for the requested lineage group. For more information, see Cross-Account Lineage Tracking in the *Amazon SageMaker Developer Guide*.
  */
-export const describeLineageGroup: (
-  input: DescribeLineageGroupRequest,
-) => effect.Effect<
+export const describeLineageGroup: API.OperationMethod<
+  DescribeLineageGroupRequest,
   DescribeLineageGroupResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37848,9 +37673,8 @@ export const describeLineageGroup: (
 /**
  * Returns information about an MLflow App.
  */
-export const describeMlflowApp: (
-  input: DescribeMlflowAppRequest,
-) => effect.Effect<
+export const describeMlflowApp: API.OperationMethod<
+  DescribeMlflowAppRequest,
   DescribeMlflowAppResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37862,9 +37686,8 @@ export const describeMlflowApp: (
 /**
  * Returns information about an MLflow Tracking Server.
  */
-export const describeMlflowTrackingServer: (
-  input: DescribeMlflowTrackingServerRequest,
-) => effect.Effect<
+export const describeMlflowTrackingServer: API.OperationMethod<
+  DescribeMlflowTrackingServerRequest,
   DescribeMlflowTrackingServerResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37876,9 +37699,8 @@ export const describeMlflowTrackingServer: (
 /**
  * Describes a model that you created using the `CreateModel` API.
  */
-export const describeModel: (
-  input: DescribeModelInput,
-) => effect.Effect<
+export const describeModel: API.OperationMethod<
+  DescribeModelInput,
   DescribeModelOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37890,9 +37712,8 @@ export const describeModel: (
 /**
  * Returns a description of a model bias job definition.
  */
-export const describeModelBiasJobDefinition: (
-  input: DescribeModelBiasJobDefinitionRequest,
-) => effect.Effect<
+export const describeModelBiasJobDefinition: API.OperationMethod<
+  DescribeModelBiasJobDefinitionRequest,
   DescribeModelBiasJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37904,9 +37725,8 @@ export const describeModelBiasJobDefinition: (
 /**
  * Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
  */
-export const describeModelCard: (
-  input: DescribeModelCardRequest,
-) => effect.Effect<
+export const describeModelCard: API.OperationMethod<
+  DescribeModelCardRequest,
   DescribeModelCardResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37918,9 +37738,8 @@ export const describeModelCard: (
 /**
  * Describes an Amazon SageMaker Model Card export job.
  */
-export const describeModelCardExportJob: (
-  input: DescribeModelCardExportJobRequest,
-) => effect.Effect<
+export const describeModelCardExportJob: API.OperationMethod<
+  DescribeModelCardExportJobRequest,
   DescribeModelCardExportJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37932,9 +37751,8 @@ export const describeModelCardExportJob: (
 /**
  * Returns a description of a model explainability job definition.
  */
-export const describeModelExplainabilityJobDefinition: (
-  input: DescribeModelExplainabilityJobDefinitionRequest,
-) => effect.Effect<
+export const describeModelExplainabilityJobDefinition: API.OperationMethod<
+  DescribeModelExplainabilityJobDefinitionRequest,
   DescribeModelExplainabilityJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37950,9 +37768,8 @@ export const describeModelExplainabilityJobDefinition: (
  *
  * To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
  */
-export const describeModelPackage: (
-  input: DescribeModelPackageInput,
-) => effect.Effect<
+export const describeModelPackage: API.OperationMethod<
+  DescribeModelPackageInput,
   DescribeModelPackageOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37964,9 +37781,8 @@ export const describeModelPackage: (
 /**
  * Gets a description for the specified model group.
  */
-export const describeModelPackageGroup: (
-  input: DescribeModelPackageGroupInput,
-) => effect.Effect<
+export const describeModelPackageGroup: API.OperationMethod<
+  DescribeModelPackageGroupInput,
   DescribeModelPackageGroupOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37978,9 +37794,8 @@ export const describeModelPackageGroup: (
 /**
  * Returns a description of a model quality job definition.
  */
-export const describeModelQualityJobDefinition: (
-  input: DescribeModelQualityJobDefinitionRequest,
-) => effect.Effect<
+export const describeModelQualityJobDefinition: API.OperationMethod<
+  DescribeModelQualityJobDefinitionRequest,
   DescribeModelQualityJobDefinitionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -37992,9 +37807,8 @@ export const describeModelQualityJobDefinition: (
 /**
  * Describes the schedule for a monitoring job.
  */
-export const describeMonitoringSchedule: (
-  input: DescribeMonitoringScheduleRequest,
-) => effect.Effect<
+export const describeMonitoringSchedule: API.OperationMethod<
+  DescribeMonitoringScheduleRequest,
   DescribeMonitoringScheduleResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38006,9 +37820,8 @@ export const describeMonitoringSchedule: (
 /**
  * Returns information about a notebook instance.
  */
-export const describeNotebookInstance: (
-  input: DescribeNotebookInstanceInput,
-) => effect.Effect<
+export const describeNotebookInstance: API.OperationMethod<
+  DescribeNotebookInstanceInput,
   DescribeNotebookInstanceOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38022,9 +37835,8 @@ export const describeNotebookInstance: (
  *
  * For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
  */
-export const describeNotebookInstanceLifecycleConfig: (
-  input: DescribeNotebookInstanceLifecycleConfigInput,
-) => effect.Effect<
+export const describeNotebookInstanceLifecycleConfig: API.OperationMethod<
+  DescribeNotebookInstanceLifecycleConfigInput,
   DescribeNotebookInstanceLifecycleConfigOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38036,9 +37848,8 @@ export const describeNotebookInstanceLifecycleConfig: (
 /**
  * Provides the properties of the specified optimization job.
  */
-export const describeOptimizationJob: (
-  input: DescribeOptimizationJobRequest,
-) => effect.Effect<
+export const describeOptimizationJob: API.OperationMethod<
+  DescribeOptimizationJobRequest,
   DescribeOptimizationJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38050,9 +37861,8 @@ export const describeOptimizationJob: (
 /**
  * Gets information about a SageMaker Partner AI App.
  */
-export const describePartnerApp: (
-  input: DescribePartnerAppRequest,
-) => effect.Effect<
+export const describePartnerApp: API.OperationMethod<
+  DescribePartnerAppRequest,
   DescribePartnerAppResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38064,9 +37874,8 @@ export const describePartnerApp: (
 /**
  * Describes the details of a pipeline.
  */
-export const describePipeline: (
-  input: DescribePipelineRequest,
-) => effect.Effect<
+export const describePipeline: API.OperationMethod<
+  DescribePipelineRequest,
   DescribePipelineResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38078,9 +37887,8 @@ export const describePipeline: (
 /**
  * Describes the details of an execution's pipeline definition.
  */
-export const describePipelineDefinitionForExecution: (
-  input: DescribePipelineDefinitionForExecutionRequest,
-) => effect.Effect<
+export const describePipelineDefinitionForExecution: API.OperationMethod<
+  DescribePipelineDefinitionForExecutionRequest,
   DescribePipelineDefinitionForExecutionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38092,9 +37900,8 @@ export const describePipelineDefinitionForExecution: (
 /**
  * Describes the details of a pipeline execution.
  */
-export const describePipelineExecution: (
-  input: DescribePipelineExecutionRequest,
-) => effect.Effect<
+export const describePipelineExecution: API.OperationMethod<
+  DescribePipelineExecutionRequest,
   DescribePipelineExecutionResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38106,9 +37913,8 @@ export const describePipelineExecution: (
 /**
  * Returns a description of a processing job.
  */
-export const describeProcessingJob: (
-  input: DescribeProcessingJobRequest,
-) => effect.Effect<
+export const describeProcessingJob: API.OperationMethod<
+  DescribeProcessingJobRequest,
   DescribeProcessingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38120,9 +37926,8 @@ export const describeProcessingJob: (
 /**
  * Describes the details of a project.
  */
-export const describeProject: (
-  input: DescribeProjectInput,
-) => effect.Effect<
+export const describeProject: API.OperationMethod<
+  DescribeProjectInput,
   DescribeProjectOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38134,9 +37939,8 @@ export const describeProject: (
 /**
  * Retrieves details about a reserved capacity.
  */
-export const describeReservedCapacity: (
-  input: DescribeReservedCapacityRequest,
-) => effect.Effect<
+export const describeReservedCapacity: API.OperationMethod<
+  DescribeReservedCapacityRequest,
   DescribeReservedCapacityResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38148,9 +37952,8 @@ export const describeReservedCapacity: (
 /**
  * Describes the space.
  */
-export const describeSpace: (
-  input: DescribeSpaceRequest,
-) => effect.Effect<
+export const describeSpace: API.OperationMethod<
+  DescribeSpaceRequest,
   DescribeSpaceResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38162,9 +37965,8 @@ export const describeSpace: (
 /**
  * Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
  */
-export const describeStudioLifecycleConfig: (
-  input: DescribeStudioLifecycleConfigRequest,
-) => effect.Effect<
+export const describeStudioLifecycleConfig: API.OperationMethod<
+  DescribeStudioLifecycleConfigRequest,
   DescribeStudioLifecycleConfigResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38176,9 +37978,8 @@ export const describeStudioLifecycleConfig: (
 /**
  * Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace.
  */
-export const describeSubscribedWorkteam: (
-  input: DescribeSubscribedWorkteamRequest,
-) => effect.Effect<
+export const describeSubscribedWorkteam: API.OperationMethod<
+  DescribeSubscribedWorkteamRequest,
   DescribeSubscribedWorkteamResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38192,9 +37993,8 @@ export const describeSubscribedWorkteam: (
  *
  * Some of the attributes below only appear if the training job successfully starts. If the training job fails, `TrainingJobStatus` is `Failed` and, depending on the `FailureReason`, attributes like `TrainingStartTime`, `TrainingTimeInSeconds`, `TrainingEndTime`, and `BillableTimeInSeconds` may not be present in the response.
  */
-export const describeTrainingJob: (
-  input: DescribeTrainingJobRequest,
-) => effect.Effect<
+export const describeTrainingJob: API.OperationMethod<
+  DescribeTrainingJobRequest,
   DescribeTrainingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38206,9 +38006,8 @@ export const describeTrainingJob: (
 /**
  * Retrieves detailed information about a specific training plan.
  */
-export const describeTrainingPlan: (
-  input: DescribeTrainingPlanRequest,
-) => effect.Effect<
+export const describeTrainingPlan: API.OperationMethod<
+  DescribeTrainingPlanRequest,
   DescribeTrainingPlanResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38220,9 +38019,8 @@ export const describeTrainingPlan: (
 /**
  * Returns information about a transform job.
  */
-export const describeTransformJob: (
-  input: DescribeTransformJobRequest,
-) => effect.Effect<
+export const describeTransformJob: API.OperationMethod<
+  DescribeTransformJobRequest,
   DescribeTransformJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38234,9 +38032,8 @@ export const describeTransformJob: (
 /**
  * Provides a list of a trial's properties.
  */
-export const describeTrial: (
-  input: DescribeTrialRequest,
-) => effect.Effect<
+export const describeTrial: API.OperationMethod<
+  DescribeTrialRequest,
   DescribeTrialResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38248,9 +38045,8 @@ export const describeTrial: (
 /**
  * Provides a list of a trials component's properties.
  */
-export const describeTrialComponent: (
-  input: DescribeTrialComponentRequest,
-) => effect.Effect<
+export const describeTrialComponent: API.OperationMethod<
+  DescribeTrialComponentRequest,
   DescribeTrialComponentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38262,9 +38058,8 @@ export const describeTrialComponent: (
 /**
  * Describes a user profile. For more information, see `CreateUserProfile`.
  */
-export const describeUserProfile: (
-  input: DescribeUserProfileRequest,
-) => effect.Effect<
+export const describeUserProfile: API.OperationMethod<
+  DescribeUserProfileRequest,
   DescribeUserProfileResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38278,9 +38073,8 @@ export const describeUserProfile: (
  *
  * This operation applies only to private workforces.
  */
-export const describeWorkforce: (
-  input: DescribeWorkforceRequest,
-) => effect.Effect<
+export const describeWorkforce: API.OperationMethod<
+  DescribeWorkforceRequest,
   DescribeWorkforceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38292,9 +38086,8 @@ export const describeWorkforce: (
 /**
  * Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
  */
-export const describeWorkteam: (
-  input: DescribeWorkteamRequest,
-) => effect.Effect<
+export const describeWorkteam: API.OperationMethod<
+  DescribeWorkteamRequest,
   DescribeWorkteamResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38308,9 +38101,8 @@ export const describeWorkteam: (
  *
  * This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
  */
-export const detachClusterNodeVolume: (
-  input: DetachClusterNodeVolumeRequest,
-) => effect.Effect<
+export const detachClusterNodeVolume: API.OperationMethod<
+  DetachClusterNodeVolumeRequest,
   DetachClusterNodeVolumeResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38322,9 +38114,8 @@ export const detachClusterNodeVolume: (
 /**
  * Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
-export const disableSagemakerServicecatalogPortfolio: (
-  input: DisableSagemakerServicecatalogPortfolioInput,
-) => effect.Effect<
+export const disableSagemakerServicecatalogPortfolio: API.OperationMethod<
+  DisableSagemakerServicecatalogPortfolioInput,
   DisableSagemakerServicecatalogPortfolioOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38338,9 +38129,8 @@ export const disableSagemakerServicecatalogPortfolio: (
  *
  * To get a list of the trials a component is associated with, use the Search API. Specify `ExperimentTrialComponent` for the `Resource` parameter. The list appears in the response under `Results.TrialComponent.Parents`.
  */
-export const disassociateTrialComponent: (
-  input: DisassociateTrialComponentRequest,
-) => effect.Effect<
+export const disassociateTrialComponent: API.OperationMethod<
+  DisassociateTrialComponentRequest,
   DisassociateTrialComponentResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38352,9 +38142,8 @@ export const disassociateTrialComponent: (
 /**
  * Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
-export const enableSagemakerServicecatalogPortfolio: (
-  input: EnableSagemakerServicecatalogPortfolioInput,
-) => effect.Effect<
+export const enableSagemakerServicecatalogPortfolio: API.OperationMethod<
+  EnableSagemakerServicecatalogPortfolioInput,
   EnableSagemakerServicecatalogPortfolioOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38366,9 +38155,8 @@ export const enableSagemakerServicecatalogPortfolio: (
 /**
  * Describes a fleet.
  */
-export const getDeviceFleetReport: (
-  input: GetDeviceFleetReportRequest,
-) => effect.Effect<
+export const getDeviceFleetReport: API.OperationMethod<
+  GetDeviceFleetReportRequest,
   GetDeviceFleetReportResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38380,9 +38168,8 @@ export const getDeviceFleetReport: (
 /**
  * The resource policy for the lineage group.
  */
-export const getLineageGroupPolicy: (
-  input: GetLineageGroupPolicyRequest,
-) => effect.Effect<
+export const getLineageGroupPolicy: API.OperationMethod<
+  GetLineageGroupPolicyRequest,
   GetLineageGroupPolicyResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38394,9 +38181,8 @@ export const getLineageGroupPolicy: (
 /**
  * Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the *Amazon Web Services Identity and Access Management User Guide.*.
  */
-export const getModelPackageGroupPolicy: (
-  input: GetModelPackageGroupPolicyInput,
-) => effect.Effect<
+export const getModelPackageGroupPolicy: API.OperationMethod<
+  GetModelPackageGroupPolicyInput,
   GetModelPackageGroupPolicyOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38408,9 +38194,8 @@ export const getModelPackageGroupPolicy: (
 /**
  * Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
  */
-export const getSagemakerServicecatalogPortfolioStatus: (
-  input: GetSagemakerServicecatalogPortfolioStatusInput,
-) => effect.Effect<
+export const getSagemakerServicecatalogPortfolioStatus: API.OperationMethod<
+  GetSagemakerServicecatalogPortfolioStatusInput,
   GetSagemakerServicecatalogPortfolioStatusOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38422,9 +38207,8 @@ export const getSagemakerServicecatalogPortfolioStatus: (
 /**
  * Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
  */
-export const getScalingConfigurationRecommendation: (
-  input: GetScalingConfigurationRecommendationRequest,
-) => effect.Effect<
+export const getScalingConfigurationRecommendation: API.OperationMethod<
+  GetScalingConfigurationRecommendationRequest,
   GetScalingConfigurationRecommendationResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38436,9 +38220,8 @@ export const getScalingConfigurationRecommendation: (
 /**
  * An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in `Search` queries. Provides suggestions for `HyperParameters`, `Tags`, and `Metrics`.
  */
-export const getSearchSuggestions: (
-  input: GetSearchSuggestionsRequest,
-) => effect.Effect<
+export const getSearchSuggestions: API.OperationMethod<
+  GetSearchSuggestionsRequest,
   GetSearchSuggestionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38450,9 +38233,8 @@ export const getSearchSuggestions: (
 /**
  * Import hub content.
  */
-export const importHubContent: (
-  input: ImportHubContentRequest,
-) => effect.Effect<
+export const importHubContent: API.OperationMethod<
+  ImportHubContentRequest,
   ImportHubContentResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -38464,14 +38246,12 @@ export const importHubContent: (
 /**
  * Lists the actions in your account and their properties.
  */
-export const listActions: {
-  (
-    input: ListActionsRequest,
-  ): effect.Effect<
-    ListActionsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActions: API.OperationMethod<
+  ListActionsRequest,
+  ListActionsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActionsRequest,
   ) => stream.Stream<
@@ -38500,14 +38280,12 @@ export const listActions: {
 /**
  * Lists the machine learning algorithms that have been created.
  */
-export const listAlgorithms: {
-  (
-    input: ListAlgorithmsInput,
-  ): effect.Effect<
-    ListAlgorithmsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAlgorithms: API.OperationMethod<
+  ListAlgorithmsInput,
+  ListAlgorithmsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAlgorithmsInput,
   ) => stream.Stream<
@@ -38536,14 +38314,12 @@ export const listAlgorithms: {
 /**
  * Lists the aliases of a specified image or image version.
  */
-export const listAliases: {
-  (
-    input: ListAliasesRequest,
-  ): effect.Effect<
-    ListAliasesResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAliases: API.OperationMethod<
+  ListAliasesRequest,
+  ListAliasesResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
@@ -38572,14 +38348,12 @@ export const listAliases: {
 /**
  * Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
  */
-export const listAppImageConfigs: {
-  (
-    input: ListAppImageConfigsRequest,
-  ): effect.Effect<
-    ListAppImageConfigsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppImageConfigs: API.OperationMethod<
+  ListAppImageConfigsRequest,
+  ListAppImageConfigsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppImageConfigsRequest,
   ) => stream.Stream<
@@ -38608,14 +38382,12 @@ export const listAppImageConfigs: {
 /**
  * Lists apps.
  */
-export const listApps: {
-  (
-    input: ListAppsRequest,
-  ): effect.Effect<
-    ListAppsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApps: API.OperationMethod<
+  ListAppsRequest,
+  ListAppsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppsRequest,
   ) => stream.Stream<
@@ -38644,14 +38416,12 @@ export const listApps: {
 /**
  * Lists the artifacts in your account and their properties.
  */
-export const listArtifacts: {
-  (
-    input: ListArtifactsRequest,
-  ): effect.Effect<
-    ListArtifactsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listArtifacts: API.OperationMethod<
+  ListArtifactsRequest,
+  ListArtifactsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListArtifactsRequest,
   ) => stream.Stream<
@@ -38680,14 +38450,12 @@ export const listArtifacts: {
 /**
  * Lists the associations in your account and their properties.
  */
-export const listAssociations: {
-  (
-    input: ListAssociationsRequest,
-  ): effect.Effect<
-    ListAssociationsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociations: API.OperationMethod<
+  ListAssociationsRequest,
+  ListAssociationsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociationsRequest,
   ) => stream.Stream<
@@ -38716,14 +38484,12 @@ export const listAssociations: {
 /**
  * Request a list of jobs.
  */
-export const listAutoMLJobs: {
-  (
-    input: ListAutoMLJobsRequest,
-  ): effect.Effect<
-    ListAutoMLJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutoMLJobs: API.OperationMethod<
+  ListAutoMLJobsRequest,
+  ListAutoMLJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutoMLJobsRequest,
   ) => stream.Stream<
@@ -38752,14 +38518,12 @@ export const listAutoMLJobs: {
 /**
  * List the candidates created for the job.
  */
-export const listCandidatesForAutoMLJob: {
-  (
-    input: ListCandidatesForAutoMLJobRequest,
-  ): effect.Effect<
-    ListCandidatesForAutoMLJobResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCandidatesForAutoMLJob: API.OperationMethod<
+  ListCandidatesForAutoMLJobRequest,
+  ListCandidatesForAutoMLJobResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCandidatesForAutoMLJobRequest,
   ) => stream.Stream<
@@ -38788,14 +38552,12 @@ export const listCandidatesForAutoMLJob: {
 /**
  * Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
  */
-export const listClusterEvents: {
-  (
-    input: ListClusterEventsRequest,
-  ): effect.Effect<
-    ListClusterEventsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterEvents: API.OperationMethod<
+  ListClusterEventsRequest,
+  ListClusterEventsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterEventsRequest,
   ) => stream.Stream<
@@ -38824,14 +38586,12 @@ export const listClusterEvents: {
 /**
  * Retrieves the list of instances (also called *nodes* interchangeably) in a SageMaker HyperPod cluster.
  */
-export const listClusterNodes: {
-  (
-    input: ListClusterNodesRequest,
-  ): effect.Effect<
-    ListClusterNodesResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterNodes: API.OperationMethod<
+  ListClusterNodesRequest,
+  ListClusterNodesResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterNodesRequest,
   ) => stream.Stream<
@@ -38860,14 +38620,12 @@ export const listClusterNodes: {
 /**
  * Retrieves the list of SageMaker HyperPod clusters.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -38896,14 +38654,12 @@ export const listClusters: {
 /**
  * List the cluster policy configurations.
  */
-export const listClusterSchedulerConfigs: {
-  (
-    input: ListClusterSchedulerConfigsRequest,
-  ): effect.Effect<
-    ListClusterSchedulerConfigsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterSchedulerConfigs: API.OperationMethod<
+  ListClusterSchedulerConfigsRequest,
+  ListClusterSchedulerConfigsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterSchedulerConfigsRequest,
   ) => stream.Stream<
@@ -38932,14 +38688,12 @@ export const listClusterSchedulerConfigs: {
 /**
  * Gets a list of the Git repositories in your account.
  */
-export const listCodeRepositories: {
-  (
-    input: ListCodeRepositoriesInput,
-  ): effect.Effect<
-    ListCodeRepositoriesOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCodeRepositories: API.OperationMethod<
+  ListCodeRepositoriesInput,
+  ListCodeRepositoriesOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCodeRepositoriesInput,
   ) => stream.Stream<
@@ -38970,14 +38724,12 @@ export const listCodeRepositories: {
  *
  * To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
  */
-export const listCompilationJobs: {
-  (
-    input: ListCompilationJobsRequest,
-  ): effect.Effect<
-    ListCompilationJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCompilationJobs: API.OperationMethod<
+  ListCompilationJobsRequest,
+  ListCompilationJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCompilationJobsRequest,
   ) => stream.Stream<
@@ -39006,14 +38758,12 @@ export const listCompilationJobs: {
 /**
  * List the resource allocation definitions.
  */
-export const listComputeQuotas: {
-  (
-    input: ListComputeQuotasRequest,
-  ): effect.Effect<
-    ListComputeQuotasResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComputeQuotas: API.OperationMethod<
+  ListComputeQuotasRequest,
+  ListComputeQuotasResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComputeQuotasRequest,
   ) => stream.Stream<
@@ -39042,14 +38792,12 @@ export const listComputeQuotas: {
 /**
  * Lists the contexts in your account and their properties.
  */
-export const listContexts: {
-  (
-    input: ListContextsRequest,
-  ): effect.Effect<
-    ListContextsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listContexts: API.OperationMethod<
+  ListContextsRequest,
+  ListContextsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContextsRequest,
   ) => stream.Stream<
@@ -39078,14 +38826,12 @@ export const listContexts: {
 /**
  * Lists the data quality job definitions in your account.
  */
-export const listDataQualityJobDefinitions: {
-  (
-    input: ListDataQualityJobDefinitionsRequest,
-  ): effect.Effect<
-    ListDataQualityJobDefinitionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataQualityJobDefinitions: API.OperationMethod<
+  ListDataQualityJobDefinitionsRequest,
+  ListDataQualityJobDefinitionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataQualityJobDefinitionsRequest,
   ) => stream.Stream<
@@ -39114,14 +38860,12 @@ export const listDataQualityJobDefinitions: {
 /**
  * Returns a list of devices in the fleet.
  */
-export const listDeviceFleets: {
-  (
-    input: ListDeviceFleetsRequest,
-  ): effect.Effect<
-    ListDeviceFleetsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeviceFleets: API.OperationMethod<
+  ListDeviceFleetsRequest,
+  ListDeviceFleetsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeviceFleetsRequest,
   ) => stream.Stream<
@@ -39150,14 +38894,12 @@ export const listDeviceFleets: {
 /**
  * A list of devices.
  */
-export const listDevices: {
-  (
-    input: ListDevicesRequest,
-  ): effect.Effect<
-    ListDevicesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevices: API.OperationMethod<
+  ListDevicesRequest,
+  ListDevicesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesRequest,
   ) => stream.Stream<
@@ -39186,14 +38928,12 @@ export const listDevices: {
 /**
  * Lists the domains.
  */
-export const listDomains: {
-  (
-    input: ListDomainsRequest,
-  ): effect.Effect<
-    ListDomainsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
@@ -39222,14 +38962,12 @@ export const listDomains: {
 /**
  * Lists all edge deployment plans.
  */
-export const listEdgeDeploymentPlans: {
-  (
-    input: ListEdgeDeploymentPlansRequest,
-  ): effect.Effect<
-    ListEdgeDeploymentPlansResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEdgeDeploymentPlans: API.OperationMethod<
+  ListEdgeDeploymentPlansRequest,
+  ListEdgeDeploymentPlansResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEdgeDeploymentPlansRequest,
   ) => stream.Stream<
@@ -39258,14 +38996,12 @@ export const listEdgeDeploymentPlans: {
 /**
  * Returns a list of edge packaging jobs.
  */
-export const listEdgePackagingJobs: {
-  (
-    input: ListEdgePackagingJobsRequest,
-  ): effect.Effect<
-    ListEdgePackagingJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEdgePackagingJobs: API.OperationMethod<
+  ListEdgePackagingJobsRequest,
+  ListEdgePackagingJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEdgePackagingJobsRequest,
   ) => stream.Stream<
@@ -39294,14 +39030,12 @@ export const listEdgePackagingJobs: {
 /**
  * Lists endpoint configurations.
  */
-export const listEndpointConfigs: {
-  (
-    input: ListEndpointConfigsInput,
-  ): effect.Effect<
-    ListEndpointConfigsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpointConfigs: API.OperationMethod<
+  ListEndpointConfigsInput,
+  ListEndpointConfigsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointConfigsInput,
   ) => stream.Stream<
@@ -39330,14 +39064,12 @@ export const listEndpointConfigs: {
 /**
  * Lists endpoints.
  */
-export const listEndpoints: {
-  (
-    input: ListEndpointsInput,
-  ): effect.Effect<
-    ListEndpointsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpoints: API.OperationMethod<
+  ListEndpointsInput,
+  ListEndpointsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointsInput,
   ) => stream.Stream<
@@ -39366,14 +39098,12 @@ export const listEndpoints: {
 /**
  * Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
  */
-export const listExperiments: {
-  (
-    input: ListExperimentsRequest,
-  ): effect.Effect<
-    ListExperimentsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExperiments: API.OperationMethod<
+  ListExperimentsRequest,
+  ListExperimentsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExperimentsRequest,
   ) => stream.Stream<
@@ -39402,14 +39132,12 @@ export const listExperiments: {
 /**
  * List `FeatureGroup`s based on given filter and order.
  */
-export const listFeatureGroups: {
-  (
-    input: ListFeatureGroupsRequest,
-  ): effect.Effect<
-    ListFeatureGroupsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFeatureGroups: API.OperationMethod<
+  ListFeatureGroupsRequest,
+  ListFeatureGroupsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFeatureGroupsRequest,
   ) => stream.Stream<
@@ -39438,14 +39166,12 @@ export const listFeatureGroups: {
 /**
  * Returns information about the flow definitions in your account.
  */
-export const listFlowDefinitions: {
-  (
-    input: ListFlowDefinitionsRequest,
-  ): effect.Effect<
-    ListFlowDefinitionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowDefinitions: API.OperationMethod<
+  ListFlowDefinitionsRequest,
+  ListFlowDefinitionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowDefinitionsRequest,
   ) => stream.Stream<
@@ -39474,9 +39200,8 @@ export const listFlowDefinitions: {
 /**
  * List the contents of a hub.
  */
-export const listHubContents: (
-  input: ListHubContentsRequest,
-) => effect.Effect<
+export const listHubContents: API.OperationMethod<
+  ListHubContentsRequest,
   ListHubContentsResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -39488,9 +39213,8 @@ export const listHubContents: (
 /**
  * List hub content versions.
  */
-export const listHubContentVersions: (
-  input: ListHubContentVersionsRequest,
-) => effect.Effect<
+export const listHubContentVersions: API.OperationMethod<
+  ListHubContentVersionsRequest,
   ListHubContentVersionsResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -39502,9 +39226,8 @@ export const listHubContentVersions: (
 /**
  * List all existing hubs.
  */
-export const listHubs: (
-  input: ListHubsRequest,
-) => effect.Effect<
+export const listHubs: API.OperationMethod<
+  ListHubsRequest,
   ListHubsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -39516,14 +39239,12 @@ export const listHubs: (
 /**
  * Returns information about the human task user interfaces in your account.
  */
-export const listHumanTaskUis: {
-  (
-    input: ListHumanTaskUisRequest,
-  ): effect.Effect<
-    ListHumanTaskUisResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHumanTaskUis: API.OperationMethod<
+  ListHumanTaskUisRequest,
+  ListHumanTaskUisResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHumanTaskUisRequest,
   ) => stream.Stream<
@@ -39552,14 +39273,12 @@ export const listHumanTaskUis: {
 /**
  * Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
  */
-export const listHyperParameterTuningJobs: {
-  (
-    input: ListHyperParameterTuningJobsRequest,
-  ): effect.Effect<
-    ListHyperParameterTuningJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHyperParameterTuningJobs: API.OperationMethod<
+  ListHyperParameterTuningJobsRequest,
+  ListHyperParameterTuningJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHyperParameterTuningJobsRequest,
   ) => stream.Stream<
@@ -39588,14 +39307,12 @@ export const listHyperParameterTuningJobs: {
 /**
  * Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
  */
-export const listImages: {
-  (
-    input: ListImagesRequest,
-  ): effect.Effect<
-    ListImagesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImages: API.OperationMethod<
+  ListImagesRequest,
+  ListImagesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImagesRequest,
   ) => stream.Stream<
@@ -39624,14 +39341,12 @@ export const listImages: {
 /**
  * Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
  */
-export const listImageVersions: {
-  (
-    input: ListImageVersionsRequest,
-  ): effect.Effect<
-    ListImageVersionsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImageVersions: API.OperationMethod<
+  ListImageVersionsRequest,
+  ListImageVersionsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImageVersionsRequest,
   ) => stream.Stream<
@@ -39660,14 +39375,12 @@ export const listImageVersions: {
 /**
  * Lists the inference components in your account and their properties.
  */
-export const listInferenceComponents: {
-  (
-    input: ListInferenceComponentsInput,
-  ): effect.Effect<
-    ListInferenceComponentsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceComponents: API.OperationMethod<
+  ListInferenceComponentsInput,
+  ListInferenceComponentsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceComponentsInput,
   ) => stream.Stream<
@@ -39696,14 +39409,12 @@ export const listInferenceComponents: {
 /**
  * Returns the list of all inference experiments.
  */
-export const listInferenceExperiments: {
-  (
-    input: ListInferenceExperimentsRequest,
-  ): effect.Effect<
-    ListInferenceExperimentsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceExperiments: API.OperationMethod<
+  ListInferenceExperimentsRequest,
+  ListInferenceExperimentsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceExperimentsRequest,
   ) => stream.Stream<
@@ -39732,14 +39443,12 @@ export const listInferenceExperiments: {
 /**
  * Lists recommendation jobs that satisfy various filters.
  */
-export const listInferenceRecommendationsJobs: {
-  (
-    input: ListInferenceRecommendationsJobsRequest,
-  ): effect.Effect<
-    ListInferenceRecommendationsJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceRecommendationsJobs: API.OperationMethod<
+  ListInferenceRecommendationsJobsRequest,
+  ListInferenceRecommendationsJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceRecommendationsJobsRequest,
   ) => stream.Stream<
@@ -39770,14 +39479,12 @@ export const listInferenceRecommendationsJobs: {
  *
  * The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
  */
-export const listInferenceRecommendationsJobSteps: {
-  (
-    input: ListInferenceRecommendationsJobStepsRequest,
-  ): effect.Effect<
-    ListInferenceRecommendationsJobStepsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceRecommendationsJobSteps: API.OperationMethod<
+  ListInferenceRecommendationsJobStepsRequest,
+  ListInferenceRecommendationsJobStepsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceRecommendationsJobStepsRequest,
   ) => stream.Stream<
@@ -39806,14 +39513,12 @@ export const listInferenceRecommendationsJobSteps: {
 /**
  * Gets a list of labeling jobs.
  */
-export const listLabelingJobs: {
-  (
-    input: ListLabelingJobsRequest,
-  ): effect.Effect<
-    ListLabelingJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLabelingJobs: API.OperationMethod<
+  ListLabelingJobsRequest,
+  ListLabelingJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLabelingJobsRequest,
   ) => stream.Stream<
@@ -39842,14 +39547,12 @@ export const listLabelingJobs: {
 /**
  * Gets a list of labeling jobs assigned to a specified work team.
  */
-export const listLabelingJobsForWorkteam: {
-  (
-    input: ListLabelingJobsForWorkteamRequest,
-  ): effect.Effect<
-    ListLabelingJobsForWorkteamResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLabelingJobsForWorkteam: API.OperationMethod<
+  ListLabelingJobsForWorkteamRequest,
+  ListLabelingJobsForWorkteamResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLabelingJobsForWorkteamRequest,
   ) => stream.Stream<
@@ -39878,14 +39581,12 @@ export const listLabelingJobsForWorkteam: {
 /**
  * A list of lineage groups shared with your Amazon Web Services account. For more information, see Cross-Account Lineage Tracking in the *Amazon SageMaker Developer Guide*.
  */
-export const listLineageGroups: {
-  (
-    input: ListLineageGroupsRequest,
-  ): effect.Effect<
-    ListLineageGroupsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLineageGroups: API.OperationMethod<
+  ListLineageGroupsRequest,
+  ListLineageGroupsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLineageGroupsRequest,
   ) => stream.Stream<
@@ -39914,14 +39615,12 @@ export const listLineageGroups: {
 /**
  * Lists all MLflow Apps
  */
-export const listMlflowApps: {
-  (
-    input: ListMlflowAppsRequest,
-  ): effect.Effect<
-    ListMlflowAppsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMlflowApps: API.OperationMethod<
+  ListMlflowAppsRequest,
+  ListMlflowAppsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMlflowAppsRequest,
   ) => stream.Stream<
@@ -39950,14 +39649,12 @@ export const listMlflowApps: {
 /**
  * Lists all MLflow Tracking Servers.
  */
-export const listMlflowTrackingServers: {
-  (
-    input: ListMlflowTrackingServersRequest,
-  ): effect.Effect<
-    ListMlflowTrackingServersResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMlflowTrackingServers: API.OperationMethod<
+  ListMlflowTrackingServersRequest,
+  ListMlflowTrackingServersResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMlflowTrackingServersRequest,
   ) => stream.Stream<
@@ -39986,14 +39683,12 @@ export const listMlflowTrackingServers: {
 /**
  * Lists model bias jobs definitions that satisfy various filters.
  */
-export const listModelBiasJobDefinitions: {
-  (
-    input: ListModelBiasJobDefinitionsRequest,
-  ): effect.Effect<
-    ListModelBiasJobDefinitionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelBiasJobDefinitions: API.OperationMethod<
+  ListModelBiasJobDefinitionsRequest,
+  ListModelBiasJobDefinitionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelBiasJobDefinitionsRequest,
   ) => stream.Stream<
@@ -40022,14 +39717,12 @@ export const listModelBiasJobDefinitions: {
 /**
  * List the export jobs for the Amazon SageMaker Model Card.
  */
-export const listModelCardExportJobs: {
-  (
-    input: ListModelCardExportJobsRequest,
-  ): effect.Effect<
-    ListModelCardExportJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelCardExportJobs: API.OperationMethod<
+  ListModelCardExportJobsRequest,
+  ListModelCardExportJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelCardExportJobsRequest,
   ) => stream.Stream<
@@ -40058,14 +39751,12 @@ export const listModelCardExportJobs: {
 /**
  * List existing model cards.
  */
-export const listModelCards: {
-  (
-    input: ListModelCardsRequest,
-  ): effect.Effect<
-    ListModelCardsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelCards: API.OperationMethod<
+  ListModelCardsRequest,
+  ListModelCardsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelCardsRequest,
   ) => stream.Stream<
@@ -40094,14 +39785,12 @@ export const listModelCards: {
 /**
  * List existing versions of an Amazon SageMaker Model Card.
  */
-export const listModelCardVersions: {
-  (
-    input: ListModelCardVersionsRequest,
-  ): effect.Effect<
-    ListModelCardVersionsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelCardVersions: API.OperationMethod<
+  ListModelCardVersionsRequest,
+  ListModelCardVersionsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelCardVersionsRequest,
   ) => stream.Stream<
@@ -40130,14 +39819,12 @@ export const listModelCardVersions: {
 /**
  * Lists model explainability job definitions that satisfy various filters.
  */
-export const listModelExplainabilityJobDefinitions: {
-  (
-    input: ListModelExplainabilityJobDefinitionsRequest,
-  ): effect.Effect<
-    ListModelExplainabilityJobDefinitionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelExplainabilityJobDefinitions: API.OperationMethod<
+  ListModelExplainabilityJobDefinitionsRequest,
+  ListModelExplainabilityJobDefinitionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelExplainabilityJobDefinitionsRequest,
   ) => stream.Stream<
@@ -40166,14 +39853,12 @@ export const listModelExplainabilityJobDefinitions: {
 /**
  * Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
  */
-export const listModelMetadata: {
-  (
-    input: ListModelMetadataRequest,
-  ): effect.Effect<
-    ListModelMetadataResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelMetadata: API.OperationMethod<
+  ListModelMetadataRequest,
+  ListModelMetadataResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelMetadataRequest,
   ) => stream.Stream<
@@ -40202,14 +39887,12 @@ export const listModelMetadata: {
 /**
  * Gets a list of the model groups in your Amazon Web Services account.
  */
-export const listModelPackageGroups: {
-  (
-    input: ListModelPackageGroupsInput,
-  ): effect.Effect<
-    ListModelPackageGroupsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelPackageGroups: API.OperationMethod<
+  ListModelPackageGroupsInput,
+  ListModelPackageGroupsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelPackageGroupsInput,
   ) => stream.Stream<
@@ -40238,14 +39921,12 @@ export const listModelPackageGroups: {
 /**
  * Lists the model packages that have been created.
  */
-export const listModelPackages: {
-  (
-    input: ListModelPackagesInput,
-  ): effect.Effect<
-    ListModelPackagesOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelPackages: API.OperationMethod<
+  ListModelPackagesInput,
+  ListModelPackagesOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelPackagesInput,
   ) => stream.Stream<
@@ -40274,14 +39955,12 @@ export const listModelPackages: {
 /**
  * Gets a list of model quality monitoring job definitions in your account.
  */
-export const listModelQualityJobDefinitions: {
-  (
-    input: ListModelQualityJobDefinitionsRequest,
-  ): effect.Effect<
-    ListModelQualityJobDefinitionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelQualityJobDefinitions: API.OperationMethod<
+  ListModelQualityJobDefinitionsRequest,
+  ListModelQualityJobDefinitionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelQualityJobDefinitionsRequest,
   ) => stream.Stream<
@@ -40310,14 +39989,12 @@ export const listModelQualityJobDefinitions: {
 /**
  * Lists models created with the `CreateModel` API.
  */
-export const listModels: {
-  (
-    input: ListModelsInput,
-  ): effect.Effect<
-    ListModelsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModels: API.OperationMethod<
+  ListModelsInput,
+  ListModelsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelsInput,
   ) => stream.Stream<
@@ -40346,14 +40023,12 @@ export const listModels: {
 /**
  * Gets a list of past alerts in a model monitoring schedule.
  */
-export const listMonitoringAlertHistory: {
-  (
-    input: ListMonitoringAlertHistoryRequest,
-  ): effect.Effect<
-    ListMonitoringAlertHistoryResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitoringAlertHistory: API.OperationMethod<
+  ListMonitoringAlertHistoryRequest,
+  ListMonitoringAlertHistoryResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitoringAlertHistoryRequest,
   ) => stream.Stream<
@@ -40382,14 +40057,12 @@ export const listMonitoringAlertHistory: {
 /**
  * Gets the alerts for a single monitoring schedule.
  */
-export const listMonitoringAlerts: {
-  (
-    input: ListMonitoringAlertsRequest,
-  ): effect.Effect<
-    ListMonitoringAlertsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitoringAlerts: API.OperationMethod<
+  ListMonitoringAlertsRequest,
+  ListMonitoringAlertsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitoringAlertsRequest,
   ) => stream.Stream<
@@ -40418,14 +40091,12 @@ export const listMonitoringAlerts: {
 /**
  * Returns list of all monitoring job executions.
  */
-export const listMonitoringExecutions: {
-  (
-    input: ListMonitoringExecutionsRequest,
-  ): effect.Effect<
-    ListMonitoringExecutionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitoringExecutions: API.OperationMethod<
+  ListMonitoringExecutionsRequest,
+  ListMonitoringExecutionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitoringExecutionsRequest,
   ) => stream.Stream<
@@ -40454,14 +40125,12 @@ export const listMonitoringExecutions: {
 /**
  * Returns list of all monitoring schedules.
  */
-export const listMonitoringSchedules: {
-  (
-    input: ListMonitoringSchedulesRequest,
-  ): effect.Effect<
-    ListMonitoringSchedulesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitoringSchedules: API.OperationMethod<
+  ListMonitoringSchedulesRequest,
+  ListMonitoringSchedulesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitoringSchedulesRequest,
   ) => stream.Stream<
@@ -40490,14 +40159,12 @@ export const listMonitoringSchedules: {
 /**
  * Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
  */
-export const listNotebookInstanceLifecycleConfigs: {
-  (
-    input: ListNotebookInstanceLifecycleConfigsInput,
-  ): effect.Effect<
-    ListNotebookInstanceLifecycleConfigsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNotebookInstanceLifecycleConfigs: API.OperationMethod<
+  ListNotebookInstanceLifecycleConfigsInput,
+  ListNotebookInstanceLifecycleConfigsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotebookInstanceLifecycleConfigsInput,
   ) => stream.Stream<
@@ -40526,14 +40193,12 @@ export const listNotebookInstanceLifecycleConfigs: {
 /**
  * Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region.
  */
-export const listNotebookInstances: {
-  (
-    input: ListNotebookInstancesInput,
-  ): effect.Effect<
-    ListNotebookInstancesOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNotebookInstances: API.OperationMethod<
+  ListNotebookInstancesInput,
+  ListNotebookInstancesOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotebookInstancesInput,
   ) => stream.Stream<
@@ -40562,14 +40227,12 @@ export const listNotebookInstances: {
 /**
  * Lists the optimization jobs in your account and their properties.
  */
-export const listOptimizationJobs: {
-  (
-    input: ListOptimizationJobsRequest,
-  ): effect.Effect<
-    ListOptimizationJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOptimizationJobs: API.OperationMethod<
+  ListOptimizationJobsRequest,
+  ListOptimizationJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOptimizationJobsRequest,
   ) => stream.Stream<
@@ -40598,14 +40261,12 @@ export const listOptimizationJobs: {
 /**
  * Lists all of the SageMaker Partner AI Apps in an account.
  */
-export const listPartnerApps: {
-  (
-    input: ListPartnerAppsRequest,
-  ): effect.Effect<
-    ListPartnerAppsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPartnerApps: API.OperationMethod<
+  ListPartnerAppsRequest,
+  ListPartnerAppsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPartnerAppsRequest,
   ) => stream.Stream<
@@ -40634,14 +40295,12 @@ export const listPartnerApps: {
 /**
  * Gets a list of the pipeline executions.
  */
-export const listPipelineExecutions: {
-  (
-    input: ListPipelineExecutionsRequest,
-  ): effect.Effect<
-    ListPipelineExecutionsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineExecutions: API.OperationMethod<
+  ListPipelineExecutionsRequest,
+  ListPipelineExecutionsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineExecutionsRequest,
   ) => stream.Stream<
@@ -40670,14 +40329,12 @@ export const listPipelineExecutions: {
 /**
  * Gets a list of `PipeLineExecutionStep` objects.
  */
-export const listPipelineExecutionSteps: {
-  (
-    input: ListPipelineExecutionStepsRequest,
-  ): effect.Effect<
-    ListPipelineExecutionStepsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineExecutionSteps: API.OperationMethod<
+  ListPipelineExecutionStepsRequest,
+  ListPipelineExecutionStepsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineExecutionStepsRequest,
   ) => stream.Stream<
@@ -40706,14 +40363,12 @@ export const listPipelineExecutionSteps: {
 /**
  * Gets a list of parameters for a pipeline execution.
  */
-export const listPipelineParametersForExecution: {
-  (
-    input: ListPipelineParametersForExecutionRequest,
-  ): effect.Effect<
-    ListPipelineParametersForExecutionResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineParametersForExecution: API.OperationMethod<
+  ListPipelineParametersForExecutionRequest,
+  ListPipelineParametersForExecutionResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineParametersForExecutionRequest,
   ) => stream.Stream<
@@ -40742,14 +40397,12 @@ export const listPipelineParametersForExecution: {
 /**
  * Gets a list of pipelines.
  */
-export const listPipelines: {
-  (
-    input: ListPipelinesRequest,
-  ): effect.Effect<
-    ListPipelinesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelines: API.OperationMethod<
+  ListPipelinesRequest,
+  ListPipelinesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelinesRequest,
   ) => stream.Stream<
@@ -40778,14 +40431,12 @@ export const listPipelines: {
 /**
  * Gets a list of all versions of the pipeline.
  */
-export const listPipelineVersions: {
-  (
-    input: ListPipelineVersionsRequest,
-  ): effect.Effect<
-    ListPipelineVersionsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipelineVersions: API.OperationMethod<
+  ListPipelineVersionsRequest,
+  ListPipelineVersionsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipelineVersionsRequest,
   ) => stream.Stream<
@@ -40814,14 +40465,12 @@ export const listPipelineVersions: {
 /**
  * Lists processing jobs that satisfy various filters.
  */
-export const listProcessingJobs: {
-  (
-    input: ListProcessingJobsRequest,
-  ): effect.Effect<
-    ListProcessingJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProcessingJobs: API.OperationMethod<
+  ListProcessingJobsRequest,
+  ListProcessingJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProcessingJobsRequest,
   ) => stream.Stream<
@@ -40850,14 +40499,12 @@ export const listProcessingJobs: {
 /**
  * Gets a list of the projects in an Amazon Web Services account.
  */
-export const listProjects: {
-  (
-    input: ListProjectsInput,
-  ): effect.Effect<
-    ListProjectsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsInput,
+  ListProjectsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsInput,
   ) => stream.Stream<
@@ -40885,14 +40532,12 @@ export const listProjects: {
 /**
  * Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of `ResourceCatalog`s viewable is 1000.
  */
-export const listResourceCatalogs: {
-  (
-    input: ListResourceCatalogsRequest,
-  ): effect.Effect<
-    ListResourceCatalogsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceCatalogs: API.OperationMethod<
+  ListResourceCatalogsRequest,
+  ListResourceCatalogsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceCatalogsRequest,
   ) => stream.Stream<
@@ -40921,14 +40566,12 @@ export const listResourceCatalogs: {
 /**
  * Lists spaces.
  */
-export const listSpaces: {
-  (
-    input: ListSpacesRequest,
-  ): effect.Effect<
-    ListSpacesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpaces: API.OperationMethod<
+  ListSpacesRequest,
+  ListSpacesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpacesRequest,
   ) => stream.Stream<
@@ -40957,14 +40600,12 @@ export const listSpaces: {
 /**
  * Lists devices allocated to the stage, containing detailed device information and deployment status.
  */
-export const listStageDevices: {
-  (
-    input: ListStageDevicesRequest,
-  ): effect.Effect<
-    ListStageDevicesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStageDevices: API.OperationMethod<
+  ListStageDevicesRequest,
+  ListStageDevicesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStageDevicesRequest,
   ) => stream.Stream<
@@ -40993,14 +40634,12 @@ export const listStageDevices: {
 /**
  * Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account.
  */
-export const listStudioLifecycleConfigs: {
-  (
-    input: ListStudioLifecycleConfigsRequest,
-  ): effect.Effect<
-    ListStudioLifecycleConfigsResponse,
-    ResourceInUse | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStudioLifecycleConfigs: API.OperationMethod<
+  ListStudioLifecycleConfigsRequest,
+  ListStudioLifecycleConfigsResponse,
+  ResourceInUse | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStudioLifecycleConfigsRequest,
   ) => stream.Stream<
@@ -41029,14 +40668,12 @@ export const listStudioLifecycleConfigs: {
 /**
  * Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the `NameContains` parameter.
  */
-export const listSubscribedWorkteams: {
-  (
-    input: ListSubscribedWorkteamsRequest,
-  ): effect.Effect<
-    ListSubscribedWorkteamsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubscribedWorkteams: API.OperationMethod<
+  ListSubscribedWorkteamsRequest,
+  ListSubscribedWorkteamsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscribedWorkteamsRequest,
   ) => stream.Stream<
@@ -41065,14 +40702,12 @@ export const listSubscribedWorkteams: {
 /**
  * Returns the tags for the specified SageMaker resource.
  */
-export const listTags: {
-  (
-    input: ListTagsInput,
-  ): effect.Effect<
-    ListTagsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTags: API.OperationMethod<
+  ListTagsInput,
+  ListTagsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsInput,
   ) => stream.Stream<
@@ -41113,14 +40748,12 @@ export const listTags: {
  *
  * `aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress`
  */
-export const listTrainingJobs: {
-  (
-    input: ListTrainingJobsRequest,
-  ): effect.Effect<
-    ListTrainingJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainingJobs: API.OperationMethod<
+  ListTrainingJobsRequest,
+  ListTrainingJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainingJobsRequest,
   ) => stream.Stream<
@@ -41149,14 +40782,12 @@ export const listTrainingJobs: {
 /**
  * Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
  */
-export const listTrainingJobsForHyperParameterTuningJob: {
-  (
-    input: ListTrainingJobsForHyperParameterTuningJobRequest,
-  ): effect.Effect<
-    ListTrainingJobsForHyperParameterTuningJobResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainingJobsForHyperParameterTuningJob: API.OperationMethod<
+  ListTrainingJobsForHyperParameterTuningJobRequest,
+  ListTrainingJobsForHyperParameterTuningJobResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainingJobsForHyperParameterTuningJobRequest,
   ) => stream.Stream<
@@ -41185,14 +40816,12 @@ export const listTrainingJobsForHyperParameterTuningJob: {
 /**
  * Retrieves a list of training plans for the current account.
  */
-export const listTrainingPlans: {
-  (
-    input: ListTrainingPlansRequest,
-  ): effect.Effect<
-    ListTrainingPlansResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainingPlans: API.OperationMethod<
+  ListTrainingPlansRequest,
+  ListTrainingPlansResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainingPlansRequest,
   ) => stream.Stream<
@@ -41221,14 +40850,12 @@ export const listTrainingPlans: {
 /**
  * Lists transform jobs.
  */
-export const listTransformJobs: {
-  (
-    input: ListTransformJobsRequest,
-  ): effect.Effect<
-    ListTransformJobsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTransformJobs: API.OperationMethod<
+  ListTransformJobsRequest,
+  ListTransformJobsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTransformJobsRequest,
   ) => stream.Stream<
@@ -41263,14 +40890,12 @@ export const listTransformJobs: {
  *
  * - `TrialName`
  */
-export const listTrialComponents: {
-  (
-    input: ListTrialComponentsRequest,
-  ): effect.Effect<
-    ListTrialComponentsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrialComponents: API.OperationMethod<
+  ListTrialComponentsRequest,
+  ListTrialComponentsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrialComponentsRequest,
   ) => stream.Stream<
@@ -41299,14 +40924,12 @@ export const listTrialComponents: {
 /**
  * Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
  */
-export const listTrials: {
-  (
-    input: ListTrialsRequest,
-  ): effect.Effect<
-    ListTrialsResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrials: API.OperationMethod<
+  ListTrialsRequest,
+  ListTrialsResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrialsRequest,
   ) => stream.Stream<
@@ -41335,14 +40958,12 @@ export const listTrials: {
 /**
  * Lists all UltraServers that are part of a specified reserved capacity.
  */
-export const listUltraServersByReservedCapacity: {
-  (
-    input: ListUltraServersByReservedCapacityRequest,
-  ): effect.Effect<
-    ListUltraServersByReservedCapacityResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUltraServersByReservedCapacity: API.OperationMethod<
+  ListUltraServersByReservedCapacityRequest,
+  ListUltraServersByReservedCapacityResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUltraServersByReservedCapacityRequest,
   ) => stream.Stream<
@@ -41371,14 +40992,12 @@ export const listUltraServersByReservedCapacity: {
 /**
  * Lists user profiles.
  */
-export const listUserProfiles: {
-  (
-    input: ListUserProfilesRequest,
-  ): effect.Effect<
-    ListUserProfilesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserProfiles: API.OperationMethod<
+  ListUserProfilesRequest,
+  ListUserProfilesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserProfilesRequest,
   ) => stream.Stream<
@@ -41407,14 +41026,12 @@ export const listUserProfiles: {
 /**
  * Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region.
  */
-export const listWorkforces: {
-  (
-    input: ListWorkforcesRequest,
-  ): effect.Effect<
-    ListWorkforcesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkforces: API.OperationMethod<
+  ListWorkforcesRequest,
+  ListWorkforcesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkforcesRequest,
   ) => stream.Stream<
@@ -41443,14 +41060,12 @@ export const listWorkforces: {
 /**
  * Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the `NameContains` parameter.
  */
-export const listWorkteams: {
-  (
-    input: ListWorkteamsRequest,
-  ): effect.Effect<
-    ListWorkteamsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkteams: API.OperationMethod<
+  ListWorkteamsRequest,
+  ListWorkteamsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkteamsRequest,
   ) => stream.Stream<
@@ -41479,9 +41094,8 @@ export const listWorkteams: {
 /**
  * Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the *Amazon Web Services Identity and Access Management User Guide.*.
  */
-export const putModelPackageGroupPolicy: (
-  input: PutModelPackageGroupPolicyInput,
-) => effect.Effect<
+export const putModelPackageGroupPolicy: API.OperationMethod<
+  PutModelPackageGroupPolicyInput,
   PutModelPackageGroupPolicyOutput,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41493,14 +41107,12 @@ export const putModelPackageGroupPolicy: (
 /**
  * Use this action to inspect your lineage and discover relationships between entities. For more information, see Querying Lineage Entities in the *Amazon SageMaker Developer Guide*.
  */
-export const queryLineage: {
-  (
-    input: QueryLineageRequest,
-  ): effect.Effect<
-    QueryLineageResponse,
-    ResourceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const queryLineage: API.OperationMethod<
+  QueryLineageRequest,
+  QueryLineageResponse,
+  ResourceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: QueryLineageRequest,
   ) => stream.Stream<
@@ -41528,9 +41140,8 @@ export const queryLineage: {
 /**
  * Register devices.
  */
-export const registerDevices: (
-  input: RegisterDevicesRequest,
-) => effect.Effect<
+export const registerDevices: API.OperationMethod<
+  RegisterDevicesRequest,
   RegisterDevicesResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41542,9 +41153,8 @@ export const registerDevices: (
 /**
  * Renders the UI template so that you can preview the worker's experience.
  */
-export const renderUiTemplate: (
-  input: RenderUiTemplateRequest,
-) => effect.Effect<
+export const renderUiTemplate: API.OperationMethod<
+  RenderUiTemplateRequest,
   RenderUiTemplateResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41556,9 +41166,8 @@ export const renderUiTemplate: (
 /**
  * Retry the execution of the pipeline.
  */
-export const retryPipelineExecution: (
-  input: RetryPipelineExecutionRequest,
-) => effect.Effect<
+export const retryPipelineExecution: API.OperationMethod<
+  RetryPipelineExecutionRequest,
   RetryPipelineExecutionResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41574,14 +41183,12 @@ export const retryPipelineExecution: (
  *
  * The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference for more information.
  */
-export const search: {
-  (
-    input: SearchRequest,
-  ): effect.Effect<
-    SearchResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const search: API.OperationMethod<
+  SearchRequest,
+  SearchResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchRequest,
   ) => stream.Stream<
@@ -41616,9 +41223,8 @@ export const search: {
  *
  * For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see ` CreateTrainingPlan `.
  */
-export const searchTrainingPlanOfferings: (
-  input: SearchTrainingPlanOfferingsRequest,
-) => effect.Effect<
+export const searchTrainingPlanOfferings: API.OperationMethod<
+  SearchTrainingPlanOfferingsRequest,
   SearchTrainingPlanOfferingsResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41630,9 +41236,8 @@ export const searchTrainingPlanOfferings: (
 /**
  * Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
  */
-export const sendPipelineExecutionStepFailure: (
-  input: SendPipelineExecutionStepFailureRequest,
-) => effect.Effect<
+export const sendPipelineExecutionStepFailure: API.OperationMethod<
+  SendPipelineExecutionStepFailureRequest,
   SendPipelineExecutionStepFailureResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41644,9 +41249,8 @@ export const sendPipelineExecutionStepFailure: (
 /**
  * Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
  */
-export const sendPipelineExecutionStepSuccess: (
-  input: SendPipelineExecutionStepSuccessRequest,
-) => effect.Effect<
+export const sendPipelineExecutionStepSuccess: API.OperationMethod<
+  SendPipelineExecutionStepSuccessRequest,
   SendPipelineExecutionStepSuccessResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41658,9 +41262,8 @@ export const sendPipelineExecutionStepSuccess: (
 /**
  * Starts a stage in an edge deployment plan.
  */
-export const startEdgeDeploymentStage: (
-  input: StartEdgeDeploymentStageRequest,
-) => effect.Effect<
+export const startEdgeDeploymentStage: API.OperationMethod<
+  StartEdgeDeploymentStageRequest,
   StartEdgeDeploymentStageResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41672,9 +41275,8 @@ export const startEdgeDeploymentStage: (
 /**
  * Starts an inference experiment.
  */
-export const startInferenceExperiment: (
-  input: StartInferenceExperimentRequest,
-) => effect.Effect<
+export const startInferenceExperiment: API.OperationMethod<
+  StartInferenceExperimentRequest,
   StartInferenceExperimentResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41686,9 +41288,8 @@ export const startInferenceExperiment: (
 /**
  * Programmatically start an MLflow Tracking Server.
  */
-export const startMlflowTrackingServer: (
-  input: StartMlflowTrackingServerRequest,
-) => effect.Effect<
+export const startMlflowTrackingServer: API.OperationMethod<
+  StartMlflowTrackingServerRequest,
   StartMlflowTrackingServerResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41702,9 +41303,8 @@ export const startMlflowTrackingServer: (
  *
  * By default, when you successfully create a new schedule, the status of a monitoring schedule is `scheduled`.
  */
-export const startMonitoringSchedule: (
-  input: StartMonitoringScheduleRequest,
-) => effect.Effect<
+export const startMonitoringSchedule: API.OperationMethod<
+  StartMonitoringScheduleRequest,
   StartMonitoringScheduleResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41716,9 +41316,8 @@ export const startMonitoringSchedule: (
 /**
  * Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to `InService`. A notebook instance's status must be `InService` before you can connect to your Jupyter notebook.
  */
-export const startNotebookInstance: (
-  input: StartNotebookInstanceInput,
-) => effect.Effect<
+export const startNotebookInstance: API.OperationMethod<
+  StartNotebookInstanceInput,
   StartNotebookInstanceResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41730,9 +41329,8 @@ export const startNotebookInstance: (
 /**
  * Starts a pipeline execution.
  */
-export const startPipelineExecution: (
-  input: StartPipelineExecutionRequest,
-) => effect.Effect<
+export const startPipelineExecution: API.OperationMethod<
+  StartPipelineExecutionRequest,
   StartPipelineExecutionResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41744,9 +41342,8 @@ export const startPipelineExecution: (
 /**
  * Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space.
  */
-export const startSession: (
-  input: StartSessionRequest,
-) => effect.Effect<
+export const startSession: API.OperationMethod<
+  StartSessionRequest,
   StartSessionResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41758,9 +41355,8 @@ export const startSession: (
 /**
  * A method for forcing a running job to shut down.
  */
-export const stopAutoMLJob: (
-  input: StopAutoMLJobRequest,
-) => effect.Effect<
+export const stopAutoMLJob: API.OperationMethod<
+  StopAutoMLJobRequest,
   StopAutoMLJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41776,9 +41372,8 @@ export const stopAutoMLJob: (
  *
  * When it receives a `StopCompilationJob` request, Amazon SageMaker AI changes the `CompilationJobStatus` of the job to `Stopping`. After Amazon SageMaker stops the job, it sets the `CompilationJobStatus` to `Stopped`.
  */
-export const stopCompilationJob: (
-  input: StopCompilationJobRequest,
-) => effect.Effect<
+export const stopCompilationJob: API.OperationMethod<
+  StopCompilationJobRequest,
   StopCompilationJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41790,9 +41385,8 @@ export const stopCompilationJob: (
 /**
  * Stops a stage in an edge deployment plan.
  */
-export const stopEdgeDeploymentStage: (
-  input: StopEdgeDeploymentStageRequest,
-) => effect.Effect<
+export const stopEdgeDeploymentStage: API.OperationMethod<
+  StopEdgeDeploymentStageRequest,
   StopEdgeDeploymentStageResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41804,9 +41398,8 @@ export const stopEdgeDeploymentStage: (
 /**
  * Request to stop an edge packaging job.
  */
-export const stopEdgePackagingJob: (
-  input: StopEdgePackagingJobRequest,
-) => effect.Effect<
+export const stopEdgePackagingJob: API.OperationMethod<
+  StopEdgePackagingJobRequest,
   StopEdgePackagingJobResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41820,9 +41413,8 @@ export const stopEdgePackagingJob: (
  *
  * All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the `Stopped` state, it releases all reserved resources for the tuning job.
  */
-export const stopHyperParameterTuningJob: (
-  input: StopHyperParameterTuningJobRequest,
-) => effect.Effect<
+export const stopHyperParameterTuningJob: API.OperationMethod<
+  StopHyperParameterTuningJobRequest,
   StopHyperParameterTuningJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41834,9 +41426,8 @@ export const stopHyperParameterTuningJob: (
 /**
  * Stops an inference experiment.
  */
-export const stopInferenceExperiment: (
-  input: StopInferenceExperimentRequest,
-) => effect.Effect<
+export const stopInferenceExperiment: API.OperationMethod<
+  StopInferenceExperimentRequest,
   StopInferenceExperimentResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41848,9 +41439,8 @@ export const stopInferenceExperiment: (
 /**
  * Stops an Inference Recommender job.
  */
-export const stopInferenceRecommendationsJob: (
-  input: StopInferenceRecommendationsJobRequest,
-) => effect.Effect<
+export const stopInferenceRecommendationsJob: API.OperationMethod<
+  StopInferenceRecommendationsJobRequest,
   StopInferenceRecommendationsJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41862,9 +41452,8 @@ export const stopInferenceRecommendationsJob: (
 /**
  * Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
  */
-export const stopLabelingJob: (
-  input: StopLabelingJobRequest,
-) => effect.Effect<
+export const stopLabelingJob: API.OperationMethod<
+  StopLabelingJobRequest,
   StopLabelingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41876,9 +41465,8 @@ export const stopLabelingJob: (
 /**
  * Programmatically stop an MLflow Tracking Server.
  */
-export const stopMlflowTrackingServer: (
-  input: StopMlflowTrackingServerRequest,
-) => effect.Effect<
+export const stopMlflowTrackingServer: API.OperationMethod<
+  StopMlflowTrackingServerRequest,
   StopMlflowTrackingServerResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41890,9 +41478,8 @@ export const stopMlflowTrackingServer: (
 /**
  * Stops a previously started monitoring schedule.
  */
-export const stopMonitoringSchedule: (
-  input: StopMonitoringScheduleRequest,
-) => effect.Effect<
+export const stopMonitoringSchedule: API.OperationMethod<
+  StopMonitoringScheduleRequest,
   StopMonitoringScheduleResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41906,9 +41493,8 @@ export const stopMonitoringSchedule: (
  *
  * To access data on the ML storage volume for a notebook instance that has been terminated, call the `StartNotebookInstance` API. `StartNotebookInstance` launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
  */
-export const stopNotebookInstance: (
-  input: StopNotebookInstanceInput,
-) => effect.Effect<
+export const stopNotebookInstance: API.OperationMethod<
+  StopNotebookInstanceInput,
   StopNotebookInstanceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41920,9 +41506,8 @@ export const stopNotebookInstance: (
 /**
  * Ends a running inference optimization job.
  */
-export const stopOptimizationJob: (
-  input: StopOptimizationJobRequest,
-) => effect.Effect<
+export const stopOptimizationJob: API.OperationMethod<
+  StopOptimizationJobRequest,
   StopOptimizationJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41946,9 +41531,8 @@ export const stopOptimizationJob: (
  *
  * A pipeline execution can't be stopped while a lambda step is running because the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the execution while the Lambda function is running, the pipeline waits for the Lambda function to finish or until the timeout is hit, whichever occurs first, and then stops. If the Lambda function finishes, the pipeline execution status is `Stopped`. If the timeout is hit the pipeline execution status is `Failed`.
  */
-export const stopPipelineExecution: (
-  input: StopPipelineExecutionRequest,
-) => effect.Effect<
+export const stopPipelineExecution: API.OperationMethod<
+  StopPipelineExecutionRequest,
   StopPipelineExecutionResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41960,9 +41544,8 @@ export const stopPipelineExecution: (
 /**
  * Stops a processing job.
  */
-export const stopProcessingJob: (
-  input: StopProcessingJobRequest,
-) => effect.Effect<
+export const stopProcessingJob: API.OperationMethod<
+  StopProcessingJobRequest,
   StopProcessingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41976,9 +41559,8 @@ export const stopProcessingJob: (
  *
  * When it receives a `StopTrainingJob` request, SageMaker changes the status of the job to `Stopping`. After SageMaker stops the job, it sets the status to `Stopped`.
  */
-export const stopTrainingJob: (
-  input: StopTrainingJobRequest,
-) => effect.Effect<
+export const stopTrainingJob: API.OperationMethod<
+  StopTrainingJobRequest,
   StopTrainingJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -41992,9 +41574,8 @@ export const stopTrainingJob: (
  *
  * When Amazon SageMaker receives a `StopTransformJob` request, the status of the job changes to `Stopping`. After Amazon SageMaker stops the job, the status is set to `Stopped`. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
  */
-export const stopTransformJob: (
-  input: StopTransformJobRequest,
-) => effect.Effect<
+export const stopTransformJob: API.OperationMethod<
+  StopTransformJobRequest,
   StopTransformJobResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42006,9 +41587,8 @@ export const stopTransformJob: (
 /**
  * Updates an action.
  */
-export const updateAction: (
-  input: UpdateActionRequest,
-) => effect.Effect<
+export const updateAction: API.OperationMethod<
+  UpdateActionRequest,
   UpdateActionResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42020,9 +41600,8 @@ export const updateAction: (
 /**
  * Updates the properties of an AppImageConfig.
  */
-export const updateAppImageConfig: (
-  input: UpdateAppImageConfigRequest,
-) => effect.Effect<
+export const updateAppImageConfig: API.OperationMethod<
+  UpdateAppImageConfigRequest,
   UpdateAppImageConfigResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42034,9 +41613,8 @@ export const updateAppImageConfig: (
 /**
  * Updates an artifact.
  */
-export const updateArtifact: (
-  input: UpdateArtifactRequest,
-) => effect.Effect<
+export const updateArtifact: API.OperationMethod<
+  UpdateArtifactRequest,
   UpdateArtifactResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42048,9 +41626,8 @@ export const updateArtifact: (
 /**
  * Updates a SageMaker HyperPod cluster.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42062,9 +41639,8 @@ export const updateCluster: (
 /**
  * Update the cluster policy configuration.
  */
-export const updateClusterSchedulerConfig: (
-  input: UpdateClusterSchedulerConfigRequest,
-) => effect.Effect<
+export const updateClusterSchedulerConfig: API.OperationMethod<
+  UpdateClusterSchedulerConfigRequest,
   UpdateClusterSchedulerConfigResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42078,9 +41654,8 @@ export const updateClusterSchedulerConfig: (
  *
  * The `UpgradeClusterSoftware` API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
  */
-export const updateClusterSoftware: (
-  input: UpdateClusterSoftwareRequest,
-) => effect.Effect<
+export const updateClusterSoftware: API.OperationMethod<
+  UpdateClusterSoftwareRequest,
   UpdateClusterSoftwareResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42092,9 +41667,8 @@ export const updateClusterSoftware: (
 /**
  * Updates the specified Git repository with the specified values.
  */
-export const updateCodeRepository: (
-  input: UpdateCodeRepositoryInput,
-) => effect.Effect<
+export const updateCodeRepository: API.OperationMethod<
+  UpdateCodeRepositoryInput,
   UpdateCodeRepositoryOutput,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42106,9 +41680,8 @@ export const updateCodeRepository: (
 /**
  * Update the compute allocation definition.
  */
-export const updateComputeQuota: (
-  input: UpdateComputeQuotaRequest,
-) => effect.Effect<
+export const updateComputeQuota: API.OperationMethod<
+  UpdateComputeQuotaRequest,
   UpdateComputeQuotaResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42120,9 +41693,8 @@ export const updateComputeQuota: (
 /**
  * Updates a context.
  */
-export const updateContext: (
-  input: UpdateContextRequest,
-) => effect.Effect<
+export const updateContext: API.OperationMethod<
+  UpdateContextRequest,
   UpdateContextResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42134,9 +41706,8 @@ export const updateContext: (
 /**
  * Updates a fleet of devices.
  */
-export const updateDeviceFleet: (
-  input: UpdateDeviceFleetRequest,
-) => effect.Effect<
+export const updateDeviceFleet: API.OperationMethod<
+  UpdateDeviceFleetRequest,
   UpdateDeviceFleetResponse,
   ResourceInUse | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42148,9 +41719,8 @@ export const updateDeviceFleet: (
 /**
  * Updates one or more devices in a fleet.
  */
-export const updateDevices: (
-  input: UpdateDevicesRequest,
-) => effect.Effect<
+export const updateDevices: API.OperationMethod<
+  UpdateDevicesRequest,
   UpdateDevicesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42162,9 +41732,8 @@ export const updateDevices: (
 /**
  * Updates the default settings for new user profiles in the domain.
  */
-export const updateDomain: (
-  input: UpdateDomainRequest,
-) => effect.Effect<
+export const updateDomain: API.OperationMethod<
+  UpdateDomainRequest,
   UpdateDomainResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42182,9 +41751,8 @@ export const updateDomain: (
  *
  * If you delete the `EndpointConfig` of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
  */
-export const updateEndpoint: (
-  input: UpdateEndpointInput,
-) => effect.Effect<
+export const updateEndpoint: API.OperationMethod<
+  UpdateEndpointInput,
   UpdateEndpointOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42196,9 +41764,8 @@ export const updateEndpoint: (
 /**
  * Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to `Updating`. After updating the endpoint, it sets the status to `InService`. To check the status of an endpoint, use the DescribeEndpoint API.
  */
-export const updateEndpointWeightsAndCapacities: (
-  input: UpdateEndpointWeightsAndCapacitiesInput,
-) => effect.Effect<
+export const updateEndpointWeightsAndCapacities: API.OperationMethod<
+  UpdateEndpointWeightsAndCapacitiesInput,
   UpdateEndpointWeightsAndCapacitiesOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42210,9 +41777,8 @@ export const updateEndpointWeightsAndCapacities: (
 /**
  * Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
  */
-export const updateExperiment: (
-  input: UpdateExperimentRequest,
-) => effect.Effect<
+export const updateExperiment: API.OperationMethod<
+  UpdateExperimentRequest,
   UpdateExperimentResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42228,9 +41794,8 @@ export const updateExperiment: (
  *
  * You can update the online store configuration by using the `OnlineStoreConfig` request parameter. If a `TtlDuration` is specified, the default `TtlDuration` applies for all records added to the feature group *after the feature group is updated*. If a record level `TtlDuration` exists from using the `PutRecord` API, the record level `TtlDuration` applies to that record instead of the default `TtlDuration`. To remove the default `TtlDuration` from an existing feature group, use the `UpdateFeatureGroup` API and set the `TtlDuration` `Unit` and `Value` to `null`.
  */
-export const updateFeatureGroup: (
-  input: UpdateFeatureGroupRequest,
-) => effect.Effect<
+export const updateFeatureGroup: API.OperationMethod<
+  UpdateFeatureGroupRequest,
   UpdateFeatureGroupResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42242,9 +41807,8 @@ export const updateFeatureGroup: (
 /**
  * Updates the description and parameters of the feature group.
  */
-export const updateFeatureMetadata: (
-  input: UpdateFeatureMetadataRequest,
-) => effect.Effect<
+export const updateFeatureMetadata: API.OperationMethod<
+  UpdateFeatureMetadataRequest,
   UpdateFeatureMetadataResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42256,9 +41820,8 @@ export const updateFeatureMetadata: (
 /**
  * Update a hub.
  */
-export const updateHub: (
-  input: UpdateHubRequest,
-) => effect.Effect<
+export const updateHub: API.OperationMethod<
+  UpdateHubRequest,
   UpdateHubResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42286,9 +41849,8 @@ export const updateHub: (
  *
  * If you want to update a `ModelReference` resource in your hub, use the `UpdateHubContentResource` API instead.
  */
-export const updateHubContent: (
-  input: UpdateHubContentRequest,
-) => effect.Effect<
+export const updateHubContent: API.OperationMethod<
+  UpdateHubContentRequest,
   UpdateHubContentResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42306,9 +41868,8 @@ export const updateHubContent: (
  *
  * For more information about adding model references to your hub, see Add models to a private hub.
  */
-export const updateHubContentReference: (
-  input: UpdateHubContentReferenceRequest,
-) => effect.Effect<
+export const updateHubContentReference: API.OperationMethod<
+  UpdateHubContentReferenceRequest,
   UpdateHubContentReferenceResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42320,9 +41881,8 @@ export const updateHubContentReference: (
 /**
  * Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs.
  */
-export const updateImage: (
-  input: UpdateImageRequest,
-) => effect.Effect<
+export const updateImage: API.OperationMethod<
+  UpdateImageRequest,
   UpdateImageResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42334,9 +41894,8 @@ export const updateImage: (
 /**
  * Updates the properties of a SageMaker AI image version.
  */
-export const updateImageVersion: (
-  input: UpdateImageVersionRequest,
-) => effect.Effect<
+export const updateImageVersion: API.OperationMethod<
+  UpdateImageVersionRequest,
   UpdateImageVersionResponse,
   ResourceInUse | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42348,9 +41907,8 @@ export const updateImageVersion: (
 /**
  * Updates an inference component.
  */
-export const updateInferenceComponent: (
-  input: UpdateInferenceComponentInput,
-) => effect.Effect<
+export const updateInferenceComponent: API.OperationMethod<
+  UpdateInferenceComponentInput,
   UpdateInferenceComponentOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42362,9 +41920,8 @@ export const updateInferenceComponent: (
 /**
  * Runtime settings for a model that is deployed with an inference component.
  */
-export const updateInferenceComponentRuntimeConfig: (
-  input: UpdateInferenceComponentRuntimeConfigInput,
-) => effect.Effect<
+export const updateInferenceComponentRuntimeConfig: API.OperationMethod<
+  UpdateInferenceComponentRuntimeConfigInput,
   UpdateInferenceComponentRuntimeConfigOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42376,9 +41933,8 @@ export const updateInferenceComponentRuntimeConfig: (
 /**
  * Updates an inference experiment that you created. The status of the inference experiment has to be either `Created`, `Running`. For more information on the status of an inference experiment, see DescribeInferenceExperiment.
  */
-export const updateInferenceExperiment: (
-  input: UpdateInferenceExperimentRequest,
-) => effect.Effect<
+export const updateInferenceExperiment: API.OperationMethod<
+  UpdateInferenceExperimentRequest,
   UpdateInferenceExperimentResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42390,9 +41946,8 @@ export const updateInferenceExperiment: (
 /**
  * Updates an MLflow App.
  */
-export const updateMlflowApp: (
-  input: UpdateMlflowAppRequest,
-) => effect.Effect<
+export const updateMlflowApp: API.OperationMethod<
+  UpdateMlflowAppRequest,
   UpdateMlflowAppResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42404,9 +41959,8 @@ export const updateMlflowApp: (
 /**
  * Updates properties of an existing MLflow Tracking Server.
  */
-export const updateMlflowTrackingServer: (
-  input: UpdateMlflowTrackingServerRequest,
-) => effect.Effect<
+export const updateMlflowTrackingServer: API.OperationMethod<
+  UpdateMlflowTrackingServerRequest,
   UpdateMlflowTrackingServerResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42420,9 +41974,8 @@ export const updateMlflowTrackingServer: (
  *
  * You cannot update both model card content and model card status in a single call.
  */
-export const updateModelCard: (
-  input: UpdateModelCardRequest,
-) => effect.Effect<
+export const updateModelCard: API.OperationMethod<
+  UpdateModelCardRequest,
   UpdateModelCardResponse,
   ConflictException | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42434,9 +41987,8 @@ export const updateModelCard: (
 /**
  * Updates a versioned model.
  */
-export const updateModelPackage: (
-  input: UpdateModelPackageInput,
-) => effect.Effect<
+export const updateModelPackage: API.OperationMethod<
+  UpdateModelPackageInput,
   UpdateModelPackageOutput,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42448,9 +42000,8 @@ export const updateModelPackage: (
 /**
  * Update the parameters of a model monitor alert.
  */
-export const updateMonitoringAlert: (
-  input: UpdateMonitoringAlertRequest,
-) => effect.Effect<
+export const updateMonitoringAlert: API.OperationMethod<
+  UpdateMonitoringAlertRequest,
   UpdateMonitoringAlertResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42462,9 +42013,8 @@ export const updateMonitoringAlert: (
 /**
  * Updates a previously created schedule.
  */
-export const updateMonitoringSchedule: (
-  input: UpdateMonitoringScheduleRequest,
-) => effect.Effect<
+export const updateMonitoringSchedule: API.OperationMethod<
+  UpdateMonitoringScheduleRequest,
   UpdateMonitoringScheduleResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42478,9 +42028,8 @@ export const updateMonitoringSchedule: (
  *
  * This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's credentials. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
-export const updateNotebookInstance: (
-  input: UpdateNotebookInstanceInput,
-) => effect.Effect<
+export const updateNotebookInstance: API.OperationMethod<
+  UpdateNotebookInstanceInput,
   UpdateNotebookInstanceOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42494,9 +42043,8 @@ export const updateNotebookInstance: (
  *
  * Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
  */
-export const updateNotebookInstanceLifecycleConfig: (
-  input: UpdateNotebookInstanceLifecycleConfigInput,
-) => effect.Effect<
+export const updateNotebookInstanceLifecycleConfig: API.OperationMethod<
+  UpdateNotebookInstanceLifecycleConfigInput,
   UpdateNotebookInstanceLifecycleConfigOutput,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42508,9 +42056,8 @@ export const updateNotebookInstanceLifecycleConfig: (
 /**
  * Updates all of the SageMaker Partner AI Apps in an account.
  */
-export const updatePartnerApp: (
-  input: UpdatePartnerAppRequest,
-) => effect.Effect<
+export const updatePartnerApp: API.OperationMethod<
+  UpdatePartnerAppRequest,
   UpdatePartnerAppResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42522,9 +42069,8 @@ export const updatePartnerApp: (
 /**
  * Updates a pipeline.
  */
-export const updatePipeline: (
-  input: UpdatePipelineRequest,
-) => effect.Effect<
+export const updatePipeline: API.OperationMethod<
+  UpdatePipelineRequest,
   UpdatePipelineResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42536,9 +42082,8 @@ export const updatePipeline: (
 /**
  * Updates a pipeline execution.
  */
-export const updatePipelineExecution: (
-  input: UpdatePipelineExecutionRequest,
-) => effect.Effect<
+export const updatePipelineExecution: API.OperationMethod<
+  UpdatePipelineExecutionRequest,
   UpdatePipelineExecutionResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42550,9 +42095,8 @@ export const updatePipelineExecution: (
 /**
  * Updates a pipeline version.
  */
-export const updatePipelineVersion: (
-  input: UpdatePipelineVersionRequest,
-) => effect.Effect<
+export const updatePipelineVersion: API.OperationMethod<
+  UpdatePipelineVersionRequest,
   UpdatePipelineVersionResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42566,9 +42110,8 @@ export const updatePipelineVersion: (
  *
  * You must not update a project that is in use. If you update the `ServiceCatalogProvisioningUpdateDetails` of a project that is active or being created, or updated, you may lose resources already created by the project.
  */
-export const updateProject: (
-  input: UpdateProjectInput,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectInput,
   UpdateProjectOutput,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42582,9 +42125,8 @@ export const updateProject: (
  *
  * You can't edit the app type of a space in the `SpaceSettings`.
  */
-export const updateSpace: (
-  input: UpdateSpaceRequest,
-) => effect.Effect<
+export const updateSpace: API.OperationMethod<
+  UpdateSpaceRequest,
   UpdateSpaceResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42596,9 +42138,8 @@ export const updateSpace: (
 /**
  * Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length.
  */
-export const updateTrainingJob: (
-  input: UpdateTrainingJobRequest,
-) => effect.Effect<
+export const updateTrainingJob: API.OperationMethod<
+  UpdateTrainingJobRequest,
   UpdateTrainingJobResponse,
   ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42610,9 +42151,8 @@ export const updateTrainingJob: (
 /**
  * Updates the display name of a trial.
  */
-export const updateTrial: (
-  input: UpdateTrialRequest,
-) => effect.Effect<
+export const updateTrial: API.OperationMethod<
+  UpdateTrialRequest,
   UpdateTrialResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42624,9 +42164,8 @@ export const updateTrial: (
 /**
  * Updates one or more properties of a trial component.
  */
-export const updateTrialComponent: (
-  input: UpdateTrialComponentRequest,
-) => effect.Effect<
+export const updateTrialComponent: API.OperationMethod<
+  UpdateTrialComponentRequest,
   UpdateTrialComponentResponse,
   ConflictException | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42638,9 +42177,8 @@ export const updateTrialComponent: (
 /**
  * Updates a user profile.
  */
-export const updateUserProfile: (
-  input: UpdateUserProfileRequest,
-) => effect.Effect<
+export const updateUserProfile: API.OperationMethod<
+  UpdateUserProfileRequest,
   UpdateUserProfileResponse,
   ResourceInUse | ResourceLimitExceeded | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42668,9 +42206,8 @@ export const updateUserProfile: (
  *
  * This operation only applies to private workforces.
  */
-export const updateWorkforce: (
-  input: UpdateWorkforceRequest,
-) => effect.Effect<
+export const updateWorkforce: API.OperationMethod<
+  UpdateWorkforceRequest,
   UpdateWorkforceResponse,
   ConflictException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -42682,9 +42219,8 @@ export const updateWorkforce: (
 /**
  * Updates an existing work team with new member definitions or description.
  */
-export const updateWorkteam: (
-  input: UpdateWorkteamRequest,
-) => effect.Effect<
+export const updateWorkteam: API.OperationMethod<
+  UpdateWorkteamRequest,
   UpdateWorkteamResponse,
   ResourceLimitExceeded | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

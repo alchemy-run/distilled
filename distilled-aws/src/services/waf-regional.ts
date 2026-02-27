@@ -3689,9 +3689,8 @@ export class WAFSubscriptionNotFoundException extends S.TaggedErrorClass<WAFSubs
  *
  * Associates a web ACL with a resource, either an application load balancer or Amazon API Gateway stage.
  */
-export const associateWebACL: (
-  input: AssociateWebACLRequest,
-) => effect.Effect<
+export const associateWebACL: API.OperationMethod<
+  AssociateWebACLRequest,
   AssociateWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -3740,9 +3739,8 @@ export const associateWebACL: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createByteMatchSet: (
-  input: CreateByteMatchSetRequest,
-) => effect.Effect<
+export const createByteMatchSet: API.OperationMethod<
+  CreateByteMatchSetRequest,
   CreateByteMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -3790,9 +3788,8 @@ export const createByteMatchSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createGeoMatchSet: (
-  input: CreateGeoMatchSetRequest,
-) => effect.Effect<
+export const createGeoMatchSet: API.OperationMethod<
+  CreateGeoMatchSetRequest,
   CreateGeoMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -3845,9 +3842,8 @@ export const createGeoMatchSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createIPSet: (
-  input: CreateIPSetRequest,
-) => effect.Effect<
+export const createIPSet: API.OperationMethod<
+  CreateIPSetRequest,
   CreateIPSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -3946,9 +3942,8 @@ export const createIPSet: (
  * see the AWS WAF Developer
  * Guide.
  */
-export const createRateBasedRule: (
-  input: CreateRateBasedRuleRequest,
-) => effect.Effect<
+export const createRateBasedRule: API.OperationMethod<
+  CreateRateBasedRuleRequest,
   CreateRateBasedRuleResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -4003,9 +3998,8 @@ export const createRateBasedRule: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createRegexMatchSet: (
-  input: CreateRegexMatchSetRequest,
-) => effect.Effect<
+export const createRegexMatchSet: API.OperationMethod<
+  CreateRegexMatchSetRequest,
   CreateRegexMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4048,9 +4042,8 @@ export const createRegexMatchSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createRegexPatternSet: (
-  input: CreateRegexPatternSetRequest,
-) => effect.Effect<
+export const createRegexPatternSet: API.OperationMethod<
+  CreateRegexPatternSetRequest,
   CreateRegexPatternSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4111,9 +4104,8 @@ export const createRegexPatternSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createRule: (
-  input: CreateRuleRequest,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -4160,9 +4152,8 @@ export const createRule: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createRuleGroup: (
-  input: CreateRuleGroupRequest,
-) => effect.Effect<
+export const createRuleGroup: API.OperationMethod<
+  CreateRuleGroupRequest,
   CreateRuleGroupResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -4215,9 +4206,8 @@ export const createRuleGroup: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createSizeConstraintSet: (
-  input: CreateSizeConstraintSetRequest,
-) => effect.Effect<
+export const createSizeConstraintSet: API.OperationMethod<
+  CreateSizeConstraintSetRequest,
   CreateSizeConstraintSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4266,9 +4256,8 @@ export const createSizeConstraintSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createSqlInjectionMatchSet: (
-  input: CreateSqlInjectionMatchSetRequest,
-) => effect.Effect<
+export const createSqlInjectionMatchSet: API.OperationMethod<
+  CreateSqlInjectionMatchSetRequest,
   CreateSqlInjectionMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4326,9 +4315,8 @@ export const createSqlInjectionMatchSet: (
  *
  * For more information about how to use the AWS WAF API, see the AWS WAF Developer Guide.
  */
-export const createWebACL: (
-  input: CreateWebACLRequest,
-) => effect.Effect<
+export const createWebACL: API.OperationMethod<
+  CreateWebACLRequest,
   CreateWebACLResponse,
   | WAFBadRequestException
   | WAFDisallowedNameException
@@ -4367,9 +4355,8 @@ export const createWebACL: (
  * Migrating your AWS WAF Classic resources to AWS WAF in the AWS WAF
  * Developer Guide.
  */
-export const createWebACLMigrationStack: (
-  input: CreateWebACLMigrationStackRequest,
-) => effect.Effect<
+export const createWebACLMigrationStack: API.OperationMethod<
+  CreateWebACLMigrationStackRequest,
   CreateWebACLMigrationStackResponse,
   | WAFEntityMigrationException
   | WAFInternalErrorException
@@ -4416,9 +4403,8 @@ export const createWebACLMigrationStack: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const createXssMatchSet: (
-  input: CreateXssMatchSetRequest,
-) => effect.Effect<
+export const createXssMatchSet: API.OperationMethod<
+  CreateXssMatchSetRequest,
   CreateXssMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -4462,9 +4448,8 @@ export const createXssMatchSet: (
  *
  * - Submit a `DeleteByteMatchSet` request.
  */
-export const deleteByteMatchSet: (
-  input: DeleteByteMatchSetRequest,
-) => effect.Effect<
+export const deleteByteMatchSet: API.OperationMethod<
+  DeleteByteMatchSetRequest,
   DeleteByteMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4508,9 +4493,8 @@ export const deleteByteMatchSet: (
  *
  * - Submit a `DeleteGeoMatchSet` request.
  */
-export const deleteGeoMatchSet: (
-  input: DeleteGeoMatchSetRequest,
-) => effect.Effect<
+export const deleteGeoMatchSet: API.OperationMethod<
+  DeleteGeoMatchSetRequest,
   DeleteGeoMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4554,9 +4538,8 @@ export const deleteGeoMatchSet: (
  *
  * - Submit a `DeleteIPSet` request.
  */
-export const deleteIPSet: (
-  input: DeleteIPSetRequest,
-) => effect.Effect<
+export const deleteIPSet: API.OperationMethod<
+  DeleteIPSetRequest,
   DeleteIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4589,9 +4572,8 @@ export const deleteIPSet: (
  * Permanently deletes the LoggingConfiguration from the specified web
  * ACL.
  */
-export const deleteLoggingConfiguration: (
-  input: DeleteLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteLoggingConfiguration: API.OperationMethod<
+  DeleteLoggingConfigurationRequest,
   DeleteLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFNonexistentItemException
@@ -4619,9 +4601,8 @@ export const deleteLoggingConfiguration: (
  *
  * The user making the request must be the owner of the RuleGroup.
  */
-export const deletePermissionPolicy: (
-  input: DeletePermissionPolicyRequest,
-) => effect.Effect<
+export const deletePermissionPolicy: API.OperationMethod<
+  DeletePermissionPolicyRequest,
   DeletePermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFNonexistentItemException
@@ -4663,9 +4644,8 @@ export const deletePermissionPolicy: (
  *
  * - Submit a `DeleteRateBasedRule` request.
  */
-export const deleteRateBasedRule: (
-  input: DeleteRateBasedRuleRequest,
-) => effect.Effect<
+export const deleteRateBasedRule: API.OperationMethod<
+  DeleteRateBasedRuleRequest,
   DeleteRateBasedRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4713,9 +4693,8 @@ export const deleteRateBasedRule: (
  *
  * - Submit a `DeleteRegexMatchSet` request.
  */
-export const deleteRegexMatchSet: (
-  input: DeleteRegexMatchSetRequest,
-) => effect.Effect<
+export const deleteRegexMatchSet: API.OperationMethod<
+  DeleteRegexMatchSetRequest,
   DeleteRegexMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4748,9 +4727,8 @@ export const deleteRegexMatchSet: (
  * Permanently deletes a RegexPatternSet. You can't delete a `RegexPatternSet` if it's still used in any `RegexMatchSet`
  * or if the `RegexPatternSet` is not empty.
  */
-export const deleteRegexPatternSet: (
-  input: DeleteRegexPatternSetRequest,
-) => effect.Effect<
+export const deleteRegexPatternSet: API.OperationMethod<
+  DeleteRegexPatternSetRequest,
   DeleteRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4794,9 +4772,8 @@ export const deleteRegexPatternSet: (
  *
  * - Submit a `DeleteRule` request.
  */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4844,9 +4821,8 @@ export const deleteRule: (
  *
  * - Submit a `DeleteRuleGroup` request.
  */
-export const deleteRuleGroup: (
-  input: DeleteRuleGroupRequest,
-) => effect.Effect<
+export const deleteRuleGroup: API.OperationMethod<
+  DeleteRuleGroupRequest,
   DeleteRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4894,9 +4870,8 @@ export const deleteRuleGroup: (
  *
  * - Submit a `DeleteSizeConstraintSet` request.
  */
-export const deleteSizeConstraintSet: (
-  input: DeleteSizeConstraintSetRequest,
-) => effect.Effect<
+export const deleteSizeConstraintSet: API.OperationMethod<
+  DeleteSizeConstraintSetRequest,
   DeleteSizeConstraintSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4941,9 +4916,8 @@ export const deleteSizeConstraintSet: (
  *
  * - Submit a `DeleteSqlInjectionMatchSet` request.
  */
-export const deleteSqlInjectionMatchSet: (
-  input: DeleteSqlInjectionMatchSetRequest,
-) => effect.Effect<
+export const deleteSqlInjectionMatchSet: API.OperationMethod<
+  DeleteSqlInjectionMatchSetRequest,
   DeleteSqlInjectionMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -4984,9 +4958,8 @@ export const deleteSqlInjectionMatchSet: (
  *
  * - Submit a `DeleteWebACL` request.
  */
-export const deleteWebACL: (
-  input: DeleteWebACLRequest,
-) => effect.Effect<
+export const deleteWebACL: API.OperationMethod<
+  DeleteWebACLRequest,
   DeleteWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5035,9 +5008,8 @@ export const deleteWebACL: (
  *
  * - Submit a `DeleteXssMatchSet` request.
  */
-export const deleteXssMatchSet: (
-  input: DeleteXssMatchSetRequest,
-) => effect.Effect<
+export const deleteXssMatchSet: API.OperationMethod<
+  DeleteXssMatchSetRequest,
   DeleteXssMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5069,9 +5041,8 @@ export const deleteXssMatchSet: (
  *
  * Removes a web ACL from the specified resource, either an application load balancer or Amazon API Gateway stage.
  */
-export const disassociateWebACL: (
-  input: DisassociateWebACLRequest,
-) => effect.Effect<
+export const disassociateWebACL: API.OperationMethod<
+  DisassociateWebACLRequest,
   DisassociateWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5099,9 +5070,8 @@ export const disassociateWebACL: (
  *
  * Returns the ByteMatchSet specified by `ByteMatchSetId`.
  */
-export const getByteMatchSet: (
-  input: GetByteMatchSetRequest,
-) => effect.Effect<
+export const getByteMatchSet: API.OperationMethod<
+  GetByteMatchSetRequest,
   GetByteMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5135,9 +5105,8 @@ export const getByteMatchSet: (
  * which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use `GetChangeTokenStatus` to determine the
  * status of your change token.
  */
-export const getChangeToken: (
-  input: GetChangeTokenRequest,
-) => effect.Effect<
+export const getChangeToken: API.OperationMethod<
+  GetChangeTokenRequest,
   GetChangeTokenResponse,
   WAFInternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5164,9 +5133,8 @@ export const getChangeToken: (
  *
  * - `INSYNC`: Propagation is complete.
  */
-export const getChangeTokenStatus: (
-  input: GetChangeTokenStatusRequest,
-) => effect.Effect<
+export const getChangeTokenStatus: API.OperationMethod<
+  GetChangeTokenStatusRequest,
   GetChangeTokenStatusResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5185,9 +5153,8 @@ export const getChangeTokenStatus: (
  *
  * Returns the GeoMatchSet that is specified by `GeoMatchSetId`.
  */
-export const getGeoMatchSet: (
-  input: GetGeoMatchSetRequest,
-) => effect.Effect<
+export const getGeoMatchSet: API.OperationMethod<
+  GetGeoMatchSetRequest,
   GetGeoMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5213,9 +5180,8 @@ export const getGeoMatchSet: (
  *
  * Returns the IPSet that is specified by `IPSetId`.
  */
-export const getIPSet: (
-  input: GetIPSetRequest,
-) => effect.Effect<
+export const getIPSet: API.OperationMethod<
+  GetIPSetRequest,
   GetIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5241,9 +5207,8 @@ export const getIPSet: (
  *
  * Returns the LoggingConfiguration for the specified web ACL.
  */
-export const getLoggingConfiguration: (
-  input: GetLoggingConfigurationRequest,
-) => effect.Effect<
+export const getLoggingConfiguration: API.OperationMethod<
+  GetLoggingConfigurationRequest,
   GetLoggingConfigurationResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5262,9 +5227,8 @@ export const getLoggingConfiguration: (
  *
  * Returns the IAM policy attached to the RuleGroup.
  */
-export const getPermissionPolicy: (
-  input: GetPermissionPolicyRequest,
-) => effect.Effect<
+export const getPermissionPolicy: API.OperationMethod<
+  GetPermissionPolicyRequest,
   GetPermissionPolicyResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5285,9 +5249,8 @@ export const getPermissionPolicy: (
  * `RuleId` that you included in the `GetRateBasedRule`
  * request.
  */
-export const getRateBasedRule: (
-  input: GetRateBasedRuleRequest,
-) => effect.Effect<
+export const getRateBasedRule: API.OperationMethod<
+  GetRateBasedRuleRequest,
   GetRateBasedRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5315,9 +5278,8 @@ export const getRateBasedRule: (
  * number of managed keys that will be blocked is 10,000. If more than 10,000 addresses exceed
  * the rate limit, the 10,000 addresses with the highest rates will be blocked.
  */
-export const getRateBasedRuleManagedKeys: (
-  input: GetRateBasedRuleManagedKeysRequest,
-) => effect.Effect<
+export const getRateBasedRuleManagedKeys: API.OperationMethod<
+  GetRateBasedRuleManagedKeysRequest,
   GetRateBasedRuleManagedKeysResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5345,9 +5307,8 @@ export const getRateBasedRuleManagedKeys: (
  *
  * Returns the RegexMatchSet specified by `RegexMatchSetId`.
  */
-export const getRegexMatchSet: (
-  input: GetRegexMatchSetRequest,
-) => effect.Effect<
+export const getRegexMatchSet: API.OperationMethod<
+  GetRegexMatchSetRequest,
   GetRegexMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5373,9 +5334,8 @@ export const getRegexMatchSet: (
  *
  * Returns the RegexPatternSet specified by `RegexPatternSetId`.
  */
-export const getRegexPatternSet: (
-  input: GetRegexPatternSetRequest,
-) => effect.Effect<
+export const getRegexPatternSet: API.OperationMethod<
+  GetRegexPatternSetRequest,
   GetRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5401,9 +5361,8 @@ export const getRegexPatternSet: (
  *
  * Returns the Rule that is specified by the `RuleId` that you included in the `GetRule` request.
  */
-export const getRule: (
-  input: GetRuleRequest,
-) => effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5431,9 +5390,8 @@ export const getRule: (
  *
  * To view the rules in a rule group, use ListActivatedRulesInRuleGroup.
  */
-export const getRuleGroup: (
-  input: GetRuleGroupRequest,
-) => effect.Effect<
+export const getRuleGroup: API.OperationMethod<
+  GetRuleGroupRequest,
   GetRuleGroupResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5456,9 +5414,8 @@ export const getRuleGroup: (
  * (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, `GetSampledRequests`
  * returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
  */
-export const getSampledRequests: (
-  input: GetSampledRequestsRequest,
-) => effect.Effect<
+export const getSampledRequests: API.OperationMethod<
+  GetSampledRequestsRequest,
   GetSampledRequestsResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5477,9 +5434,8 @@ export const getSampledRequests: (
  *
  * Returns the SizeConstraintSet specified by `SizeConstraintSetId`.
  */
-export const getSizeConstraintSet: (
-  input: GetSizeConstraintSetRequest,
-) => effect.Effect<
+export const getSizeConstraintSet: API.OperationMethod<
+  GetSizeConstraintSetRequest,
   GetSizeConstraintSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5505,9 +5461,8 @@ export const getSizeConstraintSet: (
  *
  * Returns the SqlInjectionMatchSet that is specified by `SqlInjectionMatchSetId`.
  */
-export const getSqlInjectionMatchSet: (
-  input: GetSqlInjectionMatchSetRequest,
-) => effect.Effect<
+export const getSqlInjectionMatchSet: API.OperationMethod<
+  GetSqlInjectionMatchSetRequest,
   GetSqlInjectionMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5533,9 +5488,8 @@ export const getSqlInjectionMatchSet: (
  *
  * Returns the WebACL that is specified by `WebACLId`.
  */
-export const getWebACL: (
-  input: GetWebACLRequest,
-) => effect.Effect<
+export const getWebACL: API.OperationMethod<
+  GetWebACLRequest,
   GetWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5561,9 +5515,8 @@ export const getWebACL: (
  *
  * Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage.
  */
-export const getWebACLForResource: (
-  input: GetWebACLForResourceRequest,
-) => effect.Effect<
+export const getWebACLForResource: API.OperationMethod<
+  GetWebACLForResourceRequest,
   GetWebACLForResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5593,9 +5546,8 @@ export const getWebACLForResource: (
  *
  * Returns the XssMatchSet that is specified by `XssMatchSetId`.
  */
-export const getXssMatchSet: (
-  input: GetXssMatchSetRequest,
-) => effect.Effect<
+export const getXssMatchSet: API.OperationMethod<
+  GetXssMatchSetRequest,
   GetXssMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5621,9 +5573,8 @@ export const getXssMatchSet: (
  *
  * Returns an array of ActivatedRule objects.
  */
-export const listActivatedRulesInRuleGroup: (
-  input: ListActivatedRulesInRuleGroupRequest,
-) => effect.Effect<
+export const listActivatedRulesInRuleGroup: API.OperationMethod<
+  ListActivatedRulesInRuleGroupRequest,
   ListActivatedRulesInRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -5649,9 +5600,8 @@ export const listActivatedRulesInRuleGroup: (
  *
  * Returns an array of ByteMatchSetSummary objects.
  */
-export const listByteMatchSets: (
-  input: ListByteMatchSetsRequest,
-) => effect.Effect<
+export const listByteMatchSets: API.OperationMethod<
+  ListByteMatchSetsRequest,
   ListByteMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5670,9 +5620,8 @@ export const listByteMatchSets: (
  *
  * Returns an array of GeoMatchSetSummary objects in the response.
  */
-export const listGeoMatchSets: (
-  input: ListGeoMatchSetsRequest,
-) => effect.Effect<
+export const listGeoMatchSets: API.OperationMethod<
+  ListGeoMatchSetsRequest,
   ListGeoMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5691,9 +5640,8 @@ export const listGeoMatchSets: (
  *
  * Returns an array of IPSetSummary objects in the response.
  */
-export const listIPSets: (
-  input: ListIPSetsRequest,
-) => effect.Effect<
+export const listIPSets: API.OperationMethod<
+  ListIPSetsRequest,
   ListIPSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5712,9 +5660,8 @@ export const listIPSets: (
  *
  * Returns an array of LoggingConfiguration objects.
  */
-export const listLoggingConfigurations: (
-  input: ListLoggingConfigurationsRequest,
-) => effect.Effect<
+export const listLoggingConfigurations: API.OperationMethod<
+  ListLoggingConfigurationsRequest,
   ListLoggingConfigurationsResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -5740,9 +5687,8 @@ export const listLoggingConfigurations: (
  *
  * Returns an array of RuleSummary objects.
  */
-export const listRateBasedRules: (
-  input: ListRateBasedRulesRequest,
-) => effect.Effect<
+export const listRateBasedRules: API.OperationMethod<
+  ListRateBasedRulesRequest,
   ListRateBasedRulesResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5761,9 +5707,8 @@ export const listRateBasedRules: (
  *
  * Returns an array of RegexMatchSetSummary objects.
  */
-export const listRegexMatchSets: (
-  input: ListRegexMatchSetsRequest,
-) => effect.Effect<
+export const listRegexMatchSets: API.OperationMethod<
+  ListRegexMatchSetsRequest,
   ListRegexMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5782,9 +5727,8 @@ export const listRegexMatchSets: (
  *
  * Returns an array of RegexPatternSetSummary objects.
  */
-export const listRegexPatternSets: (
-  input: ListRegexPatternSetsRequest,
-) => effect.Effect<
+export const listRegexPatternSets: API.OperationMethod<
+  ListRegexPatternSetsRequest,
   ListRegexPatternSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5803,9 +5747,8 @@ export const listRegexPatternSets: (
  *
  * Returns an array of resources associated with the specified web ACL.
  */
-export const listResourcesForWebACL: (
-  input: ListResourcesForWebACLRequest,
-) => effect.Effect<
+export const listResourcesForWebACL: API.OperationMethod<
+  ListResourcesForWebACLRequest,
   ListResourcesForWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -5833,9 +5776,8 @@ export const listResourcesForWebACL: (
  *
  * Returns an array of RuleGroup objects.
  */
-export const listRuleGroups: (
-  input: ListRuleGroupsRequest,
-) => effect.Effect<
+export const listRuleGroups: API.OperationMethod<
+  ListRuleGroupsRequest,
   ListRuleGroupsResponse,
   WAFInternalErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5854,9 +5796,8 @@ export const listRuleGroups: (
  *
  * Returns an array of RuleSummary objects.
  */
-export const listRules: (
-  input: ListRulesRequest,
-) => effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5875,9 +5816,8 @@ export const listRules: (
  *
  * Returns an array of SizeConstraintSetSummary objects.
  */
-export const listSizeConstraintSets: (
-  input: ListSizeConstraintSetsRequest,
-) => effect.Effect<
+export const listSizeConstraintSets: API.OperationMethod<
+  ListSizeConstraintSetsRequest,
   ListSizeConstraintSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5896,9 +5836,8 @@ export const listSizeConstraintSets: (
  *
  * Returns an array of SqlInjectionMatchSet objects.
  */
-export const listSqlInjectionMatchSets: (
-  input: ListSqlInjectionMatchSetsRequest,
-) => effect.Effect<
+export const listSqlInjectionMatchSets: API.OperationMethod<
+  ListSqlInjectionMatchSetsRequest,
   ListSqlInjectionMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5917,9 +5856,8 @@ export const listSqlInjectionMatchSets: (
  *
  * Returns an array of RuleGroup objects that you are subscribed to.
  */
-export const listSubscribedRuleGroups: (
-  input: ListSubscribedRuleGroupsRequest,
-) => effect.Effect<
+export const listSubscribedRuleGroups: API.OperationMethod<
+  ListSubscribedRuleGroupsRequest,
   ListSubscribedRuleGroupsResponse,
   WAFInternalErrorException | WAFNonexistentItemException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5940,9 +5878,8 @@ export const listSubscribedRuleGroups: (
  *
  * Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | WAFBadRequestException
   | WAFInternalErrorException
@@ -5974,9 +5911,8 @@ export const listTagsForResource: (
  *
  * Returns an array of WebACLSummary objects in the response.
  */
-export const listWebACLs: (
-  input: ListWebACLsRequest,
-) => effect.Effect<
+export const listWebACLs: API.OperationMethod<
+  ListWebACLsRequest,
   ListWebACLsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5995,9 +5931,8 @@ export const listWebACLs: (
  *
  * Returns an array of XssMatchSet objects.
  */
-export const listXssMatchSets: (
-  input: ListXssMatchSetsRequest,
-) => effect.Effect<
+export const listXssMatchSets: API.OperationMethod<
+  ListXssMatchSetsRequest,
   ListXssMatchSetsResponse,
   WAFInternalErrorException | WAFInvalidAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6030,9 +5965,8 @@ export const listXssMatchSets: (
  *
  * When you successfully enable logging using a `PutLoggingConfiguration` request, AWS WAF will create a service linked role with the necessary permissions to write logs to the Amazon Kinesis Data Firehose. For more information, see Logging Web ACL Traffic Information in the *AWS WAF Developer Guide*.
  */
-export const putLoggingConfiguration: (
-  input: PutLoggingConfigurationRequest,
-) => effect.Effect<
+export const putLoggingConfiguration: API.OperationMethod<
+  PutLoggingConfigurationRequest,
   PutLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFNonexistentItemException
@@ -6082,9 +6016,8 @@ export const putLoggingConfiguration: (
  *
  * An example of a valid policy parameter is shown in the Examples section below.
  */
-export const putPermissionPolicy: (
-  input: PutPermissionPolicyRequest,
-) => effect.Effect<
+export const putPermissionPolicy: API.OperationMethod<
+  PutPermissionPolicyRequest,
   PutPermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidPermissionPolicyException
@@ -6114,9 +6047,8 @@ export const putPermissionPolicy: (
  *
  * Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can use this action to tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | WAFBadRequestException
   | WAFInternalErrorException
@@ -6148,9 +6080,8 @@ export const tagResource: (
  * For the latest version of AWS
  * WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | WAFBadRequestException
   | WAFInternalErrorException
@@ -6211,9 +6142,8 @@ export const untagResource: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateByteMatchSet: (
-  input: UpdateByteMatchSetRequest,
-) => effect.Effect<
+export const updateByteMatchSet: API.OperationMethod<
+  UpdateByteMatchSetRequest,
   UpdateByteMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6271,9 +6201,8 @@ export const updateByteMatchSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateGeoMatchSet: (
-  input: UpdateGeoMatchSetRequest,
-) => effect.Effect<
+export const updateGeoMatchSet: API.OperationMethod<
+  UpdateGeoMatchSetRequest,
   UpdateGeoMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6367,9 +6296,8 @@ export const updateGeoMatchSet: (
  * requests, see the AWS WAF
  * Developer Guide.
  */
-export const updateIPSet: (
-  input: UpdateIPSetRequest,
-) => effect.Effect<
+export const updateIPSet: API.OperationMethod<
+  UpdateIPSetRequest,
   UpdateIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6444,9 +6372,8 @@ export const updateIPSet: (
  *
  * By adding this `RateBasedRule` to a `WebACL`, you could limit requests to your login page without affecting the rest of your site.
  */
-export const updateRateBasedRule: (
-  input: UpdateRateBasedRuleRequest,
-) => effect.Effect<
+export const updateRateBasedRule: API.OperationMethod<
+  UpdateRateBasedRuleRequest,
   UpdateRateBasedRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6510,9 +6437,8 @@ export const updateRateBasedRule: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateRegexMatchSet: (
-  input: UpdateRegexMatchSetRequest,
-) => effect.Effect<
+export const updateRegexMatchSet: API.OperationMethod<
+  UpdateRegexMatchSetRequest,
   UpdateRegexMatchSetResponse,
   | WAFDisallowedNameException
   | WAFInternalErrorException
@@ -6575,9 +6501,8 @@ export const updateRegexMatchSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateRegexPatternSet: (
-  input: UpdateRegexPatternSetRequest,
-) => effect.Effect<
+export const updateRegexPatternSet: API.OperationMethod<
+  UpdateRegexPatternSetRequest,
   UpdateRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6646,9 +6571,8 @@ export const updateRegexPatternSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6707,9 +6631,8 @@ export const updateRule: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateRuleGroup: (
-  input: UpdateRuleGroupRequest,
-) => effect.Effect<
+export const updateRuleGroup: API.OperationMethod<
+  UpdateRuleGroupRequest,
   UpdateRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -6777,9 +6700,8 @@ export const updateRuleGroup: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateSizeConstraintSet: (
-  input: UpdateSizeConstraintSetRequest,
-) => effect.Effect<
+export const updateSizeConstraintSet: API.OperationMethod<
+  UpdateSizeConstraintSetRequest,
   UpdateSizeConstraintSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6849,9 +6771,8 @@ export const updateSizeConstraintSet: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateSqlInjectionMatchSet: (
-  input: UpdateSqlInjectionMatchSetRequest,
-) => effect.Effect<
+export const updateSqlInjectionMatchSet: API.OperationMethod<
+  UpdateSqlInjectionMatchSetRequest,
   UpdateSqlInjectionMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -6948,9 +6869,8 @@ export const updateSqlInjectionMatchSet: (
  *
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
  */
-export const updateWebACL: (
-  input: UpdateWebACLRequest,
-) => effect.Effect<
+export const updateWebACL: API.OperationMethod<
+  UpdateWebACLRequest,
   UpdateWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException
@@ -7024,9 +6944,8 @@ export const updateWebACL: (
  * For more information about how to use the AWS WAF API to allow or block HTTP requests, see the
  * AWS WAF Developer Guide.
  */
-export const updateXssMatchSet: (
-  input: UpdateXssMatchSetRequest,
-) => effect.Effect<
+export const updateXssMatchSet: API.OperationMethod<
+  UpdateXssMatchSetRequest,
   UpdateXssMatchSetResponse,
   | WAFInternalErrorException
   | WAFInvalidAccountException

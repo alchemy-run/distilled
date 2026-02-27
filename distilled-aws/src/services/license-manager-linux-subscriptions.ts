@@ -607,9 +607,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  * Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions
  * registered to your account.
  */
-export const deregisterSubscriptionProvider: (
-  input: DeregisterSubscriptionProviderRequest,
-) => effect.Effect<
+export const deregisterSubscriptionProvider: API.OperationMethod<
+  DeregisterSubscriptionProviderRequest,
   DeregisterSubscriptionProviderResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -630,9 +629,8 @@ export const deregisterSubscriptionProvider: (
 /**
  * Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
  */
-export const getRegisteredSubscriptionProvider: (
-  input: GetRegisteredSubscriptionProviderRequest,
-) => effect.Effect<
+export const getRegisteredSubscriptionProvider: API.OperationMethod<
+  GetRegisteredSubscriptionProviderRequest,
   GetRegisteredSubscriptionProviderResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -653,9 +651,8 @@ export const getRegisteredSubscriptionProvider: (
 /**
  * Lists the Linux subscriptions service settings for your account.
  */
-export const getServiceSettings: (
-  input: GetServiceSettingsRequest,
-) => effect.Effect<
+export const getServiceSettings: API.OperationMethod<
+  GetServiceSettingsRequest,
   GetServiceSettingsResponse,
   | InternalServerException
   | ThrottlingException
@@ -671,17 +668,15 @@ export const getServiceSettings: (
  * Lists the running Amazon EC2 instances that were discovered with commercial Linux
  * subscriptions.
  */
-export const listLinuxSubscriptionInstances: {
-  (
-    input: ListLinuxSubscriptionInstancesRequest,
-  ): effect.Effect<
-    ListLinuxSubscriptionInstancesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLinuxSubscriptionInstances: API.OperationMethod<
+  ListLinuxSubscriptionInstancesRequest,
+  ListLinuxSubscriptionInstancesResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLinuxSubscriptionInstancesRequest,
   ) => stream.Stream<
@@ -718,17 +713,15 @@ export const listLinuxSubscriptionInstances: {
  * organization, the returned results will include data aggregated across your accounts in
  * Organizations.
  */
-export const listLinuxSubscriptions: {
-  (
-    input: ListLinuxSubscriptionsRequest,
-  ): effect.Effect<
-    ListLinuxSubscriptionsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLinuxSubscriptions: API.OperationMethod<
+  ListLinuxSubscriptionsRequest,
+  ListLinuxSubscriptionsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLinuxSubscriptionsRequest,
   ) => stream.Stream<
@@ -763,17 +756,15 @@ export const listLinuxSubscriptions: {
 /**
  * List Bring Your Own License (BYOL) subscription registration resources for your account.
  */
-export const listRegisteredSubscriptionProviders: {
-  (
-    input: ListRegisteredSubscriptionProvidersRequest,
-  ): effect.Effect<
-    ListRegisteredSubscriptionProvidersResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRegisteredSubscriptionProviders: API.OperationMethod<
+  ListRegisteredSubscriptionProvidersRequest,
+  ListRegisteredSubscriptionProvidersResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegisteredSubscriptionProvidersRequest,
   ) => stream.Stream<
@@ -809,9 +800,8 @@ export const listRegisteredSubscriptionProviders: {
  * List the metadata tags that are assigned to the
  * specified Amazon Web Services resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -830,9 +820,8 @@ export const listTagsForResource: (
 /**
  * Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
  */
-export const registerSubscriptionProvider: (
-  input: RegisterSubscriptionProviderRequest,
-) => effect.Effect<
+export const registerSubscriptionProvider: API.OperationMethod<
+  RegisterSubscriptionProviderRequest,
   RegisterSubscriptionProviderResponse,
   | InternalServerException
   | ThrottlingException
@@ -847,9 +836,8 @@ export const registerSubscriptionProvider: (
 /**
  * Add metadata tags to the specified Amazon Web Services resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -868,9 +856,8 @@ export const tagResource: (
 /**
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -882,9 +869,8 @@ export const untagResource: (
 /**
  * Updates the service settings for Linux subscriptions.
  */
-export const updateServiceSettings: (
-  input: UpdateServiceSettingsRequest,
-) => effect.Effect<
+export const updateServiceSettings: API.OperationMethod<
+  UpdateServiceSettingsRequest,
   UpdateServiceSettingsResponse,
   | InternalServerException
   | ThrottlingException

@@ -373,9 +373,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being
  * generated.
  */
-export const deleteReportDefinition: (
-  input: DeleteReportDefinitionRequest,
-) => effect.Effect<
+export const deleteReportDefinition: API.OperationMethod<
+  DeleteReportDefinitionRequest,
   DeleteReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
@@ -396,9 +395,8 @@ export const deleteReportDefinition: (
 /**
  * Retrieves the definition of a report already configured in AWS Application Cost Profiler.
  */
-export const getReportDefinition: (
-  input: GetReportDefinitionRequest,
-) => effect.Effect<
+export const getReportDefinition: API.OperationMethod<
+  GetReportDefinitionRequest,
   GetReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
@@ -423,9 +421,8 @@ export const getReportDefinition: (
  * copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing
  * asynchronously.
  */
-export const importApplicationUsage: (
-  input: ImportApplicationUsageRequest,
-) => effect.Effect<
+export const importApplicationUsage: API.OperationMethod<
+  ImportApplicationUsageRequest,
   ImportApplicationUsageResult,
   | AccessDeniedException
   | InternalServerException
@@ -448,18 +445,16 @@ export const importApplicationUsage: (
  *
  * The maximum number of reports is one.
  */
-export const listReportDefinitions: {
-  (
-    input: ListReportDefinitionsRequest,
-  ): effect.Effect<
-    ListReportDefinitionsResult,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReportDefinitions: API.OperationMethod<
+  ListReportDefinitionsRequest,
+  ListReportDefinitionsResult,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportDefinitionsRequest,
   ) => stream.Stream<
@@ -501,9 +496,8 @@ export const listReportDefinitions: {
 /**
  * Creates the report definition for a report in Application Cost Profiler.
  */
-export const putReportDefinition: (
-  input: PutReportDefinitionRequest,
-) => effect.Effect<
+export const putReportDefinition: API.OperationMethod<
+  PutReportDefinitionRequest,
   PutReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException
@@ -526,9 +520,8 @@ export const putReportDefinition: (
 /**
  * Updates existing report in AWS Application Cost Profiler.
  */
-export const updateReportDefinition: (
-  input: UpdateReportDefinitionRequest,
-) => effect.Effect<
+export const updateReportDefinition: API.OperationMethod<
+  UpdateReportDefinitionRequest,
   UpdateReportDefinitionResult,
   | AccessDeniedException
   | InternalServerException

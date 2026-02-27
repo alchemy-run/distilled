@@ -96,22 +96,35 @@ export const ListInsightsResponse = Schema.Array(
           timestamp: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            dismissed: "dismissed",
             issueClass: "issue_class",
             issueType: "issue_type",
+            payload: "payload",
             resolveLink: "resolve_link",
             resolveText: "resolve_text",
+            severity: "severity",
+            since: "since",
+            subject: "subject",
+            timestamp: "timestamp",
           }),
         ),
       ),
     ),
     page: Schema.optional(Schema.Number),
     perPage: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ perPage: "per_page" })),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      issues: "issues",
+      page: "page",
+      perPage: "per_page",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListInsightsResponse>;
 
-export const listInsights: (
-  input: ListInsightsRequest,
-) => Effect.Effect<
+export const listInsights: API.OperationMethod<
+  ListInsightsRequest,
   ListInsightsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -171,7 +184,14 @@ export const DismissInsightResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -183,14 +203,20 @@ export const DismissInsightResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DismissInsightResponse>;
 
-export const dismissInsight: (
-  input: DismissInsightRequest,
-) => Effect.Effect<
+export const dismissInsight: API.OperationMethod<
+  DismissInsightRequest,
   DismissInsightResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -222,9 +248,8 @@ export const GetInsightClassResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetInsightClassResponse>;
 
-export const getInsightClass: (
-  input: GetInsightClassRequest,
-) => Effect.Effect<
+export const getInsightClass: API.OperationMethod<
+  GetInsightClassRequest,
   GetInsightClassResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -256,9 +281,8 @@ export const GetInsightSeverityResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetInsightSeverityResponse>;
 
-export const getInsightSeverity: (
-  input: GetInsightSeverityRequest,
-) => Effect.Effect<
+export const getInsightSeverity: API.OperationMethod<
+  GetInsightSeverityRequest,
   GetInsightSeverityResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -290,9 +314,8 @@ export const GetInsightTypeResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetInsightTypeResponse>;
 
-export const getInsightType: (
-  input: GetInsightTypeRequest,
-) => Effect.Effect<
+export const getInsightType: API.OperationMethod<
+  GetInsightTypeRequest,
   GetInsightTypeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

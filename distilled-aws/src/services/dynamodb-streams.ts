@@ -670,9 +670,8 @@ export class TrimmedDataAccessException extends S.TaggedErrorClass<TrimmedDataAc
  * records). If both `StartingSequenceNumber` and `EndingSequenceNumber`
  * are present, then that shard is closed and can no longer receive more data.
  */
-export const describeStream: (
-  input: DescribeStreamInput,
-) => effect.Effect<
+export const describeStream: API.OperationMethod<
+  DescribeStreamInput,
   DescribeStreamOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -693,9 +692,8 @@ export const describeStream: (
  * `GetRecords` can retrieve a maximum of 1 MB of data or 1000 stream records,
  * whichever comes first.
  */
-export const getRecords: (
-  input: GetRecordsInput,
-) => effect.Effect<
+export const getRecords: API.OperationMethod<
+  GetRecordsInput,
   GetRecordsOutput,
   | ExpiredIteratorException
   | InternalServerError
@@ -724,9 +722,8 @@ export const getRecords: (
  *
  * A shard iterator expires 15 minutes after it is returned to the requester.
  */
-export const getShardIterator: (
-  input: GetShardIteratorInput,
-) => effect.Effect<
+export const getShardIterator: API.OperationMethod<
+  GetShardIteratorInput,
   GetShardIteratorOutput,
   | InternalServerError
   | ResourceNotFoundException
@@ -749,9 +746,8 @@ export const getShardIterator: (
  *
  * You can call `ListStreams` at a maximum rate of 5 times per second.
  */
-export const listStreams: (
-  input: ListStreamsInput,
-) => effect.Effect<
+export const listStreams: API.OperationMethod<
+  ListStreamsInput,
   ListStreamsOutput,
   InternalServerError | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

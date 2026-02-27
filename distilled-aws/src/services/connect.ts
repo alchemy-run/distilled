@@ -24177,9 +24177,8 @@ export class ContactNotFoundException extends S.TaggedErrorClass<ContactNotFound
  * Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is
  * activated, it is available to start new evaluations based on the form.
  */
-export const activateEvaluationForm: (
-  input: ActivateEvaluationFormRequest,
-) => effect.Effect<
+export const activateEvaluationForm: API.OperationMethod<
+  ActivateEvaluationFormRequest,
   ActivateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24203,9 +24202,8 @@ export const activateEvaluationForm: (
  * Associates the specified dataset for a Amazon Connect instance with the target account. You can associate
  * only one dataset in a single call.
  */
-export const associateAnalyticsDataSet: (
-  input: AssociateAnalyticsDataSetRequest,
-) => effect.Effect<
+export const associateAnalyticsDataSet: API.OperationMethod<
+  AssociateAnalyticsDataSetRequest,
   AssociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24230,9 +24228,8 @@ export const associateAnalyticsDataSet: (
  *
  * Associates an approved origin to an Amazon Connect instance.
  */
-export const associateApprovedOrigin: (
-  input: AssociateApprovedOriginRequest,
-) => effect.Effect<
+export const associateApprovedOrigin: API.OperationMethod<
+  AssociateApprovedOriginRequest,
   AssociateApprovedOriginResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24262,9 +24259,8 @@ export const associateApprovedOrigin: (
  * Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2
  * bot.
  */
-export const associateBot: (
-  input: AssociateBotRequest,
-) => effect.Effect<
+export const associateBot: API.OperationMethod<
+  AssociateBotRequest,
   AssociateBotResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -24320,9 +24316,8 @@ export const associateBot: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const associateContactWithUser: (
-  input: AssociateContactWithUserRequest,
-) => effect.Effect<
+export const associateContactWithUser: API.OperationMethod<
+  AssociateContactWithUserRequest,
   AssociateContactWithUserResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24348,9 +24343,8 @@ export const associateContactWithUser: (
  * Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time
  * analysis sessions for the given language.
  */
-export const associateDefaultVocabulary: (
-  input: AssociateDefaultVocabularyRequest,
-) => effect.Effect<
+export const associateDefaultVocabulary: API.OperationMethod<
+  AssociateDefaultVocabularyRequest,
   AssociateDefaultVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24424,9 +24418,8 @@ export const associateDefaultVocabulary: (
  *
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
-export const associateEmailAddressAlias: (
-  input: AssociateEmailAddressAliasRequest,
-) => effect.Effect<
+export const associateEmailAddressAlias: API.OperationMethod<
+  AssociateEmailAddressAliasRequest,
   AssociateEmailAddressAliasResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -24455,9 +24448,8 @@ export const associateEmailAddressAlias: (
 /**
  * Associates a connect resource to a flow.
  */
-export const associateFlow: (
-  input: AssociateFlowRequest,
-) => effect.Effect<
+export const associateFlow: API.OperationMethod<
+  AssociateFlowRequest,
   AssociateFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24482,9 +24474,8 @@ export const associateFlow: (
 /**
  * Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
  */
-export const associateHoursOfOperations: (
-  input: AssociateHoursOfOperationsRequest,
-) => effect.Effect<
+export const associateHoursOfOperations: API.OperationMethod<
+  AssociateHoursOfOperationsRequest,
   AssociateHoursOfOperationsResponse,
   | ConditionalOperationFailedException
   | InternalServiceException
@@ -24519,9 +24510,8 @@ export const associateHoursOfOperations: (
  * resource being specified in the storage configuration, like an S3 bucket, exists when being used for
  * association.
  */
-export const associateInstanceStorageConfig: (
-  input: AssociateInstanceStorageConfigRequest,
-) => effect.Effect<
+export const associateInstanceStorageConfig: API.OperationMethod<
+  AssociateInstanceStorageConfigRequest,
   AssociateInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24548,9 +24538,8 @@ export const associateInstanceStorageConfig: (
  *
  * Allows the specified Amazon Connect instance to access the specified Lambda function.
  */
-export const associateLambdaFunction: (
-  input: AssociateLambdaFunctionRequest,
-) => effect.Effect<
+export const associateLambdaFunction: API.OperationMethod<
+  AssociateLambdaFunctionRequest,
   AssociateLambdaFunctionResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24580,9 +24569,8 @@ export const associateLambdaFunction: (
  * Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API
  * only supports the association of Amazon Lex V1 bots.
  */
-export const associateLexBot: (
-  input: AssociateLexBotRequest,
-) => effect.Effect<
+export const associateLexBot: API.OperationMethod<
+  AssociateLexBotRequest,
   AssociateLexBotResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24616,9 +24604,8 @@ export const associateLexBot: (
  * in
  * this scenario, you will receive a `ResourceNotFoundException`.
  */
-export const associatePhoneNumberContactFlow: (
-  input: AssociatePhoneNumberContactFlowRequest,
-) => effect.Effect<
+export const associatePhoneNumberContactFlow: API.OperationMethod<
+  AssociatePhoneNumberContactFlowRequest,
   AssociatePhoneNumberContactFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24641,9 +24628,8 @@ export const associatePhoneNumberContactFlow: (
 /**
  * Associates a set of quick connects with a queue.
  */
-export const associateQueueQuickConnects: (
-  input: AssociateQueueQuickConnectsRequest,
-) => effect.Effect<
+export const associateQueueQuickConnects: API.OperationMethod<
+  AssociateQueueQuickConnectsRequest,
   AssociateQueueQuickConnectsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24668,9 +24654,8 @@ export const associateQueueQuickConnects: (
 /**
  * Associates a set of queues with a routing profile.
  */
-export const associateRoutingProfileQueues: (
-  input: AssociateRoutingProfileQueuesRequest,
-) => effect.Effect<
+export const associateRoutingProfileQueues: API.OperationMethod<
+  AssociateRoutingProfileQueuesRequest,
   AssociateRoutingProfileQueuesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24695,9 +24680,8 @@ export const associateRoutingProfileQueues: (
  *
  * Associates a security key to the instance.
  */
-export const associateSecurityKey: (
-  input: AssociateSecurityKeyRequest,
-) => effect.Effect<
+export const associateSecurityKey: API.OperationMethod<
+  AssociateSecurityKeyRequest,
   AssociateSecurityKeyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24724,9 +24708,8 @@ export const associateSecurityKey: (
 /**
  * Associate security profiles with an Entity in an Amazon Connect instance.
  */
-export const associateSecurityProfiles: (
-  input: AssociateSecurityProfilesRequest,
-) => effect.Effect<
+export const associateSecurityProfiles: API.OperationMethod<
+  AssociateSecurityProfilesRequest,
   AssociateSecurityProfilesResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -24754,9 +24737,8 @@ export const associateSecurityProfiles: (
  * Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group
  * is created.
  */
-export const associateTrafficDistributionGroupUser: (
-  input: AssociateTrafficDistributionGroupUserRequest,
-) => effect.Effect<
+export const associateTrafficDistributionGroupUser: API.OperationMethod<
+  AssociateTrafficDistributionGroupUserRequest,
   AssociateTrafficDistributionGroupUserResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24781,9 +24763,8 @@ export const associateTrafficDistributionGroupUser: (
 /**
  * Associates a set of proficiencies with a user.
  */
-export const associateUserProficiencies: (
-  input: AssociateUserProficienciesRequest,
-) => effect.Effect<
+export const associateUserProficiencies: API.OperationMethod<
+  AssociateUserProficienciesRequest,
   AssociateUserProficienciesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24807,9 +24788,8 @@ export const associateUserProficiencies: (
  * Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's
  * configured views and pages.
  */
-export const associateWorkspace: (
-  input: AssociateWorkspaceRequest,
-) => effect.Effect<
+export const associateWorkspace: API.OperationMethod<
+  AssociateWorkspaceRequest,
   AssociateWorkspaceResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -24837,9 +24817,8 @@ export const associateWorkspace: (
  * Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can
  * associate multiple datasets in a single call.
  */
-export const batchAssociateAnalyticsDataSet: (
-  input: BatchAssociateAnalyticsDataSetRequest,
-) => effect.Effect<
+export const batchAssociateAnalyticsDataSet: API.OperationMethod<
+  BatchAssociateAnalyticsDataSetRequest,
   BatchAssociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24867,9 +24846,8 @@ export const batchAssociateAnalyticsDataSet: (
  * unauthorized. The combination of primary values and the attribute name serve as the identifier for the individual
  * item request.
  */
-export const batchCreateDataTableValue: (
-  input: BatchCreateDataTableValueRequest,
-) => effect.Effect<
+export const batchCreateDataTableValue: API.OperationMethod<
+  BatchCreateDataTableValueRequest,
   BatchCreateDataTableValueResponse,
   | AccessDeniedException
   | ConflictException
@@ -24902,9 +24880,8 @@ export const batchCreateDataTableValue: (
  * from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values
  * were accessed. System managed values are not deletable by customers.
  */
-export const batchDeleteDataTableValue: (
-  input: BatchDeleteDataTableValueRequest,
-) => effect.Effect<
+export const batchDeleteDataTableValue: API.OperationMethod<
+  BatchDeleteDataTableValueRequest,
   BatchDeleteDataTableValueResponse,
   | AccessDeniedException
   | ConflictException
@@ -24933,9 +24910,8 @@ export const batchDeleteDataTableValue: (
  * with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to
  * maintain consistency with existing operations.
  */
-export const batchDescribeDataTableValue: (
-  input: BatchDescribeDataTableValueRequest,
-) => effect.Effect<
+export const batchDescribeDataTableValue: API.OperationMethod<
+  BatchDescribeDataTableValueRequest,
   BatchDescribeDataTableValueResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -24961,9 +24937,8 @@ export const batchDescribeDataTableValue: (
  * Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate
  * multiple datasets in a single call.
  */
-export const batchDisassociateAnalyticsDataSet: (
-  input: BatchDisassociateAnalyticsDataSetRequest,
-) => effect.Effect<
+export const batchDisassociateAnalyticsDataSet: API.OperationMethod<
+  BatchDisassociateAnalyticsDataSetRequest,
   BatchDisassociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -24987,9 +24962,8 @@ export const batchDisassociateAnalyticsDataSet: (
  * Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file
  * provided in the input list must be associated with the input AssociatedResourceArn.
  */
-export const batchGetAttachedFileMetadata: (
-  input: BatchGetAttachedFileMetadataRequest,
-) => effect.Effect<
+export const batchGetAttachedFileMetadata: API.OperationMethod<
+  BatchGetAttachedFileMetadataRequest,
   BatchGetAttachedFileMetadataResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25012,9 +24986,8 @@ export const batchGetAttachedFileMetadata: (
 /**
  * Retrieve the flow associations for the given resources.
  */
-export const batchGetFlowAssociation: (
-  input: BatchGetFlowAssociationRequest,
-) => effect.Effect<
+export const batchGetFlowAssociation: API.OperationMethod<
+  BatchGetFlowAssociationRequest,
   BatchGetFlowAssociationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25045,9 +25018,8 @@ export const batchGetFlowAssociation: (
  * requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting
  * voice call uses the same contactId that was created by BatchPutContact.
  */
-export const batchPutContact: (
-  input: BatchPutContactRequest,
-) => effect.Effect<
+export const batchPutContact: API.OperationMethod<
+  BatchPutContactRequest,
   BatchPutContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -25074,9 +25046,8 @@ export const batchPutContact: (
  * are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification
  * conflicts.
  */
-export const batchUpdateDataTableValue: (
-  input: BatchUpdateDataTableValueRequest,
-) => effect.Effect<
+export const batchUpdateDataTableValue: API.OperationMethod<
+  BatchUpdateDataTableValueRequest,
   BatchUpdateDataTableValueResponse,
   | AccessDeniedException
   | ConflictException
@@ -25129,9 +25100,8 @@ export const batchUpdateDataTableValue: (
  * 200% limit. At that point you are blocked from claiming any more numbers until you
  * open an Amazon Web Services support ticket.
  */
-export const claimPhoneNumber: (
-  input: ClaimPhoneNumberRequest,
-) => effect.Effect<
+export const claimPhoneNumber: API.OperationMethod<
+  ClaimPhoneNumberRequest,
   ClaimPhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -25157,9 +25127,8 @@ export const claimPhoneNumber: (
  * Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the
  * StartAttachedFileUpload API.
  */
-export const completeAttachedFileUpload: (
-  input: CompleteAttachedFileUploadRequest,
-) => effect.Effect<
+export const completeAttachedFileUpload: API.OperationMethod<
+  CompleteAttachedFileUploadRequest,
   CompleteAttachedFileUploadResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25182,9 +25151,8 @@ export const completeAttachedFileUpload: (
 /**
  * Creates an agent status for the specified Amazon Connect instance.
  */
-export const createAgentStatus: (
-  input: CreateAgentStatusRequest,
-) => effect.Effect<
+export const createAgentStatus: API.OperationMethod<
+  CreateAgentStatusRequest,
   CreateAgentStatusResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25226,9 +25194,8 @@ export const createAgentStatus: (
  * While you can use API to create task contacts that are in the `COMPLETED` state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or
  * fail if your CreateContact limits aren't high enough.
  */
-export const createContact: (
-  input: CreateContactRequest,
-) => effect.Effect<
+export const createContact: API.OperationMethod<
+  CreateContactRequest,
   CreateContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -25262,9 +25229,8 @@ export const createContact: (
  * You can also create and update flows using the Amazon Connect
  * Flow language.
  */
-export const createContactFlow: (
-  input: CreateContactFlowRequest,
-) => effect.Effect<
+export const createContactFlow: API.OperationMethod<
+  CreateContactFlowRequest,
   CreateContactFlowResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25293,9 +25259,8 @@ export const createContactFlow: (
 /**
  * Creates a flow module for the specified Amazon Connect instance.
  */
-export const createContactFlowModule: (
-  input: CreateContactFlowModuleRequest,
-) => effect.Effect<
+export const createContactFlowModule: API.OperationMethod<
+  CreateContactFlowModuleRequest,
   CreateContactFlowModuleResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -25328,9 +25293,8 @@ export const createContactFlowModule: (
 /**
  * Creates a named alias that points to a specific version of a contact flow module.
  */
-export const createContactFlowModuleAlias: (
-  input: CreateContactFlowModuleAliasRequest,
-) => effect.Effect<
+export const createContactFlowModuleAlias: API.OperationMethod<
+  CreateContactFlowModuleAliasRequest,
   CreateContactFlowModuleAliasResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -25360,9 +25324,8 @@ export const createContactFlowModuleAlias: (
  * Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point
  * in time for version control and rollback capabilities.
  */
-export const createContactFlowModuleVersion: (
-  input: CreateContactFlowModuleVersionRequest,
-) => effect.Effect<
+export const createContactFlowModuleVersion: API.OperationMethod<
+  CreateContactFlowModuleVersionRequest,
   CreateContactFlowModuleVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25392,9 +25355,8 @@ export const createContactFlowModuleVersion: (
  * `$LATEST` published flow content, then an error is returned. This API only supports creating versions for
  * flows of type `Campaign`.
  */
-export const createContactFlowVersion: (
-  input: CreateContactFlowVersionRequest,
-) => effect.Effect<
+export const createContactFlowVersion: API.OperationMethod<
+  CreateContactFlowVersionRequest,
   CreateContactFlowVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25423,9 +25385,8 @@ export const createContactFlowVersion: (
  * attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per
  * instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
  */
-export const createDataTable: (
-  input: CreateDataTableRequest,
-) => effect.Effect<
+export const createDataTable: API.OperationMethod<
+  CreateDataTableRequest,
   CreateDataTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -25459,9 +25420,8 @@ export const createDataTable: (
  * existing primary values will already be unique. Creating attributes does not create any values. System managed tables
  * may not allow customers to create new attributes.
  */
-export const createDataTableAttribute: (
-  input: CreateDataTableAttributeRequest,
-) => effect.Effect<
+export const createDataTableAttribute: API.OperationMethod<
+  CreateDataTableAttributeRequest,
   CreateDataTableAttributeResponse,
   | AccessDeniedException
   | ConflictException
@@ -25494,9 +25454,8 @@ export const createDataTableAttribute: (
  * addresses, see Create email
  * addresses in the Amazon Connect Administrator Guide.
  */
-export const createEmailAddress: (
-  input: CreateEmailAddressRequest,
-) => effect.Effect<
+export const createEmailAddress: API.OperationMethod<
+  CreateEmailAddressRequest,
   CreateEmailAddressResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -25531,9 +25490,8 @@ export const createEmailAddress: (
  * questions related to agent performance, and create sections to organize such questions. Question and section
  * identifiers cannot be duplicated within the same evaluation form.
  */
-export const createEvaluationForm: (
-  input: CreateEvaluationFormRequest,
-) => effect.Effect<
+export const createEvaluationForm: API.OperationMethod<
+  CreateEvaluationFormRequest,
   CreateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -25558,9 +25516,8 @@ export const createEvaluationForm: (
 /**
  * Creates hours of operation.
  */
-export const createHoursOfOperation: (
-  input: CreateHoursOfOperationRequest,
-) => effect.Effect<
+export const createHoursOfOperation: API.OperationMethod<
+  CreateHoursOfOperationRequest,
   CreateHoursOfOperationResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25589,9 +25546,8 @@ export const createHoursOfOperation: (
 /**
  * Creates an hours of operation override in an Amazon Connect hours of operation resource.
  */
-export const createHoursOfOperationOverride: (
-  input: CreateHoursOfOperationOverrideRequest,
-) => effect.Effect<
+export const createHoursOfOperationOverride: API.OperationMethod<
+  CreateHoursOfOperationOverrideRequest,
   CreateHoursOfOperationOverrideResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25629,9 +25585,8 @@ export const createHoursOfOperationOverride: (
  * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
-export const createInstance: (
-  input: CreateInstanceRequest,
-) => effect.Effect<
+export const createInstance: API.OperationMethod<
+  CreateInstanceRequest,
   CreateInstanceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -25654,9 +25609,8 @@ export const createInstance: (
 /**
  * Creates an Amazon Web Services resource association with an Amazon Connect instance.
  */
-export const createIntegrationAssociation: (
-  input: CreateIntegrationAssociationRequest,
-) => effect.Effect<
+export const createIntegrationAssociation: API.OperationMethod<
+  CreateIntegrationAssociationRequest,
   CreateIntegrationAssociationResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25679,9 +25633,8 @@ export const createIntegrationAssociation: (
 /**
  * Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
  */
-export const createNotification: (
-  input: CreateNotificationRequest,
-) => effect.Effect<
+export const createNotification: API.OperationMethod<
+  CreateNotificationRequest,
   CreateNotificationResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -25710,9 +25663,8 @@ export const createNotification: (
  * integrating custom participants or Enable multi-user web, in-app, and video
  * calling.
  */
-export const createParticipant: (
-  input: CreateParticipantRequest,
-) => effect.Effect<
+export const createParticipant: API.OperationMethod<
+  CreateParticipantRequest,
   CreateParticipantResponse,
   | ConflictException
   | InternalServiceException
@@ -25739,9 +25691,8 @@ export const createParticipant: (
  * Enable persistent chat in
  * the *Amazon Connect Administrator Guide*.
  */
-export const createPersistentContactAssociation: (
-  input: CreatePersistentContactAssociationRequest,
-) => effect.Effect<
+export const createPersistentContactAssociation: API.OperationMethod<
+  CreatePersistentContactAssociationRequest,
   CreatePersistentContactAssociationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25784,9 +25735,8 @@ export const createPersistentContactAssociation: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const createPredefinedAttribute: (
-  input: CreatePredefinedAttributeRequest,
-) => effect.Effect<
+export const createPredefinedAttribute: API.OperationMethod<
+  CreatePredefinedAttributeRequest,
   CreatePredefinedAttributeResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25815,9 +25765,8 @@ export const createPredefinedAttribute: (
  * Create prompts in the
  * *Amazon Connect Administrator Guide*.
  */
-export const createPrompt: (
-  input: CreatePromptRequest,
-) => effect.Effect<
+export const createPrompt: API.OperationMethod<
+  CreatePromptRequest,
   CreatePromptResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25843,9 +25792,8 @@ export const createPrompt: (
  * Creates registration for a device token and a chat contact to receive real-time push notifications. For more
  * information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the *Amazon Connect Administrator Guide*.
  */
-export const createPushNotificationRegistration: (
-  input: CreatePushNotificationRegistrationRequest,
-) => effect.Effect<
+export const createPushNotificationRegistration: API.OperationMethod<
+  CreatePushNotificationRegistrationRequest,
   CreatePushNotificationRegistrationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -25884,9 +25832,8 @@ export const createPushNotificationRegistration: (
  * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
-export const createQueue: (
-  input: CreateQueueRequest,
-) => effect.Effect<
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
   CreateQueueResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25913,9 +25860,8 @@ export const createQueue: (
 /**
  * Creates a quick connect for the specified Amazon Connect instance.
  */
-export const createQuickConnect: (
-  input: CreateQuickConnectRequest,
-) => effect.Effect<
+export const createQuickConnect: API.OperationMethod<
+  CreateQuickConnectRequest,
   CreateQuickConnectResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25942,9 +25888,8 @@ export const createQuickConnect: (
 /**
  * Creates a new routing profile.
  */
-export const createRoutingProfile: (
-  input: CreateRoutingProfileRequest,
-) => effect.Effect<
+export const createRoutingProfile: API.OperationMethod<
+  CreateRoutingProfileRequest,
   CreateRoutingProfileResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -25974,9 +25919,8 @@ export const createRoutingProfile: (
  * Use the Rules Function
  * language to code conditions for the rule.
  */
-export const createRule: (
-  input: CreateRuleRequest,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26007,9 +25951,8 @@ export const createRule: (
  * profile permissions, see List
  * of security profile permissions.
  */
-export const createSecurityProfile: (
-  input: CreateSecurityProfileRequest,
-) => effect.Effect<
+export const createSecurityProfile: API.OperationMethod<
+  CreateSecurityProfileRequest,
   CreateSecurityProfileResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -26036,9 +25979,8 @@ export const createSecurityProfile: (
 /**
  * Creates a new task template in the specified Amazon Connect instance.
  */
-export const createTaskTemplate: (
-  input: CreateTaskTemplateRequest,
-) => effect.Effect<
+export const createTaskTemplate: API.OperationMethod<
+  CreateTaskTemplateRequest,
   CreateTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26063,9 +26005,8 @@ export const createTaskTemplate: (
 /**
  * Creates a test case with its content and metadata for the specified Amazon Connect instance.
  */
-export const createTestCase: (
-  input: CreateTestCaseRequest,
-) => effect.Effect<
+export const createTestCase: API.OperationMethod<
+  CreateTestCaseRequest,
   CreateTestCaseResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -26110,9 +26051,8 @@ export const createTestCase: (
  * For more information about creating traffic distribution groups, see Set up traffic distribution groups in the
  * *Amazon Connect Administrator Guide*.
  */
-export const createTrafficDistributionGroup: (
-  input: CreateTrafficDistributionGroupRequest,
-) => effect.Effect<
+export const createTrafficDistributionGroup: API.OperationMethod<
+  CreateTrafficDistributionGroupRequest,
   CreateTrafficDistributionGroupResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26141,9 +26081,8 @@ export const createTrafficDistributionGroup: (
 /**
  * Creates a use case for an integration association.
  */
-export const createUseCase: (
-  input: CreateUseCaseRequest,
-) => effect.Effect<
+export const createUseCase: API.OperationMethod<
+  CreateUseCaseRequest,
   CreateUseCaseResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -26185,9 +26124,8 @@ export const createUseCase: (
  * For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect
  * Administrator Guide.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -26214,9 +26152,8 @@ export const createUser: (
 /**
  * Creates a new user hierarchy group.
  */
-export const createUserHierarchyGroup: (
-  input: CreateUserHierarchyGroupRequest,
-) => effect.Effect<
+export const createUserHierarchyGroup: API.OperationMethod<
+  CreateUserHierarchyGroupRequest,
   CreateUserHierarchyGroupResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -26250,9 +26187,8 @@ export const createUserHierarchyGroup: (
  * `$SAVED` qualifier or both of the `$SAVED` and `$LATEST` qualifiers with the
  * provided view content based on the status. The view is idempotent if ClientToken is provided.
  */
-export const createView: (
-  input: CreateViewRequest,
-) => effect.Effect<
+export const createView: API.OperationMethod<
+  CreateViewRequest,
   CreateViewResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -26288,9 +26224,8 @@ export const createView: (
  * It returns the highest version if there is no change in content compared to that version. An error is displayed
  * if the supplied ViewContentSha256 is different from the ViewContentSha256 of the `$LATEST` alias.
  */
-export const createViewVersion: (
-  input: CreateViewVersionRequest,
-) => effect.Effect<
+export const createViewVersion: API.OperationMethod<
+  CreateViewVersionRequest,
   CreateViewVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26321,9 +26256,8 @@ export const createViewVersion: (
  * be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time
  * contact analysis sessions for that language.
  */
-export const createVocabulary: (
-  input: CreateVocabularyRequest,
-) => effect.Effect<
+export const createVocabulary: API.OperationMethod<
+  CreateVocabularyRequest,
   CreateVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26351,9 +26285,8 @@ export const createVocabulary: (
  * Creates a workspace that defines the user experience by mapping views to pages. Workspaces can be assigned to
  * users or routing profiles.
  */
-export const createWorkspace: (
-  input: CreateWorkspaceRequest,
-) => effect.Effect<
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
   CreateWorkspaceResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -26384,9 +26317,8 @@ export const createWorkspace: (
 /**
  * Associates a view with a page in a workspace, defining what users see when they navigate to that page.
  */
-export const createWorkspacePage: (
-  input: CreateWorkspacePageRequest,
-) => effect.Effect<
+export const createWorkspacePage: API.OperationMethod<
+  CreateWorkspacePageRequest,
   CreateWorkspacePageResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -26420,9 +26352,8 @@ export const createWorkspacePage: (
  * Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer
  * available for users to start new evaluations based on the form.
  */
-export const deactivateEvaluationForm: (
-  input: DeactivateEvaluationFormRequest,
-) => effect.Effect<
+export const deactivateEvaluationForm: API.OperationMethod<
+  DeactivateEvaluationFormRequest,
   DeactivateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26448,9 +26379,8 @@ export const deactivateEvaluationForm: (
  * The attached file is **permanently deleted** if S3 bucket versioning is not
  * enabled.
  */
-export const deleteAttachedFile: (
-  input: DeleteAttachedFileRequest,
-) => effect.Effect<
+export const deleteAttachedFile: API.OperationMethod<
+  DeleteAttachedFileRequest,
   DeleteAttachedFileResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26473,9 +26403,8 @@ export const deleteAttachedFile: (
 /**
  * Deletes a contact evaluation in the specified Amazon Connect instance.
  */
-export const deleteContactEvaluation: (
-  input: DeleteContactEvaluationRequest,
-) => effect.Effect<
+export const deleteContactEvaluation: API.OperationMethod<
+  DeleteContactEvaluationRequest,
   DeleteContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26498,9 +26427,8 @@ export const deleteContactEvaluation: (
 /**
  * Deletes a flow for the specified Amazon Connect instance.
  */
-export const deleteContactFlow: (
-  input: DeleteContactFlowRequest,
-) => effect.Effect<
+export const deleteContactFlow: API.OperationMethod<
+  DeleteContactFlowRequest,
   DeleteContactFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26525,9 +26453,8 @@ export const deleteContactFlow: (
 /**
  * Deletes the specified flow module.
  */
-export const deleteContactFlowModule: (
-  input: DeleteContactFlowModuleRequest,
-) => effect.Effect<
+export const deleteContactFlowModule: API.OperationMethod<
+  DeleteContactFlowModuleRequest,
   DeleteContactFlowModuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26553,9 +26480,8 @@ export const deleteContactFlowModule: (
  * Removes an alias reference, breaking the named connection to the underlying module version without affecting the
  * version itself.
  */
-export const deleteContactFlowModuleAlias: (
-  input: DeleteContactFlowModuleAliasRequest,
-) => effect.Effect<
+export const deleteContactFlowModuleAlias: API.OperationMethod<
+  DeleteContactFlowModuleAliasRequest,
   DeleteContactFlowModuleAliasResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26580,9 +26506,8 @@ export const deleteContactFlowModuleAlias: (
 /**
  * Removes a specific version of a contact flow module.
  */
-export const deleteContactFlowModuleVersion: (
-  input: DeleteContactFlowModuleVersionRequest,
-) => effect.Effect<
+export const deleteContactFlowModuleVersion: API.OperationMethod<
+  DeleteContactFlowModuleVersionRequest,
   DeleteContactFlowModuleVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26607,9 +26532,8 @@ export const deleteContactFlowModuleVersion: (
 /**
  * Deletes the particular version specified in flow version identifier.
  */
-export const deleteContactFlowVersion: (
-  input: DeleteContactFlowVersionRequest,
-) => effect.Effect<
+export const deleteContactFlowVersion: API.OperationMethod<
+  DeleteContactFlowVersionRequest,
   DeleteContactFlowVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26638,9 +26562,8 @@ export const deleteContactFlowVersion: (
  * requested from the admin website, a warning is shown alerting the user of the most recent time the table and its
  * values were accessed.
  */
-export const deleteDataTable: (
-  input: DeleteDataTableRequest,
-) => effect.Effect<
+export const deleteDataTable: API.OperationMethod<
+  DeleteDataTableRequest,
   DeleteDataTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -26667,9 +26590,8 @@ export const deleteDataTable: (
 /**
  * Deletes an attribute and all its values from a data table.
  */
-export const deleteDataTableAttribute: (
-  input: DeleteDataTableAttributeRequest,
-) => effect.Effect<
+export const deleteDataTableAttribute: API.OperationMethod<
+  DeleteDataTableAttributeRequest,
   DeleteDataTableAttributeResponse,
   | AccessDeniedException
   | ConflictException
@@ -26696,9 +26618,8 @@ export const deleteDataTableAttribute: (
 /**
  * Deletes email address from the specified Amazon Connect instance.
  */
-export const deleteEmailAddress: (
-  input: DeleteEmailAddressRequest,
-) => effect.Effect<
+export const deleteEmailAddress: API.OperationMethod<
+  DeleteEmailAddressRequest,
   DeleteEmailAddressResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26729,9 +26650,8 @@ export const deleteEmailAddress: (
  *
  * - If no version is provided, then the full form (all versions) is deleted.
  */
-export const deleteEvaluationForm: (
-  input: DeleteEvaluationFormRequest,
-) => effect.Effect<
+export const deleteEvaluationForm: API.OperationMethod<
+  DeleteEvaluationFormRequest,
   DeleteEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26754,9 +26674,8 @@ export const deleteEvaluationForm: (
 /**
  * Deletes an hours of operation.
  */
-export const deleteHoursOfOperation: (
-  input: DeleteHoursOfOperationRequest,
-) => effect.Effect<
+export const deleteHoursOfOperation: API.OperationMethod<
+  DeleteHoursOfOperationRequest,
   DeleteHoursOfOperationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26779,9 +26698,8 @@ export const deleteHoursOfOperation: (
 /**
  * Deletes an hours of operation override in an Amazon Connect hours of operation resource.
  */
-export const deleteHoursOfOperationOverride: (
-  input: DeleteHoursOfOperationOverrideRequest,
-) => effect.Effect<
+export const deleteHoursOfOperationOverride: API.OperationMethod<
+  DeleteHoursOfOperationOverrideRequest,
   DeleteHoursOfOperationOverrideResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26811,9 +26729,8 @@ export const deleteHoursOfOperationOverride: (
  * If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
  * You must wait 30 days before you can restart creating and deleting instances in your account.
  */
-export const deleteInstance: (
-  input: DeleteInstanceRequest,
-) => effect.Effect<
+export const deleteInstance: API.OperationMethod<
+  DeleteInstanceRequest,
   DeleteInstanceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -26833,9 +26750,8 @@ export const deleteInstance: (
  * Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not
  * have any use cases associated with it.
  */
-export const deleteIntegrationAssociation: (
-  input: DeleteIntegrationAssociationRequest,
-) => effect.Effect<
+export const deleteIntegrationAssociation: API.OperationMethod<
+  DeleteIntegrationAssociationRequest,
   DeleteIntegrationAssociationResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -26856,9 +26772,8 @@ export const deleteIntegrationAssociation: (
 /**
  * Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
  */
-export const deleteNotification: (
-  input: DeleteNotificationRequest,
-) => effect.Effect<
+export const deleteNotification: API.OperationMethod<
+  DeleteNotificationRequest,
   DeleteNotificationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26883,9 +26798,8 @@ export const deleteNotification: (
 /**
  * Deletes a predefined attribute from the specified Amazon Connect instance.
  */
-export const deletePredefinedAttribute: (
-  input: DeletePredefinedAttributeRequest,
-) => effect.Effect<
+export const deletePredefinedAttribute: API.OperationMethod<
+  DeletePredefinedAttributeRequest,
   DeletePredefinedAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26910,9 +26824,8 @@ export const deletePredefinedAttribute: (
 /**
  * Deletes a prompt.
  */
-export const deletePrompt: (
-  input: DeletePromptRequest,
-) => effect.Effect<
+export const deletePrompt: API.OperationMethod<
+  DeletePromptRequest,
   DeletePromptResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26935,9 +26848,8 @@ export const deletePrompt: (
 /**
  * Deletes registration for a device token and a chat contact.
  */
-export const deletePushNotificationRegistration: (
-  input: DeletePushNotificationRegistrationRequest,
-) => effect.Effect<
+export const deletePushNotificationRegistration: API.OperationMethod<
+  DeletePushNotificationRegistrationRequest,
   DeletePushNotificationRegistrationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -26960,9 +26872,8 @@ export const deletePushNotificationRegistration: (
 /**
  * Deletes a queue.
  */
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => effect.Effect<
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
   DeleteQueueResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -26997,9 +26908,8 @@ export const deleteQueue: (
  * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
  * you're using Amazon Connect Global Resiliency.
  */
-export const deleteQuickConnect: (
-  input: DeleteQuickConnectRequest,
-) => effect.Effect<
+export const deleteQuickConnect: API.OperationMethod<
+  DeleteQuickConnectRequest,
   DeleteQuickConnectResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27022,9 +26932,8 @@ export const deleteQuickConnect: (
 /**
  * Deletes a routing profile.
  */
-export const deleteRoutingProfile: (
-  input: DeleteRoutingProfileRequest,
-) => effect.Effect<
+export const deleteRoutingProfile: API.OperationMethod<
+  DeleteRoutingProfileRequest,
   DeleteRoutingProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27049,9 +26958,8 @@ export const deleteRoutingProfile: (
 /**
  * Deletes a rule for the specified Amazon Connect instance.
  */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27074,9 +26982,8 @@ export const deleteRule: (
 /**
  * Deletes a security profile.
  */
-export const deleteSecurityProfile: (
-  input: DeleteSecurityProfileRequest,
-) => effect.Effect<
+export const deleteSecurityProfile: API.OperationMethod<
+  DeleteSecurityProfileRequest,
   DeleteSecurityProfileResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27103,9 +27010,8 @@ export const deleteSecurityProfile: (
 /**
  * Deletes the task template.
  */
-export const deleteTaskTemplate: (
-  input: DeleteTaskTemplateRequest,
-) => effect.Effect<
+export const deleteTaskTemplate: API.OperationMethod<
+  DeleteTaskTemplateRequest,
   DeleteTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27128,9 +27034,8 @@ export const deleteTaskTemplate: (
 /**
  * Deletes the test case that has already been created for the specified Amazon Connect instance.
  */
-export const deleteTestCase: (
-  input: DeleteTestCaseRequest,
-) => effect.Effect<
+export const deleteTestCase: API.OperationMethod<
+  DeleteTestCaseRequest,
   DeleteTestCaseResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27158,9 +27063,8 @@ export const deleteTestCase: (
  * For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the
  * *Amazon Connect Administrator Guide*.
  */
-export const deleteTrafficDistributionGroup: (
-  input: DeleteTrafficDistributionGroupRequest,
-) => effect.Effect<
+export const deleteTrafficDistributionGroup: API.OperationMethod<
+  DeleteTrafficDistributionGroupRequest,
   DeleteTrafficDistributionGroupResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27183,9 +27087,8 @@ export const deleteTrafficDistributionGroup: (
 /**
  * Deletes a use case from an integration association.
  */
-export const deleteUseCase: (
-  input: DeleteUseCaseRequest,
-) => effect.Effect<
+export const deleteUseCase: API.OperationMethod<
+  DeleteUseCaseRequest,
   DeleteUseCaseResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -27219,9 +27122,8 @@ export const deleteUseCase: (
  * - Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if
  * you're using Amazon Connect Global Resiliency.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27245,9 +27147,8 @@ export const deleteUser: (
  * Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child
  * groups.
  */
-export const deleteUserHierarchyGroup: (
-  input: DeleteUserHierarchyGroupRequest,
-) => effect.Effect<
+export const deleteUserHierarchyGroup: API.OperationMethod<
+  DeleteUserHierarchyGroupRequest,
   DeleteUserHierarchyGroupResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27272,9 +27173,8 @@ export const deleteUserHierarchyGroup: (
 /**
  * Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
  */
-export const deleteView: (
-  input: DeleteViewRequest,
-) => effect.Effect<
+export const deleteView: API.OperationMethod<
+  DeleteViewRequest,
   DeleteViewResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27301,9 +27201,8 @@ export const deleteView: (
 /**
  * Deletes the particular version specified in `ViewVersion` identifier.
  */
-export const deleteViewVersion: (
-  input: DeleteViewVersionRequest,
-) => effect.Effect<
+export const deleteViewVersion: API.OperationMethod<
+  DeleteViewVersionRequest,
   DeleteViewVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27330,9 +27229,8 @@ export const deleteViewVersion: (
 /**
  * Deletes the vocabulary that has the given identifier.
  */
-export const deleteVocabulary: (
-  input: DeleteVocabularyRequest,
-) => effect.Effect<
+export const deleteVocabulary: API.OperationMethod<
+  DeleteVocabularyRequest,
   DeleteVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27357,9 +27255,8 @@ export const deleteVocabulary: (
 /**
  * Deletes a workspace and removes all associated view and resource assignments.
  */
-export const deleteWorkspace: (
-  input: DeleteWorkspaceRequest,
-) => effect.Effect<
+export const deleteWorkspace: API.OperationMethod<
+  DeleteWorkspaceRequest,
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27384,9 +27281,8 @@ export const deleteWorkspace: (
 /**
  * Deletes a media asset (such as a logo) from a workspace.
  */
-export const deleteWorkspaceMedia: (
-  input: DeleteWorkspaceMediaRequest,
-) => effect.Effect<
+export const deleteWorkspaceMedia: API.OperationMethod<
+  DeleteWorkspaceMediaRequest,
   DeleteWorkspaceMediaResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27410,9 +27306,8 @@ export const deleteWorkspaceMedia: (
  * Removes the association between a view and a page in a workspace. The page will display the default view after
  * deletion.
  */
-export const deleteWorkspacePage: (
-  input: DeleteWorkspacePageRequest,
-) => effect.Effect<
+export const deleteWorkspacePage: API.OperationMethod<
+  DeleteWorkspacePageRequest,
   DeleteWorkspacePageResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27439,9 +27334,8 @@ export const deleteWorkspacePage: (
 /**
  * Describes an agent status.
  */
-export const describeAgentStatus: (
-  input: DescribeAgentStatusRequest,
-) => effect.Effect<
+export const describeAgentStatus: API.OperationMethod<
+  DescribeAgentStatusRequest,
   DescribeAgentStatusResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27467,9 +27361,8 @@ export const describeAgentStatus: (
  *
  * Describes the target authentication profile.
  */
-export const describeAuthenticationProfile: (
-  input: DescribeAuthenticationProfileRequest,
-) => effect.Effect<
+export const describeAuthenticationProfile: API.OperationMethod<
+  DescribeAuthenticationProfileRequest,
   DescribeAuthenticationProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27519,9 +27412,8 @@ export const describeAuthenticationProfile: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const describeContact: (
-  input: DescribeContactRequest,
-) => effect.Effect<
+export const describeContact: API.OperationMethod<
+  DescribeContactRequest,
   DescribeContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27544,9 +27436,8 @@ export const describeContact: (
 /**
  * Describes a contact evaluation in the specified Amazon Connect instance.
  */
-export const describeContactEvaluation: (
-  input: DescribeContactEvaluationRequest,
-) => effect.Effect<
+export const describeContactEvaluation: API.OperationMethod<
+  DescribeContactEvaluationRequest,
   DescribeContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27581,9 +27472,8 @@ export const describeContactEvaluation: (
  * or `PUBLISHED`. The `PUBLISHED` status will initiate validation on the content.
  * `SAVED` does not initiate validation of the content. `SAVED` | `PUBLISHED`
  */
-export const describeContactFlow: (
-  input: DescribeContactFlowRequest,
-) => effect.Effect<
+export const describeContactFlow: API.OperationMethod<
+  DescribeContactFlowRequest,
   DescribeContactFlowResponse,
   | ContactFlowNotPublishedException
   | InternalServiceException
@@ -27612,9 +27502,8 @@ export const describeContactFlow: (
  * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
  * be supplied to view saved content that has not been published.
  */
-export const describeContactFlowModule: (
-  input: DescribeContactFlowModuleRequest,
-) => effect.Effect<
+export const describeContactFlowModule: API.OperationMethod<
+  DescribeContactFlowModuleRequest,
   DescribeContactFlowModuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27640,9 +27529,8 @@ export const describeContactFlowModule: (
  * Retrieves detailed information about a specific alias, including which version it currently points to and its
  * metadata.
  */
-export const describeContactFlowModuleAlias: (
-  input: DescribeContactFlowModuleAliasRequest,
-) => effect.Effect<
+export const describeContactFlowModuleAlias: API.OperationMethod<
+  DescribeContactFlowModuleAliasRequest,
   DescribeContactFlowModuleAliasResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27669,9 +27557,8 @@ export const describeContactFlowModuleAlias: (
  * are returned as well as properties for region replication, versioning, and system tables. "Describe" is a deprecated
  * term but is allowed to maintain consistency with existing operations.
  */
-export const describeDataTable: (
-  input: DescribeDataTableRequest,
-) => effect.Effect<
+export const describeDataTable: API.OperationMethod<
+  DescribeDataTableRequest,
   DescribeDataTableResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27697,9 +27584,8 @@ export const describeDataTable: (
  * Returns detailed information for a specific data table attribute including its configuration, validation rules,
  * and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
  */
-export const describeDataTableAttribute: (
-  input: DescribeDataTableAttributeRequest,
-) => effect.Effect<
+export const describeDataTableAttribute: API.OperationMethod<
+  DescribeDataTableAttributeRequest,
   DescribeDataTableAttributeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27724,9 +27610,8 @@ export const describeDataTableAttribute: (
 /**
  * Describe email address form the specified Amazon Connect instance.
  */
-export const describeEmailAddress: (
-  input: DescribeEmailAddressRequest,
-) => effect.Effect<
+export const describeEmailAddress: API.OperationMethod<
+  DescribeEmailAddressRequest,
   DescribeEmailAddressResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27752,9 +27637,8 @@ export const describeEmailAddress: (
  * Describes an evaluation form in the specified Amazon Connect instance. If the version property is not
  * provided, the latest version of the evaluation form is described.
  */
-export const describeEvaluationForm: (
-  input: DescribeEvaluationFormRequest,
-) => effect.Effect<
+export const describeEvaluationForm: API.OperationMethod<
+  DescribeEvaluationFormRequest,
   DescribeEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27775,9 +27659,8 @@ export const describeEvaluationForm: (
 /**
  * Describes the hours of operation.
  */
-export const describeHoursOfOperation: (
-  input: DescribeHoursOfOperationRequest,
-) => effect.Effect<
+export const describeHoursOfOperation: API.OperationMethod<
+  DescribeHoursOfOperationRequest,
   DescribeHoursOfOperationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27800,9 +27683,8 @@ export const describeHoursOfOperation: (
 /**
  * Describes the hours of operation override.
  */
-export const describeHoursOfOperationOverride: (
-  input: DescribeHoursOfOperationOverrideRequest,
-) => effect.Effect<
+export const describeHoursOfOperationOverride: API.OperationMethod<
+  DescribeHoursOfOperationOverrideRequest,
   DescribeHoursOfOperationOverrideResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27831,9 +27713,8 @@ export const describeHoursOfOperationOverride: (
  * If an instance is not created successfully, the instance status reason field returns details relevant to the
  * reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
  */
-export const describeInstance: (
-  input: DescribeInstanceRequest,
-) => effect.Effect<
+export const describeInstance: API.OperationMethod<
+  DescribeInstanceRequest,
   DescribeInstanceResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -27854,9 +27735,8 @@ export const describeInstance: (
  *
  * Describes the specified instance attribute.
  */
-export const describeInstanceAttribute: (
-  input: DescribeInstanceAttributeRequest,
-) => effect.Effect<
+export const describeInstanceAttribute: API.OperationMethod<
+  DescribeInstanceAttributeRequest,
   DescribeInstanceAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27882,9 +27762,8 @@ export const describeInstanceAttribute: (
  * Retrieves the current storage configurations for the specified resource type, association ID, and instance
  * ID.
  */
-export const describeInstanceStorageConfig: (
-  input: DescribeInstanceStorageConfigRequest,
-) => effect.Effect<
+export const describeInstanceStorageConfig: API.OperationMethod<
+  DescribeInstanceStorageConfigRequest,
   DescribeInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -27907,9 +27786,8 @@ export const describeInstanceStorageConfig: (
 /**
  * Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
  */
-export const describeNotification: (
-  input: DescribeNotificationRequest,
-) => effect.Effect<
+export const describeNotification: API.OperationMethod<
+  DescribeNotificationRequest,
   DescribeNotificationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27940,9 +27818,8 @@ export const describeNotification: (
  * in
  * this scenario, you receive a `ResourceNotFoundException`.
  */
-export const describePhoneNumber: (
-  input: DescribePhoneNumberRequest,
-) => effect.Effect<
+export const describePhoneNumber: API.OperationMethod<
+  DescribePhoneNumberRequest,
   DescribePhoneNumberResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -27978,9 +27855,8 @@ export const describePhoneNumber: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const describePredefinedAttribute: (
-  input: DescribePredefinedAttributeRequest,
-) => effect.Effect<
+export const describePredefinedAttribute: API.OperationMethod<
+  DescribePredefinedAttributeRequest,
   DescribePredefinedAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28003,9 +27879,8 @@ export const describePredefinedAttribute: (
 /**
  * Describes the prompt.
  */
-export const describePrompt: (
-  input: DescribePromptRequest,
-) => effect.Effect<
+export const describePrompt: API.OperationMethod<
+  DescribePromptRequest,
   DescribePromptResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28028,9 +27903,8 @@ export const describePrompt: (
 /**
  * Describes the specified queue.
  */
-export const describeQueue: (
-  input: DescribeQueueRequest,
-) => effect.Effect<
+export const describeQueue: API.OperationMethod<
+  DescribeQueueRequest,
   DescribeQueueResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28053,9 +27927,8 @@ export const describeQueue: (
 /**
  * Describes the quick connect.
  */
-export const describeQuickConnect: (
-  input: DescribeQuickConnectRequest,
-) => effect.Effect<
+export const describeQuickConnect: API.OperationMethod<
+  DescribeQuickConnectRequest,
   DescribeQuickConnectResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28082,9 +27955,8 @@ export const describeQuickConnect: (
  * Syntax shown on this page is incorrect; we are working to update it. SearchRoutingProfiles does include
  * AssociatedQueueIds.
  */
-export const describeRoutingProfile: (
-  input: DescribeRoutingProfileRequest,
-) => effect.Effect<
+export const describeRoutingProfile: API.OperationMethod<
+  DescribeRoutingProfileRequest,
   DescribeRoutingProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28107,9 +27979,8 @@ export const describeRoutingProfile: (
 /**
  * Describes a rule for the specified Amazon Connect instance.
  */
-export const describeRule: (
-  input: DescribeRuleRequest,
-) => effect.Effect<
+export const describeRule: API.OperationMethod<
+  DescribeRuleRequest,
   DescribeRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28136,9 +28007,8 @@ export const describeRule: (
  * profile permissions, see List
  * of security profile permissions.
  */
-export const describeSecurityProfile: (
-  input: DescribeSecurityProfileRequest,
-) => effect.Effect<
+export const describeSecurityProfile: API.OperationMethod<
+  DescribeSecurityProfileRequest,
   DescribeSecurityProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28161,9 +28031,8 @@ export const describeSecurityProfile: (
 /**
  * Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
  */
-export const describeTestCase: (
-  input: DescribeTestCaseRequest,
-) => effect.Effect<
+export const describeTestCase: API.OperationMethod<
+  DescribeTestCaseRequest,
   DescribeTestCaseResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28188,9 +28057,8 @@ export const describeTestCase: (
 /**
  * Gets details and status of a traffic distribution group.
  */
-export const describeTrafficDistributionGroup: (
-  input: DescribeTrafficDistributionGroupRequest,
-) => effect.Effect<
+export const describeTrafficDistributionGroup: API.OperationMethod<
+  DescribeTrafficDistributionGroupRequest,
   DescribeTrafficDistributionGroupResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28215,9 +28083,8 @@ export const describeTrafficDistributionGroup: (
  * console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users
  * and note the IDs provided in the output.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28240,9 +28107,8 @@ export const describeUser: (
 /**
  * Describes the specified hierarchy group.
  */
-export const describeUserHierarchyGroup: (
-  input: DescribeUserHierarchyGroupRequest,
-) => effect.Effect<
+export const describeUserHierarchyGroup: API.OperationMethod<
+  DescribeUserHierarchyGroupRequest,
   DescribeUserHierarchyGroupResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28265,9 +28131,8 @@ export const describeUserHierarchyGroup: (
 /**
  * Describes the hierarchy structure of the specified Amazon Connect instance.
  */
-export const describeUserHierarchyStructure: (
-  input: DescribeUserHierarchyStructureRequest,
-) => effect.Effect<
+export const describeUserHierarchyStructure: API.OperationMethod<
+  DescribeUserHierarchyStructureRequest,
   DescribeUserHierarchyStructureResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28299,9 +28164,8 @@ export const describeUserHierarchyStructure: (
  * not supplied, then `$LATEST` is assumed for customer managed views and an error is returned if there is no
  * published content available. Version 1 is assumed for Amazon Web Services managed views.
  */
-export const describeView: (
-  input: DescribeViewRequest,
-) => effect.Effect<
+export const describeView: API.OperationMethod<
+  DescribeViewRequest,
   DescribeViewResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28326,9 +28190,8 @@ export const describeView: (
 /**
  * Describes the specified vocabulary.
  */
-export const describeVocabulary: (
-  input: DescribeVocabularyRequest,
-) => effect.Effect<
+export const describeVocabulary: API.OperationMethod<
+  DescribeVocabularyRequest,
   DescribeVocabularyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28351,9 +28214,8 @@ export const describeVocabulary: (
 /**
  * Retrieves details about a workspace, including its configuration and metadata.
  */
-export const describeWorkspace: (
-  input: DescribeWorkspaceRequest,
-) => effect.Effect<
+export const describeWorkspace: API.OperationMethod<
+  DescribeWorkspaceRequest,
   DescribeWorkspaceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28378,9 +28240,8 @@ export const describeWorkspace: (
 /**
  * Removes the dataset ID associated with a given Amazon Connect instance.
  */
-export const disassociateAnalyticsDataSet: (
-  input: DisassociateAnalyticsDataSetRequest,
-) => effect.Effect<
+export const disassociateAnalyticsDataSet: API.OperationMethod<
+  DisassociateAnalyticsDataSetRequest,
   DisassociateAnalyticsDataSetResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28405,9 +28266,8 @@ export const disassociateAnalyticsDataSet: (
  *
  * Revokes access to integrated applications from Amazon Connect.
  */
-export const disassociateApprovedOrigin: (
-  input: DisassociateApprovedOriginRequest,
-) => effect.Effect<
+export const disassociateApprovedOrigin: API.OperationMethod<
+  DisassociateApprovedOriginRequest,
   DisassociateApprovedOriginResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28432,9 +28292,8 @@ export const disassociateApprovedOrigin: (
  *
  * Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
  */
-export const disassociateBot: (
-  input: DisassociateBotRequest,
-) => effect.Effect<
+export const disassociateBot: API.OperationMethod<
+  DisassociateBotRequest,
   DisassociateBotResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -28508,9 +28367,8 @@ export const disassociateBot: (
  *
  * - UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
  */
-export const disassociateEmailAddressAlias: (
-  input: DisassociateEmailAddressAliasRequest,
-) => effect.Effect<
+export const disassociateEmailAddressAlias: API.OperationMethod<
+  DisassociateEmailAddressAliasRequest,
   DisassociateEmailAddressAliasResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28537,9 +28395,8 @@ export const disassociateEmailAddressAlias: (
 /**
  * Disassociates a connect resource from a flow.
  */
-export const disassociateFlow: (
-  input: DisassociateFlowRequest,
-) => effect.Effect<
+export const disassociateFlow: API.OperationMethod<
+  DisassociateFlowRequest,
   DisassociateFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28564,9 +28421,8 @@ export const disassociateFlow: (
 /**
  * Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide here for more information on inheriting overrides from parent hours of operation(s).
  */
-export const disassociateHoursOfOperations: (
-  input: DisassociateHoursOfOperationsRequest,
-) => effect.Effect<
+export const disassociateHoursOfOperations: API.OperationMethod<
+  DisassociateHoursOfOperationsRequest,
   DisassociateHoursOfOperationsResponse,
   | ConditionalOperationFailedException
   | InternalServiceException
@@ -28593,9 +28449,8 @@ export const disassociateHoursOfOperations: (
  *
  * Removes the storage type configurations for the specified resource type and association ID.
  */
-export const disassociateInstanceStorageConfig: (
-  input: DisassociateInstanceStorageConfigRequest,
-) => effect.Effect<
+export const disassociateInstanceStorageConfig: API.OperationMethod<
+  DisassociateInstanceStorageConfigRequest,
   DisassociateInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28620,9 +28475,8 @@ export const disassociateInstanceStorageConfig: (
  *
  * Remove the Lambda function from the dropdown options available in the relevant flow blocks.
  */
-export const disassociateLambdaFunction: (
-  input: DisassociateLambdaFunctionRequest,
-) => effect.Effect<
+export const disassociateLambdaFunction: API.OperationMethod<
+  DisassociateLambdaFunctionRequest,
   DisassociateLambdaFunctionResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28647,9 +28501,8 @@ export const disassociateLambdaFunction: (
  *
  * Revokes authorization from the specified instance to access the specified Amazon Lex bot.
  */
-export const disassociateLexBot: (
-  input: DisassociateLexBotRequest,
-) => effect.Effect<
+export const disassociateLexBot: API.OperationMethod<
+  DisassociateLexBotRequest,
   DisassociateLexBotResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28678,9 +28531,8 @@ export const disassociateLexBot: (
  * full phone number ARN. If a UUID is provided in this scenario, you will receive a
  * `ResourceNotFoundException`.
  */
-export const disassociatePhoneNumberContactFlow: (
-  input: DisassociatePhoneNumberContactFlowRequest,
-) => effect.Effect<
+export const disassociatePhoneNumberContactFlow: API.OperationMethod<
+  DisassociatePhoneNumberContactFlowRequest,
   DisassociatePhoneNumberContactFlowResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28703,9 +28555,8 @@ export const disassociatePhoneNumberContactFlow: (
 /**
  * Disassociates a set of quick connects from a queue.
  */
-export const disassociateQueueQuickConnects: (
-  input: DisassociateQueueQuickConnectsRequest,
-) => effect.Effect<
+export const disassociateQueueQuickConnects: API.OperationMethod<
+  DisassociateQueueQuickConnectsRequest,
   DisassociateQueueQuickConnectsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28731,9 +28582,8 @@ export const disassociateQueueQuickConnects: (
  * Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a
  * single call results in an InvalidParameterException.
  */
-export const disassociateRoutingProfileQueues: (
-  input: DisassociateRoutingProfileQueuesRequest,
-) => effect.Effect<
+export const disassociateRoutingProfileQueues: API.OperationMethod<
+  DisassociateRoutingProfileQueuesRequest,
   DisassociateRoutingProfileQueuesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28758,9 +28608,8 @@ export const disassociateRoutingProfileQueues: (
  *
  * Deletes the specified security key.
  */
-export const disassociateSecurityKey: (
-  input: DisassociateSecurityKeyRequest,
-) => effect.Effect<
+export const disassociateSecurityKey: API.OperationMethod<
+  DisassociateSecurityKeyRequest,
   DisassociateSecurityKeyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28783,9 +28632,8 @@ export const disassociateSecurityKey: (
 /**
  * Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
  */
-export const disassociateSecurityProfiles: (
-  input: DisassociateSecurityProfilesRequest,
-) => effect.Effect<
+export const disassociateSecurityProfiles: API.OperationMethod<
+  DisassociateSecurityProfilesRequest,
   DisassociateSecurityProfilesResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -28813,9 +28661,8 @@ export const disassociateSecurityProfiles: (
  * Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the
  * traffic distribution group is created.
  */
-export const disassociateTrafficDistributionGroupUser: (
-  input: DisassociateTrafficDistributionGroupUserRequest,
-) => effect.Effect<
+export const disassociateTrafficDistributionGroupUser: API.OperationMethod<
+  DisassociateTrafficDistributionGroupUserRequest,
   DisassociateTrafficDistributionGroupUserResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28840,9 +28687,8 @@ export const disassociateTrafficDistributionGroupUser: (
 /**
  * Disassociates a set of proficiencies from a user.
  */
-export const disassociateUserProficiencies: (
-  input: DisassociateUserProficienciesRequest,
-) => effect.Effect<
+export const disassociateUserProficiencies: API.OperationMethod<
+  DisassociateUserProficienciesRequest,
   DisassociateUserProficienciesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -28865,9 +28711,8 @@ export const disassociateUserProficiencies: (
 /**
  * Removes the association between a workspace and one or more users or routing profiles.
  */
-export const disassociateWorkspace: (
-  input: DisassociateWorkspaceRequest,
-) => effect.Effect<
+export const disassociateWorkspace: API.OperationMethod<
+  DisassociateWorkspaceRequest,
   DisassociateWorkspaceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28894,9 +28739,8 @@ export const disassociateWorkspace: (
  * receive a new routed contact. Contacts can only be dismissed if they are in a `MISSED`,
  * `ERROR`, `ENDED`, or `REJECTED` state in the Agent Event Stream.
  */
-export const dismissUserContact: (
-  input: DismissUserContactRequest,
-) => effect.Effect<
+export const dismissUserContact: API.OperationMethod<
+  DismissUserContactRequest,
   DismissUserContactResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -28925,20 +28769,18 @@ export const dismissUserContact: (
  * not included in the operation name since it does not meet all the criteria for a batch operation as specified in
  * Batch Operations: Amazon Web Services API Standards.
  */
-export const evaluateDataTableValues: {
-  (
-    input: EvaluateDataTableValuesRequest,
-  ): effect.Effect<
-    EvaluateDataTableValuesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const evaluateDataTableValues: API.OperationMethod<
+  EvaluateDataTableValuesRequest,
+  EvaluateDataTableValuesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: EvaluateDataTableValuesRequest,
   ) => stream.Stream<
@@ -28986,9 +28828,8 @@ export const evaluateDataTableValues: {
  * Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the
  * attached file. It will only return a downloadURL if the status of the attached file is `APPROVED`.
  */
-export const getAttachedFile: (
-  input: GetAttachedFileRequest,
-) => effect.Effect<
+export const getAttachedFile: API.OperationMethod<
+  GetAttachedFileRequest,
   GetAttachedFileResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29011,9 +28852,8 @@ export const getAttachedFile: (
 /**
  * Retrieves the contact attributes for the specified contact.
  */
-export const getContactAttributes: (
-  input: GetContactAttributesRequest,
-) => effect.Effect<
+export const getContactAttributes: API.OperationMethod<
+  GetContactAttributesRequest,
   GetContactAttributesResponse,
   | InternalServiceException
   | InvalidRequestException
@@ -29052,9 +28892,8 @@ export const getContactAttributes: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const getContactMetrics: (
-  input: GetContactMetricsRequest,
-) => effect.Effect<
+export const getContactMetrics: API.OperationMethod<
+  GetContactMetricsRequest,
   GetContactMetricsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29102,19 +28941,17 @@ export const getContactMetrics: (
  *
  * - Add filters to reduce the amount of data returned
  */
-export const getCurrentMetricData: {
-  (
-    input: GetCurrentMetricDataRequest,
-  ): effect.Effect<
-    GetCurrentMetricDataResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const getCurrentMetricData: API.OperationMethod<
+  GetCurrentMetricDataRequest,
+  GetCurrentMetricDataResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCurrentMetricDataRequest,
   ) => stream.Stream<
@@ -29158,19 +28995,17 @@ export const getCurrentMetricData: {
 /**
  * Gets the real-time active user data from the specified Amazon Connect instance.
  */
-export const getCurrentUserData: {
-  (
-    input: GetCurrentUserDataRequest,
-  ): effect.Effect<
-    GetCurrentUserDataResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const getCurrentUserData: API.OperationMethod<
+  GetCurrentUserDataRequest,
+  GetCurrentUserDataResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCurrentUserDataRequest,
   ) => stream.Stream<
@@ -29214,9 +29049,8 @@ export const getCurrentUserData: {
 /**
  * Get the hours of operations with the effective override applied.
  */
-export const getEffectiveHoursOfOperations: (
-  input: GetEffectiveHoursOfOperationsRequest,
-) => effect.Effect<
+export const getEffectiveHoursOfOperations: API.OperationMethod<
+  GetEffectiveHoursOfOperationsRequest,
   GetEffectiveHoursOfOperationsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29247,9 +29081,8 @@ export const getEffectiveHoursOfOperations: (
  *
  * `Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect`
  */
-export const getFederationToken: (
-  input: GetFederationTokenRequest,
-) => effect.Effect<
+export const getFederationToken: API.OperationMethod<
+  GetFederationTokenRequest,
   GetFederationTokenResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -29274,9 +29107,8 @@ export const getFederationToken: (
 /**
  * Retrieves the flow associated for a given resource.
  */
-export const getFlowAssociation: (
-  input: GetFlowAssociationRequest,
-) => effect.Effect<
+export const getFlowAssociation: API.OperationMethod<
+  GetFlowAssociationRequest,
   GetFlowAssociationResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29309,19 +29141,17 @@ export const getFlowAssociation: (
  * For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how
  * contact volume changed per day of the week.
  */
-export const getMetricData: {
-  (
-    input: GetMetricDataRequest,
-  ): effect.Effect<
-    GetMetricDataResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const getMetricData: API.OperationMethod<
+  GetMetricDataRequest,
+  GetMetricDataResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMetricDataRequest,
   ) => stream.Stream<
@@ -29396,19 +29226,17 @@ export const getMetricData: {
  *
  * - Add filters to reduce the amount of data returned
  */
-export const getMetricDataV2: {
-  (
-    input: GetMetricDataV2Request,
-  ): effect.Effect<
-    GetMetricDataV2Response,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const getMetricDataV2: API.OperationMethod<
+  GetMetricDataV2Request,
+  GetMetricDataV2Response,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMetricDataV2Request,
   ) => stream.Stream<
@@ -29452,9 +29280,8 @@ export const getMetricDataV2: {
 /**
  * Gets the prompt file.
  */
-export const getPromptFile: (
-  input: GetPromptFileRequest,
-) => effect.Effect<
+export const getPromptFile: API.OperationMethod<
+  GetPromptFileRequest,
   GetPromptFileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29477,9 +29304,8 @@ export const getPromptFile: (
 /**
  * Gets details about a specific task template in the specified Amazon Connect instance.
  */
-export const getTaskTemplate: (
-  input: GetTaskTemplateRequest,
-) => effect.Effect<
+export const getTaskTemplate: API.OperationMethod<
+  GetTaskTemplateRequest,
   GetTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29502,9 +29328,8 @@ export const getTaskTemplate: (
 /**
  * Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
  */
-export const getTestCaseExecutionSummary: (
-  input: GetTestCaseExecutionSummaryRequest,
-) => effect.Effect<
+export const getTestCaseExecutionSummary: API.OperationMethod<
+  GetTestCaseExecutionSummaryRequest,
   GetTestCaseExecutionSummaryResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29529,9 +29354,8 @@ export const getTestCaseExecutionSummary: (
 /**
  * Retrieves the current traffic distribution for a given traffic distribution group.
  */
-export const getTrafficDistribution: (
-  input: GetTrafficDistributionRequest,
-) => effect.Effect<
+export const getTrafficDistribution: API.OperationMethod<
+  GetTrafficDistributionRequest,
   GetTrafficDistributionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -29570,9 +29394,8 @@ export const getTrafficDistribution: (
  * and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At
  * that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
  */
-export const importPhoneNumber: (
-  input: ImportPhoneNumberRequest,
-) => effect.Effect<
+export const importPhoneNumber: API.OperationMethod<
+  ImportPhoneNumberRequest,
   ImportPhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -29597,9 +29420,8 @@ export const importPhoneNumber: (
 /**
  * Imports a media asset (such as a logo) for use in a workspace.
  */
-export const importWorkspaceMedia: (
-  input: ImportWorkspaceMediaRequest,
-) => effect.Effect<
+export const importWorkspaceMedia: API.OperationMethod<
+  ImportWorkspaceMediaRequest,
   ImportWorkspaceMediaResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29622,19 +29444,17 @@ export const importWorkspaceMedia: (
 /**
  * Lists agent statuses.
  */
-export const listAgentStatuses: {
-  (
-    input: ListAgentStatusRequest,
-  ): effect.Effect<
-    ListAgentStatusResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listAgentStatuses: API.OperationMethod<
+  ListAgentStatusRequest,
+  ListAgentStatusResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentStatusRequest,
   ) => stream.Stream<
@@ -29679,9 +29499,8 @@ export const listAgentStatuses: {
 /**
  * Lists the association status of requested dataset ID for a given Amazon Connect instance.
  */
-export const listAnalyticsDataAssociations: (
-  input: ListAnalyticsDataAssociationsRequest,
-) => effect.Effect<
+export const listAnalyticsDataAssociations: API.OperationMethod<
+  ListAnalyticsDataAssociationsRequest,
   ListAnalyticsDataAssociationsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29704,9 +29523,8 @@ export const listAnalyticsDataAssociations: (
 /**
  * Lists the data lake datasets available to associate with for a given Amazon Connect instance.
  */
-export const listAnalyticsDataLakeDataSets: (
-  input: ListAnalyticsDataLakeDataSetsRequest,
-) => effect.Effect<
+export const listAnalyticsDataLakeDataSets: API.OperationMethod<
+  ListAnalyticsDataLakeDataSetsRequest,
   ListAnalyticsDataLakeDataSetsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29731,19 +29549,17 @@ export const listAnalyticsDataLakeDataSets: (
  *
  * Returns a paginated list of all approved origins associated with the instance.
  */
-export const listApprovedOrigins: {
-  (
-    input: ListApprovedOriginsRequest,
-  ): effect.Effect<
-    ListApprovedOriginsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listApprovedOrigins: API.OperationMethod<
+  ListApprovedOriginsRequest,
+  ListApprovedOriginsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApprovedOriginsRequest,
   ) => stream.Stream<
@@ -29788,9 +29604,8 @@ export const listApprovedOrigins: {
 /**
  * Provides information about contact tree, a list of associated contacts with a unique identifier.
  */
-export const listAssociatedContacts: (
-  input: ListAssociatedContactsRequest,
-) => effect.Effect<
+export const listAssociatedContacts: API.OperationMethod<
+  ListAssociatedContactsRequest,
   ListAssociatedContactsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -29817,19 +29632,17 @@ export const listAssociatedContacts: (
  * Provides summary information about the authentication profiles in a specified Amazon Connect
  * instance.
  */
-export const listAuthenticationProfiles: {
-  (
-    input: ListAuthenticationProfilesRequest,
-  ): effect.Effect<
-    ListAuthenticationProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listAuthenticationProfiles: API.OperationMethod<
+  ListAuthenticationProfilesRequest,
+  ListAuthenticationProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAuthenticationProfilesRequest,
   ) => stream.Stream<
@@ -29878,18 +29691,16 @@ export const listAuthenticationProfiles: {
  * currently associated with the instance. Use this API to return both Amazon Lex V1 and V2
  * bots.
  */
-export const listBots: {
-  (
-    input: ListBotsRequest,
-  ): effect.Effect<
-    ListBotsResponse,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listBots: API.OperationMethod<
+  ListBotsRequest,
+  ListBotsResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
@@ -29934,19 +29745,17 @@ export const listBots: {
  * For more information about child hours of operations, see Link overrides from different hours of operation in the
  * * Administrator Guide*.
  */
-export const listChildHoursOfOperations: {
-  (
-    input: ListChildHoursOfOperationsRequest,
-  ): effect.Effect<
-    ListChildHoursOfOperationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listChildHoursOfOperations: API.OperationMethod<
+  ListChildHoursOfOperationsRequest,
+  ListChildHoursOfOperationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChildHoursOfOperationsRequest,
   ) => stream.Stream<
@@ -29991,18 +29800,16 @@ export const listChildHoursOfOperations: {
 /**
  * Lists contact evaluations in the specified Amazon Connect instance.
  */
-export const listContactEvaluations: {
-  (
-    input: ListContactEvaluationsRequest,
-  ): effect.Effect<
-    ListContactEvaluationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactEvaluations: API.OperationMethod<
+  ListContactEvaluationsRequest,
+  ListContactEvaluationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactEvaluationsRequest,
   ) => stream.Stream<
@@ -30044,20 +29851,18 @@ export const listContactEvaluations: {
  * Lists all aliases associated with a contact flow module, showing their current version mappings and
  * metadata.
  */
-export const listContactFlowModuleAliases: {
-  (
-    input: ListContactFlowModuleAliasesRequest,
-  ): effect.Effect<
-    ListContactFlowModuleAliasesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactFlowModuleAliases: API.OperationMethod<
+  ListContactFlowModuleAliasesRequest,
+  ListContactFlowModuleAliasesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactFlowModuleAliasesRequest,
   ) => stream.Stream<
@@ -30105,20 +29910,18 @@ export const listContactFlowModuleAliases: {
 /**
  * Provides information about the flow modules for the specified Amazon Connect instance.
  */
-export const listContactFlowModules: {
-  (
-    input: ListContactFlowModulesRequest,
-  ): effect.Effect<
-    ListContactFlowModulesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactFlowModules: API.OperationMethod<
+  ListContactFlowModulesRequest,
+  ListContactFlowModulesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactFlowModulesRequest,
   ) => stream.Stream<
@@ -30166,20 +29969,18 @@ export const listContactFlowModules: {
 /**
  * Retrieves a paginated list of all versions for a specific contact flow module.
  */
-export const listContactFlowModuleVersions: {
-  (
-    input: ListContactFlowModuleVersionsRequest,
-  ): effect.Effect<
-    ListContactFlowModuleVersionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactFlowModuleVersions: API.OperationMethod<
+  ListContactFlowModuleVersionsRequest,
+  ListContactFlowModuleVersionsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactFlowModuleVersionsRequest,
   ) => stream.Stream<
@@ -30233,19 +30034,17 @@ export const listContactFlowModuleVersions: {
  * For more information about flows, see Flows in the Amazon Connect
  * Administrator Guide.
  */
-export const listContactFlows: {
-  (
-    input: ListContactFlowsRequest,
-  ): effect.Effect<
-    ListContactFlowsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactFlows: API.OperationMethod<
+  ListContactFlowsRequest,
+  ListContactFlowsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactFlowsRequest,
   ) => stream.Stream<
@@ -30290,20 +30089,18 @@ export const listContactFlows: {
 /**
  * Returns all the available versions for the specified Amazon Connect instance and flow identifier.
  */
-export const listContactFlowVersions: {
-  (
-    input: ListContactFlowVersionsRequest,
-  ): effect.Effect<
-    ListContactFlowVersionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactFlowVersions: API.OperationMethod<
+  ListContactFlowVersionsRequest,
+  ListContactFlowVersionsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactFlowVersionsRequest,
   ) => stream.Stream<
@@ -30355,19 +30152,17 @@ export const listContactFlowVersions: {
  * *References* are links to documents that are related to a contact, such as emails, attachments,
  * or URLs.
  */
-export const listContactReferences: {
-  (
-    input: ListContactReferencesRequest,
-  ): effect.Effect<
-    ListContactReferencesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listContactReferences: API.OperationMethod<
+  ListContactReferencesRequest,
+  ListContactReferencesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactReferencesRequest,
   ) => stream.Stream<
@@ -30413,20 +30208,18 @@ export const listContactReferences: {
  * Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs
  * for CloudFormation integration.
  */
-export const listDataTableAttributes: {
-  (
-    input: ListDataTableAttributesRequest,
-  ): effect.Effect<
-    ListDataTableAttributesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDataTableAttributes: API.OperationMethod<
+  ListDataTableAttributesRequest,
+  ListDataTableAttributesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataTableAttributesRequest,
   ) => stream.Stream<
@@ -30475,20 +30268,18 @@ export const listDataTableAttributes: {
  * Lists all primary value combinations for a given data table. Returns the unique combinations of primary
  * attribute values that identify records in the table. Up to 100 records are returned per request.
  */
-export const listDataTablePrimaryValues: {
-  (
-    input: ListDataTablePrimaryValuesRequest,
-  ): effect.Effect<
-    ListDataTablePrimaryValuesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDataTablePrimaryValues: API.OperationMethod<
+  ListDataTablePrimaryValuesRequest,
+  ListDataTablePrimaryValuesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataTablePrimaryValuesRequest,
   ) => stream.Stream<
@@ -30537,20 +30328,18 @@ export const listDataTablePrimaryValues: {
  * Lists all data tables for the specified Amazon Connect instance. Returns summary information for each table
  * including basic metadata and modification details.
  */
-export const listDataTables: {
-  (
-    input: ListDataTablesRequest,
-  ): effect.Effect<
-    ListDataTablesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDataTables: API.OperationMethod<
+  ListDataTablesRequest,
+  ListDataTablesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataTablesRequest,
   ) => stream.Stream<
@@ -30599,20 +30388,18 @@ export const listDataTables: {
  * Lists values stored in a data table with optional filtering by record IDs or primary attribute values. Returns
  * the raw stored values along with metadata such as lock versions and modification timestamps.
  */
-export const listDataTableValues: {
-  (
-    input: ListDataTableValuesRequest,
-  ): effect.Effect<
-    ListDataTableValuesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDataTableValues: API.OperationMethod<
+  ListDataTableValuesRequest,
+  ListDataTableValuesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataTableValuesRequest,
   ) => stream.Stream<
@@ -30660,18 +30447,16 @@ export const listDataTableValues: {
 /**
  * Lists the default vocabularies for the specified Amazon Connect instance.
  */
-export const listDefaultVocabularies: {
-  (
-    input: ListDefaultVocabulariesRequest,
-  ): effect.Effect<
-    ListDefaultVocabulariesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listDefaultVocabularies: API.OperationMethod<
+  ListDefaultVocabulariesRequest,
+  ListDefaultVocabulariesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDefaultVocabulariesRequest,
   ) => stream.Stream<
@@ -30713,19 +30498,17 @@ export const listDefaultVocabularies: {
 /**
  * Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
  */
-export const listEntitySecurityProfiles: {
-  (
-    input: ListEntitySecurityProfilesRequest,
-  ): effect.Effect<
-    ListEntitySecurityProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listEntitySecurityProfiles: API.OperationMethod<
+  ListEntitySecurityProfilesRequest,
+  ListEntitySecurityProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitySecurityProfilesRequest,
   ) => stream.Stream<
@@ -30770,18 +30553,16 @@ export const listEntitySecurityProfiles: {
 /**
  * Lists evaluation forms in the specified Amazon Connect instance.
  */
-export const listEvaluationForms: {
-  (
-    input: ListEvaluationFormsRequest,
-  ): effect.Effect<
-    ListEvaluationFormsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listEvaluationForms: API.OperationMethod<
+  ListEvaluationFormsRequest,
+  ListEvaluationFormsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEvaluationFormsRequest,
   ) => stream.Stream<
@@ -30823,18 +30604,16 @@ export const listEvaluationForms: {
 /**
  * Lists versions of an evaluation form in the specified Amazon Connect instance.
  */
-export const listEvaluationFormVersions: {
-  (
-    input: ListEvaluationFormVersionsRequest,
-  ): effect.Effect<
-    ListEvaluationFormVersionsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listEvaluationFormVersions: API.OperationMethod<
+  ListEvaluationFormVersionsRequest,
+  ListEvaluationFormVersionsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEvaluationFormVersionsRequest,
   ) => stream.Stream<
@@ -30876,20 +30655,18 @@ export const listEvaluationFormVersions: {
 /**
  * List the flow association based on the filters.
  */
-export const listFlowAssociations: {
-  (
-    input: ListFlowAssociationsRequest,
-  ): effect.Effect<
-    ListFlowAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listFlowAssociations: API.OperationMethod<
+  ListFlowAssociationsRequest,
+  ListFlowAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowAssociationsRequest,
   ) => stream.Stream<
@@ -30937,19 +30714,17 @@ export const listFlowAssociations: {
 /**
  * List the hours of operation overrides.
  */
-export const listHoursOfOperationOverrides: {
-  (
-    input: ListHoursOfOperationOverridesRequest,
-  ): effect.Effect<
-    ListHoursOfOperationOverridesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listHoursOfOperationOverrides: API.OperationMethod<
+  ListHoursOfOperationOverridesRequest,
+  ListHoursOfOperationOverridesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHoursOfOperationOverridesRequest,
   ) => stream.Stream<
@@ -30997,19 +30772,17 @@ export const listHoursOfOperationOverrides: {
  * For more information about hours of operation, see Set the Hours of Operation for a Queue in the
  * *Amazon Connect Administrator Guide*.
  */
-export const listHoursOfOperations: {
-  (
-    input: ListHoursOfOperationsRequest,
-  ): effect.Effect<
-    ListHoursOfOperationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listHoursOfOperations: API.OperationMethod<
+  ListHoursOfOperationsRequest,
+  ListHoursOfOperationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHoursOfOperationsRequest,
   ) => stream.Stream<
@@ -31056,19 +30829,17 @@ export const listHoursOfOperations: {
  *
  * Returns a paginated list of all attribute types for the given instance.
  */
-export const listInstanceAttributes: {
-  (
-    input: ListInstanceAttributesRequest,
-  ): effect.Effect<
-    ListInstanceAttributesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listInstanceAttributes: API.OperationMethod<
+  ListInstanceAttributesRequest,
+  ListInstanceAttributesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceAttributesRequest,
   ) => stream.Stream<
@@ -31117,14 +30888,12 @@ export const listInstanceAttributes: {
  * that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance
  * API was invoked.
  */
-export const listInstances: {
-  (
-    input: ListInstancesRequest,
-  ): effect.Effect<
-    ListInstancesResponse,
-    InternalServiceException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
+  ListInstancesResponse,
+  InternalServiceException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
@@ -31155,19 +30924,17 @@ export const listInstances: {
  *
  * Returns a paginated list of storage configs for the identified instance and resource type.
  */
-export const listInstanceStorageConfigs: {
-  (
-    input: ListInstanceStorageConfigsRequest,
-  ): effect.Effect<
-    ListInstanceStorageConfigsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listInstanceStorageConfigs: API.OperationMethod<
+  ListInstanceStorageConfigsRequest,
+  ListInstanceStorageConfigsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceStorageConfigsRequest,
   ) => stream.Stream<
@@ -31212,18 +30979,16 @@ export const listInstanceStorageConfigs: {
 /**
  * Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
  */
-export const listIntegrationAssociations: {
-  (
-    input: ListIntegrationAssociationsRequest,
-  ): effect.Effect<
-    ListIntegrationAssociationsResponse,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listIntegrationAssociations: API.OperationMethod<
+  ListIntegrationAssociationsRequest,
+  ListIntegrationAssociationsResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIntegrationAssociationsRequest,
   ) => stream.Stream<
@@ -31268,19 +31033,17 @@ export const listIntegrationAssociations: {
  * Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow
  * blocks.
  */
-export const listLambdaFunctions: {
-  (
-    input: ListLambdaFunctionsRequest,
-  ): effect.Effect<
-    ListLambdaFunctionsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listLambdaFunctions: API.OperationMethod<
+  ListLambdaFunctionsRequest,
+  ListLambdaFunctionsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLambdaFunctionsRequest,
   ) => stream.Stream<
@@ -31328,19 +31091,17 @@ export const listLambdaFunctions: {
  * Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return
  * both Amazon Lex V1 and V2 bots, use the ListBots API.
  */
-export const listLexBots: {
-  (
-    input: ListLexBotsRequest,
-  ): effect.Effect<
-    ListLexBotsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listLexBots: API.OperationMethod<
+  ListLexBotsRequest,
+  ListLexBotsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLexBotsRequest,
   ) => stream.Stream<
@@ -31385,9 +31146,8 @@ export const listLexBots: {
 /**
  * Retrieves a paginated list of all notifications in the Amazon Connect instance.
  */
-export const listNotifications: (
-  input: ListNotificationsRequest,
-) => effect.Effect<
+export const listNotifications: API.OperationMethod<
+  ListNotificationsRequest,
   ListNotificationsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -31423,19 +31183,17 @@ export const listNotifications: (
  * `ResourceNotFoundException`. Instead, use the ListPhoneNumbersV2 API. It returns the new
  * phone number ARN that can be used to tag phone number resources.
  */
-export const listPhoneNumbers: {
-  (
-    input: ListPhoneNumbersRequest,
-  ): effect.Effect<
-    ListPhoneNumbersResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumbers: API.OperationMethod<
+  ListPhoneNumbersRequest,
+  ListPhoneNumbersResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
@@ -31490,19 +31248,17 @@ export const listPhoneNumbers: {
  * - When given a traffic distribution group ARN `ListPhoneNumbersV2` returns only the phone numbers claimed to the
  * traffic distribution group.
  */
-export const listPhoneNumbersV2: {
-  (
-    input: ListPhoneNumbersV2Request,
-  ): effect.Effect<
-    ListPhoneNumbersV2Response,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumbersV2: API.OperationMethod<
+  ListPhoneNumbersV2Request,
+  ListPhoneNumbersV2Response,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumbersV2Request,
   ) => stream.Stream<
@@ -31560,19 +31316,17 @@ export const listPhoneNumbersV2: {
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const listPredefinedAttributes: {
-  (
-    input: ListPredefinedAttributesRequest,
-  ): effect.Effect<
-    ListPredefinedAttributesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listPredefinedAttributes: API.OperationMethod<
+  ListPredefinedAttributesRequest,
+  ListPredefinedAttributesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPredefinedAttributesRequest,
   ) => stream.Stream<
@@ -31617,19 +31371,17 @@ export const listPredefinedAttributes: {
 /**
  * Provides information about the prompts for the specified Amazon Connect instance.
  */
-export const listPrompts: {
-  (
-    input: ListPromptsRequest,
-  ): effect.Effect<
-    ListPromptsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listPrompts: API.OperationMethod<
+  ListPromptsRequest,
+  ListPromptsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPromptsRequest,
   ) => stream.Stream<
@@ -31674,19 +31426,17 @@ export const listPrompts: {
 /**
  * Lists the quick connects associated with a queue.
  */
-export const listQueueQuickConnects: {
-  (
-    input: ListQueueQuickConnectsRequest,
-  ): effect.Effect<
-    ListQueueQuickConnectsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listQueueQuickConnects: API.OperationMethod<
+  ListQueueQuickConnectsRequest,
+  ListQueueQuickConnectsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueueQuickConnectsRequest,
   ) => stream.Stream<
@@ -31738,19 +31488,17 @@ export const listQueueQuickConnects: {
  * For more information about queues, see Queues: Standard and Agent in the
  * *Amazon Connect Administrator Guide*.
  */
-export const listQueues: {
-  (
-    input: ListQueuesRequest,
-  ): effect.Effect<
-    ListQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
@@ -31795,19 +31543,17 @@ export const listQueues: {
 /**
  * Provides information about the quick connects for the specified Amazon Connect instance.
  */
-export const listQuickConnects: {
-  (
-    input: ListQuickConnectsRequest,
-  ): effect.Effect<
-    ListQuickConnectsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listQuickConnects: API.OperationMethod<
+  ListQuickConnectsRequest,
+  ListQuickConnectsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQuickConnectsRequest,
   ) => stream.Stream<
@@ -31856,20 +31602,18 @@ export const listQuickConnects: {
  * This API does not support VOICE. If you attempt to use it for VOICE, an `InvalidRequestException`
  * occurs.
  */
-export const listRealtimeContactAnalysisSegmentsV2: {
-  (
-    input: ListRealtimeContactAnalysisSegmentsV2Request,
-  ): effect.Effect<
-    ListRealtimeContactAnalysisSegmentsV2Response,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | OutputTypeNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listRealtimeContactAnalysisSegmentsV2: API.OperationMethod<
+  ListRealtimeContactAnalysisSegmentsV2Request,
+  ListRealtimeContactAnalysisSegmentsV2Response,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | OutputTypeNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRealtimeContactAnalysisSegmentsV2Request,
   ) => stream.Stream<
@@ -31933,19 +31677,17 @@ export const listRealtimeContactAnalysisSegmentsV2: {
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const listRoutingProfileManualAssignmentQueues: {
-  (
-    input: ListRoutingProfileManualAssignmentQueuesRequest,
-  ): effect.Effect<
-    ListRoutingProfileManualAssignmentQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listRoutingProfileManualAssignmentQueues: API.OperationMethod<
+  ListRoutingProfileManualAssignmentQueuesRequest,
+  ListRoutingProfileManualAssignmentQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutingProfileManualAssignmentQueuesRequest,
   ) => stream.Stream<
@@ -31990,19 +31732,17 @@ export const listRoutingProfileManualAssignmentQueues: {
 /**
  * Lists the queues associated with a routing profile.
  */
-export const listRoutingProfileQueues: {
-  (
-    input: ListRoutingProfileQueuesRequest,
-  ): effect.Effect<
-    ListRoutingProfileQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listRoutingProfileQueues: API.OperationMethod<
+  ListRoutingProfileQueuesRequest,
+  ListRoutingProfileQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutingProfileQueuesRequest,
   ) => stream.Stream<
@@ -32049,19 +31789,17 @@ export const listRoutingProfileQueues: {
  *
  * For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the *Amazon Connect Administrator Guide*.
  */
-export const listRoutingProfiles: {
-  (
-    input: ListRoutingProfilesRequest,
-  ): effect.Effect<
-    ListRoutingProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listRoutingProfiles: API.OperationMethod<
+  ListRoutingProfilesRequest,
+  ListRoutingProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutingProfilesRequest,
   ) => stream.Stream<
@@ -32106,19 +31844,17 @@ export const listRoutingProfiles: {
 /**
  * List all rules for the specified Amazon Connect instance.
  */
-export const listRules: {
-  (
-    input: ListRulesRequest,
-  ): effect.Effect<
-    ListRulesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
+  ListRulesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesRequest,
   ) => stream.Stream<
@@ -32165,19 +31901,17 @@ export const listRules: {
  *
  * Returns a paginated list of all security keys associated with the instance.
  */
-export const listSecurityKeys: {
-  (
-    input: ListSecurityKeysRequest,
-  ): effect.Effect<
-    ListSecurityKeysResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSecurityKeys: API.OperationMethod<
+  ListSecurityKeysRequest,
+  ListSecurityKeysResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityKeysRequest,
   ) => stream.Stream<
@@ -32222,19 +31956,17 @@ export const listSecurityKeys: {
 /**
  * Returns a list of third-party applications or MCP Servers in a specific security profile.
  */
-export const listSecurityProfileApplications: {
-  (
-    input: ListSecurityProfileApplicationsRequest,
-  ): effect.Effect<
-    ListSecurityProfileApplicationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSecurityProfileApplications: API.OperationMethod<
+  ListSecurityProfileApplicationsRequest,
+  ListSecurityProfileApplicationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityProfileApplicationsRequest,
   ) => stream.Stream<
@@ -32279,19 +32011,17 @@ export const listSecurityProfileApplications: {
 /**
  * A list of Flow Modules an AI Agent can invoke as a tool
  */
-export const listSecurityProfileFlowModules: {
-  (
-    input: ListSecurityProfileFlowModulesRequest,
-  ): effect.Effect<
-    ListSecurityProfileFlowModulesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSecurityProfileFlowModules: API.OperationMethod<
+  ListSecurityProfileFlowModulesRequest,
+  ListSecurityProfileFlowModulesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityProfileFlowModulesRequest,
   ) => stream.Stream<
@@ -32340,19 +32070,17 @@ export const listSecurityProfileFlowModules: {
  * profile permissions, see List
  * of security profile permissions.
  */
-export const listSecurityProfilePermissions: {
-  (
-    input: ListSecurityProfilePermissionsRequest,
-  ): effect.Effect<
-    ListSecurityProfilePermissionsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSecurityProfilePermissions: API.OperationMethod<
+  ListSecurityProfilePermissionsRequest,
+  ListSecurityProfilePermissionsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityProfilePermissionsRequest,
   ) => stream.Stream<
@@ -32401,19 +32129,17 @@ export const listSecurityProfilePermissions: {
  * profile permissions, see List
  * of security profile permissions.
  */
-export const listSecurityProfiles: {
-  (
-    input: ListSecurityProfilesRequest,
-  ): effect.Effect<
-    ListSecurityProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSecurityProfiles: API.OperationMethod<
+  ListSecurityProfilesRequest,
+  ListSecurityProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityProfilesRequest,
   ) => stream.Stream<
@@ -32461,9 +32187,8 @@ export const listSecurityProfiles: {
  * For sample policies that use tags, see Amazon Connect Identity-Based Policy
  * Examples in the *Amazon Connect Administrator Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -32486,19 +32211,17 @@ export const listTagsForResource: (
 /**
  * Lists task templates for the specified Amazon Connect instance.
  */
-export const listTaskTemplates: {
-  (
-    input: ListTaskTemplatesRequest,
-  ): effect.Effect<
-    ListTaskTemplatesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listTaskTemplates: API.OperationMethod<
+  ListTaskTemplatesRequest,
+  ListTaskTemplatesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTaskTemplatesRequest,
   ) => stream.Stream<
@@ -32543,9 +32266,8 @@ export const listTaskTemplates: {
 /**
  * Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
  */
-export const listTestCaseExecutionRecords: (
-  input: ListTestCaseExecutionRecordsRequest,
-) => effect.Effect<
+export const listTestCaseExecutionRecords: API.OperationMethod<
+  ListTestCaseExecutionRecordsRequest,
   ListTestCaseExecutionRecordsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32570,9 +32292,8 @@ export const listTestCaseExecutionRecords: (
 /**
  * Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
  */
-export const listTestCaseExecutions: (
-  input: ListTestCaseExecutionsRequest,
-) => effect.Effect<
+export const listTestCaseExecutions: API.OperationMethod<
+  ListTestCaseExecutionsRequest,
   ListTestCaseExecutionsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32597,20 +32318,18 @@ export const listTestCaseExecutions: (
 /**
  * Lists the test cases present in the specific Amazon Connect instance.
  */
-export const listTestCases: {
-  (
-    input: ListTestCasesRequest,
-  ): effect.Effect<
-    ListTestCasesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listTestCases: API.OperationMethod<
+  ListTestCasesRequest,
+  ListTestCasesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestCasesRequest,
   ) => stream.Stream<
@@ -32658,18 +32377,16 @@ export const listTestCases: {
 /**
  * Lists traffic distribution groups.
  */
-export const listTrafficDistributionGroups: {
-  (
-    input: ListTrafficDistributionGroupsRequest,
-  ): effect.Effect<
-    ListTrafficDistributionGroupsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listTrafficDistributionGroups: API.OperationMethod<
+  ListTrafficDistributionGroupsRequest,
+  ListTrafficDistributionGroupsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrafficDistributionGroupsRequest,
   ) => stream.Stream<
@@ -32711,19 +32428,17 @@ export const listTrafficDistributionGroups: {
 /**
  * Lists traffic distribution group users.
  */
-export const listTrafficDistributionGroupUsers: {
-  (
-    input: ListTrafficDistributionGroupUsersRequest,
-  ): effect.Effect<
-    ListTrafficDistributionGroupUsersResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listTrafficDistributionGroupUsers: API.OperationMethod<
+  ListTrafficDistributionGroupUsersRequest,
+  ListTrafficDistributionGroupUsersResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrafficDistributionGroupUsersRequest,
   ) => stream.Stream<
@@ -32768,18 +32483,16 @@ export const listTrafficDistributionGroupUsers: {
 /**
  * Lists the use cases for the integration association.
  */
-export const listUseCases: {
-  (
-    input: ListUseCasesRequest,
-  ): effect.Effect<
-    ListUseCasesResponse,
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listUseCases: API.OperationMethod<
+  ListUseCasesRequest,
+  ListUseCasesResponse,
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUseCasesRequest,
   ) => stream.Stream<
@@ -32823,19 +32536,17 @@ export const listUseCases: {
  *
  * For more information about agent hierarchies, see Set Up Agent Hierarchies in the *Amazon Connect Administrator Guide*.
  */
-export const listUserHierarchyGroups: {
-  (
-    input: ListUserHierarchyGroupsRequest,
-  ): effect.Effect<
-    ListUserHierarchyGroupsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listUserHierarchyGroups: API.OperationMethod<
+  ListUserHierarchyGroupsRequest,
+  ListUserHierarchyGroupsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserHierarchyGroupsRequest,
   ) => stream.Stream<
@@ -32880,9 +32591,8 @@ export const listUserHierarchyGroups: {
 /**
  * Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
  */
-export const listUserNotifications: (
-  input: ListUserNotificationsRequest,
-) => effect.Effect<
+export const listUserNotifications: API.OperationMethod<
+  ListUserNotificationsRequest,
   ListUserNotificationsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -32907,19 +32617,17 @@ export const listUserNotifications: (
 /**
  * Lists proficiencies associated with a user.
  */
-export const listUserProficiencies: {
-  (
-    input: ListUserProficienciesRequest,
-  ): effect.Effect<
-    ListUserProficienciesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listUserProficiencies: API.OperationMethod<
+  ListUserProficienciesRequest,
+  ListUserProficienciesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserProficienciesRequest,
   ) => stream.Stream<
@@ -32964,19 +32672,17 @@ export const listUserProficiencies: {
 /**
  * Provides summary information about the users for the specified Amazon Connect instance.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -33023,20 +32729,18 @@ export const listUsers: {
  *
  * Results are sorted primarily by type, and secondarily by name.
  */
-export const listViews: {
-  (
-    input: ListViewsRequest,
-  ): effect.Effect<
-    ListViewsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listViews: API.OperationMethod<
+  ListViewsRequest,
+  ListViewsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListViewsRequest,
   ) => stream.Stream<
@@ -33086,20 +32790,18 @@ export const listViews: {
  *
  * Results will be sorted from highest to lowest.
  */
-export const listViewVersions: {
-  (
-    input: ListViewVersionsRequest,
-  ): effect.Effect<
-    ListViewVersionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listViewVersions: API.OperationMethod<
+  ListViewVersionsRequest,
+  ListViewVersionsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListViewVersionsRequest,
   ) => stream.Stream<
@@ -33147,9 +32849,8 @@ export const listViewVersions: {
 /**
  * Lists media assets (such as logos) associated with a workspace.
  */
-export const listWorkspaceMedia: (
-  input: ListWorkspaceMediaRequest,
-) => effect.Effect<
+export const listWorkspaceMedia: API.OperationMethod<
+  ListWorkspaceMediaRequest,
   ListWorkspaceMediaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33174,20 +32875,18 @@ export const listWorkspaceMedia: (
 /**
  * Lists the page configurations in a workspace, including the views assigned to each page.
  */
-export const listWorkspacePages: {
-  (
-    input: ListWorkspacePagesRequest,
-  ): effect.Effect<
-    ListWorkspacePagesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listWorkspacePages: API.OperationMethod<
+  ListWorkspacePagesRequest,
+  ListWorkspacePagesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkspacePagesRequest,
   ) => stream.Stream<
@@ -33235,20 +32934,18 @@ export const listWorkspacePages: {
 /**
  * Lists the workspaces in an Amazon Connect instance.
  */
-export const listWorkspaces: {
-  (
-    input: ListWorkspacesRequest,
-  ): effect.Effect<
-    ListWorkspacesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listWorkspaces: API.OperationMethod<
+  ListWorkspacesRequest,
+  ListWorkspacesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
@@ -33297,9 +32994,8 @@ export const listWorkspaces: {
  * Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by
  * *userId* will be set to silent monitoring mode on the contact.
  */
-export const monitorContact: (
-  input: MonitorContactRequest,
-) => effect.Effect<
+export const monitorContact: API.OperationMethod<
+  MonitorContactRequest,
   MonitorContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -33326,9 +33022,8 @@ export const monitorContact: (
 /**
  * Allows pausing an ongoing task contact.
  */
-export const pauseContact: (
-  input: PauseContactRequest,
-) => effect.Effect<
+export const pauseContact: API.OperationMethod<
+  PauseContactRequest,
   PauseContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -33361,9 +33056,8 @@ export const pauseContact: (
  * For more information, see Agent status and Set your
  * next status in the *Amazon Connect Administrator Guide*.
  */
-export const putUserStatus: (
-  input: PutUserStatusRequest,
-) => effect.Effect<
+export const putUserStatus: API.OperationMethod<
+  PutUserStatusRequest,
   PutUserStatusResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33411,9 +33105,8 @@ export const putUserStatus: (
  * 200% limit. At that point you are blocked from claiming any more numbers until you
  * open an Amazon Web Services support ticket.
  */
-export const releasePhoneNumber: (
-  input: ReleasePhoneNumberRequest,
-) => effect.Effect<
+export const releasePhoneNumber: API.OperationMethod<
+  ReleasePhoneNumberRequest,
   ReleasePhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -33444,9 +33137,8 @@ export const releasePhoneNumber: (
  * For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect
  * instance in the *Amazon Connect Administrator Guide*.
  */
-export const replicateInstance: (
-  input: ReplicateInstanceRequest,
-) => effect.Effect<
+export const replicateInstance: API.OperationMethod<
+  ReplicateInstanceRequest,
   ReplicateInstanceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33475,9 +33167,8 @@ export const replicateInstance: (
 /**
  * Allows resuming a task contact in a paused state.
  */
-export const resumeContact: (
-  input: ResumeContactRequest,
-) => effect.Effect<
+export const resumeContact: API.OperationMethod<
+  ResumeContactRequest,
   ResumeContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -33508,9 +33199,8 @@ export const resumeContact: (
  *
  * Voice and screen recordings are supported.
  */
-export const resumeContactRecording: (
-  input: ResumeContactRecordingRequest,
-) => effect.Effect<
+export const resumeContactRecording: API.OperationMethod<
+  ResumeContactRecordingRequest,
   ResumeContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -33531,19 +33221,17 @@ export const resumeContactRecording: (
 /**
  * Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
  */
-export const searchAgentStatuses: {
-  (
-    input: SearchAgentStatusesRequest,
-  ): effect.Effect<
-    SearchAgentStatusesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchAgentStatuses: API.OperationMethod<
+  SearchAgentStatusesRequest,
+  SearchAgentStatusesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAgentStatusesRequest,
   ) => stream.Stream<
@@ -33590,18 +33278,16 @@ export const searchAgentStatuses: {
  * provided `TargetArn` is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with
  * the traffic distribution group.
  */
-export const searchAvailablePhoneNumbers: {
-  (
-    input: SearchAvailablePhoneNumbersRequest,
-  ): effect.Effect<
-    SearchAvailablePhoneNumbersResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchAvailablePhoneNumbers: API.OperationMethod<
+  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
@@ -33660,9 +33346,8 @@ export const searchAvailablePhoneNumbers: {
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchContactEvaluations: (
-  input: SearchContactEvaluationsRequest,
-) => effect.Effect<
+export const searchContactEvaluations: API.OperationMethod<
+  SearchContactEvaluationsRequest,
   SearchContactEvaluationsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33685,19 +33370,17 @@ export const searchContactEvaluations: (
 /**
  * Searches the flow modules in an Amazon Connect instance, with optional filtering.
  */
-export const searchContactFlowModules: {
-  (
-    input: SearchContactFlowModulesRequest,
-  ): effect.Effect<
-    SearchContactFlowModulesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchContactFlowModules: API.OperationMethod<
+  SearchContactFlowModulesRequest,
+  SearchContactFlowModulesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchContactFlowModulesRequest,
   ) => stream.Stream<
@@ -33742,19 +33425,17 @@ export const searchContactFlowModules: {
 /**
  * Searches the flows in an Amazon Connect instance, with optional filtering.
  */
-export const searchContactFlows: {
-  (
-    input: SearchContactFlowsRequest,
-  ): effect.Effect<
-    SearchContactFlowsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchContactFlows: API.OperationMethod<
+  SearchContactFlowsRequest,
+  SearchContactFlowsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchContactFlowsRequest,
   ) => stream.Stream<
@@ -33799,19 +33480,17 @@ export const searchContactFlows: {
 /**
  * Searches contacts in an Amazon Connect instance.
  */
-export const searchContacts: {
-  (
-    input: SearchContactsRequest,
-  ): effect.Effect<
-    SearchContactsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchContacts: API.OperationMethod<
+  SearchContactsRequest,
+  SearchContactsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchContactsRequest,
   ) => stream.Stream<
@@ -33858,19 +33537,17 @@ export const searchContacts: {
  * support searching on attribute names and possibly primary values. Follows other search operations closely and
  * supports both search criteria and filters.
  */
-export const searchDataTables: {
-  (
-    input: SearchDataTablesRequest,
-  ): effect.Effect<
-    SearchDataTablesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchDataTables: API.OperationMethod<
+  SearchDataTablesRequest,
+  SearchDataTablesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchDataTablesRequest,
   ) => stream.Stream<
@@ -33915,9 +33592,8 @@ export const searchDataTables: {
 /**
  * Searches email address in an instance, with optional filtering.
  */
-export const searchEmailAddresses: (
-  input: SearchEmailAddressesRequest,
-) => effect.Effect<
+export const searchEmailAddresses: API.OperationMethod<
+  SearchEmailAddressesRequest,
   SearchEmailAddressesResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -33960,9 +33636,8 @@ export const searchEmailAddresses: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchEvaluationForms: (
-  input: SearchEvaluationFormsRequest,
-) => effect.Effect<
+export const searchEvaluationForms: API.OperationMethod<
+  SearchEvaluationFormsRequest,
   SearchEvaluationFormsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -33985,19 +33660,17 @@ export const searchEvaluationForms: (
 /**
  * Searches the hours of operation overrides.
  */
-export const searchHoursOfOperationOverrides: {
-  (
-    input: SearchHoursOfOperationOverridesRequest,
-  ): effect.Effect<
-    SearchHoursOfOperationOverridesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchHoursOfOperationOverrides: API.OperationMethod<
+  SearchHoursOfOperationOverridesRequest,
+  SearchHoursOfOperationOverridesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchHoursOfOperationOverridesRequest,
   ) => stream.Stream<
@@ -34042,19 +33715,17 @@ export const searchHoursOfOperationOverrides: {
 /**
  * Searches the hours of operation in an Amazon Connect instance, with optional filtering.
  */
-export const searchHoursOfOperations: {
-  (
-    input: SearchHoursOfOperationsRequest,
-  ): effect.Effect<
-    SearchHoursOfOperationsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchHoursOfOperations: API.OperationMethod<
+  SearchHoursOfOperationsRequest,
+  SearchHoursOfOperationsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchHoursOfOperationsRequest,
   ) => stream.Stream<
@@ -34099,9 +33770,8 @@ export const searchHoursOfOperations: {
 /**
  * Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
  */
-export const searchNotifications: (
-  input: SearchNotificationsRequest,
-) => effect.Effect<
+export const searchNotifications: API.OperationMethod<
+  SearchNotificationsRequest,
   SearchNotificationsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -34139,19 +33809,17 @@ export const searchNotifications: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchPredefinedAttributes: {
-  (
-    input: SearchPredefinedAttributesRequest,
-  ): effect.Effect<
-    SearchPredefinedAttributesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchPredefinedAttributes: API.OperationMethod<
+  SearchPredefinedAttributesRequest,
+  SearchPredefinedAttributesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchPredefinedAttributesRequest,
   ) => stream.Stream<
@@ -34196,19 +33864,17 @@ export const searchPredefinedAttributes: {
 /**
  * Searches prompts in an Amazon Connect instance, with optional filtering.
  */
-export const searchPrompts: {
-  (
-    input: SearchPromptsRequest,
-  ): effect.Effect<
-    SearchPromptsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchPrompts: API.OperationMethod<
+  SearchPromptsRequest,
+  SearchPromptsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchPromptsRequest,
   ) => stream.Stream<
@@ -34253,19 +33919,17 @@ export const searchPrompts: {
 /**
  * Searches queues in an Amazon Connect instance, with optional filtering.
  */
-export const searchQueues: {
-  (
-    input: SearchQueuesRequest,
-  ): effect.Effect<
-    SearchQueuesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchQueues: API.OperationMethod<
+  SearchQueuesRequest,
+  SearchQueuesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchQueuesRequest,
   ) => stream.Stream<
@@ -34310,19 +33974,17 @@ export const searchQueues: {
 /**
  * Searches quick connects in an Amazon Connect instance, with optional filtering.
  */
-export const searchQuickConnects: {
-  (
-    input: SearchQuickConnectsRequest,
-  ): effect.Effect<
-    SearchQuickConnectsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchQuickConnects: API.OperationMethod<
+  SearchQuickConnectsRequest,
+  SearchQuickConnectsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchQuickConnectsRequest,
   ) => stream.Stream<
@@ -34367,20 +34029,18 @@ export const searchQuickConnects: {
 /**
  * Searches tags used in an Amazon Connect instance using optional search criteria.
  */
-export const searchResourceTags: {
-  (
-    input: SearchResourceTagsRequest,
-  ): effect.Effect<
-    SearchResourceTagsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | MaximumResultReturnedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchResourceTags: API.OperationMethod<
+  SearchResourceTagsRequest,
+  SearchResourceTagsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | MaximumResultReturnedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchResourceTagsRequest,
   ) => stream.Stream<
@@ -34431,19 +34091,17 @@ export const searchResourceTags: {
  * `SearchRoutingProfiles` does not populate LastModifiedRegion, LastModifiedTime,
  * MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
  */
-export const searchRoutingProfiles: {
-  (
-    input: SearchRoutingProfilesRequest,
-  ): effect.Effect<
-    SearchRoutingProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchRoutingProfiles: API.OperationMethod<
+  SearchRoutingProfilesRequest,
+  SearchRoutingProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchRoutingProfilesRequest,
   ) => stream.Stream<
@@ -34492,19 +34150,17 @@ export const searchRoutingProfiles: {
  * profile permissions, see List
  * of security profile permissions.
  */
-export const searchSecurityProfiles: {
-  (
-    input: SearchSecurityProfilesRequest,
-  ): effect.Effect<
-    SearchSecurityProfilesResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchSecurityProfiles: API.OperationMethod<
+  SearchSecurityProfilesRequest,
+  SearchSecurityProfilesResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSecurityProfilesRequest,
   ) => stream.Stream<
@@ -34549,20 +34205,18 @@ export const searchSecurityProfiles: {
 /**
  * Searches for test cases in the specified Amazon Connect instance, with optional filtering.
  */
-export const searchTestCases: {
-  (
-    input: SearchTestCasesRequest,
-  ): effect.Effect<
-    SearchTestCasesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchTestCases: API.OperationMethod<
+  SearchTestCasesRequest,
+  SearchTestCasesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTestCasesRequest,
   ) => stream.Stream<
@@ -34613,19 +34267,17 @@ export const searchTestCases: {
  * The UserHierarchyGroup with `"LevelId": "0"` is the foundation for building levels on top of an
  * instance. It is not user-definable, nor is it visible in the UI.
  */
-export const searchUserHierarchyGroups: {
-  (
-    input: SearchUserHierarchyGroupsRequest,
-  ): effect.Effect<
-    SearchUserHierarchyGroupsResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchUserHierarchyGroups: API.OperationMethod<
+  SearchUserHierarchyGroupsRequest,
+  SearchUserHierarchyGroupsResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchUserHierarchyGroupsRequest,
   ) => stream.Stream<
@@ -34672,19 +34324,17 @@ export const searchUserHierarchyGroups: {
  *
  * `AfterContactWorkTimeLimit` is returned in milliseconds.
  */
-export const searchUsers: {
-  (
-    input: SearchUsersRequest,
-  ): effect.Effect<
-    SearchUsersResponse,
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchUsers: API.OperationMethod<
+  SearchUsersRequest,
+  SearchUsersResponse,
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchUsersRequest,
   ) => stream.Stream<
@@ -34729,20 +34379,18 @@ export const searchUsers: {
 /**
  * Searches views based on name, description, or tags.
  */
-export const searchViews: {
-  (
-    input: SearchViewsRequest,
-  ): effect.Effect<
-    SearchViewsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchViews: API.OperationMethod<
+  SearchViewsRequest,
+  SearchViewsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchViewsRequest,
   ) => stream.Stream<
@@ -34791,18 +34439,16 @@ export const searchViews: {
  * Searches for vocabularies within a specific Amazon Connect instance using `State`,
  * `NameStartsWith`, and `LanguageCode`.
  */
-export const searchVocabularies: {
-  (
-    input: SearchVocabulariesRequest,
-  ): effect.Effect<
-    SearchVocabulariesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchVocabularies: API.OperationMethod<
+  SearchVocabulariesRequest,
+  SearchVocabulariesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchVocabulariesRequest,
   ) => stream.Stream<
@@ -34844,20 +34490,18 @@ export const searchVocabularies: {
 /**
  * Searches for workspace associations with users or routing profiles based on various criteria.
  */
-export const searchWorkspaceAssociations: {
-  (
-    input: SearchWorkspaceAssociationsRequest,
-  ): effect.Effect<
-    SearchWorkspaceAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchWorkspaceAssociations: API.OperationMethod<
+  SearchWorkspaceAssociationsRequest,
+  SearchWorkspaceAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchWorkspaceAssociationsRequest,
   ) => stream.Stream<
@@ -34905,20 +34549,18 @@ export const searchWorkspaceAssociations: {
 /**
  * Searches workspaces based on name, description, visibility, or tags.
  */
-export const searchWorkspaces: {
-  (
-    input: SearchWorkspacesRequest,
-  ): effect.Effect<
-    SearchWorkspacesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const searchWorkspaces: API.OperationMethod<
+  SearchWorkspacesRequest,
+  SearchWorkspacesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchWorkspacesRequest,
   ) => stream.Stream<
@@ -34978,9 +34620,8 @@ export const searchWorkspaces: {
  * Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS
  * integration.
  */
-export const sendChatIntegrationEvent: (
-  input: SendChatIntegrationEventRequest,
-) => effect.Effect<
+export const sendChatIntegrationEvent: API.OperationMethod<
+  SendChatIntegrationEventRequest,
   SendChatIntegrationEventResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35007,9 +34648,8 @@ export const sendChatIntegrationEvent: (
  * Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account
  * and call this API.
  */
-export const sendOutboundEmail: (
-  input: SendOutboundEmailRequest,
-) => effect.Effect<
+export const sendOutboundEmail: API.OperationMethod<
+  SendOutboundEmailRequest,
   SendOutboundEmailResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -35038,9 +34678,8 @@ export const sendOutboundEmail: (
  *
  * You may only use this API to upload attachments to an Amazon Connect Case or Amazon Connect Email.
  */
-export const startAttachedFileUpload: (
-  input: StartAttachedFileUploadRequest,
-) => effect.Effect<
+export const startAttachedFileUpload: API.OperationMethod<
+  StartAttachedFileUploadRequest,
   StartAttachedFileUploadResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35087,9 +34726,8 @@ export const startAttachedFileUpload: (
  *
  * - Amazon Connect Chat security best practices
  */
-export const startChatContact: (
-  input: StartChatContactRequest,
-) => effect.Effect<
+export const startChatContact: API.OperationMethod<
+  StartChatContactRequest,
   StartChatContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35116,9 +34754,8 @@ export const startChatContact: (
  *
  * Evaluations created through the public API do not contain answer values suggested from automation.
  */
-export const startContactEvaluation: (
-  input: StartContactEvaluationRequest,
-) => effect.Effect<
+export const startContactEvaluation: API.OperationMethod<
+  StartContactEvaluationRequest,
   StartContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35144,9 +34781,8 @@ export const startContactEvaluation: (
  * Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the
  * rest of the chat, even if an individual contact segment ends.
  */
-export const startContactMediaProcessing: (
-  input: StartContactMediaProcessingRequest,
-) => effect.Effect<
+export const startContactMediaProcessing: API.OperationMethod<
+  StartContactMediaProcessingRequest,
   StartContactMediaProcessingResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35188,9 +34824,8 @@ export const startContactMediaProcessing: (
  *
  * Only voice recordings are supported at this time.
  */
-export const startContactRecording: (
-  input: StartContactRecordingRequest,
-) => effect.Effect<
+export const startContactRecording: API.OperationMethod<
+  StartContactRecordingRequest,
   StartContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -35223,9 +34858,8 @@ export const startContactRecording: (
  *
  * - Amazon Connect Chat security best practices
  */
-export const startContactStreaming: (
-  input: StartContactStreamingRequest,
-) => effect.Effect<
+export const startContactStreaming: API.OperationMethod<
+  StartContactStreamingRequest,
   StartContactStreamingResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35249,9 +34883,8 @@ export const startContactStreaming: (
  * Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of
  * this API provides the ContactId of the email contact created.
  */
-export const startEmailContact: (
-  input: StartEmailContactRequest,
-) => effect.Effect<
+export const startEmailContact: API.OperationMethod<
+  StartEmailContactRequest,
   StartEmailContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -35300,9 +34933,8 @@ export const startEmailContact: (
  * - Set up WhatsApp
  * Business messaging
  */
-export const startOutboundChatContact: (
-  input: StartOutboundChatContactRequest,
-) => effect.Effect<
+export const startOutboundChatContact: API.OperationMethod<
+  StartOutboundChatContactRequest,
   StartOutboundChatContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -35330,9 +34962,8 @@ export const startOutboundChatContact: (
  * Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a
  * customer.
  */
-export const startOutboundEmailContact: (
-  input: StartOutboundEmailContactRequest,
-) => effect.Effect<
+export const startOutboundEmailContact: API.OperationMethod<
+  StartOutboundEmailContactRequest,
   StartOutboundEmailContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -35378,9 +35009,8 @@ export const startOutboundEmailContact: (
  * For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a
  * role in your account and call this API with OutboundStrategy.
  */
-export const startOutboundVoiceContact: (
-  input: StartOutboundVoiceContactRequest,
-) => effect.Effect<
+export const startOutboundVoiceContact: API.OperationMethod<
+  StartOutboundVoiceContactRequest,
   StartOutboundVoiceContactResponse,
   | DestinationNotAllowedException
   | InternalServiceException
@@ -35408,9 +35038,8 @@ export const startOutboundVoiceContact: (
  * Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing
  * capabilities in the *Amazon Connect Administrator Guide*.
  */
-export const startScreenSharing: (
-  input: StartScreenSharingRequest,
-) => effect.Effect<
+export const startScreenSharing: API.OperationMethod<
+  StartScreenSharingRequest,
   StartScreenSharingResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35467,9 +35096,8 @@ export const startScreenSharing: (
  * quotas for task contacts, see Amazon Connect service quotas in the
  * *Amazon Connect Administrator Guide*.
  */
-export const startTaskContact: (
-  input: StartTaskContactRequest,
-) => effect.Effect<
+export const startTaskContact: API.OperationMethod<
+  StartTaskContactRequest,
   StartTaskContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35494,9 +35122,8 @@ export const startTaskContact: (
 /**
  * Starts executing a published test case.
  */
-export const startTestCaseExecution: (
-  input: StartTestCaseExecutionRequest,
-) => effect.Effect<
+export const startTestCaseExecution: API.OperationMethod<
+  StartTestCaseExecutionRequest,
   StartTestCaseExecutionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35525,9 +35152,8 @@ export const startTestCaseExecution: (
  * in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as
  * InstanceId).
  */
-export const startWebRTCContact: (
-  input: StartWebRTCContactRequest,
-) => effect.Effect<
+export const startWebRTCContact: API.OperationMethod<
+  StartWebRTCContactRequest,
   StartWebRTCContactResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35563,9 +35189,8 @@ export const startWebRTCContact: (
  *
  * Chat and task contacts can be terminated in any state, regardless of initiation method.
  */
-export const stopContact: (
-  input: StopContactRequest,
-) => effect.Effect<
+export const stopContact: API.OperationMethod<
+  StopContactRequest,
   StopContactResponse,
   | ContactNotFoundException
   | InternalServiceException
@@ -35590,9 +35215,8 @@ export const stopContact: (
 /**
  * Stops in-flight message processing for an ongoing chat session.
  */
-export const stopContactMediaProcessing: (
-  input: StopContactMediaProcessingRequest,
-) => effect.Effect<
+export const stopContactMediaProcessing: API.OperationMethod<
+  StopContactMediaProcessingRequest,
   StopContactMediaProcessingResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35622,9 +35246,8 @@ export const stopContactMediaProcessing: (
  *
  * Only voice recordings are supported at this time.
  */
-export const stopContactRecording: (
-  input: StopContactRecordingRequest,
-) => effect.Effect<
+export const stopContactRecording: API.OperationMethod<
+  StopContactRecordingRequest,
   StopContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -35646,9 +35269,8 @@ export const stopContactRecording: (
  * Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming
  * API.
  */
-export const stopContactStreaming: (
-  input: StopContactStreamingRequest,
-) => effect.Effect<
+export const stopContactStreaming: API.OperationMethod<
+  StopContactStreamingRequest,
   StopContactStreamingResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35669,9 +35291,8 @@ export const stopContactStreaming: (
 /**
  * Stops a running test execution.
  */
-export const stopTestCaseExecution: (
-  input: StopTestCaseExecutionRequest,
-) => effect.Effect<
+export const stopTestCaseExecution: API.OperationMethod<
+  StopTestCaseExecutionRequest,
   StopTestCaseExecutionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -35701,9 +35322,8 @@ export const stopTestCaseExecution: (
  *
  * If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
  */
-export const submitContactEvaluation: (
-  input: SubmitContactEvaluationRequest,
-) => effect.Effect<
+export const submitContactEvaluation: API.OperationMethod<
+  SubmitContactEvaluationRequest,
   SubmitContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35734,9 +35354,8 @@ export const submitContactEvaluation: (
  *
  * Voice (IVR, agent) and screen recordings are supported.
  */
-export const suspendContactRecording: (
-  input: SuspendContactRecordingRequest,
-) => effect.Effect<
+export const suspendContactRecording: API.OperationMethod<
+  SuspendContactRecordingRequest,
   SuspendContactRecordingResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -35758,9 +35377,8 @@ export const suspendContactRecording: (
  * Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed
  * view of your Amazon Connect usage.
  */
-export const tagContact: (
-  input: TagContactRequest,
-) => effect.Effect<
+export const tagContact: API.OperationMethod<
+  TagContactRequest,
   TagContactResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -35791,9 +35409,8 @@ export const tagContact: (
  * For sample policies that use tags, see Amazon Connect Identity-Based Policy
  * Examples in the *Amazon Connect Administrator Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35833,9 +35450,8 @@ export const tagResource: (
  *
  * - A contact cannot be transferred more than 11 times.
  */
-export const transferContact: (
-  input: TransferContactRequest,
-) => effect.Effect<
+export const transferContact: API.OperationMethod<
+  TransferContactRequest,
   TransferContactResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -35863,9 +35479,8 @@ export const transferContact: (
  * Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed
  * view of your Amazon Connect usage.
  */
-export const untagContact: (
-  input: UntagContactRequest,
-) => effect.Effect<
+export const untagContact: API.OperationMethod<
+  UntagContactRequest,
   UntagContactResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -35890,9 +35505,8 @@ export const untagContact: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35915,9 +35529,8 @@ export const untagResource: (
 /**
  * Updates agent status.
  */
-export const updateAgentStatus: (
-  input: UpdateAgentStatusRequest,
-) => effect.Effect<
+export const updateAgentStatus: API.OperationMethod<
+  UpdateAgentStatusRequest,
   UpdateAgentStatusResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -35947,9 +35560,8 @@ export const updateAgentStatus: (
  *
  * Updates the selected authentication profile.
  */
-export const updateAuthenticationProfile: (
-  input: UpdateAuthenticationProfileRequest,
-) => effect.Effect<
+export const updateAuthenticationProfile: API.OperationMethod<
+  UpdateAuthenticationProfileRequest,
   UpdateAuthenticationProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -35977,9 +35589,8 @@ export const updateAuthenticationProfile: (
  *
  * You can add or update user-defined contact information for both ongoing and completed contacts.
  */
-export const updateContact: (
-  input: UpdateContactRequest,
-) => effect.Effect<
+export const updateContact: API.OperationMethod<
+  UpdateContactRequest,
   UpdateContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -36018,9 +35629,8 @@ export const updateContact: (
  * about contact record retention and the maximum size of the contact record attributes section, see Feature
  * specifications in the *Amazon Connect Administrator Guide*.
  */
-export const updateContactAttributes: (
-  input: UpdateContactAttributesRequest,
-) => effect.Effect<
+export const updateContactAttributes: API.OperationMethod<
+  UpdateContactAttributesRequest,
   UpdateContactAttributesResponse,
   | InternalServiceException
   | InvalidActiveRegionException
@@ -36045,9 +35655,8 @@ export const updateContactAttributes: (
  * must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An
  * answer or note can be deleted by passing an empty object (`{}`) to the question identifier.
  */
-export const updateContactEvaluation: (
-  input: UpdateContactEvaluationRequest,
-) => effect.Effect<
+export const updateContactEvaluation: API.OperationMethod<
+  UpdateContactEvaluationRequest,
   UpdateContactEvaluationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36077,9 +35686,8 @@ export const updateContactEvaluation: (
  * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
  * be supplied to view saved content that has not been published.
  */
-export const updateContactFlowContent: (
-  input: UpdateContactFlowContentRequest,
-) => effect.Effect<
+export const updateContactFlowContent: API.OperationMethod<
+  UpdateContactFlowContentRequest,
   UpdateContactFlowContentResponse,
   | InternalServiceException
   | InvalidContactFlowException
@@ -36104,9 +35712,8 @@ export const updateContactFlowContent: (
 /**
  * Updates metadata about specified flow.
  */
-export const updateContactFlowMetadata: (
-  input: UpdateContactFlowMetadataRequest,
-) => effect.Effect<
+export const updateContactFlowMetadata: API.OperationMethod<
+  UpdateContactFlowMetadataRequest,
   UpdateContactFlowMetadataResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -36131,9 +35738,8 @@ export const updateContactFlowMetadata: (
 /**
  * Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
  */
-export const updateContactFlowModuleAlias: (
-  input: UpdateContactFlowModuleAliasRequest,
-) => effect.Effect<
+export const updateContactFlowModuleAlias: API.OperationMethod<
+  UpdateContactFlowModuleAliasRequest,
   UpdateContactFlowModuleAliasResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -36166,9 +35772,8 @@ export const updateContactFlowModuleAlias: (
  * example, `arn:aws:.../contact-flow/{id}:$SAVED`. After a flow is published, `$SAVED` needs to
  * be supplied to view saved content that has not been published.
  */
-export const updateContactFlowModuleContent: (
-  input: UpdateContactFlowModuleContentRequest,
-) => effect.Effect<
+export const updateContactFlowModuleContent: API.OperationMethod<
+  UpdateContactFlowModuleContentRequest,
   UpdateContactFlowModuleContentResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -36193,9 +35798,8 @@ export const updateContactFlowModuleContent: (
 /**
  * Updates metadata about specified flow module.
  */
-export const updateContactFlowModuleMetadata: (
-  input: UpdateContactFlowModuleMetadataRequest,
-) => effect.Effect<
+export const updateContactFlowModuleMetadata: API.OperationMethod<
+  UpdateContactFlowModuleMetadataRequest,
   UpdateContactFlowModuleMetadataResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -36225,9 +35829,8 @@ export const updateContactFlowModuleMetadata: (
  * You can also create and update flows using the Amazon Connect
  * Flow language.
  */
-export const updateContactFlowName: (
-  input: UpdateContactFlowNameRequest,
-) => effect.Effect<
+export const updateContactFlowName: API.OperationMethod<
+  UpdateContactFlowNameRequest,
   UpdateContactFlowNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -36260,9 +35863,8 @@ export const updateContactFlowName: (
  *
  * Either **QueuePriority** or **QueueTimeAdjustmentInSeconds** should be provided within the request body, but not both.
  */
-export const updateContactRoutingData: (
-  input: UpdateContactRoutingDataRequest,
-) => effect.Effect<
+export const updateContactRoutingData: API.OperationMethod<
+  UpdateContactRoutingDataRequest,
   UpdateContactRoutingDataResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -36289,9 +35891,8 @@ export const updateContactRoutingData: (
 /**
  * Updates the scheduled time of a task contact that is already scheduled.
  */
-export const updateContactSchedule: (
-  input: UpdateContactScheduleRequest,
-) => effect.Effect<
+export const updateContactSchedule: API.OperationMethod<
+  UpdateContactScheduleRequest,
   UpdateContactScheduleResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36319,9 +35920,8 @@ export const updateContactSchedule: (
  * attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since
  * validation only runs when values are created or updated.
  */
-export const updateDataTableAttribute: (
-  input: UpdateDataTableAttributeRequest,
-) => effect.Effect<
+export const updateDataTableAttribute: API.OperationMethod<
+  UpdateDataTableAttributeRequest,
   UpdateDataTableAttributeResponse,
   | AccessDeniedException
   | ConflictException
@@ -36354,9 +35954,8 @@ export const updateDataTableAttribute: (
  * fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties
  * must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
  */
-export const updateDataTableMetadata: (
-  input: UpdateDataTableMetadataRequest,
-) => effect.Effect<
+export const updateDataTableMetadata: API.OperationMethod<
+  UpdateDataTableMetadataRequest,
   UpdateDataTableMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -36387,9 +35986,8 @@ export const updateDataTableMetadata: (
  * associated to the record and its primary values. Users that have restrictions on attributes and/or primary values are
  * not authorized to use this endpoint. The combination of new primary values must be unique within the table.
  */
-export const updateDataTablePrimaryValues: (
-  input: UpdateDataTablePrimaryValuesRequest,
-) => effect.Effect<
+export const updateDataTablePrimaryValues: API.OperationMethod<
+  UpdateDataTablePrimaryValuesRequest,
   UpdateDataTablePrimaryValuesResponse,
   | AccessDeniedException
   | ConflictException
@@ -36417,9 +36015,8 @@ export const updateDataTablePrimaryValues: (
  * Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect
  * Administrator Guide.
  */
-export const updateEmailAddressMetadata: (
-  input: UpdateEmailAddressMetadataRequest,
-) => effect.Effect<
+export const updateEmailAddressMetadata: API.OperationMethod<
+  UpdateEmailAddressMetadataRequest,
   UpdateEmailAddressMetadataResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -36450,9 +36047,8 @@ export const updateEmailAddressMetadata: (
  * This operation does not support partial updates. Instead it does a full update of evaluation form
  * content.
  */
-export const updateEvaluationForm: (
-  input: UpdateEvaluationFormRequest,
-) => effect.Effect<
+export const updateEvaluationForm: API.OperationMethod<
+  UpdateEvaluationFormRequest,
   UpdateEvaluationFormResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36477,9 +36073,8 @@ export const updateEvaluationForm: (
 /**
  * Updates the hours of operation.
  */
-export const updateHoursOfOperation: (
-  input: UpdateHoursOfOperationRequest,
-) => effect.Effect<
+export const updateHoursOfOperation: API.OperationMethod<
+  UpdateHoursOfOperationRequest,
   UpdateHoursOfOperationResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -36504,9 +36099,8 @@ export const updateHoursOfOperation: (
 /**
  * Update the hours of operation override.
  */
-export const updateHoursOfOperationOverride: (
-  input: UpdateHoursOfOperationOverrideRequest,
-) => effect.Effect<
+export const updateHoursOfOperationOverride: API.OperationMethod<
+  UpdateHoursOfOperationOverrideRequest,
   UpdateHoursOfOperationOverrideResponse,
   | ConditionalOperationFailedException
   | DuplicateResourceException
@@ -36535,9 +36129,8 @@ export const updateHoursOfOperationOverride: (
  *
  * Updates the value for the specified attribute type.
  */
-export const updateInstanceAttribute: (
-  input: UpdateInstanceAttributeRequest,
-) => effect.Effect<
+export const updateInstanceAttribute: API.OperationMethod<
+  UpdateInstanceAttributeRequest,
   UpdateInstanceAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36562,9 +36155,8 @@ export const updateInstanceAttribute: (
  *
  * Updates an existing configuration for a resource type. This API is idempotent.
  */
-export const updateInstanceStorageConfig: (
-  input: UpdateInstanceStorageConfigRequest,
-) => effect.Effect<
+export const updateInstanceStorageConfig: API.OperationMethod<
+  UpdateInstanceStorageConfigRequest,
   UpdateInstanceStorageConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36587,9 +36179,8 @@ export const updateInstanceStorageConfig: (
 /**
  * Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
  */
-export const updateNotificationContent: (
-  input: UpdateNotificationContentRequest,
-) => effect.Effect<
+export const updateNotificationContent: API.OperationMethod<
+  UpdateNotificationContentRequest,
   UpdateNotificationContentResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -36624,9 +36215,8 @@ export const updateNotificationContent: (
  * The API returns a success response to acknowledge the request. However, the interaction and exchange of
  * identity information occur asynchronously after the response is returned.
  */
-export const updateParticipantAuthentication: (
-  input: UpdateParticipantAuthenticationRequest,
-) => effect.Effect<
+export const updateParticipantAuthentication: API.OperationMethod<
+  UpdateParticipantAuthenticationRequest,
   UpdateParticipantAuthenticationResponse,
   | AccessDeniedException
   | ConflictException
@@ -36663,9 +36253,8 @@ export const updateParticipantAuthentication: (
  * For more information about how chat timeouts work, see
  * Set up chat timeouts for human participants.
  */
-export const updateParticipantRoleConfig: (
-  input: UpdateParticipantRoleConfigRequest,
-) => effect.Effect<
+export const updateParticipantRoleConfig: API.OperationMethod<
+  UpdateParticipantRoleConfigRequest,
   UpdateParticipantRoleConfigResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -36696,9 +36285,8 @@ export const updateParticipantRoleConfig: (
  *
  * You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
  */
-export const updatePhoneNumber: (
-  input: UpdatePhoneNumberRequest,
-) => effect.Effect<
+export const updatePhoneNumber: API.OperationMethod<
+  UpdatePhoneNumberRequest,
   UpdatePhoneNumberResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -36727,9 +36315,8 @@ export const updatePhoneNumber: (
  *
  * To verify the status of a previous UpdatePhoneNumberMetadata operation, call the DescribePhoneNumber API.
  */
-export const updatePhoneNumberMetadata: (
-  input: UpdatePhoneNumberMetadataRequest,
-) => effect.Effect<
+export const updatePhoneNumberMetadata: API.OperationMethod<
+  UpdatePhoneNumberMetadataRequest,
   UpdatePhoneNumberMetadataResponse,
   | AccessDeniedException
   | IdempotencyException
@@ -36776,9 +36363,8 @@ export const updatePhoneNumberMetadata: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const updatePredefinedAttribute: (
-  input: UpdatePredefinedAttributeRequest,
-) => effect.Effect<
+export const updatePredefinedAttribute: API.OperationMethod<
+  UpdatePredefinedAttributeRequest,
   UpdatePredefinedAttributeResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36801,9 +36387,8 @@ export const updatePredefinedAttribute: (
 /**
  * Updates a prompt.
  */
-export const updatePrompt: (
-  input: UpdatePromptRequest,
-) => effect.Effect<
+export const updatePrompt: API.OperationMethod<
+  UpdatePromptRequest,
   UpdatePromptResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36826,9 +36411,8 @@ export const updatePrompt: (
 /**
  * Updates the hours of operation for the specified queue.
  */
-export const updateQueueHoursOfOperation: (
-  input: UpdateQueueHoursOfOperationRequest,
-) => effect.Effect<
+export const updateQueueHoursOfOperation: API.OperationMethod<
+  UpdateQueueHoursOfOperationRequest,
   UpdateQueueHoursOfOperationResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36851,9 +36435,8 @@ export const updateQueueHoursOfOperation: (
 /**
  * Updates the maximum number of contacts allowed in a queue before it is considered full.
  */
-export const updateQueueMaxContacts: (
-  input: UpdateQueueMaxContactsRequest,
-) => effect.Effect<
+export const updateQueueMaxContacts: API.OperationMethod<
+  UpdateQueueMaxContactsRequest,
   UpdateQueueMaxContactsResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36876,9 +36459,8 @@ export const updateQueueMaxContacts: (
 /**
  * Updates the name and description of a queue. At least `Name` or `Description` must be provided.
  */
-export const updateQueueName: (
-  input: UpdateQueueNameRequest,
-) => effect.Effect<
+export const updateQueueName: API.OperationMethod<
+  UpdateQueueNameRequest,
   UpdateQueueNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -36917,9 +36499,8 @@ export const updateQueueName: (
  * - If you plan to use IAM policies to allow/deny access to this API for phone number resources
  * claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
  */
-export const updateQueueOutboundCallerConfig: (
-  input: UpdateQueueOutboundCallerConfigRequest,
-) => effect.Effect<
+export const updateQueueOutboundCallerConfig: API.OperationMethod<
+  UpdateQueueOutboundCallerConfigRequest,
   UpdateQueueOutboundCallerConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36942,9 +36523,8 @@ export const updateQueueOutboundCallerConfig: (
 /**
  * Updates the outbound email address Id for a specified queue.
  */
-export const updateQueueOutboundEmailConfig: (
-  input: UpdateQueueOutboundEmailConfigRequest,
-) => effect.Effect<
+export const updateQueueOutboundEmailConfig: API.OperationMethod<
+  UpdateQueueOutboundEmailConfigRequest,
   UpdateQueueOutboundEmailConfigResponse,
   | AccessDeniedException
   | ConditionalOperationFailedException
@@ -36971,9 +36551,8 @@ export const updateQueueOutboundEmailConfig: (
 /**
  * Updates the status of the queue.
  */
-export const updateQueueStatus: (
-  input: UpdateQueueStatusRequest,
-) => effect.Effect<
+export const updateQueueStatus: API.OperationMethod<
+  UpdateQueueStatusRequest,
   UpdateQueueStatusResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -36996,9 +36575,8 @@ export const updateQueueStatus: (
 /**
  * Updates the configuration settings for the specified quick connect.
  */
-export const updateQuickConnectConfig: (
-  input: UpdateQuickConnectConfigRequest,
-) => effect.Effect<
+export const updateQuickConnectConfig: API.OperationMethod<
+  UpdateQuickConnectConfigRequest,
   UpdateQuickConnectConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37021,9 +36599,8 @@ export const updateQuickConnectConfig: (
 /**
  * Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
-export const updateQuickConnectName: (
-  input: UpdateQuickConnectNameRequest,
-) => effect.Effect<
+export const updateQuickConnectName: API.OperationMethod<
+  UpdateQuickConnectNameRequest,
   UpdateQuickConnectNameResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37047,9 +36624,8 @@ export const updateQuickConnectName: (
  * Whether agents with this routing profile will have their routing order calculated based on time since
  * their last inbound contact or *longest idle time*.
  */
-export const updateRoutingProfileAgentAvailabilityTimer: (
-  input: UpdateRoutingProfileAgentAvailabilityTimerRequest,
-) => effect.Effect<
+export const updateRoutingProfileAgentAvailabilityTimer: API.OperationMethod<
+  UpdateRoutingProfileAgentAvailabilityTimerRequest,
   UpdateRoutingProfileAgentAvailabilityTimerResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37072,9 +36648,8 @@ export const updateRoutingProfileAgentAvailabilityTimer: (
 /**
  * Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
  */
-export const updateRoutingProfileConcurrency: (
-  input: UpdateRoutingProfileConcurrencyRequest,
-) => effect.Effect<
+export const updateRoutingProfileConcurrency: API.OperationMethod<
+  UpdateRoutingProfileConcurrencyRequest,
   UpdateRoutingProfileConcurrencyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37097,9 +36672,8 @@ export const updateRoutingProfileConcurrency: (
 /**
  * Updates the default outbound queue of a routing profile.
  */
-export const updateRoutingProfileDefaultOutboundQueue: (
-  input: UpdateRoutingProfileDefaultOutboundQueueRequest,
-) => effect.Effect<
+export const updateRoutingProfileDefaultOutboundQueue: API.OperationMethod<
+  UpdateRoutingProfileDefaultOutboundQueueRequest,
   UpdateRoutingProfileDefaultOutboundQueueResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37122,9 +36696,8 @@ export const updateRoutingProfileDefaultOutboundQueue: (
 /**
  * Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least `Name` or `Description` must be provided.
  */
-export const updateRoutingProfileName: (
-  input: UpdateRoutingProfileNameRequest,
-) => effect.Effect<
+export const updateRoutingProfileName: API.OperationMethod<
+  UpdateRoutingProfileNameRequest,
   UpdateRoutingProfileNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -37149,9 +36722,8 @@ export const updateRoutingProfileName: (
 /**
  * Updates the properties associated with a set of queues for a routing profile.
  */
-export const updateRoutingProfileQueues: (
-  input: UpdateRoutingProfileQueuesRequest,
-) => effect.Effect<
+export const updateRoutingProfileQueues: API.OperationMethod<
+  UpdateRoutingProfileQueuesRequest,
   UpdateRoutingProfileQueuesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37177,9 +36749,8 @@ export const updateRoutingProfileQueues: (
  * Use the Rules Function
  * language to code conditions for the rule.
  */
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -37208,9 +36779,8 @@ export const updateRule: (
  * profile permissions, see List
  * of security profile permissions.
  */
-export const updateSecurityProfile: (
-  input: UpdateSecurityProfileRequest,
-) => effect.Effect<
+export const updateSecurityProfile: API.OperationMethod<
+  UpdateSecurityProfileRequest,
   UpdateSecurityProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37234,9 +36804,8 @@ export const updateSecurityProfile: (
  * Updates details about a specific task template in the specified Amazon Connect instance. This operation does
  * not support partial updates. Instead it does a full update of template content.
  */
-export const updateTaskTemplate: (
-  input: UpdateTaskTemplateRequest,
-) => effect.Effect<
+export const updateTaskTemplate: API.OperationMethod<
+  UpdateTaskTemplateRequest,
   UpdateTaskTemplateResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37261,9 +36830,8 @@ export const updateTaskTemplate: (
 /**
  * Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
  */
-export const updateTestCase: (
-  input: UpdateTestCaseRequest,
-) => effect.Effect<
+export const updateTestCase: API.OperationMethod<
+  UpdateTestCaseRequest,
   UpdateTestCaseResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -37307,9 +36875,8 @@ export const updateTestCase: (
  * across Amazon Web Services Regions
  * in the *Amazon Connect Administrator Guide*.
  */
-export const updateTrafficDistribution: (
-  input: UpdateTrafficDistributionRequest,
-) => effect.Effect<
+export const updateTrafficDistribution: API.OperationMethod<
+  UpdateTrafficDistributionRequest,
   UpdateTrafficDistributionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -37336,9 +36903,8 @@ export const updateTrafficDistribution: (
  *
  * This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
  */
-export const updateUserConfig: (
-  input: UpdateUserConfigRequest,
-) => effect.Effect<
+export const updateUserConfig: API.OperationMethod<
+  UpdateUserConfigRequest,
   UpdateUserConfigResponse,
   | ConditionalOperationFailedException
   | InternalServiceException
@@ -37363,9 +36929,8 @@ export const updateUserConfig: (
 /**
  * Assigns the specified hierarchy group to the specified user.
  */
-export const updateUserHierarchy: (
-  input: UpdateUserHierarchyRequest,
-) => effect.Effect<
+export const updateUserHierarchy: API.OperationMethod<
+  UpdateUserHierarchyRequest,
   UpdateUserHierarchyResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37388,9 +36953,8 @@ export const updateUserHierarchy: (
 /**
  * Updates the name of the user hierarchy group.
  */
-export const updateUserHierarchyGroupName: (
-  input: UpdateUserHierarchyGroupNameRequest,
-) => effect.Effect<
+export const updateUserHierarchyGroupName: API.OperationMethod<
+  UpdateUserHierarchyGroupNameRequest,
   UpdateUserHierarchyGroupNameResponse,
   | DuplicateResourceException
   | InternalServiceException
@@ -37415,9 +36979,8 @@ export const updateUserHierarchyGroupName: (
 /**
  * Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
  */
-export const updateUserHierarchyStructure: (
-  input: UpdateUserHierarchyStructureRequest,
-) => effect.Effect<
+export const updateUserHierarchyStructure: API.OperationMethod<
+  UpdateUserHierarchyStructureRequest,
   UpdateUserHierarchyStructureResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37448,9 +37011,8 @@ export const updateUserHierarchyStructure: (
  * reset the password through email. For more information, see Best Practices for Security Profiles
  * in the *Amazon Connect Administrator Guide*.
  */
-export const updateUserIdentityInfo: (
-  input: UpdateUserIdentityInfoRequest,
-) => effect.Effect<
+export const updateUserIdentityInfo: API.OperationMethod<
+  UpdateUserIdentityInfoRequest,
   UpdateUserIdentityInfoResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37473,9 +37035,8 @@ export const updateUserIdentityInfo: (
 /**
  * Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
  */
-export const updateUserNotificationStatus: (
-  input: UpdateUserNotificationStatusRequest,
-) => effect.Effect<
+export const updateUserNotificationStatus: API.OperationMethod<
+  UpdateUserNotificationStatusRequest,
   UpdateUserNotificationStatusResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -37502,9 +37063,8 @@ export const updateUserNotificationStatus: (
  *
  * We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
  */
-export const updateUserPhoneConfig: (
-  input: UpdateUserPhoneConfigRequest,
-) => effect.Effect<
+export const updateUserPhoneConfig: API.OperationMethod<
+  UpdateUserPhoneConfigRequest,
   UpdateUserPhoneConfigResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37527,9 +37087,8 @@ export const updateUserPhoneConfig: (
 /**
  * Updates the properties associated with the proficiencies of a user.
  */
-export const updateUserProficiencies: (
-  input: UpdateUserProficienciesRequest,
-) => effect.Effect<
+export const updateUserProficiencies: API.OperationMethod<
+  UpdateUserProficienciesRequest,
   UpdateUserProficienciesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37552,9 +37111,8 @@ export const updateUserProficiencies: (
 /**
  * Assigns the specified routing profile to the specified user.
  */
-export const updateUserRoutingProfile: (
-  input: UpdateUserRoutingProfileRequest,
-) => effect.Effect<
+export const updateUserRoutingProfile: API.OperationMethod<
+  UpdateUserRoutingProfileRequest,
   UpdateUserRoutingProfileResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37577,9 +37135,8 @@ export const updateUserRoutingProfile: (
 /**
  * Assigns the specified security profiles to the specified user.
  */
-export const updateUserSecurityProfiles: (
-  input: UpdateUserSecurityProfilesRequest,
-) => effect.Effect<
+export const updateUserSecurityProfiles: API.OperationMethod<
+  UpdateUserSecurityProfilesRequest,
   UpdateUserSecurityProfilesResponse,
   | InternalServiceException
   | InvalidParameterException
@@ -37607,9 +37164,8 @@ export const updateUserSecurityProfiles: (
  * always be updated, but the `$LATEST` alias' content will only be updated if `Status` is
  * `PUBLISHED`.
  */
-export const updateViewContent: (
-  input: UpdateViewContentRequest,
-) => effect.Effect<
+export const updateViewContent: API.OperationMethod<
+  UpdateViewContentRequest,
   UpdateViewContentResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -37637,9 +37193,8 @@ export const updateViewContent: (
  * Updates the view metadata. Note that either `Name` or `Description` must be
  * provided.
  */
-export const updateViewMetadata: (
-  input: UpdateViewMetadataRequest,
-) => effect.Effect<
+export const updateViewMetadata: API.OperationMethod<
+  UpdateViewMetadataRequest,
   UpdateViewMetadataResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -37668,9 +37223,8 @@ export const updateViewMetadata: (
 /**
  * Updates the metadata of a workspace, such as its name and description.
  */
-export const updateWorkspaceMetadata: (
-  input: UpdateWorkspaceMetadataRequest,
-) => effect.Effect<
+export const updateWorkspaceMetadata: API.OperationMethod<
+  UpdateWorkspaceMetadataRequest,
   UpdateWorkspaceMetadataResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -37697,9 +37251,8 @@ export const updateWorkspaceMetadata: (
 /**
  * Updates the configuration of a page in a workspace, including the associated view and input data.
  */
-export const updateWorkspacePage: (
-  input: UpdateWorkspacePageRequest,
-) => effect.Effect<
+export const updateWorkspacePage: API.OperationMethod<
+  UpdateWorkspacePageRequest,
   UpdateWorkspacePageResponse,
   | AccessDeniedException
   | DuplicateResourceException
@@ -37728,9 +37281,8 @@ export const updateWorkspacePage: (
 /**
  * Updates the theme configuration for a workspace, including colors and styling.
  */
-export const updateWorkspaceTheme: (
-  input: UpdateWorkspaceThemeRequest,
-) => effect.Effect<
+export const updateWorkspaceTheme: API.OperationMethod<
+  UpdateWorkspaceThemeRequest,
   UpdateWorkspaceThemeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -37756,9 +37308,8 @@ export const updateWorkspaceTheme: (
  * Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users
  * only, or none.
  */
-export const updateWorkspaceVisibility: (
-  input: UpdateWorkspaceVisibilityRequest,
-) => effect.Effect<
+export const updateWorkspaceVisibility: API.OperationMethod<
+  UpdateWorkspaceVisibilityRequest,
   UpdateWorkspaceVisibilityResponse,
   | AccessDeniedException
   | InternalServiceException

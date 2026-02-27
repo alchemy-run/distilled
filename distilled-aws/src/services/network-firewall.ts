@@ -4283,9 +4283,8 @@ export class LogDestinationPermissionException extends S.TaggedErrorClass<LogDes
  *
  * It can take several minutes for the attachment acceptance to complete and the firewall to become available.
  */
-export const acceptNetworkFirewallTransitGatewayAttachment: (
-  input: AcceptNetworkFirewallTransitGatewayAttachmentRequest,
-) => effect.Effect<
+export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
+  AcceptNetworkFirewallTransitGatewayAttachmentRequest,
   AcceptNetworkFirewallTransitGatewayAttachmentResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4308,9 +4307,8 @@ export const acceptNetworkFirewallTransitGatewayAttachment: (
  *
  * After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints.
  */
-export const associateAvailabilityZones: (
-  input: AssociateAvailabilityZonesRequest,
-) => effect.Effect<
+export const associateAvailabilityZones: API.OperationMethod<
+  AssociateAvailabilityZonesRequest,
   AssociateAvailabilityZonesResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4342,9 +4340,8 @@ export const associateAvailabilityZones: (
  * firewall policy association, and you can use the same firewall policy for multiple
  * firewalls.
  */
-export const associateFirewallPolicy: (
-  input: AssociateFirewallPolicyRequest,
-) => effect.Effect<
+export const associateFirewallPolicy: API.OperationMethod<
+  AssociateFirewallPolicyRequest,
   AssociateFirewallPolicyResponse,
   | InternalServerError
   | InvalidOperationException
@@ -4375,9 +4372,8 @@ export const associateFirewallPolicy: (
  * subnet's Availability Zone, to redirect the traffic that's coming into and going out of the
  * zone through the firewall endpoint.
  */
-export const associateSubnets: (
-  input: AssociateSubnetsRequest,
-) => effect.Effect<
+export const associateSubnets: API.OperationMethod<
+  AssociateSubnetsRequest,
   AssociateSubnetsResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4406,9 +4402,8 @@ export const associateSubnets: (
  *
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
-export const attachRuleGroupsToProxyConfiguration: (
-  input: AttachRuleGroupsToProxyConfigurationRequest,
-) => effect.Effect<
+export const attachRuleGroupsToProxyConfiguration: API.OperationMethod<
+  AttachRuleGroupsToProxyConfigurationRequest,
   AttachRuleGroupsToProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4442,9 +4437,8 @@ export const attachRuleGroupsToProxyConfiguration: (
  *
  * To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
  */
-export const createFirewall: (
-  input: CreateFirewallRequest,
-) => effect.Effect<
+export const createFirewall: API.OperationMethod<
+  CreateFirewallRequest,
   CreateFirewallResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4473,9 +4467,8 @@ export const createFirewall: (
  * stateless and stateful rule groups and other settings. You can use one firewall policy for
  * multiple firewalls.
  */
-export const createFirewallPolicy: (
-  input: CreateFirewallPolicyRequest,
-) => effect.Effect<
+export const createFirewallPolicy: API.OperationMethod<
+  CreateFirewallPolicyRequest,
   CreateFirewallPolicyResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4504,9 +4497,8 @@ export const createFirewallPolicy: (
  *
  * To retrieve information about proxies, use ListProxies and DescribeProxy.
  */
-export const createProxy: (
-  input: CreateProxyRequest,
-) => effect.Effect<
+export const createProxy: API.OperationMethod<
+  CreateProxyRequest,
   CreateProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4537,9 +4529,8 @@ export const createProxy: (
  *
  * To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
  */
-export const createProxyConfiguration: (
-  input: CreateProxyConfigurationRequest,
-) => effect.Effect<
+export const createProxyConfiguration: API.OperationMethod<
+  CreateProxyConfigurationRequest,
   CreateProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4570,9 +4561,8 @@ export const createProxyConfiguration: (
  *
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
-export const createProxyRuleGroup: (
-  input: CreateProxyRuleGroupRequest,
-) => effect.Effect<
+export const createProxyRuleGroup: API.OperationMethod<
+  CreateProxyRuleGroupRequest,
   CreateProxyRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4597,9 +4587,8 @@ export const createProxyRuleGroup: (
  *
  * To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
  */
-export const createProxyRules: (
-  input: CreateProxyRulesRequest,
-) => effect.Effect<
+export const createProxyRules: API.OperationMethod<
+  CreateProxyRulesRequest,
   CreateProxyRulesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4618,9 +4607,8 @@ export const createProxyRules: (
  * You provide your rule group specification in your request using either
  * `RuleGroup` or `Rules`.
  */
-export const createRuleGroup: (
-  input: CreateRuleGroupRequest,
-) => effect.Effect<
+export const createRuleGroup: API.OperationMethod<
+  CreateRuleGroupRequest,
   CreateRuleGroupResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4652,9 +4640,8 @@ export const createRuleGroup: (
  * For more information about TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
  * inspection configurations in the *Network Firewall Developer Guide*.
  */
-export const createTLSInspectionConfiguration: (
-  input: CreateTLSInspectionConfigurationRequest,
-) => effect.Effect<
+export const createTLSInspectionConfiguration: API.OperationMethod<
+  CreateTLSInspectionConfigurationRequest,
   CreateTLSInspectionConfigurationResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4677,9 +4664,8 @@ export const createTLSInspectionConfiguration: (
 /**
  * Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the `Firewall` itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
  */
-export const createVpcEndpointAssociation: (
-  input: CreateVpcEndpointAssociationRequest,
-) => effect.Effect<
+export const createVpcEndpointAssociation: API.OperationMethod<
+  CreateVpcEndpointAssociationRequest,
   CreateVpcEndpointAssociationResponse,
   | InsufficientCapacityException
   | InternalServerError
@@ -4718,9 +4704,8 @@ export const createVpcEndpointAssociation: (
  * To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection,
  * then delete the firewall by calling DeleteFirewall.
  */
-export const deleteFirewall: (
-  input: DeleteFirewallRequest,
-) => effect.Effect<
+export const deleteFirewall: API.OperationMethod<
+  DeleteFirewallRequest,
   DeleteFirewallResponse,
   | InternalServerError
   | InvalidOperationException
@@ -4745,9 +4730,8 @@ export const deleteFirewall: (
 /**
  * Deletes the specified FirewallPolicy.
  */
-export const deleteFirewallPolicy: (
-  input: DeleteFirewallPolicyRequest,
-) => effect.Effect<
+export const deleteFirewallPolicy: API.OperationMethod<
+  DeleteFirewallPolicyRequest,
   DeleteFirewallPolicyResponse,
   | InternalServerError
   | InvalidOperationException
@@ -4776,9 +4760,8 @@ export const deleteFirewallPolicy: (
  *
  * After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
  */
-export const deleteNetworkFirewallTransitGatewayAttachment: (
-  input: DeleteNetworkFirewallTransitGatewayAttachmentRequest,
-) => effect.Effect<
+export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
+  DeleteNetworkFirewallTransitGatewayAttachmentRequest,
   DeleteNetworkFirewallTransitGatewayAttachmentResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4801,9 +4784,8 @@ export const deleteNetworkFirewallTransitGatewayAttachment: (
  *
  * Detaches a Proxy configuration from a NAT Gateway.
  */
-export const deleteProxy: (
-  input: DeleteProxyRequest,
-) => effect.Effect<
+export const deleteProxy: API.OperationMethod<
+  DeleteProxyRequest,
   DeleteProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4826,9 +4808,8 @@ export const deleteProxy: (
 /**
  * Deletes the specified ProxyConfiguration.
  */
-export const deleteProxyConfiguration: (
-  input: DeleteProxyConfigurationRequest,
-) => effect.Effect<
+export const deleteProxyConfiguration: API.OperationMethod<
+  DeleteProxyConfigurationRequest,
   DeleteProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4849,9 +4830,8 @@ export const deleteProxyConfiguration: (
 /**
  * Deletes the specified ProxyRuleGroup.
  */
-export const deleteProxyRuleGroup: (
-  input: DeleteProxyRuleGroupRequest,
-) => effect.Effect<
+export const deleteProxyRuleGroup: API.OperationMethod<
+  DeleteProxyRuleGroupRequest,
   DeleteProxyRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4872,9 +4852,8 @@ export const deleteProxyRuleGroup: (
 /**
  * Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
  */
-export const deleteProxyRules: (
-  input: DeleteProxyRulesRequest,
-) => effect.Effect<
+export const deleteProxyRules: API.OperationMethod<
+  DeleteProxyRulesRequest,
   DeleteProxyRulesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4895,9 +4874,8 @@ export const deleteProxyRules: (
 /**
  * Deletes a resource policy that you created in a PutResourcePolicy request.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -4920,9 +4898,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes the specified RuleGroup.
  */
-export const deleteRuleGroup: (
-  input: DeleteRuleGroupRequest,
-) => effect.Effect<
+export const deleteRuleGroup: API.OperationMethod<
+  DeleteRuleGroupRequest,
   DeleteRuleGroupResponse,
   | InternalServerError
   | InvalidOperationException
@@ -4947,9 +4924,8 @@ export const deleteRuleGroup: (
 /**
  * Deletes the specified TLSInspectionConfiguration.
  */
-export const deleteTLSInspectionConfiguration: (
-  input: DeleteTLSInspectionConfigurationRequest,
-) => effect.Effect<
+export const deleteTLSInspectionConfiguration: API.OperationMethod<
+  DeleteTLSInspectionConfigurationRequest,
   DeleteTLSInspectionConfigurationResponse,
   | InternalServerError
   | InvalidOperationException
@@ -4979,9 +4955,8 @@ export const deleteTLSInspectionConfiguration: (
  * Availability Zone to remove the firewall endpoint for the association. When the route tables no longer use the firewall endpoint,
  * you can remove the endpoint association safely.
  */
-export const deleteVpcEndpointAssociation: (
-  input: DeleteVpcEndpointAssociationRequest,
-) => effect.Effect<
+export const deleteVpcEndpointAssociation: API.OperationMethod<
+  DeleteVpcEndpointAssociationRequest,
   DeleteVpcEndpointAssociationResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5004,9 +4979,8 @@ export const deleteVpcEndpointAssociation: (
 /**
  * Returns the data objects for the specified firewall.
  */
-export const describeFirewall: (
-  input: DescribeFirewallRequest,
-) => effect.Effect<
+export const describeFirewall: API.OperationMethod<
+  DescribeFirewallRequest,
   DescribeFirewallResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5028,9 +5002,8 @@ export const describeFirewall: (
  * Returns the high-level information about a firewall, including the Availability Zones where the Firewall is
  * currently in use.
  */
-export const describeFirewallMetadata: (
-  input: DescribeFirewallMetadataRequest,
-) => effect.Effect<
+export const describeFirewallMetadata: API.OperationMethod<
+  DescribeFirewallMetadataRequest,
   DescribeFirewallMetadataResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5051,9 +5024,8 @@ export const describeFirewallMetadata: (
 /**
  * Returns the data objects for the specified firewall policy.
  */
-export const describeFirewallPolicy: (
-  input: DescribeFirewallPolicyRequest,
-) => effect.Effect<
+export const describeFirewallPolicy: API.OperationMethod<
+  DescribeFirewallPolicyRequest,
   DescribeFirewallPolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5074,9 +5046,8 @@ export const describeFirewallPolicy: (
 /**
  * Returns key information about a specific flow operation.
  */
-export const describeFlowOperation: (
-  input: DescribeFlowOperationRequest,
-) => effect.Effect<
+export const describeFlowOperation: API.OperationMethod<
+  DescribeFlowOperationRequest,
   DescribeFlowOperationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5097,9 +5068,8 @@ export const describeFlowOperation: (
 /**
  * Returns the logging configuration for the specified firewall.
  */
-export const describeLoggingConfiguration: (
-  input: DescribeLoggingConfigurationRequest,
-) => effect.Effect<
+export const describeLoggingConfiguration: API.OperationMethod<
+  DescribeLoggingConfigurationRequest,
   DescribeLoggingConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5120,9 +5090,8 @@ export const describeLoggingConfiguration: (
 /**
  * Returns the data objects for the specified proxy.
  */
-export const describeProxy: (
-  input: DescribeProxyRequest,
-) => effect.Effect<
+export const describeProxy: API.OperationMethod<
+  DescribeProxyRequest,
   DescribeProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5143,9 +5112,8 @@ export const describeProxy: (
 /**
  * Returns the data objects for the specified proxy configuration.
  */
-export const describeProxyConfiguration: (
-  input: DescribeProxyConfigurationRequest,
-) => effect.Effect<
+export const describeProxyConfiguration: API.OperationMethod<
+  DescribeProxyConfigurationRequest,
   DescribeProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5166,9 +5134,8 @@ export const describeProxyConfiguration: (
 /**
  * Returns the data objects for the specified proxy configuration for the specified proxy rule group.
  */
-export const describeProxyRule: (
-  input: DescribeProxyRuleRequest,
-) => effect.Effect<
+export const describeProxyRule: API.OperationMethod<
+  DescribeProxyRuleRequest,
   DescribeProxyRuleResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5189,9 +5156,8 @@ export const describeProxyRule: (
 /**
  * Returns the data objects for the specified proxy rule group.
  */
-export const describeProxyRuleGroup: (
-  input: DescribeProxyRuleGroupRequest,
-) => effect.Effect<
+export const describeProxyRuleGroup: API.OperationMethod<
+  DescribeProxyRuleGroupRequest,
   DescribeProxyRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5212,9 +5178,8 @@ export const describeProxyRuleGroup: (
 /**
  * Retrieves a resource policy that you created in a PutResourcePolicy request.
  */
-export const describeResourcePolicy: (
-  input: DescribeResourcePolicyRequest,
-) => effect.Effect<
+export const describeResourcePolicy: API.OperationMethod<
+  DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5235,9 +5200,8 @@ export const describeResourcePolicy: (
 /**
  * Returns the data objects for the specified rule group.
  */
-export const describeRuleGroup: (
-  input: DescribeRuleGroupRequest,
-) => effect.Effect<
+export const describeRuleGroup: API.OperationMethod<
+  DescribeRuleGroupRequest,
   DescribeRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5260,9 +5224,8 @@ export const describeRuleGroup: (
  * You can use the information provided in the metadata to retrieve and manage a rule group.
  * You can retrieve all objects for a rule group by calling DescribeRuleGroup.
  */
-export const describeRuleGroupMetadata: (
-  input: DescribeRuleGroupMetadataRequest,
-) => effect.Effect<
+export const describeRuleGroupMetadata: API.OperationMethod<
+  DescribeRuleGroupMetadataRequest,
   DescribeRuleGroupMetadataResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5287,9 +5250,8 @@ export const describeRuleGroupMetadata: (
  *
  * To modify how threat information appears in summaries, use the `SummaryConfiguration` parameter in UpdateRuleGroup.
  */
-export const describeRuleGroupSummary: (
-  input: DescribeRuleGroupSummaryRequest,
-) => effect.Effect<
+export const describeRuleGroupSummary: API.OperationMethod<
+  DescribeRuleGroupSummaryRequest,
   DescribeRuleGroupSummaryResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5310,9 +5272,8 @@ export const describeRuleGroupSummary: (
 /**
  * Returns the data objects for the specified TLS inspection configuration.
  */
-export const describeTLSInspectionConfiguration: (
-  input: DescribeTLSInspectionConfigurationRequest,
-) => effect.Effect<
+export const describeTLSInspectionConfiguration: API.OperationMethod<
+  DescribeTLSInspectionConfigurationRequest,
   DescribeTLSInspectionConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5333,9 +5294,8 @@ export const describeTLSInspectionConfiguration: (
 /**
  * Returns the data object for the specified VPC endpoint association.
  */
-export const describeVpcEndpointAssociation: (
-  input: DescribeVpcEndpointAssociationRequest,
-) => effect.Effect<
+export const describeVpcEndpointAssociation: API.OperationMethod<
+  DescribeVpcEndpointAssociationRequest,
   DescribeVpcEndpointAssociationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5358,9 +5318,8 @@ export const describeVpcEndpointAssociation: (
  *
  * A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
  */
-export const detachRuleGroupsFromProxyConfiguration: (
-  input: DetachRuleGroupsFromProxyConfigurationRequest,
-) => effect.Effect<
+export const detachRuleGroupsFromProxyConfiguration: API.OperationMethod<
+  DetachRuleGroupsFromProxyConfigurationRequest,
   DetachRuleGroupsFromProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -5385,9 +5344,8 @@ export const detachRuleGroupsFromProxyConfiguration: (
  *
  * To verify the status of your Availability Zone changes, use DescribeFirewall.
  */
-export const disassociateAvailabilityZones: (
-  input: DisassociateAvailabilityZonesRequest,
-) => effect.Effect<
+export const disassociateAvailabilityZones: API.OperationMethod<
+  DisassociateAvailabilityZonesRequest,
   DisassociateAvailabilityZonesResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5414,9 +5372,8 @@ export const disassociateAvailabilityZones: (
  * firewall endpoints from the subnets and removes any network filtering protections that the endpoints
  * were providing.
  */
-export const disassociateSubnets: (
-  input: DisassociateSubnetsRequest,
-) => effect.Effect<
+export const disassociateSubnets: API.OperationMethod<
+  DisassociateSubnetsRequest,
   DisassociateSubnetsResponse,
   | InternalServerError
   | InvalidOperationException
@@ -5443,18 +5400,16 @@ export const disassociateSubnets: (
  *
  * For more information, see AnalysisTypeReportResult.
  */
-export const getAnalysisReportResults: {
-  (
-    input: GetAnalysisReportResultsRequest,
-  ): effect.Effect<
-    GetAnalysisReportResultsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAnalysisReportResults: API.OperationMethod<
+  GetAnalysisReportResultsRequest,
+  GetAnalysisReportResultsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAnalysisReportResultsRequest,
   ) => stream.Stream<
@@ -5496,18 +5451,16 @@ export const getAnalysisReportResults: {
 /**
  * Returns a list of all traffic analysis reports generated within the last 30 days.
  */
-export const listAnalysisReports: {
-  (
-    input: ListAnalysisReportsRequest,
-  ): effect.Effect<
-    ListAnalysisReportsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnalysisReports: API.OperationMethod<
+  ListAnalysisReportsRequest,
+  ListAnalysisReportsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnalysisReportsRequest,
   ) => stream.Stream<
@@ -5551,17 +5504,15 @@ export const listAnalysisReports: {
  * your setting for max results and the number of firewall policies, a single call might not
  * return the full list.
  */
-export const listFirewallPolicies: {
-  (
-    input: ListFirewallPoliciesRequest,
-  ): effect.Effect<
-    ListFirewallPoliciesResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallPolicies: API.OperationMethod<
+  ListFirewallPoliciesRequest,
+  ListFirewallPoliciesResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallPoliciesRequest,
   ) => stream.Stream<
@@ -5600,17 +5551,15 @@ export const listFirewallPolicies: {
  * Depending on your setting for max results and the number of firewalls, a single call
  * might not return the full list.
  */
-export const listFirewalls: {
-  (
-    input: ListFirewallsRequest,
-  ): effect.Effect<
-    ListFirewallsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewalls: API.OperationMethod<
+  ListFirewallsRequest,
+  ListFirewallsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallsRequest,
   ) => stream.Stream<
@@ -5650,18 +5599,16 @@ export const listFirewalls: {
  * A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
-export const listFlowOperationResults: {
-  (
-    input: ListFlowOperationResultsRequest,
-  ): effect.Effect<
-    ListFlowOperationResultsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowOperationResults: API.OperationMethod<
+  ListFlowOperationResultsRequest,
+  ListFlowOperationResultsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowOperationResultsRequest,
   ) => stream.Stream<
@@ -5709,18 +5656,16 @@ export const listFlowOperationResults: {
  * A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
  * For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
  */
-export const listFlowOperations: {
-  (
-    input: ListFlowOperationsRequest,
-  ): effect.Effect<
-    ListFlowOperationsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowOperations: API.OperationMethod<
+  ListFlowOperationsRequest,
+  ListFlowOperationsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowOperationsRequest,
   ) => stream.Stream<
@@ -5764,17 +5709,15 @@ export const listFlowOperations: {
  * your setting for max results and the number of proxies, a single call might not
  * return the full list.
  */
-export const listProxies: {
-  (
-    input: ListProxiesRequest,
-  ): effect.Effect<
-    ListProxiesResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProxies: API.OperationMethod<
+  ListProxiesRequest,
+  ListProxiesResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProxiesRequest,
   ) => stream.Stream<
@@ -5811,18 +5754,16 @@ export const listProxies: {
  * your setting for max results and the number of proxy configurations, a single call might not
  * return the full list.
  */
-export const listProxyConfigurations: {
-  (
-    input: ListProxyConfigurationsRequest,
-  ): effect.Effect<
-    ListProxyConfigurationsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProxyConfigurations: API.OperationMethod<
+  ListProxyConfigurationsRequest,
+  ListProxyConfigurationsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProxyConfigurationsRequest,
   ) => stream.Stream<
@@ -5866,18 +5807,16 @@ export const listProxyConfigurations: {
  * your setting for max results and the number of proxy rule groups, a single call might not
  * return the full list.
  */
-export const listProxyRuleGroups: {
-  (
-    input: ListProxyRuleGroupsRequest,
-  ): effect.Effect<
-    ListProxyRuleGroupsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProxyRuleGroups: API.OperationMethod<
+  ListProxyRuleGroupsRequest,
+  ListProxyRuleGroupsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProxyRuleGroupsRequest,
   ) => stream.Stream<
@@ -5921,17 +5860,15 @@ export const listProxyRuleGroups: {
  * setting for max results and the number of rule groups, a single call might not return the
  * full list.
  */
-export const listRuleGroups: {
-  (
-    input: ListRuleGroupsRequest,
-  ): effect.Effect<
-    ListRuleGroupsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuleGroups: API.OperationMethod<
+  ListRuleGroupsRequest,
+  ListRuleGroupsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRuleGroupsRequest,
   ) => stream.Stream<
@@ -5973,18 +5910,16 @@ export const listRuleGroups: {
  * You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall
  * policies, and rule groups.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -6026,17 +5961,15 @@ export const listTagsForResource: {
 /**
  * Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
  */
-export const listTLSInspectionConfigurations: {
-  (
-    input: ListTLSInspectionConfigurationsRequest,
-  ): effect.Effect<
-    ListTLSInspectionConfigurationsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTLSInspectionConfigurations: API.OperationMethod<
+  ListTLSInspectionConfigurationsRequest,
+  ListTLSInspectionConfigurationsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTLSInspectionConfigurationsRequest,
   ) => stream.Stream<
@@ -6075,17 +6008,15 @@ export const listTLSInspectionConfigurations: {
  * Depending on your setting for max results and the number of associations, a single call
  * might not return the full list.
  */
-export const listVpcEndpointAssociations: {
-  (
-    input: ListVpcEndpointAssociationsRequest,
-  ): effect.Effect<
-    ListVpcEndpointAssociationsResponse,
-    | InternalServerError
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVpcEndpointAssociations: API.OperationMethod<
+  ListVpcEndpointAssociationsRequest,
+  ListVpcEndpointAssociationsResponse,
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVpcEndpointAssociationsRequest,
   ) => stream.Stream<
@@ -6133,9 +6064,8 @@ export const listVpcEndpointAssociations: {
  *
  * For additional information about resource sharing using RAM, see Resource Access Manager User Guide.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6164,9 +6094,8 @@ export const putResourcePolicy: (
  *
  * Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
  */
-export const rejectNetworkFirewallTransitGatewayAttachment: (
-  input: RejectNetworkFirewallTransitGatewayAttachmentRequest,
-) => effect.Effect<
+export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
+  RejectNetworkFirewallTransitGatewayAttachmentRequest,
   RejectNetworkFirewallTransitGatewayAttachmentResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6189,9 +6118,8 @@ export const rejectNetworkFirewallTransitGatewayAttachment: (
  *
  * For information on the contents of a traffic analysis report, see AnalysisReport.
  */
-export const startAnalysisReport: (
-  input: StartAnalysisReportRequest,
-) => effect.Effect<
+export const startAnalysisReport: API.OperationMethod<
+  StartAnalysisReportRequest,
   StartAnalysisReportResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6220,9 +6148,8 @@ export const startAnalysisReport: (
  * To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges.
  * Instead, we recommend you define more specific criteria with `FlowFilters`, like narrow IP ranges, ports, or protocols.
  */
-export const startFlowCapture: (
-  input: StartFlowCaptureRequest,
-) => effect.Effect<
+export const startFlowCapture: API.OperationMethod<
+  StartFlowCaptureRequest,
   StartFlowCaptureResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6249,9 +6176,8 @@ export const startFlowCapture: (
  * temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy
  * before you perform a flush operation.
  */
-export const startFlowFlush: (
-  input: StartFlowFlushRequest,
-) => effect.Effect<
+export const startFlowFlush: API.OperationMethod<
+  StartFlowFlushRequest,
   StartFlowFlushResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6278,9 +6204,8 @@ export const startFlowFlush: (
  * You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall
  * policies, and rule groups.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6308,9 +6233,8 @@ export const tagResource: (
  * You can manage tags for the Amazon Web Services resources that you manage through Network Firewall:
  * firewalls, firewall policies, and rule groups.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6333,9 +6257,8 @@ export const untagResource: (
  *
  * When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration.
  */
-export const updateAvailabilityZoneChangeProtection: (
-  input: UpdateAvailabilityZoneChangeProtectionRequest,
-) => effect.Effect<
+export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
+  UpdateAvailabilityZoneChangeProtectionRequest,
   UpdateAvailabilityZoneChangeProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6360,9 +6283,8 @@ export const updateAvailabilityZoneChangeProtection: (
 /**
  * Enables specific types of firewall analysis on a specific firewall you define.
  */
-export const updateFirewallAnalysisSettings: (
-  input: UpdateFirewallAnalysisSettingsRequest,
-) => effect.Effect<
+export const updateFirewallAnalysisSettings: API.OperationMethod<
+  UpdateFirewallAnalysisSettingsRequest,
   UpdateFirewallAnalysisSettingsResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6388,9 +6310,8 @@ export const updateFirewallAnalysisSettings: (
  * against deletion. This setting helps protect against accidentally deleting a firewall
  * that's in use.
  */
-export const updateFirewallDeleteProtection: (
-  input: UpdateFirewallDeleteProtectionRequest,
-) => effect.Effect<
+export const updateFirewallDeleteProtection: API.OperationMethod<
+  UpdateFirewallDeleteProtectionRequest,
   UpdateFirewallDeleteProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6416,9 +6337,8 @@ export const updateFirewallDeleteProtection: (
  * Modifies the description for the specified firewall. Use the description to help you
  * identify the firewall when you're working with it.
  */
-export const updateFirewallDescription: (
-  input: UpdateFirewallDescriptionRequest,
-) => effect.Effect<
+export const updateFirewallDescription: API.OperationMethod<
+  UpdateFirewallDescriptionRequest,
   UpdateFirewallDescriptionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6441,9 +6361,8 @@ export const updateFirewallDescription: (
 /**
  * A complex type that contains settings for encryption of your firewall resources.
  */
-export const updateFirewallEncryptionConfiguration: (
-  input: UpdateFirewallEncryptionConfigurationRequest,
-) => effect.Effect<
+export const updateFirewallEncryptionConfiguration: API.OperationMethod<
+  UpdateFirewallEncryptionConfigurationRequest,
   UpdateFirewallEncryptionConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6468,9 +6387,8 @@ export const updateFirewallEncryptionConfiguration: (
 /**
  * Updates the properties of the specified firewall policy.
  */
-export const updateFirewallPolicy: (
-  input: UpdateFirewallPolicyRequest,
-) => effect.Effect<
+export const updateFirewallPolicy: API.OperationMethod<
+  UpdateFirewallPolicyRequest,
   UpdateFirewallPolicyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6495,9 +6413,8 @@ export const updateFirewallPolicy: (
  * is possible to change the firewall. If the flag is set to `TRUE`, the firewall is protected
  * from changes. This setting helps protect against accidentally changing a firewall that's in use.
  */
-export const updateFirewallPolicyChangeProtection: (
-  input: UpdateFirewallPolicyChangeProtectionRequest,
-) => effect.Effect<
+export const updateFirewallPolicyChangeProtection: API.OperationMethod<
+  UpdateFirewallPolicyChangeProtectionRequest,
   UpdateFirewallPolicyChangeProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6545,9 +6462,8 @@ export const updateFirewallPolicyChangeProtection: (
  * `LogDestinationConfig` object and create a new one, using two separate calls
  * to this update operation.
  */
-export const updateLoggingConfiguration: (
-  input: UpdateLoggingConfigurationRequest,
-) => effect.Effect<
+export const updateLoggingConfiguration: API.OperationMethod<
+  UpdateLoggingConfigurationRequest,
   UpdateLoggingConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6572,9 +6488,8 @@ export const updateLoggingConfiguration: (
 /**
  * Updates the properties of the specified proxy.
  */
-export const updateProxy: (
-  input: UpdateProxyRequest,
-) => effect.Effect<
+export const updateProxy: API.OperationMethod<
+  UpdateProxyRequest,
   UpdateProxyResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6597,9 +6512,8 @@ export const updateProxy: (
 /**
  * Updates the properties of the specified proxy configuration.
  */
-export const updateProxyConfiguration: (
-  input: UpdateProxyConfigurationRequest,
-) => effect.Effect<
+export const updateProxyConfiguration: API.OperationMethod<
+  UpdateProxyConfigurationRequest,
   UpdateProxyConfigurationResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6620,9 +6534,8 @@ export const updateProxyConfiguration: (
 /**
  * Updates the properties of the specified proxy rule.
  */
-export const updateProxyRule: (
-  input: UpdateProxyRuleRequest,
-) => effect.Effect<
+export const updateProxyRule: API.OperationMethod<
+  UpdateProxyRuleRequest,
   UpdateProxyRuleResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6643,9 +6556,8 @@ export const updateProxyRule: (
 /**
  * Updates proxy rule group priorities within a proxy configuration.
  */
-export const updateProxyRuleGroupPriorities: (
-  input: UpdateProxyRuleGroupPrioritiesRequest,
-) => effect.Effect<
+export const updateProxyRuleGroupPriorities: API.OperationMethod<
+  UpdateProxyRuleGroupPrioritiesRequest,
   UpdateProxyRuleGroupPrioritiesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6666,9 +6578,8 @@ export const updateProxyRuleGroupPriorities: (
 /**
  * Updates proxy rule priorities within a proxy rule group.
  */
-export const updateProxyRulePriorities: (
-  input: UpdateProxyRulePrioritiesRequest,
-) => effect.Effect<
+export const updateProxyRulePriorities: API.OperationMethod<
+  UpdateProxyRulePrioritiesRequest,
   UpdateProxyRulePrioritiesResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6695,9 +6606,8 @@ export const updateProxyRulePriorities: (
  * current RuleGroup object, update the object as needed, and then provide
  * the updated object to this call.
  */
-export const updateRuleGroup: (
-  input: UpdateRuleGroupRequest,
-) => effect.Effect<
+export const updateRuleGroup: API.OperationMethod<
+  UpdateRuleGroupRequest,
   UpdateRuleGroupResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6720,9 +6630,8 @@ export const updateRuleGroup: (
 /**
  *
  */
-export const updateSubnetChangeProtection: (
-  input: UpdateSubnetChangeProtectionRequest,
-) => effect.Effect<
+export const updateSubnetChangeProtection: API.OperationMethod<
+  UpdateSubnetChangeProtectionRequest,
   UpdateSubnetChangeProtectionResponse,
   | InternalServerError
   | InvalidRequestException
@@ -6753,9 +6662,8 @@ export const updateSubnetChangeProtection: (
  * current TLSInspectionConfiguration object, update the object as needed, and then provide
  * the updated object to this call.
  */
-export const updateTLSInspectionConfiguration: (
-  input: UpdateTLSInspectionConfigurationRequest,
-) => effect.Effect<
+export const updateTLSInspectionConfiguration: API.OperationMethod<
+  UpdateTLSInspectionConfigurationRequest,
   UpdateTLSInspectionConfigurationResponse,
   | InternalServerError
   | InvalidRequestException

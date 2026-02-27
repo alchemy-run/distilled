@@ -1495,9 +1495,8 @@ export class ListenerNotFoundException extends S.TaggedErrorClass<ListenerNotFou
  * For more information, see Tag Your Classic Load Balancer
  * in the *Classic Load Balancers Guide*.
  */
-export const addTags: (
-  input: AddTagsInput,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsInput,
   AddTagsOutput,
   | AccessPointNotFoundException
   | DuplicateTagKeysException
@@ -1519,9 +1518,8 @@ export const addTags: (
  * For more information, see Security Groups for Load Balancers in a VPC
  * in the *Classic Load Balancers Guide*.
  */
-export const applySecurityGroupsToLoadBalancer: (
-  input: ApplySecurityGroupsToLoadBalancerInput,
-) => effect.Effect<
+export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
+  ApplySecurityGroupsToLoadBalancerInput,
   ApplySecurityGroupsToLoadBalancerOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1544,9 +1542,8 @@ export const applySecurityGroupsToLoadBalancer: (
  * For more information, see Add or Remove Subnets for Your Load Balancer in a VPC
  * in the *Classic Load Balancers Guide*.
  */
-export const attachLoadBalancerToSubnets: (
-  input: AttachLoadBalancerToSubnetsInput,
-) => effect.Effect<
+export const attachLoadBalancerToSubnets: API.OperationMethod<
+  AttachLoadBalancerToSubnetsInput,
   AttachLoadBalancerToSubnetsOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1570,9 +1567,8 @@ export const attachLoadBalancerToSubnets: (
  * For more information, see Configure Health Checks for Your Load Balancer
  * in the *Classic Load Balancers Guide*.
  */
-export const configureHealthCheck: (
-  input: ConfigureHealthCheckInput,
-) => effect.Effect<
+export const configureHealthCheck: API.OperationMethod<
+  ConfigureHealthCheckInput,
   ConfigureHealthCheckOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1595,9 +1591,8 @@ export const configureHealthCheck: (
  * For more information, see Application-Controlled Session Stickiness
  * in the *Classic Load Balancers Guide*.
  */
-export const createAppCookieStickinessPolicy: (
-  input: CreateAppCookieStickinessPolicyInput,
-) => effect.Effect<
+export const createAppCookieStickinessPolicy: API.OperationMethod<
+  CreateAppCookieStickinessPolicyInput,
   CreateAppCookieStickinessPolicyOutput,
   | AccessPointNotFoundException
   | DuplicatePolicyNameException
@@ -1626,9 +1621,8 @@ export const createAppCookieStickinessPolicy: (
  * For more information, see Duration-Based Session Stickiness
  * in the *Classic Load Balancers Guide*.
  */
-export const createLBCookieStickinessPolicy: (
-  input: CreateLBCookieStickinessPolicyInput,
-) => effect.Effect<
+export const createLBCookieStickinessPolicy: API.OperationMethod<
+  CreateLBCookieStickinessPolicyInput,
   CreateLBCookieStickinessPolicyOutput,
   | AccessPointNotFoundException
   | DuplicatePolicyNameException
@@ -1663,9 +1657,8 @@ export const createLBCookieStickinessPolicy: (
  * For more information, see Limits for Your Classic Load Balancer
  * in the *Classic Load Balancers Guide*.
  */
-export const createLoadBalancer: (
-  input: CreateAccessPointInput,
-) => effect.Effect<
+export const createLoadBalancer: API.OperationMethod<
+  CreateAccessPointInput,
   CreateAccessPointOutput,
   | CertificateNotFoundException
   | DuplicateAccessPointNameException
@@ -1705,9 +1698,8 @@ export const createLoadBalancer: (
  * For more information, see Listeners for Your Classic Load Balancer
  * in the *Classic Load Balancers Guide*.
  */
-export const createLoadBalancerListeners: (
-  input: CreateLoadBalancerListenerInput,
-) => effect.Effect<
+export const createLoadBalancerListeners: API.OperationMethod<
+  CreateLoadBalancerListenerInput,
   CreateLoadBalancerListenerOutput,
   | AccessPointNotFoundException
   | CertificateNotFoundException
@@ -1732,9 +1724,8 @@ export const createLoadBalancerListeners: (
  *
  * Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
  */
-export const createLoadBalancerPolicy: (
-  input: CreateLoadBalancerPolicyInput,
-) => effect.Effect<
+export const createLoadBalancerPolicy: API.OperationMethod<
+  CreateLoadBalancerPolicyInput,
   CreateLoadBalancerPolicyOutput,
   | AccessPointNotFoundException
   | DuplicatePolicyNameException
@@ -1762,9 +1753,8 @@ export const createLoadBalancerPolicy: (
  * If the load balancer does not exist or has already been deleted, the call to
  * `DeleteLoadBalancer` still succeeds.
  */
-export const deleteLoadBalancer: (
-  input: DeleteAccessPointInput,
-) => effect.Effect<
+export const deleteLoadBalancer: API.OperationMethod<
+  DeleteAccessPointInput,
   DeleteAccessPointOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1776,9 +1766,8 @@ export const deleteLoadBalancer: (
 /**
  * Deletes the specified listeners from the specified load balancer.
  */
-export const deleteLoadBalancerListeners: (
-  input: DeleteLoadBalancerListenerInput,
-) => effect.Effect<
+export const deleteLoadBalancerListeners: API.OperationMethod<
+  DeleteLoadBalancerListenerInput,
   DeleteLoadBalancerListenerOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1790,9 +1779,8 @@ export const deleteLoadBalancerListeners: (
 /**
  * Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
  */
-export const deleteLoadBalancerPolicy: (
-  input: DeleteLoadBalancerPolicyInput,
-) => effect.Effect<
+export const deleteLoadBalancerPolicy: API.OperationMethod<
+  DeleteLoadBalancerPolicyInput,
   DeleteLoadBalancerPolicyOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1811,9 +1799,8 @@ export const deleteLoadBalancerPolicy: (
  * For more information, see Register or De-Register EC2 Instances
  * in the *Classic Load Balancers Guide*.
  */
-export const deregisterInstancesFromLoadBalancer: (
-  input: DeregisterEndPointsInput,
-) => effect.Effect<
+export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
+  DeregisterEndPointsInput,
   DeregisterEndPointsOutput,
   AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1828,9 +1815,8 @@ export const deregisterInstancesFromLoadBalancer: (
  * For more information, see Limits for Your Classic Load Balancer
  * in the *Classic Load Balancers Guide*.
  */
-export const describeAccountLimits: (
-  input: DescribeAccountLimitsInput,
-) => effect.Effect<
+export const describeAccountLimits: API.OperationMethod<
+  DescribeAccountLimitsInput,
   DescribeAccountLimitsOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1842,9 +1828,8 @@ export const describeAccountLimits: (
 /**
  * Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
  */
-export const describeInstanceHealth: (
-  input: DescribeEndPointStateInput,
-) => effect.Effect<
+export const describeInstanceHealth: API.OperationMethod<
+  DescribeEndPointStateInput,
   DescribeEndPointStateOutput,
   AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1856,9 +1841,8 @@ export const describeInstanceHealth: (
 /**
  * Describes the attributes for the specified load balancer.
  */
-export const describeLoadBalancerAttributes: (
-  input: DescribeLoadBalancerAttributesInput,
-) => effect.Effect<
+export const describeLoadBalancerAttributes: API.OperationMethod<
+  DescribeLoadBalancerAttributesInput,
   DescribeLoadBalancerAttributesOutput,
   | AccessPointNotFoundException
   | LoadBalancerAttributeNotFoundException
@@ -1880,9 +1864,8 @@ export const describeLoadBalancerAttributes: (
  * If you don't specify a load balancer name, the action returns descriptions of the specified sample policies, or descriptions of all sample policies.
  * The names of the sample policies have the `ELBSample-` prefix.
  */
-export const describeLoadBalancerPolicies: (
-  input: DescribeLoadBalancerPoliciesInput,
-) => effect.Effect<
+export const describeLoadBalancerPolicies: API.OperationMethod<
+  DescribeLoadBalancerPoliciesInput,
   DescribeLoadBalancerPoliciesOutput,
   AccessPointNotFoundException | PolicyNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1903,9 +1886,8 @@ export const describeLoadBalancerPolicies: (
  * Then, depending on the policy type, use either SetLoadBalancerPoliciesOfListener or
  * SetLoadBalancerPoliciesForBackendServer to set the policy.
  */
-export const describeLoadBalancerPolicyTypes: (
-  input: DescribeLoadBalancerPolicyTypesInput,
-) => effect.Effect<
+export const describeLoadBalancerPolicyTypes: API.OperationMethod<
+  DescribeLoadBalancerPolicyTypesInput,
   DescribeLoadBalancerPolicyTypesOutput,
   PolicyTypeNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1917,14 +1899,12 @@ export const describeLoadBalancerPolicyTypes: (
 /**
  * Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
  */
-export const describeLoadBalancers: {
-  (
-    input: DescribeAccessPointsInput,
-  ): effect.Effect<
-    DescribeAccessPointsOutput,
-    AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLoadBalancers: API.OperationMethod<
+  DescribeAccessPointsInput,
+  DescribeAccessPointsOutput,
+  AccessPointNotFoundException | DependencyThrottleException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAccessPointsInput,
   ) => stream.Stream<
@@ -1952,9 +1932,8 @@ export const describeLoadBalancers: {
 /**
  * Describes the tags associated with the specified load balancers.
  */
-export const describeTags: (
-  input: DescribeTagsInput,
-) => effect.Effect<
+export const describeTags: API.OperationMethod<
+  DescribeTagsInput,
   DescribeTagsOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1970,9 +1949,8 @@ export const describeTags: (
  * in the removed subnet go into the `OutOfService` state. Then,
  * the load balancer balances the traffic among the remaining routable subnets.
  */
-export const detachLoadBalancerFromSubnets: (
-  input: DetachLoadBalancerFromSubnetsInput,
-) => effect.Effect<
+export const detachLoadBalancerFromSubnets: API.OperationMethod<
+  DetachLoadBalancerFromSubnetsInput,
   DetachLoadBalancerFromSubnetsOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -1997,9 +1975,8 @@ export const detachLoadBalancerFromSubnets: (
  * For more information, see Add or Remove Availability Zones
  * in the *Classic Load Balancers Guide*.
  */
-export const disableAvailabilityZonesForLoadBalancer: (
-  input: RemoveAvailabilityZonesInput,
-) => effect.Effect<
+export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
+  RemoveAvailabilityZonesInput,
   RemoveAvailabilityZonesOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -2020,9 +1997,8 @@ export const disableAvailabilityZonesForLoadBalancer: (
  * that contain instances. For more information, see Add or Remove Availability Zones
  * in the *Classic Load Balancers Guide*.
  */
-export const enableAvailabilityZonesForLoadBalancer: (
-  input: AddAvailabilityZonesInput,
-) => effect.Effect<
+export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
+  AddAvailabilityZonesInput,
   AddAvailabilityZonesOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2048,9 +2024,8 @@ export const enableAvailabilityZonesForLoadBalancer: (
  *
  * - Idle Connection Timeout
  */
-export const modifyLoadBalancerAttributes: (
-  input: ModifyLoadBalancerAttributesInput,
-) => effect.Effect<
+export const modifyLoadBalancerAttributes: API.OperationMethod<
+  ModifyLoadBalancerAttributesInput,
   ModifyLoadBalancerAttributesOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -2087,9 +2062,8 @@ export const modifyLoadBalancerAttributes: (
  * For more information, see Register or De-Register EC2 Instances
  * in the *Classic Load Balancers Guide*.
  */
-export const registerInstancesWithLoadBalancer: (
-  input: RegisterEndPointsInput,
-) => effect.Effect<
+export const registerInstancesWithLoadBalancer: API.OperationMethod<
+  RegisterEndPointsInput,
   RegisterEndPointsOutput,
   AccessPointNotFoundException | InvalidEndPointException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2101,9 +2075,8 @@ export const registerInstancesWithLoadBalancer: (
 /**
  * Removes one or more tags from the specified load balancer.
  */
-export const removeTags: (
-  input: RemoveTagsInput,
-) => effect.Effect<
+export const removeTags: API.OperationMethod<
+  RemoveTagsInput,
   RemoveTagsOutput,
   AccessPointNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2119,9 +2092,8 @@ export const removeTags: (
  * Replace the SSL Certificate for Your Load Balancer
  * in the *Classic Load Balancers Guide*.
  */
-export const setLoadBalancerListenerSSLCertificate: (
-  input: SetLoadBalancerListenerSSLCertificateInput,
-) => effect.Effect<
+export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
+  SetLoadBalancerListenerSSLCertificateInput,
   SetLoadBalancerListenerSSLCertificateOutput,
   | AccessPointNotFoundException
   | CertificateNotFoundException
@@ -2156,9 +2128,8 @@ export const setLoadBalancerListenerSSLCertificate: (
  * Configure Proxy Protocol Support
  * in the *Classic Load Balancers Guide*.
  */
-export const setLoadBalancerPoliciesForBackendServer: (
-  input: SetLoadBalancerPoliciesForBackendServerInput,
-) => effect.Effect<
+export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
+  SetLoadBalancerPoliciesForBackendServerInput,
   SetLoadBalancerPoliciesForBackendServerOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException
@@ -2185,9 +2156,8 @@ export const setLoadBalancerPoliciesForBackendServer: (
  * Application-Controlled Session Stickiness
  * in the *Classic Load Balancers Guide*.
  */
-export const setLoadBalancerPoliciesOfListener: (
-  input: SetLoadBalancerPoliciesOfListenerInput,
-) => effect.Effect<
+export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
+  SetLoadBalancerPoliciesOfListenerInput,
   SetLoadBalancerPoliciesOfListenerOutput,
   | AccessPointNotFoundException
   | InvalidConfigurationRequestException

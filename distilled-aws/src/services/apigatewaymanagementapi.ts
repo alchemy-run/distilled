@@ -210,9 +210,8 @@ export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLarge
 /**
  * Delete the connection with the provided id.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   DeleteConnectionResponse,
   ForbiddenException | GoneException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -224,9 +223,8 @@ export const deleteConnection: (
 /**
  * Get information about the connection with the provided id.
  */
-export const getConnection: (
-  input: GetConnectionRequest,
-) => effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionRequest,
   GetConnectionResponse,
   ForbiddenException | GoneException | LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -238,9 +236,8 @@ export const getConnection: (
 /**
  * Sends the provided data to the specified connection.
  */
-export const postToConnection: (
-  input: PostToConnectionRequest,
-) => effect.Effect<
+export const postToConnection: API.OperationMethod<
+  PostToConnectionRequest,
   PostToConnectionResponse,
   | ForbiddenException
   | GoneException

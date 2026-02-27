@@ -378,9 +378,8 @@ export class ReportLimitReachedException extends S.TaggedErrorClass<ReportLimitR
  * Deletes the specified report. Any tags associated with the report are also
  * deleted.
  */
-export const deleteReportDefinition: (
-  input: DeleteReportDefinitionRequest,
-) => effect.Effect<
+export const deleteReportDefinition: API.OperationMethod<
+  DeleteReportDefinitionRequest,
   DeleteReportDefinitionResponse,
   InternalErrorException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -392,14 +391,12 @@ export const deleteReportDefinition: (
 /**
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
-export const describeReportDefinitions: {
-  (
-    input: DescribeReportDefinitionsRequest,
-  ): effect.Effect<
-    DescribeReportDefinitionsResponse,
-    InternalErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReportDefinitions: API.OperationMethod<
+  DescribeReportDefinitionsRequest,
+  DescribeReportDefinitionsResponse,
+  InternalErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReportDefinitionsRequest,
   ) => stream.Stream<
@@ -427,9 +424,8 @@ export const describeReportDefinitions: {
 /**
  * Lists the tags associated with the specified report definition.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalErrorException
   | ResourceNotFoundException
@@ -448,9 +444,8 @@ export const listTagsForResource: (
 /**
  * Allows you to programmatically update your report preferences.
  */
-export const modifyReportDefinition: (
-  input: ModifyReportDefinitionRequest,
-) => effect.Effect<
+export const modifyReportDefinition: API.OperationMethod<
+  ModifyReportDefinitionRequest,
   ModifyReportDefinitionResponse,
   InternalErrorException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -462,9 +457,8 @@ export const modifyReportDefinition: (
 /**
  * Creates a new report using the description that you provide.
  */
-export const putReportDefinition: (
-  input: PutReportDefinitionRequest,
-) => effect.Effect<
+export const putReportDefinition: API.OperationMethod<
+  PutReportDefinitionRequest,
   PutReportDefinitionResponse,
   | DuplicateReportNameException
   | InternalErrorException
@@ -487,9 +481,8 @@ export const putReportDefinition: (
 /**
  * Associates a set of tags with a report definition.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalErrorException
   | ResourceNotFoundException
@@ -508,9 +501,8 @@ export const tagResource: (
 /**
  * Disassociates a set of tags from a report definition.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalErrorException
   | ResourceNotFoundException

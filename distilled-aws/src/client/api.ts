@@ -2,12 +2,14 @@ import { AwsV4Signer } from "aws4fetch";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Option from "effect/Option";
+import { pipeArguments } from "effect/Pipeable";
 import * as Redacted from "effect/Redacted";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import { SingleShotGen } from "effect/Utils";
 
 import { makeDefault, Retry } from "../retry.ts";
 import { makeEndpointResolver } from "../rules-engine/endpoint-resolver.ts";
@@ -23,6 +25,18 @@ import {
 import { Credentials, Endpoint, Region } from "../index.ts";
 
 export interface MakeOptions extends ResponseParserOptions {}
+
+/**
+ * An operation that can be used in two ways:
+ * 1. Direct call: `yield* operation(input)` — returns Effect with requirements
+ * 2. Yield first: `const fn = yield* operation` — captures services, returns requirement-free function
+ */
+export type OperationMethod<I, A, E, R> = Effect.Effect<
+  (input: I) => Effect.Effect<A, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Effect.Effect<A, E, R>);
 
 export const make = <Op extends Operation<any, any, any>>(
   initOperation: () => Op,
@@ -275,8 +289,8 @@ export const make = <Op extends Operation<any, any, any>>(
     return parsed;
   });
 
-  return Object.assign(
-    Effect.fn(function* (payload: Operation.Input<Op>) {
+  const outerFn = Object.assign(
+    Effect.fn(function* (payload: Operation.Input<any>) {
       const lastError = yield* Ref.make<unknown>(undefined);
       const policy = (yield* Effect.serviceOption(Retry)).pipe(
         Option.map((value) =>
@@ -300,6 +314,24 @@ export const make = <Op extends Operation<any, any, any>>(
     }),
     op,
   );
+
+  const Proto = {
+    [Symbol.iterator]() {
+      return new SingleShotGen(this);
+    },
+    pipe() {
+      return pipeArguments(this.asEffect(), arguments);
+    },
+    asEffect() {
+      return Effect.map(
+        Effect.services(),
+        (sm) => (input: Operation.Input<Op>) =>
+          outerFn(input).pipe(Effect.provide(sm)),
+      );
+    },
+  };
+
+  return Object.assign(outerFn, Proto);
 };
 
 export const makePaginated = <Op extends Operation<any, any, any>>(

@@ -91,10 +91,14 @@ export const GetActiveLivestreamsForLivestreamIdLivestreamResponse =
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              disabled: "disabled",
               ingestServer: "ingest_server",
               meetingId: "meeting_id",
+              name: "name",
               playbackUrl: "playback_url",
+              status: "status",
               streamKey: "stream_key",
               updatedAt: "updated_at",
             }),
@@ -114,6 +118,7 @@ export const GetActiveLivestreamsForLivestreamIdLivestreamResponse =
             viewerSeconds: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
               errMessage: "err_message",
               ingestSeconds: "ingest_seconds",
@@ -131,9 +136,8 @@ export const GetActiveLivestreamsForLivestreamIdLivestreamResponse =
     success: Schema.optional(Schema.Boolean),
   }) as unknown as Schema.Schema<GetActiveLivestreamsForLivestreamIdLivestreamResponse>;
 
-export const getActiveLivestreamsForLivestreamIdLivestream: (
-  input: GetActiveLivestreamsForLivestreamIdLivestreamRequest,
-) => Effect.Effect<
+export const getActiveLivestreamsForLivestreamIdLivestream: API.OperationMethod<
+  GetActiveLivestreamsForLivestreamIdLivestreamRequest,
   GetActiveLivestreamsForLivestreamIdLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -214,6 +218,7 @@ export const GetActiveRecordingsRecordingResponse = Schema.Struct({
     recordingDuration: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       audioDownloadUrl: "audio_download_url",
       downloadUrl: "download_url",
       downloadUrlExpiry: "download_url_expiry",
@@ -222,6 +227,7 @@ export const GetActiveRecordingsRecordingResponse = Schema.Struct({
       outputFileName: "output_file_name",
       sessionId: "session_id",
       startedTime: "started_time",
+      status: "status",
       stoppedTime: "stopped_time",
       recordingDuration: "recording_duration",
     }),
@@ -229,9 +235,8 @@ export const GetActiveRecordingsRecordingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetActiveRecordingsRecordingResponse>;
 
-export const getActiveRecordingsRecording: (
-  input: GetActiveRecordingsRecordingRequest,
-) => Effect.Effect<
+export const getActiveRecordingsRecording: API.OperationMethod<
+  GetActiveRecordingsRecordingRequest,
   GetActiveRecordingsRecordingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -304,6 +309,7 @@ export const GetActiveSessionActiveSessionResponse = Schema.Struct({
       meta: Schema.optional(Schema.Unknown),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         associatedId: "associated_id",
         createdAt: "created_at",
         liveParticipants: "live_participants",
@@ -312,18 +318,20 @@ export const GetActiveSessionActiveSessionResponse = Schema.Struct({
         minutesConsumed: "minutes_consumed",
         organizationId: "organization_id",
         startedAt: "started_at",
+        status: "status",
+        type: "type",
         updatedAt: "updated_at",
         breakoutRooms: "breakout_rooms",
         endedAt: "ended_at",
+        meta: "meta",
       }),
     ),
   ),
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetActiveSessionActiveSessionResponse>;
 
-export const getActiveSessionActiveSession: (
-  input: GetActiveSessionActiveSessionRequest,
-) => Effect.Effect<
+export const getActiveSessionActiveSession: API.OperationMethod<
+  GetActiveSessionActiveSessionRequest,
   GetActiveSessionActiveSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -427,10 +435,15 @@ export const GetAllLivestreamsLivestreamResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        disabled: "disabled",
         ingestServer: "ingest_server",
         meetingId: "meeting_id",
+        name: "name",
+        paging: "paging",
         playbackUrl: "playback_url",
+        status: "status",
         streamKey: "stream_key",
         updatedAt: "updated_at",
       }),
@@ -439,9 +452,8 @@ export const GetAllLivestreamsLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetAllLivestreamsLivestreamResponse>;
 
-export const getAllLivestreamsLivestream: (
-  input: GetAllLivestreamsLivestreamRequest,
-) => Effect.Effect<
+export const getAllLivestreamsLivestream: API.OperationMethod<
+  GetAllLivestreamsLivestreamRequest,
   GetAllLivestreamsLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -485,6 +497,7 @@ export const KickAllParticipantsActiveSessionResponse = Schema.Struct({
       kickedParticipantsCount: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        action: "action",
         kickedParticipantsCount: "kicked_participants_count",
       }),
     ),
@@ -492,9 +505,8 @@ export const KickAllParticipantsActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<KickAllParticipantsActiveSessionResponse>;
 
-export const kickAllParticipantsActiveSession: (
-  input: KickAllParticipantsActiveSessionRequest,
-) => Effect.Effect<
+export const kickAllParticipantsActiveSession: API.OperationMethod<
+  KickAllParticipantsActiveSessionRequest,
   KickAllParticipantsActiveSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -531,15 +543,16 @@ export const GetAppResponse = Schema.Struct({
         id: Schema.optional(Schema.String),
         createdAt: Schema.optional(Schema.String),
         name: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+      }).pipe(
+        Schema.encodeKeys({ id: "id", createdAt: "created_at", name: "name" }),
+      ),
     ),
   ),
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetAppResponse>;
 
-export const getApp: (
-  input: GetAppRequest,
-) => Effect.Effect<
+export const getApp: API.OperationMethod<
+  GetAppRequest,
   GetAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -576,16 +589,21 @@ export const PostAppResponse = Schema.Struct({
           id: Schema.optional(Schema.String),
           createdAt: Schema.optional(Schema.String),
           name: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ createdAt: "created_at" })),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            createdAt: "created_at",
+            name: "name",
+          }),
+        ),
       ),
     }),
   ),
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PostAppResponse>;
 
-export const postApp: (
-  input: PostAppRequest,
-) => Effect.Effect<
+export const postApp: API.OperationMethod<
+  PostAppRequest,
   PostAppResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -647,9 +665,13 @@ export const CreateIndependentLivestreamLivestreamResponse = Schema.Struct({
       streamKey: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        disabled: "disabled",
         ingestServer: "ingest_server",
         meetingId: "meeting_id",
+        name: "name",
         playbackUrl: "playback_url",
+        status: "status",
         streamKey: "stream_key",
       }),
     ),
@@ -657,9 +679,8 @@ export const CreateIndependentLivestreamLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateIndependentLivestreamLivestreamResponse>;
 
-export const createIndependentLivestreamLivestream: (
-  input: CreateIndependentLivestreamLivestreamRequest,
-) => Effect.Effect<
+export const createIndependentLivestreamLivestream: API.OperationMethod<
+  CreateIndependentLivestreamLivestreamRequest,
   CreateIndependentLivestreamLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -712,6 +733,7 @@ export const GetLivestreamAnalyticsCompleteLivestreamResponse = Schema.Struct({
       totalViewerSeconds: Schema.optional(Schema.Number),
     }).pipe(
       Schema.encodeKeys({
+        count: "count",
         totalIngestSeconds: "total_ingest_seconds",
         totalViewerSeconds: "total_viewer_seconds",
       }),
@@ -720,9 +742,8 @@ export const GetLivestreamAnalyticsCompleteLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetLivestreamAnalyticsCompleteLivestreamResponse>;
 
-export const getLivestreamAnalyticsCompleteLivestream: (
-  input: GetLivestreamAnalyticsCompleteLivestreamRequest,
-) => Effect.Effect<
+export const getLivestreamAnalyticsCompleteLivestream: API.OperationMethod<
+  GetLivestreamAnalyticsCompleteLivestreamRequest,
   GetLivestreamAnalyticsCompleteLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -759,7 +780,7 @@ export const StartLivestreamingAMeetingLivestreamRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  Schema.encodeKeys({ videoConfig: "video_config" }),
+  Schema.encodeKeys({ name: "name", videoConfig: "video_config" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/livestreams",
@@ -789,8 +810,10 @@ export const StartLivestreamingAMeetingLivestreamResponse = Schema.Struct({
       streamKey: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         ingestServer: "ingest_server",
         playbackUrl: "playback_url",
+        status: "status",
         streamKey: "stream_key",
       }),
     ),
@@ -798,9 +821,8 @@ export const StartLivestreamingAMeetingLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<StartLivestreamingAMeetingLivestreamResponse>;
 
-export const startLivestreamingAMeetingLivestream: (
-  input: StartLivestreamingAMeetingLivestreamRequest,
-) => Effect.Effect<
+export const startLivestreamingAMeetingLivestream: API.OperationMethod<
+  StartLivestreamingAMeetingLivestreamRequest,
   StartLivestreamingAMeetingLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -842,9 +864,8 @@ export const StopLivestreamingAMeetingLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<StopLivestreamingAMeetingLivestreamResponse>;
 
-export const stopLivestreamingAMeetingLivestream: (
-  input: StopLivestreamingAMeetingLivestreamRequest,
-) => Effect.Effect<
+export const stopLivestreamingAMeetingLivestream: API.OperationMethod<
+  StopLivestreamingAMeetingLivestreamRequest,
   StopLivestreamingAMeetingLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -907,6 +928,7 @@ export const GetLivestreamSessionDetailsForSessionIdLivestreamResponse =
         viewerSeconds: Schema.optional(Schema.Number),
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
           errMessage: "err_message",
           ingestSeconds: "ingest_seconds",
@@ -921,9 +943,8 @@ export const GetLivestreamSessionDetailsForSessionIdLivestreamResponse =
     success: Schema.optional(Schema.Boolean),
   }) as unknown as Schema.Schema<GetLivestreamSessionDetailsForSessionIdLivestreamResponse>;
 
-export const getLivestreamSessionDetailsForSessionIdLivestream: (
-  input: GetLivestreamSessionDetailsForSessionIdLivestreamRequest,
-) => Effect.Effect<
+export const getLivestreamSessionDetailsForSessionIdLivestream: API.OperationMethod<
+  GetLivestreamSessionDetailsForSessionIdLivestreamRequest,
   GetLivestreamSessionDetailsForSessionIdLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1013,10 +1034,14 @@ export const GetLivestreamSessionForLivestreamIdLivestreamResponse =
             updatedAt: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
+              disabled: "disabled",
               ingestServer: "ingest_server",
               meetingId: "meeting_id",
+              name: "name",
               playbackUrl: "playback_url",
+              status: "status",
               streamKey: "stream_key",
               updatedAt: "updated_at",
             }),
@@ -1049,6 +1074,7 @@ export const GetLivestreamSessionForLivestreamIdLivestreamResponse =
             viewerSeconds: Schema.optional(Schema.Number),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
               errMessage: "err_message",
               ingestSeconds: "ingest_seconds",
@@ -1066,9 +1092,8 @@ export const GetLivestreamSessionForLivestreamIdLivestreamResponse =
     success: Schema.optional(Schema.Boolean),
   }) as unknown as Schema.Schema<GetLivestreamSessionForLivestreamIdLivestreamResponse>;
 
-export const getLivestreamSessionForLivestreamIdLivestream: (
-  input: GetLivestreamSessionForLivestreamIdLivestreamRequest,
-) => Effect.Effect<
+export const getLivestreamSessionForLivestreamIdLivestream: API.OperationMethod<
+  GetLivestreamSessionForLivestreamIdLivestreamRequest,
   GetLivestreamSessionForLivestreamIdLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1145,13 +1170,16 @@ export const GetMeetingResponse = Schema.Struct({
       title: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         updatedAt: "updated_at",
         liveStreamOnStart: "live_stream_on_start",
         persistChat: "persist_chat",
         recordOnStart: "record_on_start",
         sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+        status: "status",
         summarizeOnEnd: "summarize_on_end",
+        title: "title",
       }),
     ),
   ),
@@ -1169,9 +1197,8 @@ export const GetMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingResponse>;
 
-export const getMeeting: (
-  input: GetMeetingRequest,
-) => Effect.Effect<
+export const getMeeting: API.OperationMethod<
+  GetMeetingRequest,
   GetMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1318,7 +1345,13 @@ export const CreateMeetingRequest = Schema.Struct({
             ]),
           ),
           profanityFilter: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+        }).pipe(
+          Schema.encodeKeys({
+            keywords: "keywords",
+            language: "language",
+            profanityFilter: "profanity_filter",
+          }),
+        ),
       ),
     }),
   ),
@@ -1334,7 +1367,13 @@ export const CreateMeetingRequest = Schema.Struct({
           channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
           codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
           exportFile: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+        }).pipe(
+          Schema.encodeKeys({
+            channel: "channel",
+            codec: "codec",
+            exportFile: "export_file",
+          }),
+        ),
       ),
       fileNamePrefix: Schema.optional(Schema.String),
       liveStreamingConfig: Schema.optional(
@@ -1371,9 +1410,18 @@ export const CreateMeetingRequest = Schema.Struct({
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               accessKey: "access_key",
               authMethod: "auth_method",
+              bucket: "bucket",
+              host: "host",
+              password: "password",
+              path: "path",
+              port: "port",
               privateKey: "private_key",
+              region: "region",
+              secret: "secret",
+              username: "username",
             }),
           ),
           Schema.Null,
@@ -1404,7 +1452,15 @@ export const CreateMeetingRequest = Schema.Struct({
             }),
           ),
           width: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+        }).pipe(
+          Schema.encodeKeys({
+            codec: "codec",
+            exportFile: "export_file",
+            height: "height",
+            watermark: "watermark",
+            width: "width",
+          }),
+        ),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -1430,6 +1486,7 @@ export const CreateMeetingRequest = Schema.Struct({
     recordingConfig: "recording_config",
     sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
     summarizeOnEnd: "summarize_on_end",
+    title: "title",
   }),
   T.Http({
     method: "POST",
@@ -1576,7 +1633,13 @@ export const CreateMeetingResponse = Schema.Struct({
                 ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+            }).pipe(
+              Schema.encodeKeys({
+                keywords: "keywords",
+                language: "language",
+                profanityFilter: "profanity_filter",
+              }),
+            ),
           ),
         }),
       ),
@@ -1590,7 +1653,13 @@ export const CreateMeetingResponse = Schema.Struct({
               channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
               codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                channel: "channel",
+                codec: "codec",
+                exportFile: "export_file",
+              }),
+            ),
           ),
           fileNamePrefix: Schema.optional(Schema.String),
           liveStreamingConfig: Schema.optional(
@@ -1629,9 +1698,18 @@ export const CreateMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   accessKey: "access_key",
                   authMethod: "auth_method",
+                  bucket: "bucket",
+                  host: "host",
+                  password: "password",
+                  path: "path",
+                  port: "port",
                   privateKey: "private_key",
+                  region: "region",
+                  secret: "secret",
+                  username: "username",
                 }),
               ),
               Schema.Null,
@@ -1662,7 +1740,15 @@ export const CreateMeetingResponse = Schema.Struct({
                 }),
               ),
               width: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                codec: "codec",
+                exportFile: "export_file",
+                height: "height",
+                watermark: "watermark",
+                width: "width",
+              }),
+            ),
           ),
         }).pipe(
           Schema.encodeKeys({
@@ -1682,6 +1768,7 @@ export const CreateMeetingResponse = Schema.Struct({
       title: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         updatedAt: "updated_at",
         aiConfig: "ai_config",
@@ -1690,15 +1777,16 @@ export const CreateMeetingResponse = Schema.Struct({
         recordOnStart: "record_on_start",
         recordingConfig: "recording_config",
         sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+        status: "status",
         summarizeOnEnd: "summarize_on_end",
+        title: "title",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<CreateMeetingResponse>;
 
-export const createMeeting: (
-  input: CreateMeetingRequest,
-) => Effect.Effect<
+export const createMeeting: API.OperationMethod<
+  CreateMeetingRequest,
   CreateMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1763,10 +1851,14 @@ export const GetMeetingActiveLivestreamsLivestreamResponse = Schema.Struct({
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
+        disabled: "disabled",
         ingestServer: "ingest_server",
         meetingId: "meeting_id",
+        name: "name",
         playbackUrl: "playback_url",
+        status: "status",
         streamKey: "stream_key",
         updatedAt: "updated_at",
       }),
@@ -1775,9 +1867,8 @@ export const GetMeetingActiveLivestreamsLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetMeetingActiveLivestreamsLivestreamResponse>;
 
-export const getMeetingActiveLivestreamsLivestream: (
-  input: GetMeetingActiveLivestreamsLivestreamRequest,
-) => Effect.Effect<
+export const getMeetingActiveLivestreamsLivestream: API.OperationMethod<
+  GetMeetingActiveLivestreamsLivestreamRequest,
   GetMeetingActiveLivestreamsLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1951,7 +2042,13 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
                 ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+            }).pipe(
+              Schema.encodeKeys({
+                keywords: "keywords",
+                language: "language",
+                profanityFilter: "profanity_filter",
+              }),
+            ),
           ),
         }),
       ),
@@ -1965,7 +2062,13 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
               channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
               codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                channel: "channel",
+                codec: "codec",
+                exportFile: "export_file",
+              }),
+            ),
           ),
           fileNamePrefix: Schema.optional(Schema.String),
           liveStreamingConfig: Schema.optional(
@@ -2004,9 +2107,18 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   accessKey: "access_key",
                   authMethod: "auth_method",
+                  bucket: "bucket",
+                  host: "host",
+                  password: "password",
+                  path: "path",
+                  port: "port",
                   privateKey: "private_key",
+                  region: "region",
+                  secret: "secret",
+                  username: "username",
                 }),
               ),
               Schema.Null,
@@ -2037,7 +2149,15 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
                 }),
               ),
               width: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                codec: "codec",
+                exportFile: "export_file",
+                height: "height",
+                watermark: "watermark",
+                width: "width",
+              }),
+            ),
           ),
         }).pipe(
           Schema.encodeKeys({
@@ -2057,6 +2177,7 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
       title: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         updatedAt: "updated_at",
         aiConfig: "ai_config",
@@ -2065,15 +2186,16 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
         recordOnStart: "record_on_start",
         recordingConfig: "recording_config",
         sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+        status: "status",
         summarizeOnEnd: "summarize_on_end",
+        title: "title",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<GetMeetingByIdMeetingResponse>;
 
-export const getMeetingByIdMeeting: (
-  input: GetMeetingByIdMeetingRequest,
-) => Effect.Effect<
+export const getMeetingByIdMeeting: API.OperationMethod<
+  GetMeetingByIdMeetingRequest,
   GetMeetingByIdMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2187,7 +2309,13 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
             ]),
           ),
           profanityFilter: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+        }).pipe(
+          Schema.encodeKeys({
+            keywords: "keywords",
+            language: "language",
+            profanityFilter: "profanity_filter",
+          }),
+        ),
       ),
     }),
   ),
@@ -2205,7 +2333,9 @@ export const UpdateMeetingByIdMeetingRequest = Schema.Struct({
     persistChat: "persist_chat",
     recordOnStart: "record_on_start",
     sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+    status: "status",
     summarizeOnEnd: "summarize_on_end",
+    title: "title",
   }),
   T.Http({
     method: "PATCH",
@@ -2352,7 +2482,13 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
                 ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+            }).pipe(
+              Schema.encodeKeys({
+                keywords: "keywords",
+                language: "language",
+                profanityFilter: "profanity_filter",
+              }),
+            ),
           ),
         }),
       ),
@@ -2366,7 +2502,13 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
               channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
               codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                channel: "channel",
+                codec: "codec",
+                exportFile: "export_file",
+              }),
+            ),
           ),
           fileNamePrefix: Schema.optional(Schema.String),
           liveStreamingConfig: Schema.optional(
@@ -2405,9 +2547,18 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   accessKey: "access_key",
                   authMethod: "auth_method",
+                  bucket: "bucket",
+                  host: "host",
+                  password: "password",
+                  path: "path",
+                  port: "port",
                   privateKey: "private_key",
+                  region: "region",
+                  secret: "secret",
+                  username: "username",
                 }),
               ),
               Schema.Null,
@@ -2438,7 +2589,15 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
                 }),
               ),
               width: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                codec: "codec",
+                exportFile: "export_file",
+                height: "height",
+                watermark: "watermark",
+                width: "width",
+              }),
+            ),
           ),
         }).pipe(
           Schema.encodeKeys({
@@ -2458,6 +2617,7 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
       title: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         updatedAt: "updated_at",
         aiConfig: "ai_config",
@@ -2466,15 +2626,16 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
         recordOnStart: "record_on_start",
         recordingConfig: "recording_config",
         sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+        status: "status",
         summarizeOnEnd: "summarize_on_end",
+        title: "title",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<UpdateMeetingByIdMeetingResponse>;
 
-export const updateMeetingByIdMeeting: (
-  input: UpdateMeetingByIdMeetingRequest,
-) => Effect.Effect<
+export const updateMeetingByIdMeeting: API.OperationMethod<
+  UpdateMeetingByIdMeetingRequest,
   UpdateMeetingByIdMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2623,7 +2784,13 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
             ]),
           ),
           profanityFilter: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+        }).pipe(
+          Schema.encodeKeys({
+            keywords: "keywords",
+            language: "language",
+            profanityFilter: "profanity_filter",
+          }),
+        ),
       ),
     }),
   ),
@@ -2639,7 +2806,13 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
           channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
           codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
           exportFile: Schema.optional(Schema.Boolean),
-        }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+        }).pipe(
+          Schema.encodeKeys({
+            channel: "channel",
+            codec: "codec",
+            exportFile: "export_file",
+          }),
+        ),
       ),
       fileNamePrefix: Schema.optional(Schema.String),
       liveStreamingConfig: Schema.optional(
@@ -2676,9 +2849,18 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               accessKey: "access_key",
               authMethod: "auth_method",
+              bucket: "bucket",
+              host: "host",
+              password: "password",
+              path: "path",
+              port: "port",
               privateKey: "private_key",
+              region: "region",
+              secret: "secret",
+              username: "username",
             }),
           ),
           Schema.Null,
@@ -2709,7 +2891,15 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
             }),
           ),
           width: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+        }).pipe(
+          Schema.encodeKeys({
+            codec: "codec",
+            exportFile: "export_file",
+            height: "height",
+            watermark: "watermark",
+            width: "width",
+          }),
+        ),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -2735,6 +2925,7 @@ export const ReplaceMeetingByIdMeetingRequest = Schema.Struct({
     recordingConfig: "recording_config",
     sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
     summarizeOnEnd: "summarize_on_end",
+    title: "title",
   }),
   T.Http({
     method: "PUT",
@@ -2881,7 +3072,13 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
                 ]),
               ),
               profanityFilter: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ profanityFilter: "profanity_filter" })),
+            }).pipe(
+              Schema.encodeKeys({
+                keywords: "keywords",
+                language: "language",
+                profanityFilter: "profanity_filter",
+              }),
+            ),
           ),
         }),
       ),
@@ -2895,7 +3092,13 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
               channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
               codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
               exportFile: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                channel: "channel",
+                codec: "codec",
+                exportFile: "export_file",
+              }),
+            ),
           ),
           fileNamePrefix: Schema.optional(Schema.String),
           liveStreamingConfig: Schema.optional(
@@ -2934,9 +3137,18 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
                 username: Schema.optional(Schema.String),
               }).pipe(
                 Schema.encodeKeys({
+                  type: "type",
                   accessKey: "access_key",
                   authMethod: "auth_method",
+                  bucket: "bucket",
+                  host: "host",
+                  password: "password",
+                  path: "path",
+                  port: "port",
                   privateKey: "private_key",
+                  region: "region",
+                  secret: "secret",
+                  username: "username",
                 }),
               ),
               Schema.Null,
@@ -2967,7 +3179,15 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
                 }),
               ),
               width: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+            }).pipe(
+              Schema.encodeKeys({
+                codec: "codec",
+                exportFile: "export_file",
+                height: "height",
+                watermark: "watermark",
+                width: "width",
+              }),
+            ),
           ),
         }).pipe(
           Schema.encodeKeys({
@@ -2987,6 +3207,7 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
       title: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         updatedAt: "updated_at",
         aiConfig: "ai_config",
@@ -2995,15 +3216,16 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
         recordOnStart: "record_on_start",
         recordingConfig: "recording_config",
         sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+        status: "status",
         summarizeOnEnd: "summarize_on_end",
+        title: "title",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<ReplaceMeetingByIdMeetingResponse>;
 
-export const replaceMeetingByIdMeeting: (
-  input: ReplaceMeetingByIdMeetingRequest,
-) => Effect.Effect<
+export const replaceMeetingByIdMeeting: API.OperationMethod<
+  ReplaceMeetingByIdMeetingRequest,
   ReplaceMeetingByIdMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3063,18 +3285,20 @@ export const GetMeetingParticipantMeetingResponse = Schema.Struct({
     picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdAt: "created_at",
       customParticipantId: "custom_participant_id",
       presetName: "preset_name",
       updatedAt: "updated_at",
+      name: "name",
+      picture: "picture",
     }),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingParticipantMeetingResponse>;
 
-export const getMeetingParticipantMeeting: (
-  input: GetMeetingParticipantMeetingRequest,
-) => Effect.Effect<
+export const getMeetingParticipantMeeting: API.OperationMethod<
+  GetMeetingParticipantMeetingRequest,
   GetMeetingParticipantMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3135,9 +3359,8 @@ export const DeleteMeetingParticipantMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DeleteMeetingParticipantMeetingResponse>;
 
-export const deleteMeetingParticipantMeeting: (
-  input: DeleteMeetingParticipantMeetingRequest,
-) => Effect.Effect<
+export const deleteMeetingParticipantMeeting: API.OperationMethod<
+  DeleteMeetingParticipantMeetingRequest,
   DeleteMeetingParticipantMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3201,10 +3424,13 @@ export const GetMeetingParticipantsMeetingResponse = Schema.Struct({
       picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         customParticipantId: "custom_participant_id",
         presetName: "preset_name",
         updatedAt: "updated_at",
+        name: "name",
+        picture: "picture",
       }),
     ),
   ),
@@ -3222,9 +3448,8 @@ export const GetMeetingParticipantsMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingParticipantsMeetingResponse>;
 
-export const getMeetingParticipantsMeeting: (
-  input: GetMeetingParticipantsMeetingRequest,
-) => Effect.Effect<
+export const getMeetingParticipantsMeeting: API.OperationMethod<
+  GetMeetingParticipantsMeetingRequest,
   GetMeetingParticipantsMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3384,8 +3609,17 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               authMethod: "auth_method",
+              bucket: "bucket",
+              host: "host",
+              password: "password",
+              path: "path",
+              port: "port",
               privateKey: "private_key",
+              region: "region",
+              secret: "secret",
+              username: "username",
             }),
           ),
           Schema.Null,
@@ -3393,6 +3627,7 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         audioDownloadUrl: "audio_download_url",
         downloadUrl: "download_url",
         downloadUrlExpiry: "download_url_expiry",
@@ -3401,6 +3636,7 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
         outputFileName: "output_file_name",
         sessionId: "session_id",
         startedTime: "started_time",
+        status: "status",
         stoppedTime: "stopped_time",
         recordingDuration: "recording_duration",
         startReason: "start_reason",
@@ -3411,9 +3647,8 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetOneRecordingRecordingResponse>;
 
-export const getOneRecordingRecording: (
-  input: GetOneRecordingRecordingRequest,
-) => Effect.Effect<
+export const getOneRecordingRecording: API.OperationMethod<
+  GetOneRecordingRecordingRequest,
   GetOneRecordingRecordingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3486,6 +3721,7 @@ export const GetOrgAnalyticsAnalyticResponse = Schema.Struct({
                 totalRecordings: Schema.optional(Schema.Number),
               }).pipe(
                 Schema.encodeKeys({
+                  day: "day",
                   totalRecordingMinutes: "total_recording_minutes",
                   totalRecordings: "total_recordings",
                 }),
@@ -3512,6 +3748,7 @@ export const GetOrgAnalyticsAnalyticResponse = Schema.Struct({
                 totalSessions: Schema.optional(Schema.Number),
               }).pipe(
                 Schema.encodeKeys({
+                  day: "day",
                   totalSessionMinutes: "total_session_minutes",
                   totalSessions: "total_sessions",
                 }),
@@ -3538,9 +3775,8 @@ export const GetOrgAnalyticsAnalyticResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetOrgAnalyticsAnalyticResponse>;
 
-export const getOrgAnalyticsAnalytic: (
-  input: GetOrgAnalyticsAnalyticRequest,
-) => Effect.Effect<
+export const getOrgAnalyticsAnalytic: API.OperationMethod<
+  GetOrgAnalyticsAnalyticRequest,
   GetOrgAnalyticsAnalyticResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3613,6 +3849,7 @@ export const GetOrgAnalyticsLivestreamResponse = Schema.Struct({
                 totalRecordings: Schema.optional(Schema.Number),
               }).pipe(
                 Schema.encodeKeys({
+                  day: "day",
                   totalRecordingMinutes: "total_recording_minutes",
                   totalRecordings: "total_recordings",
                 }),
@@ -3639,6 +3876,7 @@ export const GetOrgAnalyticsLivestreamResponse = Schema.Struct({
                 totalSessions: Schema.optional(Schema.Number),
               }).pipe(
                 Schema.encodeKeys({
+                  day: "day",
                   totalSessionMinutes: "total_session_minutes",
                   totalSessions: "total_sessions",
                 }),
@@ -3665,9 +3903,8 @@ export const GetOrgAnalyticsLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetOrgAnalyticsLivestreamResponse>;
 
-export const getOrgAnalyticsLivestream: (
-  input: GetOrgAnalyticsLivestreamRequest,
-) => Effect.Effect<
+export const getOrgAnalyticsLivestream: API.OperationMethod<
+  GetOrgAnalyticsLivestreamRequest,
   GetOrgAnalyticsLivestreamResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3750,9 +3987,11 @@ export const GetParticipantDataFromPeerIdSessionResponse = Schema.Struct({
           userId: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
             customParticipantId: "custom_participant_id",
             displayName: "display_name",
+            duration: "duration",
             joinedAt: "joined_at",
             leftAt: "left_at",
             presetName: "preset_name",
@@ -3766,9 +4005,8 @@ export const GetParticipantDataFromPeerIdSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetParticipantDataFromPeerIdSessionResponse>;
 
-export const getParticipantDataFromPeerIdSession: (
-  input: GetParticipantDataFromPeerIdSessionRequest,
-) => Effect.Effect<
+export const getParticipantDataFromPeerIdSession: API.OperationMethod<
+  GetParticipantDataFromPeerIdSessionRequest,
   GetParticipantDataFromPeerIdSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3809,6 +4047,8 @@ export const AddParticipantMeetingRequest = Schema.Struct({
   Schema.encodeKeys({
     customParticipantId: "custom_participant_id",
     presetName: "preset_name",
+    name: "name",
+    picture: "picture",
   }),
   T.Http({
     method: "POST",
@@ -3846,18 +4086,21 @@ export const AddParticipantMeetingResponse = Schema.Struct({
       picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        token: "token",
         createdAt: "created_at",
         customParticipantId: "custom_participant_id",
         presetName: "preset_name",
         updatedAt: "updated_at",
+        name: "name",
+        picture: "picture",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<AddParticipantMeetingResponse>;
 
-export const addParticipantMeeting: (
-  input: AddParticipantMeetingRequest,
-) => Effect.Effect<
+export const addParticipantMeeting: API.OperationMethod<
+  AddParticipantMeetingRequest,
   AddParticipantMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3890,7 +4133,11 @@ export const EditParticipantMeetingRequest = Schema.Struct({
   picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   presetName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ presetName: "preset_name" }),
+  Schema.encodeKeys({
+    name: "name",
+    picture: "picture",
+    presetName: "preset_name",
+  }),
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/participants/{participantId}",
@@ -3927,18 +4174,21 @@ export const EditParticipantMeetingResponse = Schema.Struct({
       picture: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        token: "token",
         createdAt: "created_at",
         customParticipantId: "custom_participant_id",
         presetName: "preset_name",
         updatedAt: "updated_at",
+        name: "name",
+        picture: "picture",
       }),
     ),
   ),
 }) as unknown as Schema.Schema<EditParticipantMeetingResponse>;
 
-export const editParticipantMeeting: (
-  input: EditParticipantMeetingRequest,
-) => Effect.Effect<
+export const editParticipantMeeting: API.OperationMethod<
+  EditParticipantMeetingRequest,
   EditParticipantMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4010,8 +4260,12 @@ export const KickParticipantsActiveSessionResponse = Schema.Struct({
             picture: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
               updatedAt: "updated_at",
+              email: "email",
+              name: "name",
+              picture: "picture",
             }),
           ),
         ),
@@ -4021,9 +4275,8 @@ export const KickParticipantsActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<KickParticipantsActiveSessionResponse>;
 
-export const kickParticipantsActiveSession: (
-  input: KickParticipantsActiveSessionRequest,
-) => Effect.Effect<
+export const kickParticipantsActiveSession: API.OperationMethod<
+  KickParticipantsActiveSessionRequest,
   KickParticipantsActiveSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4071,9 +4324,8 @@ export const RefreshParticipantTokenMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<RefreshParticipantTokenMeetingResponse>;
 
-export const refreshParticipantTokenMeeting: (
-  input: RefreshParticipantTokenMeetingRequest,
-) => Effect.Effect<
+export const refreshParticipantTokenMeeting: API.OperationMethod<
+  RefreshParticipantTokenMeetingRequest,
   RefreshParticipantTokenMeetingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4111,7 +4363,12 @@ export const CreatePollActiveSessionRequest = Schema.Struct({
   anonymous: Schema.optional(Schema.Boolean),
   hideVotes: Schema.optional(Schema.Boolean),
 }).pipe(
-  Schema.encodeKeys({ hideVotes: "hide_votes" }),
+  Schema.encodeKeys({
+    options: "options",
+    question: "question",
+    anonymous: "anonymous",
+    hideVotes: "hide_votes",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/active-session/poll",
@@ -4164,8 +4421,13 @@ export const CreatePollActiveSessionResponse = Schema.Struct({
           voted: Schema.optional(Schema.Array(Schema.String)),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            options: "options",
+            question: "question",
+            anonymous: "anonymous",
             createdBy: "created_by",
             hideVotes: "hide_votes",
+            voted: "voted",
           }),
         ),
       ),
@@ -4174,9 +4436,8 @@ export const CreatePollActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreatePollActiveSessionResponse>;
 
-export const createPollActiveSession: (
-  input: CreatePollActiveSessionRequest,
-) => Effect.Effect<
+export const createPollActiveSession: API.OperationMethod<
+  CreatePollActiveSessionRequest,
   CreatePollActiveSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4231,7 +4492,12 @@ export const GetPresetResponse = Schema.Struct({
       name: Schema.optional(Schema.String),
       updatedAt: Schema.optional(Schema.String),
     }).pipe(
-      Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        name: "name",
+        updatedAt: "updated_at",
+      }),
     ),
   ),
   paging: Schema.Struct({
@@ -4248,9 +4514,8 @@ export const GetPresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetPresetResponse>;
 
-export const getPreset: (
-  input: GetPresetRequest,
-) => Effect.Effect<
+export const getPreset: API.OperationMethod<
+  GetPresetRequest,
   GetPresetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4392,6 +4657,7 @@ export const CreatePresetRequest = Schema.Struct({
     Schema.encodeKeys({
       maxScreenshareCount: "max_screenshare_count",
       maxVideoStreams: "max_video_streams",
+      media: "media",
       viewType: "view_type",
     }),
   ),
@@ -4428,8 +4694,14 @@ export const CreatePresetRequest = Schema.Struct({
           warning: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            background: "background",
+            brand: "brand",
+            danger: "danger",
+            success: "success",
+            text: "text",
             textOnBrand: "text_on_brand",
             videoBg: "video_bg",
+            warning: "warning",
           }),
         ),
       ),
@@ -4440,7 +4712,10 @@ export const CreatePresetRequest = Schema.Struct({
       Schema.encodeKeys({
         borderRadius: "border_radius",
         borderWidth: "border_width",
+        colors: "colors",
+        logo: "logo",
         spacingBase: "spacing_base",
+        theme: "theme",
       }),
     ),
     configDiff: Schema.optional(Schema.Unknown),
@@ -4470,6 +4745,8 @@ export const CreatePresetRequest = Schema.Struct({
             Schema.encodeKeys({
               canReceive: "can_receive",
               canSend: "can_send",
+              files: "files",
+              text: "text",
             }),
           ),
         ),
@@ -4478,7 +4755,13 @@ export const CreatePresetRequest = Schema.Struct({
             canSend: Schema.optional(Schema.Boolean),
             files: Schema.optional(Schema.Boolean),
             text: Schema.optional(Schema.Boolean),
-          }).pipe(Schema.encodeKeys({ canSend: "can_send" })),
+          }).pipe(
+            Schema.encodeKeys({
+              canSend: "can_send",
+              files: "files",
+              text: "text",
+            }),
+          ),
         ),
       }),
       connectedMeetings: Schema.Struct({
@@ -4546,6 +4829,7 @@ export const CreatePresetRequest = Schema.Struct({
           canClose: "can_close",
           canEditConfig: "can_edit_config",
           canStart: "can_start",
+          config: "config",
         }),
       ),
       polls: Schema.Struct({
@@ -4576,13 +4860,17 @@ export const CreatePresetRequest = Schema.Struct({
         canLivestream: "can_livestream",
         canRecord: "can_record",
         canSpotlight: "can_spotlight",
+        chat: "chat",
         connectedMeetings: "connected_meetings",
         disableParticipantAudio: "disable_participant_audio",
         disableParticipantScreensharing: "disable_participant_screensharing",
         disableParticipantVideo: "disable_participant_video",
         hiddenParticipant: "hidden_participant",
         kickParticipant: "kick_participant",
+        media: "media",
         pinParticipant: "pin_participant",
+        plugins: "plugins",
+        polls: "polls",
         recorderType: "recorder_type",
         showParticipantList: "show_participant_list",
         waitingRoomType: "waiting_room_type",
@@ -4732,6 +5020,7 @@ export const CreatePresetResponse = Schema.Struct({
       Schema.encodeKeys({
         maxScreenshareCount: "max_screenshare_count",
         maxVideoStreams: "max_video_streams",
+        media: "media",
         viewType: "view_type",
       }),
     ),
@@ -4768,8 +5057,14 @@ export const CreatePresetResponse = Schema.Struct({
             warning: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              background: "background",
+              brand: "brand",
+              danger: "danger",
+              success: "success",
+              text: "text",
               textOnBrand: "text_on_brand",
               videoBg: "video_bg",
+              warning: "warning",
             }),
           ),
         ),
@@ -4780,7 +5075,10 @@ export const CreatePresetResponse = Schema.Struct({
         Schema.encodeKeys({
           borderRadius: "border_radius",
           borderWidth: "border_width",
+          colors: "colors",
+          logo: "logo",
           spacingBase: "spacing_base",
+          theme: "theme",
         }),
       ),
       configDiff: Schema.optional(Schema.Unknown),
@@ -4810,6 +5108,8 @@ export const CreatePresetResponse = Schema.Struct({
               Schema.encodeKeys({
                 canReceive: "can_receive",
                 canSend: "can_send",
+                files: "files",
+                text: "text",
               }),
             ),
           ),
@@ -4818,7 +5118,13 @@ export const CreatePresetResponse = Schema.Struct({
               canSend: Schema.optional(Schema.Boolean),
               files: Schema.optional(Schema.Boolean),
               text: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ canSend: "can_send" })),
+            }).pipe(
+              Schema.encodeKeys({
+                canSend: "can_send",
+                files: "files",
+                text: "text",
+              }),
+            ),
           ),
         }),
         connectedMeetings: Schema.Struct({
@@ -4886,6 +5192,7 @@ export const CreatePresetResponse = Schema.Struct({
             canClose: "can_close",
             canEditConfig: "can_edit_config",
             canStart: "can_start",
+            config: "config",
           }),
         ),
         polls: Schema.Struct({
@@ -4916,13 +5223,17 @@ export const CreatePresetResponse = Schema.Struct({
           canLivestream: "can_livestream",
           canRecord: "can_record",
           canSpotlight: "can_spotlight",
+          chat: "chat",
           connectedMeetings: "connected_meetings",
           disableParticipantAudio: "disable_participant_audio",
           disableParticipantScreensharing: "disable_participant_screensharing",
           disableParticipantVideo: "disable_participant_video",
           hiddenParticipant: "hidden_participant",
           kickParticipant: "kick_participant",
+          media: "media",
           pinParticipant: "pin_participant",
+          plugins: "plugins",
+          polls: "polls",
           recorderType: "recorder_type",
           showParticipantList: "show_participant_list",
           waitingRoomType: "waiting_room_type",
@@ -4934,9 +5245,8 @@ export const CreatePresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreatePresetResponse>;
 
-export const createPreset: (
-  input: CreatePresetRequest,
-) => Effect.Effect<
+export const createPreset: API.OperationMethod<
+  CreatePresetRequest,
   CreatePresetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5087,6 +5397,7 @@ export const PatchPresetRequest = Schema.Struct({
       Schema.encodeKeys({
         maxScreenshareCount: "max_screenshare_count",
         maxVideoStreams: "max_video_streams",
+        media: "media",
         viewType: "view_type",
       }),
     ),
@@ -5113,6 +5424,8 @@ export const PatchPresetRequest = Schema.Struct({
               Schema.encodeKeys({
                 canReceive: "can_receive",
                 canSend: "can_send",
+                files: "files",
+                text: "text",
               }),
             ),
           ),
@@ -5121,7 +5434,13 @@ export const PatchPresetRequest = Schema.Struct({
               canSend: Schema.optional(Schema.Boolean),
               files: Schema.optional(Schema.Boolean),
               text: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ canSend: "can_send" })),
+            }).pipe(
+              Schema.encodeKeys({
+                canSend: "can_send",
+                files: "files",
+                text: "text",
+              }),
+            ),
           ),
         }),
       ),
@@ -5196,6 +5515,7 @@ export const PatchPresetRequest = Schema.Struct({
             canClose: "can_close",
             canEditConfig: "can_edit_config",
             canStart: "can_start",
+            config: "config",
           }),
         ),
       ),
@@ -5228,6 +5548,7 @@ export const PatchPresetRequest = Schema.Struct({
         canLivestream: "can_livestream",
         canRecord: "can_record",
         canSpotlight: "can_spotlight",
+        chat: "chat",
         connectedMeetings: "connected_meetings",
         disableParticipantAudio: "disable_participant_audio",
         disableParticipantScreensharing: "disable_participant_screensharing",
@@ -5235,7 +5556,10 @@ export const PatchPresetRequest = Schema.Struct({
         hiddenParticipant: "hidden_participant",
         isRecorder: "is_recorder",
         kickParticipant: "kick_participant",
+        media: "media",
         pinParticipant: "pin_participant",
+        plugins: "plugins",
+        polls: "polls",
         recorderType: "recorder_type",
         showParticipantList: "show_participant_list",
         waitingRoomType: "waiting_room_type",
@@ -5277,8 +5601,14 @@ export const PatchPresetRequest = Schema.Struct({
               warning: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
+                background: "background",
+                brand: "brand",
+                danger: "danger",
+                success: "success",
+                text: "text",
                 textOnBrand: "text_on_brand",
                 videoBg: "video_bg",
+                warning: "warning",
               }),
             ),
           ),
@@ -5289,7 +5619,10 @@ export const PatchPresetRequest = Schema.Struct({
           Schema.encodeKeys({
             borderRadius: "border_radius",
             borderWidth: "border_width",
+            colors: "colors",
+            logo: "logo",
             spacingBase: "spacing_base",
+            theme: "theme",
           }),
         ),
       ),
@@ -5442,6 +5775,7 @@ export const PatchPresetResponse = Schema.Struct({
       Schema.encodeKeys({
         maxScreenshareCount: "max_screenshare_count",
         maxVideoStreams: "max_video_streams",
+        media: "media",
         viewType: "view_type",
       }),
     ),
@@ -5478,8 +5812,14 @@ export const PatchPresetResponse = Schema.Struct({
             warning: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              background: "background",
+              brand: "brand",
+              danger: "danger",
+              success: "success",
+              text: "text",
               textOnBrand: "text_on_brand",
               videoBg: "video_bg",
+              warning: "warning",
             }),
           ),
         ),
@@ -5490,7 +5830,10 @@ export const PatchPresetResponse = Schema.Struct({
         Schema.encodeKeys({
           borderRadius: "border_radius",
           borderWidth: "border_width",
+          colors: "colors",
+          logo: "logo",
           spacingBase: "spacing_base",
+          theme: "theme",
         }),
       ),
       configDiff: Schema.optional(Schema.Unknown),
@@ -5520,6 +5863,8 @@ export const PatchPresetResponse = Schema.Struct({
               Schema.encodeKeys({
                 canReceive: "can_receive",
                 canSend: "can_send",
+                files: "files",
+                text: "text",
               }),
             ),
           ),
@@ -5528,7 +5873,13 @@ export const PatchPresetResponse = Schema.Struct({
               canSend: Schema.optional(Schema.Boolean),
               files: Schema.optional(Schema.Boolean),
               text: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ canSend: "can_send" })),
+            }).pipe(
+              Schema.encodeKeys({
+                canSend: "can_send",
+                files: "files",
+                text: "text",
+              }),
+            ),
           ),
         }),
         connectedMeetings: Schema.Struct({
@@ -5596,6 +5947,7 @@ export const PatchPresetResponse = Schema.Struct({
             canClose: "can_close",
             canEditConfig: "can_edit_config",
             canStart: "can_start",
+            config: "config",
           }),
         ),
         polls: Schema.Struct({
@@ -5626,13 +5978,17 @@ export const PatchPresetResponse = Schema.Struct({
           canLivestream: "can_livestream",
           canRecord: "can_record",
           canSpotlight: "can_spotlight",
+          chat: "chat",
           connectedMeetings: "connected_meetings",
           disableParticipantAudio: "disable_participant_audio",
           disableParticipantScreensharing: "disable_participant_screensharing",
           disableParticipantVideo: "disable_participant_video",
           hiddenParticipant: "hidden_participant",
           kickParticipant: "kick_participant",
+          media: "media",
           pinParticipant: "pin_participant",
+          plugins: "plugins",
+          polls: "polls",
           recorderType: "recorder_type",
           showParticipantList: "show_participant_list",
           waitingRoomType: "waiting_room_type",
@@ -5644,9 +6000,8 @@ export const PatchPresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<PatchPresetResponse>;
 
-export const patchPreset: (
-  input: PatchPresetRequest,
-) => Effect.Effect<
+export const patchPreset: API.OperationMethod<
+  PatchPresetRequest,
   PatchPresetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5809,6 +6164,7 @@ export const DeletePresetResponse = Schema.Struct({
       Schema.encodeKeys({
         maxScreenshareCount: "max_screenshare_count",
         maxVideoStreams: "max_video_streams",
+        media: "media",
         viewType: "view_type",
       }),
     ),
@@ -5845,8 +6201,14 @@ export const DeletePresetResponse = Schema.Struct({
             warning: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              background: "background",
+              brand: "brand",
+              danger: "danger",
+              success: "success",
+              text: "text",
               textOnBrand: "text_on_brand",
               videoBg: "video_bg",
+              warning: "warning",
             }),
           ),
         ),
@@ -5857,7 +6219,10 @@ export const DeletePresetResponse = Schema.Struct({
         Schema.encodeKeys({
           borderRadius: "border_radius",
           borderWidth: "border_width",
+          colors: "colors",
+          logo: "logo",
           spacingBase: "spacing_base",
+          theme: "theme",
         }),
       ),
       configDiff: Schema.optional(Schema.Unknown),
@@ -5887,6 +6252,8 @@ export const DeletePresetResponse = Schema.Struct({
               Schema.encodeKeys({
                 canReceive: "can_receive",
                 canSend: "can_send",
+                files: "files",
+                text: "text",
               }),
             ),
           ),
@@ -5895,7 +6262,13 @@ export const DeletePresetResponse = Schema.Struct({
               canSend: Schema.optional(Schema.Boolean),
               files: Schema.optional(Schema.Boolean),
               text: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ canSend: "can_send" })),
+            }).pipe(
+              Schema.encodeKeys({
+                canSend: "can_send",
+                files: "files",
+                text: "text",
+              }),
+            ),
           ),
         }),
         connectedMeetings: Schema.Struct({
@@ -5963,6 +6336,7 @@ export const DeletePresetResponse = Schema.Struct({
             canClose: "can_close",
             canEditConfig: "can_edit_config",
             canStart: "can_start",
+            config: "config",
           }),
         ),
         polls: Schema.Struct({
@@ -5993,13 +6367,17 @@ export const DeletePresetResponse = Schema.Struct({
           canLivestream: "can_livestream",
           canRecord: "can_record",
           canSpotlight: "can_spotlight",
+          chat: "chat",
           connectedMeetings: "connected_meetings",
           disableParticipantAudio: "disable_participant_audio",
           disableParticipantScreensharing: "disable_participant_screensharing",
           disableParticipantVideo: "disable_participant_video",
           hiddenParticipant: "hidden_participant",
           kickParticipant: "kick_participant",
+          media: "media",
           pinParticipant: "pin_participant",
+          plugins: "plugins",
+          polls: "polls",
           recorderType: "recorder_type",
           showParticipantList: "show_participant_list",
           waitingRoomType: "waiting_room_type",
@@ -6011,9 +6389,8 @@ export const DeletePresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeletePresetResponse>;
 
-export const deletePreset: (
-  input: DeletePresetRequest,
-) => Effect.Effect<
+export const deletePreset: API.OperationMethod<
+  DeletePresetRequest,
   DeletePresetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6180,6 +6557,7 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
       Schema.encodeKeys({
         maxScreenshareCount: "max_screenshare_count",
         maxVideoStreams: "max_video_streams",
+        media: "media",
         viewType: "view_type",
       }),
     ),
@@ -6216,8 +6594,14 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
             warning: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              background: "background",
+              brand: "brand",
+              danger: "danger",
+              success: "success",
+              text: "text",
               textOnBrand: "text_on_brand",
               videoBg: "video_bg",
+              warning: "warning",
             }),
           ),
         ),
@@ -6228,7 +6612,10 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
         Schema.encodeKeys({
           borderRadius: "border_radius",
           borderWidth: "border_width",
+          colors: "colors",
+          logo: "logo",
           spacingBase: "spacing_base",
+          theme: "theme",
         }),
       ),
       configDiff: Schema.optional(Schema.Unknown),
@@ -6258,6 +6645,8 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
               Schema.encodeKeys({
                 canReceive: "can_receive",
                 canSend: "can_send",
+                files: "files",
+                text: "text",
               }),
             ),
           ),
@@ -6266,7 +6655,13 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
               canSend: Schema.optional(Schema.Boolean),
               files: Schema.optional(Schema.Boolean),
               text: Schema.optional(Schema.Boolean),
-            }).pipe(Schema.encodeKeys({ canSend: "can_send" })),
+            }).pipe(
+              Schema.encodeKeys({
+                canSend: "can_send",
+                files: "files",
+                text: "text",
+              }),
+            ),
           ),
         }),
         connectedMeetings: Schema.Struct({
@@ -6334,6 +6729,7 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
             canClose: "can_close",
             canEditConfig: "can_edit_config",
             canStart: "can_start",
+            config: "config",
           }),
         ),
         polls: Schema.Struct({
@@ -6364,13 +6760,17 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
           canLivestream: "can_livestream",
           canRecord: "can_record",
           canSpotlight: "can_spotlight",
+          chat: "chat",
           connectedMeetings: "connected_meetings",
           disableParticipantAudio: "disable_participant_audio",
           disableParticipantScreensharing: "disable_participant_screensharing",
           disableParticipantVideo: "disable_participant_video",
           hiddenParticipant: "hidden_participant",
           kickParticipant: "kick_participant",
+          media: "media",
           pinParticipant: "pin_participant",
+          plugins: "plugins",
+          polls: "polls",
           recorderType: "recorder_type",
           showParticipantList: "show_participant_list",
           waitingRoomType: "waiting_room_type",
@@ -6382,9 +6782,8 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetPresetByIdPresetResponse>;
 
-export const getPresetByIdPreset: (
-  input: GetPresetByIdPresetRequest,
-) => Effect.Effect<
+export const getPresetByIdPreset: API.OperationMethod<
+  GetPresetByIdPresetRequest,
   GetPresetByIdPresetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6537,13 +6936,16 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
           title: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
             updatedAt: "updated_at",
             liveStreamOnStart: "live_stream_on_start",
             persistChat: "persist_chat",
             recordOnStart: "record_on_start",
             sessionKeepAliveTimeInSecs: "session_keep_alive_time_in_secs",
+            status: "status",
             summarizeOnEnd: "summarize_on_end",
+            title: "title",
           }),
         ),
       ),
@@ -6570,8 +6972,17 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               authMethod: "auth_method",
+              bucket: "bucket",
+              host: "host",
+              password: "password",
+              path: "path",
+              port: "port",
               privateKey: "private_key",
+              region: "region",
+              secret: "secret",
+              username: "username",
             }),
           ),
           Schema.Null,
@@ -6579,6 +6990,7 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         audioDownloadUrl: "audio_download_url",
         downloadUrl: "download_url",
         downloadUrlExpiry: "download_url_expiry",
@@ -6587,7 +6999,9 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
         outputFileName: "output_file_name",
         sessionId: "session_id",
         startedTime: "started_time",
+        status: "status",
         stoppedTime: "stopped_time",
+        meeting: "meeting",
         recordingDuration: "recording_duration",
         storageConfig: "storage_config",
       }),
@@ -6607,9 +7021,8 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetRecordingsRecordingResponse>;
 
-export const getRecordingsRecording: (
-  input: GetRecordingsRecordingRequest,
-) => Effect.Effect<
+export const getRecordingsRecording: API.OperationMethod<
+  GetRecordingsRecordingRequest,
   GetRecordingsRecordingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6683,7 +7096,13 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
       channel: Schema.optional(Schema.Literals(["mono", "stereo"])),
       codec: Schema.optional(Schema.Literals(["MP3", "AAC"])),
       exportFile: Schema.optional(Schema.Boolean),
-    }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+    }).pipe(
+      Schema.encodeKeys({
+        channel: "channel",
+        codec: "codec",
+        exportFile: "export_file",
+      }),
+    ),
   ),
   fileNamePrefix: Schema.optional(Schema.String),
   interactiveConfig: Schema.optional(
@@ -6720,9 +7139,18 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
         username: Schema.optional(Schema.String),
       }).pipe(
         Schema.encodeKeys({
+          type: "type",
           accessKey: "access_key",
           authMethod: "auth_method",
+          bucket: "bucket",
+          host: "host",
+          password: "password",
+          path: "path",
+          port: "port",
           privateKey: "private_key",
+          region: "region",
+          secret: "secret",
+          username: "username",
         }),
       ),
       Schema.Null,
@@ -6754,7 +7182,15 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
         }),
       ),
       width: Schema.optional(Schema.Number),
-    }).pipe(Schema.encodeKeys({ exportFile: "export_file" })),
+    }).pipe(
+      Schema.encodeKeys({
+        codec: "codec",
+        exportFile: "export_file",
+        height: "height",
+        watermark: "watermark",
+        width: "width",
+      }),
+    ),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -6767,6 +7203,7 @@ export const StartRecordingsRecordingRequest = Schema.Struct({
     realtimekitBucketConfig: "realtimekit_bucket_config",
     rtmpOutConfig: "rtmp_out_config",
     storageConfig: "storage_config",
+    url: "url",
     videoConfig: "video_config",
   }),
   T.Http({
@@ -6903,8 +7340,17 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               authMethod: "auth_method",
+              bucket: "bucket",
+              host: "host",
+              password: "password",
+              path: "path",
+              port: "port",
               privateKey: "private_key",
+              region: "region",
+              secret: "secret",
+              username: "username",
             }),
           ),
           Schema.Null,
@@ -6912,6 +7358,7 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         audioDownloadUrl: "audio_download_url",
         downloadUrl: "download_url",
         downloadUrlExpiry: "download_url_expiry",
@@ -6920,6 +7367,7 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
         outputFileName: "output_file_name",
         sessionId: "session_id",
         startedTime: "started_time",
+        status: "status",
         stoppedTime: "stopped_time",
         recordingDuration: "recording_duration",
         startReason: "start_reason",
@@ -6930,9 +7378,8 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<StartRecordingsRecordingResponse>;
 
-export const startRecordingsRecording: (
-  input: StartRecordingsRecordingRequest,
-) => Effect.Effect<
+export const startRecordingsRecording: API.OperationMethod<
+  StartRecordingsRecordingRequest,
   StartRecordingsRecordingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7095,8 +7542,17 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              type: "type",
               authMethod: "auth_method",
+              bucket: "bucket",
+              host: "host",
+              password: "password",
+              path: "path",
+              port: "port",
               privateKey: "private_key",
+              region: "region",
+              secret: "secret",
+              username: "username",
             }),
           ),
           Schema.Null,
@@ -7104,6 +7560,7 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
       ),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         audioDownloadUrl: "audio_download_url",
         downloadUrl: "download_url",
         downloadUrlExpiry: "download_url_expiry",
@@ -7112,6 +7569,7 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
         outputFileName: "output_file_name",
         sessionId: "session_id",
         startedTime: "started_time",
+        status: "status",
         stoppedTime: "stopped_time",
         recordingDuration: "recording_duration",
         startReason: "start_reason",
@@ -7122,9 +7580,8 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PauseResumeStopRecordingRecordingResponse>;
 
-export const pauseResumeStopRecordingRecording: (
-  input: PauseResumeStopRecordingRecordingRequest,
-) => Effect.Effect<
+export const pauseResumeStopRecordingRecording: API.OperationMethod<
+  PauseResumeStopRecordingRecordingRequest,
   PauseResumeStopRecordingRecordingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7176,9 +7633,8 @@ export const GetSessionChatSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionChatSessionResponse>;
 
-export const getSessionChatSession: (
-  input: GetSessionChatSessionRequest,
-) => Effect.Effect<
+export const getSessionChatSession: API.OperationMethod<
+  GetSessionChatSessionRequest,
   GetSessionChatSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7260,6 +7716,7 @@ export const GetSessionDetailsSessionResponse = Schema.Struct({
           meta: Schema.optional(Schema.Unknown),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             associatedId: "associated_id",
             createdAt: "created_at",
             liveParticipants: "live_participants",
@@ -7268,9 +7725,12 @@ export const GetSessionDetailsSessionResponse = Schema.Struct({
             minutesConsumed: "minutes_consumed",
             organizationId: "organization_id",
             startedAt: "started_at",
+            status: "status",
+            type: "type",
             updatedAt: "updated_at",
             breakoutRooms: "breakout_rooms",
             endedAt: "ended_at",
+            meta: "meta",
           }),
         ),
       ),
@@ -7279,9 +7739,8 @@ export const GetSessionDetailsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionDetailsSessionResponse>;
 
-export const getSessionDetailsSession: (
-  input: GetSessionDetailsSessionRequest,
-) => Effect.Effect<
+export const getSessionDetailsSession: API.OperationMethod<
+  GetSessionDetailsSessionRequest,
   GetSessionDetailsSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7371,9 +7830,11 @@ export const GetSessionParticipantDetailsSessionResponse = Schema.Struct({
           userId: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdAt: "created_at",
             customParticipantId: "custom_participant_id",
             displayName: "display_name",
+            duration: "duration",
             joinedAt: "joined_at",
             leftAt: "left_at",
             presetName: "preset_name",
@@ -7387,9 +7848,8 @@ export const GetSessionParticipantDetailsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionParticipantDetailsSessionResponse>;
 
-export const getSessionParticipantDetailsSession: (
-  input: GetSessionParticipantDetailsSessionRequest,
-) => Effect.Effect<
+export const getSessionParticipantDetailsSession: API.OperationMethod<
+  GetSessionParticipantDetailsSessionRequest,
   GetSessionParticipantDetailsSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7486,9 +7946,11 @@ export const GetSessionParticipantsSessionResponse = Schema.Struct({
             userId: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               createdAt: "created_at",
               customParticipantId: "custom_participant_id",
               displayName: "display_name",
+              duration: "duration",
               joinedAt: "joined_at",
               leftAt: "left_at",
               presetName: "preset_name",
@@ -7503,9 +7965,8 @@ export const GetSessionParticipantsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionParticipantsSessionResponse>;
 
-export const getSessionParticipantsSession: (
-  input: GetSessionParticipantsSessionRequest,
-) => Effect.Effect<
+export const getSessionParticipantsSession: API.OperationMethod<
+  GetSessionParticipantsSessionRequest,
   GetSessionParticipantsSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7621,6 +8082,7 @@ export const GetSessionsSessionResponse = Schema.Struct({
             meta: Schema.optional(Schema.Unknown),
           }).pipe(
             Schema.encodeKeys({
+              id: "id",
               associatedId: "associated_id",
               createdAt: "created_at",
               liveParticipants: "live_participants",
@@ -7629,9 +8091,12 @@ export const GetSessionsSessionResponse = Schema.Struct({
               minutesConsumed: "minutes_consumed",
               organizationId: "organization_id",
               startedAt: "started_at",
+              status: "status",
+              type: "type",
               updatedAt: "updated_at",
               breakoutRooms: "breakout_rooms",
               endedAt: "ended_at",
+              meta: "meta",
             }),
           ),
         ),
@@ -7641,9 +8106,8 @@ export const GetSessionsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionsSessionResponse>;
 
-export const getSessionsSession: (
-  input: GetSessionsSessionRequest,
-) => Effect.Effect<
+export const getSessionsSession: API.OperationMethod<
+  GetSessionsSessionRequest,
   GetSessionsSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7695,9 +8159,8 @@ export const GetSessionSummarySessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionSummarySessionResponse>;
 
-export const getSessionSummarySession: (
-  input: GetSessionSummarySessionRequest,
-) => Effect.Effect<
+export const getSessionSummarySession: API.OperationMethod<
+  GetSessionSummarySessionRequest,
   GetSessionSummarySessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7746,6 +8209,7 @@ export const GetSessionTranscriptsSessionResponse = Schema.Struct({
       transcriptDownloadUrlExpiry: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        sessionId: "sessionId",
         transcriptDownloadUrl: "transcript_download_url",
         transcriptDownloadUrlExpiry: "transcript_download_url_expiry",
       }),
@@ -7754,9 +8218,8 @@ export const GetSessionTranscriptsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionTranscriptsSessionResponse>;
 
-export const getSessionTranscriptsSession: (
-  input: GetSessionTranscriptsSessionRequest,
-) => Effect.Effect<
+export const getSessionTranscriptsSession: API.OperationMethod<
+  GetSessionTranscriptsSessionRequest,
   GetSessionTranscriptsSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7793,9 +8256,8 @@ export type GenerateSummaryOfTranscriptsSessionResponse = unknown;
 export const GenerateSummaryOfTranscriptsSessionResponse =
   Schema.Unknown as unknown as Schema.Schema<GenerateSummaryOfTranscriptsSessionResponse>;
 
-export const generateSummaryOfTranscriptsSession: (
-  input: GenerateSummaryOfTranscriptsSessionRequest,
-) => Effect.Effect<
+export const generateSummaryOfTranscriptsSession: API.OperationMethod<
+  GenerateSummaryOfTranscriptsSessionRequest,
   GenerateSummaryOfTranscriptsSessionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7828,7 +8290,11 @@ export const StartTrackRecordingRecordingRequest = Schema.Struct({
   meetingId: Schema.String,
   maxSeconds: Schema.optional(Schema.Number),
 }).pipe(
-  Schema.encodeKeys({ meetingId: "meeting_id", maxSeconds: "max_seconds" }),
+  Schema.encodeKeys({
+    layers: "layers",
+    meetingId: "meeting_id",
+    maxSeconds: "max_seconds",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/realtime/kit/{appId}/recordings/track",
@@ -7840,9 +8306,8 @@ export type StartTrackRecordingRecordingResponse = unknown;
 export const StartTrackRecordingRecordingResponse =
   Schema.Unknown as unknown as Schema.Schema<StartTrackRecordingRecordingResponse>;
 
-export const startTrackRecordingRecording: (
-  input: StartTrackRecordingRecordingRequest,
-) => Effect.Effect<
+export const startTrackRecordingRecording: API.OperationMethod<
+  StartTrackRecordingRecordingRequest,
   StartTrackRecordingRecordingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7919,14 +8384,21 @@ export const GetWebhookByIdWebhookResponse = Schema.Struct({
     updatedAt: Schema.String,
     url: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      enabled: "enabled",
+      events: "events",
+      name: "name",
+      updatedAt: "updated_at",
+      url: "url",
+    }),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetWebhookByIdWebhookResponse>;
 
-export const getWebhookByIdWebhook: (
-  input: GetWebhookByIdWebhookRequest,
-) => Effect.Effect<
+export const getWebhookByIdWebhook: API.OperationMethod<
+  GetWebhookByIdWebhookRequest,
   GetWebhookByIdWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8002,15 +8474,22 @@ export const GetWebhooksWebhookResponse = Schema.Struct({
       updatedAt: Schema.String,
       url: Schema.String,
     }).pipe(
-      Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        enabled: "enabled",
+        events: "events",
+        name: "name",
+        updatedAt: "updated_at",
+        url: "url",
+      }),
     ),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetWebhooksWebhookResponse>;
 
-export const getWebhooksWebhook: (
-  input: GetWebhooksWebhookRequest,
-) => Effect.Effect<
+export const getWebhooksWebhook: API.OperationMethod<
+  GetWebhooksWebhookRequest,
   GetWebhooksWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8119,14 +8598,21 @@ export const CreateWebhookWebhookResponse = Schema.Struct({
     updatedAt: Schema.String,
     url: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      enabled: "enabled",
+      events: "events",
+      name: "name",
+      updatedAt: "updated_at",
+      url: "url",
+    }),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateWebhookWebhookResponse>;
 
-export const createWebhookWebhook: (
-  input: CreateWebhookWebhookRequest,
-) => Effect.Effect<
+export const createWebhookWebhook: API.OperationMethod<
+  CreateWebhookWebhookRequest,
   CreateWebhookWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8199,14 +8685,21 @@ export const DeleteWebhookWebhookResponse = Schema.Struct({
     updatedAt: Schema.String,
     url: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      enabled: "enabled",
+      events: "events",
+      name: "name",
+      updatedAt: "updated_at",
+      url: "url",
+    }),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteWebhookWebhookResponse>;
 
-export const deleteWebhookWebhook: (
-  input: DeleteWebhookWebhookRequest,
-) => Effect.Effect<
+export const deleteWebhookWebhook: API.OperationMethod<
+  DeleteWebhookWebhookRequest,
   DeleteWebhookWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8315,14 +8808,21 @@ export const EditWebhookWebhookResponse = Schema.Struct({
     updatedAt: Schema.String,
     url: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      enabled: "enabled",
+      events: "events",
+      name: "name",
+      updatedAt: "updated_at",
+      url: "url",
+    }),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<EditWebhookWebhookResponse>;
 
-export const editWebhookWebhook: (
-  input: EditWebhookWebhookRequest,
-) => Effect.Effect<
+export const editWebhookWebhook: API.OperationMethod<
+  EditWebhookWebhookRequest,
   EditWebhookWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -8429,14 +8929,21 @@ export const ReplaceWebhookWebhookResponse = Schema.Struct({
     updatedAt: Schema.String,
     url: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      enabled: "enabled",
+      events: "events",
+      name: "name",
+      updatedAt: "updated_at",
+      url: "url",
+    }),
   ),
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<ReplaceWebhookWebhookResponse>;
 
-export const replaceWebhookWebhook: (
-  input: ReplaceWebhookWebhookRequest,
-) => Effect.Effect<
+export const replaceWebhookWebhook: API.OperationMethod<
+  ReplaceWebhookWebhookRequest,
   ReplaceWebhookWebhookResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

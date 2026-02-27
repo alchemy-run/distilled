@@ -8080,9 +8080,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Validates the definition of a flow.
  */
-export const validateFlowDefinition: (
-  input: ValidateFlowDefinitionRequest,
-) => effect.Effect<
+export const validateFlowDefinition: API.OperationMethod<
+  ValidateFlowDefinitionRequest,
   ValidateFlowDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8109,9 +8108,8 @@ export const validateFlowDefinition: (
  *
  * You must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
  */
-export const createAgentActionGroup: (
-  input: CreateAgentActionGroupRequest,
-) => effect.Effect<
+export const createAgentActionGroup: API.OperationMethod<
+  CreateAgentActionGroupRequest,
   CreateAgentActionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8138,9 +8136,8 @@ export const createAgentActionGroup: (
 /**
  * Deletes an action group in an agent.
  */
-export const deleteAgentActionGroup: (
-  input: DeleteAgentActionGroupRequest,
-) => effect.Effect<
+export const deleteAgentActionGroup: API.OperationMethod<
+  DeleteAgentActionGroupRequest,
   DeleteAgentActionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8165,9 +8162,8 @@ export const deleteAgentActionGroup: (
 /**
  * Gets information about an action group for an agent.
  */
-export const getAgentActionGroup: (
-  input: GetAgentActionGroupRequest,
-) => effect.Effect<
+export const getAgentActionGroup: API.OperationMethod<
+  GetAgentActionGroupRequest,
   GetAgentActionGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8190,19 +8186,17 @@ export const getAgentActionGroup: (
 /**
  * Lists the action groups for an agent and information about each one.
  */
-export const listAgentActionGroups: {
-  (
-    input: ListAgentActionGroupsRequest,
-  ): effect.Effect<
-    ListAgentActionGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentActionGroups: API.OperationMethod<
+  ListAgentActionGroupsRequest,
+  ListAgentActionGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentActionGroupsRequest,
   ) => stream.Stream<
@@ -8247,9 +8241,8 @@ export const listAgentActionGroups: {
 /**
  * Updates the configuration for an action group for an agent.
  */
-export const updateAgentActionGroup: (
-  input: UpdateAgentActionGroupRequest,
-) => effect.Effect<
+export const updateAgentActionGroup: API.OperationMethod<
+  UpdateAgentActionGroupRequest,
   UpdateAgentActionGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8276,9 +8269,8 @@ export const updateAgentActionGroup: (
 /**
  * Makes an agent a collaborator for another agent.
  */
-export const associateAgentCollaborator: (
-  input: AssociateAgentCollaboratorRequest,
-) => effect.Effect<
+export const associateAgentCollaborator: API.OperationMethod<
+  AssociateAgentCollaboratorRequest,
   AssociateAgentCollaboratorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8305,9 +8297,8 @@ export const associateAgentCollaborator: (
 /**
  * Disassociates an agent collaborator.
  */
-export const disassociateAgentCollaborator: (
-  input: DisassociateAgentCollaboratorRequest,
-) => effect.Effect<
+export const disassociateAgentCollaborator: API.OperationMethod<
+  DisassociateAgentCollaboratorRequest,
   DisassociateAgentCollaboratorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8332,9 +8323,8 @@ export const disassociateAgentCollaborator: (
 /**
  * Retrieves information about an agent's collaborator.
  */
-export const getAgentCollaborator: (
-  input: GetAgentCollaboratorRequest,
-) => effect.Effect<
+export const getAgentCollaborator: API.OperationMethod<
+  GetAgentCollaboratorRequest,
   GetAgentCollaboratorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8357,19 +8347,17 @@ export const getAgentCollaborator: (
 /**
  * Retrieve a list of an agent's collaborators.
  */
-export const listAgentCollaborators: {
-  (
-    input: ListAgentCollaboratorsRequest,
-  ): effect.Effect<
-    ListAgentCollaboratorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentCollaborators: API.OperationMethod<
+  ListAgentCollaboratorsRequest,
+  ListAgentCollaboratorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentCollaboratorsRequest,
   ) => stream.Stream<
@@ -8414,9 +8402,8 @@ export const listAgentCollaborators: {
 /**
  * Updates an agent's collaborator.
  */
-export const updateAgentCollaborator: (
-  input: UpdateAgentCollaboratorRequest,
-) => effect.Effect<
+export const updateAgentCollaborator: API.OperationMethod<
+  UpdateAgentCollaboratorRequest,
   UpdateAgentCollaboratorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8459,9 +8446,8 @@ export const updateAgentCollaborator: (
  *
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
-export const createAgent: (
-  input: CreateAgentRequest,
-) => effect.Effect<
+export const createAgent: API.OperationMethod<
+  CreateAgentRequest,
   CreateAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8486,9 +8472,8 @@ export const createAgent: (
 /**
  * Deletes an agent.
  */
-export const deleteAgent: (
-  input: DeleteAgentRequest,
-) => effect.Effect<
+export const deleteAgent: API.OperationMethod<
+  DeleteAgentRequest,
   DeleteAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8513,9 +8498,8 @@ export const deleteAgent: (
 /**
  * Gets information about an agent.
  */
-export const getAgent: (
-  input: GetAgentRequest,
-) => effect.Effect<
+export const getAgent: API.OperationMethod<
+  GetAgentRequest,
   GetAgentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8538,18 +8522,16 @@ export const getAgent: (
 /**
  * Lists the agents belonging to an account and information about each agent.
  */
-export const listAgents: {
-  (
-    input: ListAgentsRequest,
-  ): effect.Effect<
-    ListAgentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgents: API.OperationMethod<
+  ListAgentsRequest,
+  ListAgentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentsRequest,
   ) => stream.Stream<
@@ -8591,9 +8573,8 @@ export const listAgents: {
 /**
  * Creates a `DRAFT` version of the agent that can be used for internal testing.
  */
-export const prepareAgent: (
-  input: PrepareAgentRequest,
-) => effect.Effect<
+export const prepareAgent: API.OperationMethod<
+  PrepareAgentRequest,
   PrepareAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8620,9 +8601,8 @@ export const prepareAgent: (
 /**
  * Updates the configuration of an agent.
  */
-export const updateAgent: (
-  input: UpdateAgentRequest,
-) => effect.Effect<
+export const updateAgent: API.OperationMethod<
+  UpdateAgentRequest,
   UpdateAgentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8649,9 +8629,8 @@ export const updateAgent: (
 /**
  * Creates an alias of an agent that can be used to deploy the agent.
  */
-export const createAgentAlias: (
-  input: CreateAgentAliasRequest,
-) => effect.Effect<
+export const createAgentAlias: API.OperationMethod<
+  CreateAgentAliasRequest,
   CreateAgentAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -8678,9 +8657,8 @@ export const createAgentAlias: (
 /**
  * Deletes an alias of an agent.
  */
-export const deleteAgentAlias: (
-  input: DeleteAgentAliasRequest,
-) => effect.Effect<
+export const deleteAgentAlias: API.OperationMethod<
+  DeleteAgentAliasRequest,
   DeleteAgentAliasResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8703,9 +8681,8 @@ export const deleteAgentAlias: (
 /**
  * Gets information about an alias of an agent.
  */
-export const getAgentAlias: (
-  input: GetAgentAliasRequest,
-) => effect.Effect<
+export const getAgentAlias: API.OperationMethod<
+  GetAgentAliasRequest,
   GetAgentAliasResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8728,19 +8705,17 @@ export const getAgentAlias: (
 /**
  * Lists the aliases of an agent and information about each one.
  */
-export const listAgentAliases: {
-  (
-    input: ListAgentAliasesRequest,
-  ): effect.Effect<
-    ListAgentAliasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentAliases: API.OperationMethod<
+  ListAgentAliasesRequest,
+  ListAgentAliasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentAliasesRequest,
   ) => stream.Stream<
@@ -8785,9 +8760,8 @@ export const listAgentAliases: {
 /**
  * Updates configurations for an alias of an agent.
  */
-export const updateAgentAlias: (
-  input: UpdateAgentAliasRequest,
-) => effect.Effect<
+export const updateAgentAlias: API.OperationMethod<
+  UpdateAgentAliasRequest,
   UpdateAgentAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -8816,9 +8790,8 @@ export const updateAgentAlias: (
  *
  * You can't change the `chunkingConfiguration` after you create the data source connector.
  */
-export const createDataSource: (
-  input: CreateDataSourceRequest,
-) => effect.Effect<
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceRequest,
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8845,9 +8818,8 @@ export const createDataSource: (
 /**
  * Deletes a data source from a knowledge base.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceRequest,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
   DeleteDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8872,9 +8844,8 @@ export const deleteDataSource: (
 /**
  * Gets information about a data source.
  */
-export const getDataSource: (
-  input: GetDataSourceRequest,
-) => effect.Effect<
+export const getDataSource: API.OperationMethod<
+  GetDataSourceRequest,
   GetDataSourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8897,19 +8868,17 @@ export const getDataSource: (
 /**
  * Lists the data sources in a knowledge base and information about each one.
  */
-export const listDataSources: {
-  (
-    input: ListDataSourcesRequest,
-  ): effect.Effect<
-    ListDataSourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
+  ListDataSourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
@@ -8956,9 +8925,8 @@ export const listDataSources: {
  *
  * You can't change the `chunkingConfiguration` after you create the data source connector. Specify the existing `chunkingConfiguration`.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceRequest,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8983,9 +8951,8 @@ export const updateDataSource: (
 /**
  * Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const createFlow: (
-  input: CreateFlowRequest,
-) => effect.Effect<
+export const createFlow: API.OperationMethod<
+  CreateFlowRequest,
   CreateFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9010,9 +8977,8 @@ export const createFlow: (
 /**
  * Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const getFlow: (
-  input: GetFlowRequest,
-) => effect.Effect<
+export const getFlow: API.OperationMethod<
+  GetFlowRequest,
   GetFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9035,9 +9001,8 @@ export const getFlow: (
 /**
  * Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const updateFlow: (
-  input: UpdateFlowRequest,
-) => effect.Effect<
+export const updateFlow: API.OperationMethod<
+  UpdateFlowRequest,
   UpdateFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9064,9 +9029,8 @@ export const updateFlow: (
 /**
  * Deletes a flow.
  */
-export const deleteFlow: (
-  input: DeleteFlowRequest,
-) => effect.Effect<
+export const deleteFlow: API.OperationMethod<
+  DeleteFlowRequest,
   DeleteFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9091,18 +9055,16 @@ export const deleteFlow: (
 /**
  * Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const listFlows: {
-  (
-    input: ListFlowsRequest,
-  ): effect.Effect<
-    ListFlowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlows: API.OperationMethod<
+  ListFlowsRequest,
+  ListFlowsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowsRequest,
   ) => stream.Stream<
@@ -9144,9 +9106,8 @@ export const listFlows: {
 /**
  * Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const prepareFlow: (
-  input: PrepareFlowRequest,
-) => effect.Effect<
+export const prepareFlow: API.OperationMethod<
+  PrepareFlowRequest,
   PrepareFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9173,9 +9134,8 @@ export const prepareFlow: (
 /**
  * Creates an alias of a flow for deployment. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const createFlowAlias: (
-  input: CreateFlowAliasRequest,
-) => effect.Effect<
+export const createFlowAlias: API.OperationMethod<
+  CreateFlowAliasRequest,
   CreateFlowAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -9202,9 +9162,8 @@ export const createFlowAlias: (
 /**
  * Retrieves information about a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const getFlowAlias: (
-  input: GetFlowAliasRequest,
-) => effect.Effect<
+export const getFlowAlias: API.OperationMethod<
+  GetFlowAliasRequest,
   GetFlowAliasResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9227,9 +9186,8 @@ export const getFlowAlias: (
 /**
  * Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const updateFlowAlias: (
-  input: UpdateFlowAliasRequest,
-) => effect.Effect<
+export const updateFlowAlias: API.OperationMethod<
+  UpdateFlowAliasRequest,
   UpdateFlowAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -9256,9 +9214,8 @@ export const updateFlowAlias: (
 /**
  * Deletes an alias of a flow.
  */
-export const deleteFlowAlias: (
-  input: DeleteFlowAliasRequest,
-) => effect.Effect<
+export const deleteFlowAlias: API.OperationMethod<
+  DeleteFlowAliasRequest,
   DeleteFlowAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -9283,19 +9240,17 @@ export const deleteFlowAlias: (
 /**
  * Returns a list of aliases for a flow.
  */
-export const listFlowAliases: {
-  (
-    input: ListFlowAliasesRequest,
-  ): effect.Effect<
-    ListFlowAliasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowAliases: API.OperationMethod<
+  ListFlowAliasesRequest,
+  ListFlowAliasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowAliasesRequest,
   ) => stream.Stream<
@@ -9340,9 +9295,8 @@ export const listFlowAliases: {
 /**
  * Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const createFlowVersion: (
-  input: CreateFlowVersionRequest,
-) => effect.Effect<
+export const createFlowVersion: API.OperationMethod<
+  CreateFlowVersionRequest,
   CreateFlowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9369,9 +9323,8 @@ export const createFlowVersion: (
 /**
  * Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const getFlowVersion: (
-  input: GetFlowVersionRequest,
-) => effect.Effect<
+export const getFlowVersion: API.OperationMethod<
+  GetFlowVersionRequest,
   GetFlowVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9394,9 +9347,8 @@ export const getFlowVersion: (
 /**
  * Deletes a version of a flow.
  */
-export const deleteFlowVersion: (
-  input: DeleteFlowVersionRequest,
-) => effect.Effect<
+export const deleteFlowVersion: API.OperationMethod<
+  DeleteFlowVersionRequest,
   DeleteFlowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9421,19 +9373,17 @@ export const deleteFlowVersion: (
 /**
  * Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const listFlowVersions: {
-  (
-    input: ListFlowVersionsRequest,
-  ): effect.Effect<
-    ListFlowVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowVersions: API.OperationMethod<
+  ListFlowVersionsRequest,
+  ListFlowVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowVersionsRequest,
   ) => stream.Stream<
@@ -9478,9 +9428,8 @@ export const listFlowVersions: {
 /**
  * Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
-export const getIngestionJob: (
-  input: GetIngestionJobRequest,
-) => effect.Effect<
+export const getIngestionJob: API.OperationMethod<
+  GetIngestionJobRequest,
   GetIngestionJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9503,19 +9452,17 @@ export const getIngestionJob: (
 /**
  * Lists the data ingestion jobs for a data source. The list also includes information about each job.
  */
-export const listIngestionJobs: {
-  (
-    input: ListIngestionJobsRequest,
-  ): effect.Effect<
-    ListIngestionJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIngestionJobs: API.OperationMethod<
+  ListIngestionJobsRequest,
+  ListIngestionJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIngestionJobsRequest,
   ) => stream.Stream<
@@ -9560,9 +9507,8 @@ export const listIngestionJobs: {
 /**
  * Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
-export const startIngestionJob: (
-  input: StartIngestionJobRequest,
-) => effect.Effect<
+export const startIngestionJob: API.OperationMethod<
+  StartIngestionJobRequest,
   StartIngestionJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -9589,9 +9535,8 @@ export const startIngestionJob: (
 /**
  * Stops a currently running data ingestion job. You can send a `StartIngestionJob` request again to ingest the rest of your data when you are ready.
  */
-export const stopIngestionJob: (
-  input: StopIngestionJobRequest,
-) => effect.Effect<
+export const stopIngestionJob: API.OperationMethod<
+  StopIngestionJobRequest,
   StopIngestionJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -9616,9 +9561,8 @@ export const stopIngestionJob: (
 /**
  * Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
-export const deleteKnowledgeBaseDocuments: (
-  input: DeleteKnowledgeBaseDocumentsRequest,
-) => effect.Effect<
+export const deleteKnowledgeBaseDocuments: API.OperationMethod<
+  DeleteKnowledgeBaseDocumentsRequest,
   DeleteKnowledgeBaseDocumentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9643,9 +9587,8 @@ export const deleteKnowledgeBaseDocuments: (
 /**
  * Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
-export const getKnowledgeBaseDocuments: (
-  input: GetKnowledgeBaseDocumentsRequest,
-) => effect.Effect<
+export const getKnowledgeBaseDocuments: API.OperationMethod<
+  GetKnowledgeBaseDocumentsRequest,
   GetKnowledgeBaseDocumentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9670,9 +9613,8 @@ export const getKnowledgeBaseDocuments: (
 /**
  * Ingests documents directly into the knowledge base that is connected to the data source. The `dataSourceType` specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
-export const ingestKnowledgeBaseDocuments: (
-  input: IngestKnowledgeBaseDocumentsRequest,
-) => effect.Effect<
+export const ingestKnowledgeBaseDocuments: API.OperationMethod<
+  IngestKnowledgeBaseDocumentsRequest,
   IngestKnowledgeBaseDocumentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9697,20 +9639,18 @@ export const ingestKnowledgeBaseDocuments: (
 /**
  * Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
-export const listKnowledgeBaseDocuments: {
-  (
-    input: ListKnowledgeBaseDocumentsRequest,
-  ): effect.Effect<
-    ListKnowledgeBaseDocumentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKnowledgeBaseDocuments: API.OperationMethod<
+  ListKnowledgeBaseDocumentsRequest,
+  ListKnowledgeBaseDocumentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKnowledgeBaseDocumentsRequest,
   ) => stream.Stream<
@@ -9758,9 +9698,8 @@ export const listKnowledgeBaseDocuments: {
 /**
  * Associates a knowledge base with an agent. If a knowledge base is associated and its `indexState` is set to `Enabled`, the agent queries the knowledge base for information to augment its response to the user.
  */
-export const associateAgentKnowledgeBase: (
-  input: AssociateAgentKnowledgeBaseRequest,
-) => effect.Effect<
+export const associateAgentKnowledgeBase: API.OperationMethod<
+  AssociateAgentKnowledgeBaseRequest,
   AssociateAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9805,9 +9744,8 @@ export const associateAgentKnowledgeBase: (
  *
  * - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration` object. For more information, see Create a vector store in Redis Enterprise Cloud.
  */
-export const createKnowledgeBase: (
-  input: CreateKnowledgeBaseRequest,
-) => effect.Effect<
+export const createKnowledgeBase: API.OperationMethod<
+  CreateKnowledgeBaseRequest,
   CreateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9832,9 +9770,8 @@ export const createKnowledgeBase: (
 /**
  * Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
  */
-export const deleteKnowledgeBase: (
-  input: DeleteKnowledgeBaseRequest,
-) => effect.Effect<
+export const deleteKnowledgeBase: API.OperationMethod<
+  DeleteKnowledgeBaseRequest,
   DeleteKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9859,9 +9796,8 @@ export const deleteKnowledgeBase: (
 /**
  * Disassociates a knowledge base from an agent.
  */
-export const disassociateAgentKnowledgeBase: (
-  input: DisassociateAgentKnowledgeBaseRequest,
-) => effect.Effect<
+export const disassociateAgentKnowledgeBase: API.OperationMethod<
+  DisassociateAgentKnowledgeBaseRequest,
   DisassociateAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9886,9 +9822,8 @@ export const disassociateAgentKnowledgeBase: (
 /**
  * Gets information about a knowledge base associated with an agent.
  */
-export const getAgentKnowledgeBase: (
-  input: GetAgentKnowledgeBaseRequest,
-) => effect.Effect<
+export const getAgentKnowledgeBase: API.OperationMethod<
+  GetAgentKnowledgeBaseRequest,
   GetAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9911,9 +9846,8 @@ export const getAgentKnowledgeBase: (
 /**
  * Gets information about a knowledge base.
  */
-export const getKnowledgeBase: (
-  input: GetKnowledgeBaseRequest,
-) => effect.Effect<
+export const getKnowledgeBase: API.OperationMethod<
+  GetKnowledgeBaseRequest,
   GetKnowledgeBaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9936,19 +9870,17 @@ export const getKnowledgeBase: (
 /**
  * Lists knowledge bases associated with an agent and information about each one.
  */
-export const listAgentKnowledgeBases: {
-  (
-    input: ListAgentKnowledgeBasesRequest,
-  ): effect.Effect<
-    ListAgentKnowledgeBasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentKnowledgeBases: API.OperationMethod<
+  ListAgentKnowledgeBasesRequest,
+  ListAgentKnowledgeBasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentKnowledgeBasesRequest,
   ) => stream.Stream<
@@ -9993,18 +9925,16 @@ export const listAgentKnowledgeBases: {
 /**
  * Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
  */
-export const listKnowledgeBases: {
-  (
-    input: ListKnowledgeBasesRequest,
-  ): effect.Effect<
-    ListKnowledgeBasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKnowledgeBases: API.OperationMethod<
+  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKnowledgeBasesRequest,
   ) => stream.Stream<
@@ -10046,9 +9976,8 @@ export const listKnowledgeBases: {
 /**
  * Updates the configuration for a knowledge base that has been associated with an agent.
  */
-export const updateAgentKnowledgeBase: (
-  input: UpdateAgentKnowledgeBaseRequest,
-) => effect.Effect<
+export const updateAgentKnowledgeBase: API.OperationMethod<
+  UpdateAgentKnowledgeBaseRequest,
   UpdateAgentKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -10083,9 +10012,8 @@ export const updateAgentKnowledgeBase: (
  *
  * You can't change the `knowledgeBaseConfiguration` or `storageConfiguration` fields, so you must specify the same configurations as when you created the knowledge base. You can send a GetKnowledgeBase request and copy the same configurations.
  */
-export const updateKnowledgeBase: (
-  input: UpdateKnowledgeBaseRequest,
-) => effect.Effect<
+export const updateKnowledgeBase: API.OperationMethod<
+  UpdateKnowledgeBaseRequest,
   UpdateKnowledgeBaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -10110,9 +10038,8 @@ export const updateKnowledgeBase: (
 /**
  * Creates a prompt in your prompt library that you can add to a flow. For more information, see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt flows in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
-export const createPrompt: (
-  input: CreatePromptRequest,
-) => effect.Effect<
+export const createPrompt: API.OperationMethod<
+  CreatePromptRequest,
   CreatePromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -10137,9 +10064,8 @@ export const createPrompt: (
 /**
  * Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
  */
-export const getPrompt: (
-  input: GetPromptRequest,
-) => effect.Effect<
+export const getPrompt: API.OperationMethod<
+  GetPromptRequest,
   GetPromptResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10162,9 +10088,8 @@ export const getPrompt: (
 /**
  * Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see Prompt management in Amazon Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
  */
-export const updatePrompt: (
-  input: UpdatePromptRequest,
-) => effect.Effect<
+export const updatePrompt: API.OperationMethod<
+  UpdatePromptRequest,
   UpdatePromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -10191,9 +10116,8 @@ export const updatePrompt: (
 /**
  * Deletes a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
  */
-export const deletePrompt: (
-  input: DeletePromptRequest,
-) => effect.Effect<
+export const deletePrompt: API.OperationMethod<
+  DeletePromptRequest,
   DeletePromptResponse,
   | AccessDeniedException
   | ConflictException
@@ -10218,19 +10142,17 @@ export const deletePrompt: (
 /**
  * Returns either information about the working draft (`DRAFT` version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the `promptIdentifier` field or not. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
  */
-export const listPrompts: {
-  (
-    input: ListPromptsRequest,
-  ): effect.Effect<
-    ListPromptsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrompts: API.OperationMethod<
+  ListPromptsRequest,
+  ListPromptsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPromptsRequest,
   ) => stream.Stream<
@@ -10275,9 +10197,8 @@ export const listPrompts: {
 /**
  * Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide.
  */
-export const createPromptVersion: (
-  input: CreatePromptVersionRequest,
-) => effect.Effect<
+export const createPromptVersion: API.OperationMethod<
+  CreatePromptVersionRequest,
   CreatePromptVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -10304,9 +10225,8 @@ export const createPromptVersion: (
 /**
  * List all the tags for the resource you specify.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10329,9 +10249,8 @@ export const listTagsForResource: (
 /**
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10356,9 +10275,8 @@ export const tagResource: (
 /**
  * Remove tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10381,9 +10299,8 @@ export const untagResource: (
 /**
  * Deletes a version of an agent.
  */
-export const deleteAgentVersion: (
-  input: DeleteAgentVersionRequest,
-) => effect.Effect<
+export const deleteAgentVersion: API.OperationMethod<
+  DeleteAgentVersionRequest,
   DeleteAgentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -10408,9 +10325,8 @@ export const deleteAgentVersion: (
 /**
  * Gets details about a version of an agent.
  */
-export const getAgentVersion: (
-  input: GetAgentVersionRequest,
-) => effect.Effect<
+export const getAgentVersion: API.OperationMethod<
+  GetAgentVersionRequest,
   GetAgentVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10433,19 +10349,17 @@ export const getAgentVersion: (
 /**
  * Lists the versions of an agent and information about each version.
  */
-export const listAgentVersions: {
-  (
-    input: ListAgentVersionsRequest,
-  ): effect.Effect<
-    ListAgentVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgentVersions: API.OperationMethod<
+  ListAgentVersionsRequest,
+  ListAgentVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgentVersionsRequest,
   ) => stream.Stream<

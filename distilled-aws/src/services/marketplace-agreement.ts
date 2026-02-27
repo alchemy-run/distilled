@@ -856,9 +856,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
  */
-export const describeAgreement: (
-  input: DescribeAgreementInput,
-) => effect.Effect<
+export const describeAgreement: API.OperationMethod<
+  DescribeAgreementInput,
   DescribeAgreementOutput,
   | AccessDeniedException
   | InternalServerException
@@ -891,19 +890,17 @@ export const describeAgreement: (
  *
  * - `Configuration` – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the `EnableAutoRenew` flag.
  */
-export const getAgreementTerms: {
-  (
-    input: GetAgreementTermsInput,
-  ): effect.Effect<
-    GetAgreementTermsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAgreementTerms: API.OperationMethod<
+  GetAgreementTermsInput,
+  GetAgreementTermsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAgreementTermsInput,
   ) => stream.Stream<
@@ -1023,18 +1020,16 @@ export const getAgreementTerms: {
  *
  * To filter by `EndTime`, you can use either `BeforeEndTime` or `AfterEndTime`. Only `EndTime` is supported for sorting.
  */
-export const searchAgreements: {
-  (
-    input: SearchAgreementsInput,
-  ): effect.Effect<
-    SearchAgreementsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchAgreements: API.OperationMethod<
+  SearchAgreementsInput,
+  SearchAgreementsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAgreementsInput,
   ) => stream.Stream<

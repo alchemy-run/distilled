@@ -6450,9 +6450,8 @@ export class ResourceScanLimitExceededException extends S.TaggedErrorClass<Resou
  * and Organizations activated, the management account has permissions to create
  * and manage StackSets for your organization.
  */
-export const activateOrganizationsAccess: (
-  input: ActivateOrganizationsAccessInput,
-) => effect.Effect<
+export const activateOrganizationsAccess: API.OperationMethod<
+  ActivateOrganizationsAccessInput,
   ActivateOrganizationsAccessOutput,
   InvalidOperationException | OperationNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6477,9 +6476,8 @@ export const activateOrganizationsAccess: (
  * *CloudFormation User Guide*. For information about creating Hooks, see the
  * CloudFormation Hooks User Guide.
  */
-export const activateType: (
-  input: ActivateTypeInput,
-) => effect.Effect<
+export const activateType: API.OperationMethod<
+  ActivateTypeInput,
   ActivateTypeOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6496,9 +6494,8 @@ export const activateType: (
  * data for extensions in your account in the
  * *CloudFormation User Guide*.
  */
-export const batchDescribeTypeConfigurations: (
-  input: BatchDescribeTypeConfigurationsInput,
-) => effect.Effect<
+export const batchDescribeTypeConfigurations: API.OperationMethod<
+  BatchDescribeTypeConfigurationsInput,
   BatchDescribeTypeConfigurationsOutput,
   CFNRegistryException | TypeConfigurationNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6513,9 +6510,8 @@ export const batchDescribeTypeConfigurations: (
  *
  * You can cancel only stacks that are in the `UPDATE_IN_PROGRESS` state.
  */
-export const cancelUpdateStack: (
-  input: CancelUpdateStackInput,
-) => effect.Effect<
+export const cancelUpdateStack: API.OperationMethod<
+  CancelUpdateStackInput,
   CancelUpdateStackResponse,
   TokenAlreadyExistsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6540,9 +6536,8 @@ export const cancelUpdateStack: (
  * For more information, see Continue rolling back an update in the *CloudFormation User Guide*. For
  * information for troubleshooting a failed update rollback, see Update rollback failed.
  */
-export const continueUpdateRollback: (
-  input: ContinueUpdateRollbackInput,
-) => effect.Effect<
+export const continueUpdateRollback: API.OperationMethod<
+  ContinueUpdateRollbackInput,
   ContinueUpdateRollbackOutput,
   TokenAlreadyExistsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6575,9 +6570,8 @@ export const continueUpdateRollback: (
  * To create a change set for the entire stack hierarchy, set
  * `IncludeNestedStacks` to `True`.
  */
-export const createChangeSet: (
-  input: CreateChangeSetInput,
-) => effect.Effect<
+export const createChangeSet: API.OperationMethod<
+  CreateChangeSetInput,
   CreateChangeSetOutput,
   | AlreadyExistsException
   | InsufficientCapabilitiesException
@@ -6598,9 +6592,8 @@ export const createChangeSet: (
  * You can check the status of the template generation using the
  * `DescribeGeneratedTemplate` API action.
  */
-export const createGeneratedTemplate: (
-  input: CreateGeneratedTemplateInput,
-) => effect.Effect<
+export const createGeneratedTemplate: API.OperationMethod<
+  CreateGeneratedTemplateInput,
   CreateGeneratedTemplateOutput,
   | AlreadyExistsException
   | ConcurrentResourcesLimitExceededException
@@ -6624,9 +6617,8 @@ export const createGeneratedTemplate: (
  * resources as a single unit with CloudFormation stacks in the
  * *CloudFormation User Guide*.
  */
-export const createStack: (
-  input: CreateStackInput,
-) => effect.Effect<
+export const createStack: API.OperationMethod<
+  CreateStackInput,
   CreateStackOutput,
   | AlreadyExistsException
   | InsufficientCapabilitiesException
@@ -6662,9 +6654,8 @@ export const createStack: (
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const createStackInstances: (
-  input: CreateStackInstancesInput,
-) => effect.Effect<
+export const createStackInstances: API.OperationMethod<
+  CreateStackInstancesInput,
   CreateStackInstancesOutput,
   | InvalidOperationException
   | LimitExceededException
@@ -6690,9 +6681,8 @@ export const createStackInstances: (
  * Creates a refactor across multiple stacks, with the list of stacks and resources that are
  * affected.
  */
-export const createStackRefactor: (
-  input: CreateStackRefactorInput,
-) => effect.Effect<
+export const createStackRefactor: API.OperationMethod<
+  CreateStackRefactorInput,
   CreateStackRefactorOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6704,9 +6694,8 @@ export const createStackRefactor: (
 /**
  * Creates a StackSet.
  */
-export const createStackSet: (
-  input: CreateStackSetInput,
-) => effect.Effect<
+export const createStackSet: API.OperationMethod<
+  CreateStackSetInput,
   CreateStackSetOutput,
   | CreatedButModifiedException
   | LimitExceededException
@@ -6727,9 +6716,8 @@ export const createStackSet: (
  * the management account does not have permissions to create and manage
  * service-managed StackSets for your organization.
  */
-export const deactivateOrganizationsAccess: (
-  input: DeactivateOrganizationsAccessInput,
-) => effect.Effect<
+export const deactivateOrganizationsAccess: API.OperationMethod<
+  DeactivateOrganizationsAccessInput,
   DeactivateOrganizationsAccessOutput,
   InvalidOperationException | OperationNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6752,9 +6740,8 @@ export const deactivateOrganizationsAccess: (
  *
  * To see which extensions are currently activated, use ListTypes.
  */
-export const deactivateType: (
-  input: DeactivateTypeInput,
-) => effect.Effect<
+export const deactivateType: API.OperationMethod<
+  DeactivateTypeInput,
   DeactivateTypeOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6774,9 +6761,8 @@ export const deactivateType: (
  * to the stacks hierarchy and will also delete all change sets for nested stacks with the status
  * of `REVIEW_IN_PROGRESS`.
  */
-export const deleteChangeSet: (
-  input: DeleteChangeSetInput,
-) => effect.Effect<
+export const deleteChangeSet: API.OperationMethod<
+  DeleteChangeSetInput,
   DeleteChangeSetOutput,
   InvalidChangeSetStatusException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6788,9 +6774,8 @@ export const deleteChangeSet: (
 /**
  * Deleted a generated template.
  */
-export const deleteGeneratedTemplate: (
-  input: DeleteGeneratedTemplateInput,
-) => effect.Effect<
+export const deleteGeneratedTemplate: API.OperationMethod<
+  DeleteGeneratedTemplateInput,
   DeleteGeneratedTemplateResponse,
   | ConcurrentResourcesLimitExceededException
   | GeneratedTemplateNotFoundException
@@ -6812,9 +6797,8 @@ export const deleteGeneratedTemplate: (
  * For more information about deleting a stack, see Delete a stack from
  * the CloudFormation console in the *CloudFormation User Guide*.
  */
-export const deleteStack: (
-  input: DeleteStackInput,
-) => effect.Effect<
+export const deleteStack: API.OperationMethod<
+  DeleteStackInput,
   DeleteStackResponse,
   TokenAlreadyExistsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6838,9 +6822,8 @@ export const deleteStack: (
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const deleteStackInstances: (
-  input: DeleteStackInstancesInput,
-) => effect.Effect<
+export const deleteStackInstances: API.OperationMethod<
+  DeleteStackInstancesInput,
   DeleteStackInstancesOutput,
   | InvalidOperationException
   | OperationIdAlreadyExistsException
@@ -6864,9 +6847,8 @@ export const deleteStackInstances: (
  * Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must
  * be deleted. For more information about how to complete this, see DeleteStackInstances.
  */
-export const deleteStackSet: (
-  input: DeleteStackSetInput,
-) => effect.Effect<
+export const deleteStackSet: API.OperationMethod<
+  DeleteStackSetInput,
   DeleteStackSetOutput,
   OperationInProgressException | StackSetNotEmptyException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6895,9 +6877,8 @@ export const deleteStackSet: (
  * third-party private extensions from your account in the
  * *CloudFormation User Guide*.
  */
-export const deregisterType: (
-  input: DeregisterTypeInput,
-) => effect.Effect<
+export const deregisterType: API.OperationMethod<
+  DeregisterTypeInput,
   DeregisterTypeOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6910,14 +6891,12 @@ export const deregisterType: (
  * Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you
  * can create in your account. For more information about account limits, see Understand CloudFormation quotas in the *CloudFormation User Guide*.
  */
-export const describeAccountLimits: {
-  (
-    input: DescribeAccountLimitsInput,
-  ): effect.Effect<
-    DescribeAccountLimitsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAccountLimits: API.OperationMethod<
+  DescribeAccountLimitsInput,
+  DescribeAccountLimitsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAccountLimitsInput,
   ) => stream.Stream<
@@ -6948,14 +6927,12 @@ export const describeAccountLimits: {
  * CloudFormation stacks using change sets in the
  * *CloudFormation User Guide*.
  */
-export const describeChangeSet: {
-  (
-    input: DescribeChangeSetInput,
-  ): effect.Effect<
-    DescribeChangeSetOutput,
-    ChangeSetNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeChangeSet: API.OperationMethod<
+  DescribeChangeSetInput,
+  DescribeChangeSetOutput,
+  ChangeSetNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeChangeSetInput,
   ) => stream.Stream<
@@ -6984,9 +6961,8 @@ export const describeChangeSet: {
  * Returns Hook-related information for the change set and a list of changes that
  * CloudFormation makes when you run the change set.
  */
-export const describeChangeSetHooks: (
-  input: DescribeChangeSetHooksInput,
-) => effect.Effect<
+export const describeChangeSetHooks: API.OperationMethod<
+  DescribeChangeSetHooksInput,
   DescribeChangeSetHooksOutput,
   ChangeSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7021,14 +6997,12 @@ export const describeChangeSetHooks: (
  * One of `ChangeSetName`, `OperationId` or `StackName`
  * must be specified as input.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsInput,
-  ): effect.Effect<
-    DescribeEventsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsInput,
+  DescribeEventsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsInput,
   ) => stream.Stream<
@@ -7059,9 +7033,8 @@ export const describeEvents: {
  * or the update of a generated template started with an `UpdateGeneratedTemplate` API
  * action.
  */
-export const describeGeneratedTemplate: (
-  input: DescribeGeneratedTemplateInput,
-) => effect.Effect<
+export const describeGeneratedTemplate: API.OperationMethod<
+  DescribeGeneratedTemplateInput,
   DescribeGeneratedTemplateOutput,
   GeneratedTemplateNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7076,9 +7049,8 @@ export const describeGeneratedTemplate: (
  * `CallAs` parameter. This API can also be called without the `CallAs`
  * parameter by the management account.
  */
-export const describeOrganizationsAccess: (
-  input: DescribeOrganizationsAccessInput,
-) => effect.Effect<
+export const describeOrganizationsAccess: API.OperationMethod<
+  DescribeOrganizationsAccessInput,
   DescribeOrganizationsAccessOutput,
   InvalidOperationException | OperationNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7102,9 +7074,8 @@ export const describeOrganizationsAccess: (
  * to make them available for public use in the
  * *CloudFormation Command Line Interface (CLI) User Guide*
  */
-export const describePublisher: (
-  input: DescribePublisherInput,
-) => effect.Effect<
+export const describePublisher: API.OperationMethod<
+  DescribePublisherInput,
   DescribePublisherOutput,
   CFNRegistryException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7116,9 +7087,8 @@ export const describePublisher: (
 /**
  * Describes details of a resource scan.
  */
-export const describeResourceScan: (
-  input: DescribeResourceScanInput,
-) => effect.Effect<
+export const describeResourceScan: API.OperationMethod<
+  DescribeResourceScanInput,
   DescribeResourceScanOutput,
   ResourceScanNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7142,9 +7112,8 @@ export const describeResourceScan: (
  * Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its
  * resources.
  */
-export const describeStackDriftDetectionStatus: (
-  input: DescribeStackDriftDetectionStatusInput,
-) => effect.Effect<
+export const describeStackDriftDetectionStatus: API.OperationMethod<
+  DescribeStackDriftDetectionStatusInput,
   DescribeStackDriftDetectionStatusOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7161,14 +7130,12 @@ export const describeStackDriftDetectionStatus: (
  * You can list events for stacks that have failed to create or have been deleted by
  * specifying the unique stack identifier (stack ID).
  */
-export const describeStackEvents: {
-  (
-    input: DescribeStackEventsInput,
-  ): effect.Effect<
-    DescribeStackEventsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeStackEvents: API.OperationMethod<
+  DescribeStackEventsInput,
+  DescribeStackEventsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStackEventsInput,
   ) => stream.Stream<
@@ -7199,9 +7166,8 @@ export const describeStackEvents: {
  *
  * For a list of stack instances that are associated with a specific StackSet, use ListStackInstances.
  */
-export const describeStackInstance: (
-  input: DescribeStackInstanceInput,
-) => effect.Effect<
+export const describeStackInstance: API.OperationMethod<
+  DescribeStackInstanceInput,
   DescribeStackInstanceOutput,
   StackInstanceNotFoundException | StackSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7213,9 +7179,8 @@ export const describeStackInstance: (
 /**
  * Describes the stack refactor status.
  */
-export const describeStackRefactor: (
-  input: DescribeStackRefactorInput,
-) => effect.Effect<
+export const describeStackRefactor: API.OperationMethod<
+  DescribeStackRefactorInput,
   DescribeStackRefactorOutput,
   StackRefactorNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7230,9 +7195,8 @@ export const describeStackRefactor: (
  * For deleted stacks, DescribeStackResource returns resource information for up to 90 days
  * after the stack has been deleted.
  */
-export const describeStackResource: (
-  input: DescribeStackResourceInput,
-) => effect.Effect<
+export const describeStackResource: API.OperationMethod<
+  DescribeStackResourceInput,
   DescribeStackResourceOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7256,14 +7220,12 @@ export const describeStackResource: (
  * DetectStackDrift to detect drift on all supported resources for a given
  * stack.
  */
-export const describeStackResourceDrifts: {
-  (
-    input: DescribeStackResourceDriftsInput,
-  ): effect.Effect<
-    DescribeStackResourceDriftsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeStackResourceDrifts: API.OperationMethod<
+  DescribeStackResourceDriftsInput,
+  DescribeStackResourceDriftsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStackResourceDriftsInput,
   ) => stream.Stream<
@@ -7308,9 +7270,8 @@ export const describeStackResourceDrifts: {
  * A `ValidationError` is returned if you specify both `StackName`
  * and `PhysicalResourceId` in the same request.
  */
-export const describeStackResources: (
-  input: DescribeStackResourcesInput,
-) => effect.Effect<
+export const describeStackResources: API.OperationMethod<
+  DescribeStackResourcesInput,
   DescribeStackResourcesOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7327,14 +7288,12 @@ export const describeStackResources: (
  *
  * If the stack doesn't exist, a `ValidationError` is returned.
  */
-export const describeStacks: {
-  (
-    input: DescribeStacksInput,
-  ): effect.Effect<
-    DescribeStacksOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeStacks: API.OperationMethod<
+  DescribeStacksInput,
+  DescribeStacksOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStacksInput,
   ) => stream.Stream<
@@ -7365,9 +7324,8 @@ export const describeStacks: {
  * This API provides *strongly consistent* reads meaning it will always
  * return the most up-to-date data.
  */
-export const describeStackSet: (
-  input: DescribeStackSetInput,
-) => effect.Effect<
+export const describeStackSet: API.OperationMethod<
+  DescribeStackSetInput,
   DescribeStackSetOutput,
   StackSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7382,9 +7340,8 @@ export const describeStackSet: (
  * This API provides *strongly consistent* reads meaning it will always
  * return the most up-to-date data.
  */
-export const describeStackSetOperation: (
-  input: DescribeStackSetOperationInput,
-) => effect.Effect<
+export const describeStackSetOperation: API.OperationMethod<
+  DescribeStackSetOperationInput,
   DescribeStackSetOperationOutput,
   OperationNotFoundException | StackSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7405,9 +7362,8 @@ export const describeStackSetOperation: (
  * data for extensions in your account in the
  * *CloudFormation User Guide*.
  */
-export const describeType: (
-  input: DescribeTypeInput,
-) => effect.Effect<
+export const describeType: API.OperationMethod<
+  DescribeTypeInput,
   DescribeTypeOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7427,9 +7383,8 @@ export const describeType: (
  * Once the registration request has completed, use DescribeType to return
  * detailed information about an extension.
  */
-export const describeTypeRegistration: (
-  input: DescribeTypeRegistrationInput,
-) => effect.Effect<
+export const describeTypeRegistration: API.OperationMethod<
+  DescribeTypeRegistrationInput,
   DescribeTypeRegistrationOutput,
   CFNRegistryException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7465,9 +7420,8 @@ export const describeTypeRegistration: (
  * belonging to that stack. Perform `DetectStackDrift` directly on the nested stack
  * itself.
  */
-export const detectStackDrift: (
-  input: DetectStackDriftInput,
-) => effect.Effect<
+export const detectStackDrift: API.OperationMethod<
+  DetectStackDriftInput,
   DetectStackDriftOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7493,9 +7447,8 @@ export const detectStackDrift: (
  * resources that support drift detection, see Resource
  * type support for imports and drift detection.
  */
-export const detectStackResourceDrift: (
-  input: DetectStackResourceDriftInput,
-) => effect.Effect<
+export const detectStackResourceDrift: API.OperationMethod<
+  DetectStackResourceDriftInput,
   DetectStackResourceDriftOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7536,9 +7489,8 @@ export const detectStackResourceDrift: (
  *
  * To stop a drift detection StackSet operation, use StopStackSetOperation.
  */
-export const detectStackSetDrift: (
-  input: DetectStackSetDriftInput,
-) => effect.Effect<
+export const detectStackSetDrift: API.OperationMethod<
+  DetectStackSetDriftInput,
   DetectStackSetDriftOutput,
   | InvalidOperationException
   | OperationInProgressException
@@ -7559,9 +7511,8 @@ export const detectStackSetDrift: (
  * Monthly Calculator URL with a query string that describes the resources required to run the
  * template.
  */
-export const estimateTemplateCost: (
-  input: EstimateTemplateCostInput,
-) => effect.Effect<
+export const estimateTemplateCost: API.OperationMethod<
+  EstimateTemplateCostInput,
   EstimateTemplateCostOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7584,9 +7535,8 @@ export const estimateTemplateCost: (
  * To create a change set for the entire stack hierarchy, `IncludeNestedStacks`
  * must have been set to `True`.
  */
-export const executeChangeSet: (
-  input: ExecuteChangeSetInput,
-) => effect.Effect<
+export const executeChangeSet: API.OperationMethod<
+  ExecuteChangeSetInput,
   ExecuteChangeSetOutput,
   | ChangeSetNotFoundException
   | InsufficientCapabilitiesException
@@ -7607,9 +7557,8 @@ export const executeChangeSet: (
 /**
  * Executes the stack refactor operation.
  */
-export const executeStackRefactor: (
-  input: ExecuteStackRefactorInput,
-) => effect.Effect<
+export const executeStackRefactor: API.OperationMethod<
+  ExecuteStackRefactorInput,
   ExecuteStackRefactorResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7624,9 +7573,8 @@ export const executeStackRefactor: (
  * template was last in a `Complete` status. If the template has not yet been in a
  * `Complete` status then an empty template will be returned.
  */
-export const getGeneratedTemplate: (
-  input: GetGeneratedTemplateInput,
-) => effect.Effect<
+export const getGeneratedTemplate: API.OperationMethod<
+  GetGeneratedTemplateInput,
   GetGeneratedTemplateOutput,
   GeneratedTemplateNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7645,9 +7593,8 @@ export const getGeneratedTemplate: (
  * and permissions for encrypting CloudFormation Hooks results at rest in the
  * *CloudFormation Hooks User Guide*.
  */
-export const getHookResult: (
-  input: GetHookResultInput,
-) => effect.Effect<
+export const getHookResult: API.OperationMethod<
+  GetHookResultInput,
   GetHookResultOutput,
   HookResultNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7660,9 +7607,8 @@ export const getHookResult: (
  * Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null
  * value is returned.
  */
-export const getStackPolicy: (
-  input: GetStackPolicyInput,
-) => effect.Effect<
+export const getStackPolicy: API.OperationMethod<
+  GetStackPolicyInput,
   GetStackPolicyOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7680,9 +7626,8 @@ export const getStackPolicy: (
  *
  * If the template doesn't exist, a `ValidationError` is returned.
  */
-export const getTemplate: (
-  input: GetTemplateInput,
-) => effect.Effect<
+export const getTemplate: API.OperationMethod<
+  GetTemplateInput,
   GetTemplateOutput,
   ChangeSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7703,9 +7648,8 @@ export const getTemplate: (
  * up to 90 days after the stack has been deleted. If the template doesn't exist, a
  * `ValidationError` is returned.
  */
-export const getTemplateSummary: (
-  input: GetTemplateSummaryInput,
-) => effect.Effect<
+export const getTemplateSummary: API.OperationMethod<
+  GetTemplateSummaryInput,
   GetTemplateSummaryOutput,
   StackSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7720,9 +7664,8 @@ export const getTemplateSummary: (
  * administrator account and Region, by specifying the stack ID of the stack you intend to
  * import.
  */
-export const importStacksToStackSet: (
-  input: ImportStacksToStackSetInput,
-) => effect.Effect<
+export const importStacksToStackSet: API.OperationMethod<
+  ImportStacksToStackSetInput,
   ImportStacksToStackSetOutput,
   | InvalidOperationException
   | LimitExceededException
@@ -7751,14 +7694,12 @@ export const importStacksToStackSet: (
  * lists change sets that are in the `CREATE_IN_PROGRESS` or
  * `CREATE_PENDING` state.
  */
-export const listChangeSets: {
-  (
-    input: ListChangeSetsInput,
-  ): effect.Effect<
-    ListChangeSetsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listChangeSets: API.OperationMethod<
+  ListChangeSetsInput,
+  ListChangeSetsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChangeSetsInput,
   ) => stream.Stream<
@@ -7791,14 +7732,12 @@ export const listChangeSets: {
  * For more information, see Get exported outputs
  * from a deployed CloudFormation stack.
  */
-export const listExports: {
-  (
-    input: ListExportsInput,
-  ): effect.Effect<
-    ListExportsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listExports: API.OperationMethod<
+  ListExportsInput,
+  ListExportsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportsInput,
   ) => stream.Stream<
@@ -7826,14 +7765,12 @@ export const listExports: {
 /**
  * Lists your generated templates in this Region.
  */
-export const listGeneratedTemplates: {
-  (
-    input: ListGeneratedTemplatesInput,
-  ): effect.Effect<
-    ListGeneratedTemplatesOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listGeneratedTemplates: API.OperationMethod<
+  ListGeneratedTemplatesInput,
+  ListGeneratedTemplatesOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGeneratedTemplatesInput,
   ) => stream.Stream<
@@ -7875,9 +7812,8 @@ export const listGeneratedTemplates: {
  * - `TargetId` and `TargetType`: Returns summaries for a specific
  * Hook invocation target.
  */
-export const listHookResults: (
-  input: ListHookResultsInput,
-) => effect.Effect<
+export const listHookResults: API.OperationMethod<
+  ListHookResultsInput,
   ListHookResultsOutput,
   HookResultNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7893,14 +7829,12 @@ export const listHookResults: (
  *
  * For more information about importing an exported output value, see the Fn::ImportValue function.
  */
-export const listImports: {
-  (
-    input: ListImportsInput,
-  ): effect.Effect<
-    ListImportsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listImports: API.OperationMethod<
+  ListImportsInput,
+  ListImportsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportsInput,
   ) => stream.Stream<
@@ -7929,16 +7863,14 @@ export const listImports: {
  * Lists the related resources for a list of resources from a resource scan. The response
  * indicates whether each returned resource is already managed by CloudFormation.
  */
-export const listResourceScanRelatedResources: {
-  (
-    input: ListResourceScanRelatedResourcesInput,
-  ): effect.Effect<
-    ListResourceScanRelatedResourcesOutput,
-    | ResourceScanInProgressException
-    | ResourceScanNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceScanRelatedResources: API.OperationMethod<
+  ListResourceScanRelatedResourcesInput,
+  ListResourceScanRelatedResourcesOutput,
+  | ResourceScanInProgressException
+  | ResourceScanNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceScanRelatedResourcesInput,
   ) => stream.Stream<
@@ -7974,16 +7906,14 @@ export const listResourceScanRelatedResources: {
  * specified filters are returned. The response indicates whether each returned resource is
  * already managed by CloudFormation.
  */
-export const listResourceScanResources: {
-  (
-    input: ListResourceScanResourcesInput,
-  ): effect.Effect<
-    ListResourceScanResourcesOutput,
-    | ResourceScanInProgressException
-    | ResourceScanNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceScanResources: API.OperationMethod<
+  ListResourceScanResourcesInput,
+  ListResourceScanResourcesOutput,
+  | ResourceScanInProgressException
+  | ResourceScanNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceScanResourcesInput,
   ) => stream.Stream<
@@ -8017,14 +7947,12 @@ export const listResourceScanResources: {
  * List the resource scans from newest to oldest. By default it will return up to 10 resource
  * scans.
  */
-export const listResourceScans: {
-  (
-    input: ListResourceScansInput,
-  ): effect.Effect<
-    ListResourceScansOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceScans: API.OperationMethod<
+  ListResourceScansInput,
+  ListResourceScansOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceScansInput,
   ) => stream.Stream<
@@ -8057,9 +7985,8 @@ export const listResourceScans: {
  * recent drift detection operation. If an operation is in progress, it may only return partial
  * results.
  */
-export const listStackInstanceResourceDrifts: (
-  input: ListStackInstanceResourceDriftsInput,
-) => effect.Effect<
+export const listStackInstanceResourceDrifts: API.OperationMethod<
+  ListStackInstanceResourceDriftsInput,
   ListStackInstanceResourceDriftsOutput,
   | OperationNotFoundException
   | StackInstanceNotFoundException
@@ -8080,14 +8007,12 @@ export const listStackInstanceResourceDrifts: (
  * StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account
  * name or Region, or that have a specific status.
  */
-export const listStackInstances: {
-  (
-    input: ListStackInstancesInput,
-  ): effect.Effect<
-    ListStackInstancesOutput,
-    StackSetNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackInstances: API.OperationMethod<
+  ListStackInstancesInput,
+  ListStackInstancesOutput,
+  StackSetNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackInstancesInput,
   ) => stream.Stream<
@@ -8116,14 +8041,12 @@ export const listStackInstances: {
 /**
  * Lists the stack refactor actions that will be taken after calling the ExecuteStackRefactor action.
  */
-export const listStackRefactorActions: {
-  (
-    input: ListStackRefactorActionsInput,
-  ): effect.Effect<
-    ListStackRefactorActionsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackRefactorActions: API.OperationMethod<
+  ListStackRefactorActionsInput,
+  ListStackRefactorActionsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackRefactorActionsInput,
   ) => stream.Stream<
@@ -8152,14 +8075,12 @@ export const listStackRefactorActions: {
 /**
  * Lists all account stack refactor operations and their statuses.
  */
-export const listStackRefactors: {
-  (
-    input: ListStackRefactorsInput,
-  ): effect.Effect<
-    ListStackRefactorsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackRefactors: API.OperationMethod<
+  ListStackRefactorsInput,
+  ListStackRefactorsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackRefactorsInput,
   ) => stream.Stream<
@@ -8191,14 +8112,12 @@ export const listStackRefactors: {
  * For deleted stacks, ListStackResources returns resource information for up to 90 days
  * after the stack has been deleted.
  */
-export const listStackResources: {
-  (
-    input: ListStackResourcesInput,
-  ): effect.Effect<
-    ListStackResourcesOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackResources: API.OperationMethod<
+  ListStackResourcesInput,
+  ListStackResourcesOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackResourcesInput,
   ) => stream.Stream<
@@ -8230,14 +8149,12 @@ export const listStackResources: {
  * specified, summary information for all stacks is returned (including existing stacks and
  * stacks that have been deleted).
  */
-export const listStacks: {
-  (
-    input: ListStacksInput,
-  ): effect.Effect<
-    ListStacksOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStacks: API.OperationMethod<
+  ListStacksInput,
+  ListStacksOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStacksInput,
   ) => stream.Stream<
@@ -8265,9 +8182,8 @@ export const listStacks: {
 /**
  * Returns summary information about deployment targets for a StackSet.
  */
-export const listStackSetAutoDeploymentTargets: (
-  input: ListStackSetAutoDeploymentTargetsInput,
-) => effect.Effect<
+export const listStackSetAutoDeploymentTargets: API.OperationMethod<
+  ListStackSetAutoDeploymentTargetsInput,
   ListStackSetAutoDeploymentTargetsOutput,
   StackSetNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8282,14 +8198,12 @@ export const listStackSetAutoDeploymentTargets: (
  * This API provides *eventually consistent* reads meaning it may take
  * some time but will eventually return the most up-to-date data.
  */
-export const listStackSetOperationResults: {
-  (
-    input: ListStackSetOperationResultsInput,
-  ): effect.Effect<
-    ListStackSetOperationResultsOutput,
-    OperationNotFoundException | StackSetNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackSetOperationResults: API.OperationMethod<
+  ListStackSetOperationResultsInput,
+  ListStackSetOperationResultsOutput,
+  OperationNotFoundException | StackSetNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackSetOperationResultsInput,
   ) => stream.Stream<
@@ -8321,14 +8235,12 @@ export const listStackSetOperationResults: {
  * This API provides *eventually consistent* reads meaning it may take
  * some time but will eventually return the most up-to-date data.
  */
-export const listStackSetOperations: {
-  (
-    input: ListStackSetOperationsInput,
-  ): effect.Effect<
-    ListStackSetOperationsOutput,
-    StackSetNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackSetOperations: API.OperationMethod<
+  ListStackSetOperationsInput,
+  ListStackSetOperationsOutput,
+  StackSetNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackSetOperationsInput,
   ) => stream.Stream<
@@ -8373,14 +8285,12 @@ export const listStackSetOperations: {
  * `ListStackSets` returns all StackSets with service-managed permissions in the
  * management account.
  */
-export const listStackSets: {
-  (
-    input: ListStackSetsInput,
-  ): effect.Effect<
-    ListStackSetsOutput,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listStackSets: API.OperationMethod<
+  ListStackSetsInput,
+  ListStackSetsOutput,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStackSetsInput,
   ) => stream.Stream<
@@ -8409,14 +8319,12 @@ export const listStackSets: {
 /**
  * Returns a list of registration tokens for the specified extension(s).
  */
-export const listTypeRegistrations: {
-  (
-    input: ListTypeRegistrationsInput,
-  ): effect.Effect<
-    ListTypeRegistrationsOutput,
-    CFNRegistryException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTypeRegistrations: API.OperationMethod<
+  ListTypeRegistrationsInput,
+  ListTypeRegistrationsOutput,
+  CFNRegistryException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypeRegistrationsInput,
   ) => stream.Stream<
@@ -8446,14 +8354,12 @@ export const listTypeRegistrations: {
  * modules, and Hooks as well as all public extensions from Amazon Web Services and third-party
  * publishers.
  */
-export const listTypes: {
-  (
-    input: ListTypesInput,
-  ): effect.Effect<
-    ListTypesOutput,
-    CFNRegistryException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTypes: API.OperationMethod<
+  ListTypesInput,
+  ListTypesOutput,
+  CFNRegistryException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypesInput,
   ) => stream.Stream<
@@ -8482,14 +8388,12 @@ export const listTypes: {
 /**
  * Returns summary information about the versions of an extension.
  */
-export const listTypeVersions: {
-  (
-    input: ListTypeVersionsInput,
-  ): effect.Effect<
-    ListTypeVersionsOutput,
-    CFNRegistryException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTypeVersions: API.OperationMethod<
+  ListTypeVersionsInput,
+  ListTypeVersionsOutput,
+  CFNRegistryException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypeVersionsInput,
   ) => stream.Stream<
@@ -8524,9 +8428,8 @@ export const listTypeVersions: {
  * To publish an extension, you must be registered as a publisher with CloudFormation. For more
  * information, see RegisterPublisher.
  */
-export const publishType: (
-  input: PublishTypeInput,
-) => effect.Effect<
+export const publishType: API.OperationMethod<
+  PublishTypeInput,
   PublishTypeOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8541,9 +8444,8 @@ export const publishType: (
  * Reserved for use by the CloudFormation
  * CLI. Don't use this API in your code.
  */
-export const recordHandlerProgress: (
-  input: RecordHandlerProgressInput,
-) => effect.Effect<
+export const recordHandlerProgress: API.OperationMethod<
+  RecordHandlerProgressInput,
   RecordHandlerProgressOutput,
   | InvalidStateTransitionException
   | OperationStatusCheckFailedException
@@ -8566,9 +8468,8 @@ export const recordHandlerProgress: (
  * Prerequisite: Registering your account to publish CloudFormation extensions in the
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
-export const registerPublisher: (
-  input: RegisterPublisherInput,
-) => effect.Effect<
+export const registerPublisher: API.OperationMethod<
+  RegisterPublisherInput,
   RegisterPublisherOutput,
   CFNRegistryException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8604,9 +8505,8 @@ export const registerPublisher: (
  * data for extensions in your account in the
  * *CloudFormation User Guide*.
  */
-export const registerType: (
-  input: RegisterTypeInput,
-) => effect.Effect<
+export const registerType: API.OperationMethod<
+  RegisterTypeInput,
   RegisterTypeOutput,
   CFNRegistryException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8637,9 +8537,8 @@ export const registerType: (
  *
  * - `IMPORT_ROLLBACK_COMPLETE`
  */
-export const rollbackStack: (
-  input: RollbackStackInput,
-) => effect.Effect<
+export const rollbackStack: API.OperationMethod<
+  RollbackStackInput,
   RollbackStackOutput,
   TokenAlreadyExistsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8651,9 +8550,8 @@ export const rollbackStack: (
 /**
  * Sets a stack policy for a specified stack.
  */
-export const setStackPolicy: (
-  input: SetStackPolicyInput,
-) => effect.Effect<
+export const setStackPolicy: API.OperationMethod<
+  SetStackPolicyInput,
   SetStackPolicyResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8681,9 +8579,8 @@ export const setStackPolicy: (
  * *CloudFormation Command Line Interface (CLI) User Guide*. For more information about setting the configuration
  * data for Hooks, see the CloudFormation Hooks User Guide.
  */
-export const setTypeConfiguration: (
-  input: SetTypeConfigurationInput,
-) => effect.Effect<
+export const setTypeConfiguration: API.OperationMethod<
+  SetTypeConfigurationInput,
   SetTypeConfigurationOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8696,9 +8593,8 @@ export const setTypeConfiguration: (
  * Specify the default version of an extension. The default version of an extension will be
  * used in CloudFormation operations.
  */
-export const setTypeDefaultVersion: (
-  input: SetTypeDefaultVersionInput,
-) => effect.Effect<
+export const setTypeDefaultVersion: API.OperationMethod<
+  SetTypeDefaultVersionInput,
   SetTypeDefaultVersionOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8715,9 +8611,8 @@ export const setTypeDefaultVersion: (
  * operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2
  * instance.
  */
-export const signalResource: (
-  input: SignalResourceInput,
-) => effect.Effect<
+export const signalResource: API.OperationMethod<
+  SignalResourceInput,
   SignalResourceResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8730,9 +8625,8 @@ export const signalResource: (
  * Starts a scan of the resources in this account in this Region. You can the status of a
  * scan using the `ListResourceScans` API action.
  */
-export const startResourceScan: (
-  input: StartResourceScanInput,
-) => effect.Effect<
+export const startResourceScan: API.OperationMethod<
+  StartResourceScanInput,
   StartResourceScanOutput,
   | ResourceScanInProgressException
   | ResourceScanLimitExceededException
@@ -8748,9 +8642,8 @@ export const startResourceScan: (
  * will cancel all the unstarted stack instance deployments and wait for those are in-progress to
  * complete.
  */
-export const stopStackSetOperation: (
-  input: StopStackSetOperationInput,
-) => effect.Effect<
+export const stopStackSetOperation: API.OperationMethod<
+  StopStackSetOperationInput,
   StopStackSetOperationOutput,
   | InvalidOperationException
   | OperationNotFoundException
@@ -8794,9 +8687,8 @@ export const stopStackSetOperation: (
  * to make them available for public use in the
  * *CloudFormation Command Line Interface (CLI) User Guide*.
  */
-export const testType: (
-  input: TestTypeInput,
-) => effect.Effect<
+export const testType: API.OperationMethod<
+  TestTypeInput,
   TestTypeOutput,
   CFNRegistryException | TypeNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8811,9 +8703,8 @@ export const testType: (
  * `UpdateReplacePolicy` settings. You can check the status of the update to the
  * generated template using the `DescribeGeneratedTemplate` API action.
  */
-export const updateGeneratedTemplate: (
-  input: UpdateGeneratedTemplateInput,
-) => effect.Effect<
+export const updateGeneratedTemplate: API.OperationMethod<
+  UpdateGeneratedTemplateInput,
   UpdateGeneratedTemplateOutput,
   | AlreadyExistsException
   | GeneratedTemplateNotFoundException
@@ -8840,9 +8731,8 @@ export const updateGeneratedTemplate: (
  * Amazon Web Services resources as a single unit with CloudFormation stacks in the
  * *CloudFormation User Guide*.
  */
-export const updateStack: (
-  input: UpdateStackInput,
-) => effect.Effect<
+export const updateStack: API.OperationMethod<
+  UpdateStackInput,
   UpdateStackOutput,
   | InsufficientCapabilitiesException
   | TokenAlreadyExistsException
@@ -8884,9 +8774,8 @@ export const updateStack: (
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const updateStackInstances: (
-  input: UpdateStackInstancesInput,
-) => effect.Effect<
+export const updateStackInstances: API.OperationMethod<
+  UpdateStackInstancesInput,
   UpdateStackInstancesOutput,
   | InvalidOperationException
   | OperationIdAlreadyExistsException
@@ -8929,9 +8818,8 @@ export const updateStackInstances: (
  * - *Parent OU strategy:* If you don't mind exposing the OU
  * hierarchy, target a parent OU that contains all desired child OUs.
  */
-export const updateStackSet: (
-  input: UpdateStackSetInput,
-) => effect.Effect<
+export const updateStackSet: API.OperationMethod<
+  UpdateStackSetInput,
   UpdateStackSetOutput,
   | InvalidOperationException
   | OperationIdAlreadyExistsException
@@ -8963,9 +8851,8 @@ export const updateStackSet: (
  * termination protection is set on the root stack and can't be changed directly on the nested
  * stack.
  */
-export const updateTerminationProtection: (
-  input: UpdateTerminationProtectionInput,
-) => effect.Effect<
+export const updateTerminationProtection: API.OperationMethod<
+  UpdateTerminationProtectionInput,
   UpdateTerminationProtectionOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8979,9 +8866,8 @@ export const updateTerminationProtection: (
  * it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail,
  * CloudFormation returns a template validation error.
  */
-export const validateTemplate: (
-  input: ValidateTemplateInput,
-) => effect.Effect<
+export const validateTemplate: API.OperationMethod<
+  ValidateTemplateInput,
   ValidateTemplateOutput,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

@@ -1097,9 +1097,8 @@ export class RejectedRecordsException extends S.TaggedErrorClass<RejectedRecords
  * details, see code
  * sample.
  */
-export const createBatchLoadTask: (
-  input: CreateBatchLoadTaskRequest,
-) => effect.Effect<
+export const createBatchLoadTask: API.OperationMethod<
+  CreateBatchLoadTaskRequest,
   CreateBatchLoadTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -1130,9 +1129,8 @@ export const createBatchLoadTask: (
  * specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys. Service quotas apply. For
  * details, see code sample.
  */
-export const createDatabase: (
-  input: CreateDatabaseRequest,
-) => effect.Effect<
+export const createDatabase: API.OperationMethod<
+  CreateDatabaseRequest,
   CreateDatabaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -1164,9 +1162,8 @@ export const createDatabase: (
  * code
  * sample for details.
  */
-export const createTable: (
-  input: CreateTableRequest,
-) => effect.Effect<
+export const createTable: API.OperationMethod<
+  CreateTableRequest,
   CreateTableResponse,
   | AccessDeniedException
   | ConflictException
@@ -1206,9 +1203,8 @@ export const createTable: (
  * See code sample
  * for details.
  */
-export const deleteDatabase: (
-  input: DeleteDatabaseRequest,
-) => effect.Effect<
+export const deleteDatabase: API.OperationMethod<
+  DeleteDatabaseRequest,
   DeleteDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1241,9 +1237,8 @@ export const deleteDatabase: (
  * See code
  * sample for details.
  */
-export const deleteTable: (
-  input: DeleteTableRequest,
-) => effect.Effect<
+export const deleteTable: API.OperationMethod<
+  DeleteTableRequest,
   DeleteTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1271,9 +1266,8 @@ export const deleteTable: (
  * code
  * sample for details.
  */
-export const describeBatchLoadTask: (
-  input: DescribeBatchLoadTaskRequest,
-) => effect.Effect<
+export const describeBatchLoadTask: API.OperationMethod<
+  DescribeBatchLoadTaskRequest,
   DescribeBatchLoadTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1299,9 +1293,8 @@ export const describeBatchLoadTask: (
  * quotas apply. See code sample
  * for details.
  */
-export const describeDatabase: (
-  input: DescribeDatabaseRequest,
-) => effect.Effect<
+export const describeDatabase: API.OperationMethod<
+  DescribeDatabaseRequest,
   DescribeDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1342,9 +1335,8 @@ export const describeDatabase: (
  * The
  * Endpoint Discovery Pattern.
  */
-export const describeEndpoints: (
-  input: DescribeEndpointsRequest,
-) => effect.Effect<
+export const describeEndpoints: API.OperationMethod<
+  DescribeEndpointsRequest,
   DescribeEndpointsResponse,
   | InternalServerException
   | ThrottlingException
@@ -1362,9 +1354,8 @@ export const describeEndpoints: (
  * code
  * sample for details.
  */
-export const describeTable: (
-  input: DescribeTableRequest,
-) => effect.Effect<
+export const describeTable: API.OperationMethod<
+  DescribeTableRequest,
   DescribeTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1391,19 +1382,17 @@ export const describeTable: (
  * resumable until, and other details. See code
  * sample for details.
  */
-export const listBatchLoadTasks: {
-  (
-    input: ListBatchLoadTasksRequest,
-  ): effect.Effect<
-    ListBatchLoadTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBatchLoadTasks: API.OperationMethod<
+  ListBatchLoadTasksRequest,
+  ListBatchLoadTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBatchLoadTasksRequest,
   ) => stream.Stream<
@@ -1449,19 +1438,17 @@ export const listBatchLoadTasks: {
  * code sample for
  * details.
  */
-export const listDatabases: {
-  (
-    input: ListDatabasesRequest,
-  ): effect.Effect<
-    ListDatabasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatabases: API.OperationMethod<
+  ListDatabasesRequest,
+  ListDatabasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatabasesRequest,
   ) => stream.Stream<
@@ -1507,20 +1494,18 @@ export const listDatabases: {
  * table. See code sample
  * for details.
  */
-export const listTables: {
-  (
-    input: ListTablesRequest,
-  ): effect.Effect<
-    ListTablesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTables: API.OperationMethod<
+  ListTablesRequest,
+  ListTablesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
@@ -1567,9 +1552,8 @@ export const listTables: {
 /**
  * Lists all tags on a Timestream resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1590,9 +1574,8 @@ export const listTagsForResource: (
 /**
  *
  */
-export const resumeBatchLoadTask: (
-  input: ResumeBatchLoadTaskRequest,
-) => effect.Effect<
+export const resumeBatchLoadTask: API.OperationMethod<
+  ResumeBatchLoadTaskRequest,
   ResumeBatchLoadTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1619,9 +1602,8 @@ export const resumeBatchLoadTask: (
  * these user-defined tags so that they appear on the Billing and Cost Management console for
  * cost allocation tracking.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1644,9 +1626,8 @@ export const tagResource: (
 /**
  * Removes the association of tags from a Timestream resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1674,9 +1655,8 @@ export const untagResource: (
  * See code sample
  * for details.
  */
-export const updateDatabase: (
-  input: UpdateDatabaseRequest,
-) => effect.Effect<
+export const updateDatabase: API.OperationMethod<
+  UpdateDatabaseRequest,
   UpdateDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1709,9 +1689,8 @@ export const updateDatabase: (
  * See code
  * sample for details.
  */
-export const updateTable: (
-  input: UpdateTableRequest,
-) => effect.Effect<
+export const updateTable: API.OperationMethod<
+  UpdateTableRequest,
   UpdateTableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1778,9 +1757,8 @@ export const updateTable: (
  * send a version number greater than `3`, or the update requests would receive a
  * `RejectedRecordsException`.
  */
-export const writeRecords: (
-  input: WriteRecordsRequest,
-) => effect.Effect<
+export const writeRecords: API.OperationMethod<
+  WriteRecordsRequest,
   WriteRecordsResponse,
   | AccessDeniedException
   | InternalServerException

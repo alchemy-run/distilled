@@ -9616,9 +9616,8 @@ export class PreconditionFailedException extends S.TaggedErrorClass<Precondition
  * Create a batch of custom vocabulary items for a given bot locale's
  * custom vocabulary.
  */
-export const batchCreateCustomVocabularyItem: (
-  input: BatchCreateCustomVocabularyItemRequest,
-) => effect.Effect<
+export const batchCreateCustomVocabularyItem: API.OperationMethod<
+  BatchCreateCustomVocabularyItemRequest,
   BatchCreateCustomVocabularyItemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -9642,9 +9641,8 @@ export const batchCreateCustomVocabularyItem: (
  * Delete a batch of custom vocabulary items for a given bot locale's
  * custom vocabulary.
  */
-export const batchDeleteCustomVocabularyItem: (
-  input: BatchDeleteCustomVocabularyItemRequest,
-) => effect.Effect<
+export const batchDeleteCustomVocabularyItem: API.OperationMethod<
+  BatchDeleteCustomVocabularyItemRequest,
   BatchDeleteCustomVocabularyItemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -9668,9 +9666,8 @@ export const batchDeleteCustomVocabularyItem: (
  * Update a batch of custom vocabulary items for a given bot locale's custom
  * vocabulary.
  */
-export const batchUpdateCustomVocabularyItem: (
-  input: BatchUpdateCustomVocabularyItemRequest,
-) => effect.Effect<
+export const batchUpdateCustomVocabularyItem: API.OperationMethod<
+  BatchUpdateCustomVocabularyItemRequest,
   BatchUpdateCustomVocabularyItemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -9695,9 +9692,8 @@ export const batchUpdateCustomVocabularyItem: (
  * locale. A bot can be built into multiple locales. At runtime the locale
  * is used to choose a specific build of the bot.
  */
-export const buildBotLocale: (
-  input: BuildBotLocaleRequest,
-) => effect.Effect<
+export const buildBotLocale: API.OperationMethod<
+  BuildBotLocaleRequest,
   BuildBotLocaleResponse,
   | ConflictException
   | InternalServerException
@@ -9722,9 +9718,8 @@ export const buildBotLocale: (
 /**
  * Creates an Amazon Lex conversational bot.
  */
-export const createBot: (
-  input: CreateBotRequest,
-) => effect.Effect<
+export const createBot: API.OperationMethod<
+  CreateBotRequest,
   CreateBotResponse,
   | ConflictException
   | InternalServerException
@@ -9754,9 +9749,8 @@ export const createBot: (
  * For example, you can create an alias called "PROD" that your
  * applications use to call the Amazon Lex bot.
  */
-export const createBotAlias: (
-  input: CreateBotAliasRequest,
-) => effect.Effect<
+export const createBotAlias: API.OperationMethod<
+  CreateBotAliasRequest,
   CreateBotAliasResponse,
   | ConflictException
   | InternalServerException
@@ -9784,9 +9778,8 @@ export const createBotAlias: (
  * specified language and locale. You must add a locale to a bot before
  * you can add intents and slot types to the bot.
  */
-export const createBotLocale: (
-  input: CreateBotLocaleRequest,
-) => effect.Effect<
+export const createBotLocale: API.OperationMethod<
+  CreateBotLocaleRequest,
   CreateBotLocaleResponse,
   | ConflictException
   | InternalServerException
@@ -9811,9 +9804,8 @@ export const createBotLocale: (
 /**
  * Action to create a replication of the source bot in the secondary region.
  */
-export const createBotReplica: (
-  input: CreateBotReplicaRequest,
-) => effect.Effect<
+export const createBotReplica: API.OperationMethod<
+  CreateBotReplicaRequest,
   CreateBotReplicaResponse,
   | ConflictException
   | InternalServerException
@@ -9842,9 +9834,8 @@ export const createBotReplica: (
  * of versions created of the bot, not the current number of versions. If a bot version
  * is deleted, that bot version number will not be reused.
  */
-export const createBotVersion: (
-  input: CreateBotVersionRequest,
-) => effect.Effect<
+export const createBotVersion: API.OperationMethod<
+  CreateBotVersionRequest,
   CreateBotVersionResponse,
   | ConflictException
   | InternalServerException
@@ -9879,9 +9870,8 @@ export const createBotVersion: (
  * of the export archive, see Importing and
  * exporting bots
  */
-export const createExport: (
-  input: CreateExportRequest,
-) => effect.Effect<
+export const createExport: API.OperationMethod<
+  CreateExportRequest,
   CreateExportResponse,
   | ConflictException
   | InternalServerException
@@ -9937,9 +9927,8 @@ export const createExport: (
  * - A follow-up prompt that asks the user for additional activity.
  * For example, "Do you want a drink with your pizza?"
  */
-export const createIntent: (
-  input: CreateIntentRequest,
-) => effect.Effect<
+export const createIntent: API.OperationMethod<
+  CreateIntentRequest,
   CreateIntentResponse,
   | ConflictException
   | InternalServerException
@@ -9965,9 +9954,8 @@ export const createIntent: (
  * Creates a new resource policy with the specified policy
  * statements.
  */
-export const createResourcePolicy: (
-  input: CreateResourcePolicyRequest,
-) => effect.Effect<
+export const createResourcePolicy: API.OperationMethod<
+  CreateResourcePolicyRequest,
   CreateResourcePolicyResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -10000,9 +9988,8 @@ export const createResourcePolicy: (
  * You need to add the `CreateResourcePolicy` or `UpdateResourcePolicy`
  * action to the bot role in order to call the API.
  */
-export const createResourcePolicyStatement: (
-  input: CreateResourcePolicyStatementRequest,
-) => effect.Effect<
+export const createResourcePolicyStatement: API.OperationMethod<
+  CreateResourcePolicyStatementRequest,
   CreateResourcePolicyStatementResponse,
   | ConflictException
   | InternalServerException
@@ -10033,9 +10020,8 @@ export const createResourcePolicyStatement: (
  * one or more utterances that Amazon Lex uses to elicit a response from the
  * user.
  */
-export const createSlot: (
-  input: CreateSlotRequest,
-) => effect.Effect<
+export const createSlot: API.OperationMethod<
+  CreateSlotRequest,
   CreateSlotResponse,
   | ConflictException
   | InternalServerException
@@ -10064,9 +10050,8 @@ export const createSlot: (
  * a set of enumeration values, the values that a slot of this type can
  * assume.
  */
-export const createSlotType: (
-  input: CreateSlotTypeRequest,
-) => effect.Effect<
+export const createSlotType: API.OperationMethod<
+  CreateSlotTypeRequest,
   CreateSlotTypeResponse,
   | ConflictException
   | InternalServerException
@@ -10091,9 +10076,8 @@ export const createSlotType: (
 /**
  * Create a report that describes the differences between the bot and the test set.
  */
-export const createTestSetDiscrepancyReport: (
-  input: CreateTestSetDiscrepancyReportRequest,
-) => effect.Effect<
+export const createTestSetDiscrepancyReport: API.OperationMethod<
+  CreateTestSetDiscrepancyReportRequest,
   CreateTestSetDiscrepancyReportResponse,
   | ConflictException
   | InternalServerException
@@ -10119,9 +10103,8 @@ export const createTestSetDiscrepancyReport: (
  * Gets a pre-signed S3 write URL that you use to upload the zip
  * archive when importing a bot or a bot locale.
  */
-export const createUploadUrl: (
-  input: CreateUploadUrlRequest,
-) => effect.Effect<
+export const createUploadUrl: API.OperationMethod<
+  CreateUploadUrlRequest,
   CreateUploadUrlResponse,
   | ConflictException
   | InternalServerException
@@ -10155,9 +10138,8 @@ export const createUploadUrl: (
  * the bot and the alias, set the `skipResourceInUseCheck`
  * parameter to `true`.
  */
-export const deleteBot: (
-  input: DeleteBotRequest,
-) => effect.Effect<
+export const deleteBot: API.OperationMethod<
+  DeleteBotRequest,
   DeleteBotResponse,
   | ConflictException
   | InternalServerException
@@ -10182,9 +10164,8 @@ export const deleteBot: (
 /**
  * Deletes the specified bot alias.
  */
-export const deleteBotAlias: (
-  input: DeleteBotAliasRequest,
-) => effect.Effect<
+export const deleteBotAlias: API.OperationMethod<
+  DeleteBotAliasRequest,
   DeleteBotAliasResponse,
   | ConflictException
   | InternalServerException
@@ -10212,9 +10193,8 @@ export const deleteBotAlias: (
  * When you delete a locale, all intents, slots, and slot types defined
  * for the locale are also deleted.
  */
-export const deleteBotLocale: (
-  input: DeleteBotLocaleRequest,
-) => effect.Effect<
+export const deleteBotLocale: API.OperationMethod<
+  DeleteBotLocaleRequest,
   DeleteBotLocaleResponse,
   | ConflictException
   | InternalServerException
@@ -10239,9 +10219,8 @@ export const deleteBotLocale: (
 /**
  * The action to delete the replicated bot in the secondary region.
  */
-export const deleteBotReplica: (
-  input: DeleteBotReplicaRequest,
-) => effect.Effect<
+export const deleteBotReplica: API.OperationMethod<
+  DeleteBotReplicaRequest,
   DeleteBotReplicaResponse,
   | ConflictException
   | InternalServerException
@@ -10267,9 +10246,8 @@ export const deleteBotReplica: (
  * Deletes a specific version of a bot. To delete all versions of a bot,
  * use the DeleteBot operation.
  */
-export const deleteBotVersion: (
-  input: DeleteBotVersionRequest,
-) => effect.Effect<
+export const deleteBotVersion: API.OperationMethod<
+  DeleteBotVersionRequest,
   DeleteBotVersionResponse,
   | ConflictException
   | InternalServerException
@@ -10295,9 +10273,8 @@ export const deleteBotVersion: (
  * Removes a custom vocabulary from the specified locale
  * in the specified bot.
  */
-export const deleteCustomVocabulary: (
-  input: DeleteCustomVocabularyRequest,
-) => effect.Effect<
+export const deleteCustomVocabulary: API.OperationMethod<
+  DeleteCustomVocabularyRequest,
   DeleteCustomVocabularyResponse,
   | ConflictException
   | InternalServerException
@@ -10323,9 +10300,8 @@ export const deleteCustomVocabulary: (
  * Removes a previous export and the associated files stored in an S3
  * bucket.
  */
-export const deleteExport: (
-  input: DeleteExportRequest,
-) => effect.Effect<
+export const deleteExport: API.OperationMethod<
+  DeleteExportRequest,
   DeleteExportResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -10349,9 +10325,8 @@ export const deleteExport: (
  * Removes a previous import and the associated file stored in an S3
  * bucket.
  */
-export const deleteImport: (
-  input: DeleteImportRequest,
-) => effect.Effect<
+export const deleteImport: API.OperationMethod<
+  DeleteImportRequest,
   DeleteImportResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -10377,9 +10352,8 @@ export const deleteImport: (
  * Deleting an intent also deletes the slots associated with the
  * intent.
  */
-export const deleteIntent: (
-  input: DeleteIntentRequest,
-) => effect.Effect<
+export const deleteIntent: API.OperationMethod<
+  DeleteIntentRequest,
   DeleteIntentResponse,
   | ConflictException
   | InternalServerException
@@ -10405,9 +10379,8 @@ export const deleteIntent: (
  * Removes an existing policy from a bot or bot alias. If the resource
  * doesn't have a policy attached, Amazon Lex returns an exception.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -10435,9 +10408,8 @@ export const deleteResourcePolicy: (
  * You need to add the `DeleteResourcePolicy` or `UpdateResourcePolicy`
  * action to the bot role in order to call the API.
  */
-export const deleteResourcePolicyStatement: (
-  input: DeleteResourcePolicyStatementRequest,
-) => effect.Effect<
+export const deleteResourcePolicyStatement: API.OperationMethod<
+  DeleteResourcePolicyStatementRequest,
   DeleteResourcePolicyStatementResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -10458,9 +10430,8 @@ export const deleteResourcePolicyStatement: (
 /**
  * Deletes the specified slot from an intent.
  */
-export const deleteSlot: (
-  input: DeleteSlotRequest,
-) => effect.Effect<
+export const deleteSlot: API.OperationMethod<
+  DeleteSlotRequest,
   DeleteSlotResponse,
   | ConflictException
   | InternalServerException
@@ -10490,9 +10461,8 @@ export const deleteSlot: (
  * exception, set the `skipResourceInUseCheck` parameter to
  * `true`.
  */
-export const deleteSlotType: (
-  input: DeleteSlotTypeRequest,
-) => effect.Effect<
+export const deleteSlotType: API.OperationMethod<
+  DeleteSlotTypeRequest,
   DeleteSlotTypeResponse,
   | ConflictException
   | InternalServerException
@@ -10517,9 +10487,8 @@ export const deleteSlotType: (
 /**
  * The action to delete the selected test set.
  */
-export const deleteTestSet: (
-  input: DeleteTestSetRequest,
-) => effect.Effect<
+export const deleteTestSet: API.OperationMethod<
+  DeleteTestSetRequest,
   DeleteTestSetResponse,
   | ConflictException
   | InternalServerException
@@ -10557,9 +10526,8 @@ export const deleteTestSet: (
  * `ListAggregatedUtterances` operation are deleted after 15
  * days.
  */
-export const deleteUtterances: (
-  input: DeleteUtterancesRequest,
-) => effect.Effect<
+export const deleteUtterances: API.OperationMethod<
+  DeleteUtterancesRequest,
   DeleteUtterancesResponse,
   | InternalServerException
   | ThrottlingException
@@ -10574,9 +10542,8 @@ export const deleteUtterances: (
 /**
  * Provides metadata information about a bot.
  */
-export const describeBot: (
-  input: DescribeBotRequest,
-) => effect.Effect<
+export const describeBot: API.OperationMethod<
+  DescribeBotRequest,
   DescribeBotResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10599,9 +10566,8 @@ export const describeBot: (
 /**
  * Get information about a specific bot alias.
  */
-export const describeBotAlias: (
-  input: DescribeBotAliasRequest,
-) => effect.Effect<
+export const describeBotAlias: API.OperationMethod<
+  DescribeBotAliasRequest,
   DescribeBotAliasResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10624,9 +10590,8 @@ export const describeBotAlias: (
 /**
  * Describes the settings that a bot has for a specific locale.
  */
-export const describeBotLocale: (
-  input: DescribeBotLocaleRequest,
-) => effect.Effect<
+export const describeBotLocale: API.OperationMethod<
+  DescribeBotLocaleRequest,
   DescribeBotLocaleResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10653,9 +10618,8 @@ export const describeBotLocale: (
  * download intents and slot-types generated by the bot
  * recommendation.
  */
-export const describeBotRecommendation: (
-  input: DescribeBotRecommendationRequest,
-) => effect.Effect<
+export const describeBotRecommendation: API.OperationMethod<
+  DescribeBotRecommendationRequest,
   DescribeBotRecommendationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10676,9 +10640,8 @@ export const describeBotRecommendation: (
 /**
  * Monitors the bot replication status through the UI console.
  */
-export const describeBotReplica: (
-  input: DescribeBotReplicaRequest,
-) => effect.Effect<
+export const describeBotReplica: API.OperationMethod<
+  DescribeBotReplicaRequest,
   DescribeBotReplicaResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10704,9 +10667,8 @@ export const describeBotReplica: (
  * to retrieve the Amazon S3 object containing the bot locale configuration. You can
  * then modify and import this configuration.
  */
-export const describeBotResourceGeneration: (
-  input: DescribeBotResourceGenerationRequest,
-) => effect.Effect<
+export const describeBotResourceGeneration: API.OperationMethod<
+  DescribeBotResourceGenerationRequest,
   DescribeBotResourceGenerationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10727,9 +10689,8 @@ export const describeBotResourceGeneration: (
 /**
  * Provides metadata about a version of a bot.
  */
-export const describeBotVersion: (
-  input: DescribeBotVersionRequest,
-) => effect.Effect<
+export const describeBotVersion: API.OperationMethod<
+  DescribeBotVersionRequest,
   DescribeBotVersionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10752,9 +10713,8 @@ export const describeBotVersion: (
 /**
  * Provides metadata information about a custom vocabulary.
  */
-export const describeCustomVocabularyMetadata: (
-  input: DescribeCustomVocabularyMetadataRequest,
-) => effect.Effect<
+export const describeCustomVocabularyMetadata: API.OperationMethod<
+  DescribeCustomVocabularyMetadataRequest,
   DescribeCustomVocabularyMetadataResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10777,9 +10737,8 @@ export const describeCustomVocabularyMetadata: (
 /**
  * Gets information about a specific export.
  */
-export const describeExport: (
-  input: DescribeExportRequest,
-) => effect.Effect<
+export const describeExport: API.OperationMethod<
+  DescribeExportRequest,
   DescribeExportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10800,9 +10759,8 @@ export const describeExport: (
 /**
  * Gets information about a specific import.
  */
-export const describeImport: (
-  input: DescribeImportRequest,
-) => effect.Effect<
+export const describeImport: API.OperationMethod<
+  DescribeImportRequest,
   DescribeImportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10823,9 +10781,8 @@ export const describeImport: (
 /**
  * Returns metadata about an intent.
  */
-export const describeIntent: (
-  input: DescribeIntentRequest,
-) => effect.Effect<
+export const describeIntent: API.OperationMethod<
+  DescribeIntentRequest,
   DescribeIntentResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10849,9 +10806,8 @@ export const describeIntent: (
  * Gets the resource policy and policy revision for a bot or bot
  * alias.
  */
-export const describeResourcePolicy: (
-  input: DescribeResourcePolicyRequest,
-) => effect.Effect<
+export const describeResourcePolicy: API.OperationMethod<
+  DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10870,9 +10826,8 @@ export const describeResourcePolicy: (
 /**
  * Gets metadata information about a slot.
  */
-export const describeSlot: (
-  input: DescribeSlotRequest,
-) => effect.Effect<
+export const describeSlot: API.OperationMethod<
+  DescribeSlotRequest,
   DescribeSlotResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10895,9 +10850,8 @@ export const describeSlot: (
 /**
  * Gets metadata information about a slot type.
  */
-export const describeSlotType: (
-  input: DescribeSlotTypeRequest,
-) => effect.Effect<
+export const describeSlotType: API.OperationMethod<
+  DescribeSlotTypeRequest,
   DescribeSlotTypeResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10920,9 +10874,8 @@ export const describeSlotType: (
 /**
  * Gets metadata information about the test execution.
  */
-export const describeTestExecution: (
-  input: DescribeTestExecutionRequest,
-) => effect.Effect<
+export const describeTestExecution: API.OperationMethod<
+  DescribeTestExecutionRequest,
   DescribeTestExecutionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10945,9 +10898,8 @@ export const describeTestExecution: (
 /**
  * Gets metadata information about the test set.
  */
-export const describeTestSet: (
-  input: DescribeTestSetRequest,
-) => effect.Effect<
+export const describeTestSet: API.OperationMethod<
+  DescribeTestSetRequest,
   DescribeTestSetResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10970,9 +10922,8 @@ export const describeTestSet: (
 /**
  * Gets metadata information about the test set discrepancy report.
  */
-export const describeTestSetDiscrepancyReport: (
-  input: DescribeTestSetDiscrepancyReportRequest,
-) => effect.Effect<
+export const describeTestSetDiscrepancyReport: API.OperationMethod<
+  DescribeTestSetDiscrepancyReportRequest,
   DescribeTestSetDiscrepancyReportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -10995,9 +10946,8 @@ export const describeTestSetDiscrepancyReport: (
 /**
  * Gets metadata information about the test set generation.
  */
-export const describeTestSetGeneration: (
-  input: DescribeTestSetGenerationRequest,
-) => effect.Effect<
+export const describeTestSetGeneration: API.OperationMethod<
+  DescribeTestSetGenerationRequest,
   DescribeTestSetGenerationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -11020,9 +10970,8 @@ export const describeTestSetGeneration: (
 /**
  * Generates sample utterances for an intent.
  */
-export const generateBotElement: (
-  input: GenerateBotElementRequest,
-) => effect.Effect<
+export const generateBotElement: API.OperationMethod<
+  GenerateBotElementRequest,
   GenerateBotElementResponse,
   | ConflictException
   | InternalServerException
@@ -11049,9 +10998,8 @@ export const generateBotElement: (
 /**
  * The pre-signed Amazon S3 URL to download the test execution result artifacts.
  */
-export const getTestExecutionArtifactsUrl: (
-  input: GetTestExecutionArtifactsUrlRequest,
-) => effect.Effect<
+export const getTestExecutionArtifactsUrl: API.OperationMethod<
+  GetTestExecutionArtifactsUrlRequest,
   GetTestExecutionArtifactsUrlResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -11097,18 +11045,16 @@ export const getTestExecutionArtifactsUrl: (
  *
  * - You opted out of participating in improving Amazon Lex.
  */
-export const listAggregatedUtterances: {
-  (
-    input: ListAggregatedUtterancesRequest,
-  ): effect.Effect<
-    ListAggregatedUtterancesResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAggregatedUtterances: API.OperationMethod<
+  ListAggregatedUtterancesRequest,
+  ListAggregatedUtterancesResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAggregatedUtterancesRequest,
   ) => stream.Stream<
@@ -11149,18 +11095,16 @@ export const listAggregatedUtterances: {
 /**
  * Gets a list of aliases for the specified bot.
  */
-export const listBotAliases: {
-  (
-    input: ListBotAliasesRequest,
-  ): effect.Effect<
-    ListBotAliasesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotAliases: API.OperationMethod<
+  ListBotAliasesRequest,
+  ListBotAliasesResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotAliasesRequest,
   ) => stream.Stream<
@@ -11201,18 +11145,16 @@ export const listBotAliases: {
 /**
  * The action to list the replicated bots created from the source bot alias.
  */
-export const listBotAliasReplicas: {
-  (
-    input: ListBotAliasReplicasRequest,
-  ): effect.Effect<
-    ListBotAliasReplicasResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotAliasReplicas: API.OperationMethod<
+  ListBotAliasReplicasRequest,
+  ListBotAliasReplicasResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotAliasReplicasRequest,
   ) => stream.Stream<
@@ -11253,18 +11195,16 @@ export const listBotAliasReplicas: {
 /**
  * Gets a list of locales for the specified bot.
  */
-export const listBotLocales: {
-  (
-    input: ListBotLocalesRequest,
-  ): effect.Effect<
-    ListBotLocalesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotLocales: API.OperationMethod<
+  ListBotLocalesRequest,
+  ListBotLocalesResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotLocalesRequest,
   ) => stream.Stream<
@@ -11306,18 +11246,16 @@ export const listBotLocales: {
  * Get a list of bot recommendations that meet the specified
  * criteria.
  */
-export const listBotRecommendations: {
-  (
-    input: ListBotRecommendationsRequest,
-  ): effect.Effect<
-    ListBotRecommendationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotRecommendations: API.OperationMethod<
+  ListBotRecommendationsRequest,
+  ListBotRecommendationsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotRecommendationsRequest,
   ) => stream.Stream<
@@ -11358,9 +11296,8 @@ export const listBotRecommendations: {
 /**
  * The action to list the replicated bots.
  */
-export const listBotReplicas: (
-  input: ListBotReplicasRequest,
-) => effect.Effect<
+export const listBotReplicas: API.OperationMethod<
+  ListBotReplicasRequest,
   ListBotReplicasResponse,
   | InternalServerException
   | ServiceQuotaExceededException
@@ -11381,18 +11318,16 @@ export const listBotReplicas: (
 /**
  * Lists the generation requests made for a bot locale.
  */
-export const listBotResourceGenerations: {
-  (
-    input: ListBotResourceGenerationsRequest,
-  ): effect.Effect<
-    ListBotResourceGenerationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotResourceGenerations: API.OperationMethod<
+  ListBotResourceGenerationsRequest,
+  ListBotResourceGenerationsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotResourceGenerationsRequest,
   ) => stream.Stream<
@@ -11433,18 +11368,16 @@ export const listBotResourceGenerations: {
 /**
  * Gets a list of available bots.
  */
-export const listBots: {
-  (
-    input: ListBotsRequest,
-  ): effect.Effect<
-    ListBotsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBots: API.OperationMethod<
+  ListBotsRequest,
+  ListBotsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
@@ -11485,18 +11418,16 @@ export const listBots: {
 /**
  * Contains information about all the versions replication statuses applicable for Global Resiliency.
  */
-export const listBotVersionReplicas: {
-  (
-    input: ListBotVersionReplicasRequest,
-  ): effect.Effect<
-    ListBotVersionReplicasResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotVersionReplicas: API.OperationMethod<
+  ListBotVersionReplicasRequest,
+  ListBotVersionReplicasResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotVersionReplicasRequest,
   ) => stream.Stream<
@@ -11546,18 +11477,16 @@ export const listBotVersionReplicas: {
  * The `ListBotVersions` operation always returns at least
  * one version, the `DRAFT` version.
  */
-export const listBotVersions: {
-  (
-    input: ListBotVersionsRequest,
-  ): effect.Effect<
-    ListBotVersionsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBotVersions: API.OperationMethod<
+  ListBotVersionsRequest,
+  ListBotVersionsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotVersionsRequest,
   ) => stream.Stream<
@@ -11604,18 +11533,16 @@ export const listBotVersions: {
  * parameter when you call the `CreateIntent` operation. For
  * more information, see CreateIntent.
  */
-export const listBuiltInIntents: {
-  (
-    input: ListBuiltInIntentsRequest,
-  ): effect.Effect<
-    ListBuiltInIntentsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuiltInIntents: API.OperationMethod<
+  ListBuiltInIntentsRequest,
+  ListBuiltInIntentsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuiltInIntentsRequest,
   ) => stream.Stream<
@@ -11657,18 +11584,16 @@ export const listBuiltInIntents: {
  * Gets a list of built-in slot types that meet the specified
  * criteria.
  */
-export const listBuiltInSlotTypes: {
-  (
-    input: ListBuiltInSlotTypesRequest,
-  ): effect.Effect<
-    ListBuiltInSlotTypesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuiltInSlotTypes: API.OperationMethod<
+  ListBuiltInSlotTypesRequest,
+  ListBuiltInSlotTypesResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuiltInSlotTypesRequest,
   ) => stream.Stream<
@@ -11710,19 +11635,17 @@ export const listBuiltInSlotTypes: {
  * Paginated list of custom vocabulary items for a given bot locale's
  * custom vocabulary.
  */
-export const listCustomVocabularyItems: {
-  (
-    input: ListCustomVocabularyItemsRequest,
-  ): effect.Effect<
-    ListCustomVocabularyItemsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomVocabularyItems: API.OperationMethod<
+  ListCustomVocabularyItemsRequest,
+  ListCustomVocabularyItemsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomVocabularyItemsRequest,
   ) => stream.Stream<
@@ -11767,17 +11690,15 @@ export const listCustomVocabularyItems: {
  * Lists the exports for a bot, bot locale, or custom vocabulary.
  * Exports are kept in the list for 7 days.
  */
-export const listExports: {
-  (
-    input: ListExportsRequest,
-  ): effect.Effect<
-    ListExportsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExports: API.OperationMethod<
+  ListExportsRequest,
+  ListExportsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportsRequest,
   ) => stream.Stream<
@@ -11812,17 +11733,15 @@ export const listExports: {
  * Lists the imports for a bot, bot locale, or custom vocabulary.
  * Imports are kept in the list for 7 days.
  */
-export const listImports: {
-  (
-    input: ListImportsRequest,
-  ): effect.Effect<
-    ListImportsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImports: API.OperationMethod<
+  ListImportsRequest,
+  ListImportsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportsRequest,
   ) => stream.Stream<
@@ -11868,19 +11787,17 @@ export const listImports: {
  *
  * Note that an `order` field exists in both `binBy` and `metrics`. You can specify only one `order` in a given request.
  */
-export const listIntentMetrics: {
-  (
-    input: ListIntentMetricsRequest,
-  ): effect.Effect<
-    ListIntentMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIntentMetrics: API.OperationMethod<
+  ListIntentMetricsRequest,
+  ListIntentMetricsResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIntentMetricsRequest,
   ) => stream.Stream<
@@ -11930,9 +11847,8 @@ export const listIntentMetrics: {
  *
  * Use the optional `filters` field to filter the results.
  */
-export const listIntentPaths: (
-  input: ListIntentPathsRequest,
-) => effect.Effect<
+export const listIntentPaths: API.OperationMethod<
+  ListIntentPathsRequest,
   ListIntentPathsResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -11955,18 +11871,16 @@ export const listIntentPaths: (
 /**
  * Get a list of intents that meet the specified criteria.
  */
-export const listIntents: {
-  (
-    input: ListIntentsRequest,
-  ): effect.Effect<
-    ListIntentsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIntents: API.OperationMethod<
+  ListIntentsRequest,
+  ListIntentsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIntentsRequest,
   ) => stream.Stream<
@@ -12019,19 +11933,17 @@ export const listIntents: {
  *
  * Note that an `order` field exists in both `binBy` and `metrics`. You can only specify one `order` in a given request.
  */
-export const listIntentStageMetrics: {
-  (
-    input: ListIntentStageMetricsRequest,
-  ): effect.Effect<
-    ListIntentStageMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIntentStageMetrics: API.OperationMethod<
+  ListIntentStageMetricsRequest,
+  ListIntentStageMetricsResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIntentStageMetricsRequest,
   ) => stream.Stream<
@@ -12077,19 +11989,17 @@ export const listIntentStageMetrics: {
  * recommendation that you can use in your bot. Intents in the
  * response are ordered by relevance.
  */
-export const listRecommendedIntents: {
-  (
-    input: ListRecommendedIntentsRequest,
-  ): effect.Effect<
-    ListRecommendedIntentsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendedIntents: API.OperationMethod<
+  ListRecommendedIntentsRequest,
+  ListRecommendedIntentsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendedIntentsRequest,
   ) => stream.Stream<
@@ -12137,19 +12047,17 @@ export const listRecommendedIntents: {
  *
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
-export const listSessionAnalyticsData: {
-  (
-    input: ListSessionAnalyticsDataRequest,
-  ): effect.Effect<
-    ListSessionAnalyticsDataResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessionAnalyticsData: API.OperationMethod<
+  ListSessionAnalyticsDataRequest,
+  ListSessionAnalyticsDataResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionAnalyticsDataRequest,
   ) => stream.Stream<
@@ -12205,19 +12113,17 @@ export const listSessionAnalyticsData: {
  *
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
-export const listSessionMetrics: {
-  (
-    input: ListSessionMetricsRequest,
-  ): effect.Effect<
-    ListSessionMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessionMetrics: API.OperationMethod<
+  ListSessionMetricsRequest,
+  ListSessionMetricsResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionMetricsRequest,
   ) => stream.Stream<
@@ -12261,18 +12167,16 @@ export const listSessionMetrics: {
 /**
  * Gets a list of slots that match the specified criteria.
  */
-export const listSlots: {
-  (
-    input: ListSlotsRequest,
-  ): effect.Effect<
-    ListSlotsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSlots: API.OperationMethod<
+  ListSlotsRequest,
+  ListSlotsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSlotsRequest,
   ) => stream.Stream<
@@ -12313,18 +12217,16 @@ export const listSlots: {
 /**
  * Gets a list of slot types that match the specified criteria.
  */
-export const listSlotTypes: {
-  (
-    input: ListSlotTypesRequest,
-  ): effect.Effect<
-    ListSlotTypesResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSlotTypes: API.OperationMethod<
+  ListSlotTypesRequest,
+  ListSlotTypesResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSlotTypesRequest,
   ) => stream.Stream<
@@ -12366,9 +12268,8 @@ export const listSlotTypes: {
  * Gets a list of tags associated with a resource. Only bots, bot
  * aliases, and bot channels can have tags associated with them.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -12389,19 +12290,17 @@ export const listTagsForResource: (
 /**
  * Gets a list of test execution result items.
  */
-export const listTestExecutionResultItems: {
-  (
-    input: ListTestExecutionResultItemsRequest,
-  ): effect.Effect<
-    ListTestExecutionResultItemsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestExecutionResultItems: API.OperationMethod<
+  ListTestExecutionResultItemsRequest,
+  ListTestExecutionResultItemsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestExecutionResultItemsRequest,
   ) => stream.Stream<
@@ -12445,18 +12344,16 @@ export const listTestExecutionResultItems: {
 /**
  * The list of test set executions.
  */
-export const listTestExecutions: {
-  (
-    input: ListTestExecutionsRequest,
-  ): effect.Effect<
-    ListTestExecutionsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestExecutions: API.OperationMethod<
+  ListTestExecutionsRequest,
+  ListTestExecutionsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestExecutionsRequest,
   ) => stream.Stream<
@@ -12497,19 +12394,17 @@ export const listTestExecutions: {
 /**
  * The list of test set records.
  */
-export const listTestSetRecords: {
-  (
-    input: ListTestSetRecordsRequest,
-  ): effect.Effect<
-    ListTestSetRecordsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestSetRecords: API.OperationMethod<
+  ListTestSetRecordsRequest,
+  ListTestSetRecordsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestSetRecordsRequest,
   ) => stream.Stream<
@@ -12553,18 +12448,16 @@ export const listTestSetRecords: {
 /**
  * The list of the test sets
  */
-export const listTestSets: {
-  (
-    input: ListTestSetsRequest,
-  ): effect.Effect<
-    ListTestSetsResponse,
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestSets: API.OperationMethod<
+  ListTestSetsRequest,
+  ListTestSetsResponse,
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestSetsRequest,
   ) => stream.Stream<
@@ -12618,19 +12511,17 @@ export const listTestSets: {
  *
  * - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
  */
-export const listUtteranceAnalyticsData: {
-  (
-    input: ListUtteranceAnalyticsDataRequest,
-  ): effect.Effect<
-    ListUtteranceAnalyticsDataResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUtteranceAnalyticsData: API.OperationMethod<
+  ListUtteranceAnalyticsDataRequest,
+  ListUtteranceAnalyticsDataResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUtteranceAnalyticsDataRequest,
   ) => stream.Stream<
@@ -12691,19 +12582,17 @@ export const listUtteranceAnalyticsData: {
  *
  * Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
  */
-export const listUtteranceMetrics: {
-  (
-    input: ListUtteranceMetricsRequest,
-  ): effect.Effect<
-    ListUtteranceMetricsResponse,
-    | InternalServerException
-    | PreconditionFailedException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUtteranceMetrics: API.OperationMethod<
+  ListUtteranceMetricsRequest,
+  ListUtteranceMetricsResponse,
+  | InternalServerException
+  | PreconditionFailedException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUtteranceMetricsRequest,
   ) => stream.Stream<
@@ -12748,9 +12637,8 @@ export const listUtteranceMetrics: {
  * Search for associated transcripts that meet the specified
  * criteria.
  */
-export const searchAssociatedTranscripts: (
-  input: SearchAssociatedTranscriptsRequest,
-) => effect.Effect<
+export const searchAssociatedTranscripts: API.OperationMethod<
+  SearchAssociatedTranscriptsRequest,
   SearchAssociatedTranscriptsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -12774,9 +12662,8 @@ export const searchAssociatedTranscripts: (
  * Use this to provide your transcript data, and to start the bot
  * recommendation process.
  */
-export const startBotRecommendation: (
-  input: StartBotRecommendationRequest,
-) => effect.Effect<
+export const startBotRecommendation: API.OperationMethod<
+  StartBotRecommendationRequest,
   StartBotRecommendationResponse,
   | ConflictException
   | InternalServerException
@@ -12807,9 +12694,8 @@ export const startBotRecommendation: (
  * generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can
  * then modify and import this configuration.
  */
-export const startBotResourceGeneration: (
-  input: StartBotResourceGenerationRequest,
-) => effect.Effect<
+export const startBotResourceGeneration: API.OperationMethod<
+  StartBotResourceGenerationRequest,
   StartBotResourceGenerationResponse,
   | ConflictException
   | InternalServerException
@@ -12835,9 +12721,8 @@ export const startBotResourceGeneration: (
  * Starts importing a bot, bot locale, or custom vocabulary from a zip
  * archive that you uploaded to an S3 bucket.
  */
-export const startImport: (
-  input: StartImportRequest,
-) => effect.Effect<
+export const startImport: API.OperationMethod<
+  StartImportRequest,
   StartImportResponse,
   | ConflictException
   | InternalServerException
@@ -12862,9 +12747,8 @@ export const startImport: (
 /**
  * The action to start test set execution.
  */
-export const startTestExecution: (
-  input: StartTestExecutionRequest,
-) => effect.Effect<
+export const startTestExecution: API.OperationMethod<
+  StartTestExecutionRequest,
   StartTestExecutionResponse,
   | ConflictException
   | InternalServerException
@@ -12889,9 +12773,8 @@ export const startTestExecution: (
 /**
  * The action to start the generation of test set.
  */
-export const startTestSetGeneration: (
-  input: StartTestSetGenerationRequest,
-) => effect.Effect<
+export const startTestSetGeneration: API.OperationMethod<
+  StartTestSetGenerationRequest,
   StartTestSetGenerationResponse,
   | ConflictException
   | InternalServerException
@@ -12916,9 +12799,8 @@ export const startTestSetGeneration: (
 /**
  * Stop an already running Bot Recommendation request.
  */
-export const stopBotRecommendation: (
-  input: StopBotRecommendationRequest,
-) => effect.Effect<
+export const stopBotRecommendation: API.OperationMethod<
+  StopBotRecommendationRequest,
   StopBotRecommendationResponse,
   | ConflictException
   | InternalServerException
@@ -12947,9 +12829,8 @@ export const stopBotRecommendation: (
  * already exists, the existing value is replaced with the new
  * value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -12970,9 +12851,8 @@ export const tagResource: (
 /**
  * Removes tags from a bot, bot alias, or bot channel.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -12993,9 +12873,8 @@ export const untagResource: (
 /**
  * Updates the configuration of an existing bot.
  */
-export const updateBot: (
-  input: UpdateBotRequest,
-) => effect.Effect<
+export const updateBot: API.OperationMethod<
+  UpdateBotRequest,
   UpdateBotResponse,
   | ConflictException
   | InternalServerException
@@ -13020,9 +12899,8 @@ export const updateBot: (
 /**
  * Updates the configuration of an existing bot alias.
  */
-export const updateBotAlias: (
-  input: UpdateBotAliasRequest,
-) => effect.Effect<
+export const updateBotAlias: API.OperationMethod<
+  UpdateBotAliasRequest,
   UpdateBotAliasResponse,
   | ConflictException
   | InternalServerException
@@ -13047,9 +12925,8 @@ export const updateBotAlias: (
 /**
  * Updates the settings that a bot has for a specific locale.
  */
-export const updateBotLocale: (
-  input: UpdateBotLocaleRequest,
-) => effect.Effect<
+export const updateBotLocale: API.OperationMethod<
+  UpdateBotLocaleRequest,
   UpdateBotLocaleResponse,
   | ConflictException
   | InternalServerException
@@ -13074,9 +12951,8 @@ export const updateBotLocale: (
 /**
  * Updates an existing bot recommendation request.
  */
-export const updateBotRecommendation: (
-  input: UpdateBotRecommendationRequest,
-) => effect.Effect<
+export const updateBotRecommendation: API.OperationMethod<
+  UpdateBotRecommendationRequest,
   UpdateBotRecommendationResponse,
   | ConflictException
   | InternalServerException
@@ -13108,9 +12984,8 @@ export const updateBotRecommendation: (
  * archive that is available at the pre-signed S3 URL provided by the
  * DescribeExport operation.
  */
-export const updateExport: (
-  input: UpdateExportRequest,
-) => effect.Effect<
+export const updateExport: API.OperationMethod<
+  UpdateExportRequest,
   UpdateExportResponse,
   | ConflictException
   | InternalServerException
@@ -13135,9 +13010,8 @@ export const updateExport: (
 /**
  * Updates the settings for an intent.
  */
-export const updateIntent: (
-  input: UpdateIntentRequest,
-) => effect.Effect<
+export const updateIntent: API.OperationMethod<
+  UpdateIntentRequest,
   UpdateIntentResponse,
   | ConflictException
   | InternalServerException
@@ -13164,9 +13038,8 @@ export const updateIntent: (
  * new one. If the policy doesn't exist, Amazon Lex returns an
  * exception.
  */
-export const updateResourcePolicy: (
-  input: UpdateResourcePolicyRequest,
-) => effect.Effect<
+export const updateResourcePolicy: API.OperationMethod<
+  UpdateResourcePolicyRequest,
   UpdateResourcePolicyResponse,
   | InternalServerException
   | PreconditionFailedException
@@ -13191,9 +13064,8 @@ export const updateResourcePolicy: (
 /**
  * Updates the settings for a slot.
  */
-export const updateSlot: (
-  input: UpdateSlotRequest,
-) => effect.Effect<
+export const updateSlot: API.OperationMethod<
+  UpdateSlotRequest,
   UpdateSlotResponse,
   | ConflictException
   | InternalServerException
@@ -13218,9 +13090,8 @@ export const updateSlot: (
 /**
  * Updates the configuration of an existing slot type.
  */
-export const updateSlotType: (
-  input: UpdateSlotTypeRequest,
-) => effect.Effect<
+export const updateSlotType: API.OperationMethod<
+  UpdateSlotTypeRequest,
   UpdateSlotTypeResponse,
   | ConflictException
   | InternalServerException
@@ -13245,9 +13116,8 @@ export const updateSlotType: (
 /**
  * The action to update the test set.
  */
-export const updateTestSet: (
-  input: UpdateTestSetRequest,
-) => effect.Effect<
+export const updateTestSet: API.OperationMethod<
+  UpdateTestSetRequest,
   UpdateTestSetResponse,
   | ConflictException
   | InternalServerException

@@ -11768,9 +11768,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Creates an application.
  */
-export const createApp: (
-  input: CreateAppRequest,
-) => effect.Effect<
+export const createApp: API.OperationMethod<
+  CreateAppRequest,
   CreateAppResponse,
   | BadRequestException
   | ForbiddenException
@@ -11797,9 +11796,8 @@ export const createApp: (
 /**
  * Creates a new campaign for an application or updates the settings of an existing campaign for an application.
  */
-export const createCampaign: (
-  input: CreateCampaignRequest,
-) => effect.Effect<
+export const createCampaign: API.OperationMethod<
+  CreateCampaignRequest,
   CreateCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -11826,9 +11824,8 @@ export const createCampaign: (
 /**
  * Creates a message template for messages that are sent through the email channel.
  */
-export const createEmailTemplate: (
-  input: CreateEmailTemplateRequest,
-) => effect.Effect<
+export const createEmailTemplate: API.OperationMethod<
+  CreateEmailTemplateRequest,
   CreateEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11851,9 +11848,8 @@ export const createEmailTemplate: (
 /**
  * Creates an export job for an application.
  */
-export const createExportJob: (
-  input: CreateExportJobRequest,
-) => effect.Effect<
+export const createExportJob: API.OperationMethod<
+  CreateExportJobRequest,
   CreateExportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -11880,9 +11876,8 @@ export const createExportJob: (
 /**
  * Creates an import job for an application.
  */
-export const createImportJob: (
-  input: CreateImportJobRequest,
-) => effect.Effect<
+export const createImportJob: API.OperationMethod<
+  CreateImportJobRequest,
   CreateImportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -11909,9 +11904,8 @@ export const createImportJob: (
 /**
  * Creates a new message template for messages using the in-app message channel.
  */
-export const createInAppTemplate: (
-  input: CreateInAppTemplateRequest,
-) => effect.Effect<
+export const createInAppTemplate: API.OperationMethod<
+  CreateInAppTemplateRequest,
   CreateInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11934,9 +11928,8 @@ export const createInAppTemplate: (
 /**
  * Creates a journey for an application.
  */
-export const createJourney: (
-  input: CreateJourneyRequest,
-) => effect.Effect<
+export const createJourney: API.OperationMethod<
+  CreateJourneyRequest,
   CreateJourneyResponse,
   | BadRequestException
   | ForbiddenException
@@ -11963,9 +11956,8 @@ export const createJourney: (
 /**
  * Creates a message template for messages that are sent through a push notification channel.
  */
-export const createPushTemplate: (
-  input: CreatePushTemplateRequest,
-) => effect.Effect<
+export const createPushTemplate: API.OperationMethod<
+  CreatePushTemplateRequest,
   CreatePushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -11988,9 +11980,8 @@ export const createPushTemplate: (
 /**
  * Creates an Amazon Pinpoint configuration for a recommender model.
  */
-export const createRecommenderConfiguration: (
-  input: CreateRecommenderConfigurationRequest,
-) => effect.Effect<
+export const createRecommenderConfiguration: API.OperationMethod<
+  CreateRecommenderConfigurationRequest,
   CreateRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -12017,9 +12008,8 @@ export const createRecommenderConfiguration: (
 /**
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
-export const createSegment: (
-  input: CreateSegmentRequest,
-) => effect.Effect<
+export const createSegment: API.OperationMethod<
+  CreateSegmentRequest,
   CreateSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -12046,9 +12036,8 @@ export const createSegment: (
 /**
  * Creates a message template for messages that are sent through the SMS channel.
  */
-export const createSmsTemplate: (
-  input: CreateSmsTemplateRequest,
-) => effect.Effect<
+export const createSmsTemplate: API.OperationMethod<
+  CreateSmsTemplateRequest,
   CreateSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12071,9 +12060,8 @@ export const createSmsTemplate: (
 /**
  * Creates a message template for messages that are sent through the voice channel.
  */
-export const createVoiceTemplate: (
-  input: CreateVoiceTemplateRequest,
-) => effect.Effect<
+export const createVoiceTemplate: API.OperationMethod<
+  CreateVoiceTemplateRequest,
   CreateVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12096,9 +12084,8 @@ export const createVoiceTemplate: (
 /**
  * Disables the ADM channel for an application and deletes any existing settings for the channel.
  */
-export const deleteAdmChannel: (
-  input: DeleteAdmChannelRequest,
-) => effect.Effect<
+export const deleteAdmChannel: API.OperationMethod<
+  DeleteAdmChannelRequest,
   DeleteAdmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12125,9 +12112,8 @@ export const deleteAdmChannel: (
 /**
  * Disables the APNs channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsChannel: (
-  input: DeleteApnsChannelRequest,
-) => effect.Effect<
+export const deleteApnsChannel: API.OperationMethod<
+  DeleteApnsChannelRequest,
   DeleteApnsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12154,9 +12140,8 @@ export const deleteApnsChannel: (
 /**
  * Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsSandboxChannel: (
-  input: DeleteApnsSandboxChannelRequest,
-) => effect.Effect<
+export const deleteApnsSandboxChannel: API.OperationMethod<
+  DeleteApnsSandboxChannelRequest,
   DeleteApnsSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12183,9 +12168,8 @@ export const deleteApnsSandboxChannel: (
 /**
  * Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsVoipChannel: (
-  input: DeleteApnsVoipChannelRequest,
-) => effect.Effect<
+export const deleteApnsVoipChannel: API.OperationMethod<
+  DeleteApnsVoipChannelRequest,
   DeleteApnsVoipChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12212,9 +12196,8 @@ export const deleteApnsVoipChannel: (
 /**
  * Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
  */
-export const deleteApnsVoipSandboxChannel: (
-  input: DeleteApnsVoipSandboxChannelRequest,
-) => effect.Effect<
+export const deleteApnsVoipSandboxChannel: API.OperationMethod<
+  DeleteApnsVoipSandboxChannelRequest,
   DeleteApnsVoipSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12241,9 +12224,8 @@ export const deleteApnsVoipSandboxChannel: (
 /**
  * Deletes an application.
  */
-export const deleteApp: (
-  input: DeleteAppRequest,
-) => effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppRequest,
   DeleteAppResponse,
   | BadRequestException
   | ForbiddenException
@@ -12270,9 +12252,8 @@ export const deleteApp: (
 /**
  * Disables the Baidu channel for an application and deletes any existing settings for the channel.
  */
-export const deleteBaiduChannel: (
-  input: DeleteBaiduChannelRequest,
-) => effect.Effect<
+export const deleteBaiduChannel: API.OperationMethod<
+  DeleteBaiduChannelRequest,
   DeleteBaiduChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12299,9 +12280,8 @@ export const deleteBaiduChannel: (
 /**
  * Deletes a campaign from an application.
  */
-export const deleteCampaign: (
-  input: DeleteCampaignRequest,
-) => effect.Effect<
+export const deleteCampaign: API.OperationMethod<
+  DeleteCampaignRequest,
   DeleteCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -12328,9 +12308,8 @@ export const deleteCampaign: (
 /**
  * Disables the email channel for an application and deletes any existing settings for the channel.
  */
-export const deleteEmailChannel: (
-  input: DeleteEmailChannelRequest,
-) => effect.Effect<
+export const deleteEmailChannel: API.OperationMethod<
+  DeleteEmailChannelRequest,
   DeleteEmailChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12357,9 +12336,8 @@ export const deleteEmailChannel: (
 /**
  * Deletes a message template for messages that were sent through the email channel.
  */
-export const deleteEmailTemplate: (
-  input: DeleteEmailTemplateRequest,
-) => effect.Effect<
+export const deleteEmailTemplate: API.OperationMethod<
+  DeleteEmailTemplateRequest,
   DeleteEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12386,9 +12364,8 @@ export const deleteEmailTemplate: (
 /**
  * Deletes an endpoint from an application.
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointRequest,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointRequest,
   DeleteEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -12415,9 +12392,8 @@ export const deleteEndpoint: (
 /**
  * Deletes the event stream for an application.
  */
-export const deleteEventStream: (
-  input: DeleteEventStreamRequest,
-) => effect.Effect<
+export const deleteEventStream: API.OperationMethod<
+  DeleteEventStreamRequest,
   DeleteEventStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -12444,9 +12420,8 @@ export const deleteEventStream: (
 /**
  * Disables the GCM channel for an application and deletes any existing settings for the channel.
  */
-export const deleteGcmChannel: (
-  input: DeleteGcmChannelRequest,
-) => effect.Effect<
+export const deleteGcmChannel: API.OperationMethod<
+  DeleteGcmChannelRequest,
   DeleteGcmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12473,9 +12448,8 @@ export const deleteGcmChannel: (
 /**
  * Deletes a message template for messages sent using the in-app message channel.
  */
-export const deleteInAppTemplate: (
-  input: DeleteInAppTemplateRequest,
-) => effect.Effect<
+export const deleteInAppTemplate: API.OperationMethod<
+  DeleteInAppTemplateRequest,
   DeleteInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12502,9 +12476,8 @@ export const deleteInAppTemplate: (
 /**
  * Deletes a journey from an application.
  */
-export const deleteJourney: (
-  input: DeleteJourneyRequest,
-) => effect.Effect<
+export const deleteJourney: API.OperationMethod<
+  DeleteJourneyRequest,
   DeleteJourneyResponse,
   | BadRequestException
   | ForbiddenException
@@ -12531,9 +12504,8 @@ export const deleteJourney: (
 /**
  * Deletes a message template for messages that were sent through a push notification channel.
  */
-export const deletePushTemplate: (
-  input: DeletePushTemplateRequest,
-) => effect.Effect<
+export const deletePushTemplate: API.OperationMethod<
+  DeletePushTemplateRequest,
   DeletePushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12560,9 +12532,8 @@ export const deletePushTemplate: (
 /**
  * Deletes an Amazon Pinpoint configuration for a recommender model.
  */
-export const deleteRecommenderConfiguration: (
-  input: DeleteRecommenderConfigurationRequest,
-) => effect.Effect<
+export const deleteRecommenderConfiguration: API.OperationMethod<
+  DeleteRecommenderConfigurationRequest,
   DeleteRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -12589,9 +12560,8 @@ export const deleteRecommenderConfiguration: (
 /**
  * Deletes a segment from an application.
  */
-export const deleteSegment: (
-  input: DeleteSegmentRequest,
-) => effect.Effect<
+export const deleteSegment: API.OperationMethod<
+  DeleteSegmentRequest,
   DeleteSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -12618,9 +12588,8 @@ export const deleteSegment: (
 /**
  * Disables the SMS channel for an application and deletes any existing settings for the channel.
  */
-export const deleteSmsChannel: (
-  input: DeleteSmsChannelRequest,
-) => effect.Effect<
+export const deleteSmsChannel: API.OperationMethod<
+  DeleteSmsChannelRequest,
   DeleteSmsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12647,9 +12616,8 @@ export const deleteSmsChannel: (
 /**
  * Deletes a message template for messages that were sent through the SMS channel.
  */
-export const deleteSmsTemplate: (
-  input: DeleteSmsTemplateRequest,
-) => effect.Effect<
+export const deleteSmsTemplate: API.OperationMethod<
+  DeleteSmsTemplateRequest,
   DeleteSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12676,9 +12644,8 @@ export const deleteSmsTemplate: (
 /**
  * Deletes all the endpoints that are associated with a specific user ID.
  */
-export const deleteUserEndpoints: (
-  input: DeleteUserEndpointsRequest,
-) => effect.Effect<
+export const deleteUserEndpoints: API.OperationMethod<
+  DeleteUserEndpointsRequest,
   DeleteUserEndpointsResponse,
   | BadRequestException
   | ForbiddenException
@@ -12705,9 +12672,8 @@ export const deleteUserEndpoints: (
 /**
  * Disables the voice channel for an application and deletes any existing settings for the channel.
  */
-export const deleteVoiceChannel: (
-  input: DeleteVoiceChannelRequest,
-) => effect.Effect<
+export const deleteVoiceChannel: API.OperationMethod<
+  DeleteVoiceChannelRequest,
   DeleteVoiceChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12734,9 +12700,8 @@ export const deleteVoiceChannel: (
 /**
  * Deletes a message template for messages that were sent through the voice channel.
  */
-export const deleteVoiceTemplate: (
-  input: DeleteVoiceTemplateRequest,
-) => effect.Effect<
+export const deleteVoiceTemplate: API.OperationMethod<
+  DeleteVoiceTemplateRequest,
   DeleteVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -12763,9 +12728,8 @@ export const deleteVoiceTemplate: (
 /**
  * Retrieves information about the status and settings of the ADM channel for an application.
  */
-export const getAdmChannel: (
-  input: GetAdmChannelRequest,
-) => effect.Effect<
+export const getAdmChannel: API.OperationMethod<
+  GetAdmChannelRequest,
   GetAdmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12792,9 +12756,8 @@ export const getAdmChannel: (
 /**
  * Retrieves information about the status and settings of the APNs channel for an application.
  */
-export const getApnsChannel: (
-  input: GetApnsChannelRequest,
-) => effect.Effect<
+export const getApnsChannel: API.OperationMethod<
+  GetApnsChannelRequest,
   GetApnsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12821,9 +12784,8 @@ export const getApnsChannel: (
 /**
  * Retrieves information about the status and settings of the APNs sandbox channel for an application.
  */
-export const getApnsSandboxChannel: (
-  input: GetApnsSandboxChannelRequest,
-) => effect.Effect<
+export const getApnsSandboxChannel: API.OperationMethod<
+  GetApnsSandboxChannelRequest,
   GetApnsSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12850,9 +12812,8 @@ export const getApnsSandboxChannel: (
 /**
  * Retrieves information about the status and settings of the APNs VoIP channel for an application.
  */
-export const getApnsVoipChannel: (
-  input: GetApnsVoipChannelRequest,
-) => effect.Effect<
+export const getApnsVoipChannel: API.OperationMethod<
+  GetApnsVoipChannelRequest,
   GetApnsVoipChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12879,9 +12840,8 @@ export const getApnsVoipChannel: (
 /**
  * Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
  */
-export const getApnsVoipSandboxChannel: (
-  input: GetApnsVoipSandboxChannelRequest,
-) => effect.Effect<
+export const getApnsVoipSandboxChannel: API.OperationMethod<
+  GetApnsVoipSandboxChannelRequest,
   GetApnsVoipSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -12908,9 +12868,8 @@ export const getApnsVoipSandboxChannel: (
 /**
  * Retrieves information about an application.
  */
-export const getApp: (
-  input: GetAppRequest,
-) => effect.Effect<
+export const getApp: API.OperationMethod<
+  GetAppRequest,
   GetAppResponse,
   | BadRequestException
   | ForbiddenException
@@ -12937,9 +12896,8 @@ export const getApp: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
  */
-export const getApplicationDateRangeKpi: (
-  input: GetApplicationDateRangeKpiRequest,
-) => effect.Effect<
+export const getApplicationDateRangeKpi: API.OperationMethod<
+  GetApplicationDateRangeKpiRequest,
   GetApplicationDateRangeKpiResponse,
   | BadRequestException
   | ForbiddenException
@@ -12966,9 +12924,8 @@ export const getApplicationDateRangeKpi: (
 /**
  * Retrieves information about the settings for an application.
  */
-export const getApplicationSettings: (
-  input: GetApplicationSettingsRequest,
-) => effect.Effect<
+export const getApplicationSettings: API.OperationMethod<
+  GetApplicationSettingsRequest,
   GetApplicationSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -12995,9 +12952,8 @@ export const getApplicationSettings: (
 /**
  * Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
  */
-export const getApps: (
-  input: GetAppsRequest,
-) => effect.Effect<
+export const getApps: API.OperationMethod<
+  GetAppsRequest,
   GetAppsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13024,9 +12980,8 @@ export const getApps: (
 /**
  * Retrieves information about the status and settings of the Baidu channel for an application.
  */
-export const getBaiduChannel: (
-  input: GetBaiduChannelRequest,
-) => effect.Effect<
+export const getBaiduChannel: API.OperationMethod<
+  GetBaiduChannelRequest,
   GetBaiduChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -13053,9 +13008,8 @@ export const getBaiduChannel: (
 /**
  * Retrieves information about the status, configuration, and other settings for a campaign.
  */
-export const getCampaign: (
-  input: GetCampaignRequest,
-) => effect.Effect<
+export const getCampaign: API.OperationMethod<
+  GetCampaignRequest,
   GetCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -13082,9 +13036,8 @@ export const getCampaign: (
 /**
  * Retrieves information about all the activities for a campaign.
  */
-export const getCampaignActivities: (
-  input: GetCampaignActivitiesRequest,
-) => effect.Effect<
+export const getCampaignActivities: API.OperationMethod<
+  GetCampaignActivitiesRequest,
   GetCampaignActivitiesResponse,
   | BadRequestException
   | ForbiddenException
@@ -13111,9 +13064,8 @@ export const getCampaignActivities: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
  */
-export const getCampaignDateRangeKpi: (
-  input: GetCampaignDateRangeKpiRequest,
-) => effect.Effect<
+export const getCampaignDateRangeKpi: API.OperationMethod<
+  GetCampaignDateRangeKpiRequest,
   GetCampaignDateRangeKpiResponse,
   | BadRequestException
   | ForbiddenException
@@ -13140,9 +13092,8 @@ export const getCampaignDateRangeKpi: (
 /**
  * Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
  */
-export const getCampaigns: (
-  input: GetCampaignsRequest,
-) => effect.Effect<
+export const getCampaigns: API.OperationMethod<
+  GetCampaignsRequest,
   GetCampaignsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13169,9 +13120,8 @@ export const getCampaigns: (
 /**
  * Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
  */
-export const getCampaignVersion: (
-  input: GetCampaignVersionRequest,
-) => effect.Effect<
+export const getCampaignVersion: API.OperationMethod<
+  GetCampaignVersionRequest,
   GetCampaignVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -13198,9 +13148,8 @@ export const getCampaignVersion: (
 /**
  * Retrieves information about the status, configuration, and other settings for all versions of a campaign.
  */
-export const getCampaignVersions: (
-  input: GetCampaignVersionsRequest,
-) => effect.Effect<
+export const getCampaignVersions: API.OperationMethod<
+  GetCampaignVersionsRequest,
   GetCampaignVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13227,9 +13176,8 @@ export const getCampaignVersions: (
 /**
  * Retrieves information about the history and status of each channel for an application.
  */
-export const getChannels: (
-  input: GetChannelsRequest,
-) => effect.Effect<
+export const getChannels: API.OperationMethod<
+  GetChannelsRequest,
   GetChannelsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13256,9 +13204,8 @@ export const getChannels: (
 /**
  * Retrieves information about the status and settings of the email channel for an application.
  */
-export const getEmailChannel: (
-  input: GetEmailChannelRequest,
-) => effect.Effect<
+export const getEmailChannel: API.OperationMethod<
+  GetEmailChannelRequest,
   GetEmailChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -13285,9 +13232,8 @@ export const getEmailChannel: (
 /**
  * Retrieves the content and settings of a message template for messages that are sent through the email channel.
  */
-export const getEmailTemplate: (
-  input: GetEmailTemplateRequest,
-) => effect.Effect<
+export const getEmailTemplate: API.OperationMethod<
+  GetEmailTemplateRequest,
   GetEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -13314,9 +13260,8 @@ export const getEmailTemplate: (
 /**
  * Retrieves information about the settings and attributes of a specific endpoint for an application.
  */
-export const getEndpoint: (
-  input: GetEndpointRequest,
-) => effect.Effect<
+export const getEndpoint: API.OperationMethod<
+  GetEndpointRequest,
   GetEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -13343,9 +13288,8 @@ export const getEndpoint: (
 /**
  * Retrieves information about the event stream settings for an application.
  */
-export const getEventStream: (
-  input: GetEventStreamRequest,
-) => effect.Effect<
+export const getEventStream: API.OperationMethod<
+  GetEventStreamRequest,
   GetEventStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -13372,9 +13316,8 @@ export const getEventStream: (
 /**
  * Retrieves information about the status and settings of a specific export job for an application.
  */
-export const getExportJob: (
-  input: GetExportJobRequest,
-) => effect.Effect<
+export const getExportJob: API.OperationMethod<
+  GetExportJobRequest,
   GetExportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -13401,9 +13344,8 @@ export const getExportJob: (
 /**
  * Retrieves information about the status and settings of all the export jobs for an application.
  */
-export const getExportJobs: (
-  input: GetExportJobsRequest,
-) => effect.Effect<
+export const getExportJobs: API.OperationMethod<
+  GetExportJobsRequest,
   GetExportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13430,9 +13372,8 @@ export const getExportJobs: (
 /**
  * Retrieves information about the status and settings of the GCM channel for an application.
  */
-export const getGcmChannel: (
-  input: GetGcmChannelRequest,
-) => effect.Effect<
+export const getGcmChannel: API.OperationMethod<
+  GetGcmChannelRequest,
   GetGcmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -13459,9 +13400,8 @@ export const getGcmChannel: (
 /**
  * Retrieves information about the status and settings of a specific import job for an application.
  */
-export const getImportJob: (
-  input: GetImportJobRequest,
-) => effect.Effect<
+export const getImportJob: API.OperationMethod<
+  GetImportJobRequest,
   GetImportJobResponse,
   | BadRequestException
   | ForbiddenException
@@ -13488,9 +13428,8 @@ export const getImportJob: (
 /**
  * Retrieves information about the status and settings of all the import jobs for an application.
  */
-export const getImportJobs: (
-  input: GetImportJobsRequest,
-) => effect.Effect<
+export const getImportJobs: API.OperationMethod<
+  GetImportJobsRequest,
   GetImportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13517,9 +13456,8 @@ export const getImportJobs: (
 /**
  * Retrieves the in-app messages targeted for the provided endpoint ID.
  */
-export const getInAppMessages: (
-  input: GetInAppMessagesRequest,
-) => effect.Effect<
+export const getInAppMessages: API.OperationMethod<
+  GetInAppMessagesRequest,
   GetInAppMessagesResponse,
   | BadRequestException
   | ForbiddenException
@@ -13546,9 +13484,8 @@ export const getInAppMessages: (
 /**
  * Retrieves the content and settings of a message template for messages sent through the in-app channel.
  */
-export const getInAppTemplate: (
-  input: GetInAppTemplateRequest,
-) => effect.Effect<
+export const getInAppTemplate: API.OperationMethod<
+  GetInAppTemplateRequest,
   GetInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -13575,9 +13512,8 @@ export const getInAppTemplate: (
 /**
  * Retrieves information about the status, configuration, and other settings for a journey.
  */
-export const getJourney: (
-  input: GetJourneyRequest,
-) => effect.Effect<
+export const getJourney: API.OperationMethod<
+  GetJourneyRequest,
   GetJourneyResponse,
   | BadRequestException
   | ForbiddenException
@@ -13604,9 +13540,8 @@ export const getJourney: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
  */
-export const getJourneyDateRangeKpi: (
-  input: GetJourneyDateRangeKpiRequest,
-) => effect.Effect<
+export const getJourneyDateRangeKpi: API.OperationMethod<
+  GetJourneyDateRangeKpiRequest,
   GetJourneyDateRangeKpiResponse,
   | BadRequestException
   | ForbiddenException
@@ -13633,9 +13568,8 @@ export const getJourneyDateRangeKpi: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
  */
-export const getJourneyExecutionActivityMetrics: (
-  input: GetJourneyExecutionActivityMetricsRequest,
-) => effect.Effect<
+export const getJourneyExecutionActivityMetrics: API.OperationMethod<
+  GetJourneyExecutionActivityMetricsRequest,
   GetJourneyExecutionActivityMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13662,9 +13596,8 @@ export const getJourneyExecutionActivityMetrics: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
  */
-export const getJourneyExecutionMetrics: (
-  input: GetJourneyExecutionMetricsRequest,
-) => effect.Effect<
+export const getJourneyExecutionMetrics: API.OperationMethod<
+  GetJourneyExecutionMetricsRequest,
   GetJourneyExecutionMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13691,9 +13624,8 @@ export const getJourneyExecutionMetrics: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
  */
-export const getJourneyRunExecutionActivityMetrics: (
-  input: GetJourneyRunExecutionActivityMetricsRequest,
-) => effect.Effect<
+export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
+  GetJourneyRunExecutionActivityMetricsRequest,
   GetJourneyRunExecutionActivityMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13720,9 +13652,8 @@ export const getJourneyRunExecutionActivityMetrics: (
 /**
  * Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
  */
-export const getJourneyRunExecutionMetrics: (
-  input: GetJourneyRunExecutionMetricsRequest,
-) => effect.Effect<
+export const getJourneyRunExecutionMetrics: API.OperationMethod<
+  GetJourneyRunExecutionMetricsRequest,
   GetJourneyRunExecutionMetricsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13749,9 +13680,8 @@ export const getJourneyRunExecutionMetrics: (
 /**
  * Provides information about the runs of a journey.
  */
-export const getJourneyRuns: (
-  input: GetJourneyRunsRequest,
-) => effect.Effect<
+export const getJourneyRuns: API.OperationMethod<
+  GetJourneyRunsRequest,
   GetJourneyRunsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13778,9 +13708,8 @@ export const getJourneyRuns: (
 /**
  * Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
  */
-export const getPushTemplate: (
-  input: GetPushTemplateRequest,
-) => effect.Effect<
+export const getPushTemplate: API.OperationMethod<
+  GetPushTemplateRequest,
   GetPushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -13807,9 +13736,8 @@ export const getPushTemplate: (
 /**
  * Retrieves information about an Amazon Pinpoint configuration for a recommender model.
  */
-export const getRecommenderConfiguration: (
-  input: GetRecommenderConfigurationRequest,
-) => effect.Effect<
+export const getRecommenderConfiguration: API.OperationMethod<
+  GetRecommenderConfigurationRequest,
   GetRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -13836,9 +13764,8 @@ export const getRecommenderConfiguration: (
 /**
  * Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
  */
-export const getRecommenderConfigurations: (
-  input: GetRecommenderConfigurationsRequest,
-) => effect.Effect<
+export const getRecommenderConfigurations: API.OperationMethod<
+  GetRecommenderConfigurationsRequest,
   GetRecommenderConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13865,9 +13792,8 @@ export const getRecommenderConfigurations: (
 /**
  * Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
  */
-export const getSegment: (
-  input: GetSegmentRequest,
-) => effect.Effect<
+export const getSegment: API.OperationMethod<
+  GetSegmentRequest,
   GetSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -13894,9 +13820,8 @@ export const getSegment: (
 /**
  * Retrieves information about the status and settings of the export jobs for a segment.
  */
-export const getSegmentExportJobs: (
-  input: GetSegmentExportJobsRequest,
-) => effect.Effect<
+export const getSegmentExportJobs: API.OperationMethod<
+  GetSegmentExportJobsRequest,
   GetSegmentExportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13923,9 +13848,8 @@ export const getSegmentExportJobs: (
 /**
  * Retrieves information about the status and settings of the import jobs for a segment.
  */
-export const getSegmentImportJobs: (
-  input: GetSegmentImportJobsRequest,
-) => effect.Effect<
+export const getSegmentImportJobs: API.OperationMethod<
+  GetSegmentImportJobsRequest,
   GetSegmentImportJobsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13952,9 +13876,8 @@ export const getSegmentImportJobs: (
 /**
  * Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
  */
-export const getSegments: (
-  input: GetSegmentsRequest,
-) => effect.Effect<
+export const getSegments: API.OperationMethod<
+  GetSegmentsRequest,
   GetSegmentsResponse,
   | BadRequestException
   | ForbiddenException
@@ -13981,9 +13904,8 @@ export const getSegments: (
 /**
  * Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
  */
-export const getSegmentVersion: (
-  input: GetSegmentVersionRequest,
-) => effect.Effect<
+export const getSegmentVersion: API.OperationMethod<
+  GetSegmentVersionRequest,
   GetSegmentVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -14010,9 +13932,8 @@ export const getSegmentVersion: (
 /**
  * Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
  */
-export const getSegmentVersions: (
-  input: GetSegmentVersionsRequest,
-) => effect.Effect<
+export const getSegmentVersions: API.OperationMethod<
+  GetSegmentVersionsRequest,
   GetSegmentVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -14039,9 +13960,8 @@ export const getSegmentVersions: (
 /**
  * Retrieves information about the status and settings of the SMS channel for an application.
  */
-export const getSmsChannel: (
-  input: GetSmsChannelRequest,
-) => effect.Effect<
+export const getSmsChannel: API.OperationMethod<
+  GetSmsChannelRequest,
   GetSmsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14068,9 +13988,8 @@ export const getSmsChannel: (
 /**
  * Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
  */
-export const getSmsTemplate: (
-  input: GetSmsTemplateRequest,
-) => effect.Effect<
+export const getSmsTemplate: API.OperationMethod<
+  GetSmsTemplateRequest,
   GetSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -14097,9 +14016,8 @@ export const getSmsTemplate: (
 /**
  * Retrieves information about all the endpoints that are associated with a specific user ID.
  */
-export const getUserEndpoints: (
-  input: GetUserEndpointsRequest,
-) => effect.Effect<
+export const getUserEndpoints: API.OperationMethod<
+  GetUserEndpointsRequest,
   GetUserEndpointsResponse,
   | BadRequestException
   | ForbiddenException
@@ -14126,9 +14044,8 @@ export const getUserEndpoints: (
 /**
  * Retrieves information about the status and settings of the voice channel for an application.
  */
-export const getVoiceChannel: (
-  input: GetVoiceChannelRequest,
-) => effect.Effect<
+export const getVoiceChannel: API.OperationMethod<
+  GetVoiceChannelRequest,
   GetVoiceChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14155,9 +14072,8 @@ export const getVoiceChannel: (
 /**
  * Retrieves the content and settings of a message template for messages that are sent through the voice channel.
  */
-export const getVoiceTemplate: (
-  input: GetVoiceTemplateRequest,
-) => effect.Effect<
+export const getVoiceTemplate: API.OperationMethod<
+  GetVoiceTemplateRequest,
   GetVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -14184,9 +14100,8 @@ export const getVoiceTemplate: (
 /**
  * Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
  */
-export const listJourneys: (
-  input: ListJourneysRequest,
-) => effect.Effect<
+export const listJourneys: API.OperationMethod<
+  ListJourneysRequest,
   ListJourneysResponse,
   | BadRequestException
   | ForbiddenException
@@ -14213,9 +14128,8 @@ export const listJourneys: (
 /**
  * Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14227,9 +14141,8 @@ export const listTagsForResource: (
 /**
  * Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
  */
-export const listTemplates: (
-  input: ListTemplatesRequest,
-) => effect.Effect<
+export const listTemplates: API.OperationMethod<
+  ListTemplatesRequest,
   ListTemplatesResponse,
   | BadRequestException
   | ForbiddenException
@@ -14252,9 +14165,8 @@ export const listTemplates: (
 /**
  * Retrieves information about all the versions of a specific message template.
  */
-export const listTemplateVersions: (
-  input: ListTemplateVersionsRequest,
-) => effect.Effect<
+export const listTemplateVersions: API.OperationMethod<
+  ListTemplateVersionsRequest,
   ListTemplateVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -14281,9 +14193,8 @@ export const listTemplateVersions: (
 /**
  * Retrieves information about a phone number.
  */
-export const phoneNumberValidate: (
-  input: PhoneNumberValidateRequest,
-) => effect.Effect<
+export const phoneNumberValidate: API.OperationMethod<
+  PhoneNumberValidateRequest,
   PhoneNumberValidateResponse,
   | BadRequestException
   | ForbiddenException
@@ -14310,9 +14221,8 @@ export const phoneNumberValidate: (
 /**
  * Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
  */
-export const putEvents: (
-  input: PutEventsRequest,
-) => effect.Effect<
+export const putEvents: API.OperationMethod<
+  PutEventsRequest,
   PutEventsResponse,
   | BadRequestException
   | ForbiddenException
@@ -14339,9 +14249,8 @@ export const putEvents: (
 /**
  * Creates a new event stream for an application or updates the settings of an existing event stream for an application.
  */
-export const putEventStream: (
-  input: PutEventStreamRequest,
-) => effect.Effect<
+export const putEventStream: API.OperationMethod<
+  PutEventStreamRequest,
   PutEventStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -14368,9 +14277,8 @@ export const putEventStream: (
 /**
  * Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
  */
-export const removeAttributes: (
-  input: RemoveAttributesRequest,
-) => effect.Effect<
+export const removeAttributes: API.OperationMethod<
+  RemoveAttributesRequest,
   RemoveAttributesResponse,
   | BadRequestException
   | ForbiddenException
@@ -14397,9 +14305,8 @@ export const removeAttributes: (
 /**
  * Creates and sends a direct message.
  */
-export const sendMessages: (
-  input: SendMessagesRequest,
-) => effect.Effect<
+export const sendMessages: API.OperationMethod<
+  SendMessagesRequest,
   SendMessagesResponse,
   | BadRequestException
   | ForbiddenException
@@ -14426,9 +14333,8 @@ export const sendMessages: (
 /**
  * Send an OTP message
  */
-export const sendOTPMessage: (
-  input: SendOTPMessageRequest,
-) => effect.Effect<
+export const sendOTPMessage: API.OperationMethod<
+  SendOTPMessageRequest,
   SendOTPMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -14455,9 +14361,8 @@ export const sendOTPMessage: (
 /**
  * Creates and sends a message to a list of users.
  */
-export const sendUsersMessages: (
-  input: SendUsersMessagesRequest,
-) => effect.Effect<
+export const sendUsersMessages: API.OperationMethod<
+  SendUsersMessagesRequest,
   SendUsersMessagesResponse,
   | BadRequestException
   | ForbiddenException
@@ -14484,9 +14389,8 @@ export const sendUsersMessages: (
 /**
  * Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14498,9 +14402,8 @@ export const tagResource: (
 /**
  * Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14512,9 +14415,8 @@ export const untagResource: (
 /**
  * Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
  */
-export const updateAdmChannel: (
-  input: UpdateAdmChannelRequest,
-) => effect.Effect<
+export const updateAdmChannel: API.OperationMethod<
+  UpdateAdmChannelRequest,
   UpdateAdmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14541,9 +14443,8 @@ export const updateAdmChannel: (
 /**
  * Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
  */
-export const updateApnsChannel: (
-  input: UpdateApnsChannelRequest,
-) => effect.Effect<
+export const updateApnsChannel: API.OperationMethod<
+  UpdateApnsChannelRequest,
   UpdateApnsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14570,9 +14471,8 @@ export const updateApnsChannel: (
 /**
  * Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
  */
-export const updateApnsSandboxChannel: (
-  input: UpdateApnsSandboxChannelRequest,
-) => effect.Effect<
+export const updateApnsSandboxChannel: API.OperationMethod<
+  UpdateApnsSandboxChannelRequest,
   UpdateApnsSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14599,9 +14499,8 @@ export const updateApnsSandboxChannel: (
 /**
  * Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
  */
-export const updateApnsVoipChannel: (
-  input: UpdateApnsVoipChannelRequest,
-) => effect.Effect<
+export const updateApnsVoipChannel: API.OperationMethod<
+  UpdateApnsVoipChannelRequest,
   UpdateApnsVoipChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14628,9 +14527,8 @@ export const updateApnsVoipChannel: (
 /**
  * Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
  */
-export const updateApnsVoipSandboxChannel: (
-  input: UpdateApnsVoipSandboxChannelRequest,
-) => effect.Effect<
+export const updateApnsVoipSandboxChannel: API.OperationMethod<
+  UpdateApnsVoipSandboxChannelRequest,
   UpdateApnsVoipSandboxChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14657,9 +14555,8 @@ export const updateApnsVoipSandboxChannel: (
 /**
  * Updates the settings for an application.
  */
-export const updateApplicationSettings: (
-  input: UpdateApplicationSettingsRequest,
-) => effect.Effect<
+export const updateApplicationSettings: API.OperationMethod<
+  UpdateApplicationSettingsRequest,
   UpdateApplicationSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -14686,9 +14583,8 @@ export const updateApplicationSettings: (
 /**
  * Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
  */
-export const updateBaiduChannel: (
-  input: UpdateBaiduChannelRequest,
-) => effect.Effect<
+export const updateBaiduChannel: API.OperationMethod<
+  UpdateBaiduChannelRequest,
   UpdateBaiduChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14715,9 +14611,8 @@ export const updateBaiduChannel: (
 /**
  * Updates the configuration and other settings for a campaign.
  */
-export const updateCampaign: (
-  input: UpdateCampaignRequest,
-) => effect.Effect<
+export const updateCampaign: API.OperationMethod<
+  UpdateCampaignRequest,
   UpdateCampaignResponse,
   | BadRequestException
   | ForbiddenException
@@ -14744,9 +14639,8 @@ export const updateCampaign: (
 /**
  * Enables the email channel for an application or updates the status and settings of the email channel for an application.
  */
-export const updateEmailChannel: (
-  input: UpdateEmailChannelRequest,
-) => effect.Effect<
+export const updateEmailChannel: API.OperationMethod<
+  UpdateEmailChannelRequest,
   UpdateEmailChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14773,9 +14667,8 @@ export const updateEmailChannel: (
 /**
  * Updates an existing message template for messages that are sent through the email channel.
  */
-export const updateEmailTemplate: (
-  input: UpdateEmailTemplateRequest,
-) => effect.Effect<
+export const updateEmailTemplate: API.OperationMethod<
+  UpdateEmailTemplateRequest,
   UpdateEmailTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -14802,9 +14695,8 @@ export const updateEmailTemplate: (
 /**
  * Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
-export const updateEndpoint: (
-  input: UpdateEndpointRequest,
-) => effect.Effect<
+export const updateEndpoint: API.OperationMethod<
+  UpdateEndpointRequest,
   UpdateEndpointResponse,
   | BadRequestException
   | ForbiddenException
@@ -14831,9 +14723,8 @@ export const updateEndpoint: (
 /**
  * Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
  */
-export const updateEndpointsBatch: (
-  input: UpdateEndpointsBatchRequest,
-) => effect.Effect<
+export const updateEndpointsBatch: API.OperationMethod<
+  UpdateEndpointsBatchRequest,
   UpdateEndpointsBatchResponse,
   | BadRequestException
   | ForbiddenException
@@ -14860,9 +14751,8 @@ export const updateEndpointsBatch: (
 /**
  * Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
  */
-export const updateGcmChannel: (
-  input: UpdateGcmChannelRequest,
-) => effect.Effect<
+export const updateGcmChannel: API.OperationMethod<
+  UpdateGcmChannelRequest,
   UpdateGcmChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -14889,9 +14779,8 @@ export const updateGcmChannel: (
 /**
  * Updates an existing message template for messages sent through the in-app message channel.
  */
-export const updateInAppTemplate: (
-  input: UpdateInAppTemplateRequest,
-) => effect.Effect<
+export const updateInAppTemplate: API.OperationMethod<
+  UpdateInAppTemplateRequest,
   UpdateInAppTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -14918,9 +14807,8 @@ export const updateInAppTemplate: (
 /**
  * Updates the configuration and other settings for a journey.
  */
-export const updateJourney: (
-  input: UpdateJourneyRequest,
-) => effect.Effect<
+export const updateJourney: API.OperationMethod<
+  UpdateJourneyRequest,
   UpdateJourneyResponse,
   | BadRequestException
   | ConflictException
@@ -14949,9 +14837,8 @@ export const updateJourney: (
 /**
  * Cancels (stops) an active journey.
  */
-export const updateJourneyState: (
-  input: UpdateJourneyStateRequest,
-) => effect.Effect<
+export const updateJourneyState: API.OperationMethod<
+  UpdateJourneyStateRequest,
   UpdateJourneyStateResponse,
   | BadRequestException
   | ForbiddenException
@@ -14978,9 +14865,8 @@ export const updateJourneyState: (
 /**
  * Updates an existing message template for messages that are sent through a push notification channel.
  */
-export const updatePushTemplate: (
-  input: UpdatePushTemplateRequest,
-) => effect.Effect<
+export const updatePushTemplate: API.OperationMethod<
+  UpdatePushTemplateRequest,
   UpdatePushTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -15007,9 +14893,8 @@ export const updatePushTemplate: (
 /**
  * Updates an Amazon Pinpoint configuration for a recommender model.
  */
-export const updateRecommenderConfiguration: (
-  input: UpdateRecommenderConfigurationRequest,
-) => effect.Effect<
+export const updateRecommenderConfiguration: API.OperationMethod<
+  UpdateRecommenderConfigurationRequest,
   UpdateRecommenderConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -15036,9 +14921,8 @@ export const updateRecommenderConfiguration: (
 /**
  * Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
  */
-export const updateSegment: (
-  input: UpdateSegmentRequest,
-) => effect.Effect<
+export const updateSegment: API.OperationMethod<
+  UpdateSegmentRequest,
   UpdateSegmentResponse,
   | BadRequestException
   | ForbiddenException
@@ -15065,9 +14949,8 @@ export const updateSegment: (
 /**
  * Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
  */
-export const updateSmsChannel: (
-  input: UpdateSmsChannelRequest,
-) => effect.Effect<
+export const updateSmsChannel: API.OperationMethod<
+  UpdateSmsChannelRequest,
   UpdateSmsChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -15094,9 +14977,8 @@ export const updateSmsChannel: (
 /**
  * Updates an existing message template for messages that are sent through the SMS channel.
  */
-export const updateSmsTemplate: (
-  input: UpdateSmsTemplateRequest,
-) => effect.Effect<
+export const updateSmsTemplate: API.OperationMethod<
+  UpdateSmsTemplateRequest,
   UpdateSmsTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -15123,9 +15005,8 @@ export const updateSmsTemplate: (
 /**
  * Changes the status of a specific version of a message template to *active*.
  */
-export const updateTemplateActiveVersion: (
-  input: UpdateTemplateActiveVersionRequest,
-) => effect.Effect<
+export const updateTemplateActiveVersion: API.OperationMethod<
+  UpdateTemplateActiveVersionRequest,
   UpdateTemplateActiveVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -15152,9 +15033,8 @@ export const updateTemplateActiveVersion: (
 /**
  * Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
  */
-export const updateVoiceChannel: (
-  input: UpdateVoiceChannelRequest,
-) => effect.Effect<
+export const updateVoiceChannel: API.OperationMethod<
+  UpdateVoiceChannelRequest,
   UpdateVoiceChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -15181,9 +15061,8 @@ export const updateVoiceChannel: (
 /**
  * Updates an existing message template for messages that are sent through the voice channel.
  */
-export const updateVoiceTemplate: (
-  input: UpdateVoiceTemplateRequest,
-) => effect.Effect<
+export const updateVoiceTemplate: API.OperationMethod<
+  UpdateVoiceTemplateRequest,
   UpdateVoiceTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -15210,9 +15089,8 @@ export const updateVoiceTemplate: (
 /**
  * Verify an OTP
  */
-export const verifyOTPMessage: (
-  input: VerifyOTPMessageRequest,
-) => effect.Effect<
+export const verifyOTPMessage: API.OperationMethod<
+  VerifyOTPMessageRequest,
   VerifyOTPMessageResponse,
   | BadRequestException
   | ForbiddenException

@@ -307,9 +307,8 @@ export type CreateContentResponse = string;
 export const CreateContentResponse =
   Schema.String as unknown as Schema.Schema<CreateContentResponse>;
 
-export const createContent: (
-  input: CreateContentRequest,
-) => Effect.Effect<
+export const createContent: API.OperationMethod<
+  CreateContentRequest,
   CreateContentResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -598,7 +597,7 @@ export const CreateJsonRequest = Schema.Struct({
       jsonSchema: Schema.optional(
         Schema.Union([Schema.Struct({}), Schema.Null]),
       ),
-    }).pipe(Schema.encodeKeys({ jsonSchema: "json_schema" })),
+    }).pipe(Schema.encodeKeys({ type: "type", jsonSchema: "json_schema" })),
   ),
   setExtraHTTPHeaders: Schema.optional(Schema.Struct({})),
   setJavaScriptEnabled: Schema.optional(Schema.Boolean),
@@ -624,8 +623,28 @@ export const CreateJsonRequest = Schema.Struct({
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    html: "html",
+    actionTimeout: "actionTimeout",
+    addScriptTag: "addScriptTag",
+    addStyleTag: "addStyleTag",
+    allowRequestPattern: "allowRequestPattern",
+    allowResourceTypes: "allowResourceTypes",
+    authenticate: "authenticate",
+    bestAttempt: "bestAttempt",
+    cookies: "cookies",
     customAi: "custom_ai",
+    emulateMediaType: "emulateMediaType",
+    gotoOptions: "gotoOptions",
+    prompt: "prompt",
+    rejectRequestPattern: "rejectRequestPattern",
+    rejectResourceTypes: "rejectResourceTypes",
     responseFormat: "response_format",
+    setExtraHTTPHeaders: "setExtraHTTPHeaders",
+    setJavaScriptEnabled: "setJavaScriptEnabled",
+    userAgent: "userAgent",
+    viewport: "viewport",
+    waitForSelector: "waitForSelector",
+    waitForTimeout: "waitForTimeout",
   }),
   T.Http({
     method: "POST",
@@ -639,9 +658,8 @@ export const CreateJsonResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<CreateJsonResponse>;
 
-export const createJson: (
-  input: CreateJsonRequest,
-) => Effect.Effect<
+export const createJson: API.OperationMethod<
+  CreateJsonRequest,
   CreateJsonResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -947,9 +965,8 @@ export const CreateLinkResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<CreateLinkResponse>;
 
-export const createLink: (
-  input: CreateLinkRequest,
-) => Effect.Effect<
+export const createLink: API.OperationMethod<
+  CreateLinkRequest,
   CreateLinkResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1248,9 +1265,8 @@ export type CreateMarkdownResponse = string;
 export const CreateMarkdownResponse =
   Schema.String as unknown as Schema.Schema<CreateMarkdownResponse>;
 
-export const createMarkdown: (
-  input: CreateMarkdownRequest,
-) => Effect.Effect<
+export const createMarkdown: API.OperationMethod<
+  CreateMarkdownRequest,
   CreateMarkdownResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1625,9 +1641,8 @@ export type CreatePdfResponse = unknown;
 export const CreatePdfResponse =
   Schema.Unknown as unknown as Schema.Schema<CreatePdfResponse>;
 
-export const createPdf: (
-  input: CreatePdfRequest,
-) => Effect.Effect<
+export const createPdf: API.OperationMethod<
+  CreatePdfRequest,
   CreatePdfResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1961,9 +1976,8 @@ export const CreateScrapeResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateScrapeResponse>;
 
-export const createScrape: (
-  input: CreateScrapeRequest,
-) => Effect.Effect<
+export const createScrape: API.OperationMethod<
+  CreateScrapeRequest,
   CreateScrapeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2320,9 +2334,8 @@ export const CreateScreenshotResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateScreenshotResponse>;
 
-export const createScreenshot: (
-  input: CreateScreenshotRequest,
-) => Effect.Effect<
+export const createScreenshot: API.OperationMethod<
+  CreateScreenshotRequest,
   CreateScreenshotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2665,9 +2678,8 @@ export const CreateSnapshotResponse = Schema.Struct({
   screenshot: Schema.String,
 }) as unknown as Schema.Schema<CreateSnapshotResponse>;
 
-export const createSnapshot: (
-  input: CreateSnapshotRequest,
-) => Effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
   CreateSnapshotResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

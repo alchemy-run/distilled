@@ -950,9 +950,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Creates a Savings Plan.
  */
-export const createSavingsPlan: (
-  input: CreateSavingsPlanRequest,
-) => effect.Effect<
+export const createSavingsPlan: API.OperationMethod<
+  CreateSavingsPlanRequest,
   CreateSavingsPlanResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -973,9 +972,8 @@ export const createSavingsPlan: (
 /**
  * Deletes the queued purchase for the specified Savings Plan.
  */
-export const deleteQueuedSavingsPlan: (
-  input: DeleteQueuedSavingsPlanRequest,
-) => effect.Effect<
+export const deleteQueuedSavingsPlan: API.OperationMethod<
+  DeleteQueuedSavingsPlanRequest,
   DeleteQueuedSavingsPlanResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -996,9 +994,8 @@ export const deleteQueuedSavingsPlan: (
 /**
  * Describes the rates for a specific, existing Savings Plan.
  */
-export const describeSavingsPlanRates: (
-  input: DescribeSavingsPlanRatesRequest,
-) => effect.Effect<
+export const describeSavingsPlanRates: API.OperationMethod<
+  DescribeSavingsPlanRatesRequest,
   DescribeSavingsPlanRatesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1017,9 +1014,8 @@ export const describeSavingsPlanRates: (
 /**
  * Describes the specified Savings Plans.
  */
-export const describeSavingsPlans: (
-  input: DescribeSavingsPlansRequest,
-) => effect.Effect<
+export const describeSavingsPlans: API.OperationMethod<
+  DescribeSavingsPlansRequest,
   DescribeSavingsPlansResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1031,9 +1027,8 @@ export const describeSavingsPlans: (
 /**
  * Describes the offering rates for Savings Plans you might want to purchase.
  */
-export const describeSavingsPlansOfferingRates: (
-  input: DescribeSavingsPlansOfferingRatesRequest,
-) => effect.Effect<
+export const describeSavingsPlansOfferingRates: API.OperationMethod<
+  DescribeSavingsPlansOfferingRatesRequest,
   DescribeSavingsPlansOfferingRatesResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1045,9 +1040,8 @@ export const describeSavingsPlansOfferingRates: (
 /**
  * Describes the offerings for the specified Savings Plans.
  */
-export const describeSavingsPlansOfferings: (
-  input: DescribeSavingsPlansOfferingsRequest,
-) => effect.Effect<
+export const describeSavingsPlansOfferings: API.OperationMethod<
+  DescribeSavingsPlansOfferingsRequest,
   DescribeSavingsPlansOfferingsResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1059,9 +1053,8 @@ export const describeSavingsPlansOfferings: (
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1080,9 +1073,8 @@ export const listTagsForResource: (
 /**
  * Returns the specified Savings Plan.
  */
-export const returnSavingsPlan: (
-  input: ReturnSavingsPlanRequest,
-) => effect.Effect<
+export const returnSavingsPlan: API.OperationMethod<
+  ReturnSavingsPlanRequest,
   ReturnSavingsPlanResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1103,9 +1095,8 @@ export const returnSavingsPlan: (
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1126,9 +1117,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException

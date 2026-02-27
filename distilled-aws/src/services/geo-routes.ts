@@ -3491,9 +3491,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Use the `CalculateIsolines` action to find service areas that can be reached in a given threshold of time, distance.
  */
-export const calculateIsolines: (
-  input: CalculateIsolinesRequest,
-) => effect.Effect<
+export const calculateIsolines: API.OperationMethod<
+  CalculateIsolinesRequest,
   CalculateIsolinesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3514,9 +3513,8 @@ export const calculateIsolines: (
 /**
  * Use `CalculateRouteMatrix` to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
  */
-export const calculateRouteMatrix: (
-  input: CalculateRouteMatrixRequest,
-) => effect.Effect<
+export const calculateRouteMatrix: API.OperationMethod<
+  CalculateRouteMatrixRequest,
   CalculateRouteMatrixResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3537,9 +3535,8 @@ export const calculateRouteMatrix: (
 /**
  * `CalculateRoutes` computes routes given the following required parameters: `Origin` and `Destination`.
  */
-export const calculateRoutes: (
-  input: CalculateRoutesRequest,
-) => effect.Effect<
+export const calculateRoutes: API.OperationMethod<
+  CalculateRoutesRequest,
   CalculateRoutesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3560,9 +3557,8 @@ export const calculateRoutes: (
 /**
  * `OptimizeWaypoints` calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
  */
-export const optimizeWaypoints: (
-  input: OptimizeWaypointsRequest,
-) => effect.Effect<
+export const optimizeWaypoints: API.OperationMethod<
+  OptimizeWaypointsRequest,
   OptimizeWaypointsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3583,9 +3579,8 @@ export const optimizeWaypoints: (
 /**
  * `SnapToRoads` matches GPS trace to roads most likely traveled on.
  */
-export const snapToRoads: (
-  input: SnapToRoadsRequest,
-) => effect.Effect<
+export const snapToRoads: API.OperationMethod<
+  SnapToRoadsRequest,
   SnapToRoadsResponse,
   | AccessDeniedException
   | InternalServerException

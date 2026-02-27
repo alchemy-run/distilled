@@ -53,12 +53,16 @@ export const GetOriginPostQuantumEncryptionResponse = Schema.Struct({
   value: Schema.Literals(["preferred", "supported", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
 
-export const getOriginPostQuantumEncryption: (
-  input: GetOriginPostQuantumEncryptionRequest,
-) => Effect.Effect<
+export const getOriginPostQuantumEncryption: API.OperationMethod<
+  GetOriginPostQuantumEncryptionRequest,
   GetOriginPostQuantumEncryptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -102,12 +106,16 @@ export const PutOriginPostQuantumEncryptionResponse = Schema.Struct({
   value: Schema.Literals(["preferred", "supported", "off"]),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
-  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+  Schema.encodeKeys({
+    id: "id",
+    editable: "editable",
+    value: "value",
+    modifiedOn: "modified_on",
+  }),
 ) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
 
-export const putOriginPostQuantumEncryption: (
-  input: PutOriginPostQuantumEncryptionRequest,
-) => Effect.Effect<
+export const putOriginPostQuantumEncryption: API.OperationMethod<
+  PutOriginPostQuantumEncryptionRequest,
   PutOriginPostQuantumEncryptionResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

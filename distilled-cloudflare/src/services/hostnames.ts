@@ -58,13 +58,18 @@ export const GetSettingTlsResponse = Schema.Array(
       Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
     ),
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      hostname: "hostname",
+      status: "status",
+      updatedAt: "updated_at",
+      value: "value",
+    }),
   ),
 ) as unknown as Schema.Schema<GetSettingTlsResponse>;
 
-export const getSettingTls: (
-  input: GetSettingTlsRequest,
-) => Effect.Effect<
+export const getSettingTls: API.OperationMethod<
+  GetSettingTlsRequest,
   GetSettingTlsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -119,12 +124,17 @@ export const PutSettingTlsResponse = Schema.Struct({
     Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    hostname: "hostname",
+    status: "status",
+    updatedAt: "updated_at",
+    value: "value",
+  }),
 ) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
-export const putSettingTls: (
-  input: PutSettingTlsRequest,
-) => Effect.Effect<
+export const putSettingTls: API.OperationMethod<
+  PutSettingTlsRequest,
   PutSettingTlsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -176,12 +186,17 @@ export const DeleteSettingTlsResponse = Schema.Struct({
     Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
   ),
 }).pipe(
-  Schema.encodeKeys({ createdAt: "created_at", updatedAt: "updated_at" }),
+  Schema.encodeKeys({
+    createdAt: "created_at",
+    hostname: "hostname",
+    status: "status",
+    updatedAt: "updated_at",
+    value: "value",
+  }),
 ) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
-export const deleteSettingTls: (
-  input: DeleteSettingTlsRequest,
-) => Effect.Effect<
+export const deleteSettingTls: API.OperationMethod<
+  DeleteSettingTlsRequest,
   DeleteSettingTlsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

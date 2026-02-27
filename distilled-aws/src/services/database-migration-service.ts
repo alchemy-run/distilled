@@ -7789,9 +7789,8 @@ export class KMSFault extends S.TaggedErrorClass<KMSFault>()("KMSFault", {
  * data type
  * description.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceMessage,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceMessage,
   AddTagsToResourceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7804,9 +7803,8 @@ export const addTagsToResource: (
  * Applies a pending maintenance action to a resource (for example, to a replication
  * instance).
  */
-export const applyPendingMaintenanceAction: (
-  input: ApplyPendingMaintenanceActionMessage,
-) => effect.Effect<
+export const applyPendingMaintenanceAction: API.OperationMethod<
+  ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResponse,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7826,9 +7824,8 @@ export const applyPendingMaintenanceAction: (
  * unsuccessful actions, you should check for batch errors even when the call returns an
  * HTTP status code of `200`.
  */
-export const batchStartRecommendations: (
-  input: BatchStartRecommendationsRequest,
-) => effect.Effect<
+export const batchStartRecommendations: API.OperationMethod<
+  BatchStartRecommendationsRequest,
   BatchStartRecommendationsResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -7843,9 +7840,8 @@ export const batchStartRecommendations: (
 /**
  * Cancels a single metadata model conversion operation that was started with `StartMetadataModelConversion`.
  */
-export const cancelMetadataModelConversion: (
-  input: CancelMetadataModelConversionMessage,
-) => effect.Effect<
+export const cancelMetadataModelConversion: API.OperationMethod<
+  CancelMetadataModelConversionMessage,
   CancelMetadataModelConversionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -7860,9 +7856,8 @@ export const cancelMetadataModelConversion: (
 /**
  * Cancels a single metadata model creation operation that was started with `StartMetadataModelCreation`.
  */
-export const cancelMetadataModelCreation: (
-  input: CancelMetadataModelCreationMessage,
-) => effect.Effect<
+export const cancelMetadataModelCreation: API.OperationMethod<
+  CancelMetadataModelCreationMessage,
   CancelMetadataModelCreationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -7881,9 +7876,8 @@ export const cancelMetadataModelCreation: (
  * running. It also attempts to cancel any individual assessments that are currently
  * running.
  */
-export const cancelReplicationTaskAssessmentRun: (
-  input: CancelReplicationTaskAssessmentRunMessage,
-) => effect.Effect<
+export const cancelReplicationTaskAssessmentRun: API.OperationMethod<
+  CancelReplicationTaskAssessmentRunMessage,
   CancelReplicationTaskAssessmentRunResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -7898,9 +7892,8 @@ export const cancelReplicationTaskAssessmentRun: (
 /**
  * Creates a data migration using the provided settings.
  */
-export const createDataMigration: (
-  input: CreateDataMigrationMessage,
-) => effect.Effect<
+export const createDataMigration: API.OperationMethod<
+  CreateDataMigrationMessage,
   CreateDataMigrationResponse,
   | FailedDependencyFault
   | InvalidOperationFault
@@ -7924,9 +7917,8 @@ export const createDataMigration: (
  * Creates a data provider using the provided settings. A data provider stores a data store
  * type and location information about your database.
  */
-export const createDataProvider: (
-  input: CreateDataProviderMessage,
-) => effect.Effect<
+export const createDataProvider: API.OperationMethod<
+  CreateDataProviderMessage,
   CreateDataProviderResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -7954,9 +7946,8 @@ export const createDataProvider: (
  * database only when you specify the schema in the table-mapping rules of the DMS
  * task.
  */
-export const createEndpoint: (
-  input: CreateEndpointMessage,
-) => effect.Effect<
+export const createEndpoint: API.OperationMethod<
+  CreateEndpointMessage,
   CreateEndpointResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -7998,9 +7989,8 @@ export const createEndpoint: (
  * For more information about DMS events, see Working with Events and
  * Notifications in the *Database Migration Service User Guide.*
  */
-export const createEventSubscription: (
-  input: CreateEventSubscriptionMessage,
-) => effect.Effect<
+export const createEventSubscription: API.OperationMethod<
+  CreateEventSubscriptionMessage,
   CreateEventSubscriptionResponse,
   | KMSAccessDeniedFault
   | KMSDisabledFault
@@ -8035,9 +8025,8 @@ export const createEventSubscription: (
  *
  * Creates a Fleet Advisor collector using the specified parameters.
  */
-export const createFleetAdvisorCollector: (
-  input: CreateFleetAdvisorCollectorRequest,
-) => effect.Effect<
+export const createFleetAdvisorCollector: API.OperationMethod<
+  CreateFleetAdvisorCollectorRequest,
   CreateFleetAdvisorCollectorResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8060,9 +8049,8 @@ export const createFleetAdvisorCollector: (
 /**
  * Creates the instance profile using the specified parameters.
  */
-export const createInstanceProfile: (
-  input: CreateInstanceProfileMessage,
-) => effect.Effect<
+export const createInstanceProfile: API.OperationMethod<
+  CreateInstanceProfileMessage,
   CreateInstanceProfileResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8096,9 +8084,8 @@ export const createInstanceProfile: (
  * You can run this action only after you create an instance profile and data providers
  * using CreateInstanceProfile and CreateDataProvider.
  */
-export const createMigrationProject: (
-  input: CreateMigrationProjectMessage,
-) => effect.Effect<
+export const createMigrationProject: API.OperationMethod<
+  CreateMigrationProjectMessage,
   CreateMigrationProjectResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8127,9 +8114,8 @@ export const createMigrationProject: (
  * Serverless replication. You can also provide options to validate the configuration inputs
  * before you start the replication.
  */
-export const createReplicationConfig: (
-  input: CreateReplicationConfigMessage,
-) => effect.Effect<
+export const createReplicationConfig: API.OperationMethod<
+  CreateReplicationConfigMessage,
   CreateReplicationConfigResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8167,9 +8153,8 @@ export const createReplicationConfig: (
  * create the instance using the default engine version. For information about the default
  * engine version, see Release Notes.
  */
-export const createReplicationInstance: (
-  input: CreateReplicationInstanceMessage,
-) => effect.Effect<
+export const createReplicationInstance: API.OperationMethod<
+  CreateReplicationInstanceMessage,
   CreateReplicationInstanceResponse,
   | AccessDeniedFault
   | InsufficientResourceCapacityFault
@@ -8212,9 +8197,8 @@ export const createReplicationInstance: (
  * do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the
  * DMS console, then choose your subnet group. Next, choose Delete from Actions.
  */
-export const createReplicationSubnetGroup: (
-  input: CreateReplicationSubnetGroupMessage,
-) => effect.Effect<
+export const createReplicationSubnetGroup: API.OperationMethod<
+  CreateReplicationSubnetGroupMessage,
   CreateReplicationSubnetGroupResponse,
   | AccessDeniedFault
   | InvalidSubnet
@@ -8239,9 +8223,8 @@ export const createReplicationSubnetGroup: (
 /**
  * Creates a replication task using the specified parameters.
  */
-export const createReplicationTask: (
-  input: CreateReplicationTaskMessage,
-) => effect.Effect<
+export const createReplicationTask: API.OperationMethod<
+  CreateReplicationTaskMessage,
   CreateReplicationTaskResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8266,9 +8249,8 @@ export const createReplicationTask: (
 /**
  * Deletes the specified certificate.
  */
-export const deleteCertificate: (
-  input: DeleteCertificateMessage,
-) => effect.Effect<
+export const deleteCertificate: API.OperationMethod<
+  DeleteCertificateMessage,
   DeleteCertificateResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8280,9 +8262,8 @@ export const deleteCertificate: (
 /**
  * Deletes the connection between a replication instance and an endpoint.
  */
-export const deleteConnection: (
-  input: DeleteConnectionMessage,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionMessage,
   DeleteConnectionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8297,9 +8278,8 @@ export const deleteConnection: (
 /**
  * Deletes the specified data migration.
  */
-export const deleteDataMigration: (
-  input: DeleteDataMigrationMessage,
-) => effect.Effect<
+export const deleteDataMigration: API.OperationMethod<
+  DeleteDataMigrationMessage,
   DeleteDataMigrationResponse,
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -8321,9 +8301,8 @@ export const deleteDataMigration: (
  * All migration projects associated with the data provider must be deleted or modified
  * before you can delete the data provider.
  */
-export const deleteDataProvider: (
-  input: DeleteDataProviderMessage,
-) => effect.Effect<
+export const deleteDataProvider: API.OperationMethod<
+  DeleteDataProviderMessage,
   DeleteDataProviderResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8347,9 +8326,8 @@ export const deleteDataProvider: (
  * All tasks associated with the endpoint must be deleted before you can delete the
  * endpoint.
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointMessage,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointMessage,
   DeleteEndpointResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8361,9 +8339,8 @@ export const deleteEndpoint: (
 /**
  * Deletes an DMS event subscription.
  */
-export const deleteEventSubscription: (
-  input: DeleteEventSubscriptionMessage,
-) => effect.Effect<
+export const deleteEventSubscription: API.OperationMethod<
+  DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8380,9 +8357,8 @@ export const deleteEventSubscription: (
  *
  * Deletes the specified Fleet Advisor collector.
  */
-export const deleteFleetAdvisorCollector: (
-  input: DeleteCollectorRequest,
-) => effect.Effect<
+export const deleteFleetAdvisorCollector: API.OperationMethod<
+  DeleteCollectorRequest,
   DeleteFleetAdvisorCollectorResponse,
   | AccessDeniedFault
   | CollectorNotFoundFault
@@ -8403,9 +8379,8 @@ export const deleteFleetAdvisorCollector: (
  *
  * Deletes the specified Fleet Advisor collector databases.
  */
-export const deleteFleetAdvisorDatabases: (
-  input: DeleteFleetAdvisorDatabasesRequest,
-) => effect.Effect<
+export const deleteFleetAdvisorDatabases: API.OperationMethod<
+  DeleteFleetAdvisorDatabasesRequest,
   DeleteFleetAdvisorDatabasesResponse,
   | AccessDeniedFault
   | InvalidOperationFault
@@ -8423,9 +8398,8 @@ export const deleteFleetAdvisorDatabases: (
  * All migration projects associated with the instance profile must be deleted or
  * modified before you can delete the instance profile.
  */
-export const deleteInstanceProfile: (
-  input: DeleteInstanceProfileMessage,
-) => effect.Effect<
+export const deleteInstanceProfile: API.OperationMethod<
+  DeleteInstanceProfileMessage,
   DeleteInstanceProfileResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8448,9 +8422,8 @@ export const deleteInstanceProfile: (
  *
  * The migration project must be closed before you can delete it.
  */
-export const deleteMigrationProject: (
-  input: DeleteMigrationProjectMessage,
-) => effect.Effect<
+export const deleteMigrationProject: API.OperationMethod<
+  DeleteMigrationProjectMessage,
   DeleteMigrationProjectResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -8474,9 +8447,8 @@ export const deleteMigrationProject: (
  * DMS Serverless replication that is ongoing. You can delete the configuration when the
  * replication is in a non-RUNNING and non-STARTING state.
  */
-export const deleteReplicationConfig: (
-  input: DeleteReplicationConfigMessage,
-) => effect.Effect<
+export const deleteReplicationConfig: API.OperationMethod<
+  DeleteReplicationConfigMessage,
   DeleteReplicationConfigResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8494,9 +8466,8 @@ export const deleteReplicationConfig: (
  * You must delete any migration tasks that are associated with the replication instance
  * before you can delete it.
  */
-export const deleteReplicationInstance: (
-  input: DeleteReplicationInstanceMessage,
-) => effect.Effect<
+export const deleteReplicationInstance: API.OperationMethod<
+  DeleteReplicationInstanceMessage,
   DeleteReplicationInstanceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8508,9 +8479,8 @@ export const deleteReplicationInstance: (
 /**
  * Deletes a subnet group.
  */
-export const deleteReplicationSubnetGroup: (
-  input: DeleteReplicationSubnetGroupMessage,
-) => effect.Effect<
+export const deleteReplicationSubnetGroup: API.OperationMethod<
+  DeleteReplicationSubnetGroupMessage,
   DeleteReplicationSubnetGroupResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8525,9 +8495,8 @@ export const deleteReplicationSubnetGroup: (
 /**
  * Deletes the specified replication task.
  */
-export const deleteReplicationTask: (
-  input: DeleteReplicationTaskMessage,
-) => effect.Effect<
+export const deleteReplicationTask: API.OperationMethod<
+  DeleteReplicationTaskMessage,
   DeleteReplicationTaskResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8543,9 +8512,8 @@ export const deleteReplicationTask: (
  * However, the operation leaves untouched all information about this assessment run that is
  * stored in your Amazon S3 bucket.
  */
-export const deleteReplicationTaskAssessmentRun: (
-  input: DeleteReplicationTaskAssessmentRunMessage,
-) => effect.Effect<
+export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
+  DeleteReplicationTaskAssessmentRunMessage,
   DeleteReplicationTaskAssessmentRunResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -8567,9 +8535,8 @@ export const deleteReplicationTaskAssessmentRun: (
  *
  * This command does not take any parameters.
  */
-export const describeAccountAttributes: (
-  input: DescribeAccountAttributesMessage,
-) => effect.Effect<
+export const describeAccountAttributes: API.OperationMethod<
+  DescribeAccountAttributesMessage,
   DescribeAccountAttributesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8599,17 +8566,15 @@ export const describeAccountAttributes: (
  * migration task. The specified task definition then determines the default list of
  * individual assessments that you can specify in an assessment run for the task.
  */
-export const describeApplicableIndividualAssessments: {
-  (
-    input: DescribeApplicableIndividualAssessmentsMessage,
-  ): effect.Effect<
-    DescribeApplicableIndividualAssessmentsResponse,
-    | AccessDeniedFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeApplicableIndividualAssessments: API.OperationMethod<
+  DescribeApplicableIndividualAssessmentsMessage,
+  DescribeApplicableIndividualAssessmentsResponse,
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeApplicableIndividualAssessmentsMessage,
   ) => stream.Stream<
@@ -8643,14 +8608,12 @@ export const describeApplicableIndividualAssessments: {
 /**
  * Provides a description of the certificate.
  */
-export const describeCertificates: {
-  (
-    input: DescribeCertificatesMessage,
-  ): effect.Effect<
-    DescribeCertificatesResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCertificates: API.OperationMethod<
+  DescribeCertificatesMessage,
+  DescribeCertificatesResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
@@ -8679,14 +8642,12 @@ export const describeCertificates: {
  * Describes the status of the connections that have been made between the replication
  * instance and an endpoint. Connections are created when you test an endpoint.
  */
-export const describeConnections: {
-  (
-    input: DescribeConnectionsMessage,
-  ): effect.Effect<
-    DescribeConnectionsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConnections: API.OperationMethod<
+  DescribeConnectionsMessage,
+  DescribeConnectionsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConnectionsMessage,
   ) => stream.Stream<
@@ -8714,9 +8675,8 @@ export const describeConnections: {
 /**
  * Returns configuration parameters for a schema conversion project.
  */
-export const describeConversionConfiguration: (
-  input: DescribeConversionConfigurationMessage,
-) => effect.Effect<
+export const describeConversionConfiguration: API.OperationMethod<
+  DescribeConversionConfigurationMessage,
   DescribeConversionConfigurationResponse,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8728,17 +8688,15 @@ export const describeConversionConfiguration: (
 /**
  * Returns information about data migrations.
  */
-export const describeDataMigrations: {
-  (
-    input: DescribeDataMigrationsMessage,
-  ): effect.Effect<
-    DescribeDataMigrationsResponse,
-    | FailedDependencyFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDataMigrations: API.OperationMethod<
+  DescribeDataMigrationsMessage,
+  DescribeDataMigrationsResponse,
+  | FailedDependencyFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataMigrationsMessage,
   ) => stream.Stream<
@@ -8778,17 +8736,15 @@ export const describeDataMigrations: {
  * Returns a paginated list of data providers for your account in the current
  * region.
  */
-export const describeDataProviders: {
-  (
-    input: DescribeDataProvidersMessage,
-  ): effect.Effect<
-    DescribeDataProvidersResponse,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDataProviders: API.OperationMethod<
+  DescribeDataProvidersMessage,
+  DescribeDataProvidersResponse,
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataProvidersMessage,
   ) => stream.Stream<
@@ -8822,14 +8778,12 @@ export const describeDataProviders: {
 /**
  * Returns information about the endpoints for your account in the current region.
  */
-export const describeEndpoints: {
-  (
-    input: DescribeEndpointsMessage,
-  ): effect.Effect<
-    DescribeEndpointsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEndpoints: API.OperationMethod<
+  DescribeEndpointsMessage,
+  DescribeEndpointsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEndpointsMessage,
   ) => stream.Stream<
@@ -8858,14 +8812,12 @@ export const describeEndpoints: {
  * Returns information about the possible endpoint settings available when you create an
  * endpoint for a specific database engine.
  */
-export const describeEndpointSettings: {
-  (
-    input: DescribeEndpointSettingsMessage,
-  ): effect.Effect<
-    DescribeEndpointSettingsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEndpointSettings: API.OperationMethod<
+  DescribeEndpointSettingsMessage,
+  DescribeEndpointSettingsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEndpointSettingsMessage,
   ) => stream.Stream<
@@ -8893,14 +8845,12 @@ export const describeEndpointSettings: {
 /**
  * Returns information about the type of endpoints available.
  */
-export const describeEndpointTypes: {
-  (
-    input: DescribeEndpointTypesMessage,
-  ): effect.Effect<
-    DescribeEndpointTypesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEndpointTypes: API.OperationMethod<
+  DescribeEndpointTypesMessage,
+  DescribeEndpointTypesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEndpointTypesMessage,
   ) => stream.Stream<
@@ -8928,14 +8878,12 @@ export const describeEndpointTypes: {
 /**
  * Returns information about the replication instance versions used in the project.
  */
-export const describeEngineVersions: {
-  (
-    input: DescribeEngineVersionsMessage,
-  ): effect.Effect<
-    DescribeEngineVersionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEngineVersions: API.OperationMethod<
+  DescribeEngineVersionsMessage,
+  DescribeEngineVersionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEngineVersionsMessage,
   ) => stream.Stream<
@@ -8965,9 +8913,8 @@ export const describeEngineVersions: {
  * type. You can see a list of the event categories and source types in Working with Events
  * and Notifications in the *Database Migration Service User Guide.*
  */
-export const describeEventCategories: (
-  input: DescribeEventCategoriesMessage,
-) => effect.Effect<
+export const describeEventCategories: API.OperationMethod<
+  DescribeEventCategoriesMessage,
   DescribeEventCategoriesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8981,14 +8928,12 @@ export const describeEventCategories: (
  * start and end time. For more information on DMS events, see Working with Events and
  * Notifications in the *Database Migration Service User Guide.*
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    DescribeEventsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  DescribeEventsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -9022,14 +8967,12 @@ export const describeEvents: {
  * If you specify `SubscriptionName`, this action lists the description for that
  * subscription.
  */
-export const describeEventSubscriptions: {
-  (
-    input: DescribeEventSubscriptionsMessage,
-  ): effect.Effect<
-    DescribeEventSubscriptionsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEventSubscriptions: API.OperationMethod<
+  DescribeEventSubscriptionsMessage,
+  DescribeEventSubscriptionsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
@@ -9059,14 +9002,12 @@ export const describeEventSubscriptions: {
  * project. An extension pack is an add-on module that emulates functions present in a source
  * database that are required when converting objects to the target database.
  */
-export const describeExtensionPackAssociations: {
-  (
-    input: DescribeExtensionPackAssociationsMessage,
-  ): effect.Effect<
-    DescribeExtensionPackAssociationsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeExtensionPackAssociations: API.OperationMethod<
+  DescribeExtensionPackAssociationsMessage,
+  DescribeExtensionPackAssociationsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeExtensionPackAssociationsMessage,
   ) => stream.Stream<
@@ -9096,14 +9037,12 @@ export const describeExtensionPackAssociations: {
  *
  * Returns a list of the Fleet Advisor collectors in your account.
  */
-export const describeFleetAdvisorCollectors: {
-  (
-    input: DescribeFleetAdvisorCollectorsRequest,
-  ): effect.Effect<
-    DescribeFleetAdvisorCollectorsResponse,
-    InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetAdvisorCollectors: API.OperationMethod<
+  DescribeFleetAdvisorCollectorsRequest,
+  DescribeFleetAdvisorCollectorsResponse,
+  InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetAdvisorCollectorsRequest,
   ) => stream.Stream<
@@ -9133,14 +9072,12 @@ export const describeFleetAdvisorCollectors: {
  *
  * Returns a list of Fleet Advisor databases in your account.
  */
-export const describeFleetAdvisorDatabases: {
-  (
-    input: DescribeFleetAdvisorDatabasesRequest,
-  ): effect.Effect<
-    DescribeFleetAdvisorDatabasesResponse,
-    InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetAdvisorDatabases: API.OperationMethod<
+  DescribeFleetAdvisorDatabasesRequest,
+  DescribeFleetAdvisorDatabasesResponse,
+  InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetAdvisorDatabasesRequest,
   ) => stream.Stream<
@@ -9171,14 +9108,12 @@ export const describeFleetAdvisorDatabases: {
  * Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet
  * Advisor collectors.
  */
-export const describeFleetAdvisorLsaAnalysis: {
-  (
-    input: DescribeFleetAdvisorLsaAnalysisRequest,
-  ): effect.Effect<
-    DescribeFleetAdvisorLsaAnalysisResponse,
-    InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetAdvisorLsaAnalysis: API.OperationMethod<
+  DescribeFleetAdvisorLsaAnalysisRequest,
+  DescribeFleetAdvisorLsaAnalysisResponse,
+  InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetAdvisorLsaAnalysisRequest,
   ) => stream.Stream<
@@ -9209,14 +9144,12 @@ export const describeFleetAdvisorLsaAnalysis: {
  * Provides descriptions of the schemas discovered by your Fleet Advisor
  * collectors.
  */
-export const describeFleetAdvisorSchemaObjectSummary: {
-  (
-    input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
-  ): effect.Effect<
-    DescribeFleetAdvisorSchemaObjectSummaryResponse,
-    InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetAdvisorSchemaObjectSummary: API.OperationMethod<
+  DescribeFleetAdvisorSchemaObjectSummaryRequest,
+  DescribeFleetAdvisorSchemaObjectSummaryResponse,
+  InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
   ) => stream.Stream<
@@ -9246,14 +9179,12 @@ export const describeFleetAdvisorSchemaObjectSummary: {
  *
  * Returns a list of schemas detected by Fleet Advisor Collectors in your account.
  */
-export const describeFleetAdvisorSchemas: {
-  (
-    input: DescribeFleetAdvisorSchemasRequest,
-  ): effect.Effect<
-    DescribeFleetAdvisorSchemasResponse,
-    InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeFleetAdvisorSchemas: API.OperationMethod<
+  DescribeFleetAdvisorSchemasRequest,
+  DescribeFleetAdvisorSchemasResponse,
+  InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFleetAdvisorSchemasRequest,
   ) => stream.Stream<
@@ -9282,17 +9213,15 @@ export const describeFleetAdvisorSchemas: {
  * Returns a paginated list of instance profiles for your account in the current
  * region.
  */
-export const describeInstanceProfiles: {
-  (
-    input: DescribeInstanceProfilesMessage,
-  ): effect.Effect<
-    DescribeInstanceProfilesResponse,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeInstanceProfiles: API.OperationMethod<
+  DescribeInstanceProfilesMessage,
+  DescribeInstanceProfilesResponse,
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInstanceProfilesMessage,
   ) => stream.Stream<
@@ -9326,9 +9255,8 @@ export const describeInstanceProfiles: {
 /**
  * Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
  */
-export const describeMetadataModel: (
-  input: DescribeMetadataModelMessage,
-) => effect.Effect<
+export const describeMetadataModel: API.OperationMethod<
+  DescribeMetadataModelMessage,
   DescribeMetadataModelResponse,
   AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9341,14 +9269,12 @@ export const describeMetadataModel: (
  * Returns a paginated list of metadata model assessments for your account in the current
  * region.
  */
-export const describeMetadataModelAssessments: {
-  (
-    input: DescribeMetadataModelAssessmentsMessage,
-  ): effect.Effect<
-    DescribeMetadataModelAssessmentsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelAssessments: API.OperationMethod<
+  DescribeMetadataModelAssessmentsMessage,
+  DescribeMetadataModelAssessmentsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelAssessmentsMessage,
   ) => stream.Stream<
@@ -9376,14 +9302,12 @@ export const describeMetadataModelAssessments: {
 /**
  * Gets a list of child metadata models for the specified metadata model in the database hierarchy.
  */
-export const describeMetadataModelChildren: {
-  (
-    input: DescribeMetadataModelChildrenMessage,
-  ): effect.Effect<
-    DescribeMetadataModelChildrenResponse,
-    AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelChildren: API.OperationMethod<
+  DescribeMetadataModelChildrenMessage,
+  DescribeMetadataModelChildrenResponse,
+  AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelChildrenMessage,
   ) => stream.Stream<
@@ -9412,14 +9336,12 @@ export const describeMetadataModelChildren: {
 /**
  * Returns a paginated list of metadata model conversions for a migration project.
  */
-export const describeMetadataModelConversions: {
-  (
-    input: DescribeMetadataModelConversionsMessage,
-  ): effect.Effect<
-    DescribeMetadataModelConversionsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelConversions: API.OperationMethod<
+  DescribeMetadataModelConversionsMessage,
+  DescribeMetadataModelConversionsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelConversionsMessage,
   ) => stream.Stream<
@@ -9447,14 +9369,12 @@ export const describeMetadataModelConversions: {
 /**
  * Returns a paginated list of metadata model creation requests for a migration project.
  */
-export const describeMetadataModelCreations: {
-  (
-    input: DescribeMetadataModelCreationsMessage,
-  ): effect.Effect<
-    DescribeMetadataModelCreationsResponse,
-    AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelCreations: API.OperationMethod<
+  DescribeMetadataModelCreationsMessage,
+  DescribeMetadataModelCreationsResponse,
+  AccessDeniedFault | ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelCreationsMessage,
   ) => stream.Stream<
@@ -9483,14 +9403,12 @@ export const describeMetadataModelCreations: {
 /**
  * Returns a paginated list of metadata model exports.
  */
-export const describeMetadataModelExportsAsScript: {
-  (
-    input: DescribeMetadataModelExportsAsScriptMessage,
-  ): effect.Effect<
-    DescribeMetadataModelExportsAsScriptResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelExportsAsScript: API.OperationMethod<
+  DescribeMetadataModelExportsAsScriptMessage,
+  DescribeMetadataModelExportsAsScriptResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelExportsAsScriptMessage,
   ) => stream.Stream<
@@ -9518,14 +9436,12 @@ export const describeMetadataModelExportsAsScript: {
 /**
  * Returns a paginated list of metadata model exports.
  */
-export const describeMetadataModelExportsToTarget: {
-  (
-    input: DescribeMetadataModelExportsToTargetMessage,
-  ): effect.Effect<
-    DescribeMetadataModelExportsToTargetResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelExportsToTarget: API.OperationMethod<
+  DescribeMetadataModelExportsToTargetMessage,
+  DescribeMetadataModelExportsToTargetResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelExportsToTargetMessage,
   ) => stream.Stream<
@@ -9553,14 +9469,12 @@ export const describeMetadataModelExportsToTarget: {
 /**
  * Returns a paginated list of metadata model imports.
  */
-export const describeMetadataModelImports: {
-  (
-    input: DescribeMetadataModelImportsMessage,
-  ): effect.Effect<
-    DescribeMetadataModelImportsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetadataModelImports: API.OperationMethod<
+  DescribeMetadataModelImportsMessage,
+  DescribeMetadataModelImportsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetadataModelImportsMessage,
   ) => stream.Stream<
@@ -9589,17 +9503,15 @@ export const describeMetadataModelImports: {
  * Returns a paginated list of migration projects for your account in the current
  * region.
  */
-export const describeMigrationProjects: {
-  (
-    input: DescribeMigrationProjectsMessage,
-  ): effect.Effect<
-    DescribeMigrationProjectsResponse,
-    | AccessDeniedFault
-    | FailedDependencyFault
-    | ResourceNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMigrationProjects: API.OperationMethod<
+  DescribeMigrationProjectsMessage,
+  DescribeMigrationProjectsResponse,
+  | AccessDeniedFault
+  | FailedDependencyFault
+  | ResourceNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMigrationProjectsMessage,
   ) => stream.Stream<
@@ -9634,14 +9546,12 @@ export const describeMigrationProjects: {
  * Returns information about the replication instance types that can be created in the
  * specified region.
  */
-export const describeOrderableReplicationInstances: {
-  (
-    input: DescribeOrderableReplicationInstancesMessage,
-  ): effect.Effect<
-    DescribeOrderableReplicationInstancesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrderableReplicationInstances: API.OperationMethod<
+  DescribeOrderableReplicationInstancesMessage,
+  DescribeOrderableReplicationInstancesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrderableReplicationInstancesMessage,
   ) => stream.Stream<
@@ -9670,14 +9580,12 @@ export const describeOrderableReplicationInstances: {
  * Returns a list of upcoming maintenance events for replication instances in your account
  * in the current Region.
  */
-export const describePendingMaintenanceActions: {
-  (
-    input: DescribePendingMaintenanceActionsMessage,
-  ): effect.Effect<
-    DescribePendingMaintenanceActionsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePendingMaintenanceActions: API.OperationMethod<
+  DescribePendingMaintenanceActionsMessage,
+  DescribePendingMaintenanceActionsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
@@ -9708,14 +9616,12 @@ export const describePendingMaintenanceActions: {
  * Returns a paginated list of limitations for recommendations of target Amazon Web Services
  * engines.
  */
-export const describeRecommendationLimitations: {
-  (
-    input: DescribeRecommendationLimitationsRequest,
-  ): effect.Effect<
-    DescribeRecommendationLimitationsResponse,
-    AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRecommendationLimitations: API.OperationMethod<
+  DescribeRecommendationLimitationsRequest,
+  DescribeRecommendationLimitationsResponse,
+  AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRecommendationLimitationsRequest,
   ) => stream.Stream<
@@ -9746,14 +9652,12 @@ export const describeRecommendationLimitations: {
  * Returns a paginated list of target engine recommendations for your source
  * databases.
  */
-export const describeRecommendations: {
-  (
-    input: DescribeRecommendationsRequest,
-  ): effect.Effect<
-    DescribeRecommendationsResponse,
-    AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRecommendations: API.OperationMethod<
+  DescribeRecommendationsRequest,
+  DescribeRecommendationsResponse,
+  AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRecommendationsRequest,
   ) => stream.Stream<
@@ -9781,9 +9685,8 @@ export const describeRecommendations: {
 /**
  * Returns the status of the RefreshSchemas operation.
  */
-export const describeRefreshSchemasStatus: (
-  input: DescribeRefreshSchemasStatusMessage,
-) => effect.Effect<
+export const describeRefreshSchemasStatus: API.OperationMethod<
+  DescribeRefreshSchemasStatusMessage,
   DescribeRefreshSchemasStatusResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9796,14 +9699,12 @@ export const describeRefreshSchemasStatus: (
  * Returns one or more existing DMS Serverless replication configurations as a list of
  * structures.
  */
-export const describeReplicationConfigs: {
-  (
-    input: DescribeReplicationConfigsMessage,
-  ): effect.Effect<
-    DescribeReplicationConfigsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationConfigs: API.OperationMethod<
+  DescribeReplicationConfigsMessage,
+  DescribeReplicationConfigsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationConfigsMessage,
   ) => stream.Stream<
@@ -9832,14 +9733,12 @@ export const describeReplicationConfigs: {
  * Returns information about replication instances for your account in the current
  * region.
  */
-export const describeReplicationInstances: {
-  (
-    input: DescribeReplicationInstancesMessage,
-  ): effect.Effect<
-    DescribeReplicationInstancesResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationInstances: API.OperationMethod<
+  DescribeReplicationInstancesMessage,
+  DescribeReplicationInstancesResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationInstancesMessage,
   ) => stream.Stream<
@@ -9867,14 +9766,12 @@ export const describeReplicationInstances: {
 /**
  * Returns information about the task logs for the specified task.
  */
-export const describeReplicationInstanceTaskLogs: {
-  (
-    input: DescribeReplicationInstanceTaskLogsMessage,
-  ): effect.Effect<
-    DescribeReplicationInstanceTaskLogsResponse,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationInstanceTaskLogs: API.OperationMethod<
+  DescribeReplicationInstanceTaskLogsMessage,
+  DescribeReplicationInstanceTaskLogsResponse,
+  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationInstanceTaskLogsMessage,
   ) => stream.Stream<
@@ -9903,14 +9800,12 @@ export const describeReplicationInstanceTaskLogs: {
  * Provides details on replication progress by returning status information for one or more
  * provisioned DMS Serverless replications.
  */
-export const describeReplications: {
-  (
-    input: DescribeReplicationsMessage,
-  ): effect.Effect<
-    DescribeReplicationsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplications: API.OperationMethod<
+  DescribeReplicationsMessage,
+  DescribeReplicationsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationsMessage,
   ) => stream.Stream<
@@ -9938,14 +9833,12 @@ export const describeReplications: {
 /**
  * Returns information about the replication subnet groups.
  */
-export const describeReplicationSubnetGroups: {
-  (
-    input: DescribeReplicationSubnetGroupsMessage,
-  ): effect.Effect<
-    DescribeReplicationSubnetGroupsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationSubnetGroups: API.OperationMethod<
+  DescribeReplicationSubnetGroupsMessage,
+  DescribeReplicationSubnetGroupsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationSubnetGroupsMessage,
   ) => stream.Stream<
@@ -9974,14 +9867,12 @@ export const describeReplicationSubnetGroups: {
  * Returns table and schema statistics for one or more provisioned replications that use a
  * given DMS Serverless replication configuration.
  */
-export const describeReplicationTableStatistics: {
-  (
-    input: DescribeReplicationTableStatisticsMessage,
-  ): effect.Effect<
-    DescribeReplicationTableStatisticsResponse,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationTableStatistics: API.OperationMethod<
+  DescribeReplicationTableStatisticsMessage,
+  DescribeReplicationTableStatisticsResponse,
+  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationTableStatisticsMessage,
   ) => stream.Stream<
@@ -10013,14 +9904,12 @@ export const describeReplicationTableStatistics: {
  * For more information about DMS task assessments, see Creating a task assessment
  * report in the *Database Migration Service User Guide*.
  */
-export const describeReplicationTaskAssessmentResults: {
-  (
-    input: DescribeReplicationTaskAssessmentResultsMessage,
-  ): effect.Effect<
-    DescribeReplicationTaskAssessmentResultsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationTaskAssessmentResults: API.OperationMethod<
+  DescribeReplicationTaskAssessmentResultsMessage,
+  DescribeReplicationTaskAssessmentResultsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationTaskAssessmentResultsMessage,
   ) => stream.Stream<
@@ -10056,14 +9945,12 @@ export const describeReplicationTaskAssessmentResults: {
  * information, see the `DescribeReplicationTaskIndividualAssessments`
  * operation.
  */
-export const describeReplicationTaskAssessmentRuns: {
-  (
-    input: DescribeReplicationTaskAssessmentRunsMessage,
-  ): effect.Effect<
-    DescribeReplicationTaskAssessmentRunsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationTaskAssessmentRuns: API.OperationMethod<
+  DescribeReplicationTaskAssessmentRunsMessage,
+  DescribeReplicationTaskAssessmentRunsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationTaskAssessmentRunsMessage,
   ) => stream.Stream<
@@ -10094,14 +9981,12 @@ export const describeReplicationTaskAssessmentRuns: {
  * These filter settings can specify a combination of premigration assessment runs,
  * migration tasks, and assessment status values.
  */
-export const describeReplicationTaskIndividualAssessments: {
-  (
-    input: DescribeReplicationTaskIndividualAssessmentsMessage,
-  ): effect.Effect<
-    DescribeReplicationTaskIndividualAssessmentsResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationTaskIndividualAssessments: API.OperationMethod<
+  DescribeReplicationTaskIndividualAssessmentsMessage,
+  DescribeReplicationTaskIndividualAssessmentsResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationTaskIndividualAssessmentsMessage,
   ) => stream.Stream<
@@ -10130,14 +10015,12 @@ export const describeReplicationTaskIndividualAssessments: {
  * Returns information about replication tasks for your account in the current
  * region.
  */
-export const describeReplicationTasks: {
-  (
-    input: DescribeReplicationTasksMessage,
-  ): effect.Effect<
-    DescribeReplicationTasksResponse,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationTasks: API.OperationMethod<
+  DescribeReplicationTasksMessage,
+  DescribeReplicationTasksResponse,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationTasksMessage,
   ) => stream.Stream<
@@ -10165,14 +10048,12 @@ export const describeReplicationTasks: {
 /**
  * Returns information about the schema for the specified endpoint.
  */
-export const describeSchemas: {
-  (
-    input: DescribeSchemasMessage,
-  ): effect.Effect<
-    DescribeSchemasResponse,
-    InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSchemas: API.OperationMethod<
+  DescribeSchemasMessage,
+  DescribeSchemasResponse,
+  InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSchemasMessage,
   ) => stream.Stream<
@@ -10205,17 +10086,15 @@ export const describeSchemas: {
  * last updated the table statistics record for a table. It does not indicate the time of the
  * last update to the table.
  */
-export const describeTableStatistics: {
-  (
-    input: DescribeTableStatisticsMessage,
-  ): effect.Effect<
-    DescribeTableStatisticsResponse,
-    | AccessDeniedFault
-    | InvalidResourceStateFault
-    | ResourceNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTableStatistics: API.OperationMethod<
+  DescribeTableStatisticsMessage,
+  DescribeTableStatisticsResponse,
+  | AccessDeniedFault
+  | InvalidResourceStateFault
+  | ResourceNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTableStatisticsMessage,
   ) => stream.Stream<
@@ -10250,9 +10129,8 @@ export const describeTableStatistics: {
  * Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can
  * save your assessment report as a comma-separated value (CSV) or a PDF file.
  */
-export const exportMetadataModelAssessment: (
-  input: ExportMetadataModelAssessmentMessage,
-) => effect.Effect<
+export const exportMetadataModelAssessment: API.OperationMethod<
+  ExportMetadataModelAssessmentMessage,
   ExportMetadataModelAssessmentResponse,
   ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10264,9 +10142,8 @@ export const exportMetadataModelAssessment: (
 /**
  * Converts source selection rules into their target counterparts for schema conversion operations.
  */
-export const getTargetSelectionRules: (
-  input: GetTargetSelectionRulesMessage,
-) => effect.Effect<
+export const getTargetSelectionRules: API.OperationMethod<
+  GetTargetSelectionRulesMessage,
   GetTargetSelectionRulesResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10281,9 +10158,8 @@ export const getTargetSelectionRules: (
 /**
  * Uploads the specified certificate.
  */
-export const importCertificate: (
-  input: ImportCertificateMessage,
-) => effect.Effect<
+export const importCertificate: API.OperationMethod<
+  ImportCertificateMessage,
   ImportCertificateResponse,
   | InvalidCertificateFault
   | KMSKeyNotAccessibleFault
@@ -10308,9 +10184,8 @@ export const importCertificate: (
  *
  * data type description.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceMessage,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
   ListTagsForResourceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10322,9 +10197,8 @@ export const listTagsForResource: (
 /**
  * Modifies the specified schema conversion configuration using the provided parameters.
  */
-export const modifyConversionConfiguration: (
-  input: ModifyConversionConfigurationMessage,
-) => effect.Effect<
+export const modifyConversionConfiguration: API.OperationMethod<
+  ModifyConversionConfigurationMessage,
   ModifyConversionConfigurationResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10336,9 +10210,8 @@ export const modifyConversionConfiguration: (
 /**
  * Modifies an existing DMS data migration.
  */
-export const modifyDataMigration: (
-  input: ModifyDataMigrationMessage,
-) => effect.Effect<
+export const modifyDataMigration: API.OperationMethod<
+  ModifyDataMigrationMessage,
   ModifyDataMigrationResponse,
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -10360,9 +10233,8 @@ export const modifyDataMigration: (
  * You must remove the data provider from all migration projects before you can modify
  * it.
  */
-export const modifyDataProvider: (
-  input: ModifyDataProviderMessage,
-) => effect.Effect<
+export const modifyDataProvider: API.OperationMethod<
+  ModifyDataProviderMessage,
   ModifyDataProviderResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10390,9 +10262,8 @@ export const modifyDataProvider: (
  * database only when you specify the schema in the table-mapping rules of the DMS
  * task.
  */
-export const modifyEndpoint: (
-  input: ModifyEndpointMessage,
-) => effect.Effect<
+export const modifyEndpoint: API.OperationMethod<
+  ModifyEndpointMessage,
   ModifyEndpointResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10415,9 +10286,8 @@ export const modifyEndpoint: (
 /**
  * Modifies an existing DMS event notification subscription.
  */
-export const modifyEventSubscription: (
-  input: ModifyEventSubscriptionMessage,
-) => effect.Effect<
+export const modifyEventSubscription: API.OperationMethod<
+  ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResponse,
   | AccessDeniedFault
   | KMSAccessDeniedFault
@@ -10453,9 +10323,8 @@ export const modifyEventSubscription: (
  * All migration projects associated with the instance profile must be deleted or
  * modified before you can modify the instance profile.
  */
-export const modifyInstanceProfile: (
-  input: ModifyInstanceProfileMessage,
-) => effect.Effect<
+export const modifyInstanceProfile: API.OperationMethod<
+  ModifyInstanceProfileMessage,
   ModifyInstanceProfileResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10484,9 +10353,8 @@ export const modifyInstanceProfile: (
  *
  * The migration project must be closed before you can modify it.
  */
-export const modifyMigrationProject: (
-  input: ModifyMigrationProjectMessage,
-) => effect.Effect<
+export const modifyMigrationProject: API.OperationMethod<
+  ModifyMigrationProjectMessage,
   ModifyMigrationProjectResponse,
   | AccessDeniedFault
   | FailedDependencyFault
@@ -10519,9 +10387,8 @@ export const modifyMigrationProject: (
  * Other run statuses that allow you to run this command include FAILED and CREATED. A
  * provisioning state that allows you to run this command is FAILED_PROVISION.
  */
-export const modifyReplicationConfig: (
-  input: ModifyReplicationConfigMessage,
-) => effect.Effect<
+export const modifyReplicationConfig: API.OperationMethod<
+  ModifyReplicationConfigMessage,
   ModifyReplicationConfigResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10549,9 +10416,8 @@ export const modifyReplicationConfig: (
  *
  * Some settings are applied during the maintenance window.
  */
-export const modifyReplicationInstance: (
-  input: ModifyReplicationInstanceMessage,
-) => effect.Effect<
+export const modifyReplicationInstance: API.OperationMethod<
+  ModifyReplicationInstanceMessage,
   ModifyReplicationInstanceResponse,
   | AccessDeniedFault
   | InsufficientResourceCapacityFault
@@ -10578,9 +10444,8 @@ export const modifyReplicationInstance: (
 /**
  * Modifies the settings for the specified replication subnet group.
  */
-export const modifyReplicationSubnetGroup: (
-  input: ModifyReplicationSubnetGroupMessage,
-) => effect.Effect<
+export const modifyReplicationSubnetGroup: API.OperationMethod<
+  ModifyReplicationSubnetGroupMessage,
   ModifyReplicationSubnetGroupResponse,
   | AccessDeniedFault
   | InvalidSubnet
@@ -10610,9 +10475,8 @@ export const modifyReplicationSubnetGroup: (
  * For more information about DMS tasks, see Working with Migration Tasks in the
  * *Database Migration Service User Guide*.
  */
-export const modifyReplicationTask: (
-  input: ModifyReplicationTaskMessage,
-) => effect.Effect<
+export const modifyReplicationTask: API.OperationMethod<
+  ModifyReplicationTaskMessage,
   ModifyReplicationTaskResponse,
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10635,9 +10499,8 @@ export const modifyReplicationTask: (
  * replication instance using the specified parameters. The target replication instance must
  * be created with the same or later DMS version as the current replication instance.
  */
-export const moveReplicationTask: (
-  input: MoveReplicationTaskMessage,
-) => effect.Effect<
+export const moveReplicationTask: API.OperationMethod<
+  MoveReplicationTaskMessage,
   MoveReplicationTaskResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10661,9 +10524,8 @@ export const moveReplicationTask: (
  * Reboots a replication instance. Rebooting results in a momentary outage, until the
  * replication instance becomes available again.
  */
-export const rebootReplicationInstance: (
-  input: RebootReplicationInstanceMessage,
-) => effect.Effect<
+export const rebootReplicationInstance: API.OperationMethod<
+  RebootReplicationInstanceMessage,
   RebootReplicationInstanceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10677,9 +10539,8 @@ export const rebootReplicationInstance: (
  * can take several minutes. You can check the status of this operation by calling the
  * DescribeRefreshSchemasStatus operation.
  */
-export const refreshSchemas: (
-  input: RefreshSchemasMessage,
-) => effect.Effect<
+export const refreshSchemas: API.OperationMethod<
+  RefreshSchemasMessage,
   RefreshSchemasResponse,
   | InvalidResourceStateFault
   | KMSKeyNotAccessibleFault
@@ -10704,9 +10565,8 @@ export const refreshSchemas: (
  * You can only use this operation with a task in the RUNNING state, otherwise the service
  * will throw an `InvalidResourceStateFault` exception.
  */
-export const reloadReplicationTables: (
-  input: ReloadReplicationTablesMessage,
-) => effect.Effect<
+export const reloadReplicationTables: API.OperationMethod<
+  ReloadReplicationTablesMessage,
   ReloadReplicationTablesResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10721,9 +10581,8 @@ export const reloadReplicationTables: (
  * You can only use this operation with a task in the `RUNNING` state, otherwise
  * the service will throw an `InvalidResourceStateFault` exception.
  */
-export const reloadTables: (
-  input: ReloadTablesMessage,
-) => effect.Effect<
+export const reloadTables: API.OperationMethod<
+  ReloadTablesMessage,
   ReloadTablesResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10739,9 +10598,8 @@ export const reloadTables: (
  * data type
  * description.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceMessage,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceMessage,
   RemoveTagsFromResourceResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10755,9 +10613,8 @@ export const removeTagsFromResource: (
  *
  * Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
  */
-export const runFleetAdvisorLsaAnalysis: (
-  input: RunFleetAdvisorLsaAnalysisRequest,
-) => effect.Effect<
+export const runFleetAdvisorLsaAnalysis: API.OperationMethod<
+  RunFleetAdvisorLsaAnalysisRequest,
   RunFleetAdvisorLsaAnalysisResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10769,9 +10626,8 @@ export const runFleetAdvisorLsaAnalysis: (
 /**
  * Starts the specified data migration.
  */
-export const startDataMigration: (
-  input: StartDataMigrationMessage,
-) => effect.Effect<
+export const startDataMigration: API.OperationMethod<
+  StartDataMigrationMessage,
   StartDataMigrationResponse,
   | FailedDependencyFault
   | InvalidOperationFault
@@ -10796,9 +10652,8 @@ export const startDataMigration: (
  * module that emulates functions present in a source database that are required when
  * converting objects to the target database.
  */
-export const startExtensionPackAssociation: (
-  input: StartExtensionPackAssociationMessage,
-) => effect.Effect<
+export const startExtensionPackAssociation: API.OperationMethod<
+  StartExtensionPackAssociationMessage,
   StartExtensionPackAssociationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10830,9 +10685,8 @@ export const startExtensionPackAssociation: (
  * conversion tasks. It also details the action items for database objects that can't be
  * converted to the database engine of your target database instance.
  */
-export const startMetadataModelAssessment: (
-  input: StartMetadataModelAssessmentMessage,
-) => effect.Effect<
+export const startMetadataModelAssessment: API.OperationMethod<
+  StartMetadataModelAssessmentMessage,
   StartMetadataModelAssessmentResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10861,9 +10715,8 @@ export const startMetadataModelAssessment: (
 /**
  * Converts your source database objects to a format compatible with the target database.
  */
-export const startMetadataModelConversion: (
-  input: StartMetadataModelConversionMessage,
-) => effect.Effect<
+export const startMetadataModelConversion: API.OperationMethod<
+  StartMetadataModelConversionMessage,
   StartMetadataModelConversionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10894,9 +10747,8 @@ export const startMetadataModelConversion: (
  *
  * This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
  */
-export const startMetadataModelCreation: (
-  input: StartMetadataModelCreationMessage,
-) => effect.Effect<
+export const startMetadataModelCreation: API.OperationMethod<
+  StartMetadataModelCreationMessage,
   StartMetadataModelCreationResponse,
   | AccessDeniedFault
   | ResourceAlreadyExistsFault
@@ -10918,9 +10770,8 @@ export const startMetadataModelCreation: (
  * Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
  * bucket.
  */
-export const startMetadataModelExportAsScript: (
-  input: StartMetadataModelExportAsScriptMessage,
-) => effect.Effect<
+export const startMetadataModelExportAsScript: API.OperationMethod<
+  StartMetadataModelExportAsScriptMessage,
   StartMetadataModelExportAsScriptResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10949,9 +10800,8 @@ export const startMetadataModelExportAsScript: (
 /**
  * Applies converted database objects to your target database.
  */
-export const startMetadataModelExportToTarget: (
-  input: StartMetadataModelExportToTargetMessage,
-) => effect.Effect<
+export const startMetadataModelExportToTarget: API.OperationMethod<
+  StartMetadataModelExportToTargetMessage,
   StartMetadataModelExportToTargetResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -10983,9 +10833,8 @@ export const startMetadataModelExportToTarget: (
  * This operation uses your project's Amazon S3 bucket as a metadata cache to improve
  * performance.
  */
-export const startMetadataModelImport: (
-  input: StartMetadataModelImportMessage,
-) => effect.Effect<
+export const startMetadataModelImport: API.OperationMethod<
+  StartMetadataModelImportMessage,
   StartMetadataModelImportResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11019,9 +10868,8 @@ export const startMetadataModelImport: (
  *
  * You can create recommendations for multiple source databases using BatchStartRecommendations.
  */
-export const startRecommendations: (
-  input: StartRecommendationsRequest,
-) => effect.Effect<
+export const startRecommendations: API.OperationMethod<
+  StartRecommendationsRequest,
   StartRecommendationsResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11040,9 +10888,8 @@ export const startRecommendations: (
  * to the target endpoint using the server resources that DMS has provisioned for the DMS
  * Serverless replication.
  */
-export const startReplication: (
-  input: StartReplicationMessage,
-) => effect.Effect<
+export const startReplication: API.OperationMethod<
+  StartReplicationMessage,
   StartReplicationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11060,9 +10907,8 @@ export const startReplication: (
  * For more information about DMS tasks, see Working with Migration Tasks in the
  * *Database Migration Service User Guide.*
  */
-export const startReplicationTask: (
-  input: StartReplicationTaskMessage,
-) => effect.Effect<
+export const startReplicationTask: API.OperationMethod<
+  StartReplicationTaskMessage,
   StartReplicationTaskResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11090,9 +10936,8 @@ export const startReplicationTask: (
  * For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User
  * Guide.
  */
-export const startReplicationTaskAssessment: (
-  input: StartReplicationTaskAssessmentMessage,
-) => effect.Effect<
+export const startReplicationTaskAssessment: API.OperationMethod<
+  StartReplicationTaskAssessmentMessage,
   StartReplicationTaskAssessmentResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11111,9 +10956,8 @@ export const startReplicationTaskAssessment: (
  * individual assessment. You can also run the migration task manually after the assessment
  * run and its individual assessments complete.
  */
-export const startReplicationTaskAssessmentRun: (
-  input: StartReplicationTaskAssessmentRunMessage,
-) => effect.Effect<
+export const startReplicationTaskAssessmentRun: API.OperationMethod<
+  StartReplicationTaskAssessmentRunMessage,
   StartReplicationTaskAssessmentRunResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11150,9 +10994,8 @@ export const startReplicationTaskAssessmentRun: (
 /**
  * Stops the specified data migration.
  */
-export const stopDataMigration: (
-  input: StopDataMigrationMessage,
-) => effect.Effect<
+export const stopDataMigration: API.OperationMethod<
+  StopDataMigrationMessage,
   StopDataMigrationResponse,
   | FailedDependencyFault
   | InvalidResourceStateFault
@@ -11173,9 +11016,8 @@ export const stopDataMigration: (
  * DMS Serverless replications. This command doesn't deprovision the stopped
  * replications.
  */
-export const stopReplication: (
-  input: StopReplicationMessage,
-) => effect.Effect<
+export const stopReplication: API.OperationMethod<
+  StopReplicationMessage,
   StopReplicationResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11190,9 +11032,8 @@ export const stopReplication: (
 /**
  * Stops the replication task.
  */
-export const stopReplicationTask: (
-  input: StopReplicationTaskMessage,
-) => effect.Effect<
+export const stopReplicationTask: API.OperationMethod<
+  StopReplicationTaskMessage,
   StopReplicationTaskResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11204,9 +11045,8 @@ export const stopReplicationTask: (
 /**
  * Tests the connection between the replication instance and the endpoint.
  */
-export const testConnection: (
-  input: TestConnectionMessage,
-) => effect.Effect<
+export const testConnection: API.OperationMethod<
+  TestConnectionMessage,
   TestConnectionResponse,
   | AccessDeniedFault
   | InvalidResourceStateFault
@@ -11240,9 +11080,8 @@ export const testConnection: (
  * account. For more information, see Migrating event subscriptions to Amazon EventBridge in the
  * *Amazon Web Services Database Migration Service User Guide*.
  */
-export const updateSubscriptionsToEventBridge: (
-  input: UpdateSubscriptionsToEventBridgeMessage,
-) => effect.Effect<
+export const updateSubscriptionsToEventBridge: API.OperationMethod<
+  UpdateSubscriptionsToEventBridgeMessage,
   UpdateSubscriptionsToEventBridgeResponse,
   AccessDeniedFault | InvalidResourceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

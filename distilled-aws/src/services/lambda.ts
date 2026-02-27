@@ -5601,9 +5601,8 @@ export class ProvisionedConcurrencyConfigNotFoundException extends S.TaggedError
  *
  * Each checkpoint operation consumes the current checkpoint token and returns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-order state updates.
  */
-export const checkpointDurableExecution: (
-  input: CheckpointDurableExecutionRequest,
-) => effect.Effect<
+export const checkpointDurableExecution: API.OperationMethod<
+  CheckpointDurableExecutionRequest,
   CheckpointDurableExecutionResponse,
   | InvalidParameterValueException
   | ServiceException
@@ -5626,9 +5625,8 @@ export const checkpointDurableExecution: (
  *
  * To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
  */
-export const deleteFunction: (
-  input: DeleteFunctionRequest,
-) => effect.Effect<
+export const deleteFunction: API.OperationMethod<
+  DeleteFunctionRequest,
   DeleteFunctionResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -5653,9 +5651,8 @@ export const deleteFunction: (
  *
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
-export const deleteFunctionEventInvokeConfig: (
-  input: DeleteFunctionEventInvokeConfigRequest,
-) => effect.Effect<
+export const deleteFunctionEventInvokeConfig: API.OperationMethod<
+  DeleteFunctionEventInvokeConfigRequest,
   DeleteFunctionEventInvokeConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -5682,9 +5679,8 @@ export const deleteFunctionEventInvokeConfig: (
 /**
  * Retrieves details about your account's limits and usage in an Amazon Web Services Region.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   GetAccountSettingsResponse,
   ServiceException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5696,9 +5692,8 @@ export const getAccountSettings: (
 /**
  * Retrieves detailed information about a specific durable execution, including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics.
  */
-export const getDurableExecution: (
-  input: GetDurableExecutionRequest,
-) => effect.Effect<
+export const getDurableExecution: API.OperationMethod<
+  GetDurableExecutionRequest,
   GetDurableExecutionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5721,18 +5716,16 @@ export const getDurableExecution: (
  *
  * The history is available while the execution is running and for a retention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads.
  */
-export const getDurableExecutionHistory: {
-  (
-    input: GetDurableExecutionHistoryRequest,
-  ): effect.Effect<
-    GetDurableExecutionHistoryResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDurableExecutionHistory: API.OperationMethod<
+  GetDurableExecutionHistoryRequest,
+  GetDurableExecutionHistoryResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDurableExecutionHistoryRequest,
   ) => stream.Stream<
@@ -5776,17 +5769,15 @@ export const getDurableExecutionHistory: {
  *
  * The response contains operations ordered by start sequence number in ascending order. Completed operations with children don't include child operation details since they don't need to be replayed.
  */
-export const getDurableExecutionState: {
-  (
-    input: GetDurableExecutionStateRequest,
-  ): effect.Effect<
-    GetDurableExecutionStateResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDurableExecutionState: API.OperationMethod<
+  GetDurableExecutionStateRequest,
+  GetDurableExecutionStateResponse,
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDurableExecutionStateRequest,
   ) => stream.Stream<
@@ -5827,9 +5818,8 @@ export const getDurableExecutionState: {
  *
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
-export const getFunctionEventInvokeConfig: (
-  input: GetFunctionEventInvokeConfigRequest,
-) => effect.Effect<
+export const getFunctionEventInvokeConfig: API.OperationMethod<
+  GetFunctionEventInvokeConfigRequest,
   FunctionEventInvokeConfig,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -5854,18 +5844,16 @@ export const getFunctionEventInvokeConfig: (
 /**
  * Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
  */
-export const listDurableExecutionsByFunction: {
-  (
-    input: ListDurableExecutionsByFunctionRequest,
-  ): effect.Effect<
-    ListDurableExecutionsByFunctionResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDurableExecutionsByFunction: API.OperationMethod<
+  ListDurableExecutionsByFunctionRequest,
+  ListDurableExecutionsByFunctionResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDurableExecutionsByFunctionRequest,
   ) => stream.Stream<
@@ -5909,20 +5897,18 @@ export const listDurableExecutionsByFunction: {
  *
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
-export const listFunctionEventInvokeConfigs: {
-  (
-    input: ListFunctionEventInvokeConfigsRequest,
-  ): effect.Effect<
-    ListFunctionEventInvokeConfigsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFunctionEventInvokeConfigs: API.OperationMethod<
+  ListFunctionEventInvokeConfigsRequest,
+  ListFunctionEventInvokeConfigsResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFunctionEventInvokeConfigsRequest,
   ) => stream.Stream<
@@ -5970,9 +5956,8 @@ export const listFunctionEventInvokeConfigs: {
 /**
  * Returns a function, event source mapping, or code signing configuration's tags. You can also view function tags with GetFunction.
  */
-export const listTags: (
-  input: ListTagsRequest,
-) => effect.Effect<
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
   ListTagsResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6003,9 +5988,8 @@ export const listTags: (
  *
  * S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
  */
-export const putFunctionEventInvokeConfig: (
-  input: PutFunctionEventInvokeConfigRequest,
-) => effect.Effect<
+export const putFunctionEventInvokeConfig: API.OperationMethod<
+  PutFunctionEventInvokeConfigRequest,
   FunctionEventInvokeConfig,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6032,9 +6016,8 @@ export const putFunctionEventInvokeConfig: (
 /**
  * Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully.
  */
-export const sendDurableExecutionCallbackFailure: (
-  input: SendDurableExecutionCallbackFailureRequest,
-) => effect.Effect<
+export const sendDurableExecutionCallbackFailure: API.OperationMethod<
+  SendDurableExecutionCallbackFailureRequest,
   SendDurableExecutionCallbackFailureResponse,
   | CallbackTimeoutException
   | InvalidParameterValueException
@@ -6055,9 +6038,8 @@ export const sendDurableExecutionCallbackFailure: (
 /**
  * Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress.
  */
-export const sendDurableExecutionCallbackHeartbeat: (
-  input: SendDurableExecutionCallbackHeartbeatRequest,
-) => effect.Effect<
+export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
+  SendDurableExecutionCallbackHeartbeatRequest,
   SendDurableExecutionCallbackHeartbeatResponse,
   | CallbackTimeoutException
   | InvalidParameterValueException
@@ -6078,9 +6060,8 @@ export const sendDurableExecutionCallbackHeartbeat: (
 /**
  * Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation.
  */
-export const sendDurableExecutionCallbackSuccess: (
-  input: SendDurableExecutionCallbackSuccessRequest,
-) => effect.Effect<
+export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
+  SendDurableExecutionCallbackSuccessRequest,
   SendDurableExecutionCallbackSuccessResponse,
   | CallbackTimeoutException
   | InvalidParameterValueException
@@ -6101,9 +6082,8 @@ export const sendDurableExecutionCallbackSuccess: (
 /**
  * Stops a running durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
  */
-export const stopDurableExecution: (
-  input: StopDurableExecutionRequest,
-) => effect.Effect<
+export const stopDurableExecution: API.OperationMethod<
+  StopDurableExecutionRequest,
   StopDurableExecutionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6124,9 +6104,8 @@ export const stopDurableExecution: (
 /**
  * Adds tags to a function, event source mapping, or code signing configuration.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6153,9 +6132,8 @@ export const tagResource: (
 /**
  * Removes tags from a function, event source mapping, or code signing configuration.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6184,9 +6162,8 @@ export const untagResource: (
  *
  * To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
  */
-export const updateFunctionEventInvokeConfig: (
-  input: UpdateFunctionEventInvokeConfigRequest,
-) => effect.Effect<
+export const updateFunctionEventInvokeConfig: API.OperationMethod<
+  UpdateFunctionEventInvokeConfigRequest,
   FunctionEventInvokeConfig,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6209,9 +6186,8 @@ export const updateFunctionEventInvokeConfig: (
 /**
  * Creates a capacity provider that manages compute resources for Lambda functions
  */
-export const createCapacityProvider: (
-  input: CreateCapacityProviderRequest,
-) => effect.Effect<
+export const createCapacityProvider: API.OperationMethod<
+  CreateCapacityProviderRequest,
   CreateCapacityProviderResponse,
   | CapacityProviderLimitExceededException
   | InvalidParameterValueException
@@ -6234,9 +6210,8 @@ export const createCapacityProvider: (
 /**
  * Retrieves information about a specific capacity provider, including its configuration, state, and associated resources.
  */
-export const getCapacityProvider: (
-  input: GetCapacityProviderRequest,
-) => effect.Effect<
+export const getCapacityProvider: API.OperationMethod<
+  GetCapacityProviderRequest,
   GetCapacityProviderResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6257,9 +6232,8 @@ export const getCapacityProvider: (
 /**
  * Updates the configuration of an existing capacity provider.
  */
-export const updateCapacityProvider: (
-  input: UpdateCapacityProviderRequest,
-) => effect.Effect<
+export const updateCapacityProvider: API.OperationMethod<
+  UpdateCapacityProviderRequest,
   UpdateCapacityProviderResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6282,9 +6256,8 @@ export const updateCapacityProvider: (
 /**
  * Deletes a capacity provider. You cannot delete a capacity provider that is currently being used by Lambda functions.
  */
-export const deleteCapacityProvider: (
-  input: DeleteCapacityProviderRequest,
-) => effect.Effect<
+export const deleteCapacityProvider: API.OperationMethod<
+  DeleteCapacityProviderRequest,
   DeleteCapacityProviderResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6307,17 +6280,15 @@ export const deleteCapacityProvider: (
 /**
  * Returns a list of capacity providers in your account.
  */
-export const listCapacityProviders: {
-  (
-    input: ListCapacityProvidersRequest,
-  ): effect.Effect<
-    ListCapacityProvidersResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCapacityProviders: API.OperationMethod<
+  ListCapacityProvidersRequest,
+  ListCapacityProvidersResponse,
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCapacityProvidersRequest,
   ) => stream.Stream<
@@ -6356,18 +6327,16 @@ export const listCapacityProviders: {
 /**
  * Returns a list of function versions that are configured to use a specific capacity provider.
  */
-export const listFunctionVersionsByCapacityProvider: {
-  (
-    input: ListFunctionVersionsByCapacityProviderRequest,
-  ): effect.Effect<
-    ListFunctionVersionsByCapacityProviderResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFunctionVersionsByCapacityProvider: API.OperationMethod<
+  ListFunctionVersionsByCapacityProviderRequest,
+  ListFunctionVersionsByCapacityProviderResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFunctionVersionsByCapacityProviderRequest,
   ) => stream.Stream<
@@ -6409,9 +6378,8 @@ export const listFunctionVersionsByCapacityProvider: {
 /**
  * Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
  */
-export const createCodeSigningConfig: (
-  input: CreateCodeSigningConfigRequest,
-) => effect.Effect<
+export const createCodeSigningConfig: API.OperationMethod<
+  CreateCodeSigningConfigRequest,
   CreateCodeSigningConfigResponse,
   InvalidParameterValueException | ServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6423,14 +6391,12 @@ export const createCodeSigningConfig: (
 /**
  * Returns a list of code signing configurations. A request returns up to 10,000 configurations per call. You can use the `MaxItems` parameter to return fewer configurations per call.
  */
-export const listCodeSigningConfigs: {
-  (
-    input: ListCodeSigningConfigsRequest,
-  ): effect.Effect<
-    ListCodeSigningConfigsResponse,
-    InvalidParameterValueException | ServiceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCodeSigningConfigs: API.OperationMethod<
+  ListCodeSigningConfigsRequest,
+  ListCodeSigningConfigsResponse,
+  InvalidParameterValueException | ServiceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCodeSigningConfigsRequest,
   ) => stream.Stream<
@@ -6459,9 +6425,8 @@ export const listCodeSigningConfigs: {
 /**
  * Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
  */
-export const deleteCodeSigningConfig: (
-  input: DeleteCodeSigningConfigRequest,
-) => effect.Effect<
+export const deleteCodeSigningConfig: API.OperationMethod<
+  DeleteCodeSigningConfigRequest,
   DeleteCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6486,9 +6451,8 @@ export const deleteCodeSigningConfig: (
 /**
  * Returns information about the specified code signing configuration.
  */
-export const getCodeSigningConfig: (
-  input: GetCodeSigningConfigRequest,
-) => effect.Effect<
+export const getCodeSigningConfig: API.OperationMethod<
+  GetCodeSigningConfigRequest,
   GetCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6511,17 +6475,15 @@ export const getCodeSigningConfig: (
 /**
  * List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
  */
-export const listFunctionsByCodeSigningConfig: {
-  (
-    input: ListFunctionsByCodeSigningConfigRequest,
-  ): effect.Effect<
-    ListFunctionsByCodeSigningConfigResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFunctionsByCodeSigningConfig: API.OperationMethod<
+  ListFunctionsByCodeSigningConfigRequest,
+  ListFunctionsByCodeSigningConfigResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFunctionsByCodeSigningConfigRequest,
   ) => stream.Stream<
@@ -6560,9 +6522,8 @@ export const listFunctionsByCodeSigningConfig: {
 /**
  * Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
  */
-export const updateCodeSigningConfig: (
-  input: UpdateCodeSigningConfigRequest,
-) => effect.Effect<
+export const updateCodeSigningConfig: API.OperationMethod<
+  UpdateCodeSigningConfigRequest,
   UpdateCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6627,9 +6588,8 @@ export const updateCodeSigningConfig: (
  *
  * - Amazon DocumentDB
  */
-export const createEventSourceMapping: (
-  input: CreateEventSourceMappingRequest,
-) => effect.Effect<
+export const createEventSourceMapping: API.OperationMethod<
+  CreateEventSourceMappingRequest,
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6656,9 +6616,8 @@ export const createEventSourceMapping: (
 /**
  * Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
  */
-export const getEventSourceMapping: (
-  input: GetEventSourceMappingRequest,
-) => effect.Effect<
+export const getEventSourceMapping: API.OperationMethod<
+  GetEventSourceMappingRequest,
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -6725,9 +6684,8 @@ export const getEventSourceMapping: (
  *
  * - Amazon DocumentDB
  */
-export const updateEventSourceMapping: (
-  input: UpdateEventSourceMappingRequest,
-) => effect.Effect<
+export const updateEventSourceMapping: API.OperationMethod<
+  UpdateEventSourceMappingRequest,
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6758,9 +6716,8 @@ export const updateEventSourceMapping: (
  *
  * When you delete an event source mapping, it enters a `Deleting` state and might not be completely deleted for several seconds.
  */
-export const deleteEventSourceMapping: (
-  input: DeleteEventSourceMappingRequest,
-) => effect.Effect<
+export const deleteEventSourceMapping: API.OperationMethod<
+  DeleteEventSourceMappingRequest,
   EventSourceMappingConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6785,18 +6742,16 @@ export const deleteEventSourceMapping: (
 /**
  * Lists event source mappings. Specify an `EventSourceArn` to show only event source mappings for a single event source.
  */
-export const listEventSourceMappings: {
-  (
-    input: ListEventSourceMappingsRequest,
-  ): effect.Effect<
-    ListEventSourceMappingsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventSourceMappings: API.OperationMethod<
+  ListEventSourceMappingsRequest,
+  ListEventSourceMappingsResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventSourceMappingsRequest,
   ) => stream.Stream<
@@ -6854,9 +6809,8 @@ export const listEventSourceMappings: {
  *
  * To invoke your function directly, use Invoke. To invoke your function in response to events in other Amazon Web Services services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Lambda functions.
  */
-export const createFunction: (
-  input: CreateFunctionRequest,
-) => effect.Effect<
+export const createFunction: API.OperationMethod<
+  CreateFunctionRequest,
   FunctionConfiguration,
   | CodeSigningConfigNotFoundException
   | CodeStorageExceededException
@@ -6893,17 +6847,15 @@ export const createFunction: (
  *
  * The `ListFunctions` operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use GetFunction.
  */
-export const listFunctions: {
-  (
-    input: ListFunctionsRequest,
-  ): effect.Effect<
-    ListFunctionsResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFunctions: API.OperationMethod<
+  ListFunctionsRequest,
+  ListFunctionsResponse,
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFunctionsRequest,
   ) => stream.Stream<
@@ -6942,9 +6894,8 @@ export const listFunctions: {
 /**
  * Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
  */
-export const createFunctionUrlConfig: (
-  input: CreateFunctionUrlConfigRequest,
-) => effect.Effect<
+export const createFunctionUrlConfig: API.OperationMethod<
+  CreateFunctionUrlConfigRequest,
   CreateFunctionUrlConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -6971,9 +6922,8 @@ export const createFunctionUrlConfig: (
 /**
  * Removes a concurrent execution limit from a function.
  */
-export const deleteFunctionConcurrency: (
-  input: DeleteFunctionConcurrencyRequest,
-) => effect.Effect<
+export const deleteFunctionConcurrency: API.OperationMethod<
+  DeleteFunctionConcurrencyRequest,
   DeleteFunctionConcurrencyResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7000,9 +6950,8 @@ export const deleteFunctionConcurrency: (
 /**
  * Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
  */
-export const deleteFunctionUrlConfig: (
-  input: DeleteFunctionUrlConfigRequest,
-) => effect.Effect<
+export const deleteFunctionUrlConfig: API.OperationMethod<
+  DeleteFunctionUrlConfigRequest,
   DeleteFunctionUrlConfigResponse,
   | ResourceConflictException
   | ResourceNotFoundException
@@ -7027,9 +6976,8 @@ export const deleteFunctionUrlConfig: (
 /**
  * Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
  */
-export const getFunctionConcurrency: (
-  input: GetFunctionConcurrencyRequest,
-) => effect.Effect<
+export const getFunctionConcurrency: API.OperationMethod<
+  GetFunctionConcurrencyRequest,
   GetFunctionConcurrencyResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7054,9 +7002,8 @@ export const getFunctionConcurrency: (
 /**
  * Returns details about a Lambda function URL.
  */
-export const getFunctionUrlConfig: (
-  input: GetFunctionUrlConfigRequest,
-) => effect.Effect<
+export const getFunctionUrlConfig: API.OperationMethod<
+  GetFunctionUrlConfigRequest,
   GetFunctionUrlConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7077,18 +7024,16 @@ export const getFunctionUrlConfig: (
 /**
  * Returns a list of Lambda function URLs for the specified function.
  */
-export const listFunctionUrlConfigs: {
-  (
-    input: ListFunctionUrlConfigsRequest,
-  ): effect.Effect<
-    ListFunctionUrlConfigsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFunctionUrlConfigs: API.OperationMethod<
+  ListFunctionUrlConfigsRequest,
+  ListFunctionUrlConfigsResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFunctionUrlConfigsRequest,
   ) => stream.Stream<
@@ -7130,20 +7075,18 @@ export const listFunctionUrlConfigs: {
 /**
  * Retrieves a list of provisioned concurrency configurations for a function.
  */
-export const listProvisionedConcurrencyConfigs: {
-  (
-    input: ListProvisionedConcurrencyConfigsRequest,
-  ): effect.Effect<
-    ListProvisionedConcurrencyConfigsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProvisionedConcurrencyConfigs: API.OperationMethod<
+  ListProvisionedConcurrencyConfigsRequest,
+  ListProvisionedConcurrencyConfigsResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProvisionedConcurrencyConfigsRequest,
   ) => stream.Stream<
@@ -7195,9 +7138,8 @@ export const listProvisionedConcurrencyConfigs: {
  *
  * Use GetAccountSettings to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see Lambda function scaling.
  */
-export const putFunctionConcurrency: (
-  input: PutFunctionConcurrencyRequest,
-) => effect.Effect<
+export const putFunctionConcurrency: API.OperationMethod<
+  PutFunctionConcurrencyRequest,
   Concurrency,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7234,9 +7176,8 @@ export const putFunctionConcurrency: (
  *
  * For a function defined as a container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you update the image tag to a new image, Lambda does not automatically update the function.
  */
-export const updateFunctionCode: (
-  input: UpdateFunctionCodeRequest,
-) => effect.Effect<
+export const updateFunctionCode: API.OperationMethod<
+  UpdateFunctionCodeRequest,
   FunctionConfiguration,
   | CodeSigningConfigNotFoundException
   | CodeStorageExceededException
@@ -7279,9 +7220,8 @@ export const updateFunctionCode: (
  *
  * To configure function concurrency, use PutFunctionConcurrency. To grant invoke permissions to an Amazon Web Services account or Amazon Web Services service, use AddPermission.
  */
-export const updateFunctionConfiguration: (
-  input: UpdateFunctionConfigurationRequest,
-) => effect.Effect<
+export const updateFunctionConfiguration: API.OperationMethod<
+  UpdateFunctionConfigurationRequest,
   FunctionConfiguration,
   | CodeSigningConfigNotFoundException
   | CodeVerificationFailedException
@@ -7316,9 +7256,8 @@ export const updateFunctionConfiguration: (
 /**
  * Updates the configuration for a Lambda function URL.
  */
-export const updateFunctionUrlConfig: (
-  input: UpdateFunctionUrlConfigRequest,
-) => effect.Effect<
+export const updateFunctionUrlConfig: API.OperationMethod<
+  UpdateFunctionUrlConfigRequest,
   UpdateFunctionUrlConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7345,9 +7284,8 @@ export const updateFunctionUrlConfig: (
 /**
  * Removes the code signing configuration from the function.
  */
-export const deleteFunctionCodeSigningConfig: (
-  input: DeleteFunctionCodeSigningConfigRequest,
-) => effect.Effect<
+export const deleteFunctionCodeSigningConfig: API.OperationMethod<
+  DeleteFunctionCodeSigningConfigRequest,
   DeleteFunctionCodeSigningConfigResponse,
   | CodeSigningConfigNotFoundException
   | InvalidParameterValueException
@@ -7372,9 +7310,8 @@ export const deleteFunctionCodeSigningConfig: (
 /**
  * Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
  */
-export const getFunction: (
-  input: GetFunctionRequest,
-) => effect.Effect<
+export const getFunction: API.OperationMethod<
+  GetFunctionRequest,
   GetFunctionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7395,9 +7332,8 @@ export const getFunction: (
 /**
  * Returns the code signing configuration for the specified function.
  */
-export const getFunctionCodeSigningConfig: (
-  input: GetFunctionCodeSigningConfigRequest,
-) => effect.Effect<
+export const getFunctionCodeSigningConfig: API.OperationMethod<
+  GetFunctionCodeSigningConfigRequest,
   GetFunctionCodeSigningConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7420,9 +7356,8 @@ export const getFunctionCodeSigningConfig: (
  *
  * To get all of a function's details, including function-level settings, use GetFunction.
  */
-export const getFunctionConfiguration: (
-  input: GetFunctionConfigurationRequest,
-) => effect.Effect<
+export const getFunctionConfiguration: API.OperationMethod<
+  GetFunctionConfigurationRequest,
   FunctionConfiguration,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7443,9 +7378,8 @@ export const getFunctionConfiguration: (
 /**
  * Returns your function's recursive loop detection configuration.
  */
-export const getFunctionRecursionConfig: (
-  input: GetFunctionRecursionConfigRequest,
-) => effect.Effect<
+export const getFunctionRecursionConfig: API.OperationMethod<
+  GetFunctionRecursionConfigRequest,
   GetFunctionRecursionConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7470,9 +7404,8 @@ export const getFunctionRecursionConfig: (
 /**
  * Retrieves the scaling configuration for a Lambda Managed Instances function.
  */
-export const getFunctionScalingConfig: (
-  input: GetFunctionScalingConfigRequest,
-) => effect.Effect<
+export const getFunctionScalingConfig: API.OperationMethod<
+  GetFunctionScalingConfigRequest,
   GetFunctionScalingConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7493,9 +7426,8 @@ export const getFunctionScalingConfig: (
 /**
  * Returns the resource-based IAM policy for a function, version, or alias.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7516,9 +7448,8 @@ export const getPolicy: (
 /**
  * Retrieves the runtime management configuration for a function's version. If the runtime update mode is **Manual**, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is **Auto** or **Function update**, this includes the runtime update mode and `null` is returned for the ARN. For more information, see Runtime updates.
  */
-export const getRuntimeManagementConfig: (
-  input: GetRuntimeManagementConfigRequest,
-) => effect.Effect<
+export const getRuntimeManagementConfig: API.OperationMethod<
+  GetRuntimeManagementConfigRequest,
   GetRuntimeManagementConfigResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7553,9 +7484,8 @@ export const getRuntimeManagementConfig: (
  *
  * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
  */
-export const invoke: (
-  input: InvocationRequest,
-) => effect.Effect<
+export const invoke: API.OperationMethod<
+  InvocationRequest,
   InvocationResponse,
   | DurableExecutionAlreadyStartedException
   | EC2AccessDeniedException
@@ -7644,9 +7574,8 @@ export const invoke: (
  *
  * If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
  */
-export const invokeAsync: (
-  input: InvokeAsyncRequest,
-) => effect.Effect<
+export const invokeAsync: API.OperationMethod<
+  InvokeAsyncRequest,
   InvokeAsyncResponse,
   | InvalidRequestContentException
   | InvalidRuntimeException
@@ -7671,9 +7600,8 @@ export const invokeAsync: (
  *
  * This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
  */
-export const invokeWithResponseStream: (
-  input: InvokeWithResponseStreamRequest,
-) => effect.Effect<
+export const invokeWithResponseStream: API.OperationMethod<
+  InvokeWithResponseStreamRequest,
   InvokeWithResponseStreamResponse,
   | EC2AccessDeniedException
   | EC2ThrottledException
@@ -7750,9 +7678,8 @@ export const invokeWithResponseStream: (
 /**
  * Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
  */
-export const putFunctionCodeSigningConfig: (
-  input: PutFunctionCodeSigningConfigRequest,
-) => effect.Effect<
+export const putFunctionCodeSigningConfig: API.OperationMethod<
+  PutFunctionCodeSigningConfigRequest,
   PutFunctionCodeSigningConfigResponse,
   | CodeSigningConfigNotFoundException
   | InvalidParameterValueException
@@ -7785,9 +7712,8 @@ export const putFunctionCodeSigningConfig: (
  *
  * Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to `Terminate`, it stops your function being invoked and notifies you.
  */
-export const putFunctionRecursionConfig: (
-  input: PutFunctionRecursionConfigRequest,
-) => effect.Effect<
+export const putFunctionRecursionConfig: API.OperationMethod<
+  PutFunctionRecursionConfigRequest,
   PutFunctionRecursionConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7814,9 +7740,8 @@ export const putFunctionRecursionConfig: (
 /**
  * Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation.
  */
-export const putFunctionScalingConfig: (
-  input: PutFunctionScalingConfigRequest,
-) => effect.Effect<
+export const putFunctionScalingConfig: API.OperationMethod<
+  PutFunctionScalingConfigRequest,
   PutFunctionScalingConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7839,9 +7764,8 @@ export const putFunctionScalingConfig: (
 /**
  * Sets the runtime management configuration for a function's version. For more information, see Runtime updates.
  */
-export const putRuntimeManagementConfig: (
-  input: PutRuntimeManagementConfigRequest,
-) => effect.Effect<
+export const putRuntimeManagementConfig: API.OperationMethod<
+  PutRuntimeManagementConfigRequest,
   PutRuntimeManagementConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7866,9 +7790,8 @@ export const putRuntimeManagementConfig: (
  *
  * You can also map an alias to split invocation requests between two versions. Use the `RoutingConfig` parameter to specify a second version and the percentage of invocation requests that it receives.
  */
-export const createAlias: (
-  input: CreateAliasRequest,
-) => effect.Effect<
+export const createAlias: API.OperationMethod<
+  CreateAliasRequest,
   AliasConfiguration,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7895,9 +7818,8 @@ export const createAlias: (
 /**
  * Returns details about a Lambda function alias.
  */
-export const getAlias: (
-  input: GetAliasRequest,
-) => effect.Effect<
+export const getAlias: API.OperationMethod<
+  GetAliasRequest,
   AliasConfiguration,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -7918,9 +7840,8 @@ export const getAlias: (
 /**
  * Updates the configuration of a Lambda function alias.
  */
-export const updateAlias: (
-  input: UpdateAliasRequest,
-) => effect.Effect<
+export const updateAlias: API.OperationMethod<
+  UpdateAliasRequest,
   AliasConfiguration,
   | InvalidParameterValueException
   | PreconditionFailedException
@@ -7949,9 +7870,8 @@ export const updateAlias: (
 /**
  * Deletes a Lambda function alias.
  */
-export const deleteAlias: (
-  input: DeleteAliasRequest,
-) => effect.Effect<
+export const deleteAlias: API.OperationMethod<
+  DeleteAliasRequest,
   DeleteAliasResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -7976,18 +7896,16 @@ export const deleteAlias: (
 /**
  * Returns a list of aliases for a Lambda function.
  */
-export const listAliases: {
-  (
-    input: ListAliasesRequest,
-  ): effect.Effect<
-    ListAliasesResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAliases: API.OperationMethod<
+  ListAliasesRequest,
+  ListAliasesResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
@@ -8033,9 +7951,8 @@ export const listAliases: {
  *
  * Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias.
  */
-export const publishVersion: (
-  input: PublishVersionRequest,
-) => effect.Effect<
+export const publishVersion: API.OperationMethod<
+  PublishVersionRequest,
   FunctionConfiguration,
   | CodeStorageExceededException
   | FunctionVersionsPerCapacityProviderLimitExceededException
@@ -8068,18 +7985,16 @@ export const publishVersion: (
 /**
  * Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
  */
-export const listVersionsByFunction: {
-  (
-    input: ListVersionsByFunctionRequest,
-  ): effect.Effect<
-    ListVersionsByFunctionResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVersionsByFunction: API.OperationMethod<
+  ListVersionsByFunctionRequest,
+  ListVersionsByFunctionResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVersionsByFunctionRequest,
   ) => stream.Stream<
@@ -8121,17 +8036,15 @@ export const listVersionsByFunction: {
 /**
  * Lists Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that instruction set architecture.
  */
-export const listLayers: {
-  (
-    input: ListLayersRequest,
-  ): effect.Effect<
-    ListLayersResponse,
-    | InvalidParameterValueException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLayers: API.OperationMethod<
+  ListLayersRequest,
+  ListLayersResponse,
+  | InvalidParameterValueException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLayersRequest,
   ) => stream.Stream<
@@ -8170,20 +8083,18 @@ export const listLayers: {
 /**
  * Lists the versions of an Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
  */
-export const listLayerVersions: {
-  (
-    input: ListLayerVersionsRequest,
-  ): effect.Effect<
-    ListLayerVersionsResponse,
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | RequestLimitExceeded
-    | ParseError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLayerVersions: API.OperationMethod<
+  ListLayerVersionsRequest,
+  ListLayerVersionsResponse,
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | RequestLimitExceeded
+  | ParseError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLayerVersionsRequest,
   ) => stream.Stream<
@@ -8233,9 +8144,8 @@ export const listLayerVersions: {
  *
  * To revoke permission, call RemoveLayerVersionPermission with the statement ID that you specified when you added it.
  */
-export const addLayerVersionPermission: (
-  input: AddLayerVersionPermissionRequest,
-) => effect.Effect<
+export const addLayerVersionPermission: API.OperationMethod<
+  AddLayerVersionPermissionRequest,
   AddLayerVersionPermissionResponse,
   | InvalidParameterValueException
   | PolicyLengthExceededException
@@ -8266,9 +8176,8 @@ export const addLayerVersionPermission: (
 /**
  * Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
  */
-export const deleteLayerVersion: (
-  input: DeleteLayerVersionRequest,
-) => effect.Effect<
+export const deleteLayerVersion: API.OperationMethod<
+  DeleteLayerVersionRequest,
   DeleteLayerVersionResponse,
   | ServiceException
   | TooManyRequestsException
@@ -8289,9 +8198,8 @@ export const deleteLayerVersion: (
 /**
  * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
  */
-export const getLayerVersion: (
-  input: GetLayerVersionRequest,
-) => effect.Effect<
+export const getLayerVersion: API.OperationMethod<
+  GetLayerVersionRequest,
   GetLayerVersionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -8316,9 +8224,8 @@ export const getLayerVersion: (
 /**
  * Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
  */
-export const getLayerVersionByArn: (
-  input: GetLayerVersionByArnRequest,
-) => effect.Effect<
+export const getLayerVersionByArn: API.OperationMethod<
+  GetLayerVersionByArnRequest,
   GetLayerVersionResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -8339,9 +8246,8 @@ export const getLayerVersionByArn: (
 /**
  * Returns the permission policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
  */
-export const getLayerVersionPolicy: (
-  input: GetLayerVersionPolicyRequest,
-) => effect.Effect<
+export const getLayerVersionPolicy: API.OperationMethod<
+  GetLayerVersionPolicyRequest,
   GetLayerVersionPolicyResponse,
   | InvalidParameterValueException
   | ResourceNotFoundException
@@ -8368,9 +8274,8 @@ export const getLayerVersionPolicy: (
  *
  * Add layers to your function with CreateFunction or UpdateFunctionConfiguration.
  */
-export const publishLayerVersion: (
-  input: PublishLayerVersionRequest,
-) => effect.Effect<
+export const publishLayerVersion: API.OperationMethod<
+  PublishLayerVersionRequest,
   PublishLayerVersionResponse,
   | CodeStorageExceededException
   | InvalidParameterValueException
@@ -8397,9 +8302,8 @@ export const publishLayerVersion: (
 /**
  * Removes a statement from the permissions policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
  */
-export const removeLayerVersionPermission: (
-  input: RemoveLayerVersionPermissionRequest,
-) => effect.Effect<
+export const removeLayerVersionPermission: API.OperationMethod<
+  RemoveLayerVersionPermissionRequest,
   RemoveLayerVersionPermissionResponse,
   | InvalidParameterValueException
   | PreconditionFailedException
@@ -8430,9 +8334,8 @@ export const removeLayerVersionPermission: (
  *
  * This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see Using resource-based policies for Lambda.
  */
-export const addPermission: (
-  input: AddPermissionRequest,
-) => effect.Effect<
+export const addPermission: API.OperationMethod<
+  AddPermissionRequest,
   AddPermissionResponse,
   | InvalidParameterValueException
   | PolicyLengthExceededException
@@ -8463,9 +8366,8 @@ export const addPermission: (
 /**
  * Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the statement from the output of GetPolicy.
  */
-export const removePermission: (
-  input: RemovePermissionRequest,
-) => effect.Effect<
+export const removePermission: API.OperationMethod<
+  RemovePermissionRequest,
   RemovePermissionResponse,
   | InvalidParameterValueException
   | PreconditionFailedException
@@ -8488,9 +8390,8 @@ export const removePermission: (
 /**
  * Adds a provisioned concurrency configuration to a function's alias or version.
  */
-export const putProvisionedConcurrencyConfig: (
-  input: PutProvisionedConcurrencyConfigRequest,
-) => effect.Effect<
+export const putProvisionedConcurrencyConfig: API.OperationMethod<
+  PutProvisionedConcurrencyConfigRequest,
   PutProvisionedConcurrencyConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException
@@ -8517,9 +8418,8 @@ export const putProvisionedConcurrencyConfig: (
 /**
  * Retrieves the provisioned concurrency configuration for a function's alias or version.
  */
-export const getProvisionedConcurrencyConfig: (
-  input: GetProvisionedConcurrencyConfigRequest,
-) => effect.Effect<
+export const getProvisionedConcurrencyConfig: API.OperationMethod<
+  GetProvisionedConcurrencyConfigRequest,
   GetProvisionedConcurrencyConfigResponse,
   | InvalidParameterValueException
   | ProvisionedConcurrencyConfigNotFoundException
@@ -8546,9 +8446,8 @@ export const getProvisionedConcurrencyConfig: (
 /**
  * Deletes the provisioned concurrency configuration for a function.
  */
-export const deleteProvisionedConcurrencyConfig: (
-  input: DeleteProvisionedConcurrencyConfigRequest,
-) => effect.Effect<
+export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
+  DeleteProvisionedConcurrencyConfigRequest,
   DeleteProvisionedConcurrencyConfigResponse,
   | InvalidParameterValueException
   | ResourceConflictException

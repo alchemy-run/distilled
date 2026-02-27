@@ -82,9 +82,8 @@ export type ListAuditLogsResponse = unknown;
 export const ListAuditLogsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
 
-export const listAuditLogs: (
-  input: ListAuditLogsRequest,
-) => Effect.Effect<
+export const listAuditLogs: API.OperationMethod<
+  ListAuditLogsRequest,
   ListAuditLogsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

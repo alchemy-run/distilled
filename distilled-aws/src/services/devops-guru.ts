@@ -2856,9 +2856,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  * to the CMK. For more information, see Permissions for
  * Amazon Web Services KMS–encrypted Amazon SNS topics.
  */
-export const addNotificationChannel: (
-  input: AddNotificationChannelRequest,
-) => effect.Effect<
+export const addNotificationChannel: API.OperationMethod<
+  AddNotificationChannelRequest,
   AddNotificationChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2885,9 +2884,8 @@ export const addNotificationChannel: (
 /**
  * Deletes the insight along with the associated anomalies, events and recommendations.
  */
-export const deleteInsight: (
-  input: DeleteInsightRequest,
-) => effect.Effect<
+export const deleteInsight: API.OperationMethod<
+  DeleteInsightRequest,
   DeleteInsightResponse,
   | AccessDeniedException
   | ConflictException
@@ -2914,9 +2912,8 @@ export const deleteInsight: (
  * and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the
  * health of operations in your Amazon Web Services account.
  */
-export const describeAccountHealth: (
-  input: DescribeAccountHealthRequest,
-) => effect.Effect<
+export const describeAccountHealth: API.OperationMethod<
+  DescribeAccountHealthRequest,
   DescribeAccountHealthResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2939,9 +2936,8 @@ export const describeAccountHealth: (
  * created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all
  * closed reactive insights.
  */
-export const describeAccountOverview: (
-  input: DescribeAccountOverviewRequest,
-) => effect.Effect<
+export const describeAccountOverview: API.OperationMethod<
+  DescribeAccountOverviewRequest,
   DescribeAccountOverviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2962,9 +2958,8 @@ export const describeAccountOverview: (
 /**
  * Returns details about an anomaly that you specify using its ID.
  */
-export const describeAnomaly: (
-  input: DescribeAnomalyRequest,
-) => effect.Effect<
+export const describeAnomaly: API.OperationMethod<
+  DescribeAnomalyRequest,
   DescribeAnomalyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2990,9 +2985,8 @@ export const describeAnomaly: (
  * Profiler, which can produce proactive recommendations which can be stored and viewed in
  * DevOps Guru.
  */
-export const describeEventSourcesConfig: (
-  input: DescribeEventSourcesConfigRequest,
-) => effect.Effect<
+export const describeEventSourcesConfig: API.OperationMethod<
+  DescribeEventSourcesConfigRequest,
   DescribeEventSourcesConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3013,9 +3007,8 @@ export const describeEventSourcesConfig: (
 /**
  * Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
  */
-export const describeFeedback: (
-  input: DescribeFeedbackRequest,
-) => effect.Effect<
+export const describeFeedback: API.OperationMethod<
+  DescribeFeedbackRequest,
   DescribeFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3038,9 +3031,8 @@ export const describeFeedback: (
 /**
  * Returns details about an insight that you specify using its ID.
  */
-export const describeInsight: (
-  input: DescribeInsightRequest,
-) => effect.Effect<
+export const describeInsight: API.OperationMethod<
+  DescribeInsightRequest,
   DescribeInsightResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3064,9 +3056,8 @@ export const describeInsight: (
  * Returns active insights, predictive insights, and resource hours analyzed in last
  * hour.
  */
-export const describeOrganizationHealth: (
-  input: DescribeOrganizationHealthRequest,
-) => effect.Effect<
+export const describeOrganizationHealth: API.OperationMethod<
+  DescribeOrganizationHealthRequest,
   DescribeOrganizationHealthResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3088,9 +3079,8 @@ export const describeOrganizationHealth: (
  * Returns an overview of your organization's history based on the specified time range.
  * The overview includes the total reactive and proactive insights.
  */
-export const describeOrganizationOverview: (
-  input: DescribeOrganizationOverviewRequest,
-) => effect.Effect<
+export const describeOrganizationOverview: API.OperationMethod<
+  DescribeOrganizationOverviewRequest,
   DescribeOrganizationOverviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3113,18 +3103,16 @@ export const describeOrganizationOverview: (
  * of your organization, you can filter those accounts using the `AccountIds`
  * field.
  */
-export const describeOrganizationResourceCollectionHealth: {
-  (
-    input: DescribeOrganizationResourceCollectionHealthRequest,
-  ): effect.Effect<
-    DescribeOrganizationResourceCollectionHealthResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrganizationResourceCollectionHealth: API.OperationMethod<
+  DescribeOrganizationResourceCollectionHealthRequest,
+  DescribeOrganizationResourceCollectionHealthResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrganizationResourceCollectionHealthRequest,
   ) => stream.Stream<
@@ -3165,18 +3153,16 @@ export const describeOrganizationResourceCollectionHealth: {
  * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
-export const describeResourceCollectionHealth: {
-  (
-    input: DescribeResourceCollectionHealthRequest,
-  ): effect.Effect<
-    DescribeResourceCollectionHealthResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeResourceCollectionHealth: API.OperationMethod<
+  DescribeResourceCollectionHealthRequest,
+  DescribeResourceCollectionHealthResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeResourceCollectionHealthRequest,
   ) => stream.Stream<
@@ -3215,9 +3201,8 @@ export const describeResourceCollectionHealth: {
  * The one service that can be integrated with DevOps Guru
  * is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
  */
-export const describeServiceIntegration: (
-  input: DescribeServiceIntegrationRequest,
-) => effect.Effect<
+export const describeServiceIntegration: API.OperationMethod<
+  DescribeServiceIntegrationRequest,
   DescribeServiceIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3244,19 +3229,17 @@ export const describeServiceIntegration: (
  * Amazon DevOps Guru costs and
  * Amazon DevOps Guru pricing.
  */
-export const getCostEstimation: {
-  (
-    input: GetCostEstimationRequest,
-  ): effect.Effect<
-    GetCostEstimationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCostEstimation: API.OperationMethod<
+  GetCostEstimationRequest,
+  GetCostEstimationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCostEstimationRequest,
   ) => stream.Stream<
@@ -3299,19 +3282,17 @@ export const getCostEstimation: {
  * Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks.
  */
-export const getResourceCollection: {
-  (
-    input: GetResourceCollectionRequest,
-  ): effect.Effect<
-    GetResourceCollectionResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceCollection: API.OperationMethod<
+  GetResourceCollectionRequest,
+  GetResourceCollectionResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceCollectionRequest,
   ) => stream.Stream<
@@ -3352,19 +3333,17 @@ export const getResourceCollection: {
  * Returns a list of the anomalies that belong to an insight that you specify using its
  * ID.
  */
-export const listAnomaliesForInsight: {
-  (
-    input: ListAnomaliesForInsightRequest,
-  ): effect.Effect<
-    ListAnomaliesForInsightResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnomaliesForInsight: API.OperationMethod<
+  ListAnomaliesForInsightRequest,
+  ListAnomaliesForInsightResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnomaliesForInsightRequest,
   ) => stream.Stream<
@@ -3408,19 +3387,17 @@ export const listAnomaliesForInsight: {
 /**
  * Returns the list of log groups that contain log anomalies.
  */
-export const listAnomalousLogGroups: {
-  (
-    input: ListAnomalousLogGroupsRequest,
-  ): effect.Effect<
-    ListAnomalousLogGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnomalousLogGroups: API.OperationMethod<
+  ListAnomalousLogGroupsRequest,
+  ListAnomalousLogGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnomalousLogGroupsRequest,
   ) => stream.Stream<
@@ -3465,19 +3442,17 @@ export const listAnomalousLogGroups: {
  * Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
  * You can use filters to specify which events are returned.
  */
-export const listEvents: {
-  (
-    input: ListEventsRequest,
-  ): effect.Effect<
-    ListEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEvents: API.OperationMethod<
+  ListEventsRequest,
+  ListEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventsRequest,
   ) => stream.Stream<
@@ -3524,18 +3499,16 @@ export const listEvents: {
  * returned by their start time and status (`ONGOING`, `CLOSED`, or
  * `ANY`).
  */
-export const listInsights: {
-  (
-    input: ListInsightsRequest,
-  ): effect.Effect<
-    ListInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInsights: API.OperationMethod<
+  ListInsightsRequest,
+  ListInsightsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInsightsRequest,
   ) => stream.Stream<
@@ -3576,18 +3549,16 @@ export const listInsights: {
 /**
  * Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
  */
-export const listMonitoredResources: {
-  (
-    input: ListMonitoredResourcesRequest,
-  ): effect.Effect<
-    ListMonitoredResourcesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitoredResources: API.OperationMethod<
+  ListMonitoredResourcesRequest,
+  ListMonitoredResourcesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitoredResourcesRequest,
   ) => stream.Stream<
@@ -3631,18 +3602,16 @@ export const listMonitoredResources: {
  * about how to improve your operations. The one
  * supported notification channel is Amazon Simple Notification Service (Amazon SNS).
  */
-export const listNotificationChannels: {
-  (
-    input: ListNotificationChannelsRequest,
-  ): effect.Effect<
-    ListNotificationChannelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNotificationChannels: API.OperationMethod<
+  ListNotificationChannelsRequest,
+  ListNotificationChannelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationChannelsRequest,
   ) => stream.Stream<
@@ -3683,18 +3652,16 @@ export const listNotificationChannels: {
 /**
  * Returns a list of insights associated with the account or OU Id.
  */
-export const listOrganizationInsights: {
-  (
-    input: ListOrganizationInsightsRequest,
-  ): effect.Effect<
-    ListOrganizationInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizationInsights: API.OperationMethod<
+  ListOrganizationInsightsRequest,
+  ListOrganizationInsightsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationInsightsRequest,
   ) => stream.Stream<
@@ -3736,19 +3703,17 @@ export const listOrganizationInsights: {
  * Returns a list of a specified insight's recommendations. Each recommendation includes
  * a list of related metrics and a list of related events.
  */
-export const listRecommendations: {
-  (
-    input: ListRecommendationsRequest,
-  ): effect.Effect<
-    ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendations: API.OperationMethod<
+  ListRecommendationsRequest,
+  ListRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
@@ -3792,9 +3757,8 @@ export const listRecommendations: {
 /**
  * Collects customer feedback about the specified insight.
  */
-export const putFeedback: (
-  input: PutFeedbackRequest,
-) => effect.Effect<
+export const putFeedback: API.OperationMethod<
+  PutFeedbackRequest,
   PutFeedbackResponse,
   | AccessDeniedException
   | ConflictException
@@ -3821,9 +3785,8 @@ export const putFeedback: (
  * you when DevOps Guru generates an insight that contains information about how to improve your
  * operations.
  */
-export const removeNotificationChannel: (
-  input: RemoveNotificationChannelRequest,
-) => effect.Effect<
+export const removeNotificationChannel: API.OperationMethod<
+  RemoveNotificationChannelRequest,
   RemoveNotificationChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -3855,18 +3818,16 @@ export const removeNotificationChannel: (
  * parameters. Use the `Type` parameter to specify `REACTIVE` or
  * `PROACTIVE` in your search.
  */
-export const searchInsights: {
-  (
-    input: SearchInsightsRequest,
-  ): effect.Effect<
-    SearchInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchInsights: API.OperationMethod<
+  SearchInsightsRequest,
+  SearchInsightsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchInsightsRequest,
   ) => stream.Stream<
@@ -3915,18 +3876,16 @@ export const searchInsights: {
  * parameters. Use the `Type` parameter to specify `REACTIVE` or
  * `PROACTIVE` in your search.
  */
-export const searchOrganizationInsights: {
-  (
-    input: SearchOrganizationInsightsRequest,
-  ): effect.Effect<
-    SearchOrganizationInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchOrganizationInsights: API.OperationMethod<
+  SearchOrganizationInsightsRequest,
+  SearchOrganizationInsightsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchOrganizationInsightsRequest,
   ) => stream.Stream<
@@ -3968,9 +3927,8 @@ export const searchOrganizationInsights: {
  * Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
  * resources.
  */
-export const startCostEstimation: (
-  input: StartCostEstimationRequest,
-) => effect.Effect<
+export const startCostEstimation: API.OperationMethod<
+  StartCostEstimationRequest,
   StartCostEstimationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3997,9 +3955,8 @@ export const startCostEstimation: (
  * one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
  * can produce proactive recommendations which can be stored and viewed in DevOps Guru.
  */
-export const updateEventSourcesConfig: (
-  input: UpdateEventSourcesConfigRequest,
-) => effect.Effect<
+export const updateEventSourcesConfig: API.OperationMethod<
+  UpdateEventSourcesConfigRequest,
   UpdateEventSourcesConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4024,9 +3981,8 @@ export const updateEventSourcesConfig: (
  * the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag *key*. You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also creates the IAM role required for
  * you to use DevOps Guru.
  */
-export const updateResourceCollection: (
-  input: UpdateResourceCollectionRequest,
-) => effect.Effect<
+export const updateResourceCollection: API.OperationMethod<
+  UpdateResourceCollectionRequest,
   UpdateResourceCollectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4051,9 +4007,8 @@ export const updateResourceCollection: (
  * one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create
  * an OpsItem for each generated insight.
  */
-export const updateServiceIntegration: (
-  input: UpdateServiceIntegrationRequest,
-) => effect.Effect<
+export const updateServiceIntegration: API.OperationMethod<
+  UpdateServiceIntegrationRequest,
   UpdateServiceIntegrationResponse,
   | AccessDeniedException
   | ConflictException

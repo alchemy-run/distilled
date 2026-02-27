@@ -161,13 +161,19 @@ export const GetAiGatewayResponse = Schema.Struct({
             payload: Schema.String,
           }),
         ),
-      }).pipe(Schema.encodeKeys({ usageEvents: "usage_events" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorization: "authorization",
+          usageEvents: "usage_events",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cacheInvalidateOnUpdate: "cache_invalidate_on_update",
@@ -179,17 +185,22 @@ export const GetAiGatewayResponse = Schema.Struct({
     rateLimitingInterval: "rate_limiting_interval",
     rateLimitingLimit: "rate_limiting_limit",
     rateLimitingTechnique: "rate_limiting_technique",
+    authentication: "authentication",
+    dlp: "dlp",
     isDefault: "is_default",
     logManagement: "log_management",
     logManagementStrategy: "log_management_strategy",
+    logpush: "logpush",
     logpushPublicKey: "logpush_public_key",
+    otel: "otel",
     storeId: "store_id",
+    stripe: "stripe",
+    zdr: "zdr",
   }),
 ) as unknown as Schema.Schema<GetAiGatewayResponse>;
 
-export const getAiGateway: (
-  input: GetAiGatewayRequest,
-) => Effect.Effect<
+export const getAiGateway: API.OperationMethod<
+  GetAiGatewayRequest,
   GetAiGatewayResponse,
   CommonErrors | GatewayNotFound,
   ApiToken | HttpClient.HttpClient
@@ -323,13 +334,19 @@ export const ListAiGatewaysResponse = Schema.Array(
               payload: Schema.String,
             }),
           ),
-        }).pipe(Schema.encodeKeys({ usageEvents: "usage_events" })),
+        }).pipe(
+          Schema.encodeKeys({
+            authorization: "authorization",
+            usageEvents: "usage_events",
+          }),
+        ),
         Schema.Null,
       ]),
     ),
     zdr: Schema.optional(Schema.Boolean),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       accountTag: "account_tag",
       cacheInvalidateOnUpdate: "cache_invalidate_on_update",
@@ -341,18 +358,23 @@ export const ListAiGatewaysResponse = Schema.Array(
       rateLimitingInterval: "rate_limiting_interval",
       rateLimitingLimit: "rate_limiting_limit",
       rateLimitingTechnique: "rate_limiting_technique",
+      authentication: "authentication",
+      dlp: "dlp",
       isDefault: "is_default",
       logManagement: "log_management",
       logManagementStrategy: "log_management_strategy",
+      logpush: "logpush",
       logpushPublicKey: "logpush_public_key",
+      otel: "otel",
       storeId: "store_id",
+      stripe: "stripe",
+      zdr: "zdr",
     }),
   ),
 ) as unknown as Schema.Schema<ListAiGatewaysResponse>;
 
-export const listAiGateways: (
-  input: ListAiGatewaysRequest,
-) => Effect.Effect<
+export const listAiGateways: API.OperationMethod<
+  ListAiGatewaysRequest,
   ListAiGatewaysResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -419,16 +441,20 @@ export const CreateAiGatewayRequest = Schema.Struct({
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     cacheInvalidateOnUpdate: "cache_invalidate_on_update",
     cacheTtl: "cache_ttl",
     collectLogs: "collect_logs",
     rateLimitingInterval: "rate_limiting_interval",
     rateLimitingLimit: "rate_limiting_limit",
     rateLimitingTechnique: "rate_limiting_technique",
+    authentication: "authentication",
     isDefault: "is_default",
     logManagement: "log_management",
     logManagementStrategy: "log_management_strategy",
+    logpush: "logpush",
     logpushPublicKey: "logpush_public_key",
+    zdr: "zdr",
   }),
   T.Http({
     method: "POST",
@@ -544,13 +570,19 @@ export const CreateAiGatewayResponse = Schema.Struct({
             payload: Schema.String,
           }),
         ),
-      }).pipe(Schema.encodeKeys({ usageEvents: "usage_events" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorization: "authorization",
+          usageEvents: "usage_events",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cacheInvalidateOnUpdate: "cache_invalidate_on_update",
@@ -562,17 +594,22 @@ export const CreateAiGatewayResponse = Schema.Struct({
     rateLimitingInterval: "rate_limiting_interval",
     rateLimitingLimit: "rate_limiting_limit",
     rateLimitingTechnique: "rate_limiting_technique",
+    authentication: "authentication",
+    dlp: "dlp",
     isDefault: "is_default",
     logManagement: "log_management",
     logManagementStrategy: "log_management_strategy",
+    logpush: "logpush",
     logpushPublicKey: "logpush_public_key",
+    otel: "otel",
     storeId: "store_id",
+    stripe: "stripe",
+    zdr: "zdr",
   }),
 ) as unknown as Schema.Schema<CreateAiGatewayResponse>;
 
-export const createAiGateway: (
-  input: CreateAiGatewayRequest,
-) => Effect.Effect<
+export const createAiGateway: API.OperationMethod<
+  CreateAiGatewayRequest,
   CreateAiGatewayResponse,
   CommonErrors | GatewayAlreadyExists,
   ApiToken | HttpClient.HttpClient
@@ -699,7 +736,12 @@ export const UpdateAiGatewayRequest = Schema.Struct({
             payload: Schema.String,
           }),
         ),
-      }).pipe(Schema.encodeKeys({ usageEvents: "usage_events" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorization: "authorization",
+          usageEvents: "usage_events",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
@@ -712,11 +754,17 @@ export const UpdateAiGatewayRequest = Schema.Struct({
     rateLimitingInterval: "rate_limiting_interval",
     rateLimitingLimit: "rate_limiting_limit",
     rateLimitingTechnique: "rate_limiting_technique",
+    authentication: "authentication",
+    dlp: "dlp",
     isDefault: "is_default",
     logManagement: "log_management",
     logManagementStrategy: "log_management_strategy",
+    logpush: "logpush",
     logpushPublicKey: "logpush_public_key",
+    otel: "otel",
     storeId: "store_id",
+    stripe: "stripe",
+    zdr: "zdr",
   }),
   T.Http({
     method: "PUT",
@@ -832,13 +880,19 @@ export const UpdateAiGatewayResponse = Schema.Struct({
             payload: Schema.String,
           }),
         ),
-      }).pipe(Schema.encodeKeys({ usageEvents: "usage_events" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorization: "authorization",
+          usageEvents: "usage_events",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cacheInvalidateOnUpdate: "cache_invalidate_on_update",
@@ -850,17 +904,22 @@ export const UpdateAiGatewayResponse = Schema.Struct({
     rateLimitingInterval: "rate_limiting_interval",
     rateLimitingLimit: "rate_limiting_limit",
     rateLimitingTechnique: "rate_limiting_technique",
+    authentication: "authentication",
+    dlp: "dlp",
     isDefault: "is_default",
     logManagement: "log_management",
     logManagementStrategy: "log_management_strategy",
+    logpush: "logpush",
     logpushPublicKey: "logpush_public_key",
+    otel: "otel",
     storeId: "store_id",
+    stripe: "stripe",
+    zdr: "zdr",
   }),
 ) as unknown as Schema.Schema<UpdateAiGatewayResponse>;
 
-export const updateAiGateway: (
-  input: UpdateAiGatewayRequest,
-) => Effect.Effect<
+export const updateAiGateway: API.OperationMethod<
+  UpdateAiGatewayRequest,
   UpdateAiGatewayResponse,
   CommonErrors | GatewayNotFound,
   ApiToken | HttpClient.HttpClient
@@ -993,13 +1052,19 @@ export const DeleteAiGatewayResponse = Schema.Struct({
             payload: Schema.String,
           }),
         ),
-      }).pipe(Schema.encodeKeys({ usageEvents: "usage_events" })),
+      }).pipe(
+        Schema.encodeKeys({
+          authorization: "authorization",
+          usageEvents: "usage_events",
+        }),
+      ),
       Schema.Null,
     ]),
   ),
   zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     cacheInvalidateOnUpdate: "cache_invalidate_on_update",
@@ -1011,17 +1076,22 @@ export const DeleteAiGatewayResponse = Schema.Struct({
     rateLimitingInterval: "rate_limiting_interval",
     rateLimitingLimit: "rate_limiting_limit",
     rateLimitingTechnique: "rate_limiting_technique",
+    authentication: "authentication",
+    dlp: "dlp",
     isDefault: "is_default",
     logManagement: "log_management",
     logManagementStrategy: "log_management_strategy",
+    logpush: "logpush",
     logpushPublicKey: "logpush_public_key",
+    otel: "otel",
     storeId: "store_id",
+    stripe: "stripe",
+    zdr: "zdr",
   }),
 ) as unknown as Schema.Schema<DeleteAiGatewayResponse>;
 
-export const deleteAiGateway: (
-  input: DeleteAiGatewayRequest,
-) => Effect.Effect<
+export const deleteAiGateway: API.OperationMethod<
+  DeleteAiGatewayRequest,
   DeleteAiGatewayResponse,
   CommonErrors | GatewayNotFound,
   ApiToken | HttpClient.HttpClient
@@ -1116,17 +1186,20 @@ export const GetDatasetResponse = Schema.Struct({
   name: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    enable: "enable",
+    filters: "filters",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<GetDatasetResponse>;
 
-export const getDataset: (
-  input: GetDatasetRequest,
-) => Effect.Effect<
+export const getDataset: API.OperationMethod<
+  GetDatasetRequest,
   GetDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1225,18 +1298,21 @@ export const ListDatasetsResponse = Schema.Array(
     name: Schema.String,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       accountTag: "account_tag",
       createdAt: "created_at",
+      enable: "enable",
+      filters: "filters",
       gatewayId: "gateway_id",
       modifiedAt: "modified_at",
+      name: "name",
     }),
   ),
 ) as unknown as Schema.Schema<ListDatasetsResponse>;
 
-export const listDatasets: (
-  input: ListDatasetsRequest,
-) => Effect.Effect<
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
   ListDatasetsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1374,17 +1450,20 @@ export const CreateDatasetResponse = Schema.Struct({
   name: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    enable: "enable",
+    filters: "filters",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<CreateDatasetResponse>;
 
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => Effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1524,17 +1603,20 @@ export const UpdateDatasetResponse = Schema.Struct({
   name: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    enable: "enable",
+    filters: "filters",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<UpdateDatasetResponse>;
 
-export const updateDataset: (
-  input: UpdateDatasetRequest,
-) => Effect.Effect<
+export const updateDataset: API.OperationMethod<
+  UpdateDatasetRequest,
   UpdateDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1625,17 +1707,20 @@ export const DeleteDatasetResponse = Schema.Struct({
   name: Schema.String,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    enable: "enable",
+    filters: "filters",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
   }),
 ) as unknown as Schema.Schema<DeleteDatasetResponse>;
 
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => Effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1758,11 +1843,15 @@ export const GetEvaluationResponse = Schema.Struct({
       name: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         accountId: "account_id",
         accountTag: "account_tag",
         createdAt: "created_at",
+        enable: "enable",
+        filters: "filters",
         gatewayId: "gateway_id",
         modifiedAt: "modified_at",
+        name: "name",
       }),
     ),
   ),
@@ -1783,10 +1872,13 @@ export const GetEvaluationResponse = Schema.Struct({
       totalLogs: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         evaluationId: "evaluation_id",
         evaluationTypeId: "evaluation_type_id",
         modifiedAt: "modified_at",
+        result: "result",
+        status: "status",
         statusDescription: "status_description",
         totalLogs: "total_logs",
       }),
@@ -1795,18 +1887,22 @@ export const GetEvaluationResponse = Schema.Struct({
   totalLogs: Schema.Number,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    datasets: "datasets",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
+    processed: "processed",
+    results: "results",
     totalLogs: "total_logs",
   }),
 ) as unknown as Schema.Schema<GetEvaluationResponse>;
 
-export const getEvaluation: (
-  input: GetEvaluationRequest,
-) => Effect.Effect<
+export const getEvaluation: API.OperationMethod<
+  GetEvaluationRequest,
   GetEvaluationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1933,11 +2029,15 @@ export const ListEvaluationsResponse = Schema.Array(
         name: Schema.String,
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           accountId: "account_id",
           accountTag: "account_tag",
           createdAt: "created_at",
+          enable: "enable",
+          filters: "filters",
           gatewayId: "gateway_id",
           modifiedAt: "modified_at",
+          name: "name",
         }),
       ),
     ),
@@ -1958,10 +2058,13 @@ export const ListEvaluationsResponse = Schema.Array(
         totalLogs: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
+          id: "id",
           createdAt: "created_at",
           evaluationId: "evaluation_id",
           evaluationTypeId: "evaluation_type_id",
           modifiedAt: "modified_at",
+          result: "result",
+          status: "status",
           statusDescription: "status_description",
           totalLogs: "total_logs",
         }),
@@ -1970,19 +2073,23 @@ export const ListEvaluationsResponse = Schema.Array(
     totalLogs: Schema.Number,
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       accountId: "account_id",
       accountTag: "account_tag",
       createdAt: "created_at",
+      datasets: "datasets",
       gatewayId: "gateway_id",
       modifiedAt: "modified_at",
+      name: "name",
+      processed: "processed",
+      results: "results",
       totalLogs: "total_logs",
     }),
   ),
 ) as unknown as Schema.Schema<ListEvaluationsResponse>;
 
-export const listEvaluations: (
-  input: ListEvaluationsRequest,
-) => Effect.Effect<
+export const listEvaluations: API.OperationMethod<
+  ListEvaluationsRequest,
   ListEvaluationsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2014,6 +2121,7 @@ export const CreateEvaluationRequest = Schema.Struct({
   Schema.encodeKeys({
     datasetIds: "dataset_ids",
     evaluationTypeIds: "evaluation_type_ids",
+    name: "name",
   }),
   T.Http({
     method: "POST",
@@ -2113,11 +2221,15 @@ export const CreateEvaluationResponse = Schema.Struct({
       name: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         accountId: "account_id",
         accountTag: "account_tag",
         createdAt: "created_at",
+        enable: "enable",
+        filters: "filters",
         gatewayId: "gateway_id",
         modifiedAt: "modified_at",
+        name: "name",
       }),
     ),
   ),
@@ -2138,10 +2250,13 @@ export const CreateEvaluationResponse = Schema.Struct({
       totalLogs: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         evaluationId: "evaluation_id",
         evaluationTypeId: "evaluation_type_id",
         modifiedAt: "modified_at",
+        result: "result",
+        status: "status",
         statusDescription: "status_description",
         totalLogs: "total_logs",
       }),
@@ -2150,18 +2265,22 @@ export const CreateEvaluationResponse = Schema.Struct({
   totalLogs: Schema.Number,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    datasets: "datasets",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
+    processed: "processed",
+    results: "results",
     totalLogs: "total_logs",
   }),
 ) as unknown as Schema.Schema<CreateEvaluationResponse>;
 
-export const createEvaluation: (
-  input: CreateEvaluationRequest,
-) => Effect.Effect<
+export const createEvaluation: API.OperationMethod<
+  CreateEvaluationRequest,
   CreateEvaluationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2280,11 +2399,15 @@ export const DeleteEvaluationResponse = Schema.Struct({
       name: Schema.String,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         accountId: "account_id",
         accountTag: "account_tag",
         createdAt: "created_at",
+        enable: "enable",
+        filters: "filters",
         gatewayId: "gateway_id",
         modifiedAt: "modified_at",
+        name: "name",
       }),
     ),
   ),
@@ -2305,10 +2428,13 @@ export const DeleteEvaluationResponse = Schema.Struct({
       totalLogs: Schema.Number,
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdAt: "created_at",
         evaluationId: "evaluation_id",
         evaluationTypeId: "evaluation_type_id",
         modifiedAt: "modified_at",
+        result: "result",
+        status: "status",
         statusDescription: "status_description",
         totalLogs: "total_logs",
       }),
@@ -2317,18 +2443,22 @@ export const DeleteEvaluationResponse = Schema.Struct({
   totalLogs: Schema.Number,
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     accountId: "account_id",
     accountTag: "account_tag",
     createdAt: "created_at",
+    datasets: "datasets",
     gatewayId: "gateway_id",
     modifiedAt: "modified_at",
+    name: "name",
+    processed: "processed",
+    results: "results",
     totalLogs: "total_logs",
   }),
 ) as unknown as Schema.Schema<DeleteEvaluationResponse>;
 
-export const deleteEvaluation: (
-  input: DeleteEvaluationRequest,
-) => Effect.Effect<
+export const deleteEvaluation: API.OperationMethod<
+  DeleteEvaluationRequest,
   DeleteEvaluationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2386,13 +2516,21 @@ export const ListEvaluationTypesResponse = Schema.Array(
     name: Schema.String,
     type: Schema.String,
   }).pipe(
-    Schema.encodeKeys({ createdAt: "created_at", modifiedAt: "modified_at" }),
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      description: "description",
+      enable: "enable",
+      mandatory: "mandatory",
+      modifiedAt: "modified_at",
+      name: "name",
+      type: "type",
+    }),
   ),
 ) as unknown as Schema.Schema<ListEvaluationTypesResponse>;
 
-export const listEvaluationTypes: (
-  input: ListEvaluationTypesRequest,
-) => Effect.Effect<
+export const listEvaluationTypes: API.OperationMethod<
+  ListEvaluationTypesRequest,
   ListEvaluationTypesResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2479,10 +2617,19 @@ export const GetLogResponse = Schema.Struct({
   step: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
+    cached: "cached",
     createdAt: "created_at",
+    duration: "duration",
+    model: "model",
+    path: "path",
+    provider: "provider",
+    success: "success",
     tokensIn: "tokens_in",
     tokensOut: "tokens_out",
+    cost: "cost",
     customCost: "custom_cost",
+    metadata: "metadata",
     modelType: "model_type",
     requestContentType: "request_content_type",
     requestHead: "request_head",
@@ -2494,12 +2641,12 @@ export const GetLogResponse = Schema.Struct({
     responseHeadComplete: "response_head_complete",
     responseSize: "response_size",
     statusCode: "status_code",
+    step: "step",
   }),
 ) as unknown as Schema.Schema<GetLogResponse>;
 
-export const getLog: (
-  input: GetLogRequest,
-) => Effect.Effect<
+export const getLog: API.OperationMethod<
+  GetLogRequest,
   GetLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2685,7 +2832,10 @@ export const ListLogsRequest = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
+    cached: "cached",
+    direction: "direction",
     endDate: "end_date",
+    feedback: "feedback",
     maxCost: "max_cost",
     maxDuration: "max_duration",
     maxTokensIn: "max_tokens_in",
@@ -2696,10 +2846,13 @@ export const ListLogsRequest = Schema.Struct({
     minTokensIn: "min_tokens_in",
     minTokensOut: "min_tokens_out",
     minTotalTokens: "min_total_tokens",
+    model: "model",
     modelType: "model_type",
+    provider: "provider",
     requestContentType: "request_content_type",
     responseContentType: "response_content_type",
     startDate: "start_date",
+    success: "success",
   }),
   T.Http({
     method: "GET",
@@ -2752,22 +2905,31 @@ export const ListLogsResponse = Schema.Array(
     step: Schema.optional(Schema.Number),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      cached: "cached",
       createdAt: "created_at",
+      duration: "duration",
+      model: "model",
+      path: "path",
+      provider: "provider",
+      success: "success",
       tokensIn: "tokens_in",
       tokensOut: "tokens_out",
+      cost: "cost",
       customCost: "custom_cost",
+      metadata: "metadata",
       modelType: "model_type",
       requestContentType: "request_content_type",
       requestType: "request_type",
       responseContentType: "response_content_type",
       statusCode: "status_code",
+      step: "step",
     }),
   ),
 ) as unknown as Schema.Schema<ListLogsResponse>;
 
-export const listLogs: (
-  input: ListLogsRequest,
-) => Effect.Effect<
+export const listLogs: API.OperationMethod<
+  ListLogsRequest,
   ListLogsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2809,9 +2971,8 @@ export type PatchLogResponse = unknown;
 export const PatchLogResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchLogResponse>;
 
-export const patchLog: (
-  input: PatchLogRequest,
-) => Effect.Effect<
+export const patchLog: API.OperationMethod<
+  PatchLogRequest,
   PatchLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2954,9 +3115,8 @@ export const DeleteLogResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteLogResponse>;
 
-export const deleteLog: (
-  input: DeleteLogRequest,
-) => Effect.Effect<
+export const deleteLog: API.OperationMethod<
+  DeleteLogRequest,
   DeleteLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2988,9 +3148,8 @@ export type RequestLogResponse = unknown;
 export const RequestLogResponse =
   Schema.Unknown as unknown as Schema.Schema<RequestLogResponse>;
 
-export const requestLog: (
-  input: RequestLogRequest,
-) => Effect.Effect<
+export const requestLog: API.OperationMethod<
+  RequestLogRequest,
   RequestLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3022,9 +3181,8 @@ export type ResponseLogResponse = unknown;
 export const ResponseLogResponse =
   Schema.Unknown as unknown as Schema.Schema<ResponseLogResponse>;
 
-export const responseLog: (
-  input: ResponseLogRequest,
-) => Effect.Effect<
+export const responseLog: API.OperationMethod<
+  ResponseLogRequest,
   ResponseLogResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -3060,9 +3218,8 @@ export type GetUrlResponse = string;
 export const GetUrlResponse =
   Schema.String as unknown as Schema.Schema<GetUrlResponse>;
 
-export const getUrl: (
-  input: GetUrlRequest,
-) => Effect.Effect<
+export const getUrl: API.OperationMethod<
+  GetUrlRequest,
   GetUrlResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

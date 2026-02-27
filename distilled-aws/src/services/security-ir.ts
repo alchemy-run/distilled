@@ -1438,9 +1438,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Returns currently configured tags on a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1459,9 +1458,8 @@ export const listTagsForResource: (
 /**
  * Adds a tag(s) to a designated resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1480,9 +1478,8 @@ export const tagResource: (
 /**
  * Removes a tag(s) from a designate resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1501,9 +1498,8 @@ export const untagResource: (
 /**
  * Creates a new case.
  */
-export const createCase: (
-  input: CreateCaseRequest,
-) => effect.Effect<
+export const createCase: API.OperationMethod<
+  CreateCaseRequest,
   CreateCaseResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1515,9 +1511,8 @@ export const createCase: (
 /**
  * Returns the attributes of a case.
  */
-export const getCase: (
-  input: GetCaseRequest,
-) => effect.Effect<
+export const getCase: API.OperationMethod<
+  GetCaseRequest,
   GetCaseResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1529,9 +1524,8 @@ export const getCase: (
 /**
  * Updates an existing case.
  */
-export const updateCase: (
-  input: UpdateCaseRequest,
-) => effect.Effect<
+export const updateCase: API.OperationMethod<
+  UpdateCaseRequest,
   UpdateCaseResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1543,14 +1537,12 @@ export const updateCase: (
 /**
  * Lists all cases the requester has access to.
  */
-export const listCases: {
-  (
-    input: ListCasesRequest,
-  ): effect.Effect<
-    ListCasesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCases: API.OperationMethod<
+  ListCasesRequest,
+  ListCasesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCasesRequest,
   ) => stream.Stream<
@@ -1579,9 +1571,8 @@ export const listCases: {
 /**
  * Closes an existing case.
  */
-export const closeCase: (
-  input: CloseCaseRequest,
-) => effect.Effect<
+export const closeCase: API.OperationMethod<
+  CloseCaseRequest,
   CloseCaseResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1593,9 +1584,8 @@ export const closeCase: (
 /**
  * Adds a comment to an existing case.
  */
-export const createCaseComment: (
-  input: CreateCaseCommentRequest,
-) => effect.Effect<
+export const createCaseComment: API.OperationMethod<
+  CreateCaseCommentRequest,
   CreateCaseCommentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1607,9 +1597,8 @@ export const createCaseComment: (
 /**
  * Returns a Pre-Signed URL for uploading attachments into a case.
  */
-export const getCaseAttachmentDownloadUrl: (
-  input: GetCaseAttachmentDownloadUrlRequest,
-) => effect.Effect<
+export const getCaseAttachmentDownloadUrl: API.OperationMethod<
+  GetCaseAttachmentDownloadUrlRequest,
   GetCaseAttachmentDownloadUrlResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1621,9 +1610,8 @@ export const getCaseAttachmentDownloadUrl: (
 /**
  * Uploads an attachment to a case.
  */
-export const getCaseAttachmentUploadUrl: (
-  input: GetCaseAttachmentUploadUrlRequest,
-) => effect.Effect<
+export const getCaseAttachmentUploadUrl: API.OperationMethod<
+  GetCaseAttachmentUploadUrlRequest,
   GetCaseAttachmentUploadUrlResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1635,14 +1623,12 @@ export const getCaseAttachmentUploadUrl: (
 /**
  * Views the case history for edits made to a designated case.
  */
-export const listCaseEdits: {
-  (
-    input: ListCaseEditsRequest,
-  ): effect.Effect<
-    ListCaseEditsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCaseEdits: API.OperationMethod<
+  ListCaseEditsRequest,
+  ListCaseEditsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCaseEditsRequest,
   ) => stream.Stream<
@@ -1671,14 +1657,12 @@ export const listCaseEdits: {
 /**
  * Returns comments for a designated case.
  */
-export const listComments: {
-  (
-    input: ListCommentsRequest,
-  ): effect.Effect<
-    ListCommentsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComments: API.OperationMethod<
+  ListCommentsRequest,
+  ListCommentsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommentsRequest,
   ) => stream.Stream<
@@ -1707,14 +1691,12 @@ export const listComments: {
 /**
  * Investigation performed by an agent for a security incident...
  */
-export const listInvestigations: {
-  (
-    input: ListInvestigationsRequest,
-  ): effect.Effect<
-    ListInvestigationsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvestigations: API.OperationMethod<
+  ListInvestigationsRequest,
+  ListInvestigationsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvestigationsRequest,
   ) => stream.Stream<
@@ -1743,9 +1725,8 @@ export const listInvestigations: {
 /**
  * Send feedback based on response investigation action
  */
-export const sendFeedback: (
-  input: SendFeedbackRequest,
-) => effect.Effect<
+export const sendFeedback: API.OperationMethod<
+  SendFeedbackRequest,
   SendFeedbackResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1757,9 +1738,8 @@ export const sendFeedback: (
 /**
  * Updates an existing case comment.
  */
-export const updateCaseComment: (
-  input: UpdateCaseCommentRequest,
-) => effect.Effect<
+export const updateCaseComment: API.OperationMethod<
+  UpdateCaseCommentRequest,
   UpdateCaseCommentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1791,9 +1771,8 @@ export const updateCaseComment: (
  *
  * **AWS supported**: You must use the `CloseCase` API to close.
  */
-export const updateCaseStatus: (
-  input: UpdateCaseStatusRequest,
-) => effect.Effect<
+export const updateCaseStatus: API.OperationMethod<
+  UpdateCaseStatusRequest,
   UpdateCaseStatusResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1807,9 +1786,8 @@ export const updateCaseStatus: (
  *
  * This is a one-way action and cannot be reversed.
  */
-export const updateResolverType: (
-  input: UpdateResolverTypeRequest,
-) => effect.Effect<
+export const updateResolverType: API.OperationMethod<
+  UpdateResolverTypeRequest,
   UpdateResolverTypeResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1821,9 +1799,8 @@ export const updateResolverType: (
 /**
  * Creates a new membership.
  */
-export const createMembership: (
-  input: CreateMembershipRequest,
-) => effect.Effect<
+export const createMembership: API.OperationMethod<
+  CreateMembershipRequest,
   CreateMembershipResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1835,9 +1812,8 @@ export const createMembership: (
 /**
  * Returns the attributes of a membership.
  */
-export const getMembership: (
-  input: GetMembershipRequest,
-) => effect.Effect<
+export const getMembership: API.OperationMethod<
+  GetMembershipRequest,
   GetMembershipResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1849,9 +1825,8 @@ export const getMembership: (
 /**
  * Updates membership configuration.
  */
-export const updateMembership: (
-  input: UpdateMembershipRequest,
-) => effect.Effect<
+export const updateMembership: API.OperationMethod<
+  UpdateMembershipRequest,
   UpdateMembershipResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1863,14 +1838,12 @@ export const updateMembership: (
 /**
  * Returns the memberships that the calling principal can access.
  */
-export const listMemberships: {
-  (
-    input: ListMembershipsRequest,
-  ): effect.Effect<
-    ListMembershipsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMemberships: API.OperationMethod<
+  ListMembershipsRequest,
+  ListMembershipsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembershipsRequest,
   ) => stream.Stream<
@@ -1901,9 +1874,8 @@ export const listMemberships: {
  *
  * AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be `123123123` which is nine digits, and with zero-prepend would be `000123123123`. Not zero-prepending to 12 digits could result in errors.
  */
-export const batchGetMemberAccountDetails: (
-  input: BatchGetMemberAccountDetailsRequest,
-) => effect.Effect<
+export const batchGetMemberAccountDetails: API.OperationMethod<
+  BatchGetMemberAccountDetailsRequest,
   BatchGetMemberAccountDetailsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1915,9 +1887,8 @@ export const batchGetMemberAccountDetails: (
 /**
  * Cancels an existing membership.
  */
-export const cancelMembership: (
-  input: CancelMembershipRequest,
-) => effect.Effect<
+export const cancelMembership: API.OperationMethod<
+  CancelMembershipRequest,
   CancelMembershipResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient

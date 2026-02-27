@@ -7282,9 +7282,8 @@ export class InvalidPublicKeyException extends S.TaggedErrorClass<InvalidPublicK
  *
  * An accepted request may be rejected before the exchange token is sent to the partner.
  */
-export const acceptDelegationRequest: (
-  input: AcceptDelegationRequestRequest,
-) => effect.Effect<
+export const acceptDelegationRequest: API.OperationMethod<
+  AcceptDelegationRequestRequest,
   AcceptDelegationRequestResponse,
   | ConcurrentModificationException
   | NoSuchEntityException
@@ -7307,9 +7306,8 @@ export const acceptDelegationRequest: (
  * This operation is idempotent; it does not fail or return an error if you add an
  * existing client ID to the provider.
  */
-export const addClientIDToOpenIDConnectProvider: (
-  input: AddClientIDToOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
+  AddClientIDToOpenIDConnectProviderRequest,
   AddClientIDToOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -7351,9 +7349,8 @@ export const addClientIDToOpenIDConnectProvider: (
  * see Using
  * instance profiles in the *IAM User Guide*.
  */
-export const addRoleToInstanceProfile: (
-  input: AddRoleToInstanceProfileRequest,
-) => effect.Effect<
+export const addRoleToInstanceProfile: API.OperationMethod<
+  AddRoleToInstanceProfileRequest,
   AddRoleToInstanceProfileResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -7376,9 +7373,8 @@ export const addRoleToInstanceProfile: (
 /**
  * Adds the specified user to the specified group.
  */
-export const addUserToGroup: (
-  input: AddUserToGroupRequest,
-) => effect.Effect<
+export const addUserToGroup: API.OperationMethod<
+  AddUserToGroupRequest,
   AddUserToGroupResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -7416,9 +7412,8 @@ export const addUserToGroup: (
  *
  * Managing Permissions for Delegation Requests.
  */
-export const associateDelegationRequest: (
-  input: AssociateDelegationRequestRequest,
-) => effect.Effect<
+export const associateDelegationRequest: API.OperationMethod<
+  AssociateDelegationRequestRequest,
   AssociateDelegationRequestResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -7451,9 +7446,8 @@ export const associateDelegationRequest: (
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const attachGroupPolicy: (
-  input: AttachGroupPolicyRequest,
-) => effect.Effect<
+export const attachGroupPolicy: API.OperationMethod<
+  AttachGroupPolicyRequest,
   AttachGroupPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -7497,9 +7491,8 @@ export const attachGroupPolicy: (
  * To learn more, see Validating IAM policies
  * in the *IAM User Guide*.
  */
-export const attachRolePolicy: (
-  input: AttachRolePolicyRequest,
-) => effect.Effect<
+export const attachRolePolicy: API.OperationMethod<
+  AttachRolePolicyRequest,
   AttachRolePolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -7536,9 +7529,8 @@ export const attachRolePolicy: (
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const attachUserPolicy: (
-  input: AttachUserPolicyRequest,
-) => effect.Effect<
+export const attachUserPolicy: API.OperationMethod<
+  AttachUserPolicyRequest,
   AttachUserPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -7570,9 +7562,8 @@ export const attachUserPolicy: (
  * modifying passwords, see Managing passwords in the
  * *IAM User Guide*.
  */
-export const changePassword: (
-  input: ChangePasswordRequest,
-) => effect.Effect<
+export const changePassword: API.OperationMethod<
+  ChangePasswordRequest,
   ChangePasswordResponse,
   | EntityTemporarilyUnmodifiableException
   | InvalidUserTypeException
@@ -7611,9 +7602,8 @@ export const changePassword: (
  * file) if you want to be able to access it again. If a secret key is lost, you can
  * delete the access keys for the associated user and then create new keys.
  */
-export const createAccessKey: (
-  input: CreateAccessKeyRequest,
-) => effect.Effect<
+export const createAccessKey: API.OperationMethod<
+  CreateAccessKeyRequest,
   CreateAccessKeyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -7635,9 +7625,8 @@ export const createAccessKey: (
  * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
  * Guide.
  */
-export const createAccountAlias: (
-  input: CreateAccountAliasRequest,
-) => effect.Effect<
+export const createAccountAlias: API.OperationMethod<
+  CreateAccountAliasRequest,
   CreateAccountAliasResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7662,9 +7651,8 @@ export const createAccountAlias: (
  * go through an onboarding process described in the
  * partner onboarding documentation.
  */
-export const createDelegationRequest: (
-  input: CreateDelegationRequestRequest,
-) => effect.Effect<
+export const createDelegationRequest: API.OperationMethod<
+  CreateDelegationRequestRequest,
   CreateDelegationRequestResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7690,9 +7678,8 @@ export const createDelegationRequest: (
  * For information about the number of groups you can create, see IAM and STS
  * quotas in the *IAM User Guide*.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -7718,9 +7705,8 @@ export const createGroup: (
  * For information about the number of instance profiles you can create, see IAM object
  * quotas in the *IAM User Guide*.
  */
-export const createInstanceProfile: (
-  input: CreateInstanceProfileRequest,
-) => effect.Effect<
+export const createInstanceProfile: API.OperationMethod<
+  CreateInstanceProfileRequest,
   CreateInstanceProfileResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7750,9 +7736,8 @@ export const createInstanceProfile: (
  * For more information about managing passwords, see Managing passwords in the
  * *IAM User Guide*.
  */
-export const createLoginProfile: (
-  input: CreateLoginProfileRequest,
-) => effect.Effect<
+export const createLoginProfile: API.OperationMethod<
+  CreateLoginProfileRequest,
   CreateLoginProfileResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -7811,9 +7796,8 @@ export const createLoginProfile: (
  * operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged
  * users.
  */
-export const createOpenIDConnectProvider: (
-  input: CreateOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const createOpenIDConnectProvider: API.OperationMethod<
+  CreateOpenIDConnectProviderRequest,
   CreateOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7851,9 +7835,8 @@ export const createOpenIDConnectProvider: (
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const createPolicy: (
-  input: CreatePolicyRequest,
-) => effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
   CreatePolicyResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7887,9 +7870,8 @@ export const createPolicy: (
  * For more information about managed policy versions, see Versioning for managed
  * policies in the *IAM User Guide*.
  */
-export const createPolicyVersion: (
-  input: CreatePolicyVersionRequest,
-) => effect.Effect<
+export const createPolicyVersion: API.OperationMethod<
+  CreatePolicyVersionRequest,
   CreatePolicyVersionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -7917,9 +7899,8 @@ export const createPolicyVersion: (
  * and the number of roles you can create, see IAM and STS quotas in the
  * *IAM User Guide*.
  */
-export const createRole: (
-  input: CreateRoleRequest,
-) => effect.Effect<
+export const createRole: API.OperationMethod<
+  CreateRoleRequest,
   CreateRoleResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7963,9 +7944,8 @@ export const createRole: (
  * federated users to access the Amazon Web Services Management Console and About SAML 2.0-based
  * federation in the *IAM User Guide*.
  */
-export const createSAMLProvider: (
-  input: CreateSAMLProviderRequest,
-) => effect.Effect<
+export const createSAMLProvider: API.OperationMethod<
+  CreateSAMLProviderRequest,
   CreateSAMLProviderResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -7997,9 +7977,8 @@ export const createSAMLProvider: (
  * To attach a policy to this service-linked role, you must make the request using the
  * Amazon Web Services service that depends on this role.
  */
-export const createServiceLinkedRole: (
-  input: CreateServiceLinkedRoleRequest,
-) => effect.Effect<
+export const createServiceLinkedRole: API.OperationMethod<
+  CreateServiceLinkedRoleRequest,
   CreateServiceLinkedRoleResponse,
   | InvalidInputException
   | LimitExceededException
@@ -8032,9 +8011,8 @@ export const createServiceLinkedRole: (
  * For more information about service-specific credentials, see Service-specific credentials for IAM users in the
  * *IAM User Guide*.
  */
-export const createServiceSpecificCredential: (
-  input: CreateServiceSpecificCredentialRequest,
-) => effect.Effect<
+export const createServiceSpecificCredential: API.OperationMethod<
+  CreateServiceSpecificCredentialRequest,
   CreateServiceSpecificCredentialResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8056,9 +8034,8 @@ export const createServiceSpecificCredential: (
  * For information about quotas for the number of IAM users you can create, see IAM and STS
  * quotas in the *IAM User Guide*.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -8096,9 +8073,8 @@ export const createUser: (
  * provision your virtual device, you should ensure that the information is destroyed
  * following secure procedures.
  */
-export const createVirtualMFADevice: (
-  input: CreateVirtualMFADeviceRequest,
-) => effect.Effect<
+export const createVirtualMFADevice: API.OperationMethod<
+  CreateVirtualMFADeviceRequest,
   CreateVirtualMFADeviceResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -8126,9 +8102,8 @@ export const createVirtualMFADevice: (
  * multi-factor authentication (MFA) device in the
  * *IAM User Guide*.
  */
-export const deactivateMFADevice: (
-  input: DeactivateMFADeviceRequest,
-) => effect.Effect<
+export const deactivateMFADevice: API.OperationMethod<
+  DeactivateMFADeviceRequest,
   DeactivateMFADeviceResponse,
   | ConcurrentModificationException
   | EntityTemporarilyUnmodifiableException
@@ -8156,9 +8131,8 @@ export const deactivateMFADevice: (
  * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
  * user credentials even if the Amazon Web Services account has no associated users.
  */
-export const deleteAccessKey: (
-  input: DeleteAccessKeyRequest,
-) => effect.Effect<
+export const deleteAccessKey: API.OperationMethod<
+  DeleteAccessKeyRequest,
   DeleteAccessKeyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8180,9 +8154,8 @@ export const deleteAccessKey: (
  * listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User
  * Guide.
  */
-export const deleteAccountAlias: (
-  input: DeleteAccountAliasRequest,
-) => effect.Effect<
+export const deleteAccountAlias: API.OperationMethod<
+  DeleteAccountAliasRequest,
   DeleteAccountAliasResponse,
   | ConcurrentModificationException
   | LimitExceededException
@@ -8203,9 +8176,8 @@ export const deleteAccountAlias: (
 /**
  * Deletes the password policy for the Amazon Web Services account. There are no parameters.
  */
-export const deleteAccountPasswordPolicy: (
-  input: DeleteAccountPasswordPolicyRequest,
-) => effect.Effect<
+export const deleteAccountPasswordPolicy: API.OperationMethod<
+  DeleteAccountPasswordPolicyRequest,
   DeleteAccountPasswordPolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8225,9 +8197,8 @@ export const deleteAccountPasswordPolicy: (
  * Deletes the specified IAM group. The group must not contain any users or have any
  * attached policies.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | DeleteConflictException
   | LimitExceededException
@@ -8254,9 +8225,8 @@ export const deleteGroup: (
  * For more information about policies, refer to Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deleteGroupPolicy: (
-  input: DeleteGroupPolicyRequest,
-) => effect.Effect<
+export const deleteGroupPolicy: API.OperationMethod<
+  DeleteGroupPolicyRequest,
   DeleteGroupPolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8284,9 +8254,8 @@ export const deleteGroupPolicy: (
  * For more information about instance profiles, see Using
  * instance profiles in the *IAM User Guide*.
  */
-export const deleteInstanceProfile: (
-  input: DeleteInstanceProfileRequest,
-) => effect.Effect<
+export const deleteInstanceProfile: API.OperationMethod<
+  DeleteInstanceProfileRequest,
   DeleteInstanceProfileResponse,
   | DeleteConflictException
   | LimitExceededException
@@ -8320,9 +8289,8 @@ export const deleteInstanceProfile: (
  * making keys inactive or deleting them, see UpdateAccessKey
  * and DeleteAccessKey.
  */
-export const deleteLoginProfile: (
-  input: DeleteLoginProfileRequest,
-) => effect.Effect<
+export const deleteLoginProfile: API.OperationMethod<
+  DeleteLoginProfileRequest,
   DeleteLoginProfileResponse,
   | EntityTemporarilyUnmodifiableException
   | LimitExceededException
@@ -8350,9 +8318,8 @@ export const deleteLoginProfile: (
  * This operation is idempotent; it does not fail or return an error if you call the
  * operation for a provider that does not exist.
  */
-export const deleteOpenIDConnectProvider: (
-  input: DeleteOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const deleteOpenIDConnectProvider: API.OperationMethod<
+  DeleteOpenIDConnectProviderRequest,
   DeleteOpenIDConnectProviderResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -8390,9 +8357,8 @@ export const deleteOpenIDConnectProvider: (
  * For information about managed policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   | DeleteConflictException
   | InvalidInputException
@@ -8422,9 +8388,8 @@ export const deletePolicy: (
  * For information about versions for managed policies, see Versioning for managed
  * policies in the *IAM User Guide*.
  */
-export const deletePolicyVersion: (
-  input: DeletePolicyVersionRequest,
-) => effect.Effect<
+export const deletePolicyVersion: API.OperationMethod<
+  DeletePolicyVersionRequest,
   DeletePolicyVersionResponse,
   | DeleteConflictException
   | InvalidInputException
@@ -8463,9 +8428,8 @@ export const deletePolicyVersion: (
  * about to delete. Deleting a role or instance profile that is associated with a
  * running instance will break any applications running on the instance.
  */
-export const deleteRole: (
-  input: DeleteRoleRequest,
-) => effect.Effect<
+export const deleteRole: API.OperationMethod<
+  DeleteRoleRequest,
   DeleteRoleResponse,
   | ConcurrentModificationException
   | DeleteConflictException
@@ -8496,9 +8460,8 @@ export const deleteRole: (
  * example, it might allow anyone who assumes the role to perform all the actions
  * granted in its permissions policies.
  */
-export const deleteRolePermissionsBoundary: (
-  input: DeleteRolePermissionsBoundaryRequest,
-) => effect.Effect<
+export const deleteRolePermissionsBoundary: API.OperationMethod<
+  DeleteRolePermissionsBoundaryRequest,
   DeleteRolePermissionsBoundaryResponse,
   | NoSuchEntityException
   | ServiceFailureException
@@ -8523,9 +8486,8 @@ export const deleteRolePermissionsBoundary: (
  * For more information about policies, refer to Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deleteRolePolicy: (
-  input: DeleteRolePolicyRequest,
-) => effect.Effect<
+export const deleteRolePolicy: API.OperationMethod<
+  DeleteRolePolicyRequest,
   DeleteRolePolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8552,9 +8514,8 @@ export const deleteRolePolicy: (
  *
  * This operation requires Signature Version 4.
  */
-export const deleteSAMLProvider: (
-  input: DeleteSAMLProviderRequest,
-) => effect.Effect<
+export const deleteSAMLProvider: API.OperationMethod<
+  DeleteSAMLProviderRequest,
   DeleteSAMLProviderResponse,
   | InvalidInputException
   | LimitExceededException
@@ -8589,9 +8550,8 @@ export const deleteSAMLProvider: (
  * see DeleteLoadBalancerListeners in the Elastic Load Balancing API
  * Reference.
  */
-export const deleteServerCertificate: (
-  input: DeleteServerCertificateRequest,
-) => effect.Effect<
+export const deleteServerCertificate: API.OperationMethod<
+  DeleteServerCertificateRequest,
   DeleteServerCertificateResponse,
   | DeleteConflictException
   | LimitExceededException
@@ -8630,9 +8590,8 @@ export const deleteServerCertificate: (
  * For more information about service-linked roles, see Roles terms and concepts: Amazon Web Services service-linked role in the
  * *IAM User Guide*.
  */
-export const deleteServiceLinkedRole: (
-  input: DeleteServiceLinkedRoleRequest,
-) => effect.Effect<
+export const deleteServiceLinkedRole: API.OperationMethod<
+  DeleteServiceLinkedRoleRequest,
   DeleteServiceLinkedRoleResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8651,9 +8610,8 @@ export const deleteServiceLinkedRole: (
 /**
  * Deletes the specified service-specific credential.
  */
-export const deleteServiceSpecificCredential: (
-  input: DeleteServiceSpecificCredentialRequest,
-) => effect.Effect<
+export const deleteServiceSpecificCredential: API.OperationMethod<
+  DeleteServiceSpecificCredentialRequest,
   DeleteServiceSpecificCredentialResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8670,9 +8628,8 @@ export const deleteServiceSpecificCredential: (
  * the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root
  * user credentials even if the Amazon Web Services account has no associated IAM users.
  */
-export const deleteSigningCertificate: (
-  input: DeleteSigningCertificateRequest,
-) => effect.Effect<
+export const deleteSigningCertificate: API.OperationMethod<
+  DeleteSigningCertificateRequest,
   DeleteSigningCertificateResponse,
   | ConcurrentModificationException
   | LimitExceededException
@@ -8698,9 +8655,8 @@ export const deleteSigningCertificate: (
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for
  * SSH connections in the *CodeCommit User Guide*.
  */
-export const deleteSSHPublicKey: (
-  input: DeleteSSHPublicKeyRequest,
-) => effect.Effect<
+export const deleteSSHPublicKey: API.OperationMethod<
+  DeleteSSHPublicKeyRequest,
   DeleteSSHPublicKeyResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8733,9 +8689,8 @@ export const deleteSSHPublicKey: (
  *
  * - Group memberships (RemoveUserFromGroup)
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | ConcurrentModificationException
   | DeleteConflictException
@@ -8761,9 +8716,8 @@ export const deleteUser: (
  * Deleting the permissions boundary for a user might increase its permissions by
  * allowing the user to perform all the actions granted in its permissions policies.
  */
-export const deleteUserPermissionsBoundary: (
-  input: DeleteUserPermissionsBoundaryRequest,
-) => effect.Effect<
+export const deleteUserPermissionsBoundary: API.OperationMethod<
+  DeleteUserPermissionsBoundaryRequest,
   DeleteUserPermissionsBoundaryResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8781,9 +8735,8 @@ export const deleteUserPermissionsBoundary: (
  * For more information about policies, refer to Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const deleteUserPolicy: (
-  input: DeleteUserPolicyRequest,
-) => effect.Effect<
+export const deleteUserPolicy: API.OperationMethod<
+  DeleteUserPolicyRequest,
   DeleteUserPolicyResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -8805,9 +8758,8 @@ export const deleteUserPolicy: (
  * You must deactivate a user's virtual MFA device before you can delete it. For
  * information about deactivating MFA devices, see DeactivateMFADevice.
  */
-export const deleteVirtualMFADevice: (
-  input: DeleteVirtualMFADeviceRequest,
-) => effect.Effect<
+export const deleteVirtualMFADevice: API.OperationMethod<
+  DeleteVirtualMFADeviceRequest,
   DeleteVirtualMFADeviceResponse,
   | ConcurrentModificationException
   | DeleteConflictException
@@ -8835,9 +8787,8 @@ export const deleteVirtualMFADevice: (
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const detachGroupPolicy: (
-  input: DetachGroupPolicyRequest,
-) => effect.Effect<
+export const detachGroupPolicy: API.OperationMethod<
+  DetachGroupPolicyRequest,
   DetachGroupPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -8863,9 +8814,8 @@ export const detachGroupPolicy: (
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const detachRolePolicy: (
-  input: DetachRolePolicyRequest,
-) => effect.Effect<
+export const detachRolePolicy: API.OperationMethod<
+  DetachRolePolicyRequest,
   DetachRolePolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -8893,9 +8843,8 @@ export const detachRolePolicy: (
  * policies and inline policies in the
  * *IAM User Guide*.
  */
-export const detachUserPolicy: (
-  input: DetachUserPolicyRequest,
-) => effect.Effect<
+export const detachUserPolicy: API.OperationMethod<
+  DetachUserPolicyRequest,
   DetachUserPolicyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -8919,9 +8868,8 @@ export const detachUserPolicy: (
  * delegated administrator for IAM can no longer manage root user credentials for member
  * accounts in your organization.
  */
-export const disableOrganizationsRootCredentialsManagement: (
-  input: DisableOrganizationsRootCredentialsManagementRequest,
-) => effect.Effect<
+export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
+  DisableOrganizationsRootCredentialsManagementRequest,
   DisableOrganizationsRootCredentialsManagementResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | OrganizationNotFoundException
@@ -8945,9 +8893,8 @@ export const disableOrganizationsRootCredentialsManagement: (
  * administrator for IAM can no longer perform privileged tasks on member accounts in
  * your organization.
  */
-export const disableOrganizationsRootSessions: (
-  input: DisableOrganizationsRootSessionsRequest,
-) => effect.Effect<
+export const disableOrganizationsRootSessions: API.OperationMethod<
+  DisableOrganizationsRootSessionsRequest,
   DisableOrganizationsRootSessionsResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | OrganizationNotFoundException
@@ -8970,9 +8917,8 @@ export const disableOrganizationsRootSessions: (
  * use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation
  * does not affect tokens that were issued before the feature was disabled.
  */
-export const disableOutboundWebIdentityFederation: (
-  input: DisableOutboundWebIdentityFederationRequest,
-) => effect.Effect<
+export const disableOutboundWebIdentityFederation: API.OperationMethod<
+  DisableOutboundWebIdentityFederationRequest,
   DisableOutboundWebIdentityFederationResponse,
   FeatureDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8986,9 +8932,8 @@ export const disableOutboundWebIdentityFederation: (
  * enabled, the MFA device is required for every subsequent login by the IAM user
  * associated with the device.
  */
-export const enableMFADevice: (
-  input: EnableMFADeviceRequest,
-) => effect.Effect<
+export const enableMFADevice: API.OperationMethod<
+  EnableMFADeviceRequest,
   EnableMFADeviceResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -9027,9 +8972,8 @@ export const enableMFADevice: (
  * IAM and Organizations in the Organizations User
  * Guide.
  */
-export const enableOrganizationsRootCredentialsManagement: (
-  input: EnableOrganizationsRootCredentialsManagementRequest,
-) => effect.Effect<
+export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
+  EnableOrganizationsRootCredentialsManagementRequest,
   EnableOrganizationsRootCredentialsManagementResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | CallerIsNotManagementAccountException
@@ -9063,9 +9007,8 @@ export const enableOrganizationsRootCredentialsManagement: (
  * IAM and Organizations in the Organizations User
  * Guide.
  */
-export const enableOrganizationsRootSessions: (
-  input: EnableOrganizationsRootSessionsRequest,
-) => effect.Effect<
+export const enableOrganizationsRootSessions: API.OperationMethod<
+  EnableOrganizationsRootSessionsRequest,
   EnableOrganizationsRootSessionsResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | CallerIsNotManagementAccountException
@@ -9090,9 +9033,8 @@ export const enableOrganizationsRootSessions: (
  * can use the `GetWebIdentityToken` API to obtain JSON Web Tokens (JWTs) for secure authentication with external services.
  * This operation also generates a unique issuer URL for your Amazon Web Services account.
  */
-export const enableOutboundWebIdentityFederation: (
-  input: EnableOutboundWebIdentityFederationRequest,
-) => effect.Effect<
+export const enableOutboundWebIdentityFederation: API.OperationMethod<
+  EnableOutboundWebIdentityFederationRequest,
   EnableOutboundWebIdentityFederationResponse,
   FeatureEnabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9106,9 +9048,8 @@ export const enableOutboundWebIdentityFederation: (
  * credential report, see Getting credential reports in
  * the *IAM User Guide*.
  */
-export const generateCredentialReport: (
-  input: GenerateCredentialReportRequest,
-) => effect.Effect<
+export const generateCredentialReport: API.OperationMethod<
+  GenerateCredentialReportRequest,
   GenerateCredentialReportResponse,
   LimitExceededException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9236,9 +9177,8 @@ export const generateCredentialReport: (
  * For more information about service last accessed data, see Reducing policy scope by
  * viewing user activity in the *IAM User Guide*.
  */
-export const generateOrganizationsAccessReport: (
-  input: GenerateOrganizationsAccessReportRequest,
-) => effect.Effect<
+export const generateOrganizationsAccessReport: API.OperationMethod<
+  GenerateOrganizationsAccessReportRequest,
   GenerateOrganizationsAccessReportResponse,
   ReportGenerationLimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9301,9 +9241,8 @@ export const generateOrganizationsAccessReport: (
  * For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the
  * *IAM User Guide*.
  */
-export const generateServiceLastAccessedDetails: (
-  input: GenerateServiceLastAccessedDetailsRequest,
-) => effect.Effect<
+export const generateServiceLastAccessedDetails: API.OperationMethod<
+  GenerateServiceLastAccessedDetailsRequest,
   GenerateServiceLastAccessedDetailsResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9317,9 +9256,8 @@ export const generateServiceLastAccessedDetails: (
  * information includes the date and time of last use, along with the Amazon Web Services service and
  * Region that were specified in the last request made with that key.
  */
-export const getAccessKeyLastUsed: (
-  input: GetAccessKeyLastUsedRequest,
-) => effect.Effect<
+export const getAccessKeyLastUsed: API.OperationMethod<
+  GetAccessKeyLastUsedRequest,
   GetAccessKeyLastUsedResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9345,14 +9283,12 @@ export const getAccessKeyLastUsed: (
  * paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const getAccountAuthorizationDetails: {
-  (
-    input: GetAccountAuthorizationDetailsRequest,
-  ): effect.Effect<
-    GetAccountAuthorizationDetailsResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAccountAuthorizationDetails: API.OperationMethod<
+  GetAccountAuthorizationDetailsRequest,
+  GetAccountAuthorizationDetailsResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAccountAuthorizationDetailsRequest,
   ) => stream.Stream<
@@ -9383,9 +9319,8 @@ export const getAccountAuthorizationDetails: {
  * For more information about using a password policy, see Managing an IAM password
  * policy.
  */
-export const getAccountPasswordPolicy: (
-  input: GetAccountPasswordPolicyRequest,
-) => effect.Effect<
+export const getAccountPasswordPolicy: API.OperationMethod<
+  GetAccountPasswordPolicyRequest,
   GetAccountPasswordPolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9401,9 +9336,8 @@ export const getAccountPasswordPolicy: (
  * For information about IAM quotas, see IAM and STS quotas in the
  * *IAM User Guide*.
  */
-export const getAccountSummary: (
-  input: GetAccountSummaryRequest,
-) => effect.Effect<
+export const getAccountSummary: API.OperationMethod<
+  GetAccountSummaryRequest,
   GetAccountSummaryResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9425,9 +9359,8 @@ export const getAccountSummary: (
  * here for clarity but must be URL encoded to be included as a part of a real HTML
  * request.
  */
-export const getContextKeysForCustomPolicy: (
-  input: GetContextKeysForCustomPolicyRequest,
-) => effect.Effect<
+export const getContextKeysForCustomPolicy: API.OperationMethod<
+  GetContextKeysForCustomPolicyRequest,
   GetContextKeysForPolicyResponse,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9455,9 +9388,8 @@ export const getContextKeysForCustomPolicy: (
  * against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values
  * you must supply when you call SimulatePrincipalPolicy.
  */
-export const getContextKeysForPrincipalPolicy: (
-  input: GetContextKeysForPrincipalPolicyRequest,
-) => effect.Effect<
+export const getContextKeysForPrincipalPolicy: API.OperationMethod<
+  GetContextKeysForPrincipalPolicyRequest,
   GetContextKeysForPolicyResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9471,9 +9403,8 @@ export const getContextKeysForPrincipalPolicy: (
  * credential report, see Getting credential reports in
  * the *IAM User Guide*.
  */
-export const getCredentialReport: (
-  input: GetCredentialReportRequest,
-) => effect.Effect<
+export const getCredentialReport: API.OperationMethod<
+  GetCredentialReportRequest,
   GetCredentialReportResponse,
   | CredentialReportExpiredException
   | CredentialReportNotPresentException
@@ -9502,9 +9433,8 @@ export const getCredentialReport: (
  *
  * Managing Permissions for Delegation Requests.
  */
-export const getDelegationRequest: (
-  input: GetDelegationRequestRequest,
-) => effect.Effect<
+export const getDelegationRequest: API.OperationMethod<
+  GetDelegationRequestRequest,
   GetDelegationRequestResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9517,14 +9447,12 @@ export const getDelegationRequest: (
  * Returns a list of IAM users that are in the specified IAM group. You can paginate
  * the results using the `MaxItems` and `Marker` parameters.
  */
-export const getGroup: {
-  (
-    input: GetGroupRequest,
-  ): effect.Effect<
-    GetGroupResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getGroup: API.OperationMethod<
+  GetGroupRequest,
+  GetGroupResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetGroupRequest,
   ) => stream.Stream<
@@ -9569,9 +9497,8 @@ export const getGroup: {
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const getGroupPolicy: (
-  input: GetGroupPolicyRequest,
-) => effect.Effect<
+export const getGroupPolicy: API.OperationMethod<
+  GetGroupPolicyRequest,
   GetGroupPolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9598,9 +9525,8 @@ export const getGroupPolicy: (
  * GetDelegationRequest
  * for a given delegation request will always be able to retrieve the human readable summary for that request.
  */
-export const getHumanReadableSummary: (
-  input: GetHumanReadableSummaryRequest,
-) => effect.Effect<
+export const getHumanReadableSummary: API.OperationMethod<
+  GetHumanReadableSummaryRequest,
   GetHumanReadableSummaryResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -9622,9 +9548,8 @@ export const getHumanReadableSummary: (
  * Using
  * instance profiles in the *IAM User Guide*.
  */
-export const getInstanceProfile: (
-  input: GetInstanceProfileRequest,
-) => effect.Effect<
+export const getInstanceProfile: API.OperationMethod<
+  GetInstanceProfileRequest,
   GetInstanceProfileResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9647,9 +9572,8 @@ export const getInstanceProfile: (
  * password creation date. A user with programmatic access does not have a login profile
  * unless you create a password for the user to access the Amazon Web Services Management Console.
  */
-export const getLoginProfile: (
-  input: GetLoginProfileRequest,
-) => effect.Effect<
+export const getLoginProfile: API.OperationMethod<
+  GetLoginProfileRequest,
   GetLoginProfileResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9661,9 +9585,8 @@ export const getLoginProfile: (
 /**
  * Retrieves information about an MFA device for a specified user.
  */
-export const getMFADevice: (
-  input: GetMFADeviceRequest,
-) => effect.Effect<
+export const getMFADevice: API.OperationMethod<
+  GetMFADeviceRequest,
   GetMFADeviceResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9676,9 +9599,8 @@ export const getMFADevice: (
  * Returns information about the specified OpenID Connect (OIDC) provider resource object
  * in IAM.
  */
-export const getOpenIDConnectProvider: (
-  input: GetOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const getOpenIDConnectProvider: API.OperationMethod<
+  GetOpenIDConnectProviderRequest,
   GetOpenIDConnectProviderResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -9718,9 +9640,8 @@ export const getOpenIDConnectProvider: (
  *
  * By default, the list is sorted by service namespace.
  */
-export const getOrganizationsAccessReport: (
-  input: GetOrganizationsAccessReportRequest,
-) => effect.Effect<
+export const getOrganizationsAccessReport: API.OperationMethod<
+  GetOrganizationsAccessReportRequest,
   GetOrganizationsAccessReportResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9733,9 +9654,8 @@ export const getOrganizationsAccessReport: (
  * Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your
  * Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
  */
-export const getOutboundWebIdentityFederationInfo: (
-  input: GetOutboundWebIdentityFederationInfoRequest,
-) => effect.Effect<
+export const getOutboundWebIdentityFederationInfo: API.OperationMethod<
+  GetOutboundWebIdentityFederationInfoRequest,
   GetOutboundWebIdentityFederationInfoResponse,
   FeatureDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9758,9 +9678,8 @@ export const getOutboundWebIdentityFederationInfo: (
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -9799,9 +9718,8 @@ export const getPolicy: (
  * For more information about managed policy versions, see Versioning for managed
  * policies in the *IAM User Guide*.
  */
-export const getPolicyVersion: (
-  input: GetPolicyVersionRequest,
-) => effect.Effect<
+export const getPolicyVersion: API.OperationMethod<
+  GetPolicyVersionRequest,
   GetPolicyVersionResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -9830,9 +9748,8 @@ export const getPolicyVersion: (
  * the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding
  * automatically.
  */
-export const getRole: (
-  input: GetRoleRequest,
-) => effect.Effect<
+export const getRole: API.OperationMethod<
+  GetRoleRequest,
   GetRoleResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9863,9 +9780,8 @@ export const getRole: (
  * For more information about roles, see IAM roles in the
  * *IAM User Guide*.
  */
-export const getRolePolicy: (
-  input: GetRolePolicyRequest,
-) => effect.Effect<
+export const getRolePolicy: API.OperationMethod<
+  GetRolePolicyRequest,
   GetRolePolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9880,9 +9796,8 @@ export const getRolePolicy: (
  *
  * This operation requires Signature Version 4.
  */
-export const getSAMLProvider: (
-  input: GetSAMLProviderRequest,
-) => effect.Effect<
+export const getSAMLProvider: API.OperationMethod<
+  GetSAMLProviderRequest,
   GetSAMLProviderResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -9906,9 +9821,8 @@ export const getSAMLProvider: (
  * topic includes a list of Amazon Web Services services that can use the server certificates that you
  * manage with IAM.
  */
-export const getServerCertificate: (
-  input: GetServerCertificateRequest,
-) => effect.Effect<
+export const getServerCertificate: API.OperationMethod<
+  GetServerCertificateRequest,
   GetServerCertificateResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9965,9 +9879,8 @@ export const getServerCertificate: (
  * For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the
  * *IAM User Guide*.
  */
-export const getServiceLastAccessedDetails: (
-  input: GetServiceLastAccessedDetailsRequest,
-) => effect.Effect<
+export const getServiceLastAccessedDetails: API.OperationMethod<
+  GetServiceLastAccessedDetailsRequest,
   GetServiceLastAccessedDetailsResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10001,9 +9914,8 @@ export const getServiceLastAccessedDetails: (
  * By default, the list of associated entities is sorted by date, with the most recent
  * access listed first.
  */
-export const getServiceLastAccessedDetailsWithEntities: (
-  input: GetServiceLastAccessedDetailsWithEntitiesRequest,
-) => effect.Effect<
+export const getServiceLastAccessedDetailsWithEntities: API.OperationMethod<
+  GetServiceLastAccessedDetailsWithEntitiesRequest,
   GetServiceLastAccessedDetailsWithEntitiesResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10019,9 +9931,8 @@ export const getServiceLastAccessedDetailsWithEntities: (
  * If the deletion fails, this operation returns the reason that it failed, if that
  * information is returned by the service.
  */
-export const getServiceLinkedRoleDeletionStatus: (
-  input: GetServiceLinkedRoleDeletionStatusRequest,
-) => effect.Effect<
+export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
+  GetServiceLinkedRoleDeletionStatusRequest,
   GetServiceLinkedRoleDeletionStatusResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -10045,9 +9956,8 @@ export const getServiceLinkedRoleDeletionStatus: (
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH
  * connections in the *CodeCommit User Guide*.
  */
-export const getSSHPublicKey: (
-  input: GetSSHPublicKeyRequest,
-) => effect.Effect<
+export const getSSHPublicKey: API.OperationMethod<
+  GetSSHPublicKeyRequest,
   GetSSHPublicKeyResponse,
   NoSuchEntityException | UnrecognizedPublicKeyEncodingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10063,9 +9973,8 @@ export const getSSHPublicKey: (
  * If you do not specify a user name, IAM determines the user name implicitly based on
  * the Amazon Web Services access key ID used to sign the request to this operation.
  */
-export const getUser: (
-  input: GetUserRequest,
-) => effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10093,9 +10002,8 @@ export const getUser: (
  * For more information about policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const getUserPolicy: (
-  input: GetUserPolicyRequest,
-) => effect.Effect<
+export const getUserPolicy: API.OperationMethod<
+  GetUserPolicyRequest,
   GetUserPolicyResponse,
   NoSuchEntityException | ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10123,14 +10031,12 @@ export const getUserPolicy: (
  * To ensure the security of your Amazon Web Services account, the secret access key is accessible
  * only during key and user creation.
  */
-export const listAccessKeys: {
-  (
-    input: ListAccessKeysRequest,
-  ): effect.Effect<
-    ListAccessKeysResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessKeys: API.OperationMethod<
+  ListAccessKeysRequest,
+  ListAccessKeysResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessKeysRequest,
   ) => stream.Stream<
@@ -10162,14 +10068,12 @@ export const listAccessKeys: {
  * deleting, and listing an Amazon Web Services account alias in the
  * *IAM User Guide*.
  */
-export const listAccountAliases: {
-  (
-    input: ListAccountAliasesRequest,
-  ): effect.Effect<
-    ListAccountAliasesResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAliases: API.OperationMethod<
+  ListAccountAliasesRequest,
+  ListAccountAliasesResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAliasesRequest,
   ) => stream.Stream<
@@ -10209,17 +10113,15 @@ export const listAccountAliases: {
  * attached to the specified group (or none that match the specified path prefix), the
  * operation returns an empty list.
  */
-export const listAttachedGroupPolicies: {
-  (
-    input: ListAttachedGroupPoliciesRequest,
-  ): effect.Effect<
-    ListAttachedGroupPoliciesResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachedGroupPolicies: API.OperationMethod<
+  ListAttachedGroupPoliciesRequest,
+  ListAttachedGroupPoliciesResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachedGroupPoliciesRequest,
   ) => stream.Stream<
@@ -10269,17 +10171,15 @@ export const listAttachedGroupPolicies: {
  * attached to the specified role (or none that match the specified path prefix), the
  * operation returns an empty list.
  */
-export const listAttachedRolePolicies: {
-  (
-    input: ListAttachedRolePoliciesRequest,
-  ): effect.Effect<
-    ListAttachedRolePoliciesResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachedRolePolicies: API.OperationMethod<
+  ListAttachedRolePoliciesRequest,
+  ListAttachedRolePoliciesResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachedRolePoliciesRequest,
   ) => stream.Stream<
@@ -10329,17 +10229,15 @@ export const listAttachedRolePolicies: {
  * attached to the specified group (or none that match the specified path prefix), the
  * operation returns an empty list.
  */
-export const listAttachedUserPolicies: {
-  (
-    input: ListAttachedUserPoliciesRequest,
-  ): effect.Effect<
-    ListAttachedUserPoliciesResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachedUserPolicies: API.OperationMethod<
+  ListAttachedUserPoliciesRequest,
+  ListAttachedUserPoliciesResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachedUserPoliciesRequest,
   ) => stream.Stream<
@@ -10385,9 +10283,8 @@ export const listAttachedUserPolicies: {
  *
  * Managing Permissions for Delegation Requests.
  */
-export const listDelegationRequests: (
-  input: ListDelegationRequestsRequest,
-) => effect.Effect<
+export const listDelegationRequests: API.OperationMethod<
+  ListDelegationRequestsRequest,
   ListDelegationRequestsResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -10415,17 +10312,15 @@ export const listDelegationRequests: (
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listEntitiesForPolicy: {
-  (
-    input: ListEntitiesForPolicyRequest,
-  ): effect.Effect<
-    ListEntitiesForPolicyResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntitiesForPolicy: API.OperationMethod<
+  ListEntitiesForPolicyRequest,
+  ListEntitiesForPolicyResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitiesForPolicyRequest,
   ) => stream.Stream<
@@ -10473,14 +10368,12 @@ export const listEntitiesForPolicy: {
  * parameters. If there are no inline policies embedded with the specified group, the
  * operation returns an empty list.
  */
-export const listGroupPolicies: {
-  (
-    input: ListGroupPoliciesRequest,
-  ): effect.Effect<
-    ListGroupPoliciesResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupPolicies: API.OperationMethod<
+  ListGroupPoliciesRequest,
+  ListGroupPoliciesResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupPoliciesRequest,
   ) => stream.Stream<
@@ -10512,14 +10405,12 @@ export const listGroupPolicies: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -10551,14 +10442,12 @@ export const listGroups: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listGroupsForUser: {
-  (
-    input: ListGroupsForUserRequest,
-  ): effect.Effect<
-    ListGroupsForUserResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupsForUser: API.OperationMethod<
+  ListGroupsForUserRequest,
+  ListGroupsForUserResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsForUserRequest,
   ) => stream.Stream<
@@ -10597,14 +10486,12 @@ export const listGroupsForUser: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listInstanceProfiles: {
-  (
-    input: ListInstanceProfilesRequest,
-  ): effect.Effect<
-    ListInstanceProfilesResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstanceProfiles: API.OperationMethod<
+  ListInstanceProfilesRequest,
+  ListInstanceProfilesResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceProfilesRequest,
   ) => stream.Stream<
@@ -10639,14 +10526,12 @@ export const listInstanceProfiles: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listInstanceProfilesForRole: {
-  (
-    input: ListInstanceProfilesForRoleRequest,
-  ): effect.Effect<
-    ListInstanceProfilesForRoleResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstanceProfilesForRole: API.OperationMethod<
+  ListInstanceProfilesForRoleRequest,
+  ListInstanceProfilesForRoleResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceProfilesForRoleRequest,
   ) => stream.Stream<
@@ -10677,14 +10562,12 @@ export const listInstanceProfilesForRole: {
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listInstanceProfileTags: {
-  (
-    input: ListInstanceProfileTagsRequest,
-  ): effect.Effect<
-    ListInstanceProfileTagsResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstanceProfileTags: API.OperationMethod<
+  ListInstanceProfileTagsRequest,
+  ListInstanceProfileTagsResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceProfileTagsRequest,
   ) => stream.Stream<
@@ -10719,14 +10602,12 @@ export const listInstanceProfileTags: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listMFADevices: {
-  (
-    input: ListMFADevicesRequest,
-  ): effect.Effect<
-    ListMFADevicesResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMFADevices: API.OperationMethod<
+  ListMFADevicesRequest,
+  ListMFADevicesResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMFADevicesRequest,
   ) => stream.Stream<
@@ -10757,17 +10638,15 @@ export const listMFADevices: {
  * sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listMFADeviceTags: {
-  (
-    input: ListMFADeviceTagsRequest,
-  ): effect.Effect<
-    ListMFADeviceTagsResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMFADeviceTags: API.OperationMethod<
+  ListMFADeviceTagsRequest,
+  ListMFADeviceTagsResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMFADeviceTagsRequest,
   ) => stream.Stream<
@@ -10810,9 +10689,8 @@ export const listMFADeviceTags: {
  * IAM resource-listing operations return a subset of the available
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider.
  */
-export const listOpenIDConnectProviders: (
-  input: ListOpenIDConnectProvidersRequest,
-) => effect.Effect<
+export const listOpenIDConnectProviders: API.OperationMethod<
+  ListOpenIDConnectProvidersRequest,
   ListOpenIDConnectProvidersResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10829,17 +10707,15 @@ export const listOpenIDConnectProviders: (
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listOpenIDConnectProviderTags: {
-  (
-    input: ListOpenIDConnectProviderTagsRequest,
-  ): effect.Effect<
-    ListOpenIDConnectProviderTagsResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOpenIDConnectProviderTags: API.OperationMethod<
+  ListOpenIDConnectProviderTagsRequest,
+  ListOpenIDConnectProviderTagsResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOpenIDConnectProviderTagsRequest,
   ) => stream.Stream<
@@ -10879,9 +10755,8 @@ export const listOpenIDConnectProviderTags: {
  * Lists the centralized root access features enabled for your organization. For more
  * information, see Centrally manage root access for member accounts.
  */
-export const listOrganizationsFeatures: (
-  input: ListOrganizationsFeaturesRequest,
-) => effect.Effect<
+export const listOrganizationsFeatures: API.OperationMethod<
+  ListOrganizationsFeaturesRequest,
   ListOrganizationsFeaturesResponse,
   | AccountNotManagementOrDelegatedAdministratorException
   | OrganizationNotFoundException
@@ -10919,14 +10794,12 @@ export const listOrganizationsFeatures: (
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see
  * GetPolicy.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesRequest,
-  ): effect.Effect<
-    ListPoliciesResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  ListPoliciesResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
@@ -10988,9 +10861,8 @@ export const listPolicies: {
  * for a user or role, use the GetUser or GetRole
  * operations.
  */
-export const listPoliciesGrantingServiceAccess: (
-  input: ListPoliciesGrantingServiceAccessRequest,
-) => effect.Effect<
+export const listPoliciesGrantingServiceAccess: API.OperationMethod<
+  ListPoliciesGrantingServiceAccessRequest,
   ListPoliciesGrantingServiceAccessResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11004,17 +10876,15 @@ export const listPoliciesGrantingServiceAccess: (
  * The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listPolicyTags: {
-  (
-    input: ListPolicyTagsRequest,
-  ): effect.Effect<
-    ListPolicyTagsResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyTags: API.OperationMethod<
+  ListPolicyTagsRequest,
+  ListPolicyTagsResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyTagsRequest,
   ) => stream.Stream<
@@ -11057,17 +10927,15 @@ export const listPolicyTags: {
  * For more information about managed policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const listPolicyVersions: {
-  (
-    input: ListPolicyVersionsRequest,
-  ): effect.Effect<
-    ListPolicyVersionsResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyVersions: API.OperationMethod<
+  ListPolicyVersionsRequest,
+  ListPolicyVersionsResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyVersionsRequest,
   ) => stream.Stream<
@@ -11116,14 +10984,12 @@ export const listPolicyVersions: {
  * parameters. If there are no inline policies embedded with the specified role, the
  * operation returns an empty list.
  */
-export const listRolePolicies: {
-  (
-    input: ListRolePoliciesRequest,
-  ): effect.Effect<
-    ListRolePoliciesResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRolePolicies: API.OperationMethod<
+  ListRolePoliciesRequest,
+  ListRolePoliciesResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRolePoliciesRequest,
   ) => stream.Stream<
@@ -11168,14 +11034,12 @@ export const listRolePolicies: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listRoles: {
-  (
-    input: ListRolesRequest,
-  ): effect.Effect<
-    ListRolesResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoles: API.OperationMethod<
+  ListRolesRequest,
+  ListRolesResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRolesRequest,
   ) => stream.Stream<
@@ -11206,14 +11070,12 @@ export const listRoles: {
  * sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listRoleTags: {
-  (
-    input: ListRoleTagsRequest,
-  ): effect.Effect<
-    ListRoleTagsResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoleTags: API.OperationMethod<
+  ListRoleTagsRequest,
+  ListRoleTagsResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoleTagsRequest,
   ) => stream.Stream<
@@ -11246,9 +11108,8 @@ export const listRoleTags: {
  *
  * This operation requires Signature Version 4.
  */
-export const listSAMLProviders: (
-  input: ListSAMLProvidersRequest,
-) => effect.Effect<
+export const listSAMLProviders: API.OperationMethod<
+  ListSAMLProvidersRequest,
   ListSAMLProvidersResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11265,17 +11126,15 @@ export const listSAMLProviders: (
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listSAMLProviderTags: {
-  (
-    input: ListSAMLProviderTagsRequest,
-  ): effect.Effect<
-    ListSAMLProviderTagsResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | ServiceFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSAMLProviderTags: API.OperationMethod<
+  ListSAMLProviderTagsRequest,
+  ListSAMLProviderTagsResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSAMLProviderTagsRequest,
   ) => stream.Stream<
@@ -11327,14 +11186,12 @@ export const listSAMLProviderTags: {
  * attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a servercertificate, see
  * GetServerCertificate.
  */
-export const listServerCertificates: {
-  (
-    input: ListServerCertificatesRequest,
-  ): effect.Effect<
-    ListServerCertificatesResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServerCertificates: API.OperationMethod<
+  ListServerCertificatesRequest,
+  ListServerCertificatesResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServerCertificatesRequest,
   ) => stream.Stream<
@@ -11371,14 +11228,12 @@ export const listServerCertificates: {
  * certificates, Working with server
  * certificates in the *IAM User Guide*.
  */
-export const listServerCertificateTags: {
-  (
-    input: ListServerCertificateTagsRequest,
-  ): effect.Effect<
-    ListServerCertificateTagsResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServerCertificateTags: API.OperationMethod<
+  ListServerCertificateTagsRequest,
+  ListServerCertificateTagsResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServerCertificateTagsRequest,
   ) => stream.Stream<
@@ -11412,9 +11267,8 @@ export const listServerCertificateTags: {
  * credentials to authenticate to an Amazon Web Services service, see Set up service-specific credentials
  * in the CodeCommit User Guide.
  */
-export const listServiceSpecificCredentials: (
-  input: ListServiceSpecificCredentialsRequest,
-) => effect.Effect<
+export const listServiceSpecificCredentials: API.OperationMethod<
+  ListServiceSpecificCredentialsRequest,
   ListServiceSpecificCredentialsResponse,
   | NoSuchEntityException
   | ServiceNotSupportedException
@@ -11446,14 +11300,12 @@ export const listServiceSpecificCredentials: (
  * this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no
  * associated users.
  */
-export const listSigningCertificates: {
-  (
-    input: ListSigningCertificatesRequest,
-  ): effect.Effect<
-    ListSigningCertificatesResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSigningCertificates: API.OperationMethod<
+  ListSigningCertificatesRequest,
+  ListSigningCertificatesResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSigningCertificatesRequest,
   ) => stream.Stream<
@@ -11491,14 +11343,12 @@ export const listSigningCertificates: {
  * Although each user is limited to a small number of keys, you can still paginate the
  * results using the `MaxItems` and `Marker` parameters.
  */
-export const listSSHPublicKeys: {
-  (
-    input: ListSSHPublicKeysRequest,
-  ): effect.Effect<
-    ListSSHPublicKeysResponse,
-    NoSuchEntityException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSSHPublicKeys: API.OperationMethod<
+  ListSSHPublicKeysRequest,
+  ListSSHPublicKeysResponse,
+  NoSuchEntityException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSSHPublicKeysRequest,
   ) => stream.Stream<
@@ -11536,14 +11386,12 @@ export const listSSHPublicKeys: {
  * parameters. If there are no inline policies embedded with the specified user, the
  * operation returns an empty list.
  */
-export const listUserPolicies: {
-  (
-    input: ListUserPoliciesRequest,
-  ): effect.Effect<
-    ListUserPoliciesResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserPolicies: API.OperationMethod<
+  ListUserPoliciesRequest,
+  ListUserPoliciesResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserPoliciesRequest,
   ) => stream.Stream<
@@ -11586,14 +11434,12 @@ export const listUserPolicies: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -11623,14 +11469,12 @@ export const listUsers: {
  * Lists the tags that are attached to the specified IAM user. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const listUserTags: {
-  (
-    input: ListUserTagsRequest,
-  ): effect.Effect<
-    ListUserTagsResponse,
-    NoSuchEntityException | ServiceFailureException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserTags: API.OperationMethod<
+  ListUserTagsRequest,
+  ListUserTagsResponse,
+  NoSuchEntityException | ServiceFailureException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserTagsRequest,
   ) => stream.Stream<
@@ -11668,14 +11512,12 @@ export const listUserTags: {
  * You can paginate the results using the `MaxItems` and `Marker`
  * parameters.
  */
-export const listVirtualMFADevices: {
-  (
-    input: ListVirtualMFADevicesRequest,
-  ): effect.Effect<
-    ListVirtualMFADevicesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVirtualMFADevices: API.OperationMethod<
+  ListVirtualMFADevicesRequest,
+  ListVirtualMFADevicesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVirtualMFADevicesRequest,
   ) => stream.Stream<
@@ -11723,9 +11565,8 @@ export const listVirtualMFADevices: {
  * API with IAM, see Making query requests in the
  * *IAM User Guide*.
  */
-export const putGroupPolicy: (
-  input: PutGroupPolicyRequest,
-) => effect.Effect<
+export const putGroupPolicy: API.OperationMethod<
+  PutGroupPolicyRequest,
   PutGroupPolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -11757,9 +11598,8 @@ export const putGroupPolicy: (
  * a role are evaluated, see IAM JSON policy
  * evaluation logic in the IAM User Guide.
  */
-export const putRolePermissionsBoundary: (
-  input: PutRolePermissionsBoundaryRequest,
-) => effect.Effect<
+export const putRolePermissionsBoundary: API.OperationMethod<
+  PutRolePermissionsBoundaryRequest,
   PutRolePermissionsBoundaryResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -11812,9 +11652,8 @@ export const putRolePermissionsBoundary: (
  * API with IAM, see Making query requests in the
  * *IAM User Guide*.
  */
-export const putRolePolicy: (
-  input: PutRolePolicyRequest,
-) => effect.Effect<
+export const putRolePolicy: API.OperationMethod<
+  PutRolePolicyRequest,
   PutRolePolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -11846,9 +11685,8 @@ export const putRolePolicy: (
  * permissions for a user are evaluated, see IAM JSON policy
  * evaluation logic in the IAM User Guide.
  */
-export const putUserPermissionsBoundary: (
-  input: PutUserPermissionsBoundaryRequest,
-) => effect.Effect<
+export const putUserPermissionsBoundary: API.OperationMethod<
+  PutUserPermissionsBoundaryRequest,
   PutUserPermissionsBoundaryResponse,
   | InvalidInputException
   | NoSuchEntityException
@@ -11888,9 +11726,8 @@ export const putUserPermissionsBoundary: (
  * API with IAM, see Making query requests in the
  * *IAM User Guide*.
  */
-export const putUserPolicy: (
-  input: PutUserPolicyRequest,
-) => effect.Effect<
+export const putUserPolicy: API.OperationMethod<
+  PutUserPolicyRequest,
   PutUserPolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -11919,9 +11756,8 @@ export const putUserPolicy: (
  *
  * Managing Permissions for Delegation Requests.
  */
-export const rejectDelegationRequest: (
-  input: RejectDelegationRequestRequest,
-) => effect.Effect<
+export const rejectDelegationRequest: API.OperationMethod<
+  RejectDelegationRequestRequest,
   RejectDelegationRequestResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -11947,9 +11783,8 @@ export const rejectDelegationRequest: (
  * This operation is idempotent; it does not fail or return an error if you try to remove
  * a client ID that does not exist.
  */
-export const removeClientIDFromOpenIDConnectProvider: (
-  input: RemoveClientIDFromOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
+  RemoveClientIDFromOpenIDConnectProviderRequest,
   RemoveClientIDFromOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -11980,9 +11815,8 @@ export const removeClientIDFromOpenIDConnectProvider: (
  * see Using
  * instance profiles in the *IAM User Guide*.
  */
-export const removeRoleFromInstanceProfile: (
-  input: RemoveRoleFromInstanceProfileRequest,
-) => effect.Effect<
+export const removeRoleFromInstanceProfile: API.OperationMethod<
+  RemoveRoleFromInstanceProfileRequest,
   RemoveRoleFromInstanceProfileResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -12003,9 +11837,8 @@ export const removeRoleFromInstanceProfile: (
 /**
  * Removes the specified user from the specified group.
  */
-export const removeUserFromGroup: (
-  input: RemoveUserFromGroupRequest,
-) => effect.Effect<
+export const removeUserFromGroup: API.OperationMethod<
+  RemoveUserFromGroupRequest,
   RemoveUserFromGroupResponse,
   | LimitExceededException
   | NoSuchEntityException
@@ -12027,9 +11860,8 @@ export const removeUserFromGroup: (
  * the password immediately invalidates the previous password associated with this
  * user.
  */
-export const resetServiceSpecificCredential: (
-  input: ResetServiceSpecificCredentialRequest,
-) => effect.Effect<
+export const resetServiceSpecificCredential: API.OperationMethod<
+  ResetServiceSpecificCredentialRequest,
   ResetServiceSpecificCredentialResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12045,9 +11877,8 @@ export const resetServiceSpecificCredential: (
  * For more information about creating and working with virtual MFA devices, see Using a virtual MFA
  * device in the *IAM User Guide*.
  */
-export const resyncMFADevice: (
-  input: ResyncMFADeviceRequest,
-) => effect.Effect<
+export const resyncMFADevice: API.OperationMethod<
+  ResyncMFADeviceRequest,
   ResyncMFADeviceResponse,
   | ConcurrentModificationException
   | InvalidAuthenticationCodeException
@@ -12081,9 +11912,8 @@ export const resyncMFADevice: (
  *
  * Managing Permissions for Delegation Requests.
  */
-export const sendDelegationToken: (
-  input: SendDelegationTokenRequest,
-) => effect.Effect<
+export const sendDelegationToken: API.OperationMethod<
+  SendDelegationTokenRequest,
   SendDelegationTokenResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12111,9 +11941,8 @@ export const sendDelegationToken: (
  * For information about managed policies, see Managed policies and inline
  * policies in the *IAM User Guide*.
  */
-export const setDefaultPolicyVersion: (
-  input: SetDefaultPolicyVersionRequest,
-) => effect.Effect<
+export const setDefaultPolicyVersion: API.OperationMethod<
+  SetDefaultPolicyVersionRequest,
   SetDefaultPolicyVersionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -12155,9 +11984,8 @@ export const setDefaultPolicyVersion: (
  * To view the current session token version, see the
  * `GlobalEndpointTokenVersion` entry in the response of the GetAccountSummary operation.
  */
-export const setSecurityTokenServicePreferences: (
-  input: SetSecurityTokenServicePreferencesRequest,
-) => effect.Effect<
+export const setSecurityTokenServicePreferences: API.OperationMethod<
+  SetSecurityTokenServicePreferencesRequest,
   SetSecurityTokenServicePreferencesResponse,
   ServiceFailureException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12195,14 +12023,12 @@ export const setSecurityTokenServicePreferences: (
  * policies with the IAM policy simulator in the
  * *IAM User Guide*.
  */
-export const simulateCustomPolicy: {
-  (
-    input: SimulateCustomPolicyRequest,
-  ): effect.Effect<
-    SimulatePolicyResponse,
-    InvalidInputException | PolicyEvaluationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const simulateCustomPolicy: API.OperationMethod<
+  SimulateCustomPolicyRequest,
+  SimulatePolicyResponse,
+  InvalidInputException | PolicyEvaluationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SimulateCustomPolicyRequest,
   ) => stream.Stream<
@@ -12266,17 +12092,15 @@ export const simulateCustomPolicy: {
  * policies with the IAM policy simulator in the
  * *IAM User Guide*.
  */
-export const simulatePrincipalPolicy: {
-  (
-    input: SimulatePrincipalPolicyRequest,
-  ): effect.Effect<
-    SimulatePolicyResponse,
-    | InvalidInputException
-    | NoSuchEntityException
-    | PolicyEvaluationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const simulatePrincipalPolicy: API.OperationMethod<
+  SimulatePrincipalPolicyRequest,
+  SimulatePolicyResponse,
+  | InvalidInputException
+  | NoSuchEntityException
+  | PolicyEvaluationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SimulatePrincipalPolicyRequest,
   ) => stream.Stream<
@@ -12339,9 +12163,8 @@ export const simulatePrincipalPolicy: {
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagInstanceProfile: (
-  input: TagInstanceProfileRequest,
-) => effect.Effect<
+export const tagInstanceProfile: API.OperationMethod<
+  TagInstanceProfileRequest,
   TagInstanceProfileResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12389,9 +12212,8 @@ export const tagInstanceProfile: (
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagMFADevice: (
-  input: TagMFADeviceRequest,
-) => effect.Effect<
+export const tagMFADevice: API.OperationMethod<
+  TagMFADeviceRequest,
   TagMFADeviceResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12440,9 +12262,8 @@ export const tagMFADevice: (
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagOpenIDConnectProvider: (
-  input: TagOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const tagOpenIDConnectProvider: API.OperationMethod<
+  TagOpenIDConnectProviderRequest,
   TagOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12489,9 +12310,8 @@ export const tagOpenIDConnectProvider: (
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagPolicy: (
-  input: TagPolicyRequest,
-) => effect.Effect<
+export const tagPolicy: API.OperationMethod<
+  TagPolicyRequest,
   TagPolicyResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12546,9 +12366,8 @@ export const tagPolicy: (
  * For more information about tagging, see Tagging IAM identities in the
  * *IAM User Guide*.
  */
-export const tagRole: (
-  input: TagRoleRequest,
-) => effect.Effect<
+export const tagRole: API.OperationMethod<
+  TagRoleRequest,
   TagRoleResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12597,9 +12416,8 @@ export const tagRole: (
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagSAMLProvider: (
-  input: TagSAMLProviderRequest,
-) => effect.Effect<
+export const tagSAMLProvider: API.OperationMethod<
+  TagSAMLProviderRequest,
   TagSAMLProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12655,9 +12473,8 @@ export const tagSAMLProvider: (
  * need to store an array, you can store comma-separated values in the string. However, you
  * must interpret the value in your code.
  */
-export const tagServerCertificate: (
-  input: TagServerCertificateRequest,
-) => effect.Effect<
+export const tagServerCertificate: API.OperationMethod<
+  TagServerCertificateRequest,
   TagServerCertificateResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12711,9 +12528,8 @@ export const tagServerCertificate: (
  * For more information about tagging, see Tagging IAM identities in the
  * *IAM User Guide*.
  */
-export const tagUser: (
-  input: TagUserRequest,
-) => effect.Effect<
+export const tagUser: API.OperationMethod<
+  TagUserRequest,
   TagUserResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12737,9 +12553,8 @@ export const tagUser: (
  * Removes the specified tags from the IAM instance profile. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagInstanceProfile: (
-  input: UntagInstanceProfileRequest,
-) => effect.Effect<
+export const untagInstanceProfile: API.OperationMethod<
+  UntagInstanceProfileRequest,
   UntagInstanceProfileResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12762,9 +12577,8 @@ export const untagInstanceProfile: (
  * device. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagMFADevice: (
-  input: UntagMFADeviceRequest,
-) => effect.Effect<
+export const untagMFADevice: API.OperationMethod<
+  UntagMFADeviceRequest,
   UntagMFADeviceResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12788,9 +12602,8 @@ export const untagMFADevice: (
  * For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagOpenIDConnectProvider: (
-  input: UntagOpenIDConnectProviderRequest,
-) => effect.Effect<
+export const untagOpenIDConnectProvider: API.OperationMethod<
+  UntagOpenIDConnectProviderRequest,
   UntagOpenIDConnectProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12812,9 +12625,8 @@ export const untagOpenIDConnectProvider: (
  * Removes the specified tags from the customer managed policy. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagPolicy: (
-  input: UntagPolicyRequest,
-) => effect.Effect<
+export const untagPolicy: API.OperationMethod<
+  UntagPolicyRequest,
   UntagPolicyResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12836,9 +12648,8 @@ export const untagPolicy: (
  * Removes the specified tags from the role. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagRole: (
-  input: UntagRoleRequest,
-) => effect.Effect<
+export const untagRole: API.OperationMethod<
+  UntagRoleRequest,
   UntagRoleResponse,
   | ConcurrentModificationException
   | NoSuchEntityException
@@ -12860,9 +12671,8 @@ export const untagRole: (
  * federation. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagSAMLProvider: (
-  input: UntagSAMLProviderRequest,
-) => effect.Effect<
+export const untagSAMLProvider: API.OperationMethod<
+  UntagSAMLProviderRequest,
   UntagSAMLProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12891,9 +12701,8 @@ export const untagSAMLProvider: (
  * certificates, Working with server
  * certificates in the *IAM User Guide*.
  */
-export const untagServerCertificate: (
-  input: UntagServerCertificateRequest,
-) => effect.Effect<
+export const untagServerCertificate: API.OperationMethod<
+  UntagServerCertificateRequest,
   UntagServerCertificateResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -12915,9 +12724,8 @@ export const untagServerCertificate: (
  * Removes the specified tags from the user. For more information about tagging, see Tagging IAM resources in the
  * *IAM User Guide*.
  */
-export const untagUser: (
-  input: UntagUserRequest,
-) => effect.Effect<
+export const untagUser: API.OperationMethod<
+  UntagUserRequest,
   UntagUserResponse,
   | ConcurrentModificationException
   | NoSuchEntityException
@@ -12948,9 +12756,8 @@ export const untagUser: (
  * For information about rotating keys, see Managing keys and certificates
  * in the *IAM User Guide*.
  */
-export const updateAccessKey: (
-  input: UpdateAccessKeyRequest,
-) => effect.Effect<
+export const updateAccessKey: API.OperationMethod<
+  UpdateAccessKeyRequest,
   UpdateAccessKeyResponse,
   | InvalidInputException
   | LimitExceededException
@@ -12981,9 +12788,8 @@ export const updateAccessKey: (
  * For more information about using a password policy, see Managing an IAM password
  * policy in the *IAM User Guide*.
  */
-export const updateAccountPasswordPolicy: (
-  input: UpdateAccountPasswordPolicyRequest,
-) => effect.Effect<
+export const updateAccountPasswordPolicy: API.OperationMethod<
+  UpdateAccountPasswordPolicyRequest,
   UpdateAccountPasswordPolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -13007,9 +12813,8 @@ export const updateAccountPasswordPolicy: (
  * Using roles to
  * delegate permissions and federate identities.
  */
-export const updateAssumeRolePolicy: (
-  input: UpdateAssumeRolePolicyRequest,
-) => effect.Effect<
+export const updateAssumeRolePolicy: API.OperationMethod<
+  UpdateAssumeRolePolicyRequest,
   UpdateAssumeRolePolicyResponse,
   | LimitExceededException
   | MalformedPolicyDocumentException
@@ -13038,9 +12843,8 @@ export const updateAssumeRolePolicy: (
  *
  * Managing Permissions for Delegation Requests.
  */
-export const updateDelegationRequest: (
-  input: UpdateDelegationRequestRequest,
-) => effect.Effect<
+export const updateDelegationRequest: API.OperationMethod<
+  UpdateDelegationRequestRequest,
   UpdateDelegationRequestResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -13072,9 +12876,8 @@ export const updateDelegationRequest: (
  * the `Managers` group, but not the `MGRs` group, then the
  * update fails. For more information about permissions, see Access management.
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -13102,9 +12905,8 @@ export const updateGroup: (
  * For more information about modifying passwords, see Managing passwords in the
  * *IAM User Guide*.
  */
-export const updateLoginProfile: (
-  input: UpdateLoginProfileRequest,
-) => effect.Effect<
+export const updateLoginProfile: API.OperationMethod<
+  UpdateLoginProfileRequest,
   UpdateLoginProfileResponse,
   | EntityTemporarilyUnmodifiableException
   | LimitExceededException
@@ -13148,9 +12950,8 @@ export const updateLoginProfile: (
  * `UpdateOpenIDConnectProviderThumbprint` operation to highly
  * privileged users.
  */
-export const updateOpenIDConnectProviderThumbprint: (
-  input: UpdateOpenIDConnectProviderThumbprintRequest,
-) => effect.Effect<
+export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
+  UpdateOpenIDConnectProviderThumbprintRequest,
   UpdateOpenIDConnectProviderThumbprintResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -13171,9 +12972,8 @@ export const updateOpenIDConnectProviderThumbprint: (
 /**
  * Updates the description or maximum session duration setting of a role.
  */
-export const updateRole: (
-  input: UpdateRoleRequest,
-) => effect.Effect<
+export const updateRole: API.OperationMethod<
+  UpdateRoleRequest,
   UpdateRoleResponse,
   | NoSuchEntityException
   | ServiceFailureException
@@ -13195,9 +12995,8 @@ export const updateRole: (
  * Modifies only the description of a role. This operation performs the same function as
  * the `Description` parameter in the `UpdateRole` operation.
  */
-export const updateRoleDescription: (
-  input: UpdateRoleDescriptionRequest,
-) => effect.Effect<
+export const updateRoleDescription: API.OperationMethod<
+  UpdateRoleDescriptionRequest,
   UpdateRoleDescriptionResponse,
   | NoSuchEntityException
   | ServiceFailureException
@@ -13218,9 +13017,8 @@ export const updateRoleDescription: (
  * existing SAML provider. To rotate private keys, add your new private key and then remove
  * the old key in a separate request.
  */
-export const updateSAMLProvider: (
-  input: UpdateSAMLProviderRequest,
-) => effect.Effect<
+export const updateSAMLProvider: API.OperationMethod<
+  UpdateSAMLProviderRequest,
   UpdateSAMLProviderResponse,
   | ConcurrentModificationException
   | InvalidInputException
@@ -13261,9 +13059,8 @@ export const updateSAMLProvider: (
  * the `ProdCert` certificate, then the update fails. For more information
  * about permissions, see Access management in the *IAM User Guide*.
  */
-export const updateServerCertificate: (
-  input: UpdateServerCertificateRequest,
-) => effect.Effect<
+export const updateServerCertificate: API.OperationMethod<
+  UpdateServerCertificateRequest,
   UpdateServerCertificateResponse,
   | EntityAlreadyExistsException
   | LimitExceededException
@@ -13287,9 +13084,8 @@ export const updateServerCertificate: (
  * for authentication to the service. This operation can be used to disable a user's
  * service-specific credential as part of a credential rotation work flow.
  */
-export const updateServiceSpecificCredential: (
-  input: UpdateServiceSpecificCredentialRequest,
-) => effect.Effect<
+export const updateServiceSpecificCredential: API.OperationMethod<
+  UpdateServiceSpecificCredentialRequest,
   UpdateServiceSpecificCredentialResponse,
   NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13309,9 +13105,8 @@ export const updateServiceSpecificCredential: (
  * to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated
  * users.
  */
-export const updateSigningCertificate: (
-  input: UpdateSigningCertificateRequest,
-) => effect.Effect<
+export const updateSigningCertificate: API.OperationMethod<
+  UpdateSigningCertificateRequest,
   UpdateSigningCertificateResponse,
   | InvalidInputException
   | LimitExceededException
@@ -13339,9 +13134,8 @@ export const updateSigningCertificate: (
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for
  * SSH connections in the *CodeCommit User Guide*.
  */
-export const updateSSHPublicKey: (
-  input: UpdateSSHPublicKeyRequest,
-) => effect.Effect<
+export const updateSSHPublicKey: API.OperationMethod<
+  UpdateSSHPublicKeyRequest,
   UpdateSSHPublicKeyResponse,
   InvalidInputException | NoSuchEntityException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13363,9 +13157,8 @@ export const updateSSHPublicKey: (
  * entity making the request must have permission on Bob and Robert, or must have
  * permission on all (*). For more information about permissions, see Permissions and policies.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -13415,9 +13208,8 @@ export const updateUser: (
  * information about using the Query API with IAM, see Calling the API by making HTTP query
  * requests in the *IAM User Guide*.
  */
-export const uploadServerCertificate: (
-  input: UploadServerCertificateRequest,
-) => effect.Effect<
+export const uploadServerCertificate: API.OperationMethod<
+  UploadServerCertificateRequest,
   UploadServerCertificateResponse,
   | ConcurrentModificationException
   | EntityAlreadyExistsException
@@ -13464,9 +13256,8 @@ export const uploadServerCertificate: (
  * general information about using the Query API with IAM, see Making query
  * requests in the *IAM User Guide*.
  */
-export const uploadSigningCertificate: (
-  input: UploadSigningCertificateRequest,
-) => effect.Effect<
+export const uploadSigningCertificate: API.OperationMethod<
+  UploadSigningCertificateRequest,
   UploadSigningCertificateResponse,
   | ConcurrentModificationException
   | DuplicateCertificateException
@@ -13500,9 +13291,8 @@ export const uploadSigningCertificate: (
  * to authenticate to an CodeCommit repository, see Set up CodeCommit for
  * SSH connections in the *CodeCommit User Guide*.
  */
-export const uploadSSHPublicKey: (
-  input: UploadSSHPublicKeyRequest,
-) => effect.Effect<
+export const uploadSSHPublicKey: API.OperationMethod<
+  UploadSSHPublicKeyRequest,
   UploadSSHPublicKeyResponse,
   | DuplicateSSHPublicKeyException
   | InvalidPublicKeyException

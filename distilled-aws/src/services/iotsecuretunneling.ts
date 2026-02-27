@@ -472,9 +472,8 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
  *
  * Requires permission to access the CloseTunnel action.
  */
-export const closeTunnel: (
-  input: CloseTunnelRequest,
-) => effect.Effect<
+export const closeTunnel: API.OperationMethod<
+  CloseTunnelRequest,
   CloseTunnelResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -488,9 +487,8 @@ export const closeTunnel: (
  *
  * Requires permission to access the DescribeTunnel action.
  */
-export const describeTunnel: (
-  input: DescribeTunnelRequest,
-) => effect.Effect<
+export const describeTunnel: API.OperationMethod<
+  DescribeTunnelRequest,
   DescribeTunnelResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -502,9 +500,8 @@ export const describeTunnel: (
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -519,14 +516,12 @@ export const listTagsForResource: (
  *
  * Requires permission to access the ListTunnels action.
  */
-export const listTunnels: {
-  (
-    input: ListTunnelsRequest,
-  ): effect.Effect<
-    ListTunnelsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTunnels: API.OperationMethod<
+  ListTunnelsRequest,
+  ListTunnelsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTunnelsRequest,
   ) => stream.Stream<
@@ -557,9 +552,8 @@ export const listTunnels: {
  *
  * Requires permission to access the OpenTunnel action.
  */
-export const openTunnel: (
-  input: OpenTunnelRequest,
-) => effect.Effect<
+export const openTunnel: API.OperationMethod<
+  OpenTunnelRequest,
   OpenTunnelResponse,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -579,9 +573,8 @@ export const openTunnel: (
  * rotate the access tokens, the new tokens that are generated can only be used for the
  * remaining 8 hours.
  */
-export const rotateTunnelAccessToken: (
-  input: RotateTunnelAccessTokenRequest,
-) => effect.Effect<
+export const rotateTunnelAccessToken: API.OperationMethod<
+  RotateTunnelAccessTokenRequest,
   RotateTunnelAccessTokenResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -593,9 +586,8 @@ export const rotateTunnelAccessToken: (
 /**
  * A resource tag.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -607,9 +599,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

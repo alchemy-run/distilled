@@ -2820,9 +2820,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2845,9 +2844,8 @@ export const listTagsForResource: (
 /**
  * Adds tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2870,9 +2868,8 @@ export const tagResource: (
 /**
  * Untags a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2905,9 +2902,8 @@ export const untagResource: (
  *
  * - `title`
  */
-export const createCase: (
-  input: CreateCaseRequest,
-) => effect.Effect<
+export const createCase: API.OperationMethod<
+  CreateCaseRequest,
   CreateCaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -2932,19 +2928,17 @@ export const createCase: (
 /**
  * Returns information about a specific case if it exists.
  */
-export const getCase: {
-  (
-    input: GetCaseRequest,
-  ): effect.Effect<
-    GetCaseResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCase: API.OperationMethod<
+  GetCaseRequest,
+  GetCaseResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCaseRequest,
   ) => stream.Stream<
@@ -2988,9 +2982,8 @@ export const getCase: {
  *
  * If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
  */
-export const updateCase: (
-  input: UpdateCaseRequest,
-) => effect.Effect<
+export const updateCase: API.OperationMethod<
+  UpdateCaseRequest,
   UpdateCaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3021,9 +3014,8 @@ export const updateCase: (
  *
  * This action is irreversible. After you delete a case, you cannot recover its data.
  */
-export const deleteCase: (
-  input: DeleteCaseRequest,
-) => effect.Effect<
+export const deleteCase: API.OperationMethod<
+  DeleteCaseRequest,
   DeleteCaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3046,19 +3038,17 @@ export const deleteCase: (
 /**
  * Returns the audit history about a specific case if it exists.
  */
-export const getCaseAuditEvents: {
-  (
-    input: GetCaseAuditEventsRequest,
-  ): effect.Effect<
-    GetCaseAuditEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCaseAuditEvents: API.OperationMethod<
+  GetCaseAuditEventsRequest,
+  GetCaseAuditEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCaseAuditEventsRequest,
   ) => stream.Stream<
@@ -3102,19 +3092,17 @@ export const getCaseAuditEvents: {
 /**
  * Lists cases for a given contact.
  */
-export const listCasesForContact: {
-  (
-    input: ListCasesForContactRequest,
-  ): effect.Effect<
-    ListCasesForContactResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCasesForContact: API.OperationMethod<
+  ListCasesForContactRequest,
+  ListCasesForContactResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCasesForContactRequest,
   ) => stream.Stream<
@@ -3160,19 +3148,17 @@ export const listCasesForContact: {
  *
  * For `customer_id` you must provide the full customer profile ARN in this format: ` arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
  */
-export const searchCases: {
-  (
-    input: SearchCasesRequest,
-  ): effect.Effect<
-    SearchCasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchCases: API.OperationMethod<
+  SearchCasesRequest,
+  SearchCasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchCasesRequest,
   ) => stream.Stream<
@@ -3247,9 +3233,8 @@ export const searchCases: {
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const createRelatedItem: (
-  input: CreateRelatedItemRequest,
-) => effect.Effect<
+export const createRelatedItem: API.OperationMethod<
+  CreateRelatedItemRequest,
   CreateRelatedItemResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3276,9 +3261,8 @@ export const createRelatedItem: (
  *
  * This API cannot be used on a FILE type related attachment. To delete this type of file, use the DeleteAttachedFile API
  */
-export const deleteRelatedItem: (
-  input: DeleteRelatedItemRequest,
-) => effect.Effect<
+export const deleteRelatedItem: API.OperationMethod<
+  DeleteRelatedItemRequest,
   DeleteRelatedItemResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3303,19 +3287,17 @@ export const deleteRelatedItem: (
  *
  * If no filters are provided, this returns all related items associated with a case.
  */
-export const searchRelatedItems: {
-  (
-    input: SearchRelatedItemsRequest,
-  ): effect.Effect<
-    SearchRelatedItemsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchRelatedItems: API.OperationMethod<
+  SearchRelatedItemsRequest,
+  SearchRelatedItemsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchRelatedItemsRequest,
   ) => stream.Stream<
@@ -3360,9 +3342,8 @@ export const searchRelatedItems: {
 /**
  * Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const createCaseRule: (
-  input: CreateCaseRuleRequest,
-) => effect.Effect<
+export const createCaseRule: API.OperationMethod<
+  CreateCaseRuleRequest,
   CreateCaseRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3389,9 +3370,8 @@ export const createCaseRule: (
 /**
  * Updates a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const updateCaseRule: (
-  input: UpdateCaseRuleRequest,
-) => effect.Effect<
+export const updateCaseRule: API.OperationMethod<
+  UpdateCaseRuleRequest,
   UpdateCaseRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3418,9 +3398,8 @@ export const updateCaseRule: (
 /**
  * Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const deleteCaseRule: (
-  input: DeleteCaseRuleRequest,
-) => effect.Effect<
+export const deleteCaseRule: API.OperationMethod<
+  DeleteCaseRuleRequest,
   DeleteCaseRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -3443,19 +3422,17 @@ export const deleteCaseRule: (
 /**
  * Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const listCaseRules: {
-  (
-    input: ListCaseRulesRequest,
-  ): effect.Effect<
-    ListCaseRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCaseRules: API.OperationMethod<
+  ListCaseRulesRequest,
+  ListCaseRulesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCaseRulesRequest,
   ) => stream.Stream<
@@ -3500,9 +3477,8 @@ export const listCaseRules: {
 /**
  * Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as *case field conditions*. For more information about case field conditions, see Add case field conditions to a case template.
  */
-export const batchGetCaseRule: (
-  input: BatchGetCaseRuleRequest,
-) => effect.Effect<
+export const batchGetCaseRule: API.OperationMethod<
+  BatchGetCaseRuleRequest,
   BatchGetCaseRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3527,9 +3503,8 @@ export const batchGetCaseRule: (
  *
  * This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -3554,9 +3529,8 @@ export const createDomain: (
 /**
  * Returns information about a specific domain if it exists.
  */
-export const getDomain: (
-  input: GetDomainRequest,
-) => effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
   GetDomainResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3581,9 +3555,8 @@ export const getDomain: (
  *
  * After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -3608,18 +3581,16 @@ export const deleteDomain: (
 /**
  * Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
  */
-export const listDomains: {
-  (
-    input: ListDomainsRequest,
-  ): effect.Effect<
-    ListDomainsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
@@ -3660,9 +3631,8 @@ export const listDomains: {
 /**
  * Returns the case event publishing configuration.
  */
-export const getCaseEventConfiguration: (
-  input: GetCaseEventConfigurationRequest,
-) => effect.Effect<
+export const getCaseEventConfiguration: API.OperationMethod<
+  GetCaseEventConfigurationRequest,
   GetCaseEventConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3685,9 +3655,8 @@ export const getCaseEventConfiguration: (
 /**
  * Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the *Amazon Connect Administrator Guide*
  */
-export const putCaseEventConfiguration: (
-  input: PutCaseEventConfigurationRequest,
-) => effect.Effect<
+export const putCaseEventConfiguration: API.OperationMethod<
+  PutCaseEventConfigurationRequest,
   PutCaseEventConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3730,19 +3699,17 @@ export const putCaseEventConfiguration: (
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */
-export const searchAllRelatedItems: {
-  (
-    input: SearchAllRelatedItemsRequest,
-  ): effect.Effect<
-    SearchAllRelatedItemsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchAllRelatedItems: API.OperationMethod<
+  SearchAllRelatedItemsRequest,
+  SearchAllRelatedItemsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAllRelatedItemsRequest,
   ) => stream.Stream<
@@ -3787,9 +3754,8 @@ export const searchAllRelatedItems: {
 /**
  * Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
  */
-export const createField: (
-  input: CreateFieldRequest,
-) => effect.Effect<
+export const createField: API.OperationMethod<
+  CreateFieldRequest,
   CreateFieldResponse,
   | AccessDeniedException
   | ConflictException
@@ -3816,9 +3782,8 @@ export const createField: (
 /**
  * Updates the properties of an existing field.
  */
-export const updateField: (
-  input: UpdateFieldRequest,
-) => effect.Effect<
+export const updateField: API.OperationMethod<
+  UpdateFieldRequest,
   UpdateFieldResponse,
   | AccessDeniedException
   | ConflictException
@@ -3869,9 +3834,8 @@ export const updateField: (
  *
  * - Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
  */
-export const deleteField: (
-  input: DeleteFieldRequest,
-) => effect.Effect<
+export const deleteField: API.OperationMethod<
+  DeleteFieldRequest,
   DeleteFieldResponse,
   | AccessDeniedException
   | ConflictException
@@ -3898,19 +3862,17 @@ export const deleteField: (
 /**
  * Lists all fields in a Cases domain.
  */
-export const listFields: {
-  (
-    input: ListFieldsRequest,
-  ): effect.Effect<
-    ListFieldsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFields: API.OperationMethod<
+  ListFieldsRequest,
+  ListFieldsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFieldsRequest,
   ) => stream.Stream<
@@ -3954,9 +3916,8 @@ export const listFields: {
 /**
  * Creates and updates a set of field options for a single select field in a Cases domain.
  */
-export const batchPutFieldOptions: (
-  input: BatchPutFieldOptionsRequest,
-) => effect.Effect<
+export const batchPutFieldOptions: API.OperationMethod<
+  BatchPutFieldOptionsRequest,
   BatchPutFieldOptionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3981,19 +3942,17 @@ export const batchPutFieldOptions: (
 /**
  * Lists all of the field options for a field identifier in the domain.
  */
-export const listFieldOptions: {
-  (
-    input: ListFieldOptionsRequest,
-  ): effect.Effect<
-    ListFieldOptionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFieldOptions: API.OperationMethod<
+  ListFieldOptionsRequest,
+  ListFieldOptionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFieldOptionsRequest,
   ) => stream.Stream<
@@ -4037,9 +3996,8 @@ export const listFieldOptions: {
 /**
  * Returns the description for the list of fields in the request parameters.
  */
-export const batchGetField: (
-  input: BatchGetFieldRequest,
-) => effect.Effect<
+export const batchGetField: API.OperationMethod<
+  BatchGetFieldRequest,
   BatchGetFieldResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4068,9 +4026,8 @@ export const batchGetField: (
  *
  * Title and Status fields cannot be part of layouts since they are not configurable.
  */
-export const createLayout: (
-  input: CreateLayoutRequest,
-) => effect.Effect<
+export const createLayout: API.OperationMethod<
+  CreateLayoutRequest,
   CreateLayoutResponse,
   | AccessDeniedException
   | ConflictException
@@ -4097,9 +4054,8 @@ export const createLayout: (
 /**
  * Returns the details for the requested layout.
  */
-export const getLayout: (
-  input: GetLayoutRequest,
-) => effect.Effect<
+export const getLayout: API.OperationMethod<
+  GetLayoutRequest,
   GetLayoutResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4128,9 +4084,8 @@ export const getLayout: (
  *
  * Title and Status fields cannot be part of layouts because they are not configurable.
  */
-export const updateLayout: (
-  input: UpdateLayoutRequest,
-) => effect.Effect<
+export const updateLayout: API.OperationMethod<
+  UpdateLayoutRequest,
   UpdateLayoutResponse,
   | AccessDeniedException
   | ConflictException
@@ -4165,9 +4120,8 @@ export const updateLayout: (
  *
  * - Deleted layouts are not included in the `ListLayouts` response.
  */
-export const deleteLayout: (
-  input: DeleteLayoutRequest,
-) => effect.Effect<
+export const deleteLayout: API.OperationMethod<
+  DeleteLayoutRequest,
   DeleteLayoutResponse,
   | AccessDeniedException
   | ConflictException
@@ -4192,19 +4146,17 @@ export const deleteLayout: (
 /**
  * Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
  */
-export const listLayouts: {
-  (
-    input: ListLayoutsRequest,
-  ): effect.Effect<
-    ListLayoutsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLayouts: API.OperationMethod<
+  ListLayoutsRequest,
+  ListLayoutsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLayoutsRequest,
   ) => stream.Stream<
@@ -4258,9 +4210,8 @@ export const listLayouts: {
  *
  * - UpdateTemplate
  */
-export const createTemplate: (
-  input: CreateTemplateRequest,
-) => effect.Effect<
+export const createTemplate: API.OperationMethod<
+  CreateTemplateRequest,
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -4295,9 +4246,8 @@ export const createTemplate: (
  *
  * - UpdateTemplate
  */
-export const getTemplate: (
-  input: GetTemplateRequest,
-) => effect.Effect<
+export const getTemplate: API.OperationMethod<
+  GetTemplateRequest,
   GetTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4330,9 +4280,8 @@ export const getTemplate: (
  *
  * - ListTemplates
  */
-export const updateTemplate: (
-  input: UpdateTemplateRequest,
-) => effect.Effect<
+export const updateTemplate: API.OperationMethod<
+  UpdateTemplateRequest,
   UpdateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -4369,9 +4318,8 @@ export const updateTemplate: (
  *
  * - Deleted templates are not included in the `ListTemplates` response.
  */
-export const deleteTemplate: (
-  input: DeleteTemplateRequest,
-) => effect.Effect<
+export const deleteTemplate: API.OperationMethod<
+  DeleteTemplateRequest,
   DeleteTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -4406,19 +4354,17 @@ export const deleteTemplate: (
  *
  * - UpdateTemplate
  */
-export const listTemplates: {
-  (
-    input: ListTemplatesRequest,
-  ): effect.Effect<
-    ListTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplates: API.OperationMethod<
+  ListTemplatesRequest,
+  ListTemplatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplatesRequest,
   ) => stream.Stream<

@@ -100,12 +100,19 @@ export const GetAnalyticReportResponse = Schema.Struct({
   rows: Schema.Number,
   totals: Schema.Unknown,
 }).pipe(
-  Schema.encodeKeys({ dataLag: "data_lag" }),
+  Schema.encodeKeys({
+    data: "data",
+    dataLag: "data_lag",
+    max: "max",
+    min: "min",
+    query: "query",
+    rows: "rows",
+    totals: "totals",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticReportResponse>;
 
-export const getAnalyticReport: (
-  input: GetAnalyticReportRequest,
-) => Effect.Effect<
+export const getAnalyticReport: API.OperationMethod<
+  GetAnalyticReportRequest,
   GetAnalyticReportResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -247,17 +254,36 @@ export const GetAnalyticReportBytimeResponse = Schema.Struct({
     until: Schema.String,
     filters: Schema.optional(Schema.String),
     sort: Schema.optional(Schema.Array(Schema.String)),
-  }).pipe(Schema.encodeKeys({ timeDelta: "time_delta" })),
+  }).pipe(
+    Schema.encodeKeys({
+      dimensions: "dimensions",
+      limit: "limit",
+      metrics: "metrics",
+      since: "since",
+      timeDelta: "time_delta",
+      until: "until",
+      filters: "filters",
+      sort: "sort",
+    }),
+  ),
   rows: Schema.Number,
   timeIntervals: Schema.Array(Schema.Array(Schema.String)),
   totals: Schema.Unknown,
 }).pipe(
-  Schema.encodeKeys({ dataLag: "data_lag", timeIntervals: "time_intervals" }),
+  Schema.encodeKeys({
+    data: "data",
+    dataLag: "data_lag",
+    max: "max",
+    min: "min",
+    query: "query",
+    rows: "rows",
+    timeIntervals: "time_intervals",
+    totals: "totals",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
 
-export const getAnalyticReportBytime: (
-  input: GetAnalyticReportBytimeRequest,
-) => Effect.Effect<
+export const getAnalyticReportBytime: API.OperationMethod<
+  GetAnalyticReportBytimeRequest,
   GetAnalyticReportBytimeResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -338,21 +364,25 @@ export const GetDnssecResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    algorithm: "algorithm",
+    digest: "digest",
     digestAlgorithm: "digest_algorithm",
     digestType: "digest_type",
     dnssecMultiSigner: "dnssec_multi_signer",
     dnssecPresigned: "dnssec_presigned",
     dnssecUseNsec3: "dnssec_use_nsec3",
+    ds: "ds",
+    flags: "flags",
     keyTag: "key_tag",
     keyType: "key_type",
     modifiedOn: "modified_on",
     publicKey: "public_key",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<GetDnssecResponse>;
 
-export const getDnssec: (
-  input: GetDnssecRequest,
-) => Effect.Effect<
+export const getDnssec: API.OperationMethod<
+  GetDnssecRequest,
   GetDnssecResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -386,6 +416,7 @@ export const PatchDnssecRequest = Schema.Struct({
     dnssecMultiSigner: "dnssec_multi_signer",
     dnssecPresigned: "dnssec_presigned",
     dnssecUseNsec3: "dnssec_use_nsec3",
+    status: "status",
   }),
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/dnssec" }),
 ) as unknown as Schema.Schema<PatchDnssecRequest>;
@@ -446,21 +477,25 @@ export const PatchDnssecResponse = Schema.Struct({
   ),
 }).pipe(
   Schema.encodeKeys({
+    algorithm: "algorithm",
+    digest: "digest",
     digestAlgorithm: "digest_algorithm",
     digestType: "digest_type",
     dnssecMultiSigner: "dnssec_multi_signer",
     dnssecPresigned: "dnssec_presigned",
     dnssecUseNsec3: "dnssec_use_nsec3",
+    ds: "ds",
+    flags: "flags",
     keyTag: "key_tag",
     keyType: "key_type",
     modifiedOn: "modified_on",
     publicKey: "public_key",
+    status: "status",
   }),
 ) as unknown as Schema.Schema<PatchDnssecResponse>;
 
-export const patchDnssec: (
-  input: PatchDnssecRequest,
-) => Effect.Effect<
+export const patchDnssec: API.OperationMethod<
+  PatchDnssecRequest,
   PatchDnssecResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -486,9 +521,8 @@ export type DeleteDnssecResponse = string;
 export const DeleteDnssecResponse =
   Schema.String as unknown as Schema.Schema<DeleteDnssecResponse>;
 
-export const deleteDnssec: (
-  input: DeleteDnssecRequest,
-) => Effect.Effect<
+export const deleteDnssec: API.OperationMethod<
+  DeleteDnssecRequest,
   DeleteDnssecResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -554,8 +588,11 @@ export const ScanListRecordResponse = Schema.Array(
       tagsModifiedOn: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdOn: "created_on",
+        meta: "meta",
         modifiedOn: "modified_on",
+        proxiable: "proxiable",
         commentModifiedOn: "comment_modified_on",
         tagsModifiedOn: "tags_modified_on",
       }),
@@ -583,8 +620,19 @@ export const ScanListRecordResponse = Schema.Array(
       tagsModifiedOn: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        comment: "comment",
+        content: "content",
         createdOn: "created_on",
+        meta: "meta",
         modifiedOn: "modified_on",
+        name: "name",
+        proxiable: "proxiable",
+        proxied: "proxied",
+        settings: "settings",
+        tags: "tags",
+        ttl: "ttl",
+        type: "type",
         commentModifiedOn: "comment_modified_on",
         tagsModifiedOn: "tags_modified_on",
       }),
@@ -592,9 +640,8 @@ export const ScanListRecordResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ScanListRecordResponse>;
 
-export const scanListRecord: (
-  input: ScanListRecordRequest,
-) => Effect.Effect<
+export const scanListRecord: API.OperationMethod<
+  ScanListRecordRequest,
   ScanListRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -630,9 +677,8 @@ export type ForceNotifyZoneTransferOutgoingResponse = string;
 export const ForceNotifyZoneTransferOutgoingResponse =
   Schema.String as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingResponse>;
 
-export const forceNotifyZoneTransferOutgoing: (
-  input: ForceNotifyZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const forceNotifyZoneTransferOutgoing: API.OperationMethod<
+  ForceNotifyZoneTransferOutgoingRequest,
   ForceNotifyZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -698,8 +744,11 @@ export const GetRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      proxiable: "proxiable",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
@@ -727,17 +776,27 @@ export const GetRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
+      content: "content",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      name: "name",
+      proxiable: "proxiable",
+      proxied: "proxied",
+      settings: "settings",
+      tags: "tags",
+      ttl: "ttl",
+      type: "type",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
 ]) as unknown as Schema.Schema<GetRecordResponse>;
 
-export const getRecord: (
-  input: GetRecordRequest,
-) => Effect.Effect<
+export const getRecord: API.OperationMethod<
+  GetRecordRequest,
   GetRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -941,8 +1000,11 @@ export const ListRecordsResponse = Schema.Array(
       tagsModifiedOn: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
         createdOn: "created_on",
+        meta: "meta",
         modifiedOn: "modified_on",
+        proxiable: "proxiable",
         commentModifiedOn: "comment_modified_on",
         tagsModifiedOn: "tags_modified_on",
       }),
@@ -970,8 +1032,19 @@ export const ListRecordsResponse = Schema.Array(
       tagsModifiedOn: Schema.optional(Schema.String),
     }).pipe(
       Schema.encodeKeys({
+        id: "id",
+        comment: "comment",
+        content: "content",
         createdOn: "created_on",
+        meta: "meta",
         modifiedOn: "modified_on",
+        name: "name",
+        proxiable: "proxiable",
+        proxied: "proxied",
+        settings: "settings",
+        tags: "tags",
+        ttl: "ttl",
+        type: "type",
         commentModifiedOn: "comment_modified_on",
         tagsModifiedOn: "tags_modified_on",
       }),
@@ -979,9 +1052,8 @@ export const ListRecordsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListRecordsResponse>;
 
-export const listRecords: (
-  input: ListRecordsRequest,
-) => Effect.Effect<
+export const listRecords: API.OperationMethod<
+  ListRecordsRequest,
   ListRecordsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1072,8 +1144,11 @@ export const CreateRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      proxiable: "proxiable",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
@@ -1101,17 +1176,27 @@ export const CreateRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
+      content: "content",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      name: "name",
+      proxiable: "proxiable",
+      proxied: "proxied",
+      settings: "settings",
+      tags: "tags",
+      ttl: "ttl",
+      type: "type",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
 ]) as unknown as Schema.Schema<CreateRecordResponse>;
 
-export const createRecord: (
-  input: CreateRecordRequest,
-) => Effect.Effect<
+export const createRecord: API.OperationMethod<
+  CreateRecordRequest,
   CreateRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1204,8 +1289,11 @@ export const UpdateRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      proxiable: "proxiable",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
@@ -1233,17 +1321,27 @@ export const UpdateRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
+      content: "content",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      name: "name",
+      proxiable: "proxiable",
+      proxied: "proxied",
+      settings: "settings",
+      tags: "tags",
+      ttl: "ttl",
+      type: "type",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
 ]) as unknown as Schema.Schema<UpdateRecordResponse>;
 
-export const updateRecord: (
-  input: UpdateRecordRequest,
-) => Effect.Effect<
+export const updateRecord: API.OperationMethod<
+  UpdateRecordRequest,
   UpdateRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1339,8 +1437,11 @@ export const PatchRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      proxiable: "proxiable",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
@@ -1368,17 +1469,27 @@ export const PatchRecordResponse = Schema.Union([
     tagsModifiedOn: Schema.optional(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
+      comment: "comment",
+      content: "content",
       createdOn: "created_on",
+      meta: "meta",
       modifiedOn: "modified_on",
+      name: "name",
+      proxiable: "proxiable",
+      proxied: "proxied",
+      settings: "settings",
+      tags: "tags",
+      ttl: "ttl",
+      type: "type",
       commentModifiedOn: "comment_modified_on",
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
 ]) as unknown as Schema.Schema<PatchRecordResponse>;
 
-export const patchRecord: (
-  input: PatchRecordRequest,
-) => Effect.Effect<
+export const patchRecord: API.OperationMethod<
+  PatchRecordRequest,
   PatchRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -1413,9 +1524,8 @@ export const DeleteRecordResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRecordResponse>;
 
-export const deleteRecord: (
-  input: DeleteRecordRequest,
-) => Effect.Effect<
+export const deleteRecord: API.OperationMethod<
+  DeleteRecordRequest,
   DeleteRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -2313,7 +2423,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2334,7 +2456,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2357,7 +2491,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2379,7 +2525,20 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            priority: "priority",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2400,7 +2559,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           name: Schema.String,
@@ -2442,7 +2613,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2463,7 +2646,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2490,7 +2685,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2503,7 +2710,14 @@ export const BatchRecordRequest = Schema.Struct({
               certificate: Schema.optional(Schema.String),
               keyTag: Schema.optional(Schema.Number),
               type: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ keyTag: "key_tag" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                certificate: "certificate",
+                keyTag: "key_tag",
+                type: "type",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -2518,7 +2732,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2531,7 +2757,14 @@ export const BatchRecordRequest = Schema.Struct({
               flags: Schema.optional(Schema.Number),
               protocol: Schema.optional(Schema.Number),
               publicKey: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                flags: "flags",
+                protocol: "protocol",
+                publicKey: "public_key",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -2546,7 +2779,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2561,6 +2806,8 @@ export const BatchRecordRequest = Schema.Struct({
               keyTag: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                algorithm: "algorithm",
+                digest: "digest",
                 digestType: "digest_type",
                 keyTag: "key_tag",
               }),
@@ -2579,7 +2826,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2606,7 +2865,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2629,6 +2900,7 @@ export const BatchRecordRequest = Schema.Struct({
               size: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                altitude: "altitude",
                 latDegrees: "lat_degrees",
                 latDirection: "lat_direction",
                 latMinutes: "lat_minutes",
@@ -2639,6 +2911,7 @@ export const BatchRecordRequest = Schema.Struct({
                 longSeconds: "long_seconds",
                 precisionHorz: "precision_horz",
                 precisionVert: "precision_vert",
+                size: "size",
               }),
             ),
           ),
@@ -2655,7 +2928,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2685,7 +2970,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2698,7 +2995,14 @@ export const BatchRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -2713,7 +3017,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2741,7 +3057,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2768,7 +3096,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2795,7 +3135,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2808,7 +3160,14 @@ export const BatchRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -2823,7 +3182,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -2850,7 +3221,20 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            priority: "priority",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
       ]),
     ),
   ),
@@ -3057,7 +3441,14 @@ export const BatchRecordRequest = Schema.Struct({
               certificate: Schema.optional(Schema.String),
               keyTag: Schema.optional(Schema.Number),
               type: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ keyTag: "key_tag" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                certificate: "certificate",
+                keyTag: "key_tag",
+                type: "type",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3084,7 +3475,14 @@ export const BatchRecordRequest = Schema.Struct({
               flags: Schema.optional(Schema.Number),
               protocol: Schema.optional(Schema.Number),
               publicKey: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                flags: "flags",
+                protocol: "protocol",
+                publicKey: "public_key",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3113,6 +3511,8 @@ export const BatchRecordRequest = Schema.Struct({
               keyTag: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                algorithm: "algorithm",
+                digest: "digest",
                 digestType: "digest_type",
                 keyTag: "key_tag",
               }),
@@ -3179,6 +3579,7 @@ export const BatchRecordRequest = Schema.Struct({
               size: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                altitude: "altitude",
                 latDegrees: "lat_degrees",
                 latDirection: "lat_direction",
                 latMinutes: "lat_minutes",
@@ -3189,6 +3590,7 @@ export const BatchRecordRequest = Schema.Struct({
                 longSeconds: "long_seconds",
                 precisionHorz: "precision_horz",
                 precisionVert: "precision_vert",
+                size: "size",
               }),
             ),
           ),
@@ -3246,7 +3648,14 @@ export const BatchRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3352,7 +3761,14 @@ export const BatchRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3420,7 +3836,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3441,7 +3869,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3464,7 +3904,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3486,7 +3938,20 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            priority: "priority",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3507,7 +3972,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           name: Schema.String,
@@ -3549,7 +4026,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3570,7 +4059,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            content: "content",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3597,7 +4098,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3610,7 +4123,14 @@ export const BatchRecordRequest = Schema.Struct({
               certificate: Schema.optional(Schema.String),
               keyTag: Schema.optional(Schema.Number),
               type: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ keyTag: "key_tag" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                certificate: "certificate",
+                keyTag: "key_tag",
+                type: "type",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3625,7 +4145,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3638,7 +4170,14 @@ export const BatchRecordRequest = Schema.Struct({
               flags: Schema.optional(Schema.Number),
               protocol: Schema.optional(Schema.Number),
               publicKey: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                flags: "flags",
+                protocol: "protocol",
+                publicKey: "public_key",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3653,7 +4192,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3668,6 +4219,8 @@ export const BatchRecordRequest = Schema.Struct({
               keyTag: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                algorithm: "algorithm",
+                digest: "digest",
                 digestType: "digest_type",
                 keyTag: "key_tag",
               }),
@@ -3686,7 +4239,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3713,7 +4278,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3736,6 +4313,7 @@ export const BatchRecordRequest = Schema.Struct({
               size: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                altitude: "altitude",
                 latDegrees: "lat_degrees",
                 latDirection: "lat_direction",
                 latMinutes: "lat_minutes",
@@ -3746,6 +4324,7 @@ export const BatchRecordRequest = Schema.Struct({
                 longSeconds: "long_seconds",
                 precisionHorz: "precision_horz",
                 precisionVert: "precision_vert",
+                size: "size",
               }),
             ),
           ),
@@ -3762,7 +4341,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3792,7 +4383,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3805,7 +4408,14 @@ export const BatchRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3820,7 +4430,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3848,7 +4470,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3875,7 +4509,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3902,7 +4548,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3915,7 +4573,14 @@ export const BatchRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -3930,7 +4595,19 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
         Schema.Struct({
           zoneId: Schema.String,
           name: Schema.String,
@@ -3957,7 +4634,20 @@ export const BatchRecordRequest = Schema.Struct({
             ),
           ),
           tags: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ zoneId: "zone_id" })),
+        }).pipe(
+          Schema.encodeKeys({
+            zoneId: "zone_id",
+            name: "name",
+            ttl: "ttl",
+            type: "type",
+            comment: "comment",
+            data: "data",
+            priority: "priority",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+          }),
+        ),
       ]),
     ),
   ),
@@ -4094,8 +4784,11 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            proxiable: "proxiable",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4123,8 +4816,19 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            comment: "comment",
+            content: "content",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            name: "name",
+            proxiable: "proxiable",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+            ttl: "ttl",
+            type: "type",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4145,8 +4849,11 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            proxiable: "proxiable",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4174,8 +4881,19 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            comment: "comment",
+            content: "content",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            name: "name",
+            proxiable: "proxiable",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+            ttl: "ttl",
+            type: "type",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4196,8 +4914,11 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            proxiable: "proxiable",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4225,8 +4946,19 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            comment: "comment",
+            content: "content",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            name: "name",
+            proxiable: "proxiable",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+            ttl: "ttl",
+            type: "type",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4247,8 +4979,11 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            proxiable: "proxiable",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4276,8 +5011,19 @@ export const BatchRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            comment: "comment",
+            content: "content",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            name: "name",
+            proxiable: "proxiable",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+            ttl: "ttl",
+            type: "type",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -4287,9 +5033,8 @@ export const BatchRecordResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BatchRecordResponse>;
 
-export const batchRecord: (
-  input: BatchRecordRequest,
-) => Effect.Effect<
+export const batchRecord: API.OperationMethod<
+  BatchRecordRequest,
   BatchRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4315,9 +5060,8 @@ export type ExportRecordResponse = unknown;
 export const ExportRecordResponse =
   Schema.Unknown as unknown as Schema.Schema<ExportRecordResponse>;
 
-export const exportRecord: (
-  input: ExportRecordRequest,
-) => Effect.Effect<
+export const exportRecord: API.OperationMethod<
+  ExportRecordRequest,
   ExportRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4361,9 +5105,8 @@ export const ImportRecordResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ImportRecordResponse>;
 
-export const importRecord: (
-  input: ImportRecordRequest,
-) => Effect.Effect<
+export const importRecord: API.OperationMethod<
+  ImportRecordRequest,
   ImportRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4404,9 +5147,8 @@ export const ScanRecordResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ScanRecordResponse>;
 
-export const scanRecord: (
-  input: ScanRecordRequest,
-) => Effect.Effect<
+export const scanRecord: API.OperationMethod<
+  ScanRecordRequest,
   ScanRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -4901,7 +5643,14 @@ export const ScanReviewRecordRequest = Schema.Struct({
               certificate: Schema.optional(Schema.String),
               keyTag: Schema.optional(Schema.Number),
               type: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ keyTag: "key_tag" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                certificate: "certificate",
+                keyTag: "key_tag",
+                type: "type",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -4928,7 +5677,14 @@ export const ScanReviewRecordRequest = Schema.Struct({
               flags: Schema.optional(Schema.Number),
               protocol: Schema.optional(Schema.Number),
               publicKey: Schema.optional(Schema.String),
-            }).pipe(Schema.encodeKeys({ publicKey: "public_key" })),
+            }).pipe(
+              Schema.encodeKeys({
+                algorithm: "algorithm",
+                flags: "flags",
+                protocol: "protocol",
+                publicKey: "public_key",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -4957,6 +5713,8 @@ export const ScanReviewRecordRequest = Schema.Struct({
               keyTag: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                algorithm: "algorithm",
+                digest: "digest",
                 digestType: "digest_type",
                 keyTag: "key_tag",
               }),
@@ -5023,6 +5781,7 @@ export const ScanReviewRecordRequest = Schema.Struct({
               size: Schema.optional(Schema.Number),
             }).pipe(
               Schema.encodeKeys({
+                altitude: "altitude",
                 latDegrees: "lat_degrees",
                 latDirection: "lat_direction",
                 latMinutes: "lat_minutes",
@@ -5033,6 +5792,7 @@ export const ScanReviewRecordRequest = Schema.Struct({
                 longSeconds: "long_seconds",
                 precisionHorz: "precision_horz",
                 precisionVert: "precision_vert",
+                size: "size",
               }),
             ),
           ),
@@ -5090,7 +5850,14 @@ export const ScanReviewRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -5196,7 +5963,14 @@ export const ScanReviewRecordRequest = Schema.Struct({
               matchingType: Schema.optional(Schema.Number),
               selector: Schema.optional(Schema.Number),
               usage: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ matchingType: "matching_type" })),
+            }).pipe(
+              Schema.encodeKeys({
+                certificate: "certificate",
+                matchingType: "matching_type",
+                selector: "selector",
+                usage: "usage",
+              }),
+            ),
           ),
           proxied: Schema.optional(Schema.Boolean),
           settings: Schema.optional(
@@ -5298,8 +6072,11 @@ export const ScanReviewRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            proxiable: "proxiable",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -5327,8 +6104,19 @@ export const ScanReviewRecordResponse = Schema.Struct({
           tagsModifiedOn: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
+            id: "id",
+            comment: "comment",
+            content: "content",
             createdOn: "created_on",
+            meta: "meta",
             modifiedOn: "modified_on",
+            name: "name",
+            proxiable: "proxiable",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+            ttl: "ttl",
+            type: "type",
             commentModifiedOn: "comment_modified_on",
             tagsModifiedOn: "tags_modified_on",
           }),
@@ -5339,9 +6127,8 @@ export const ScanReviewRecordResponse = Schema.Struct({
   rejects: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<ScanReviewRecordResponse>;
 
-export const scanReviewRecord: (
-  input: ScanReviewRecordRequest,
-) => Effect.Effect<
+export const scanReviewRecord: API.OperationMethod<
+  ScanReviewRecordRequest,
   ScanReviewRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5422,7 +6209,17 @@ export const GetSettingAccountResponse = Schema.Struct({
       retry: Schema.optional(Schema.Number),
       rname: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.Number),
-    }).pipe(Schema.encodeKeys({ minTtl: "min_ttl" })),
+    }).pipe(
+      Schema.encodeKeys({
+        expire: "expire",
+        minTtl: "min_ttl",
+        mname: "mname",
+        refresh: "refresh",
+        retry: "retry",
+        rname: "rname",
+        ttl: "ttl",
+      }),
+    ),
     zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
   }).pipe(
     Schema.encodeKeys({
@@ -5430,8 +6227,10 @@ export const GetSettingAccountResponse = Schema.Struct({
       foundationDns: "foundation_dns",
       internalDns: "internal_dns",
       multiProvider: "multi_provider",
+      nameservers: "nameservers",
       nsTtl: "ns_ttl",
       secondaryOverrides: "secondary_overrides",
+      soa: "soa",
       zoneMode: "zone_mode",
     }),
   ),
@@ -5439,9 +6238,8 @@ export const GetSettingAccountResponse = Schema.Struct({
   Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
 ) as unknown as Schema.Schema<GetSettingAccountResponse>;
 
-export const getSettingAccount: (
-  input: GetSettingAccountRequest,
-) => Effect.Effect<
+export const getSettingAccount: API.OperationMethod<
+  GetSettingAccountRequest,
   GetSettingAccountResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5517,7 +6315,17 @@ export const PatchSettingAccountRequest = Schema.Struct({
           retry: Schema.optional(Schema.Number),
           rname: Schema.optional(Schema.String),
           ttl: Schema.optional(Schema.Number),
-        }).pipe(Schema.encodeKeys({ minTtl: "min_ttl" })),
+        }).pipe(
+          Schema.encodeKeys({
+            expire: "expire",
+            minTtl: "min_ttl",
+            mname: "mname",
+            refresh: "refresh",
+            retry: "retry",
+            rname: "rname",
+            ttl: "ttl",
+          }),
+        ),
       ),
       zoneMode: Schema.optional(
         Schema.Literals(["standard", "cdn_only", "dns_only"]),
@@ -5528,8 +6336,10 @@ export const PatchSettingAccountRequest = Schema.Struct({
         foundationDns: "foundation_dns",
         internalDns: "internal_dns",
         multiProvider: "multi_provider",
+        nameservers: "nameservers",
         nsTtl: "ns_ttl",
         secondaryOverrides: "secondary_overrides",
+        soa: "soa",
         zoneMode: "zone_mode",
       }),
     ),
@@ -5595,7 +6405,17 @@ export const PatchSettingAccountResponse = Schema.Struct({
       retry: Schema.optional(Schema.Number),
       rname: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.Number),
-    }).pipe(Schema.encodeKeys({ minTtl: "min_ttl" })),
+    }).pipe(
+      Schema.encodeKeys({
+        expire: "expire",
+        minTtl: "min_ttl",
+        mname: "mname",
+        refresh: "refresh",
+        retry: "retry",
+        rname: "rname",
+        ttl: "ttl",
+      }),
+    ),
     zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
   }).pipe(
     Schema.encodeKeys({
@@ -5603,8 +6423,10 @@ export const PatchSettingAccountResponse = Schema.Struct({
       foundationDns: "foundation_dns",
       internalDns: "internal_dns",
       multiProvider: "multi_provider",
+      nameservers: "nameservers",
       nsTtl: "ns_ttl",
       secondaryOverrides: "secondary_overrides",
+      soa: "soa",
       zoneMode: "zone_mode",
     }),
   ),
@@ -5612,9 +6434,8 @@ export const PatchSettingAccountResponse = Schema.Struct({
   Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
 ) as unknown as Schema.Schema<PatchSettingAccountResponse>;
 
-export const patchSettingAccount: (
-  input: PatchSettingAccountRequest,
-) => Effect.Effect<
+export const patchSettingAccount: API.OperationMethod<
+  PatchSettingAccountRequest,
   PatchSettingAccountResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5665,14 +6486,16 @@ export const GetSettingAccountViewResponse = Schema.Struct({
   zones: Schema.Array(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdTime: "created_time",
     modifiedTime: "modified_time",
+    name: "name",
+    zones: "zones",
   }),
 ) as unknown as Schema.Schema<GetSettingAccountViewResponse>;
 
-export const getSettingAccountView: (
-  input: GetSettingAccountViewRequest,
-) => Effect.Effect<
+export const getSettingAccountView: API.OperationMethod<
+  GetSettingAccountViewRequest,
   GetSettingAccountViewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5746,15 +6569,17 @@ export const ListSettingAccountViewsResponse = Schema.Array(
     zones: Schema.Array(Schema.String),
   }).pipe(
     Schema.encodeKeys({
+      id: "id",
       createdTime: "created_time",
       modifiedTime: "modified_time",
+      name: "name",
+      zones: "zones",
     }),
   ),
 ) as unknown as Schema.Schema<ListSettingAccountViewsResponse>;
 
-export const listSettingAccountViews: (
-  input: ListSettingAccountViewsRequest,
-) => Effect.Effect<
+export const listSettingAccountViews: API.OperationMethod<
+  ListSettingAccountViewsRequest,
   ListSettingAccountViewsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5802,14 +6627,16 @@ export const CreateSettingAccountViewResponse = Schema.Struct({
   zones: Schema.Array(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdTime: "created_time",
     modifiedTime: "modified_time",
+    name: "name",
+    zones: "zones",
   }),
 ) as unknown as Schema.Schema<CreateSettingAccountViewResponse>;
 
-export const createSettingAccountView: (
-  input: CreateSettingAccountViewRequest,
-) => Effect.Effect<
+export const createSettingAccountView: API.OperationMethod<
+  CreateSettingAccountViewRequest,
   CreateSettingAccountViewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5862,14 +6689,16 @@ export const PatchSettingAccountViewResponse = Schema.Struct({
   zones: Schema.Array(Schema.String),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     createdTime: "created_time",
     modifiedTime: "modified_time",
+    name: "name",
+    zones: "zones",
   }),
 ) as unknown as Schema.Schema<PatchSettingAccountViewResponse>;
 
-export const patchSettingAccountView: (
-  input: PatchSettingAccountViewRequest,
-) => Effect.Effect<
+export const patchSettingAccountView: API.OperationMethod<
+  PatchSettingAccountViewRequest,
   PatchSettingAccountViewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5904,9 +6733,8 @@ export const DeleteSettingAccountViewResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
 
-export const deleteSettingAccountView: (
-  input: DeleteSettingAccountViewRequest,
-) => Effect.Effect<
+export const deleteSettingAccountView: API.OperationMethod<
+  DeleteSettingAccountViewRequest,
   DeleteSettingAccountViewResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -5982,7 +6810,7 @@ export const GetSettingZoneResponse = Schema.Struct({
       "custom.zone",
     ]),
     nsSet: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ nsSet: "ns_set" })),
+  }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
   nsTtl: Schema.Number,
   secondaryOverrides: Schema.Boolean,
   soa: Schema.Struct({
@@ -5993,7 +6821,17 @@ export const GetSettingZoneResponse = Schema.Struct({
     retry: Schema.optional(Schema.Number),
     rname: Schema.optional(Schema.String),
     ttl: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ minTtl: "min_ttl" })),
+  }).pipe(
+    Schema.encodeKeys({
+      expire: "expire",
+      minTtl: "min_ttl",
+      mname: "mname",
+      refresh: "refresh",
+      retry: "retry",
+      rname: "rname",
+      ttl: "ttl",
+    }),
+  ),
   zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
 }).pipe(
   Schema.encodeKeys({
@@ -6001,15 +6839,16 @@ export const GetSettingZoneResponse = Schema.Struct({
     foundationDns: "foundation_dns",
     internalDns: "internal_dns",
     multiProvider: "multi_provider",
+    nameservers: "nameservers",
     nsTtl: "ns_ttl",
     secondaryOverrides: "secondary_overrides",
+    soa: "soa",
     zoneMode: "zone_mode",
   }),
 ) as unknown as Schema.Schema<GetSettingZoneResponse>;
 
-export const getSettingZone: (
-  input: GetSettingZoneRequest,
-) => Effect.Effect<
+export const getSettingZone: API.OperationMethod<
+  GetSettingZoneRequest,
   GetSettingZoneResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6078,7 +6917,7 @@ export const PatchSettingZoneRequest = Schema.Struct({
           "custom.zone",
         ]),
       ),
-    }).pipe(Schema.encodeKeys({ nsSet: "ns_set" })),
+    }).pipe(Schema.encodeKeys({ nsSet: "ns_set", type: "type" })),
   ),
   nsTtl: Schema.optional(Schema.Number),
   secondaryOverrides: Schema.optional(Schema.Boolean),
@@ -6091,7 +6930,17 @@ export const PatchSettingZoneRequest = Schema.Struct({
       retry: Schema.optional(Schema.Number),
       rname: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.Number),
-    }).pipe(Schema.encodeKeys({ minTtl: "min_ttl" })),
+    }).pipe(
+      Schema.encodeKeys({
+        expire: "expire",
+        minTtl: "min_ttl",
+        mname: "mname",
+        refresh: "refresh",
+        retry: "retry",
+        rname: "rname",
+        ttl: "ttl",
+      }),
+    ),
   ),
   zoneMode: Schema.optional(
     Schema.Literals(["standard", "cdn_only", "dns_only"]),
@@ -6102,8 +6951,10 @@ export const PatchSettingZoneRequest = Schema.Struct({
     foundationDns: "foundation_dns",
     internalDns: "internal_dns",
     multiProvider: "multi_provider",
+    nameservers: "nameservers",
     nsTtl: "ns_ttl",
     secondaryOverrides: "secondary_overrides",
+    soa: "soa",
     zoneMode: "zone_mode",
   }),
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/dns_settings" }),
@@ -6160,7 +7011,7 @@ export const PatchSettingZoneResponse = Schema.Struct({
       "custom.zone",
     ]),
     nsSet: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ nsSet: "ns_set" })),
+  }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
   nsTtl: Schema.Number,
   secondaryOverrides: Schema.Boolean,
   soa: Schema.Struct({
@@ -6171,7 +7022,17 @@ export const PatchSettingZoneResponse = Schema.Struct({
     retry: Schema.optional(Schema.Number),
     rname: Schema.optional(Schema.String),
     ttl: Schema.optional(Schema.Number),
-  }).pipe(Schema.encodeKeys({ minTtl: "min_ttl" })),
+  }).pipe(
+    Schema.encodeKeys({
+      expire: "expire",
+      minTtl: "min_ttl",
+      mname: "mname",
+      refresh: "refresh",
+      retry: "retry",
+      rname: "rname",
+      ttl: "ttl",
+    }),
+  ),
   zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
 }).pipe(
   Schema.encodeKeys({
@@ -6179,15 +7040,16 @@ export const PatchSettingZoneResponse = Schema.Struct({
     foundationDns: "foundation_dns",
     internalDns: "internal_dns",
     multiProvider: "multi_provider",
+    nameservers: "nameservers",
     nsTtl: "ns_ttl",
     secondaryOverrides: "secondary_overrides",
+    soa: "soa",
     zoneMode: "zone_mode",
   }),
 ) as unknown as Schema.Schema<PatchSettingZoneResponse>;
 
-export const patchSettingZone: (
-  input: PatchSettingZoneRequest,
-) => Effect.Effect<
+export const patchSettingZone: API.OperationMethod<
+  PatchSettingZoneRequest,
   PatchSettingZoneResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6240,7 +7102,14 @@ export const ScanTriggerRecordResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   messages: Schema.Array(
     Schema.Struct({
@@ -6252,14 +7121,20 @@ export const ScanTriggerRecordResponse = Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<ScanTriggerRecordResponse>;
 
-export const scanTriggerRecord: (
-  input: ScanTriggerRecordRequest,
-) => Effect.Effect<
+export const scanTriggerRecord: API.OperationMethod<
+  ScanTriggerRecordRequest,
   ScanTriggerRecordResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6301,12 +7176,11 @@ export const GetZoneTransferAclResponse = Schema.Struct({
   ipRange: Schema.String,
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range" }),
+  Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
 ) as unknown as Schema.Schema<GetZoneTransferAclResponse>;
 
-export const getZoneTransferAcl: (
-  input: GetZoneTransferAclRequest,
-) => Effect.Effect<
+export const getZoneTransferAcl: API.OperationMethod<
+  GetZoneTransferAclRequest,
   GetZoneTransferAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6337,12 +7211,11 @@ export const ListZoneTransferAclsResponse = Schema.Array(
     id: Schema.String,
     ipRange: Schema.String,
     name: Schema.String,
-  }).pipe(Schema.encodeKeys({ ipRange: "ip_range" })),
+  }).pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" })),
 ) as unknown as Schema.Schema<ListZoneTransferAclsResponse>;
 
-export const listZoneTransferAcls: (
-  input: ListZoneTransferAclsRequest,
-) => Effect.Effect<
+export const listZoneTransferAcls: API.OperationMethod<
+  ListZoneTransferAclsRequest,
   ListZoneTransferAclsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6366,7 +7239,7 @@ export const CreateZoneTransferAclRequest = Schema.Struct({
   ipRange: Schema.String,
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range" }),
+  Schema.encodeKeys({ ipRange: "ip_range", name: "name" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/secondary_dns/acls" }),
 ) as unknown as Schema.Schema<CreateZoneTransferAclRequest>;
 
@@ -6383,12 +7256,11 @@ export const CreateZoneTransferAclResponse = Schema.Struct({
   ipRange: Schema.String,
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range" }),
+  Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
 ) as unknown as Schema.Schema<CreateZoneTransferAclResponse>;
 
-export const createZoneTransferAcl: (
-  input: CreateZoneTransferAclRequest,
-) => Effect.Effect<
+export const createZoneTransferAcl: API.OperationMethod<
+  CreateZoneTransferAclRequest,
   CreateZoneTransferAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6414,7 +7286,7 @@ export const UpdateZoneTransferAclRequest = Schema.Struct({
   ipRange: Schema.String,
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range" }),
+  Schema.encodeKeys({ ipRange: "ip_range", name: "name" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
@@ -6434,12 +7306,11 @@ export const UpdateZoneTransferAclResponse = Schema.Struct({
   ipRange: Schema.String,
   name: Schema.String,
 }).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range" }),
+  Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
 ) as unknown as Schema.Schema<UpdateZoneTransferAclResponse>;
 
-export const updateZoneTransferAcl: (
-  input: UpdateZoneTransferAclRequest,
-) => Effect.Effect<
+export const updateZoneTransferAcl: API.OperationMethod<
+  UpdateZoneTransferAclRequest,
   UpdateZoneTransferAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6472,9 +7343,8 @@ export const DeleteZoneTransferAclResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
 
-export const deleteZoneTransferAcl: (
-  input: DeleteZoneTransferAclRequest,
-) => Effect.Effect<
+export const deleteZoneTransferAcl: API.OperationMethod<
+  DeleteZoneTransferAclRequest,
   DeleteZoneTransferAclResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6507,9 +7377,8 @@ export type CreateZoneTransferForceAxfrResponse = string;
 export const CreateZoneTransferForceAxfrResponse =
   Schema.String as unknown as Schema.Schema<CreateZoneTransferForceAxfrResponse>;
 
-export const createZoneTransferForceAxfr: (
-  input: CreateZoneTransferForceAxfrRequest,
-) => Effect.Effect<
+export const createZoneTransferForceAxfr: API.OperationMethod<
+  CreateZoneTransferForceAxfrRequest,
   CreateZoneTransferForceAxfrResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6562,17 +7431,19 @@ export const GetZoneTransferIncomingResponse = Schema.Struct({
   soaSerial: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     autoRefreshSeconds: "auto_refresh_seconds",
     checkedTime: "checked_time",
     createdTime: "created_time",
     modifiedTime: "modified_time",
+    name: "name",
+    peers: "peers",
     soaSerial: "soa_serial",
   }),
 ) as unknown as Schema.Schema<GetZoneTransferIncomingResponse>;
 
-export const getZoneTransferIncoming: (
-  input: GetZoneTransferIncomingRequest,
-) => Effect.Effect<
+export const getZoneTransferIncoming: API.OperationMethod<
+  GetZoneTransferIncomingRequest,
   GetZoneTransferIncomingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6599,7 +7470,11 @@ export const CreateZoneTransferIncomingRequest = Schema.Struct({
   name: Schema.String,
   peers: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ autoRefreshSeconds: "auto_refresh_seconds" }),
+  Schema.encodeKeys({
+    autoRefreshSeconds: "auto_refresh_seconds",
+    name: "name",
+    peers: "peers",
+  }),
   T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/incoming" }),
 ) as unknown as Schema.Schema<CreateZoneTransferIncomingRequest>;
 
@@ -6632,17 +7507,19 @@ export const CreateZoneTransferIncomingResponse = Schema.Struct({
   soaSerial: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     autoRefreshSeconds: "auto_refresh_seconds",
     checkedTime: "checked_time",
     createdTime: "created_time",
     modifiedTime: "modified_time",
+    name: "name",
+    peers: "peers",
     soaSerial: "soa_serial",
   }),
 ) as unknown as Schema.Schema<CreateZoneTransferIncomingResponse>;
 
-export const createZoneTransferIncoming: (
-  input: CreateZoneTransferIncomingRequest,
-) => Effect.Effect<
+export const createZoneTransferIncoming: API.OperationMethod<
+  CreateZoneTransferIncomingRequest,
   CreateZoneTransferIncomingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6669,7 +7546,11 @@ export const UpdateZoneTransferIncomingRequest = Schema.Struct({
   name: Schema.String,
   peers: Schema.Array(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ autoRefreshSeconds: "auto_refresh_seconds" }),
+  Schema.encodeKeys({
+    autoRefreshSeconds: "auto_refresh_seconds",
+    name: "name",
+    peers: "peers",
+  }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/secondary_dns/incoming" }),
 ) as unknown as Schema.Schema<UpdateZoneTransferIncomingRequest>;
 
@@ -6702,17 +7583,19 @@ export const UpdateZoneTransferIncomingResponse = Schema.Struct({
   soaSerial: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     autoRefreshSeconds: "auto_refresh_seconds",
     checkedTime: "checked_time",
     createdTime: "created_time",
     modifiedTime: "modified_time",
+    name: "name",
+    peers: "peers",
     soaSerial: "soa_serial",
   }),
 ) as unknown as Schema.Schema<UpdateZoneTransferIncomingResponse>;
 
-export const updateZoneTransferIncoming: (
-  input: UpdateZoneTransferIncomingRequest,
-) => Effect.Effect<
+export const updateZoneTransferIncoming: API.OperationMethod<
+  UpdateZoneTransferIncomingRequest,
   UpdateZoneTransferIncomingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6740,9 +7623,8 @@ export const DeleteZoneTransferIncomingResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
 
-export const deleteZoneTransferIncoming: (
-  input: DeleteZoneTransferIncomingRequest,
-) => Effect.Effect<
+export const deleteZoneTransferIncoming: API.OperationMethod<
+  DeleteZoneTransferIncomingRequest,
   DeleteZoneTransferIncomingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6792,16 +7674,18 @@ export const GetZoneTransferOutgoingResponse = Schema.Struct({
   soaSerial: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkedTime: "checked_time",
     createdTime: "created_time",
     lastTransferredTime: "last_transferred_time",
+    name: "name",
+    peers: "peers",
     soaSerial: "soa_serial",
   }),
 ) as unknown as Schema.Schema<GetZoneTransferOutgoingResponse>;
 
-export const getZoneTransferOutgoing: (
-  input: GetZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const getZoneTransferOutgoing: API.OperationMethod<
+  GetZoneTransferOutgoingRequest,
   GetZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6854,16 +7738,18 @@ export const CreateZoneTransferOutgoingResponse = Schema.Struct({
   soaSerial: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkedTime: "checked_time",
     createdTime: "created_time",
     lastTransferredTime: "last_transferred_time",
+    name: "name",
+    peers: "peers",
     soaSerial: "soa_serial",
   }),
 ) as unknown as Schema.Schema<CreateZoneTransferOutgoingResponse>;
 
-export const createZoneTransferOutgoing: (
-  input: CreateZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const createZoneTransferOutgoing: API.OperationMethod<
+  CreateZoneTransferOutgoingRequest,
   CreateZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6916,16 +7802,18 @@ export const UpdateZoneTransferOutgoingResponse = Schema.Struct({
   soaSerial: Schema.optional(Schema.Number),
 }).pipe(
   Schema.encodeKeys({
+    id: "id",
     checkedTime: "checked_time",
     createdTime: "created_time",
     lastTransferredTime: "last_transferred_time",
+    name: "name",
+    peers: "peers",
     soaSerial: "soa_serial",
   }),
 ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingResponse>;
 
-export const updateZoneTransferOutgoing: (
-  input: UpdateZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const updateZoneTransferOutgoing: API.OperationMethod<
+  UpdateZoneTransferOutgoingRequest,
   UpdateZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6953,9 +7841,8 @@ export const DeleteZoneTransferOutgoingResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
 
-export const deleteZoneTransferOutgoing: (
-  input: DeleteZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const deleteZoneTransferOutgoing: API.OperationMethod<
+  DeleteZoneTransferOutgoingRequest,
   DeleteZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -6987,9 +7874,8 @@ export type EnableZoneTransferOutgoingResponse = string;
 export const EnableZoneTransferOutgoingResponse =
   Schema.String as unknown as Schema.Schema<EnableZoneTransferOutgoingResponse>;
 
-export const enableZoneTransferOutgoing: (
-  input: EnableZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const enableZoneTransferOutgoing: API.OperationMethod<
+  EnableZoneTransferOutgoingRequest,
   EnableZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7021,9 +7907,8 @@ export type DisableZoneTransferOutgoingResponse = string;
 export const DisableZoneTransferOutgoingResponse =
   Schema.String as unknown as Schema.Schema<DisableZoneTransferOutgoingResponse>;
 
-export const disableZoneTransferOutgoing: (
-  input: DisableZoneTransferOutgoingRequest,
-) => Effect.Effect<
+export const disableZoneTransferOutgoing: API.OperationMethod<
+  DisableZoneTransferOutgoingRequest,
   DisableZoneTransferOutgoingResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7055,9 +7940,8 @@ export type GetZoneTransferOutgoingStatusResponse = unknown;
 export const GetZoneTransferOutgoingStatusResponse =
   Schema.Unknown as unknown as Schema.Schema<GetZoneTransferOutgoingStatusResponse>;
 
-export const getZoneTransferOutgoingStatus: (
-  input: GetZoneTransferOutgoingStatusRequest,
-) => Effect.Effect<
+export const getZoneTransferOutgoingStatus: API.OperationMethod<
+  GetZoneTransferOutgoingStatusRequest,
   GetZoneTransferOutgoingStatusResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7108,12 +7992,18 @@ export const GetZoneTransferPeerResponse = Schema.Struct({
   port: Schema.optional(Schema.Number),
   tsigId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ ixfrEnable: "ixfr_enable", tsigId: "tsig_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    name: "name",
+    ip: "ip",
+    ixfrEnable: "ixfr_enable",
+    port: "port",
+    tsigId: "tsig_id",
+  }),
 ) as unknown as Schema.Schema<GetZoneTransferPeerResponse>;
 
-export const getZoneTransferPeer: (
-  input: GetZoneTransferPeerRequest,
-) => Effect.Effect<
+export const getZoneTransferPeer: API.OperationMethod<
+  GetZoneTransferPeerRequest,
   GetZoneTransferPeerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7150,12 +8040,20 @@ export const ListZoneTransferPeersResponse = Schema.Array(
     ixfrEnable: Schema.optional(Schema.Boolean),
     port: Schema.optional(Schema.Number),
     tsigId: Schema.optional(Schema.String),
-  }).pipe(Schema.encodeKeys({ ixfrEnable: "ixfr_enable", tsigId: "tsig_id" })),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      ip: "ip",
+      ixfrEnable: "ixfr_enable",
+      port: "port",
+      tsigId: "tsig_id",
+    }),
+  ),
 ) as unknown as Schema.Schema<ListZoneTransferPeersResponse>;
 
-export const listZoneTransferPeers: (
-  input: ListZoneTransferPeersRequest,
-) => Effect.Effect<
+export const listZoneTransferPeers: API.OperationMethod<
+  ListZoneTransferPeersRequest,
   ListZoneTransferPeersResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7204,12 +8102,18 @@ export const CreateZoneTransferPeerResponse = Schema.Struct({
   port: Schema.optional(Schema.Number),
   tsigId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ ixfrEnable: "ixfr_enable", tsigId: "tsig_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    name: "name",
+    ip: "ip",
+    ixfrEnable: "ixfr_enable",
+    port: "port",
+    tsigId: "tsig_id",
+  }),
 ) as unknown as Schema.Schema<CreateZoneTransferPeerResponse>;
 
-export const createZoneTransferPeer: (
-  input: CreateZoneTransferPeerRequest,
-) => Effect.Effect<
+export const createZoneTransferPeer: API.OperationMethod<
+  CreateZoneTransferPeerRequest,
   CreateZoneTransferPeerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7244,7 +8148,13 @@ export const UpdateZoneTransferPeerRequest = Schema.Struct({
   port: Schema.optional(Schema.Number),
   tsigId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ ixfrEnable: "ixfr_enable", tsigId: "tsig_id" }),
+  Schema.encodeKeys({
+    name: "name",
+    ip: "ip",
+    ixfrEnable: "ixfr_enable",
+    port: "port",
+    tsigId: "tsig_id",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
@@ -7273,12 +8183,18 @@ export const UpdateZoneTransferPeerResponse = Schema.Struct({
   port: Schema.optional(Schema.Number),
   tsigId: Schema.optional(Schema.String),
 }).pipe(
-  Schema.encodeKeys({ ixfrEnable: "ixfr_enable", tsigId: "tsig_id" }),
+  Schema.encodeKeys({
+    id: "id",
+    name: "name",
+    ip: "ip",
+    ixfrEnable: "ixfr_enable",
+    port: "port",
+    tsigId: "tsig_id",
+  }),
 ) as unknown as Schema.Schema<UpdateZoneTransferPeerResponse>;
 
-export const updateZoneTransferPeer: (
-  input: UpdateZoneTransferPeerRequest,
-) => Effect.Effect<
+export const updateZoneTransferPeer: API.OperationMethod<
+  UpdateZoneTransferPeerRequest,
   UpdateZoneTransferPeerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7311,9 +8227,8 @@ export const DeleteZoneTransferPeerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
 
-export const deleteZoneTransferPeer: (
-  input: DeleteZoneTransferPeerRequest,
-) => Effect.Effect<
+export const deleteZoneTransferPeer: API.OperationMethod<
+  DeleteZoneTransferPeerRequest,
   DeleteZoneTransferPeerResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7359,9 +8274,8 @@ export const GetZoneTransferTsigResponse = Schema.Struct({
   secret: Schema.String,
 }) as unknown as Schema.Schema<GetZoneTransferTsigResponse>;
 
-export const getZoneTransferTsig: (
-  input: GetZoneTransferTsigRequest,
-) => Effect.Effect<
+export const getZoneTransferTsig: API.OperationMethod<
+  GetZoneTransferTsigRequest,
   GetZoneTransferTsigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7397,9 +8311,8 @@ export const ListZoneTransferTsigsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
 
-export const listZoneTransferTsigs: (
-  input: ListZoneTransferTsigsRequest,
-) => Effect.Effect<
+export const listZoneTransferTsigs: API.OperationMethod<
+  ListZoneTransferTsigsRequest,
   ListZoneTransferTsigsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7449,9 +8362,8 @@ export const CreateZoneTransferTsigResponse = Schema.Struct({
   secret: Schema.String,
 }) as unknown as Schema.Schema<CreateZoneTransferTsigResponse>;
 
-export const createZoneTransferTsig: (
-  input: CreateZoneTransferTsigRequest,
-) => Effect.Effect<
+export const createZoneTransferTsig: API.OperationMethod<
+  CreateZoneTransferTsigRequest,
   CreateZoneTransferTsigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7503,9 +8415,8 @@ export const UpdateZoneTransferTsigResponse = Schema.Struct({
   secret: Schema.String,
 }) as unknown as Schema.Schema<UpdateZoneTransferTsigResponse>;
 
-export const updateZoneTransferTsig: (
-  input: UpdateZoneTransferTsigRequest,
-) => Effect.Effect<
+export const updateZoneTransferTsig: API.OperationMethod<
+  UpdateZoneTransferTsigRequest,
   UpdateZoneTransferTsigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -7538,9 +8449,8 @@ export const DeleteZoneTransferTsigResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
 
-export const deleteZoneTransferTsig: (
-  input: DeleteZoneTransferTsigRequest,
-) => Effect.Effect<
+export const deleteZoneTransferTsig: API.OperationMethod<
+  DeleteZoneTransferTsigRequest,
   DeleteZoneTransferTsigResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

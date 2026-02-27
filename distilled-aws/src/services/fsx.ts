@@ -5649,9 +5649,8 @@ export class ResourceNotFound extends S.TaggedErrorClass<ResourceNotFound>()(
  * operation to monitor the status of the aliases Amazon FSx is
  * associating with the file system.
  */
-export const associateFileSystemAliases: (
-  input: AssociateFileSystemAliasesRequest,
-) => effect.Effect<
+export const associateFileSystemAliases: API.OperationMethod<
+  AssociateFileSystemAliasesRequest,
   AssociateFileSystemAliasesResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5674,9 +5673,8 @@ export const associateFileSystemAliases: (
  * For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that
  * have already been released will remain in the released state.
  */
-export const cancelDataRepositoryTask: (
-  input: CancelDataRepositoryTaskRequest,
-) => effect.Effect<
+export const cancelDataRepositoryTask: API.OperationMethod<
+  CancelDataRepositoryTaskRequest,
   CancelDataRepositoryTaskResponse,
   | BadRequest
   | DataRepositoryTaskEnded
@@ -5723,9 +5721,8 @@ export const cancelDataRepositoryTask: (
  * Guide, and Copying backups in the Amazon FSx for OpenZFS User
  * Guide.
  */
-export const copyBackup: (
-  input: CopyBackupRequest,
-) => effect.Effect<
+export const copyBackup: API.OperationMethod<
+  CopyBackupRequest,
   CopyBackupResponse,
   | BackupNotFound
   | BadRequest
@@ -5761,9 +5758,8 @@ export const copyBackup: (
  * Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS User
  * Guide.
  */
-export const copySnapshotAndUpdateVolume: (
-  input: CopySnapshotAndUpdateVolumeRequest,
-) => effect.Effect<
+export const copySnapshotAndUpdateVolume: API.OperationMethod<
+  CopySnapshotAndUpdateVolumeRequest,
   CopySnapshotAndUpdateVolumeResponse,
   | BadRequest
   | IncompatibleParameterError
@@ -5805,9 +5801,8 @@ export const copySnapshotAndUpdateVolume: (
  *
  * - DetachAndDeleteS3AccessPoint
  */
-export const createAndAttachS3AccessPoint: (
-  input: CreateAndAttachS3AccessPointRequest,
-) => effect.Effect<
+export const createAndAttachS3AccessPoint: API.OperationMethod<
+  CreateAndAttachS3AccessPointRequest,
   CreateAndAttachS3AccessPointResponse,
   | AccessPointAlreadyOwnedByYou
   | BadRequest
@@ -5884,9 +5879,8 @@ export const createAndAttachS3AccessPoint: (
  * DescribeBackups operation, which returns the backup state along with other
  * information.
  */
-export const createBackup: (
-  input: CreateBackupRequest,
-) => effect.Effect<
+export const createBackup: API.OperationMethod<
+  CreateBackupRequest,
   CreateBackupResponse,
   | BackupInProgress
   | BadRequest
@@ -5931,9 +5925,8 @@ export const createBackup: (
  * on Amazon File Cache resources. To create a DRA on Amazon File Cache,
  * use the `CreateFileCache` operation.
  */
-export const createDataRepositoryAssociation: (
-  input: CreateDataRepositoryAssociationRequest,
-) => effect.Effect<
+export const createDataRepositoryAssociation: API.OperationMethod<
+  CreateDataRepositoryAssociationRequest,
   CreateDataRepositoryAssociationResponse,
   | BadRequest
   | FileSystemNotFound
@@ -5975,9 +5968,8 @@ export const createDataRepositoryAssociation: (
  * To learn more about linking a data repository to your file system, see
  * Linking your file system to an S3 bucket.
  */
-export const createDataRepositoryTask: (
-  input: CreateDataRepositoryTaskRequest,
-) => effect.Effect<
+export const createDataRepositoryTask: API.OperationMethod<
+  CreateDataRepositoryTaskRequest,
   CreateDataRepositoryTaskResponse,
   | BadRequest
   | DataRepositoryTaskExecuting
@@ -6023,9 +6015,8 @@ export const createDataRepositoryTask: (
  * by calling the DescribeFileCaches operation, which returns the cache state
  * along with other information.
  */
-export const createFileCache: (
-  input: CreateFileCacheRequest,
-) => effect.Effect<
+export const createFileCache: API.OperationMethod<
+  CreateFileCacheRequest,
   CreateFileCacheResponse,
   | BadRequest
   | IncompatibleParameterError
@@ -6088,9 +6079,8 @@ export const createFileCache: (
  * by calling the DescribeFileSystems operation, which returns the file system state
  * along with other information.
  */
-export const createFileSystem: (
-  input: CreateFileSystemRequest,
-) => effect.Effect<
+export const createFileSystem: API.OperationMethod<
+  CreateFileSystemRequest,
   CreateFileSystemResponse,
   | ActiveDirectoryError
   | BadRequest
@@ -6153,9 +6143,8 @@ export const createFileSystem: (
  * DescribeFileSystems operation, which returns the file system state along
  * with other information.
  */
-export const createFileSystemFromBackup: (
-  input: CreateFileSystemFromBackupRequest,
-) => effect.Effect<
+export const createFileSystemFromBackup: API.OperationMethod<
+  CreateFileSystemFromBackupRequest,
   CreateFileSystemFromBackupResponse,
   | ActiveDirectoryError
   | BackupNotFound
@@ -6212,9 +6201,8 @@ export const createFileSystemFromBackup: (
  * the DescribeSnapshots operation, which returns the snapshot state along with
  * other information.
  */
-export const createSnapshot: (
-  input: CreateSnapshotRequest,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
   CreateSnapshotResponse,
   | BadRequest
   | InternalServerError
@@ -6235,9 +6223,8 @@ export const createSnapshot: (
 /**
  * Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
  */
-export const createStorageVirtualMachine: (
-  input: CreateStorageVirtualMachineRequest,
-) => effect.Effect<
+export const createStorageVirtualMachine: API.OperationMethod<
+  CreateStorageVirtualMachineRequest,
   CreateStorageVirtualMachineResponse,
   | ActiveDirectoryError
   | BadRequest
@@ -6264,9 +6251,8 @@ export const createStorageVirtualMachine: (
 /**
  * Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
  */
-export const createVolume: (
-  input: CreateVolumeRequest,
-) => effect.Effect<
+export const createVolume: API.OperationMethod<
+  CreateVolumeRequest,
   CreateVolumeResponse,
   | BadRequest
   | FileSystemNotFound
@@ -6296,9 +6282,8 @@ export const createVolume: (
  * Creates a new Amazon FSx for NetApp ONTAP volume from an
  * existing Amazon FSx volume backup.
  */
-export const createVolumeFromBackup: (
-  input: CreateVolumeFromBackupRequest,
-) => effect.Effect<
+export const createVolumeFromBackup: API.OperationMethod<
+  CreateVolumeFromBackupRequest,
   CreateVolumeFromBackupResponse,
   | BackupNotFound
   | BadRequest
@@ -6334,9 +6319,8 @@ export const createVolumeFromBackup: (
  * The data in a deleted backup is also deleted and can't be recovered by any
  * means.
  */
-export const deleteBackup: (
-  input: DeleteBackupRequest,
-) => effect.Effect<
+export const deleteBackup: API.OperationMethod<
+  DeleteBackupRequest,
   DeleteBackupResponse,
   | BackupBeingCopied
   | BackupInProgress
@@ -6369,9 +6353,8 @@ export const deleteBackup: (
  * associations are supported on all FSx for Lustre 2.12 and 2.15 file
  * systems, excluding `scratch_1` deployment type.
  */
-export const deleteDataRepositoryAssociation: (
-  input: DeleteDataRepositoryAssociationRequest,
-) => effect.Effect<
+export const deleteDataRepositoryAssociation: API.OperationMethod<
+  DeleteDataRepositoryAssociationRequest,
   DeleteDataRepositoryAssociationResponse,
   | BadRequest
   | DataRepositoryAssociationNotFound
@@ -6405,9 +6388,8 @@ export const deleteDataRepositoryAssociation: (
  * The data in a deleted cache is also deleted and can't be recovered by
  * any means.
  */
-export const deleteFileCache: (
-  input: DeleteFileCacheRequest,
-) => effect.Effect<
+export const deleteFileCache: API.OperationMethod<
+  DeleteFileCacheRequest,
   DeleteFileCacheResponse,
   | BadRequest
   | FileCacheNotFound
@@ -6475,9 +6457,8 @@ export const deleteFileCache: (
  * The data in a deleted file system is also deleted and can't be recovered by
  * any means.
  */
-export const deleteFileSystem: (
-  input: DeleteFileSystemRequest,
-) => effect.Effect<
+export const deleteFileSystem: API.OperationMethod<
+  DeleteFileSystemRequest,
   DeleteFileSystemResponse,
   | BadRequest
   | FileSystemNotFound
@@ -6505,9 +6486,8 @@ export const deleteFileSystem: (
  * The `DeleteSnapshot` operation returns instantly. The snapshot appears with
  * the lifecycle status of `DELETING` until the deletion is complete.
  */
-export const deleteSnapshot: (
-  input: DeleteSnapshotRequest,
-) => effect.Effect<
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotRequest,
   DeleteSnapshotResponse,
   BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6520,9 +6500,8 @@ export const deleteSnapshot: (
  * Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior
  * to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
  */
-export const deleteStorageVirtualMachine: (
-  input: DeleteStorageVirtualMachineRequest,
-) => effect.Effect<
+export const deleteStorageVirtualMachine: API.OperationMethod<
+  DeleteStorageVirtualMachineRequest,
   DeleteStorageVirtualMachineResponse,
   | BadRequest
   | IncompatibleParameterError
@@ -6544,9 +6523,8 @@ export const deleteStorageVirtualMachine: (
  * Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS
  * volume.
  */
-export const deleteVolume: (
-  input: DeleteVolumeRequest,
-) => effect.Effect<
+export const deleteVolume: API.OperationMethod<
+  DeleteVolumeRequest,
   DeleteVolumeResponse,
   | BadRequest
   | IncompatibleParameterError
@@ -6593,19 +6571,17 @@ export const deleteVolume: (
  * `DescribeBackups` call and the order of the backups returned
  * across the responses of a multi-call iteration is unspecified.
  */
-export const describeBackups: {
-  (
-    input: DescribeBackupsRequest,
-  ): effect.Effect<
-    DescribeBackupsResponse,
-    | BackupNotFound
-    | BadRequest
-    | FileSystemNotFound
-    | InternalServerError
-    | VolumeNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeBackups: API.OperationMethod<
+  DescribeBackupsRequest,
+  DescribeBackupsResponse,
+  | BackupNotFound
+  | BadRequest
+  | FileSystemNotFound
+  | InternalServerError
+  | VolumeNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBackupsRequest,
   ) => stream.Stream<
@@ -6669,19 +6645,17 @@ export const describeBackups: {
  * request with the `NextToken` request parameter set to the value of
  * `NextToken` from the last response.
  */
-export const describeDataRepositoryAssociations: {
-  (
-    input: DescribeDataRepositoryAssociationsRequest,
-  ): effect.Effect<
-    DescribeDataRepositoryAssociationsResponse,
-    | BadRequest
-    | DataRepositoryAssociationNotFound
-    | FileSystemNotFound
-    | InternalServerError
-    | InvalidDataRepositoryType
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeDataRepositoryAssociations: API.OperationMethod<
+  DescribeDataRepositoryAssociationsRequest,
+  DescribeDataRepositoryAssociationsResponse,
+  | BadRequest
+  | DataRepositoryAssociationNotFound
+  | FileSystemNotFound
+  | InternalServerError
+  | InvalidDataRepositoryType
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataRepositoryAssociationsRequest,
   ) => stream.Stream<
@@ -6735,18 +6709,16 @@ export const describeDataRepositoryAssociations: {
  * request with the `NextToken` request parameter set to the value of
  * `NextToken` from the last response.
  */
-export const describeDataRepositoryTasks: {
-  (
-    input: DescribeDataRepositoryTasksRequest,
-  ): effect.Effect<
-    DescribeDataRepositoryTasksResponse,
-    | BadRequest
-    | DataRepositoryTaskNotFound
-    | FileSystemNotFound
-    | InternalServerError
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeDataRepositoryTasks: API.OperationMethod<
+  DescribeDataRepositoryTasksRequest,
+  DescribeDataRepositoryTasksResponse,
+  | BadRequest
+  | DataRepositoryTaskNotFound
+  | FileSystemNotFound
+  | InternalServerError
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataRepositoryTasksRequest,
   ) => stream.Stream<
@@ -6813,14 +6785,12 @@ export const describeDataRepositoryTasks: {
  * `DescribeFileCaches` call and the order of caches returned
  * across the responses of a multicall iteration is unspecified.
  */
-export const describeFileCaches: {
-  (
-    input: DescribeFileCachesRequest,
-  ): effect.Effect<
-    DescribeFileCachesResponse,
-    BadRequest | FileCacheNotFound | InternalServerError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFileCaches: API.OperationMethod<
+  DescribeFileCachesRequest,
+  DescribeFileCachesResponse,
+  BadRequest | FileCacheNotFound | InternalServerError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFileCachesRequest,
   ) => stream.Stream<
@@ -6850,14 +6820,12 @@ export const describeFileCaches: {
  * all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction
  * provided in the DescribeFileSystems operation response.
  */
-export const describeFileSystemAliases: {
-  (
-    input: DescribeFileSystemAliasesRequest,
-  ): effect.Effect<
-    DescribeFileSystemAliasesResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFileSystemAliases: API.OperationMethod<
+  DescribeFileSystemAliasesRequest,
+  DescribeFileSystemAliasesResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFileSystemAliasesRequest,
   ) => stream.Stream<
@@ -6911,14 +6879,12 @@ export const describeFileSystemAliases: {
  * `DescribeFileSystems` call and the order of file systems returned
  * across the responses of a multicall iteration is unspecified.
  */
-export const describeFileSystems: {
-  (
-    input: DescribeFileSystemsRequest,
-  ): effect.Effect<
-    DescribeFileSystemsResponse,
-    BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFileSystems: API.OperationMethod<
+  DescribeFileSystemsRequest,
+  DescribeFileSystemsResponse,
+  BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFileSystemsRequest,
   ) => stream.Stream<
@@ -6950,18 +6916,16 @@ export const describeFileSystems: {
  *
  * - `fsx:DescribeS3AccessPointAttachments`
  */
-export const describeS3AccessPointAttachments: {
-  (
-    input: DescribeS3AccessPointAttachmentsRequest,
-  ): effect.Effect<
-    DescribeS3AccessPointAttachmentsResponse,
-    | BadRequest
-    | InternalServerError
-    | S3AccessPointAttachmentNotFound
-    | UnsupportedOperation
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeS3AccessPointAttachments: API.OperationMethod<
+  DescribeS3AccessPointAttachmentsRequest,
+  DescribeS3AccessPointAttachmentsResponse,
+  | BadRequest
+  | InternalServerError
+  | S3AccessPointAttachmentNotFound
+  | UnsupportedOperation
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeS3AccessPointAttachmentsRequest,
   ) => stream.Stream<
@@ -7004,9 +6968,8 @@ export const describeS3AccessPointAttachments: {
  * Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual
  * private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
  */
-export const describeSharedVpcConfiguration: (
-  input: DescribeSharedVpcConfigurationRequest,
-) => effect.Effect<
+export const describeSharedVpcConfiguration: API.OperationMethod<
+  DescribeSharedVpcConfigurationRequest,
   DescribeSharedVpcConfigurationResponse,
   BadRequest | InternalServerError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7043,14 +7006,12 @@ export const describeSharedVpcConfiguration: (
  * `DescribeSnapshots` call and the order of backups returned across
  * the responses of a multi-call iteration is unspecified.
  */
-export const describeSnapshots: {
-  (
-    input: DescribeSnapshotsRequest,
-  ): effect.Effect<
-    DescribeSnapshotsResponse,
-    BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeSnapshots: API.OperationMethod<
+  DescribeSnapshotsRequest,
+  DescribeSnapshotsResponse,
+  BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
@@ -7079,17 +7040,15 @@ export const describeSnapshots: {
 /**
  * Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs).
  */
-export const describeStorageVirtualMachines: {
-  (
-    input: DescribeStorageVirtualMachinesRequest,
-  ): effect.Effect<
-    DescribeStorageVirtualMachinesResponse,
-    | BadRequest
-    | InternalServerError
-    | StorageVirtualMachineNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeStorageVirtualMachines: API.OperationMethod<
+  DescribeStorageVirtualMachinesRequest,
+  DescribeStorageVirtualMachinesResponse,
+  | BadRequest
+  | InternalServerError
+  | StorageVirtualMachineNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeStorageVirtualMachinesRequest,
   ) => stream.Stream<
@@ -7125,14 +7084,12 @@ export const describeStorageVirtualMachines: {
  * Describes one or more Amazon FSx for NetApp ONTAP or Amazon FSx for
  * OpenZFS volumes.
  */
-export const describeVolumes: {
-  (
-    input: DescribeVolumesRequest,
-  ): effect.Effect<
-    DescribeVolumesResponse,
-    BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeVolumes: API.OperationMethod<
+  DescribeVolumesRequest,
+  DescribeVolumesResponse,
+  BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVolumesRequest,
   ) => stream.Stream<
@@ -7167,9 +7124,8 @@ export const describeVolumes: {
  *
  * - `s3:DeleteAccessPoint`
  */
-export const detachAndDeleteS3AccessPoint: (
-  input: DetachAndDeleteS3AccessPointRequest,
-) => effect.Effect<
+export const detachAndDeleteS3AccessPoint: API.OperationMethod<
+  DetachAndDeleteS3AccessPointRequest,
   DetachAndDeleteS3AccessPointResponse,
   | BadRequest
   | IncompatibleParameterError
@@ -7201,9 +7157,8 @@ export const detachAndDeleteS3AccessPoint: (
  * operation to monitor the status of the aliases Amazon FSx is
  * disassociating with the file system.
  */
-export const disassociateFileSystemAliases: (
-  input: DisassociateFileSystemAliasesRequest,
-) => effect.Effect<
+export const disassociateFileSystemAliases: API.OperationMethod<
+  DisassociateFileSystemAliasesRequest,
   DisassociateFileSystemAliasesResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7237,19 +7192,17 @@ export const disassociateFileSystemAliases: (
  * `ListTagsForResource` call and the order of tags returned across
  * the responses of a multi-call iteration is unspecified.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | BadRequest
-    | InternalServerError
-    | NotServiceResourceError
-    | ResourceDoesNotSupportTagging
-    | ResourceNotFound
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | BadRequest
+  | InternalServerError
+  | NotServiceResourceError
+  | ResourceDoesNotSupportTagging
+  | ResourceNotFound
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -7294,9 +7247,8 @@ export const listTagsForResource: {
  * Releases the file system lock from an Amazon FSx for OpenZFS file
  * system.
  */
-export const releaseFileSystemNfsV3Locks: (
-  input: ReleaseFileSystemNfsV3LocksRequest,
-) => effect.Effect<
+export const releaseFileSystemNfsV3Locks: API.OperationMethod<
+  ReleaseFileSystemNfsV3LocksRequest,
   ReleaseFileSystemNfsV3LocksResponse,
   | BadRequest
   | FileSystemNotFound
@@ -7320,9 +7272,8 @@ export const releaseFileSystemNfsV3Locks: (
  * Returns an Amazon FSx for OpenZFS volume to the state saved by the specified
  * snapshot.
  */
-export const restoreVolumeFromSnapshot: (
-  input: RestoreVolumeFromSnapshotRequest,
-) => effect.Effect<
+export const restoreVolumeFromSnapshot: API.OperationMethod<
+  RestoreVolumeFromSnapshotRequest,
   RestoreVolumeFromSnapshotResponse,
   BadRequest | InternalServerError | VolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7335,9 +7286,8 @@ export const restoreVolumeFromSnapshot: (
  * After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to
  * initiate the process of Amazon FSx attempting to reconnect to the file system.
  */
-export const startMisconfiguredStateRecovery: (
-  input: StartMisconfiguredStateRecoveryRequest,
-) => effect.Effect<
+export const startMisconfiguredStateRecovery: API.OperationMethod<
+  StartMisconfiguredStateRecoveryRequest,
   StartMisconfiguredStateRecoveryResponse,
   BadRequest | FileSystemNotFound | InternalServerError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7349,9 +7299,8 @@ export const startMisconfiguredStateRecovery: (
 /**
  * Tags an Amazon FSx resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequest
   | InternalServerError
@@ -7374,9 +7323,8 @@ export const tagResource: (
 /**
  * This action removes a tag from an Amazon FSx resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequest
   | InternalServerError
@@ -7402,9 +7350,8 @@ export const untagResource: (
  * are supported on all FSx for Lustre 2.12 and 2.15 file systems,
  * excluding `scratch_1` deployment type.
  */
-export const updateDataRepositoryAssociation: (
-  input: UpdateDataRepositoryAssociationRequest,
-) => effect.Effect<
+export const updateDataRepositoryAssociation: API.OperationMethod<
+  UpdateDataRepositoryAssociationRequest,
   UpdateDataRepositoryAssociationResponse,
   | BadRequest
   | DataRepositoryAssociationNotFound
@@ -7428,9 +7375,8 @@ export const updateDataRepositoryAssociation: (
  * Updates the configuration of an existing Amazon File Cache resource.
  * You can update multiple properties in a single request.
  */
-export const updateFileCache: (
-  input: UpdateFileCacheRequest,
-) => effect.Effect<
+export const updateFileCache: API.OperationMethod<
+  UpdateFileCacheRequest,
   UpdateFileCacheResponse,
   | BadRequest
   | FileCacheNotFound
@@ -7562,9 +7508,8 @@ export const updateFileCache: (
  *
  * - `WeeklyMaintenanceStartTime`
  */
-export const updateFileSystem: (
-  input: UpdateFileSystemRequest,
-) => effect.Effect<
+export const updateFileSystem: API.OperationMethod<
+  UpdateFileSystemRequest,
   UpdateFileSystemResponse,
   | BadRequest
   | FileSystemNotFound
@@ -7601,9 +7546,8 @@ export const updateFileSystem: (
  * file systems. For more information, see Important considerations before disabling shared VPC support for Multi-AZ file
  * systems.
  */
-export const updateSharedVpcConfiguration: (
-  input: UpdateSharedVpcConfigurationRequest,
-) => effect.Effect<
+export const updateSharedVpcConfiguration: API.OperationMethod<
+  UpdateSharedVpcConfigurationRequest,
   UpdateSharedVpcConfigurationResponse,
   BadRequest | IncompatibleParameterError | InternalServerError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7615,9 +7559,8 @@ export const updateSharedVpcConfiguration: (
 /**
  * Updates the name of an Amazon FSx for OpenZFS snapshot.
  */
-export const updateSnapshot: (
-  input: UpdateSnapshotRequest,
-) => effect.Effect<
+export const updateSnapshot: API.OperationMethod<
+  UpdateSnapshotRequest,
   UpdateSnapshotResponse,
   BadRequest | InternalServerError | SnapshotNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7629,9 +7572,8 @@ export const updateSnapshot: (
 /**
  * Updates an FSx for ONTAP storage virtual machine (SVM).
  */
-export const updateStorageVirtualMachine: (
-  input: UpdateStorageVirtualMachineRequest,
-) => effect.Effect<
+export const updateStorageVirtualMachine: API.OperationMethod<
+  UpdateStorageVirtualMachineRequest,
   UpdateStorageVirtualMachineResponse,
   | BadRequest
   | IncompatibleParameterError
@@ -7654,9 +7596,8 @@ export const updateStorageVirtualMachine: (
 /**
  * Updates the configuration of an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
  */
-export const updateVolume: (
-  input: UpdateVolumeRequest,
-) => effect.Effect<
+export const updateVolume: API.OperationMethod<
+  UpdateVolumeRequest,
   UpdateVolumeResponse,
   | BadRequest
   | IncompatibleParameterError

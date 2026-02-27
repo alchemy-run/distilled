@@ -127,9 +127,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Retrieves the revocation status for a signed artifact by checking if the signing profile, job, or certificate has been revoked.
  */
-export const getRevocationStatus: (
-  input: GetRevocationStatusRequest,
-) => effect.Effect<
+export const getRevocationStatus: API.OperationMethod<
+  GetRevocationStatusRequest,
   GetRevocationStatusResponse,
   | AccessDeniedException
   | InternalServiceErrorException

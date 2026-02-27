@@ -1297,17 +1297,15 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * objects that contain analysis results for all profiling groups in your AWS account.
  */
-export const getFindingsReportAccountSummary: {
-  (
-    input: GetFindingsReportAccountSummaryRequest,
-  ): effect.Effect<
-    GetFindingsReportAccountSummaryResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindingsReportAccountSummary: API.OperationMethod<
+  GetFindingsReportAccountSummaryRequest,
+  GetFindingsReportAccountSummaryResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingsReportAccountSummaryRequest,
   ) => stream.Stream<
@@ -1341,9 +1339,8 @@ export const getFindingsReportAccountSummary: {
 /**
  * Returns a list of the tags that are assigned to a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1362,9 +1359,8 @@ export const listTagsForResource: (
 /**
  * Use to assign one or more tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1383,9 +1379,8 @@ export const tagResource: (
 /**
  * Use to remove one or more tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1404,9 +1399,8 @@ export const untagResource: (
 /**
  * Creates a profiling group.
  */
-export const createProfilingGroup: (
-  input: CreateProfilingGroupRequest,
-) => effect.Effect<
+export const createProfilingGroup: API.OperationMethod<
+  CreateProfilingGroupRequest,
   CreateProfilingGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1432,9 +1426,8 @@ export const createProfilingGroup: (
  *
  * object that contains information about the requested profiling group.
  */
-export const describeProfilingGroup: (
-  input: DescribeProfilingGroupRequest,
-) => effect.Effect<
+export const describeProfilingGroup: API.OperationMethod<
+  DescribeProfilingGroupRequest,
   DescribeProfilingGroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1455,9 +1448,8 @@ export const describeProfilingGroup: (
 /**
  * Updates a profiling group.
  */
-export const updateProfilingGroup: (
-  input: UpdateProfilingGroupRequest,
-) => effect.Effect<
+export const updateProfilingGroup: API.OperationMethod<
+  UpdateProfilingGroupRequest,
   UpdateProfilingGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1480,9 +1472,8 @@ export const updateProfilingGroup: (
 /**
  * Deletes a profiling group.
  */
-export const deleteProfilingGroup: (
-  input: DeleteProfilingGroupRequest,
-) => effect.Effect<
+export const deleteProfilingGroup: API.OperationMethod<
+  DeleteProfilingGroupRequest,
   DeleteProfilingGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1509,14 +1500,12 @@ export const deleteProfilingGroup: (
  *
  * objects.
  */
-export const listProfilingGroups: {
-  (
-    input: ListProfilingGroupsRequest,
-  ): effect.Effect<
-    ListProfilingGroupsResponse,
-    InternalServerException | ThrottlingException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfilingGroups: API.OperationMethod<
+  ListProfilingGroupsRequest,
+  ListProfilingGroupsResponse,
+  InternalServerException | ThrottlingException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfilingGroupsRequest,
   ) => stream.Stream<
@@ -1544,9 +1533,8 @@ export const listProfilingGroups: {
 /**
  * Add up to 2 anomaly notifications channels for a profiling group.
  */
-export const addNotificationChannels: (
-  input: AddNotificationChannelsRequest,
-) => effect.Effect<
+export const addNotificationChannels: API.OperationMethod<
+  AddNotificationChannelsRequest,
   AddNotificationChannelsResponse,
   | ConflictException
   | InternalServerException
@@ -1572,9 +1560,8 @@ export const addNotificationChannels: (
  * Returns the time series of values for a requested list
  * of frame metrics from a time period.
  */
-export const batchGetFrameMetricData: (
-  input: BatchGetFrameMetricDataRequest,
-) => effect.Effect<
+export const batchGetFrameMetricData: API.OperationMethod<
+  BatchGetFrameMetricDataRequest,
   BatchGetFrameMetricDataResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1597,9 +1584,8 @@ export const batchGetFrameMetricData: (
  * configuration updates. For example, `ConfigureAgent` can be used
  * to tell an agent whether to profile or not and for how long to return profiling data.
  */
-export const configureAgent: (
-  input: ConfigureAgentRequest,
-) => effect.Effect<
+export const configureAgent: API.OperationMethod<
+  ConfigureAgentRequest,
   ConfigureAgentResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1620,9 +1606,8 @@ export const configureAgent: (
 /**
  * Get the current configuration for anomaly notifications for a profiling group.
  */
-export const getNotificationConfiguration: (
-  input: GetNotificationConfigurationRequest,
-) => effect.Effect<
+export const getNotificationConfiguration: API.OperationMethod<
+  GetNotificationConfigurationRequest,
   GetNotificationConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1643,9 +1628,8 @@ export const getNotificationConfiguration: (
 /**
  * Returns the JSON-formatted resource-based policy on a profiling group.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1703,9 +1687,8 @@ export const getPolicy: (
  * requested time range is from 00:00 to 00:20, and the existing aggregated profiles are
  * from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned.
  */
-export const getProfile: (
-  input: GetProfileRequest,
-) => effect.Effect<
+export const getProfile: API.OperationMethod<
+  GetProfileRequest,
   GetProfileResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1735,9 +1718,8 @@ export const getProfile: (
  * objects that contains details about anomalies detected in the profiling group for the same time period is also
  * returned.
  */
-export const getRecommendations: (
-  input: GetRecommendationsRequest,
-) => effect.Effect<
+export const getRecommendations: API.OperationMethod<
+  GetRecommendationsRequest,
   GetRecommendationsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1758,18 +1740,16 @@ export const getRecommendations: (
 /**
  * List the available reports for a given profiling group and time range.
  */
-export const listFindingsReports: {
-  (
-    input: ListFindingsReportsRequest,
-  ): effect.Effect<
-    ListFindingsReportsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindingsReports: API.OperationMethod<
+  ListFindingsReportsRequest,
+  ListFindingsReportsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsReportsRequest,
   ) => stream.Stream<
@@ -1811,18 +1791,16 @@ export const listFindingsReports: {
  * Lists the start times of the available aggregated profiles of a profiling group
  * for an aggregation period within the specified time range.
  */
-export const listProfileTimes: {
-  (
-    input: ListProfileTimesRequest,
-  ): effect.Effect<
-    ListProfileTimesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfileTimes: API.OperationMethod<
+  ListProfileTimesRequest,
+  ListProfileTimesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfileTimesRequest,
   ) => stream.Stream<
@@ -1868,9 +1846,8 @@ export const listProfileTimes: {
  * `GetProfile`
  * .
  */
-export const postAgentProfile: (
-  input: PostAgentProfileRequest,
-) => effect.Effect<
+export const postAgentProfile: API.OperationMethod<
+  PostAgentProfileRequest,
   PostAgentProfileResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1910,9 +1887,8 @@ export const postAgentProfile: (
  *
  * The response contains the profiling group's JSON-formatted resource policy.
  */
-export const putPermission: (
-  input: PutPermissionRequest,
-) => effect.Effect<
+export const putPermission: API.OperationMethod<
+  PutPermissionRequest,
   PutPermissionResponse,
   | ConflictException
   | InternalServerException
@@ -1935,9 +1911,8 @@ export const putPermission: (
 /**
  * Remove one anomaly notifications channel for a profiling group.
  */
-export const removeNotificationChannel: (
-  input: RemoveNotificationChannelRequest,
-) => effect.Effect<
+export const removeNotificationChannel: API.OperationMethod<
+  RemoveNotificationChannelRequest,
   RemoveNotificationChannelResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1966,9 +1941,8 @@ export const removeNotificationChannel: (
  * `PostAgentProfile`
  * .
  */
-export const removePermission: (
-  input: RemovePermissionRequest,
-) => effect.Effect<
+export const removePermission: API.OperationMethod<
+  RemovePermissionRequest,
   RemovePermissionResponse,
   | ConflictException
   | InternalServerException
@@ -1992,9 +1966,8 @@ export const removePermission: (
  * Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is
  * useful or not.
  */
-export const submitFeedback: (
-  input: SubmitFeedbackRequest,
-) => effect.Effect<
+export const submitFeedback: API.OperationMethod<
+  SubmitFeedbackRequest,
   SubmitFeedbackResponse,
   | InternalServerException
   | ResourceNotFoundException

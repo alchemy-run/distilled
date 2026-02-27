@@ -1051,9 +1051,8 @@ export class TextSizeLimitExceededException extends S.TaggedErrorClass<TextSizeL
  * translated. By adding parallel data, you can influence the style, tone, and word choice in
  * your translation output.
  */
-export const createParallelData: (
-  input: CreateParallelDataRequest,
-) => effect.Effect<
+export const createParallelData: API.OperationMethod<
+  CreateParallelDataRequest,
   CreateParallelDataResponse,
   | ConcurrentModificationException
   | ConflictException
@@ -1082,9 +1081,8 @@ export const createParallelData: (
 /**
  * Deletes a parallel data resource in Amazon Translate.
  */
-export const deleteParallelData: (
-  input: DeleteParallelDataRequest,
-) => effect.Effect<
+export const deleteParallelData: API.OperationMethod<
+  DeleteParallelDataRequest,
   DeleteParallelDataResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -1105,9 +1103,8 @@ export const deleteParallelData: (
 /**
  * A synchronous action that deletes a custom terminology.
  */
-export const deleteTerminology: (
-  input: DeleteTerminologyRequest,
-) => effect.Effect<
+export const deleteTerminology: API.OperationMethod<
+  DeleteTerminologyRequest,
   DeleteTerminologyResponse,
   | InternalServerException
   | InvalidParameterValueException
@@ -1129,9 +1126,8 @@ export const deleteTerminology: (
  * Gets the properties associated with an asynchronous batch translation job including name,
  * ID, status, source and target languages, input/output S3 buckets, and so on.
  */
-export const describeTextTranslationJob: (
-  input: DescribeTextTranslationJobRequest,
-) => effect.Effect<
+export const describeTextTranslationJob: API.OperationMethod<
+  DescribeTextTranslationJobRequest,
   DescribeTextTranslationJobResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1150,9 +1146,8 @@ export const describeTextTranslationJob: (
 /**
  * Provides information about a parallel data resource.
  */
-export const getParallelData: (
-  input: GetParallelDataRequest,
-) => effect.Effect<
+export const getParallelData: API.OperationMethod<
+  GetParallelDataRequest,
   GetParallelDataResponse,
   | InternalServerException
   | InvalidParameterValueException
@@ -1173,9 +1168,8 @@ export const getParallelData: (
 /**
  * Retrieves a custom terminology.
  */
-export const getTerminology: (
-  input: GetTerminologyRequest,
-) => effect.Effect<
+export const getTerminology: API.OperationMethod<
+  GetTerminologyRequest,
   GetTerminologyResponse,
   | InternalServerException
   | InvalidParameterValueException
@@ -1204,9 +1198,8 @@ export const getTerminology: (
  * to 10 minutes to fully propagate. After that, translations have access to the new
  * terminology.
  */
-export const importTerminology: (
-  input: ImportTerminologyRequest,
-) => effect.Effect<
+export const importTerminology: API.OperationMethod<
+  ImportTerminologyRequest,
   ImportTerminologyResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -1231,18 +1224,16 @@ export const importTerminology: (
 /**
  * Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
  */
-export const listLanguages: {
-  (
-    input: ListLanguagesRequest,
-  ): effect.Effect<
-    ListLanguagesResponse,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | UnsupportedDisplayLanguageCodeException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLanguages: API.OperationMethod<
+  ListLanguagesRequest,
+  ListLanguagesResponse,
+  | InternalServerException
+  | InvalidParameterValueException
+  | TooManyRequestsException
+  | UnsupportedDisplayLanguageCodeException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLanguagesRequest,
   ) => stream.Stream<
@@ -1283,17 +1274,15 @@ export const listLanguages: {
 /**
  * Provides a list of your parallel data resources in Amazon Translate.
  */
-export const listParallelData: {
-  (
-    input: ListParallelDataRequest,
-  ): effect.Effect<
-    ListParallelDataResponse,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listParallelData: API.OperationMethod<
+  ListParallelDataRequest,
+  ListParallelDataResponse,
+  | InternalServerException
+  | InvalidParameterValueException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListParallelDataRequest,
   ) => stream.Stream<
@@ -1333,9 +1322,8 @@ export const listParallelData: {
  * For more information, see
  * Tagging your resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidParameterValueException
@@ -1354,17 +1342,15 @@ export const listTagsForResource: (
 /**
  * Provides a list of custom terminologies associated with your account.
  */
-export const listTerminologies: {
-  (
-    input: ListTerminologiesRequest,
-  ): effect.Effect<
-    ListTerminologiesResponse,
-    | InternalServerException
-    | InvalidParameterValueException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTerminologies: API.OperationMethod<
+  ListTerminologiesRequest,
+  ListTerminologiesResponse,
+  | InternalServerException
+  | InvalidParameterValueException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTerminologiesRequest,
   ) => stream.Stream<
@@ -1402,18 +1388,16 @@ export const listTerminologies: {
 /**
  * Gets a list of the batch translation jobs that you have submitted.
  */
-export const listTextTranslationJobs: {
-  (
-    input: ListTextTranslationJobsRequest,
-  ): effect.Effect<
-    ListTextTranslationJobsResponse,
-    | InternalServerException
-    | InvalidFilterException
-    | InvalidRequestException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTextTranslationJobs: API.OperationMethod<
+  ListTextTranslationJobsRequest,
+  ListTextTranslationJobsResponse,
+  | InternalServerException
+  | InvalidFilterException
+  | InvalidRequestException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTextTranslationJobsRequest,
   ) => stream.Stream<
@@ -1462,9 +1446,8 @@ export const listTextTranslationJobs: {
  *
  * Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.
  */
-export const startTextTranslationJob: (
-  input: StartTextTranslationJobRequest,
-) => effect.Effect<
+export const startTextTranslationJob: API.OperationMethod<
+  StartTextTranslationJobRequest,
   StartTextTranslationJobResponse,
   | InternalServerException
   | InvalidParameterValueException
@@ -1497,9 +1480,8 @@ export const startTextTranslationJob: (
  * Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs
  * operations to get a batch translation job's `JobId`.
  */
-export const stopTextTranslationJob: (
-  input: StopTextTranslationJobRequest,
-) => effect.Effect<
+export const stopTextTranslationJob: API.OperationMethod<
+  StopTextTranslationJobRequest,
   StopTextTranslationJobResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1521,9 +1503,8 @@ export const stopTextTranslationJob: (
  * For more information, see
  * Tagging your resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -1555,9 +1536,8 @@ export const tagResource: (
  * not support formality. For a list of target languages that support formality, see
  * Setting formality.
  */
-export const translateDocument: (
-  input: TranslateDocumentRequest,
-) => effect.Effect<
+export const translateDocument: API.OperationMethod<
+  TranslateDocumentRequest,
   TranslateDocumentResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1585,9 +1565,8 @@ export const translateDocument: (
  * Translates input text from the source language to the target language. For a list of
  * available languages and language codes, see Supported languages.
  */
-export const translateText: (
-  input: TranslateTextRequest,
-) => effect.Effect<
+export const translateText: API.OperationMethod<
+  TranslateTextRequest,
   TranslateTextResponse,
   | DetectedLanguageLowConfidenceException
   | InternalServerException
@@ -1618,9 +1597,8 @@ export const translateText: (
  * For more information, see
  * Tagging your resources.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConcurrentModificationException
   | InternalServerException
@@ -1642,9 +1620,8 @@ export const untagResource: (
  * Updates a previously created parallel data resource by importing a new input file from
  * Amazon S3.
  */
-export const updateParallelData: (
-  input: UpdateParallelDataRequest,
-) => effect.Effect<
+export const updateParallelData: API.OperationMethod<
+  UpdateParallelDataRequest,
   UpdateParallelDataResponse,
   | ConcurrentModificationException
   | ConflictException

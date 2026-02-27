@@ -4118,9 +4118,8 @@ export class ConflictingTypes extends S.TaggedErrorClass<ConflictingTypes>()(
  * Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This
  * operation changes the KSK status to `ACTIVE`.
  */
-export const activateKeySigningKey: (
-  input: ActivateKeySigningKeyRequest,
-) => effect.Effect<
+export const activateKeySigningKey: API.OperationMethod<
+  ActivateKeySigningKeyRequest,
   ActivateKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -4169,9 +4168,8 @@ export const activateKeySigningKey: (
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const associateVPCWithHostedZone: (
-  input: AssociateVPCWithHostedZoneRequest,
-) => effect.Effect<
+export const associateVPCWithHostedZone: API.OperationMethod<
+  AssociateVPCWithHostedZoneRequest,
   AssociateVPCWithHostedZoneResponse,
   | ConflictingDomainExists
   | InvalidInput
@@ -4219,9 +4217,8 @@ export const associateVPCWithHostedZone: (
  * - ` DELETE_IF_EXISTS`: Delete an existing CIDR block from the
  * collection.
  */
-export const changeCidrCollection: (
-  input: ChangeCidrCollectionRequest,
-) => effect.Effect<
+export const changeCidrCollection: API.OperationMethod<
+  ChangeCidrCollectionRequest,
   ChangeCidrCollectionResponse,
   | CidrBlockInUseException
   | CidrCollectionVersionMismatchException
@@ -4329,9 +4326,8 @@ export const changeCidrCollection: (
  * For information about the limits on a `ChangeResourceRecordSets` request,
  * see Limits in the *Amazon Route 53 Developer Guide*.
  */
-export const changeResourceRecordSets: (
-  input: ChangeResourceRecordSetsRequest,
-) => effect.Effect<
+export const changeResourceRecordSets: API.OperationMethod<
+  ChangeResourceRecordSetsRequest,
   ChangeResourceRecordSetsResponse,
   | InvalidChangeBatch
   | InvalidInput
@@ -4357,9 +4353,8 @@ export const changeResourceRecordSets: (
  * For information about using tags for cost allocation, see Using Cost Allocation
  * Tags in the *Billing and Cost Management User Guide*.
  */
-export const changeTagsForResource: (
-  input: ChangeTagsForResourceRequest,
-) => effect.Effect<
+export const changeTagsForResource: API.OperationMethod<
+  ChangeTagsForResourceRequest,
   ChangeTagsForResourceResponse,
   | InvalidInput
   | NoSuchHealthCheck
@@ -4382,9 +4377,8 @@ export const changeTagsForResource: (
 /**
  * Creates a CIDR collection in the current Amazon Web Services account.
  */
-export const createCidrCollection: (
-  input: CreateCidrCollectionRequest,
-) => effect.Effect<
+export const createCidrCollection: API.OperationMethod<
+  CreateCidrCollectionRequest,
   CreateCidrCollectionResponse,
   | CidrCollectionAlreadyExistsException
   | ConcurrentModification
@@ -4435,9 +4429,8 @@ export const createCidrCollection: (
  * see the Amazon
  * CloudWatch User Guide.
  */
-export const createHealthCheck: (
-  input: CreateHealthCheckRequest,
-) => effect.Effect<
+export const createHealthCheck: API.OperationMethod<
+  CreateHealthCheckRequest,
   CreateHealthCheckResponse,
   HealthCheckAlreadyExists | InvalidInput | TooManyHealthChecks | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4503,9 +4496,8 @@ export const createHealthCheck: (
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const createHostedZone: (
-  input: CreateHostedZoneRequest,
-) => effect.Effect<
+export const createHostedZone: API.OperationMethod<
+  CreateHostedZoneRequest,
   CreateHostedZoneResponse,
   | ConflictingDomainExists
   | DelegationSetNotAvailable
@@ -4537,9 +4529,8 @@ export const createHostedZone: (
  * Creates a new key-signing key (KSK) associated with a hosted zone. You can only have
  * two KSKs per hosted zone.
  */
-export const createKeySigningKey: (
-  input: CreateKeySigningKeyRequest,
-) => effect.Effect<
+export const createKeySigningKey: API.OperationMethod<
+  CreateKeySigningKeyRequest,
   CreateKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidArgument
@@ -4712,9 +4703,8 @@ export const createKeySigningKey: (
  * If you want Route 53 to stop sending query logs to CloudWatch Logs, delete
  * the query logging configuration. For more information, see DeleteQueryLoggingConfig.
  */
-export const createQueryLoggingConfig: (
-  input: CreateQueryLoggingConfigRequest,
-) => effect.Effect<
+export const createQueryLoggingConfig: API.OperationMethod<
+  CreateQueryLoggingConfigRequest,
   CreateQueryLoggingConfigResponse,
   | ConcurrentModification
   | InsufficientCloudWatchLogsResourcePolicy
@@ -4786,9 +4776,8 @@ export const createQueryLoggingConfig: (
  * servers, then migrate the hosted zones again to use the reusable delegation
  * set.
  */
-export const createReusableDelegationSet: (
-  input: CreateReusableDelegationSetRequest,
-) => effect.Effect<
+export const createReusableDelegationSet: API.OperationMethod<
+  CreateReusableDelegationSetRequest,
   CreateReusableDelegationSetResponse,
   | DelegationSetAlreadyCreated
   | DelegationSetAlreadyReusable
@@ -4817,9 +4806,8 @@ export const createReusableDelegationSet: (
  * for one domain name (such as example.com) or one subdomain name (such as
  * www.example.com).
  */
-export const createTrafficPolicy: (
-  input: CreateTrafficPolicyRequest,
-) => effect.Effect<
+export const createTrafficPolicy: API.OperationMethod<
+  CreateTrafficPolicyRequest,
   CreateTrafficPolicyResponse,
   | InvalidInput
   | InvalidTrafficPolicyDocument
@@ -4852,9 +4840,8 @@ export const createTrafficPolicy: (
  * request completed successfully. For more information, see the
  * `State` response element.
  */
-export const createTrafficPolicyInstance: (
-  input: CreateTrafficPolicyInstanceRequest,
-) => effect.Effect<
+export const createTrafficPolicyInstance: API.OperationMethod<
+  CreateTrafficPolicyInstanceRequest,
   CreateTrafficPolicyInstanceResponse,
   | InvalidInput
   | NoSuchHostedZone
@@ -4883,9 +4870,8 @@ export const createTrafficPolicyInstance: (
  * of a traffic policy. If you reach the limit and need to create another version, you'll
  * need to start a new traffic policy.
  */
-export const createTrafficPolicyVersion: (
-  input: CreateTrafficPolicyVersionRequest,
-) => effect.Effect<
+export const createTrafficPolicyVersion: API.OperationMethod<
+  CreateTrafficPolicyVersionRequest,
   CreateTrafficPolicyVersionResponse,
   | ConcurrentModification
   | InvalidInput
@@ -4917,9 +4903,8 @@ export const createTrafficPolicyVersion: (
  * a hosted zone that you created by using a different account, you must submit one
  * authorization request for each VPC.
  */
-export const createVPCAssociationAuthorization: (
-  input: CreateVPCAssociationAuthorizationRequest,
-) => effect.Effect<
+export const createVPCAssociationAuthorization: API.OperationMethod<
+  CreateVPCAssociationAuthorizationRequest,
   CreateVPCAssociationAuthorizationResponse,
   | ConcurrentModification
   | InvalidInput
@@ -4943,9 +4928,8 @@ export const createVPCAssociationAuthorization: (
  * Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
  * This operation changes the KSK status to `INACTIVE`.
  */
-export const deactivateKeySigningKey: (
-  input: DeactivateKeySigningKeyRequest,
-) => effect.Effect<
+export const deactivateKeySigningKey: API.OperationMethod<
+  DeactivateKeySigningKeyRequest,
   DeactivateKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -4973,9 +4957,8 @@ export const deactivateKeySigningKey: (
  * Deletes a CIDR collection in the current Amazon Web Services account. The collection
  * must be empty before it can be deleted.
  */
-export const deleteCidrCollection: (
-  input: DeleteCidrCollectionRequest,
-) => effect.Effect<
+export const deleteCidrCollection: API.OperationMethod<
+  DeleteCidrCollectionRequest,
   DeleteCidrCollectionResponse,
   | CidrCollectionInUseException
   | ConcurrentModification
@@ -5010,9 +4993,8 @@ export const deleteCidrCollection: (
  * is deleted automatically when you deregister the instance; there can be a delay of
  * several hours before the health check is deleted from Route 53.
  */
-export const deleteHealthCheck: (
-  input: DeleteHealthCheckRequest,
-) => effect.Effect<
+export const deleteHealthCheck: API.OperationMethod<
+  DeleteHealthCheckRequest,
   DeleteHealthCheckResponse,
   HealthCheckInUse | InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5065,9 +5047,8 @@ export const deleteHealthCheck: (
  * - Use the `ListHostedZones` action to get a list of the hosted zones
  * associated with the current Amazon Web Services account.
  */
-export const deleteHostedZone: (
-  input: DeleteHostedZoneRequest,
-) => effect.Effect<
+export const deleteHostedZone: API.OperationMethod<
+  DeleteHostedZoneRequest,
   DeleteHostedZoneResponse,
   | HostedZoneNotEmpty
   | InvalidDomainName
@@ -5097,9 +5078,8 @@ export const deleteHostedZone: (
  * Use GetDNSSEC to verify that the KSK is in an `INACTIVE`
  * status.
  */
-export const deleteKeySigningKey: (
-  input: DeleteKeySigningKeyRequest,
-) => effect.Effect<
+export const deleteKeySigningKey: API.OperationMethod<
+  DeleteKeySigningKeyRequest,
   DeleteKeySigningKeyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5128,9 +5108,8 @@ export const deleteKeySigningKey: (
  *
  * For more information about DNS query logs, see CreateQueryLoggingConfig.
  */
-export const deleteQueryLoggingConfig: (
-  input: DeleteQueryLoggingConfigRequest,
-) => effect.Effect<
+export const deleteQueryLoggingConfig: API.OperationMethod<
+  DeleteQueryLoggingConfigRequest,
   DeleteQueryLoggingConfigResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5152,9 +5131,8 @@ export const deleteQueryLoggingConfig: (
  * submit a GetReusableDelegationSet request and specify the ID of the reusable
  * delegation set that you want to delete.
  */
-export const deleteReusableDelegationSet: (
-  input: DeleteReusableDelegationSetRequest,
-) => effect.Effect<
+export const deleteReusableDelegationSet: API.OperationMethod<
+  DeleteReusableDelegationSetRequest,
   DeleteReusableDelegationSetResponse,
   | DelegationSetInUse
   | DelegationSetNotReusable
@@ -5186,9 +5164,8 @@ export const deleteReusableDelegationSet: (
  * - If you retain the ID of the policy, you can get information about the policy,
  * including the traffic policy document, by running GetTrafficPolicy.
  */
-export const deleteTrafficPolicy: (
-  input: DeleteTrafficPolicyRequest,
-) => effect.Effect<
+export const deleteTrafficPolicy: API.OperationMethod<
+  DeleteTrafficPolicyRequest,
   DeleteTrafficPolicyResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5213,9 +5190,8 @@ export const deleteTrafficPolicy: (
  * In the Route 53 console, traffic policy instances are known as policy
  * records.
  */
-export const deleteTrafficPolicyInstance: (
-  input: DeleteTrafficPolicyInstanceRequest,
-) => effect.Effect<
+export const deleteTrafficPolicyInstance: API.OperationMethod<
+  DeleteTrafficPolicyInstanceRequest,
   DeleteTrafficPolicyInstanceResponse,
   | InvalidInput
   | NoSuchTrafficPolicyInstance
@@ -5240,9 +5216,8 @@ export const deleteTrafficPolicyInstance: (
  * the hosted zone. If you want to delete an existing association, use
  * `DisassociateVPCFromHostedZone`.
  */
-export const deleteVPCAssociationAuthorization: (
-  input: DeleteVPCAssociationAuthorizationRequest,
-) => effect.Effect<
+export const deleteVPCAssociationAuthorization: API.OperationMethod<
+  DeleteVPCAssociationAuthorizationRequest,
   DeleteVPCAssociationAuthorizationResponse,
   | ConcurrentModification
   | InvalidInput
@@ -5266,9 +5241,8 @@ export const deleteVPCAssociationAuthorization: (
  * Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
  * key-signing keys (KSKs) that are active in the hosted zone.
  */
-export const disableHostedZoneDNSSEC: (
-  input: DisableHostedZoneDNSSECRequest,
-) => effect.Effect<
+export const disableHostedZoneDNSSEC: API.OperationMethod<
+  DisableHostedZoneDNSSECRequest,
   DisableHostedZoneDNSSECResponse,
   | ConcurrentModification
   | DNSSECNotFound
@@ -5333,9 +5307,8 @@ export const disableHostedZoneDNSSEC: (
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const disassociateVPCFromHostedZone: (
-  input: DisassociateVPCFromHostedZoneRequest,
-) => effect.Effect<
+export const disassociateVPCFromHostedZone: API.OperationMethod<
+  DisassociateVPCFromHostedZoneRequest,
   DisassociateVPCFromHostedZoneResponse,
   | InvalidInput
   | InvalidVPCId
@@ -5358,9 +5331,8 @@ export const disassociateVPCFromHostedZone: (
 /**
  * Enables DNSSEC signing in a specific hosted zone.
  */
-export const enableHostedZoneDNSSEC: (
-  input: EnableHostedZoneDNSSECRequest,
-) => effect.Effect<
+export const enableHostedZoneDNSSEC: API.OperationMethod<
+  EnableHostedZoneDNSSECRequest,
   EnableHostedZoneDNSSECResponse,
   | ConcurrentModification
   | DNSSECNotFound
@@ -5399,9 +5371,8 @@ export const enableHostedZoneDNSSEC: (
  * You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to
  * the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose **Service limits** in the navigation pane.
  */
-export const getAccountLimit: (
-  input: GetAccountLimitRequest,
-) => effect.Effect<
+export const getAccountLimit: API.OperationMethod<
+  GetAccountLimitRequest,
   GetAccountLimitResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5421,9 +5392,8 @@ export const getAccountLimit: (
  * - `INSYNC` indicates that the changes have propagated to all Route 53
  * DNS servers managing the hosted zone.
  */
-export const getChange: (
-  input: GetChangeRequest,
-) => effect.Effect<
+export const getChange: API.OperationMethod<
+  GetChangeRequest,
   GetChangeResponse,
   InvalidInput | NoSuchChange | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5442,9 +5412,8 @@ export const getChange: (
  * of Amazon Route 53 Servers in the Amazon Route 53 Developer
  * Guide.
  */
-export const getCheckerIpRanges: (
-  input: GetCheckerIpRangesRequest,
-) => effect.Effect<
+export const getCheckerIpRanges: API.OperationMethod<
+  GetCheckerIpRangesRequest,
   GetCheckerIpRangesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5457,9 +5426,8 @@ export const getCheckerIpRanges: (
  * Returns information about DNSSEC for a specific hosted zone, including the key-signing
  * keys (KSKs) in the hosted zone.
  */
-export const getDNSSEC: (
-  input: GetDNSSECRequest,
-) => effect.Effect<
+export const getDNSSEC: API.OperationMethod<
+  GetDNSSECRequest,
   GetDNSSECResponse,
   InvalidArgument | InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5494,9 +5462,8 @@ export const getDNSSEC: (
  * code&subdivisioncode=subdivision
  * code
  */
-export const getGeoLocation: (
-  input: GetGeoLocationRequest,
-) => effect.Effect<
+export const getGeoLocation: API.OperationMethod<
+  GetGeoLocationRequest,
   GetGeoLocationResponse,
   InvalidInput | NoSuchGeoLocation | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5508,9 +5475,8 @@ export const getGeoLocation: (
 /**
  * Gets information about a specified health check.
  */
-export const getHealthCheck: (
-  input: GetHealthCheckRequest,
-) => effect.Effect<
+export const getHealthCheck: API.OperationMethod<
+  GetHealthCheckRequest,
   GetHealthCheckResponse,
   IncompatibleVersion | InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5522,9 +5488,8 @@ export const getHealthCheck: (
 /**
  * Retrieves the number of health checks that are associated with the current Amazon Web Services account.
  */
-export const getHealthCheckCount: (
-  input: GetHealthCheckCountRequest,
-) => effect.Effect<
+export const getHealthCheckCount: API.OperationMethod<
+  GetHealthCheckCountRequest,
   GetHealthCheckCountResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5536,9 +5501,8 @@ export const getHealthCheckCount: (
 /**
  * Gets the reason that a specified health check failed most recently.
  */
-export const getHealthCheckLastFailureReason: (
-  input: GetHealthCheckLastFailureReasonRequest,
-) => effect.Effect<
+export const getHealthCheckLastFailureReason: API.OperationMethod<
+  GetHealthCheckLastFailureReasonRequest,
   GetHealthCheckLastFailureReasonResponse,
   InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5554,9 +5518,8 @@ export const getHealthCheckLastFailureReason: (
  * support production use-cases with high query rates that require immediate and
  * actionable responses.
  */
-export const getHealthCheckStatus: (
-  input: GetHealthCheckStatusRequest,
-) => effect.Effect<
+export const getHealthCheckStatus: API.OperationMethod<
+  GetHealthCheckStatusRequest,
   GetHealthCheckStatusResponse,
   InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5572,9 +5535,8 @@ export const getHealthCheckStatus: (
  * `` returns the VPCs associated with the specified hosted zone and does not reflect the VPC
  * associations by Route 53 Profiles. To get the associations to a Profile, call the ListProfileAssociations API.
  */
-export const getHostedZone: (
-  input: GetHostedZoneRequest,
-) => effect.Effect<
+export const getHostedZone: API.OperationMethod<
+  GetHostedZoneRequest,
   GetHostedZoneResponse,
   InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5586,9 +5548,8 @@ export const getHostedZone: (
 /**
  * Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
  */
-export const getHostedZoneCount: (
-  input: GetHostedZoneCountRequest,
-) => effect.Effect<
+export const getHostedZoneCount: API.OperationMethod<
+  GetHostedZoneCountRequest,
   GetHostedZoneCountResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5605,9 +5566,8 @@ export const getHostedZoneCount: (
  * *Amazon Route 53 Developer Guide*. To request a higher limit,
  * open a case.
  */
-export const getHostedZoneLimit: (
-  input: GetHostedZoneLimitRequest,
-) => effect.Effect<
+export const getHostedZoneLimit: API.OperationMethod<
+  GetHostedZoneLimitRequest,
   GetHostedZoneLimitResponse,
   HostedZoneNotPrivate | InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5622,9 +5582,8 @@ export const getHostedZoneLimit: (
  * For more information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS
  * Queries.
  */
-export const getQueryLoggingConfig: (
-  input: GetQueryLoggingConfigRequest,
-) => effect.Effect<
+export const getQueryLoggingConfig: API.OperationMethod<
+  GetQueryLoggingConfigRequest,
   GetQueryLoggingConfigResponse,
   InvalidInput | NoSuchQueryLoggingConfig | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5637,9 +5596,8 @@ export const getQueryLoggingConfig: (
  * Retrieves information about a specified reusable delegation set, including the four
  * name servers that are assigned to the delegation set.
  */
-export const getReusableDelegationSet: (
-  input: GetReusableDelegationSetRequest,
-) => effect.Effect<
+export const getReusableDelegationSet: API.OperationMethod<
+  GetReusableDelegationSetRequest,
   GetReusableDelegationSetResponse,
   DelegationSetNotReusable | InvalidInput | NoSuchDelegationSet | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5656,9 +5614,8 @@ export const getReusableDelegationSet: (
  * *Amazon Route 53 Developer Guide*. To request a higher limit,
  * open a case.
  */
-export const getReusableDelegationSetLimit: (
-  input: GetReusableDelegationSetLimitRequest,
-) => effect.Effect<
+export const getReusableDelegationSetLimit: API.OperationMethod<
+  GetReusableDelegationSetLimitRequest,
   GetReusableDelegationSetLimitResponse,
   InvalidInput | NoSuchDelegationSet | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5673,9 +5630,8 @@ export const getReusableDelegationSetLimit: (
  * For information about how of deleting a traffic policy affects the response from
  * `GetTrafficPolicy`, see DeleteTrafficPolicy.
  */
-export const getTrafficPolicy: (
-  input: GetTrafficPolicyRequest,
-) => effect.Effect<
+export const getTrafficPolicy: API.OperationMethod<
+  GetTrafficPolicyRequest,
   GetTrafficPolicyResponse,
   InvalidInput | NoSuchTrafficPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5695,9 +5651,8 @@ export const getTrafficPolicy: (
  * In the Route 53 console, traffic policy instances are known as policy
  * records.
  */
-export const getTrafficPolicyInstance: (
-  input: GetTrafficPolicyInstanceRequest,
-) => effect.Effect<
+export const getTrafficPolicyInstance: API.OperationMethod<
+  GetTrafficPolicyInstanceRequest,
   GetTrafficPolicyInstanceResponse,
   InvalidInput | NoSuchTrafficPolicyInstance | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5710,9 +5665,8 @@ export const getTrafficPolicyInstance: (
  * Gets the number of traffic policy instances that are associated with the current
  * Amazon Web Services account.
  */
-export const getTrafficPolicyInstanceCount: (
-  input: GetTrafficPolicyInstanceCountRequest,
-) => effect.Effect<
+export const getTrafficPolicyInstanceCount: API.OperationMethod<
+  GetTrafficPolicyInstanceCountRequest,
   GetTrafficPolicyInstanceCountResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5724,17 +5678,15 @@ export const getTrafficPolicyInstanceCount: (
 /**
  * Returns a paginated list of location objects and their CIDR blocks.
  */
-export const listCidrBlocks: {
-  (
-    input: ListCidrBlocksRequest,
-  ): effect.Effect<
-    ListCidrBlocksResponse,
-    | InvalidInput
-    | NoSuchCidrCollectionException
-    | NoSuchCidrLocationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCidrBlocks: API.OperationMethod<
+  ListCidrBlocksRequest,
+  ListCidrBlocksResponse,
+  | InvalidInput
+  | NoSuchCidrCollectionException
+  | NoSuchCidrLocationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCidrBlocksRequest,
   ) => stream.Stream<
@@ -5774,14 +5726,12 @@ export const listCidrBlocks: {
  * Returns a paginated list of CIDR collections in the Amazon Web Services account
  * (metadata only).
  */
-export const listCidrCollections: {
-  (
-    input: ListCidrCollectionsRequest,
-  ): effect.Effect<
-    ListCidrCollectionsResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCidrCollections: API.OperationMethod<
+  ListCidrCollectionsRequest,
+  ListCidrCollectionsResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCidrCollectionsRequest,
   ) => stream.Stream<
@@ -5811,14 +5761,12 @@ export const listCidrCollections: {
  * Returns a paginated list of CIDR locations for the given collection (metadata only,
  * does not include CIDR blocks).
  */
-export const listCidrLocations: {
-  (
-    input: ListCidrLocationsRequest,
-  ): effect.Effect<
-    ListCidrLocationsResponse,
-    InvalidInput | NoSuchCidrCollectionException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCidrLocations: API.OperationMethod<
+  ListCidrLocationsRequest,
+  ListCidrLocationsResponse,
+  InvalidInput | NoSuchCidrCollectionException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCidrLocationsRequest,
   ) => stream.Stream<
@@ -5858,9 +5806,8 @@ export const listCidrLocations: {
  * For a list of supported geolocation codes, see the GeoLocation data
  * type.
  */
-export const listGeoLocations: (
-  input: ListGeoLocationsRequest,
-) => effect.Effect<
+export const listGeoLocations: API.OperationMethod<
+  ListGeoLocationsRequest,
   ListGeoLocationsResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5872,14 +5819,12 @@ export const listGeoLocations: (
 /**
  * Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
  */
-export const listHealthChecks: {
-  (
-    input: ListHealthChecksRequest,
-  ): effect.Effect<
-    ListHealthChecksResponse,
-    IncompatibleVersion | InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHealthChecks: API.OperationMethod<
+  ListHealthChecksRequest,
+  ListHealthChecksResponse,
+  IncompatibleVersion | InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHealthChecksRequest,
   ) => stream.Stream<
@@ -5914,17 +5859,12 @@ export const listHealthChecks: {
  * hosted zones, you can use the `maxitems` parameter to list them in groups of
  * up to 100.
  */
-export const listHostedZones: {
-  (
-    input: ListHostedZonesRequest,
-  ): effect.Effect<
-    ListHostedZonesResponse,
-    | DelegationSetNotReusable
-    | InvalidInput
-    | NoSuchDelegationSet
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHostedZones: API.OperationMethod<
+  ListHostedZonesRequest,
+  ListHostedZonesResponse,
+  DelegationSetNotReusable | InvalidInput | NoSuchDelegationSet | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHostedZonesRequest,
   ) => stream.Stream<
@@ -6011,9 +5951,8 @@ export const listHostedZones: {
  * `NextHostedZoneId` in the `dnsname` and
  * `hostedzoneid` parameters, respectively.
  */
-export const listHostedZonesByName: (
-  input: ListHostedZonesByNameRequest,
-) => effect.Effect<
+export const listHostedZonesByName: API.OperationMethod<
+  ListHostedZonesByNameRequest,
   ListHostedZonesByNameResponse,
   InvalidDomainName | InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6056,9 +5995,8 @@ export const listHostedZonesByName: (
  * For more information, see Access Management
  * in the *Amazon Web Services General Reference*.
  */
-export const listHostedZonesByVPC: (
-  input: ListHostedZonesByVPCRequest,
-) => effect.Effect<
+export const listHostedZonesByVPC: API.OperationMethod<
+  ListHostedZonesByVPCRequest,
   ListHostedZonesByVPCResponse,
   InvalidInput | InvalidPaginationToken | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6076,14 +6014,12 @@ export const listHostedZonesByVPC: (
  * DNS query logs, appears in Logging DNS Queries in
  * the *Amazon Route 53 Developer Guide*.
  */
-export const listQueryLoggingConfigs: {
-  (
-    input: ListQueryLoggingConfigsRequest,
-  ): effect.Effect<
-    ListQueryLoggingConfigsResponse,
-    InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueryLoggingConfigs: API.OperationMethod<
+  ListQueryLoggingConfigsRequest,
+  ListQueryLoggingConfigsResponse,
+  InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueryLoggingConfigsRequest,
   ) => stream.Stream<
@@ -6181,9 +6117,8 @@ export const listQueryLoggingConfigs: {
  * those values for `StartRecordName`, `StartRecordType`, and
  * `StartRecordIdentifier`.
  */
-export const listResourceRecordSets: (
-  input: ListResourceRecordSetsRequest,
-) => effect.Effect<
+export const listResourceRecordSets: API.OperationMethod<
+  ListResourceRecordSetsRequest,
   ListResourceRecordSetsResponse,
   InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6196,9 +6131,8 @@ export const listResourceRecordSets: (
  * Retrieves a list of the reusable delegation sets that are associated with the current
  * Amazon Web Services account.
  */
-export const listReusableDelegationSets: (
-  input: ListReusableDelegationSetsRequest,
-) => effect.Effect<
+export const listReusableDelegationSets: API.OperationMethod<
+  ListReusableDelegationSetsRequest,
   ListReusableDelegationSetsResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6213,9 +6147,8 @@ export const listReusableDelegationSets: (
  * For information about using tags for cost allocation, see Using Cost Allocation
  * Tags in the *Billing and Cost Management User Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidInput
   | NoSuchHealthCheck
@@ -6241,9 +6174,8 @@ export const listTagsForResource: (
  * For information about using tags for cost allocation, see Using Cost Allocation
  * Tags in the *Billing and Cost Management User Guide*.
  */
-export const listTagsForResources: (
-  input: ListTagsForResourcesRequest,
-) => effect.Effect<
+export const listTagsForResources: API.OperationMethod<
+  ListTagsForResourcesRequest,
   ListTagsForResourcesResponse,
   | InvalidInput
   | NoSuchHealthCheck
@@ -6271,9 +6203,8 @@ export const listTagsForResources: (
  * For information about how of deleting a traffic policy affects the response from
  * `ListTrafficPolicies`, see DeleteTrafficPolicy.
  */
-export const listTrafficPolicies: (
-  input: ListTrafficPoliciesRequest,
-) => effect.Effect<
+export const listTrafficPolicies: API.OperationMethod<
+  ListTrafficPoliciesRequest,
   ListTrafficPoliciesResponse,
   InvalidInput | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6295,9 +6226,8 @@ export const listTrafficPolicies: (
  * policy instances, you can use the `MaxItems` parameter to list them in groups
  * of up to 100.
  */
-export const listTrafficPolicyInstances: (
-  input: ListTrafficPolicyInstancesRequest,
-) => effect.Effect<
+export const listTrafficPolicyInstances: API.OperationMethod<
+  ListTrafficPolicyInstancesRequest,
   ListTrafficPolicyInstancesResponse,
   InvalidInput | NoSuchTrafficPolicyInstance | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6320,9 +6250,8 @@ export const listTrafficPolicyInstances: (
  * policy instances, you can use the `MaxItems` parameter to list them in groups
  * of up to 100.
  */
-export const listTrafficPolicyInstancesByHostedZone: (
-  input: ListTrafficPolicyInstancesByHostedZoneRequest,
-) => effect.Effect<
+export const listTrafficPolicyInstancesByHostedZone: API.OperationMethod<
+  ListTrafficPolicyInstancesByHostedZoneRequest,
   ListTrafficPolicyInstancesByHostedZoneResponse,
   InvalidInput | NoSuchHostedZone | NoSuchTrafficPolicyInstance | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6345,9 +6274,8 @@ export const listTrafficPolicyInstancesByHostedZone: (
  * policy instances, you can use the `MaxItems` parameter to list them in groups
  * of up to 100.
  */
-export const listTrafficPolicyInstancesByPolicy: (
-  input: ListTrafficPolicyInstancesByPolicyRequest,
-) => effect.Effect<
+export const listTrafficPolicyInstancesByPolicy: API.OperationMethod<
+  ListTrafficPolicyInstancesByPolicyRequest,
   ListTrafficPolicyInstancesByPolicyResponse,
   | InvalidInput
   | NoSuchTrafficPolicy
@@ -6365,9 +6293,8 @@ export const listTrafficPolicyInstancesByPolicy: (
  * Traffic policy versions are listed in numerical order by
  * `VersionNumber`.
  */
-export const listTrafficPolicyVersions: (
-  input: ListTrafficPolicyVersionsRequest,
-) => effect.Effect<
+export const listTrafficPolicyVersions: API.OperationMethod<
+  ListTrafficPolicyVersionsRequest,
   ListTrafficPolicyVersionsResponse,
   InvalidInput | NoSuchTrafficPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6384,9 +6311,8 @@ export const listTrafficPolicyVersions: (
  * The response includes a `VPCs` element with a `VPC` child
  * element for each VPC that can be associated with the hosted zone.
  */
-export const listVPCAssociationAuthorizations: (
-  input: ListVPCAssociationAuthorizationsRequest,
-) => effect.Effect<
+export const listVPCAssociationAuthorizations: API.OperationMethod<
+  ListVPCAssociationAuthorizationsRequest,
   ListVPCAssociationAuthorizationsResponse,
   InvalidInput | InvalidPaginationToken | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6407,9 +6333,8 @@ export const listVPCAssociationAuthorizations: (
  * servers of a subdomain that point to the parent name servers, those will not be
  * returned.
  */
-export const testDNSAnswer: (
-  input: TestDNSAnswerRequest,
-) => effect.Effect<
+export const testDNSAnswer: API.OperationMethod<
+  TestDNSAnswerRequest,
   TestDNSAnswerResponse,
   InvalidInput | NoSuchHostedZone | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6425,9 +6350,8 @@ export const testDNSAnswer: (
  * Updating, and Deleting Health Checks in the Amazon Route 53
  * Developer Guide.
  */
-export const updateHealthCheck: (
-  input: UpdateHealthCheckRequest,
-) => effect.Effect<
+export const updateHealthCheck: API.OperationMethod<
+  UpdateHealthCheckRequest,
   UpdateHealthCheckResponse,
   HealthCheckVersionMismatch | InvalidInput | NoSuchHealthCheck | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6439,9 +6363,8 @@ export const updateHealthCheck: (
 /**
  * Updates the comment for a specified hosted zone.
  */
-export const updateHostedZoneComment: (
-  input: UpdateHostedZoneCommentRequest,
-) => effect.Effect<
+export const updateHostedZoneComment: API.OperationMethod<
+  UpdateHostedZoneCommentRequest,
   UpdateHostedZoneCommentResponse,
   InvalidInput | NoSuchHostedZone | PriorRequestNotComplete | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6455,9 +6378,8 @@ export const updateHostedZoneComment: (
  *
  * Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
  */
-export const updateHostedZoneFeatures: (
-  input: UpdateHostedZoneFeaturesRequest,
-) => effect.Effect<
+export const updateHostedZoneFeatures: API.OperationMethod<
+  UpdateHostedZoneFeaturesRequest,
   UpdateHostedZoneFeaturesResponse,
   | InvalidInput
   | LimitsExceeded
@@ -6478,9 +6400,8 @@ export const updateHostedZoneFeatures: (
 /**
  * Updates the comment for a specified traffic policy version.
  */
-export const updateTrafficPolicyComment: (
-  input: UpdateTrafficPolicyCommentRequest,
-) => effect.Effect<
+export const updateTrafficPolicyComment: API.OperationMethod<
+  UpdateTrafficPolicyCommentRequest,
   UpdateTrafficPolicyCommentResponse,
   ConcurrentModification | InvalidInput | NoSuchTrafficPolicy | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6514,9 +6435,8 @@ export const updateTrafficPolicyComment: (
  * - Route 53 deletes the old group of resource record sets that are associated
  * with the root resource record set name.
  */
-export const updateTrafficPolicyInstance: (
-  input: UpdateTrafficPolicyInstanceRequest,
-) => effect.Effect<
+export const updateTrafficPolicyInstance: API.OperationMethod<
+  UpdateTrafficPolicyInstanceRequest,
   UpdateTrafficPolicyInstanceResponse,
   | ConflictingTypes
   | InvalidInput

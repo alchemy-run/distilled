@@ -1006,9 +1006,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * Acknowledges one or more alarms. The alarms change to the `ACKNOWLEDGED` state
  * after you acknowledge them.
  */
-export const batchAcknowledgeAlarm: (
-  input: BatchAcknowledgeAlarmRequest,
-) => effect.Effect<
+export const batchAcknowledgeAlarm: API.OperationMethod<
+  BatchAcknowledgeAlarmRequest,
   BatchAcknowledgeAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1029,9 +1028,8 @@ export const batchAcknowledgeAlarm: (
 /**
  * Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
  */
-export const batchDeleteDetector: (
-  input: BatchDeleteDetectorRequest,
-) => effect.Effect<
+export const batchDeleteDetector: API.OperationMethod<
+  BatchDeleteDetectorRequest,
   BatchDeleteDetectorResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1053,9 +1051,8 @@ export const batchDeleteDetector: (
  * Disables one or more alarms. The alarms change to the `DISABLED` state after
  * you disable them.
  */
-export const batchDisableAlarm: (
-  input: BatchDisableAlarmRequest,
-) => effect.Effect<
+export const batchDisableAlarm: API.OperationMethod<
+  BatchDisableAlarmRequest,
   BatchDisableAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1077,9 +1074,8 @@ export const batchDisableAlarm: (
  * Enables one or more alarms. The alarms change to the `NORMAL` state after you
  * enable them.
  */
-export const batchEnableAlarm: (
-  input: BatchEnableAlarmRequest,
-) => effect.Effect<
+export const batchEnableAlarm: API.OperationMethod<
+  BatchEnableAlarmRequest,
   BatchEnableAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1104,9 +1100,8 @@ export const batchEnableAlarm: (
  * guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
  * successful response.
  */
-export const batchPutMessage: (
-  input: BatchPutMessageRequest,
-) => effect.Effect<
+export const batchPutMessage: API.OperationMethod<
+  BatchPutMessageRequest,
   BatchPutMessageResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1128,9 +1123,8 @@ export const batchPutMessage: (
  * Resets one or more alarms. The alarms return to the `NORMAL` state after you
  * reset them.
  */
-export const batchResetAlarm: (
-  input: BatchResetAlarmRequest,
-) => effect.Effect<
+export const batchResetAlarm: API.OperationMethod<
+  BatchResetAlarmRequest,
   BatchResetAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1152,9 +1146,8 @@ export const batchResetAlarm: (
  * Changes one or more alarms to the snooze mode. The alarms change to the
  * `SNOOZE_DISABLED` state after you set them to the snooze mode.
  */
-export const batchSnoozeAlarm: (
-  input: BatchSnoozeAlarmRequest,
-) => effect.Effect<
+export const batchSnoozeAlarm: API.OperationMethod<
+  BatchSnoozeAlarmRequest,
   BatchSnoozeAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1176,9 +1169,8 @@ export const batchSnoozeAlarm: (
  * Updates the state, variable values, and timer settings of one or more detectors
  * (instances) of a specified detector model.
  */
-export const batchUpdateDetector: (
-  input: BatchUpdateDetectorRequest,
-) => effect.Effect<
+export const batchUpdateDetector: API.OperationMethod<
+  BatchUpdateDetectorRequest,
   BatchUpdateDetectorResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1199,9 +1191,8 @@ export const batchUpdateDetector: (
 /**
  * Retrieves information about an alarm.
  */
-export const describeAlarm: (
-  input: DescribeAlarmRequest,
-) => effect.Effect<
+export const describeAlarm: API.OperationMethod<
+  DescribeAlarmRequest,
   DescribeAlarmResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1224,9 +1215,8 @@ export const describeAlarm: (
 /**
  * Returns information about the specified detector (instance).
  */
-export const describeDetector: (
-  input: DescribeDetectorRequest,
-) => effect.Effect<
+export const describeDetector: API.OperationMethod<
+  DescribeDetectorRequest,
   DescribeDetectorResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1250,9 +1240,8 @@ export const describeDetector: (
  * Lists one or more alarms. The operation returns only the metadata associated with each
  * alarm.
  */
-export const listAlarms: (
-  input: ListAlarmsRequest,
-) => effect.Effect<
+export const listAlarms: API.OperationMethod<
+  ListAlarmsRequest,
   ListAlarmsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1275,9 +1264,8 @@ export const listAlarms: (
 /**
  * Lists detectors (the instances of a detector model).
  */
-export const listDetectors: (
-  input: ListDetectorsRequest,
-) => effect.Effect<
+export const listDetectors: API.OperationMethod<
+  ListDetectorsRequest,
   ListDetectorsResponse,
   | InternalFailureException
   | InvalidRequestException

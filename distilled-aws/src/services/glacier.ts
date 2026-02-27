@@ -1769,9 +1769,8 @@ export class RequestTimeoutException extends S.TaggedErrorClass<RequestTimeoutEx
  * Amazon Glacier and Abort Multipart
  * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const abortMultipartUpload: (
-  input: AbortMultipartUploadInput,
-) => effect.Effect<
+export const abortMultipartUpload: API.OperationMethod<
+  AbortMultipartUploadInput,
   AbortMultipartUploadResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1809,9 +1808,8 @@ export const abortMultipartUpload: (
  * times, if the vault lock is in the `InProgress` state or if there is no policy
  * associated with the vault.
  */
-export const abortVaultLock: (
-  input: AbortVaultLockInput,
-) => effect.Effect<
+export const abortVaultLock: API.OperationMethod<
+  AbortVaultLockInput,
   AbortVaultLockResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1838,9 +1836,8 @@ export const abortVaultLock: (
  * error. If a tag already exists on the vault under a specified key, the existing key value
  * will be overwritten. For more information about tags, see Tagging Amazon Glacier Resources.
  */
-export const addTagsToVault: (
-  input: AddTagsToVaultInput,
-) => effect.Effect<
+export const addTagsToVault: API.OperationMethod<
+  AddTagsToVaultInput,
   AddTagsToVaultResponse,
   | InvalidParameterValueException
   | LimitExceededException
@@ -1903,9 +1900,8 @@ export const addTagsToVault: (
  * Parts (Multipart Upload) and Complete Multipart
  * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const completeMultipartUpload: (
-  input: CompleteMultipartUploadInput,
-) => effect.Effect<
+export const completeMultipartUpload: API.OperationMethod<
+  CompleteMultipartUploadInput,
   ArchiveCreationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1943,9 +1939,8 @@ export const completeMultipartUpload: (
  * `InProgress` state, the operation throws an `InvalidParameter`
  * error.
  */
-export const completeVaultLock: (
-  input: CompleteVaultLockInput,
-) => effect.Effect<
+export const completeVaultLock: API.OperationMethod<
+  CompleteVaultLockInput,
   CompleteVaultLockResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -1989,9 +1984,8 @@ export const completeVaultLock: (
  * Glacier and Create Vault in the
  * *Amazon Glacier Developer Guide*.
  */
-export const createVault: (
-  input: CreateVaultInput,
-) => effect.Effect<
+export const createVault: API.OperationMethod<
+  CreateVaultInput,
   CreateVaultOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -2037,9 +2031,8 @@ export const createVault: (
  * Glacier and Delete Archive in the
  * *Amazon Glacier Developer Guide*.
  */
-export const deleteArchive: (
-  input: DeleteArchiveInput,
-) => effect.Effect<
+export const deleteArchive: API.OperationMethod<
+  DeleteArchiveInput,
   DeleteArchiveResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2082,9 +2075,8 @@ export const deleteArchive: (
  * Glacier and Delete Vault in the
  * *Amazon Glacier Developer Guide*.
  */
-export const deleteVault: (
-  input: DeleteVaultInput,
-) => effect.Effect<
+export const deleteVault: API.OperationMethod<
+  DeleteVaultInput,
   DeleteVaultResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2114,9 +2106,8 @@ export const deleteVault: (
  * no policy associated with the vault. For more information about vault access policies, see
  * Amazon Glacier Access Control with Vault Access Policies.
  */
-export const deleteVaultAccessPolicy: (
-  input: DeleteVaultAccessPolicyInput,
-) => effect.Effect<
+export const deleteVaultAccessPolicy: API.OperationMethod<
+  DeleteVaultAccessPolicyInput,
   DeleteVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2152,9 +2143,8 @@ export const deleteVaultAccessPolicy: (
  * Notifications in Amazon Glacier and Delete Vault
  * Notification Configuration in the Amazon Glacier Developer Guide.
  */
-export const deleteVaultNotifications: (
-  input: DeleteVaultNotificationsInput,
-) => effect.Effect<
+export const deleteVaultNotifications: API.OperationMethod<
+  DeleteVaultNotificationsInput,
   DeleteVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2198,9 +2188,8 @@ export const deleteVaultNotifications: (
  * see the documentation for the underlying REST API Describe Job
  * in the *Amazon Glacier Developer Guide*.
  */
-export const describeJob: (
-  input: DescribeJobInput,
-) => effect.Effect<
+export const describeJob: API.OperationMethod<
+  DescribeJobInput,
   GlacierJobDescription,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2241,9 +2230,8 @@ export const describeJob: (
  * Amazon Glacier and Describe Vault in the
  * *Amazon Glacier Developer Guide*.
  */
-export const describeVault: (
-  input: DescribeVaultInput,
-) => effect.Effect<
+export const describeVault: API.OperationMethod<
+  DescribeVaultInput,
   DescribeVaultOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2268,9 +2256,8 @@ export const describeVault: (
  * specified in the GET request. For more information about data retrieval policies, see
  * Amazon Glacier Data Retrieval Policies.
  */
-export const getDataRetrievalPolicy: (
-  input: GetDataRetrievalPolicyInput,
-) => effect.Effect<
+export const getDataRetrievalPolicy: API.OperationMethod<
+  GetDataRetrievalPolicyInput,
   GetDataRetrievalPolicyOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2330,9 +2317,8 @@ export const getDataRetrievalPolicy: (
  * Vault Inventory, Downloading an
  * Archive, and Get Job Output
  */
-export const getJobOutput: (
-  input: GetJobOutputInput,
-) => effect.Effect<
+export const getJobOutput: API.OperationMethod<
+  GetJobOutputInput,
   GetJobOutputOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2360,9 +2346,8 @@ export const getJobOutput: (
  * access policies, see Amazon Glacier Access Control
  * with Vault Access Policies.
  */
-export const getVaultAccessPolicy: (
-  input: GetVaultAccessPolicyInput,
-) => effect.Effect<
+export const getVaultAccessPolicy: API.OperationMethod<
+  GetVaultAccessPolicyInput,
   GetVaultAccessPolicyOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2407,9 +2392,8 @@ export const getVaultAccessPolicy: (
  * Not found error. For more information about vault lock policies, Amazon
  * Glacier Access Control with Vault Lock Policies.
  */
-export const getVaultLock: (
-  input: GetVaultLockInput,
-) => effect.Effect<
+export const getVaultLock: API.OperationMethod<
+  GetVaultLockInput,
   GetVaultLockOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2448,9 +2432,8 @@ export const getVaultLock: (
  * Notifications in Amazon Glacier and Get Vault Notification
  * Configuration in the *Amazon Glacier Developer Guide*.
  */
-export const getVaultNotifications: (
-  input: GetVaultNotificationsInput,
-) => effect.Effect<
+export const getVaultNotifications: API.OperationMethod<
+  GetVaultNotificationsInput,
   GetVaultNotificationsOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2476,9 +2459,8 @@ export const getVaultNotifications: (
  * see the documentation for the underlying REST API Initiate
  * a Job.
  */
-export const initiateJob: (
-  input: InitiateJobInput,
-) => effect.Effect<
+export const initiateJob: API.OperationMethod<
+  InitiateJobInput,
   InitiateJobOutput,
   | InsufficientCapacityException
   | InvalidParameterValueException
@@ -2537,9 +2519,8 @@ export const initiateJob: (
  * Parts (Multipart Upload) and Initiate Multipart
  * Upload in the *Amazon Glacier Developer Guide*.
  */
-export const initiateMultipartUpload: (
-  input: InitiateMultipartUploadInput,
-) => effect.Effect<
+export const initiateMultipartUpload: API.OperationMethod<
+  InitiateMultipartUploadInput,
   InitiateMultipartUploadOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2593,9 +2574,8 @@ export const initiateMultipartUpload: (
  * lock is in the `InProgress` state you must call AbortVaultLock
  * before you can initiate a new vault lock policy.
  */
-export const initiateVaultLock: (
-  input: InitiateVaultLockInput,
-) => effect.Effect<
+export const initiateVaultLock: API.OperationMethod<
+  InitiateVaultLockInput,
   InitiateVaultLockOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2651,19 +2631,17 @@ export const initiateVaultLock: (
  * For more information about using this operation,
  * see the documentation for the underlying REST API List Jobs.
  */
-export const listJobs: {
-  (
-    input: ListJobsInput,
-  ): effect.Effect<
-    ListJobsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsInput,
+  ListJobsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsInput,
   ) => stream.Stream<
@@ -2733,19 +2711,17 @@ export const listJobs: {
  * with Archives in Amazon Glacier and List Multipart Uploads
  * in the *Amazon Glacier Developer Guide*.
  */
-export const listMultipartUploads: {
-  (
-    input: ListMultipartUploadsInput,
-  ): effect.Effect<
-    ListMultipartUploadsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMultipartUploads: API.OperationMethod<
+  ListMultipartUploadsInput,
+  ListMultipartUploadsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultipartUploadsInput,
   ) => stream.Stream<
@@ -2812,19 +2788,17 @@ export const listMultipartUploads: {
  * with Archives in Amazon Glacier and List Parts in the
  * *Amazon Glacier Developer Guide*.
  */
-export const listParts: {
-  (
-    input: ListPartsInput,
-  ): effect.Effect<
-    ListPartsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listParts: API.OperationMethod<
+  ListPartsInput,
+  ListPartsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPartsInput,
   ) => stream.Stream<
@@ -2870,9 +2844,8 @@ export const listParts: {
  * This operation lists the provisioned capacity units for the specified AWS
  * account.
  */
-export const listProvisionedCapacity: (
-  input: ListProvisionedCapacityInput,
-) => effect.Effect<
+export const listProvisionedCapacity: API.OperationMethod<
+  ListProvisionedCapacityInput,
   ListProvisionedCapacityOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2895,9 +2868,8 @@ export const listProvisionedCapacity: (
  * map if there are no tags. For more information about tags, see Tagging Amazon Glacier
  * Resources.
  */
-export const listTagsForVault: (
-  input: ListTagsForVaultInput,
-) => effect.Effect<
+export const listTagsForVault: API.OperationMethod<
+  ListTagsForVaultInput,
   ListTagsForVaultOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -2939,19 +2911,17 @@ export const listTagsForVault: (
  * Amazon Glacier and List Vaults in the
  * *Amazon Glacier Developer Guide*.
  */
-export const listVaults: {
-  (
-    input: ListVaultsInput,
-  ): effect.Effect<
-    ListVaultsOutput,
-    | InvalidParameterValueException
-    | MissingParameterValueException
-    | NoLongerSupportedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVaults: API.OperationMethod<
+  ListVaultsInput,
+  ListVaultsOutput,
+  | InvalidParameterValueException
+  | MissingParameterValueException
+  | NoLongerSupportedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVaultsInput,
   ) => stream.Stream<
@@ -2996,9 +2966,8 @@ export const listVaults: {
 /**
  * This operation purchases a provisioned capacity unit for an AWS account.
  */
-export const purchaseProvisionedCapacity: (
-  input: PurchaseProvisionedCapacityInput,
-) => effect.Effect<
+export const purchaseProvisionedCapacity: API.OperationMethod<
+  PurchaseProvisionedCapacityInput,
   PurchaseProvisionedCapacityOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -3024,9 +2993,8 @@ export const purchaseProvisionedCapacity: (
  * This operation is idempotent. The operation will be successful, even if there are no tags
  * attached to the vault.
  */
-export const removeTagsFromVault: (
-  input: RemoveTagsFromVaultInput,
-) => effect.Effect<
+export const removeTagsFromVault: API.OperationMethod<
+  RemoveTagsFromVaultInput,
   RemoveTagsFromVaultResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3055,9 +3023,8 @@ export const removeTagsFromVault: (
  * the policy was enacted. For more information about data retrieval policies, see Amazon
  * Glacier Data Retrieval Policies.
  */
-export const setDataRetrievalPolicy: (
-  input: SetDataRetrievalPolicyInput,
-) => effect.Effect<
+export const setDataRetrievalPolicy: API.OperationMethod<
+  SetDataRetrievalPolicyInput,
   SetDataRetrievalPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3083,9 +3050,8 @@ export const setDataRetrievalPolicy: (
  * the policy can be up to 20 KB in size. For more information about vault access policies,
  * see Amazon Glacier Access Control with Vault Access Policies.
  */
-export const setVaultAccessPolicy: (
-  input: SetVaultAccessPolicyInput,
-) => effect.Effect<
+export const setVaultAccessPolicy: API.OperationMethod<
+  SetVaultAccessPolicyInput,
   SetVaultAccessPolicyResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3138,9 +3104,8 @@ export const setVaultAccessPolicy: (
  * Notifications in Amazon Glacier and Set Vault Notification
  * Configuration in the *Amazon Glacier Developer Guide*.
  */
-export const setVaultNotifications: (
-  input: SetVaultNotificationsInput,
-) => effect.Effect<
+export const setVaultNotifications: API.OperationMethod<
+  SetVaultNotificationsInput,
   SetVaultNotificationsResponse,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3195,9 +3160,8 @@ export const setVaultNotifications: (
  * Glacier and Upload Archive in the
  * *Amazon Glacier Developer Guide*.
  */
-export const uploadArchive: (
-  input: UploadArchiveInput,
-) => effect.Effect<
+export const uploadArchive: API.OperationMethod<
+  UploadArchiveInput,
   ArchiveCreationOutput,
   | InvalidParameterValueException
   | MissingParameterValueException
@@ -3263,9 +3227,8 @@ export const uploadArchive: (
  * Parts (Multipart Upload) and Upload Part in the
  * *Amazon Glacier Developer Guide*.
  */
-export const uploadMultipartPart: (
-  input: UploadMultipartPartInput,
-) => effect.Effect<
+export const uploadMultipartPart: API.OperationMethod<
+  UploadMultipartPartInput,
   UploadMultipartPartOutput,
   | InvalidParameterValueException
   | MissingParameterValueException

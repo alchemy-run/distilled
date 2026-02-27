@@ -219,9 +219,8 @@ export class MarketplaceCommerceAnalyticsException extends S.TaggedErrorClass<Ma
  * Requires a Role with an attached permissions policy providing Allow permissions for the following actions:
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
-export const generateDataSet: (
-  input: GenerateDataSetRequest,
-) => effect.Effect<
+export const generateDataSet: API.OperationMethod<
+  GenerateDataSetRequest,
   GenerateDataSetResult,
   MarketplaceCommerceAnalyticsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -240,9 +239,8 @@ export const generateDataSet: (
  * Requires a Role with an attached permissions policy providing Allow permissions for the following actions:
  * s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
  */
-export const startSupportDataExport: (
-  input: StartSupportDataExportRequest,
-) => effect.Effect<
+export const startSupportDataExport: API.OperationMethod<
+  StartSupportDataExportRequest,
   StartSupportDataExportResult,
   MarketplaceCommerceAnalyticsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

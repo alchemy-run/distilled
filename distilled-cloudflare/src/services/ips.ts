@@ -43,7 +43,11 @@ export const ListIPsResponse = Schema.Union([
     ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)),
     ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
-    Schema.encodeKeys({ ipv4Cidrs: "ipv4_cidrs", ipv6Cidrs: "ipv6_cidrs" }),
+    Schema.encodeKeys({
+      etag: "etag",
+      ipv4Cidrs: "ipv4_cidrs",
+      ipv6Cidrs: "ipv6_cidrs",
+    }),
   ),
   Schema.Struct({
     etag: Schema.optional(Schema.String),
@@ -52,6 +56,7 @@ export const ListIPsResponse = Schema.Union([
     jdcloudCidrs: Schema.optional(Schema.Array(Schema.String)),
   }).pipe(
     Schema.encodeKeys({
+      etag: "etag",
       ipv4Cidrs: "ipv4_cidrs",
       ipv6Cidrs: "ipv6_cidrs",
       jdcloudCidrs: "jdcloud_cidrs",
@@ -59,9 +64,8 @@ export const ListIPsResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<ListIPsResponse>;
 
-export const listIPs: (
-  input: ListIPsRequest,
-) => Effect.Effect<
+export const listIPs: API.OperationMethod<
+  ListIPsRequest,
   ListIPsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

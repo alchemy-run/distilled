@@ -845,9 +845,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  * Only the native tokens BTC and ETH, and the ERC-20,
  * ERC-721, and ERC 1155 token standards are supported.
  */
-export const batchGetTokenBalance: (
-  input: BatchGetTokenBalanceInput,
-) => effect.Effect<
+export const batchGetTokenBalance: API.OperationMethod<
+  BatchGetTokenBalanceInput,
   BatchGetTokenBalanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -878,9 +877,8 @@ export const batchGetTokenBalance: (
  * - Metadata is currently only available for some `ERC-20` contracts.
  * Metadata will be available for additional contracts in the future.
  */
-export const getAssetContract: (
-  input: GetAssetContractInput,
-) => effect.Effect<
+export const getAssetContract: API.OperationMethod<
+  GetAssetContractInput,
   GetAssetContractOutput,
   | AccessDeniedException
   | InternalServerException
@@ -908,9 +906,8 @@ export const getAssetContract: (
  * Only the native tokens BTC and ETH, and the ERC-20,
  * ERC-721, and ERC 1155 token standards are supported.
  */
-export const getTokenBalance: (
-  input: GetTokenBalanceInput,
-) => effect.Effect<
+export const getTokenBalance: API.OperationMethod<
+  GetTokenBalanceInput,
   GetTokenBalanceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -939,9 +936,8 @@ export const getTokenBalance: (
  * that are *confirmed* on the blockchain, even if they have not reached
  * finality.
  */
-export const getTransaction: (
-  input: GetTransactionInput,
-) => effect.Effect<
+export const getTransaction: API.OperationMethod<
+  GetTransactionInput,
   GetTransactionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -970,19 +966,17 @@ export const getTransaction: (
  * The Bitcoin blockchain networks do not support this
  * operation.
  */
-export const listAssetContracts: {
-  (
-    input: ListAssetContractsInput,
-  ): effect.Effect<
-    ListAssetContractsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetContracts: API.OperationMethod<
+  ListAssetContractsInput,
+  ListAssetContractsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetContractsInput,
   ) => stream.Stream<
@@ -1029,19 +1023,17 @@ export const listAssetContracts: {
  *
  * This operation is only supported on the Bitcoin networks.
  */
-export const listFilteredTransactionEvents: {
-  (
-    input: ListFilteredTransactionEventsInput,
-  ): effect.Effect<
-    ListFilteredTransactionEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFilteredTransactionEvents: API.OperationMethod<
+  ListFilteredTransactionEventsInput,
+  ListFilteredTransactionEventsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFilteredTransactionEventsInput,
   ) => stream.Stream<
@@ -1096,19 +1088,17 @@ export const listFilteredTransactionEvents: {
  * You must always specify the network property of
  * the `tokenFilter` when using this operation.
  */
-export const listTokenBalances: {
-  (
-    input: ListTokenBalancesInput,
-  ): effect.Effect<
-    ListTokenBalancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTokenBalances: API.OperationMethod<
+  ListTokenBalancesInput,
+  ListTokenBalancesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTokenBalancesInput,
   ) => stream.Stream<
@@ -1157,19 +1147,17 @@ export const listTokenBalances: {
  * that are *confirmed* on the blockchain, even if they have not reached
  * finality.
  */
-export const listTransactionEvents: {
-  (
-    input: ListTransactionEventsInput,
-  ): effect.Effect<
-    ListTransactionEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTransactionEvents: API.OperationMethod<
+  ListTransactionEventsInput,
+  ListTransactionEventsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTransactionEventsInput,
   ) => stream.Stream<
@@ -1214,19 +1202,17 @@ export const listTransactionEvents: {
 /**
  * Lists all the transaction events for a transaction.
  */
-export const listTransactions: {
-  (
-    input: ListTransactionsInput,
-  ): effect.Effect<
-    ListTransactionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTransactions: API.OperationMethod<
+  ListTransactionsInput,
+  ListTransactionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTransactionsInput,
   ) => stream.Stream<

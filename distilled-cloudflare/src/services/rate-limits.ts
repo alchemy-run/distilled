@@ -96,7 +96,9 @@ export const GetRateLimitResponse = Schema.Struct({
         Schema.Struct({
           body: Schema.optional(Schema.String),
           contentType: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+        }).pipe(
+          Schema.encodeKeys({ body: "body", contentType: "content_type" }),
+        ),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -152,9 +154,8 @@ export const GetRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetRateLimitResponse>;
 
-export const getRateLimit: (
-  input: GetRateLimitRequest,
-) => Effect.Effect<
+export const getRateLimit: API.OperationMethod<
+  GetRateLimitRequest,
   GetRateLimitResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -229,7 +230,9 @@ export const ListRateLimitsResponse = Schema.Array(
           Schema.Struct({
             body: Schema.optional(Schema.String),
             contentType: Schema.optional(Schema.String),
-          }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+          }).pipe(
+            Schema.encodeKeys({ body: "body", contentType: "content_type" }),
+          ),
         ),
         timeout: Schema.optional(Schema.Number),
       }),
@@ -286,9 +289,8 @@ export const ListRateLimitsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRateLimitsResponse>;
 
-export const listRateLimits: (
-  input: ListRateLimitsRequest,
-) => Effect.Effect<
+export const listRateLimits: API.OperationMethod<
+  ListRateLimitsRequest,
   ListRateLimitsResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -352,7 +354,7 @@ export const CreateRateLimitRequest = Schema.Struct({
       Schema.Struct({
         body: Schema.optional(Schema.String),
         contentType: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+      }).pipe(Schema.encodeKeys({ body: "body", contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -458,7 +460,9 @@ export const CreateRateLimitResponse = Schema.Struct({
         Schema.Struct({
           body: Schema.optional(Schema.String),
           contentType: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+        }).pipe(
+          Schema.encodeKeys({ body: "body", contentType: "content_type" }),
+        ),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -514,9 +518,8 @@ export const CreateRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<CreateRateLimitResponse>;
 
-export const createRateLimit: (
-  input: CreateRateLimitRequest,
-) => Effect.Effect<
+export const createRateLimit: API.OperationMethod<
+  CreateRateLimitRequest,
   CreateRateLimitResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -603,7 +606,9 @@ export const DeleteRateLimitResponse = Schema.Struct({
         Schema.Struct({
           body: Schema.optional(Schema.String),
           contentType: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+        }).pipe(
+          Schema.encodeKeys({ body: "body", contentType: "content_type" }),
+        ),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -659,9 +664,8 @@ export const DeleteRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteRateLimitResponse>;
 
-export const deleteRateLimit: (
-  input: DeleteRateLimitRequest,
-) => Effect.Effect<
+export const deleteRateLimit: API.OperationMethod<
+  DeleteRateLimitRequest,
   DeleteRateLimitResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
@@ -727,7 +731,7 @@ export const EditRateLimitRequest = Schema.Struct({
       Schema.Struct({
         body: Schema.optional(Schema.String),
         contentType: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+      }).pipe(Schema.encodeKeys({ body: "body", contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -833,7 +837,9 @@ export const EditRateLimitResponse = Schema.Struct({
         Schema.Struct({
           body: Schema.optional(Schema.String),
           contentType: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
+        }).pipe(
+          Schema.encodeKeys({ body: "body", contentType: "content_type" }),
+        ),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -889,9 +895,8 @@ export const EditRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<EditRateLimitResponse>;
 
-export const editRateLimit: (
-  input: EditRateLimitRequest,
-) => Effect.Effect<
+export const editRateLimit: API.OperationMethod<
+  EditRateLimitRequest,
   EditRateLimitResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

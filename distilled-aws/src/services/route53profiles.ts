@@ -787,9 +787,8 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
  * Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).
  * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
  */
-export const associateProfile: (
-  input: AssociateProfileRequest,
-) => effect.Effect<
+export const associateProfile: API.OperationMethod<
+  AssociateProfileRequest,
   AssociateProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -818,9 +817,8 @@ export const associateProfile: (
 /**
  * Associates a DNS reource configuration to a Route 53 Profile.
  */
-export const associateResourceToProfile: (
-  input: AssociateResourceToProfileRequest,
-) => effect.Effect<
+export const associateResourceToProfile: API.OperationMethod<
+  AssociateResourceToProfileRequest,
   AssociateResourceToProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -849,9 +847,8 @@ export const associateResourceToProfile: (
 /**
  * Creates an empty Route 53 Profile.
  */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
+export const createProfile: API.OperationMethod<
+  CreateProfileRequest,
   CreateProfileResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -874,9 +871,8 @@ export const createProfile: (
 /**
  * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
  */
-export const deleteProfile: (
-  input: DeleteProfileRequest,
-) => effect.Effect<
+export const deleteProfile: API.OperationMethod<
+  DeleteProfileRequest,
   DeleteProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -899,9 +895,8 @@ export const deleteProfile: (
 /**
  * Dissociates a specified Route 53 Profile from the specified VPC.
  */
-export const disassociateProfile: (
-  input: DisassociateProfileRequest,
-) => effect.Effect<
+export const disassociateProfile: API.OperationMethod<
+  DisassociateProfileRequest,
   DisassociateProfileResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -926,9 +921,8 @@ export const disassociateProfile: (
 /**
  * Dissoaciated a specified resource, from the Route 53 Profile.
  */
-export const disassociateResourceFromProfile: (
-  input: DisassociateResourceFromProfileRequest,
-) => effect.Effect<
+export const disassociateResourceFromProfile: API.OperationMethod<
+  DisassociateResourceFromProfileRequest,
   DisassociateResourceFromProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -957,9 +951,8 @@ export const disassociateResourceFromProfile: (
 /**
  * Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
  */
-export const getProfile: (
-  input: GetProfileRequest,
-) => effect.Effect<
+export const getProfile: API.OperationMethod<
+  GetProfileRequest,
   GetProfileResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -980,9 +973,8 @@ export const getProfile: (
 /**
  * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
  */
-export const getProfileAssociation: (
-  input: GetProfileAssociationRequest,
-) => effect.Effect<
+export const getProfileAssociation: API.OperationMethod<
+  GetProfileAssociationRequest,
   GetProfileAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1003,9 +995,8 @@ export const getProfileAssociation: (
 /**
  * Returns information about a specified Route 53 Profile resource association.
  */
-export const getProfileResourceAssociation: (
-  input: GetProfileResourceAssociationRequest,
-) => effect.Effect<
+export const getProfileResourceAssociation: API.OperationMethod<
+  GetProfileResourceAssociationRequest,
   GetProfileResourceAssociationResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -1028,19 +1019,17 @@ export const getProfileResourceAssociation: (
 /**
  * Lists all the VPCs that the specified Route 53 Profile is associated with.
  */
-export const listProfileAssociations: {
-  (
-    input: ListProfileAssociationsRequest,
-  ): effect.Effect<
-    ListProfileAssociationsResponse,
-    | AccessDeniedException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfileAssociations: API.OperationMethod<
+  ListProfileAssociationsRequest,
+  ListProfileAssociationsResponse,
+  | AccessDeniedException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfileAssociationsRequest,
   ) => stream.Stream<
@@ -1085,21 +1074,19 @@ export const listProfileAssociations: {
 /**
  * Lists all the resource associations for the specified Route 53 Profile.
  */
-export const listProfileResourceAssociations: {
-  (
-    input: ListProfileResourceAssociationsRequest,
-  ): effect.Effect<
-    ListProfileResourceAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfileResourceAssociations: API.OperationMethod<
+  ListProfileResourceAssociationsRequest,
+  ListProfileResourceAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfileResourceAssociationsRequest,
   ) => stream.Stream<
@@ -1150,19 +1137,17 @@ export const listProfileResourceAssociations: {
 /**
  * Lists all the Route 53 Profiles associated with your Amazon Web Services account.
  */
-export const listProfiles: {
-  (
-    input: ListProfilesRequest,
-  ): effect.Effect<
-    ListProfilesResponse,
-    | AccessDeniedException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfiles: API.OperationMethod<
+  ListProfilesRequest,
+  ListProfilesResponse,
+  | AccessDeniedException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfilesRequest,
   ) => stream.Stream<
@@ -1207,9 +1192,8 @@ export const listProfiles: {
 /**
  * Lists the tags that you associated with the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1232,9 +1216,8 @@ export const listTagsForResource: (
 /**
  * Adds one or more tags to a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1255,9 +1238,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1280,9 +1262,8 @@ export const untagResource: (
 /**
  * Updates the specified Route 53 Profile resourse association.
  */
-export const updateProfileResourceAssociation: (
-  input: UpdateProfileResourceAssociationRequest,
-) => effect.Effect<
+export const updateProfileResourceAssociation: API.OperationMethod<
+  UpdateProfileResourceAssociationRequest,
   UpdateProfileResourceAssociationResponse,
   | AccessDeniedException
   | ConflictException

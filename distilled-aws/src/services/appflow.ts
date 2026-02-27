@@ -3805,9 +3805,8 @@ export class UnsupportedOperationException extends S.TaggedErrorClass<Unsupporte
  * its entire batch of data after the cancellation. For these operations, the data processing
  * charges for Amazon AppFlow apply. For the pricing information, see Amazon AppFlow pricing.
  */
-export const cancelFlowExecutions: (
-  input: CancelFlowExecutionsRequest,
-) => effect.Effect<
+export const cancelFlowExecutions: API.OperationMethod<
+  CancelFlowExecutionsRequest,
   CancelFlowExecutionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3834,9 +3833,8 @@ export const cancelFlowExecutions: (
  * team through the Amazon AppFlow support channel. In each connector profile that you
  * create, you can provide the credentials and properties for only one connector.
  */
-export const createConnectorProfile: (
-  input: CreateConnectorProfileRequest,
-) => effect.Effect<
+export const createConnectorProfile: API.OperationMethod<
+  CreateConnectorProfileRequest,
   CreateConnectorProfileResponse,
   | ConflictException
   | ConnectorAuthenticationException
@@ -3863,9 +3861,8 @@ export const createConnectorProfile: (
  * at a time. Amazon AppFlow does not currently support flows to multiple destinations at
  * once.
  */
-export const createFlow: (
-  input: CreateFlowRequest,
-) => effect.Effect<
+export const createFlow: API.OperationMethod<
+  CreateFlowRequest,
   CreateFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -3894,9 +3891,8 @@ export const createFlow: (
 /**
  * Enables you to delete an existing connector profile.
  */
-export const deleteConnectorProfile: (
-  input: DeleteConnectorProfileRequest,
-) => effect.Effect<
+export const deleteConnectorProfile: API.OperationMethod<
+  DeleteConnectorProfileRequest,
   DeleteConnectorProfileResponse,
   | ConflictException
   | InternalServerException
@@ -3916,9 +3912,8 @@ export const deleteConnectorProfile: (
  * Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can
  * delete flows one at a time.
  */
-export const deleteFlow: (
-  input: DeleteFlowRequest,
-) => effect.Effect<
+export const deleteFlow: API.OperationMethod<
+  DeleteFlowRequest,
   DeleteFlowResponse,
   | ConflictException
   | InternalServerException
@@ -3939,9 +3934,8 @@ export const deleteFlow: (
  * API can be used for custom connectors that are registered in your account and also for Amazon
  * authored connectors.
  */
-export const describeConnector: (
-  input: DescribeConnectorRequest,
-) => effect.Effect<
+export const describeConnector: API.OperationMethod<
+  DescribeConnectorRequest,
   DescribeConnectorResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3961,9 +3955,8 @@ export const describeConnector: (
  * Provides details regarding the entity used with the connector, with a description of the
  * data model for each field in that entity.
  */
-export const describeConnectorEntity: (
-  input: DescribeConnectorEntityRequest,
-) => effect.Effect<
+export const describeConnectorEntity: API.OperationMethod<
+  DescribeConnectorEntityRequest,
   DescribeConnectorEntityResponse,
   | ConnectorAuthenticationException
   | ConnectorServerException
@@ -3991,14 +3984,12 @@ export const describeConnectorEntity: (
  * If no names or `connector-types` are provided, returns all connector profiles
  * in a paginated form. If there is no match, this operation returns an empty list.
  */
-export const describeConnectorProfiles: {
-  (
-    input: DescribeConnectorProfilesRequest,
-  ): effect.Effect<
-    DescribeConnectorProfilesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeConnectorProfiles: API.OperationMethod<
+  DescribeConnectorProfilesRequest,
+  DescribeConnectorProfilesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConnectorProfilesRequest,
   ) => stream.Stream<
@@ -4029,14 +4020,12 @@ export const describeConnectorProfiles: {
  * contains a `nextToken` object, which can be be passed in to the next call to the
  * `DescribeConnectors` API operation to retrieve the next page.
  */
-export const describeConnectors: {
-  (
-    input: DescribeConnectorsRequest,
-  ): effect.Effect<
-    DescribeConnectorsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeConnectors: API.OperationMethod<
+  DescribeConnectorsRequest,
+  DescribeConnectorsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConnectorsRequest,
   ) => stream.Stream<
@@ -4064,9 +4053,8 @@ export const describeConnectors: {
 /**
  * Provides a description of the specified flow.
  */
-export const describeFlow: (
-  input: DescribeFlowRequest,
-) => effect.Effect<
+export const describeFlow: API.OperationMethod<
+  DescribeFlowRequest,
   DescribeFlowResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4078,17 +4066,15 @@ export const describeFlow: (
 /**
  * Fetches the execution history of the flow.
  */
-export const describeFlowExecutionRecords: {
-  (
-    input: DescribeFlowExecutionRecordsRequest,
-  ): effect.Effect<
-    DescribeFlowExecutionRecordsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeFlowExecutionRecords: API.OperationMethod<
+  DescribeFlowExecutionRecordsRequest,
+  DescribeFlowExecutionRecordsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeFlowExecutionRecordsRequest,
   ) => stream.Stream<
@@ -4129,9 +4115,8 @@ export const describeFlowExecutionRecords: {
  * *Opportunity* entities, or query ServiceNow for the
  * *Incident* entity.
  */
-export const listConnectorEntities: (
-  input: ListConnectorEntitiesRequest,
-) => effect.Effect<
+export const listConnectorEntities: API.OperationMethod<
+  ListConnectorEntitiesRequest,
   ListConnectorEntitiesResponse,
   | ConnectorAuthenticationException
   | ConnectorServerException
@@ -4156,14 +4141,12 @@ export const listConnectorEntities: (
  * This API lists only custom connectors registered in this account, not the Amazon Web Services
  * authored connectors.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
@@ -4191,14 +4174,12 @@ export const listConnectors: {
 /**
  * Lists all of the flows associated with your account.
  */
-export const listFlows: {
-  (
-    input: ListFlowsRequest,
-  ): effect.Effect<
-    ListFlowsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listFlows: API.OperationMethod<
+  ListFlowsRequest,
+  ListFlowsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowsRequest,
   ) => stream.Stream<
@@ -4226,9 +4207,8 @@ export const listFlows: {
 /**
  * Retrieves the tags that are associated with a specified flow.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4249,9 +4229,8 @@ export const listTagsForResource: (
  * register the connector, you must deploy the associated AWS lambda function in your
  * account.
  */
-export const registerConnector: (
-  input: RegisterConnectorRequest,
-) => effect.Effect<
+export const registerConnector: API.OperationMethod<
+  RegisterConnectorRequest,
   RegisterConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -4289,9 +4268,8 @@ export const registerConnector: (
  * the source application. Amazon AppFlow automatically resets the cache once every hour,
  * but you can use this action when you want to get the latest metadata right away.
  */
-export const resetConnectorMetadataCache: (
-  input: ResetConnectorMetadataCacheRequest,
-) => effect.Effect<
+export const resetConnectorMetadataCache: API.OperationMethod<
+  ResetConnectorMetadataCacheRequest,
   ResetConnectorMetadataCacheResponse,
   | ConflictException
   | InternalServerException
@@ -4313,9 +4291,8 @@ export const resetConnectorMetadataCache: (
  * Activates an existing flow. For on-demand flows, this operation runs the flow
  * immediately. For schedule and event-triggered flows, this operation activates the flow.
  */
-export const startFlow: (
-  input: StartFlowRequest,
-) => effect.Effect<
+export const startFlow: API.OperationMethod<
+  StartFlowRequest,
   StartFlowResponse,
   | ConflictException
   | InternalServerException
@@ -4338,9 +4315,8 @@ export const startFlow: (
  * `unsupportedOperationException` error message. For schedule and event-triggered
  * flows, this operation deactivates the flow.
  */
-export const stopFlow: (
-  input: StopFlowRequest,
-) => effect.Effect<
+export const stopFlow: API.OperationMethod<
+  StopFlowRequest,
   StopFlowResponse,
   | ConflictException
   | InternalServerException
@@ -4361,9 +4337,8 @@ export const stopFlow: (
 /**
  * Applies a tag to the specified flow.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4383,9 +4358,8 @@ export const tagResource: (
  * Unregisters the custom connector registered in your account that matches the connector
  * label provided in the request.
  */
-export const unregisterConnector: (
-  input: UnregisterConnectorRequest,
-) => effect.Effect<
+export const unregisterConnector: API.OperationMethod<
+  UnregisterConnectorRequest,
   UnregisterConnectorResponse,
   | ConflictException
   | InternalServerException
@@ -4404,9 +4378,8 @@ export const unregisterConnector: (
 /**
  * Removes a tag from the specified flow.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4425,9 +4398,8 @@ export const untagResource: (
 /**
  * Updates a given connector profile associated with your account.
  */
-export const updateConnectorProfile: (
-  input: UpdateConnectorProfileRequest,
-) => effect.Effect<
+export const updateConnectorProfile: API.OperationMethod<
+  UpdateConnectorProfileRequest,
   UpdateConnectorProfileResponse,
   | ConflictException
   | ConnectorAuthenticationException
@@ -4455,9 +4427,8 @@ export const updateConnectorProfile: (
  *
  * - A new AWS Lambda function that you specify
  */
-export const updateConnectorRegistration: (
-  input: UpdateConnectorRegistrationRequest,
-) => effect.Effect<
+export const updateConnectorRegistration: API.OperationMethod<
+  UpdateConnectorRegistrationRequest,
   UpdateConnectorRegistrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4488,9 +4459,8 @@ export const updateConnectorRegistration: (
 /**
  * Updates an existing flow.
  */
-export const updateFlow: (
-  input: UpdateFlowRequest,
-) => effect.Effect<
+export const updateFlow: API.OperationMethod<
+  UpdateFlowRequest,
   UpdateFlowResponse,
   | AccessDeniedException
   | ConflictException

@@ -252,18 +252,16 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Returns a list of recommended actions that match the filter criteria.
  */
-export const listRecommendedActions: {
-  (
-    input: ListRecommendedActionsRequest,
-  ): effect.Effect<
-    ListRecommendedActionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendedActions: API.OperationMethod<
+  ListRecommendedActionsRequest,
+  ListRecommendedActionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendedActionsRequest,
   ) => stream.Stream<

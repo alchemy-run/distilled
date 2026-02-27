@@ -42,9 +42,8 @@ export const GetDCVDelegationResponse = Schema.Struct({
   uuid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetDCVDelegationResponse>;
 
-export const getDCVDelegation: (
-  input: GetDCVDelegationRequest,
-) => Effect.Effect<
+export const getDCVDelegation: API.OperationMethod<
+  GetDCVDelegationRequest,
   GetDCVDelegationResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient

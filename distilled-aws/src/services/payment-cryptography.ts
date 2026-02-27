@@ -1288,9 +1288,8 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
  *
  * - GetDefaultKeyReplicationRegions
  */
-export const disableDefaultKeyReplicationRegions: (
-  input: DisableDefaultKeyReplicationRegionsInput,
-) => effect.Effect<
+export const disableDefaultKeyReplicationRegions: API.OperationMethod<
+  DisableDefaultKeyReplicationRegionsInput,
   DisableDefaultKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -1329,9 +1328,8 @@ export const disableDefaultKeyReplicationRegions: (
  *
  * - GetDefaultKeyReplicationRegions
  */
-export const enableDefaultKeyReplicationRegions: (
-  input: EnableDefaultKeyReplicationRegionsInput,
-) => effect.Effect<
+export const enableDefaultKeyReplicationRegions: API.OperationMethod<
+  EnableDefaultKeyReplicationRegionsInput,
   EnableDefaultKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -1446,9 +1444,8 @@ export const enableDefaultKeyReplicationRegions: (
  *
  * - ImportKey
  */
-export const exportKey: (
-  input: ExportKeyInput,
-) => effect.Effect<
+export const exportKey: API.OperationMethod<
+  ExportKeyInput,
   ExportKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -1475,9 +1472,8 @@ export const exportKey: (
 /**
  * Creates a certificate signing request (CSR) from a key pair.
  */
-export const getCertificateSigningRequest: (
-  input: GetCertificateSigningRequestInput,
-) => effect.Effect<
+export const getCertificateSigningRequest: API.OperationMethod<
+  GetCertificateSigningRequestInput,
   GetCertificateSigningRequestOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1512,9 +1508,8 @@ export const getCertificateSigningRequest: (
  *
  * - DisableDefaultKeyReplicationRegions
  */
-export const getDefaultKeyReplicationRegions: (
-  input: GetDefaultKeyReplicationRegionsInput,
-) => effect.Effect<
+export const getDefaultKeyReplicationRegions: API.OperationMethod<
+  GetDefaultKeyReplicationRegionsInput,
   GetDefaultKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -1551,9 +1546,8 @@ export const getDefaultKeyReplicationRegions: (
  *
  * - GetParametersForImport
  */
-export const getParametersForExport: (
-  input: GetParametersForExportInput,
-) => effect.Effect<
+export const getParametersForExport: API.OperationMethod<
+  GetParametersForExportInput,
   GetParametersForExportOutput,
   | AccessDeniedException
   | ConflictException
@@ -1592,9 +1586,8 @@ export const getParametersForExport: (
  *
  * - ImportKey
  */
-export const getParametersForImport: (
-  input: GetParametersForImportInput,
-) => effect.Effect<
+export const getParametersForImport: API.OperationMethod<
+  GetParametersForImportInput,
   GetParametersForImportOutput,
   | AccessDeniedException
   | ConflictException
@@ -1627,9 +1620,8 @@ export const getParametersForImport: (
  *
  * **Cross-account use:** This operation can't be used across different Amazon Web Services accounts.
  */
-export const getPublicKeyCertificate: (
-  input: GetPublicKeyCertificateInput,
-) => effect.Effect<
+export const getPublicKeyCertificate: API.OperationMethod<
+  GetPublicKeyCertificateInput,
   GetPublicKeyCertificateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1748,9 +1740,8 @@ export const getPublicKeyCertificate: (
  *
  * - GetParametersForImport
  */
-export const importKey: (
-  input: ImportKeyInput,
-) => effect.Effect<
+export const importKey: API.OperationMethod<
+  ImportKeyInput,
   ImportKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -1789,20 +1780,18 @@ export const importKey: (
  *
  * - UntagResource
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceInput,
-  ): effect.Effect<
-    ListTagsForResourceOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
@@ -1862,9 +1851,8 @@ export const listTagsForResource: {
  *
  * - UntagResource
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1903,9 +1891,8 @@ export const tagResource: (
  *
  * - TagResource
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1948,9 +1935,8 @@ export const untagResource: (
  *
  * - UpdateAlias
  */
-export const createAlias: (
-  input: CreateAliasInput,
-) => effect.Effect<
+export const createAlias: API.OperationMethod<
+  CreateAliasInput,
   CreateAliasOutput,
   | AccessDeniedException
   | ConflictException
@@ -1991,9 +1977,8 @@ export const createAlias: (
  *
  * - UpdateAlias
  */
-export const getAlias: (
-  input: GetAliasInput,
-) => effect.Effect<
+export const getAlias: API.OperationMethod<
+  GetAliasInput,
   GetAliasOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2030,9 +2015,8 @@ export const getAlias: (
  *
  * - ListAliases
  */
-export const updateAlias: (
-  input: UpdateAliasInput,
-) => effect.Effect<
+export const updateAlias: API.OperationMethod<
+  UpdateAliasInput,
   UpdateAliasOutput,
   | AccessDeniedException
   | ConflictException
@@ -2073,9 +2057,8 @@ export const updateAlias: (
  *
  * - UpdateAlias
  */
-export const deleteAlias: (
-  input: DeleteAliasInput,
-) => effect.Effect<
+export const deleteAlias: API.OperationMethod<
+  DeleteAliasInput,
   DeleteAliasOutput,
   | AccessDeniedException
   | ConflictException
@@ -2116,20 +2099,18 @@ export const deleteAlias: (
  *
  * - UpdateAlias
  */
-export const listAliases: {
-  (
-    input: ListAliasesInput,
-  ): effect.Effect<
-    ListAliasesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAliases: API.OperationMethod<
+  ListAliasesInput,
+  ListAliasesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAliasesInput,
   ) => stream.Stream<
@@ -2197,9 +2178,8 @@ export const listAliases: {
  *
  * - ListKeys
  */
-export const createKey: (
-  input: CreateKeyInput,
-) => effect.Effect<
+export const createKey: API.OperationMethod<
+  CreateKeyInput,
   CreateKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -2238,9 +2218,8 @@ export const createKey: (
  *
  * - ListKeys
  */
-export const getKey: (
-  input: GetKeyInput,
-) => effect.Effect<
+export const getKey: API.OperationMethod<
+  GetKeyInput,
   GetKeyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2279,9 +2258,8 @@ export const getKey: (
  *
  * - StopKeyUsage
  */
-export const deleteKey: (
-  input: DeleteKeyInput,
-) => effect.Effect<
+export const deleteKey: API.OperationMethod<
+  DeleteKeyInput,
   DeleteKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -2320,20 +2298,18 @@ export const deleteKey: (
  *
  * - GetKey
  */
-export const listKeys: {
-  (
-    input: ListKeysInput,
-  ): effect.Effect<
-    ListKeysOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listKeys: API.OperationMethod<
+  ListKeysInput,
+  ListKeysOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeysInput,
   ) => stream.Stream<
@@ -2395,9 +2371,8 @@ export const listKeys: {
  *
  * - GetDefaultKeyReplicationRegions
  */
-export const addKeyReplicationRegions: (
-  input: AddKeyReplicationRegionsInput,
-) => effect.Effect<
+export const addKeyReplicationRegions: API.OperationMethod<
+  AddKeyReplicationRegionsInput,
   AddKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2436,9 +2411,8 @@ export const addKeyReplicationRegions: (
  *
  * - DisableDefaultKeyReplicationRegions
  */
-export const removeKeyReplicationRegions: (
-  input: RemoveKeyReplicationRegionsInput,
-) => effect.Effect<
+export const removeKeyReplicationRegions: API.OperationMethod<
+  RemoveKeyReplicationRegionsInput,
   RemoveKeyReplicationRegionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2477,9 +2451,8 @@ export const removeKeyReplicationRegions: (
  *
  * - StopKeyUsage
  */
-export const restoreKey: (
-  input: RestoreKeyInput,
-) => effect.Effect<
+export const restoreKey: API.OperationMethod<
+  RestoreKeyInput,
   RestoreKeyOutput,
   | AccessDeniedException
   | ConflictException
@@ -2514,9 +2487,8 @@ export const restoreKey: (
  *
  * - StopKeyUsage
  */
-export const startKeyUsage: (
-  input: StartKeyUsageInput,
-) => effect.Effect<
+export const startKeyUsage: API.OperationMethod<
+  StartKeyUsageInput,
   StartKeyUsageOutput,
   | AccessDeniedException
   | ConflictException
@@ -2555,9 +2527,8 @@ export const startKeyUsage: (
  *
  * - StartKeyUsage
  */
-export const stopKeyUsage: (
-  input: StopKeyUsageInput,
-) => effect.Effect<
+export const stopKeyUsage: API.OperationMethod<
+  StopKeyUsageInput,
   StopKeyUsageOutput,
   | AccessDeniedException
   | ConflictException

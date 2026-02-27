@@ -672,18 +672,16 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
  */
-export const listControlMappings: {
-  (
-    input: ListControlMappingsRequest,
-  ): effect.Effect<
-    ListControlMappingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listControlMappings: API.OperationMethod<
+  ListControlMappingsRequest,
+  ListControlMappingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlMappingsRequest,
   ) => stream.Stream<
@@ -727,18 +725,16 @@ export const listControlMappings: {
  *
  * You can apply an optional filter to see common controls that have a specific objective. If you don’t provide a filter, the operation returns all common controls.
  */
-export const listCommonControls: {
-  (
-    input: ListCommonControlsRequest,
-  ): effect.Effect<
-    ListCommonControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCommonControls: API.OperationMethod<
+  ListCommonControlsRequest,
+  ListCommonControlsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommonControlsRequest,
   ) => stream.Stream<
@@ -782,9 +778,8 @@ export const listCommonControls: {
  *
  * In the API response, controls that have the value `GLOBAL` in the `Scope` field do not show the `DeployableRegions` field, because it does not apply. Controls that have the value `REGIONAL` in the `Scope` field return a value for the `DeployableRegions` field, as shown in the example.
  */
-export const getControl: (
-  input: GetControlRequest,
-) => effect.Effect<
+export const getControl: API.OperationMethod<
+  GetControlRequest,
   GetControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -807,18 +802,16 @@ export const getControl: (
 /**
  * Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type *controlSummary*. The ARN is returned in the global *controlcatalog* format, as shown in the examples.
  */
-export const listControls: {
-  (
-    input: ListControlsRequest,
-  ): effect.Effect<
-    ListControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listControls: API.OperationMethod<
+  ListControlsRequest,
+  ListControlsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlsRequest,
   ) => stream.Stream<
@@ -860,18 +853,16 @@ export const listControls: {
 /**
  * Returns a paginated list of domains from the Control Catalog.
  */
-export const listDomains: {
-  (
-    input: ListDomainsRequest,
-  ): effect.Effect<
-    ListDomainsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<
@@ -915,18 +906,16 @@ export const listDomains: {
  *
  * You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
  */
-export const listObjectives: {
-  (
-    input: ListObjectivesRequest,
-  ): effect.Effect<
-    ListObjectivesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectives: API.OperationMethod<
+  ListObjectivesRequest,
+  ListObjectivesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectivesRequest,
   ) => stream.Stream<

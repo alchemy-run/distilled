@@ -1824,9 +1824,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * List the tags added to a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1838,9 +1837,8 @@ export const listTagsForResource: (
 /**
  * Tag a resource by specifying its Amazon Resource Name (ARN).
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1852,9 +1850,8 @@ export const tagResource: (
 /**
  * Deletes the tags for a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1866,9 +1863,8 @@ export const untagResource: (
 /**
  * Create a workflow to orchestrate your migrations.
  */
-export const createWorkflow: (
-  input: CreateMigrationWorkflowRequest,
-) => effect.Effect<
+export const createWorkflow: API.OperationMethod<
+  CreateMigrationWorkflowRequest,
   CreateMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1889,9 +1885,8 @@ export const createWorkflow: (
 /**
  * Get migration workflow.
  */
-export const getWorkflow: (
-  input: GetMigrationWorkflowRequest,
-) => effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetMigrationWorkflowRequest,
   GetMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1914,9 +1909,8 @@ export const getWorkflow: (
 /**
  * Update a migration workflow.
  */
-export const updateWorkflow: (
-  input: UpdateMigrationWorkflowRequest,
-) => effect.Effect<
+export const updateWorkflow: API.OperationMethod<
+  UpdateMigrationWorkflowRequest,
   UpdateMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1940,9 +1934,8 @@ export const updateWorkflow: (
  * Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to
  * delete it.
  */
-export const deleteWorkflow: (
-  input: DeleteMigrationWorkflowRequest,
-) => effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteMigrationWorkflowRequest,
   DeleteMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1965,19 +1958,17 @@ export const deleteWorkflow: (
 /**
  * List the migration workflows.
  */
-export const listWorkflows: {
-  (
-    input: ListMigrationWorkflowsRequest,
-  ): effect.Effect<
-    ListMigrationWorkflowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflows: API.OperationMethod<
+  ListMigrationWorkflowsRequest,
+  ListMigrationWorkflowsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMigrationWorkflowsRequest,
   ) => stream.Stream<
@@ -2022,9 +2013,8 @@ export const listWorkflows: {
 /**
  * Start a migration workflow.
  */
-export const startWorkflow: (
-  input: StartMigrationWorkflowRequest,
-) => effect.Effect<
+export const startWorkflow: API.OperationMethod<
+  StartMigrationWorkflowRequest,
   StartMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2047,9 +2037,8 @@ export const startWorkflow: (
 /**
  * Stop an ongoing migration workflow.
  */
-export const stopWorkflow: (
-  input: StopMigrationWorkflowRequest,
-) => effect.Effect<
+export const stopWorkflow: API.OperationMethod<
+  StopMigrationWorkflowRequest,
   StopMigrationWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2072,9 +2061,8 @@ export const stopWorkflow: (
 /**
  * Creates a migration workflow template.
  */
-export const createTemplate: (
-  input: CreateTemplateRequest,
-) => effect.Effect<
+export const createTemplate: API.OperationMethod<
+  CreateTemplateRequest,
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2097,9 +2085,8 @@ export const createTemplate: (
 /**
  * Get the template you want to use for creating a migration workflow.
  */
-export const getTemplate: (
-  input: GetMigrationWorkflowTemplateRequest,
-) => effect.Effect<
+export const getTemplate: API.OperationMethod<
+  GetMigrationWorkflowTemplateRequest,
   GetMigrationWorkflowTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2120,9 +2107,8 @@ export const getTemplate: (
 /**
  * Updates a migration workflow template.
  */
-export const updateTemplate: (
-  input: UpdateTemplateRequest,
-) => effect.Effect<
+export const updateTemplate: API.OperationMethod<
+  UpdateTemplateRequest,
   UpdateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2145,9 +2131,8 @@ export const updateTemplate: (
 /**
  * Deletes a migration workflow template.
  */
-export const deleteTemplate: (
-  input: DeleteTemplateRequest,
-) => effect.Effect<
+export const deleteTemplate: API.OperationMethod<
+  DeleteTemplateRequest,
   DeleteTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2170,17 +2155,15 @@ export const deleteTemplate: (
 /**
  * List the templates available in Migration Hub Orchestrator to create a migration workflow.
  */
-export const listTemplates: {
-  (
-    input: ListMigrationWorkflowTemplatesRequest,
-  ): effect.Effect<
-    ListMigrationWorkflowTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplates: API.OperationMethod<
+  ListMigrationWorkflowTemplatesRequest,
+  ListMigrationWorkflowTemplatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMigrationWorkflowTemplatesRequest,
   ) => stream.Stream<
@@ -2215,17 +2198,15 @@ export const listTemplates: {
 /**
  * List AWS Migration Hub Orchestrator plugins.
  */
-export const listPlugins: {
-  (
-    input: ListPluginsRequest,
-  ): effect.Effect<
-    ListPluginsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlugins: API.OperationMethod<
+  ListPluginsRequest,
+  ListPluginsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPluginsRequest,
   ) => stream.Stream<
@@ -2260,9 +2241,8 @@ export const listPlugins: {
 /**
  * Get a specific step in a template.
  */
-export const getTemplateStep: (
-  input: GetTemplateStepRequest,
-) => effect.Effect<
+export const getTemplateStep: API.OperationMethod<
+  GetTemplateStepRequest,
   GetTemplateStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2285,19 +2265,17 @@ export const getTemplateStep: (
 /**
  * List the steps in a template.
  */
-export const listTemplateSteps: {
-  (
-    input: ListTemplateStepsRequest,
-  ): effect.Effect<
-    ListTemplateStepsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateSteps: API.OperationMethod<
+  ListTemplateStepsRequest,
+  ListTemplateStepsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateStepsRequest,
   ) => stream.Stream<
@@ -2342,9 +2320,8 @@ export const listTemplateSteps: {
 /**
  * Get a step group in a template.
  */
-export const getTemplateStepGroup: (
-  input: GetTemplateStepGroupRequest,
-) => effect.Effect<
+export const getTemplateStepGroup: API.OperationMethod<
+  GetTemplateStepGroupRequest,
   GetTemplateStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2367,18 +2344,16 @@ export const getTemplateStepGroup: (
 /**
  * List the step groups in a template.
  */
-export const listTemplateStepGroups: {
-  (
-    input: ListTemplateStepGroupsRequest,
-  ): effect.Effect<
-    ListTemplateStepGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateStepGroups: API.OperationMethod<
+  ListTemplateStepGroupsRequest,
+  ListTemplateStepGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateStepGroupsRequest,
   ) => stream.Stream<
@@ -2420,9 +2395,8 @@ export const listTemplateStepGroups: {
 /**
  * Create a step in the migration workflow.
  */
-export const createWorkflowStep: (
-  input: CreateWorkflowStepRequest,
-) => effect.Effect<
+export const createWorkflowStep: API.OperationMethod<
+  CreateWorkflowStepRequest,
   CreateWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2443,9 +2417,8 @@ export const createWorkflowStep: (
 /**
  * Get a step in the migration workflow.
  */
-export const getWorkflowStep: (
-  input: GetWorkflowStepRequest,
-) => effect.Effect<
+export const getWorkflowStep: API.OperationMethod<
+  GetWorkflowStepRequest,
   GetWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2466,9 +2439,8 @@ export const getWorkflowStep: (
 /**
  * Update a step in a migration workflow.
  */
-export const updateWorkflowStep: (
-  input: UpdateWorkflowStepRequest,
-) => effect.Effect<
+export const updateWorkflowStep: API.OperationMethod<
+  UpdateWorkflowStepRequest,
   UpdateWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2490,9 +2462,8 @@ export const updateWorkflowStep: (
  * Delete a step in a migration workflow. Pause the workflow to delete a running
  * step.
  */
-export const deleteWorkflowStep: (
-  input: DeleteWorkflowStepRequest,
-) => effect.Effect<
+export const deleteWorkflowStep: API.OperationMethod<
+  DeleteWorkflowStepRequest,
   DeleteWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2515,18 +2486,16 @@ export const deleteWorkflowStep: (
 /**
  * List the steps in a workflow.
  */
-export const listWorkflowSteps: {
-  (
-    input: ListWorkflowStepsRequest,
-  ): effect.Effect<
-    ListWorkflowStepsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowSteps: API.OperationMethod<
+  ListWorkflowStepsRequest,
+  ListWorkflowStepsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowStepsRequest,
   ) => stream.Stream<
@@ -2568,9 +2537,8 @@ export const listWorkflowSteps: {
 /**
  * Retry a failed step in a migration workflow.
  */
-export const retryWorkflowStep: (
-  input: RetryWorkflowStepRequest,
-) => effect.Effect<
+export const retryWorkflowStep: API.OperationMethod<
+  RetryWorkflowStepRequest,
   RetryWorkflowStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2591,9 +2559,8 @@ export const retryWorkflowStep: (
 /**
  * Create a step group in a migration workflow.
  */
-export const createWorkflowStepGroup: (
-  input: CreateWorkflowStepGroupRequest,
-) => effect.Effect<
+export const createWorkflowStepGroup: API.OperationMethod<
+  CreateWorkflowStepGroupRequest,
   CreateWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2614,9 +2581,8 @@ export const createWorkflowStepGroup: (
 /**
  * Get the step group of a migration workflow.
  */
-export const getWorkflowStepGroup: (
-  input: GetWorkflowStepGroupRequest,
-) => effect.Effect<
+export const getWorkflowStepGroup: API.OperationMethod<
+  GetWorkflowStepGroupRequest,
   GetWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2639,9 +2605,8 @@ export const getWorkflowStepGroup: (
 /**
  * Update the step group in a migration workflow.
  */
-export const updateWorkflowStepGroup: (
-  input: UpdateWorkflowStepGroupRequest,
-) => effect.Effect<
+export const updateWorkflowStepGroup: API.OperationMethod<
+  UpdateWorkflowStepGroupRequest,
   UpdateWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2664,9 +2629,8 @@ export const updateWorkflowStepGroup: (
 /**
  * Delete a step group in a migration workflow.
  */
-export const deleteWorkflowStepGroup: (
-  input: DeleteWorkflowStepGroupRequest,
-) => effect.Effect<
+export const deleteWorkflowStepGroup: API.OperationMethod<
+  DeleteWorkflowStepGroupRequest,
   DeleteWorkflowStepGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2689,19 +2653,17 @@ export const deleteWorkflowStepGroup: (
 /**
  * List the step groups in a migration workflow.
  */
-export const listWorkflowStepGroups: {
-  (
-    input: ListWorkflowStepGroupsRequest,
-  ): effect.Effect<
-    ListWorkflowStepGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowStepGroups: API.OperationMethod<
+  ListWorkflowStepGroupsRequest,
+  ListWorkflowStepGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowStepGroupsRequest,
   ) => stream.Stream<

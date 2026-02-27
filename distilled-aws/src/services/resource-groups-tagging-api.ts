@@ -575,9 +575,8 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
  * You can call this operation only from the organization's
  * management account and from the us-east-1 Region.
  */
-export const describeReportCreation: (
-  input: DescribeReportCreationInput,
-) => effect.Effect<
+export const describeReportCreation: API.OperationMethod<
+  DescribeReportCreationInput,
   DescribeReportCreationOutput,
   | ConstraintViolationException
   | InternalServiceException
@@ -612,18 +611,16 @@ export const describeReportCreation: (
  * recieve a `null` value. A null value for `PaginationToken` indicates that
  * there are no more results waiting to be returned.
  */
-export const getComplianceSummary: {
-  (
-    input: GetComplianceSummaryInput,
-  ): effect.Effect<
-    GetComplianceSummaryOutput,
-    | ConstraintViolationException
-    | InternalServiceException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getComplianceSummary: API.OperationMethod<
+  GetComplianceSummaryInput,
+  GetComplianceSummaryOutput,
+  | ConstraintViolationException
+  | InternalServiceException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetComplianceSummaryInput,
   ) => stream.Stream<
@@ -689,18 +686,16 @@ export const getComplianceSummary: {
  * To find untagged resources in your account, use Amazon Web Services Resource Explorer with a
  * query that uses `tag:none`. For more information, see Search query syntax reference for Resource Explorer.
  */
-export const getResources: {
-  (
-    input: GetResourcesInput,
-  ): effect.Effect<
-    GetResourcesOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getResources: API.OperationMethod<
+  GetResourcesInput,
+  GetResourcesOutput,
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcesInput,
   ) => stream.Stream<
@@ -750,18 +745,16 @@ export const getResources: {
  * recieve a `null` value. A null value for `PaginationToken` indicates that
  * there are no more results waiting to be returned.
  */
-export const getTagKeys: {
-  (
-    input: GetTagKeysInput,
-  ): effect.Effect<
-    GetTagKeysOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTagKeys: API.OperationMethod<
+  GetTagKeysInput,
+  GetTagKeysOutput,
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTagKeysInput,
   ) => stream.Stream<
@@ -810,18 +803,16 @@ export const getTagKeys: {
  * recieve a `null` value. A null value for `PaginationToken` indicates that
  * there are no more results waiting to be returned.
  */
-export const getTagValues: {
-  (
-    input: GetTagValuesInput,
-  ): effect.Effect<
-    GetTagValuesOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getTagValues: API.OperationMethod<
+  GetTagValuesInput,
+  GetTagValuesOutput,
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTagValuesInput,
   ) => stream.Stream<
@@ -862,18 +853,16 @@ export const getTagValues: {
 /**
  * Lists the required tags for supported resource types in an Amazon Web Services account.
  */
-export const listRequiredTags: {
-  (
-    input: ListRequiredTagsInput,
-  ): effect.Effect<
-    ListRequiredTagsOutput,
-    | InternalServiceException
-    | InvalidParameterException
-    | PaginationTokenExpiredException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRequiredTags: API.OperationMethod<
+  ListRequiredTagsInput,
+  ListRequiredTagsOutput,
+  | InternalServiceException
+  | InvalidParameterException
+  | PaginationTokenExpiredException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequiredTagsInput,
   ) => stream.Stream<
@@ -935,9 +924,8 @@ export const listRequiredTags: {
  * policy for report storage in the Tagging Amazon Web Services Resources and Tag
  * Editor user guide.
  */
-export const startReportCreation: (
-  input: StartReportCreationInput,
-) => effect.Effect<
+export const startReportCreation: API.OperationMethod<
+  StartReportCreationInput,
   StartReportCreationOutput,
   | ConcurrentModificationException
   | ConstraintViolationException
@@ -1009,9 +997,8 @@ export const startReportCreation: (
  * don't work, check the documentation for that service's tagging APIs for more
  * information.
  */
-export const tagResources: (
-  input: TagResourcesInput,
-) => effect.Effect<
+export const tagResources: API.OperationMethod<
+  TagResourcesInput,
   TagResourcesOutput,
   | InternalServiceException
   | InvalidParameterException
@@ -1059,9 +1046,8 @@ export const tagResources: (
  * don't work, check the documentation for that service's tagging APIs for more
  * information.
  */
-export const untagResources: (
-  input: UntagResourcesInput,
-) => effect.Effect<
+export const untagResources: API.OperationMethod<
+  UntagResourcesInput,
   UntagResourcesOutput,
   | InternalServiceException
   | InvalidParameterException

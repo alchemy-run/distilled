@@ -1,10 +1,12 @@
+import * as Effect from "effect/Effect";
+import { pipeArguments } from "effect/Pipeable";
+import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
-import * as Stream from "effect/Stream";
+import { SingleShotGen } from "effect/Utils";
 import * as Category from "./category";
 import { Credentials } from "./credentials";
 import {
@@ -452,6 +454,18 @@ interface PaginatedOperationConfig<
   pagination?: PaginatedTrait;
 }
 
+/**
+ * An operation that can be used in two ways:
+ * 1. Direct call: `yield* operation(input)` — returns Effect with requirements
+ * 2. Yield first: `const fn = yield* operation` — captures services, returns requirement-free function
+ */
+export type OperationMethod<I, A, E, R> = Effect.Effect<
+  (input: I) => Effect.Effect<A, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Effect.Effect<A, E, R>);
+
 // API namespace
 export const API = {
   make: <
@@ -520,7 +534,7 @@ export const API = {
       return Object.keys(body).length > 0 ? body : undefined;
     };
 
-    return (input: Input): Effect.Effect<Output, Errors, Context> =>
+    const fn = (input: Input): Effect.Effect<Output, Errors, Context> =>
       Effect.gen(function* () {
         const { apiKeyId, apiKeySecret, walletSecret, apiBaseUrl } =
           yield* Credentials;
@@ -620,6 +634,23 @@ export const API = {
           Effect.scoped,
         );
       });
+
+    const Proto = {
+      [Symbol.iterator]() {
+        return new SingleShotGen(this);
+      },
+      pipe() {
+        return pipeArguments(this.asEffect(), arguments);
+      },
+      asEffect() {
+        return Effect.map(
+          Effect.services(),
+          (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
+        );
+      },
+    };
+
+    return Object.assign(fn, Proto);
   },
 
   /**
