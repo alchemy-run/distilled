@@ -103,10 +103,12 @@ export const RotateSecretWidgetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<RotateSecretWidgetResponse>;
 
+export type RotateSecretWidgetError = CommonErrors;
+
 export const rotateSecretWidget: API.OperationMethod<
   RotateSecretWidgetRequest,
   RotateSecretWidgetResponse,
-  CommonErrors,
+  RotateSecretWidgetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RotateSecretWidgetRequest,
@@ -195,10 +197,12 @@ export const GetWidgetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetWidgetResponse>;
 
+export type GetWidgetError = CommonErrors;
+
 export const getWidget: API.OperationMethod<
   GetWidgetRequest,
   GetWidgetResponse,
-  CommonErrors,
+  GetWidgetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWidgetRequest,
@@ -276,10 +280,12 @@ export const ListWidgetsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWidgetsResponse>;
 
+export type ListWidgetsError = CommonErrors;
+
 export const listWidgets: API.OperationMethod<
   ListWidgetsRequest,
   ListWidgetsResponse,
-  CommonErrors,
+  ListWidgetsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWidgetsRequest,
@@ -411,10 +417,12 @@ export const CreateWidgetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateWidgetResponse>;
 
+export type CreateWidgetError = CommonErrors;
+
 export const createWidget: API.OperationMethod<
   CreateWidgetRequest,
   CreateWidgetResponse,
-  CommonErrors,
+  CreateWidgetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateWidgetRequest,
@@ -535,10 +543,12 @@ export const UpdateWidgetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateWidgetResponse>;
 
+export type UpdateWidgetError = CommonErrors;
+
 export const updateWidget: API.OperationMethod<
   UpdateWidgetRequest,
   UpdateWidgetResponse,
-  CommonErrors,
+  UpdateWidgetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateWidgetRequest,
@@ -623,10 +633,12 @@ export const DeleteWidgetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteWidgetResponse>;
 
+export type DeleteWidgetError = CommonErrors;
+
 export const deleteWidget: API.OperationMethod<
   DeleteWidgetRequest,
   DeleteWidgetResponse,
-  CommonErrors,
+  DeleteWidgetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteWidgetRequest,

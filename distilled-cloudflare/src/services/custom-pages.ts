@@ -91,10 +91,12 @@ export const GetCustomPageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCustomPageResponse>;
 
+export type GetCustomPageError = CommonErrors;
+
 export const getCustomPage: API.OperationMethod<
   GetCustomPageRequest,
   GetCustomPageResponse,
-  CommonErrors,
+  GetCustomPageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCustomPageRequest,
@@ -146,10 +148,12 @@ export const ListCustomPagesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCustomPagesResponse>;
 
+export type ListCustomPagesError = CommonErrors;
+
 export const listCustomPages: API.OperationMethod<
   ListCustomPagesRequest,
   ListCustomPagesResponse,
-  CommonErrors,
+  ListCustomPagesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCustomPagesRequest,
@@ -238,10 +242,12 @@ export const PutCustomPageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutCustomPageResponse>;
 
+export type PutCustomPageError = CommonErrors;
+
 export const putCustomPage: API.OperationMethod<
   PutCustomPageRequest,
   PutCustomPageResponse,
-  CommonErrors,
+  PutCustomPageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutCustomPageRequest,

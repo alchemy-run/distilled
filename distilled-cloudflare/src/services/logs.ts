@@ -53,10 +53,12 @@ export const GetControlCmbConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
 
+export type GetControlCmbConfigError = CommonErrors;
+
 export const getControlCmbConfig: API.OperationMethod<
   GetControlCmbConfigRequest,
   GetControlCmbConfigResponse,
-  CommonErrors,
+  GetControlCmbConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetControlCmbConfigRequest,
@@ -105,10 +107,12 @@ export const CreateControlCmbConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
 
+export type CreateControlCmbConfigError = CommonErrors;
+
 export const createControlCmbConfig: API.OperationMethod<
   CreateControlCmbConfigRequest,
   CreateControlCmbConfigResponse,
-  CommonErrors,
+  CreateControlCmbConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateControlCmbConfigRequest,
@@ -135,10 +139,12 @@ export type DeleteControlCmbConfigResponse = unknown;
 export const DeleteControlCmbConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteControlCmbConfigResponse>;
 
+export type DeleteControlCmbConfigError = CommonErrors;
+
 export const deleteControlCmbConfig: API.OperationMethod<
   DeleteControlCmbConfigRequest,
   DeleteControlCmbConfigResponse,
-  CommonErrors,
+  DeleteControlCmbConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteControlCmbConfigRequest,
@@ -173,10 +179,12 @@ export const GetControlRetentionResponse = Schema.Struct({
   flag: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetControlRetentionResponse>;
 
+export type GetControlRetentionError = CommonErrors;
+
 export const getControlRetention: API.OperationMethod<
   GetControlRetentionRequest,
   GetControlRetentionResponse,
-  CommonErrors,
+  GetControlRetentionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetControlRetentionRequest,
@@ -210,10 +218,12 @@ export const CreateControlRetentionResponse = Schema.Struct({
   flag: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateControlRetentionResponse>;
 
+export type CreateControlRetentionError = CommonErrors;
+
 export const createControlRetention: API.OperationMethod<
   CreateControlRetentionRequest,
   CreateControlRetentionResponse,
-  CommonErrors,
+  CreateControlRetentionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateControlRetentionRequest,
@@ -251,10 +261,12 @@ export type GetRayidResponse = string;
 export const GetRayidResponse =
   Schema.String as unknown as Schema.Schema<GetRayidResponse>;
 
+export type GetRayidError = CommonErrors;
+
 export const getRayid: API.OperationMethod<
   GetRayidRequest,
   GetRayidResponse,
-  CommonErrors,
+  GetRayidError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRayidRequest,
@@ -304,10 +316,12 @@ export type GetReceivedResponse = string;
 export const GetReceivedResponse =
   Schema.String as unknown as Schema.Schema<GetReceivedResponse>;
 
+export type GetReceivedError = CommonErrors;
+
 export const getReceived: API.OperationMethod<
   GetReceivedRequest,
   GetReceivedResponse,
-  CommonErrors,
+  GetReceivedError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetReceivedRequest,
@@ -338,10 +352,12 @@ export const GetReceivedFieldResponse = Schema.Struct({
   key: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetReceivedFieldResponse>;
 
+export type GetReceivedFieldError = CommonErrors;
+
 export const getReceivedField: API.OperationMethod<
   GetReceivedFieldRequest,
   GetReceivedFieldResponse,
-  CommonErrors,
+  GetReceivedFieldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetReceivedFieldRequest,

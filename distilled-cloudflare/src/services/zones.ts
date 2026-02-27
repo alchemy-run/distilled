@@ -42,10 +42,12 @@ export const TriggerActivationCheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<TriggerActivationCheckResponse>;
 
+export type TriggerActivationCheckError = CommonErrors;
+
 export const triggerActivationCheck: API.OperationMethod<
   TriggerActivationCheckRequest,
   TriggerActivationCheckResponse,
-  CommonErrors,
+  TriggerActivationCheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TriggerActivationCheckRequest,
@@ -163,10 +165,12 @@ export const GetCustomNameserverResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCustomNameserverResponse>;
 
+export type GetCustomNameserverError = CommonErrors;
+
 export const getCustomNameserver: API.OperationMethod<
   GetCustomNameserverRequest,
   GetCustomNameserverResponse,
-  CommonErrors,
+  GetCustomNameserverError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCustomNameserverRequest,
@@ -198,10 +202,12 @@ export const UpdateCustomNameserverResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<UpdateCustomNameserverResponse>;
 
+export type UpdateCustomNameserverError = CommonErrors;
+
 export const updateCustomNameserver: API.OperationMethod<
   UpdateCustomNameserverRequest,
   UpdateCustomNameserverResponse,
-  CommonErrors,
+  UpdateCustomNameserverError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateCustomNameserverRequest,
@@ -242,10 +248,12 @@ export const GetHoldResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetHoldResponse>;
 
+export type GetHoldError = CommonErrors;
+
 export const getHold: API.OperationMethod<
   GetHoldRequest,
   GetHoldResponse,
-  CommonErrors,
+  GetHoldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHoldRequest,
@@ -287,10 +295,12 @@ export const CreateHoldResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateHoldResponse>;
 
+export type CreateHoldError = CommonErrors;
+
 export const createHold: API.OperationMethod<
   CreateHoldRequest,
   CreateHoldResponse,
-  CommonErrors,
+  CreateHoldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateHoldRequest,
@@ -337,10 +347,12 @@ export const PatchHoldResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchHoldResponse>;
 
+export type PatchHoldError = CommonErrors;
+
 export const patchHold: API.OperationMethod<
   PatchHoldRequest,
   PatchHoldResponse,
-  CommonErrors,
+  PatchHoldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchHoldRequest,
@@ -380,10 +392,12 @@ export const DeleteHoldResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteHoldResponse>;
 
+export type DeleteHoldError = CommonErrors;
+
 export const deleteHold: API.OperationMethod<
   DeleteHoldRequest,
   DeleteHoldResponse,
-  CommonErrors,
+  DeleteHoldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteHoldRequest,
@@ -462,10 +476,12 @@ export const GetPlanResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPlanResponse>;
 
+export type GetPlanError = CommonErrors;
+
 export const getPlan: API.OperationMethod<
   GetPlanRequest,
   GetPlanResponse,
-  CommonErrors,
+  GetPlanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPlanRequest,
@@ -527,10 +543,12 @@ export const ListPlansResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPlansResponse>;
 
+export type ListPlansError = CommonErrors;
+
 export const listPlans: API.OperationMethod<
   ListPlansRequest,
   ListPlansResponse,
-  CommonErrors,
+  ListPlansError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPlansRequest,
@@ -604,10 +622,12 @@ export const GetRatePlanResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetRatePlanResponse>;
 
+export type GetRatePlanError = CommonErrors;
+
 export const getRatePlan: API.OperationMethod<
   GetRatePlanRequest,
   GetRatePlanResponse,
-  CommonErrors,
+  GetRatePlanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRatePlanRequest,
@@ -1900,10 +1920,12 @@ export const GetSettingResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetSettingResponse>;
 
+export type GetSettingError = CommonErrors;
+
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
-  CommonErrors,
+  GetSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingRequest,
@@ -3195,10 +3217,12 @@ export const PatchSettingResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<PatchSettingResponse>;
 
+export type PatchSettingError = CommonErrors;
+
 export const patchSetting: API.OperationMethod<
   PatchSettingRequest,
   PatchSettingResponse,
-  CommonErrors,
+  PatchSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingRequest,
@@ -3287,10 +3311,12 @@ export const GetSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
+export type GetSubscriptionError = CommonErrors;
+
 export const getSubscription: API.OperationMethod<
   GetSubscriptionRequest,
   GetSubscriptionResponse,
-  CommonErrors,
+  GetSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSubscriptionRequest,
@@ -3384,10 +3410,12 @@ export const CreateSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
+export type CreateSubscriptionError = CommonErrors;
+
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
   CreateSubscriptionResponse,
-  CommonErrors,
+  CreateSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSubscriptionRequest,
@@ -3481,10 +3509,12 @@ export const UpdateSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
+export type UpdateSubscriptionError = CommonErrors;
+
 export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
-  CommonErrors,
+  UpdateSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSubscriptionRequest,
@@ -3689,10 +3719,12 @@ export const GetZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetZoneResponse>;
 
+export type GetZoneError = CommonErrors;
+
 export const getZone: API.OperationMethod<
   GetZoneRequest,
   GetZoneResponse,
-  CommonErrors,
+  GetZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneRequest,
@@ -3870,10 +3902,12 @@ export const ListZonesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListZonesResponse>;
 
+export type ListZonesError = CommonErrors;
+
 export const listZones: API.OperationMethod<
   ListZonesRequest,
   ListZonesResponse,
-  CommonErrors,
+  ListZonesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListZonesRequest,
@@ -4083,10 +4117,12 @@ export const CreateZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateZoneResponse>;
 
+export type CreateZoneError = CommonErrors;
+
 export const createZone: API.OperationMethod<
   CreateZoneRequest,
   CreateZoneResponse,
-  CommonErrors,
+  CreateZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneRequest,
@@ -4303,10 +4339,12 @@ export const PatchZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchZoneResponse>;
 
+export type PatchZoneError = CommonErrors;
+
 export const patchZone: API.OperationMethod<
   PatchZoneRequest,
   PatchZoneResponse,
-  CommonErrors,
+  PatchZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchZoneRequest,
@@ -4334,10 +4372,12 @@ export const DeleteZoneResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteZoneResponse>;
 
+export type DeleteZoneError = CommonErrors;
+
 export const deleteZone: API.OperationMethod<
   DeleteZoneRequest,
   DeleteZoneResponse,
-  CommonErrors,
+  DeleteZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteZoneRequest,

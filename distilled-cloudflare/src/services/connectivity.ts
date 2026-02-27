@@ -116,10 +116,12 @@ export const GetDirectoryServiceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDirectoryServiceResponse>;
 
+export type GetDirectoryServiceError = CommonErrors;
+
 export const getDirectoryService: API.OperationMethod<
   GetDirectoryServiceRequest,
   GetDirectoryServiceResponse,
-  CommonErrors,
+  GetDirectoryServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDirectoryServiceRequest,
@@ -227,10 +229,12 @@ export const ListDirectoryServicesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDirectoryServicesResponse>;
 
+export type ListDirectoryServicesError = CommonErrors;
+
 export const listDirectoryServices: API.OperationMethod<
   ListDirectoryServicesRequest,
   ListDirectoryServicesResponse,
-  CommonErrors,
+  ListDirectoryServicesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDirectoryServicesRequest,
@@ -399,10 +403,12 @@ export const CreateDirectoryServiceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDirectoryServiceResponse>;
 
+export type CreateDirectoryServiceError = CommonErrors;
+
 export const createDirectoryService: API.OperationMethod<
   CreateDirectoryServiceRequest,
   CreateDirectoryServiceResponse,
-  CommonErrors,
+  CreateDirectoryServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDirectoryServiceRequest,
@@ -573,10 +579,12 @@ export const UpdateDirectoryServiceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateDirectoryServiceResponse>;
 
+export type UpdateDirectoryServiceError = CommonErrors;
+
 export const updateDirectoryService: API.OperationMethod<
   UpdateDirectoryServiceRequest,
   UpdateDirectoryServiceResponse,
-  CommonErrors,
+  UpdateDirectoryServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDirectoryServiceRequest,
@@ -604,10 +612,12 @@ export type DeleteDirectoryServiceResponse = unknown;
 export const DeleteDirectoryServiceResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDirectoryServiceResponse>;
 
+export type DeleteDirectoryServiceError = CommonErrors;
+
 export const deleteDirectoryService: API.OperationMethod<
   DeleteDirectoryServiceRequest,
   DeleteDirectoryServiceResponse,
-  CommonErrors,
+  DeleteDirectoryServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDirectoryServiceRequest,

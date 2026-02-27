@@ -58,10 +58,12 @@ export const GetPermissionGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetPermissionGroupResponse>;
 
+export type GetPermissionGroupError = CommonErrors;
+
 export const getPermissionGroup: API.OperationMethod<
   GetPermissionGroupRequest,
   GetPermissionGroupResponse,
-  CommonErrors,
+  GetPermissionGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPermissionGroupRequest,
@@ -111,10 +113,12 @@ export const ListPermissionGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPermissionGroupsResponse>;
 
+export type ListPermissionGroupsError = CommonErrors;
+
 export const listPermissionGroups: API.OperationMethod<
   ListPermissionGroupsRequest,
   ListPermissionGroupsResponse,
-  CommonErrors,
+  ListPermissionGroupsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPermissionGroupsRequest,
@@ -174,10 +178,12 @@ export const GetResourceGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetResourceGroupResponse>;
 
+export type GetResourceGroupError = CommonErrors;
+
 export const getResourceGroup: API.OperationMethod<
   GetResourceGroupRequest,
   GetResourceGroupResponse,
-  CommonErrors,
+  GetResourceGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetResourceGroupRequest,
@@ -232,10 +238,12 @@ export const ListResourceGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListResourceGroupsResponse>;
 
+export type ListResourceGroupsError = CommonErrors;
+
 export const listResourceGroups: API.OperationMethod<
   ListResourceGroupsRequest,
   ListResourceGroupsResponse,
-  CommonErrors,
+  ListResourceGroupsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListResourceGroupsRequest,
@@ -302,10 +310,12 @@ export const CreateResourceGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateResourceGroupResponse>;
 
+export type CreateResourceGroupError = CommonErrors;
+
 export const createResourceGroup: API.OperationMethod<
   CreateResourceGroupRequest,
   CreateResourceGroupResponse,
-  CommonErrors,
+  CreateResourceGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateResourceGroupRequest,
@@ -376,10 +386,12 @@ export const UpdateResourceGroupResponse = Schema.Struct({
   name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateResourceGroupResponse>;
 
+export type UpdateResourceGroupError = CommonErrors;
+
 export const updateResourceGroup: API.OperationMethod<
   UpdateResourceGroupRequest,
   UpdateResourceGroupResponse,
-  CommonErrors,
+  UpdateResourceGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateResourceGroupRequest,
@@ -412,10 +424,12 @@ export const DeleteResourceGroupResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteResourceGroupResponse>;
 
+export type DeleteResourceGroupError = CommonErrors;
+
 export const deleteResourceGroup: API.OperationMethod<
   DeleteResourceGroupRequest,
   DeleteResourceGroupResponse,
-  CommonErrors,
+  DeleteResourceGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteResourceGroupRequest,
@@ -487,10 +501,12 @@ export const GetSsoResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSsoResponse>;
 
+export type GetSsoError = CommonErrors;
+
 export const getSso: API.OperationMethod<
   GetSsoRequest,
   GetSsoResponse,
-  CommonErrors,
+  GetSsoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSsoRequest,
@@ -551,10 +567,12 @@ export const ListSsosResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSsosResponse>;
 
+export type ListSsosError = CommonErrors;
+
 export const listSsos: API.OperationMethod<
   ListSsosRequest,
   ListSsosResponse,
-  CommonErrors,
+  ListSsosError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSsosRequest,
@@ -631,10 +649,12 @@ export const CreateSsoResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSsoResponse>;
 
+export type CreateSsoError = CommonErrors;
+
 export const createSso: API.OperationMethod<
   CreateSsoRequest,
   CreateSsoResponse,
-  CommonErrors,
+  CreateSsoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSsoRequest,
@@ -712,10 +732,12 @@ export const PatchSsoResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSsoResponse>;
 
+export type PatchSsoError = CommonErrors;
+
 export const patchSso: API.OperationMethod<
   PatchSsoRequest,
   PatchSsoResponse,
-  CommonErrors,
+  PatchSsoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSsoRequest,
@@ -748,10 +770,12 @@ export const DeleteSsoResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteSsoResponse>;
 
+export type DeleteSsoError = CommonErrors;
+
 export const deleteSso: API.OperationMethod<
   DeleteSsoRequest,
   DeleteSsoResponse,
-  CommonErrors,
+  DeleteSsoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSsoRequest,
@@ -841,10 +865,12 @@ export const GetUserGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetUserGroupResponse>;
 
+export type GetUserGroupError = CommonErrors;
+
 export const getUserGroup: API.OperationMethod<
   GetUserGroupRequest,
   GetUserGroupResponse,
-  CommonErrors,
+  GetUserGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetUserGroupRequest,
@@ -934,10 +960,12 @@ export const ListUserGroupsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListUserGroupsResponse>;
 
+export type ListUserGroupsError = CommonErrors;
+
 export const listUserGroups: API.OperationMethod<
   ListUserGroupsRequest,
   ListUserGroupsResponse,
-  CommonErrors,
+  ListUserGroupsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListUserGroupsRequest,
@@ -1048,10 +1076,12 @@ export const CreateUserGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateUserGroupResponse>;
 
+export type CreateUserGroupError = CommonErrors;
+
 export const createUserGroup: API.OperationMethod<
   CreateUserGroupRequest,
   CreateUserGroupResponse,
-  CommonErrors,
+  CreateUserGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateUserGroupRequest,
@@ -1172,10 +1202,12 @@ export const UpdateUserGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateUserGroupResponse>;
 
+export type UpdateUserGroupError = CommonErrors;
+
 export const updateUserGroup: API.OperationMethod<
   UpdateUserGroupRequest,
   UpdateUserGroupResponse,
-  CommonErrors,
+  UpdateUserGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateUserGroupRequest,
@@ -1208,10 +1240,12 @@ export const DeleteUserGroupResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteUserGroupResponse>;
 
+export type DeleteUserGroupError = CommonErrors;
+
 export const deleteUserGroup: API.OperationMethod<
   DeleteUserGroupRequest,
   DeleteUserGroupResponse,
-  CommonErrors,
+  DeleteUserGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteUserGroupRequest,
@@ -1253,10 +1287,12 @@ export const ListUserGroupMembersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListUserGroupMembersResponse>;
 
+export type ListUserGroupMembersError = CommonErrors;
+
 export const listUserGroupMembers: API.OperationMethod<
   ListUserGroupMembersRequest,
   ListUserGroupMembersResponse,
-  CommonErrors,
+  ListUserGroupMembersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListUserGroupMembersRequest,
@@ -1302,10 +1338,12 @@ export const CreateUserGroupMemberResponse = Schema.Struct({
   status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
 
+export type CreateUserGroupMemberError = CommonErrors;
+
 export const createUserGroupMember: API.OperationMethod<
   CreateUserGroupMemberRequest,
   CreateUserGroupMemberResponse,
-  CommonErrors,
+  CreateUserGroupMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateUserGroupMemberRequest,
@@ -1350,10 +1388,12 @@ export const UpdateUserGroupMemberResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<UpdateUserGroupMemberResponse>;
 
+export type UpdateUserGroupMemberError = CommonErrors;
+
 export const updateUserGroupMember: API.OperationMethod<
   UpdateUserGroupMemberRequest,
   UpdateUserGroupMemberResponse,
-  CommonErrors,
+  UpdateUserGroupMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateUserGroupMemberRequest,
@@ -1394,10 +1434,12 @@ export const DeleteUserGroupMemberResponse = Schema.Struct({
   status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
 
+export type DeleteUserGroupMemberError = CommonErrors;
+
 export const deleteUserGroupMember: API.OperationMethod<
   DeleteUserGroupMemberRequest,
   DeleteUserGroupMemberResponse,
-  CommonErrors,
+  DeleteUserGroupMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteUserGroupMemberRequest,
@@ -1484,10 +1526,12 @@ export const BeginVerificationSsoResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<BeginVerificationSsoResponse>;
 
+export type BeginVerificationSsoError = CommonErrors;
+
 export const beginVerificationSso: API.OperationMethod<
   BeginVerificationSsoRequest,
   BeginVerificationSsoResponse,
-  CommonErrors,
+  BeginVerificationSsoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BeginVerificationSsoRequest,

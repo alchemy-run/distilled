@@ -79,10 +79,12 @@ export const GetListResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetListResponse>;
 
+export type GetListError = CommonErrors;
+
 export const getList: API.OperationMethod<
   GetListRequest,
   GetListResponse,
-  CommonErrors,
+  GetListError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetListRequest,
@@ -136,10 +138,12 @@ export const ListListsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListListsResponse>;
 
+export type ListListsError = CommonErrors;
+
 export const listLists: API.OperationMethod<
   ListListsRequest,
   ListListsResponse,
-  CommonErrors,
+  ListListsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListListsRequest,
@@ -208,10 +212,12 @@ export const CreateListResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateListResponse>;
 
+export type CreateListError = CommonErrors;
+
 export const createList: API.OperationMethod<
   CreateListRequest,
   CreateListResponse,
-  CommonErrors,
+  CreateListError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateListRequest,
@@ -279,10 +285,12 @@ export const UpdateListResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateListResponse>;
 
+export type UpdateListError = CommonErrors;
+
 export const updateList: API.OperationMethod<
   UpdateListRequest,
   UpdateListResponse,
-  CommonErrors,
+  UpdateListError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateListRequest,
@@ -315,10 +323,12 @@ export const DeleteListResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteListResponse>;
 
+export type DeleteListError = CommonErrors;
+
 export const deleteList: API.OperationMethod<
   DeleteListRequest,
   DeleteListResponse,
-  CommonErrors,
+  DeleteListError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteListRequest,
@@ -369,10 +379,12 @@ export const GetListBulkOperationResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetListBulkOperationResponse>;
 
+export type GetListBulkOperationError = CommonErrors;
+
 export const getListBulkOperation: API.OperationMethod<
   GetListBulkOperationRequest,
   GetListBulkOperationResponse,
-  CommonErrors,
+  GetListBulkOperationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetListBulkOperationRequest,
@@ -495,10 +507,12 @@ export const GetListItemResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetListItemResponse>;
 
+export type GetListItemError = CommonErrors;
+
 export const getListItem: API.OperationMethod<
   GetListItemRequest,
   GetListItemResponse,
-  CommonErrors,
+  GetListItemError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetListItemRequest,
@@ -624,10 +638,12 @@ export const ListListItemsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListListItemsResponse>;
 
+export type ListListItemsError = CommonErrors;
+
 export const listListItems: API.OperationMethod<
   ListListItemsRequest,
   ListListItemsResponse,
-  CommonErrors,
+  ListListItemsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListListItemsRequest,
@@ -689,10 +705,12 @@ export const CreateListItemResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<CreateListItemResponse>;
 
+export type CreateListItemError = CommonErrors;
+
 export const createListItem: API.OperationMethod<
   CreateListItemRequest,
   CreateListItemResponse,
-  CommonErrors,
+  CreateListItemError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateListItemRequest,
@@ -754,10 +772,12 @@ export const UpdateListItemResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<UpdateListItemResponse>;
 
+export type UpdateListItemError = CommonErrors;
+
 export const updateListItem: API.OperationMethod<
   UpdateListItemRequest,
   UpdateListItemResponse,
-  CommonErrors,
+  UpdateListItemError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateListItemRequest,
@@ -801,10 +821,12 @@ export const DeleteListItemResponse = Schema.Struct({
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<DeleteListItemResponse>;
 
+export type DeleteListItemError = CommonErrors;
+
 export const deleteListItem: API.OperationMethod<
   DeleteListItemRequest,
   DeleteListItemResponse,
-  CommonErrors,
+  DeleteListItemError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteListItemRequest,

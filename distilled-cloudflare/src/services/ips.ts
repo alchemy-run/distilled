@@ -64,10 +64,12 @@ export const ListIPsResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<ListIPsResponse>;
 
+export type ListIPsError = CommonErrors;
+
 export const listIPs: API.OperationMethod<
   ListIPsRequest,
   ListIPsResponse,
-  CommonErrors,
+  ListIPsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListIPsRequest,

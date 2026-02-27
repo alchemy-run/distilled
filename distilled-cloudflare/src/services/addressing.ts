@@ -27,8 +27,8 @@ export class AddressMapNotFound extends Schema.TaggedErrorClass<AddressMapNotFou
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(AddressMapNotFound, [
-  { code: 1000 },
   { code: 1000, message: { includes: "not_found" } },
+  { code: 1000 },
 ]);
 
 export class BgpPrefixNotFound extends Schema.TaggedErrorClass<BgpPrefixNotFound>()(
@@ -251,10 +251,15 @@ export const GetAddressMapResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAddressMapResponse>;
 
+export type GetAddressMapError =
+  | CommonErrors
+  | AddressMapNotFound
+  | InvalidAccountId;
+
 export const getAddressMap: API.OperationMethod<
   GetAddressMapRequest,
   GetAddressMapResponse,
-  CommonErrors | AddressMapNotFound | InvalidAccountId,
+  GetAddressMapError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAddressMapRequest,
@@ -311,10 +316,12 @@ export const ListAddressMapsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListAddressMapsResponse>;
 
+export type ListAddressMapsError = CommonErrors;
+
 export const listAddressMaps: API.OperationMethod<
   ListAddressMapsRequest,
   ListAddressMapsResponse,
-  CommonErrors,
+  ListAddressMapsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAddressMapsRequest,
@@ -423,10 +430,15 @@ export const CreateAddressMapResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateAddressMapResponse>;
 
+export type CreateAddressMapError =
+  | CommonErrors
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
 export const createAddressMap: API.OperationMethod<
   CreateAddressMapRequest,
   CreateAddressMapResponse,
-  CommonErrors | FeatureNotEnabled | InvalidAccountId,
+  CreateAddressMapError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAddressMapRequest,
@@ -503,10 +515,16 @@ export const PatchAddressMapResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchAddressMapResponse>;
 
+export type PatchAddressMapError =
+  | CommonErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
 export const patchAddressMap: API.OperationMethod<
   PatchAddressMapRequest,
   PatchAddressMapResponse,
-  CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
+  PatchAddressMapError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchAddressMapRequest,
@@ -617,14 +635,17 @@ export const DeleteAddressMapResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAddressMapResponse>;
 
-export const deleteAddressMap: API.OperationMethod<
-  DeleteAddressMapRequest,
-  DeleteAddressMapResponse,
+export type DeleteAddressMapError =
   | CommonErrors
   | MethodNotAllowed
   | FeatureNotEnabled
   | InvalidAccountId
-  | AddressMapNotFound,
+  | AddressMapNotFound;
+
+export const deleteAddressMap: API.OperationMethod<
+  DeleteAddressMapRequest,
+  DeleteAddressMapResponse,
+  DeleteAddressMapError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapRequest,
@@ -747,10 +768,16 @@ export const PutAddressMapAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAddressMapAccountResponse>;
 
+export type PutAddressMapAccountError =
+  | CommonErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
 export const putAddressMapAccount: API.OperationMethod<
   PutAddressMapAccountRequest,
   PutAddressMapAccountResponse,
-  CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
+  PutAddressMapAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAddressMapAccountRequest,
@@ -861,10 +888,16 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAddressMapAccountResponse>;
 
+export type DeleteAddressMapAccountError =
+  | CommonErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
 export const deleteAddressMapAccount: API.OperationMethod<
   DeleteAddressMapAccountRequest,
   DeleteAddressMapAccountResponse,
-  CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
+  DeleteAddressMapAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapAccountRequest,
@@ -984,14 +1017,17 @@ export const PutAddressMapIpResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAddressMapIpResponse>;
 
-export const putAddressMapIp: API.OperationMethod<
-  PutAddressMapIpRequest,
-  PutAddressMapIpResponse,
+export type PutAddressMapIpError =
   | CommonErrors
   | MethodNotAllowed
   | FeatureNotEnabled
   | InvalidAccountId
-  | AddressMapNotFound,
+  | AddressMapNotFound;
+
+export const putAddressMapIp: API.OperationMethod<
+  PutAddressMapIpRequest,
+  PutAddressMapIpResponse,
+  PutAddressMapIpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAddressMapIpRequest,
@@ -1109,14 +1145,17 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAddressMapIpResponse>;
 
-export const deleteAddressMapIp: API.OperationMethod<
-  DeleteAddressMapIpRequest,
-  DeleteAddressMapIpResponse,
+export type DeleteAddressMapIpError =
   | CommonErrors
   | MethodNotAllowed
   | FeatureNotEnabled
   | InvalidAccountId
-  | AddressMapNotFound,
+  | AddressMapNotFound;
+
+export const deleteAddressMapIp: API.OperationMethod<
+  DeleteAddressMapIpRequest,
+  DeleteAddressMapIpResponse,
+  DeleteAddressMapIpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapIpRequest,
@@ -1242,10 +1281,16 @@ export const PutAddressMapZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAddressMapZoneResponse>;
 
+export type PutAddressMapZoneError =
+  | CommonErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
 export const putAddressMapZone: API.OperationMethod<
   PutAddressMapZoneRequest,
   PutAddressMapZoneResponse,
-  CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
+  PutAddressMapZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAddressMapZoneRequest,
@@ -1359,10 +1404,16 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAddressMapZoneResponse>;
 
+export type DeleteAddressMapZoneError =
+  | CommonErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
 export const deleteAddressMapZone: API.OperationMethod<
   DeleteAddressMapZoneRequest,
   DeleteAddressMapZoneResponse,
-  CommonErrors | MethodNotAllowed | FeatureNotEnabled | InvalidAccountId,
+  DeleteAddressMapZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapZoneRequest,
@@ -1397,10 +1448,15 @@ export type GetLoaDocumentResponse = unknown;
 export const GetLoaDocumentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetLoaDocumentResponse>;
 
+export type GetLoaDocumentError =
+  | CommonErrors
+  | LoaDocumentNotFound
+  | InvalidAccountId;
+
 export const getLoaDocument: API.OperationMethod<
   GetLoaDocumentRequest,
   GetLoaDocumentResponse,
-  CommonErrors | LoaDocumentNotFound | InvalidAccountId,
+  GetLoaDocumentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLoaDocumentRequest,
@@ -1466,10 +1522,15 @@ export const CreateLoaDocumentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateLoaDocumentResponse>;
 
+export type CreateLoaDocumentError =
+  | CommonErrors
+  | InvalidAccountId
+  | InvalidLoaForm;
+
 export const createLoaDocument: API.OperationMethod<
   CreateLoaDocumentRequest,
   CreateLoaDocumentResponse,
-  CommonErrors | InvalidAccountId | InvalidLoaForm,
+  CreateLoaDocumentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateLoaDocumentRequest,
@@ -1578,10 +1639,12 @@ export const GetPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPrefixResponse>;
 
+export type GetPrefixError = CommonErrors | PrefixNotFound | InvalidAccountId;
+
 export const getPrefix: API.OperationMethod<
   GetPrefixRequest,
   GetPrefixResponse,
-  CommonErrors | PrefixNotFound | InvalidAccountId,
+  GetPrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixRequest,
@@ -1667,10 +1730,12 @@ export const ListPrefixesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixesResponse>;
 
+export type ListPrefixesError = CommonErrors;
+
 export const listPrefixes: API.OperationMethod<
   ListPrefixesRequest,
   ListPrefixesResponse,
-  CommonErrors,
+  ListPrefixesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPrefixesRequest,
@@ -1795,10 +1860,16 @@ export const CreatePrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePrefixResponse>;
 
+export type CreatePrefixError =
+  | CommonErrors
+  | InvalidAccountId
+  | InvalidNetworkCidr
+  | IrrEntryNotFound;
+
 export const createPrefix: API.OperationMethod<
   CreatePrefixRequest,
   CreatePrefixResponse,
-  CommonErrors | InvalidAccountId | InvalidNetworkCidr | IrrEntryNotFound,
+  CreatePrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixRequest,
@@ -1906,10 +1977,16 @@ export const PatchPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchPrefixResponse>;
 
+export type PatchPrefixError =
+  | CommonErrors
+  | MethodNotAllowed
+  | PrefixNotFound
+  | InvalidAccountId;
+
 export const patchPrefix: API.OperationMethod<
   PatchPrefixRequest,
   PatchPrefixResponse,
-  CommonErrors | MethodNotAllowed | PrefixNotFound | InvalidAccountId,
+  PatchPrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPrefixRequest,
@@ -1992,10 +2069,16 @@ export const DeletePrefixResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeletePrefixResponse>;
 
+export type DeletePrefixError =
+  | CommonErrors
+  | MethodNotAllowed
+  | PrefixNotFound
+  | InvalidAccountId;
+
 export const deletePrefix: API.OperationMethod<
   DeletePrefixRequest,
   DeletePrefixResponse,
-  CommonErrors | MethodNotAllowed | PrefixNotFound | InvalidAccountId,
+  DeletePrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePrefixRequest,
@@ -2042,10 +2125,15 @@ export const GetPrefixAdvertisementStatusResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
 
+export type GetPrefixAdvertisementStatusError =
+  | CommonErrors
+  | PrefixNotFound
+  | InvalidAccountId;
+
 export const getPrefixAdvertisementStatus: API.OperationMethod<
   GetPrefixAdvertisementStatusRequest,
   GetPrefixAdvertisementStatusResponse,
-  CommonErrors | PrefixNotFound | InvalidAccountId,
+  GetPrefixAdvertisementStatusError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixAdvertisementStatusRequest,
@@ -2091,10 +2179,15 @@ export const PatchPrefixAdvertisementStatusResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
 
+export type PatchPrefixAdvertisementStatusError =
+  | CommonErrors
+  | PrefixNotFound
+  | InvalidAccountId;
+
 export const patchPrefixAdvertisementStatus: API.OperationMethod<
   PatchPrefixAdvertisementStatusRequest,
   PatchPrefixAdvertisementStatusResponse,
-  CommonErrors | PrefixNotFound | InvalidAccountId,
+  PatchPrefixAdvertisementStatusError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPrefixAdvertisementStatusRequest,
@@ -2193,10 +2286,16 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPrefixBgpPrefixResponse>;
 
+export type GetPrefixBgpPrefixError =
+  | CommonErrors
+  | BgpPrefixNotFound
+  | InvalidAccountId
+  | PrefixNotFound;
+
 export const getPrefixBgpPrefix: API.OperationMethod<
   GetPrefixBgpPrefixRequest,
   GetPrefixBgpPrefixResponse,
-  CommonErrors | BgpPrefixNotFound | InvalidAccountId | PrefixNotFound,
+  GetPrefixBgpPrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixBgpPrefixRequest,
@@ -2288,10 +2387,12 @@ export const ListPrefixBgpPrefixesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixBgpPrefixesResponse>;
 
+export type ListPrefixBgpPrefixesError = CommonErrors;
+
 export const listPrefixBgpPrefixes: API.OperationMethod<
   ListPrefixBgpPrefixesRequest,
   ListPrefixBgpPrefixesResponse,
-  CommonErrors,
+  ListPrefixBgpPrefixesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPrefixBgpPrefixesRequest,
@@ -2387,13 +2488,16 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePrefixBgpPrefixResponse>;
 
-export const createPrefixBgpPrefix: API.OperationMethod<
-  CreatePrefixBgpPrefixRequest,
-  CreatePrefixBgpPrefixResponse,
+export type CreatePrefixBgpPrefixError =
   | CommonErrors
   | NonexistentAccountPrefix
   | InvalidAccountId
-  | InvalidNetworkCidr,
+  | InvalidNetworkCidr;
+
+export const createPrefixBgpPrefix: API.OperationMethod<
+  CreatePrefixBgpPrefixRequest,
+  CreatePrefixBgpPrefixResponse,
+  CreatePrefixBgpPrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixBgpPrefixRequest,
@@ -2506,10 +2610,15 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchPrefixBgpPrefixResponse>;
 
+export type PatchPrefixBgpPrefixError =
+  | CommonErrors
+  | BgpPrefixNotFound
+  | InvalidAccountId;
+
 export const patchPrefixBgpPrefix: API.OperationMethod<
   PatchPrefixBgpPrefixRequest,
   PatchPrefixBgpPrefixResponse,
-  CommonErrors | BgpPrefixNotFound | InvalidAccountId,
+  PatchPrefixBgpPrefixError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPrefixBgpPrefixRequest,
@@ -2566,10 +2675,12 @@ export const ListPrefixDelegationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixDelegationsResponse>;
 
+export type ListPrefixDelegationsError = CommonErrors;
+
 export const listPrefixDelegations: API.OperationMethod<
   ListPrefixDelegationsRequest,
   ListPrefixDelegationsResponse,
-  CommonErrors,
+  ListPrefixDelegationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPrefixDelegationsRequest,
@@ -2634,10 +2745,16 @@ export const CreatePrefixDelegationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePrefixDelegationResponse>;
 
+export type CreatePrefixDelegationError =
+  | CommonErrors
+  | PrefixNotFound
+  | MissingAccountId
+  | InvalidAccountId;
+
 export const createPrefixDelegation: API.OperationMethod<
   CreatePrefixDelegationRequest,
   CreatePrefixDelegationResponse,
-  CommonErrors | PrefixNotFound | MissingAccountId | InvalidAccountId,
+  CreatePrefixDelegationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixDelegationRequest,
@@ -2672,10 +2789,15 @@ export const DeletePrefixDelegationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePrefixDelegationResponse>;
 
+export type DeletePrefixDelegationError =
+  | CommonErrors
+  | DelegationNotFound
+  | InvalidAccountId;
+
 export const deletePrefixDelegation: API.OperationMethod<
   DeletePrefixDelegationRequest,
   DeletePrefixDelegationResponse,
-  CommonErrors | DelegationNotFound | InvalidAccountId,
+  DeletePrefixDelegationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePrefixDelegationRequest,
@@ -2738,10 +2860,16 @@ export const GetPrefixServiceBindingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPrefixServiceBindingResponse>;
 
+export type GetPrefixServiceBindingError =
+  | CommonErrors
+  | BindingNotFound
+  | InvalidAccountId
+  | PrefixNotFound;
+
 export const getPrefixServiceBinding: API.OperationMethod<
   GetPrefixServiceBindingRequest,
   GetPrefixServiceBindingResponse,
-  CommonErrors | BindingNotFound | InvalidAccountId | PrefixNotFound,
+  GetPrefixServiceBindingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixServiceBindingRequest,
@@ -2795,10 +2923,12 @@ export const ListPrefixServiceBindingsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPrefixServiceBindingsResponse>;
 
+export type ListPrefixServiceBindingsError = CommonErrors;
+
 export const listPrefixServiceBindings: API.OperationMethod<
   ListPrefixServiceBindingsRequest,
   ListPrefixServiceBindingsResponse,
-  CommonErrors,
+  ListPrefixServiceBindingsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPrefixServiceBindingsRequest,
@@ -2862,10 +2992,15 @@ export const CreatePrefixServiceBindingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePrefixServiceBindingResponse>;
 
+export type CreatePrefixServiceBindingError =
+  | CommonErrors
+  | UnsupportedBindingConfiguration
+  | InvalidAccountId;
+
 export const createPrefixServiceBinding: API.OperationMethod<
   CreatePrefixServiceBindingRequest,
   CreatePrefixServiceBindingResponse,
-  CommonErrors | UnsupportedBindingConfiguration | InvalidAccountId,
+  CreatePrefixServiceBindingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixServiceBindingRequest,
@@ -2950,10 +3085,16 @@ export const DeletePrefixServiceBindingResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeletePrefixServiceBindingResponse>;
 
+export type DeletePrefixServiceBindingError =
+  | CommonErrors
+  | BindingNotFound
+  | InvalidAccountId
+  | PrefixNotFound;
+
 export const deletePrefixServiceBinding: API.OperationMethod<
   DeletePrefixServiceBindingRequest,
   DeletePrefixServiceBindingResponse,
-  CommonErrors | BindingNotFound | InvalidAccountId | PrefixNotFound,
+  DeletePrefixServiceBindingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePrefixServiceBindingRequest,
@@ -3006,13 +3147,16 @@ export const GetRegionalHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRegionalHostnameResponse>;
 
-export const getRegionalHostname: API.OperationMethod<
-  GetRegionalHostnameRequest,
-  GetRegionalHostnameResponse,
+export type GetRegionalHostnameError =
   | CommonErrors
   | InvalidZoneId
   | RegionalHostnameNotFound
-  | RegionalHostnameEmpty,
+  | RegionalHostnameEmpty;
+
+export const getRegionalHostname: API.OperationMethod<
+  GetRegionalHostnameRequest,
+  GetRegionalHostnameResponse,
+  GetRegionalHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRegionalHostnameRequest,
@@ -3057,10 +3201,12 @@ export const ListRegionalHostnamesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListRegionalHostnamesResponse>;
 
+export type ListRegionalHostnamesError = CommonErrors;
+
 export const listRegionalHostnames: API.OperationMethod<
   ListRegionalHostnamesRequest,
   ListRegionalHostnamesResponse,
-  CommonErrors,
+  ListRegionalHostnamesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRegionalHostnamesRequest,
@@ -3121,10 +3267,16 @@ export const CreateRegionalHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRegionalHostnameResponse>;
 
+export type CreateRegionalHostnameError =
+  | CommonErrors
+  | InvalidZoneId
+  | InvalidHostname
+  | RegionalHostnameEmpty;
+
 export const createRegionalHostname: API.OperationMethod<
   CreateRegionalHostnameRequest,
   CreateRegionalHostnameResponse,
-  CommonErrors | InvalidZoneId | InvalidHostname | RegionalHostnameEmpty,
+  CreateRegionalHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRegionalHostnameRequest,
@@ -3177,13 +3329,16 @@ export const PatchRegionalHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchRegionalHostnameResponse>;
 
-export const patchRegionalHostname: API.OperationMethod<
-  PatchRegionalHostnameRequest,
-  PatchRegionalHostnameResponse,
+export type PatchRegionalHostnameError =
   | CommonErrors
   | InvalidZoneId
   | RegionalHostnameNotFound
-  | RegionalHostnameEmpty,
+  | RegionalHostnameEmpty;
+
+export const patchRegionalHostname: API.OperationMethod<
+  PatchRegionalHostnameRequest,
+  PatchRegionalHostnameResponse,
+  PatchRegionalHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchRegionalHostnameRequest,
@@ -3266,14 +3421,17 @@ export const DeleteRegionalHostnameResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRegionalHostnameResponse>;
 
-export const deleteRegionalHostname: API.OperationMethod<
-  DeleteRegionalHostnameRequest,
-  DeleteRegionalHostnameResponse,
+export type DeleteRegionalHostnameError =
   | CommonErrors
   | MethodNotAllowed
   | InvalidZoneId
   | RegionalHostnameNotFound
-  | RegionalHostnameEmpty,
+  | RegionalHostnameEmpty;
+
+export const deleteRegionalHostname: API.OperationMethod<
+  DeleteRegionalHostnameRequest,
+  DeleteRegionalHostnameResponse,
+  DeleteRegionalHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRegionalHostnameRequest,
@@ -3316,10 +3474,12 @@ export const ListRegionalHostnameRegionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRegionalHostnameRegionsResponse>;
 
+export type ListRegionalHostnameRegionsError = CommonErrors;
+
 export const listRegionalHostnameRegions: API.OperationMethod<
   ListRegionalHostnameRegionsRequest,
   ListRegionalHostnameRegionsResponse,
-  CommonErrors,
+  ListRegionalHostnameRegionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRegionalHostnameRegionsRequest,
@@ -3351,10 +3511,12 @@ export const ListServicesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListServicesResponse>;
 
+export type ListServicesError = CommonErrors;
+
 export const listServices: API.OperationMethod<
   ListServicesRequest,
   ListServicesResponse,
-  CommonErrors,
+  ListServicesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListServicesRequest,

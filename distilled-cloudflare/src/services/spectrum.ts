@@ -60,10 +60,12 @@ export const GetAnalyticAggregateCurrentResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetAnalyticAggregateCurrentResponse>;
 
+export type GetAnalyticAggregateCurrentError = CommonErrors;
+
 export const getAnalyticAggregateCurrent: API.OperationMethod<
   GetAnalyticAggregateCurrentRequest,
   GetAnalyticAggregateCurrentResponse,
-  CommonErrors,
+  GetAnalyticAggregateCurrentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticAggregateCurrentRequest,
@@ -239,10 +241,12 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
+export type GetAnalyticEventBytimeError = CommonErrors;
+
 export const getAnalyticEventBytime: API.OperationMethod<
   GetAnalyticEventBytimeRequest,
   GetAnalyticEventBytimeResponse,
-  CommonErrors,
+  GetAnalyticEventBytimeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticEventBytimeRequest,
@@ -398,10 +402,12 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
+export type GetAnalyticEventSummaryError = CommonErrors;
+
 export const getAnalyticEventSummary: API.OperationMethod<
   GetAnalyticEventSummaryRequest,
   GetAnalyticEventSummaryResponse,
-  CommonErrors,
+  GetAnalyticEventSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticEventSummaryRequest,
@@ -509,10 +515,12 @@ export const GetAppResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetAppResponse>;
 
+export type GetAppError = CommonErrors;
+
 export const getApp: API.OperationMethod<
   GetAppRequest,
   GetAppResponse,
-  CommonErrors,
+  GetAppError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAppRequest,
@@ -627,10 +635,12 @@ export const ListAppsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListAppsResponse>;
 
+export type ListAppsError = CommonErrors;
+
 export const listApps: API.OperationMethod<
   ListAppsRequest,
   ListAppsResponse,
-  CommonErrors,
+  ListAppsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAppsRequest,
@@ -780,10 +790,12 @@ export const CreateAppResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<CreateAppResponse>;
 
+export type CreateAppError = CommonErrors;
+
 export const createApp: API.OperationMethod<
   CreateAppRequest,
   CreateAppResponse,
-  CommonErrors,
+  CreateAppError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAppRequest,
@@ -935,10 +947,12 @@ export const UpdateAppResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<UpdateAppResponse>;
 
+export type UpdateAppError = CommonErrors;
+
 export const updateApp: API.OperationMethod<
   UpdateAppRequest,
   UpdateAppResponse,
-  CommonErrors,
+  UpdateAppError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateAppRequest,
@@ -968,10 +982,12 @@ export const DeleteAppResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAppResponse>;
 
+export type DeleteAppError = CommonErrors;
+
 export const deleteApp: API.OperationMethod<
   DeleteAppRequest,
   DeleteAppResponse,
-  CommonErrors,
+  DeleteAppError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAppRequest,

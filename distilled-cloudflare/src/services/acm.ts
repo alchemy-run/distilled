@@ -84,10 +84,15 @@ export const GetTotalTlResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetTotalTlResponse>;
 
+export type GetTotalTlError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | AdvancedCertificateManagerRequired;
+
 export const getTotalTl: API.OperationMethod<
   GetTotalTlRequest,
   GetTotalTlResponse,
-  CommonErrors | InvalidObjectIdentifier | AdvancedCertificateManagerRequired,
+  GetTotalTlError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTotalTlRequest,
@@ -141,14 +146,17 @@ export const CreateTotalTlResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateTotalTlResponse>;
 
-export const createTotalTl: API.OperationMethod<
-  CreateTotalTlRequest,
-  CreateTotalTlResponse,
+export type CreateTotalTlError =
   | CommonErrors
   | InvalidObjectIdentifier
   | AdvancedCertificateManagerRequired
   | NoStateChange
-  | PreviousJobInProgress,
+  | PreviousJobInProgress;
+
+export const createTotalTl: API.OperationMethod<
+  CreateTotalTlRequest,
+  CreateTotalTlResponse,
+  CreateTotalTlError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTotalTlRequest,

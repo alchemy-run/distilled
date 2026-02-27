@@ -81,10 +81,12 @@ export const GetOriginCACertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOriginCACertificateResponse>;
 
+export type GetOriginCACertificateError = CommonErrors;
+
 export const getOriginCACertificate: API.OperationMethod<
   GetOriginCACertificateRequest,
   GetOriginCACertificateResponse,
-  CommonErrors,
+  GetOriginCACertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOriginCACertificateRequest,
@@ -154,10 +156,12 @@ export const ListOriginCACertificatesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListOriginCACertificatesResponse>;
 
+export type ListOriginCACertificatesError = CommonErrors;
+
 export const listOriginCACertificates: API.OperationMethod<
   ListOriginCACertificatesRequest,
   ListOriginCACertificatesResponse,
-  CommonErrors,
+  ListOriginCACertificatesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListOriginCACertificatesRequest,
@@ -246,10 +250,12 @@ export const CreateOriginCACertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateOriginCACertificateResponse>;
 
+export type CreateOriginCACertificateError = CommonErrors;
+
 export const createOriginCACertificate: API.OperationMethod<
   CreateOriginCACertificateRequest,
   CreateOriginCACertificateResponse,
-  CommonErrors,
+  CreateOriginCACertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateOriginCACertificateRequest,
@@ -281,10 +287,12 @@ export const DeleteOriginCACertificateResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", revokedAt: "revoked_at" }),
 ) as unknown as Schema.Schema<DeleteOriginCACertificateResponse>;
 
+export type DeleteOriginCACertificateError = CommonErrors;
+
 export const deleteOriginCACertificate: API.OperationMethod<
   DeleteOriginCACertificateRequest,
   DeleteOriginCACertificateResponse,
-  CommonErrors,
+  DeleteOriginCACertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteOriginCACertificateRequest,

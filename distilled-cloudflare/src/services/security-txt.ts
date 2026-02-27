@@ -60,10 +60,12 @@ export const GetSecurityTXTResponse = Schema.Struct({
   preferredLanguages: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSecurityTXTResponse>;
 
+export type GetSecurityTXTError = CommonErrors;
+
 export const getSecurityTXT: API.OperationMethod<
   GetSecurityTXTRequest,
   GetSecurityTXTResponse,
-  CommonErrors,
+  GetSecurityTXTError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSecurityTXTRequest,
@@ -171,10 +173,12 @@ export const PutSecurityTXTResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<PutSecurityTXTResponse>;
 
+export type PutSecurityTXTError = CommonErrors;
+
 export const putSecurityTXT: API.OperationMethod<
   PutSecurityTXTRequest,
   PutSecurityTXTResponse,
-  CommonErrors,
+  PutSecurityTXTError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSecurityTXTRequest,
@@ -255,10 +259,12 @@ export const DeleteSecurityTXTResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteSecurityTXTResponse>;
 
+export type DeleteSecurityTXTError = CommonErrors;
+
 export const deleteSecurityTXT: API.OperationMethod<
   DeleteSecurityTXTRequest,
   DeleteSecurityTXTResponse,
-  CommonErrors,
+  DeleteSecurityTXTError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSecurityTXTRequest,

@@ -133,10 +133,12 @@ export const GetAccessRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccessRuleResponse>;
 
+export type GetAccessRuleError = CommonErrors;
+
 export const getAccessRule: API.OperationMethod<
   GetAccessRuleRequest,
   GetAccessRuleResponse,
-  CommonErrors,
+  GetAccessRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAccessRuleRequest,
@@ -245,10 +247,12 @@ export const ListAccessRulesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListAccessRulesResponse>;
 
+export type ListAccessRulesError = CommonErrors;
+
 export const listAccessRules: API.OperationMethod<
   ListAccessRulesRequest,
   ListAccessRulesResponse,
-  CommonErrors,
+  ListAccessRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAccessRulesRequest,
@@ -417,10 +421,12 @@ export const CreateAccessRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateAccessRuleResponse>;
 
+export type CreateAccessRuleError = CommonErrors;
+
 export const createAccessRule: API.OperationMethod<
   CreateAccessRuleRequest,
   CreateAccessRuleResponse,
-  CommonErrors,
+  CreateAccessRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAccessRuleRequest,
@@ -591,10 +597,12 @@ export const PatchAccessRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchAccessRuleResponse>;
 
+export type PatchAccessRuleError = CommonErrors;
+
 export const patchAccessRule: API.OperationMethod<
   PatchAccessRuleRequest,
   PatchAccessRuleResponse,
-  CommonErrors,
+  PatchAccessRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchAccessRuleRequest,
@@ -624,10 +632,12 @@ export const DeleteAccessRuleResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAccessRuleResponse>;
 
+export type DeleteAccessRuleError = CommonErrors;
+
 export const deleteAccessRule: API.OperationMethod<
   DeleteAccessRuleRequest,
   DeleteAccessRuleResponse,
-  CommonErrors,
+  DeleteAccessRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAccessRuleRequest,
@@ -722,10 +732,12 @@ export const BulkEditRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkEditRulesResponse>;
 
+export type BulkEditRulesError = CommonErrors;
+
 export const bulkEditRules: API.OperationMethod<
   BulkEditRulesRequest,
   BulkEditRulesResponse,
-  CommonErrors,
+  BulkEditRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkEditRulesRequest,
@@ -790,10 +802,12 @@ export const GetLockdownResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetLockdownResponse>;
 
+export type GetLockdownError = CommonErrors;
+
 export const getLockdown: API.OperationMethod<
   GetLockdownRequest,
   GetLockdownResponse,
-  CommonErrors,
+  GetLockdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLockdownRequest,
@@ -875,10 +889,12 @@ export const ListLockdownsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListLockdownsResponse>;
 
+export type ListLockdownsError = CommonErrors;
+
 export const listLockdowns: API.OperationMethod<
   ListLockdownsRequest,
   ListLockdownsResponse,
-  CommonErrors,
+  ListLockdownsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListLockdownsRequest,
@@ -949,10 +965,12 @@ export const CreateLockdownResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateLockdownResponse>;
 
+export type CreateLockdownError = CommonErrors;
+
 export const createLockdown: API.OperationMethod<
   CreateLockdownRequest,
   CreateLockdownResponse,
-  CommonErrors,
+  CreateLockdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateLockdownRequest,
@@ -1019,10 +1037,12 @@ export const UpdateLockdownResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateLockdownResponse>;
 
+export type UpdateLockdownError = CommonErrors;
+
 export const updateLockdown: API.OperationMethod<
   UpdateLockdownRequest,
   UpdateLockdownResponse,
-  CommonErrors,
+  UpdateLockdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateLockdownRequest,
@@ -1055,10 +1075,12 @@ export const DeleteLockdownResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteLockdownResponse>;
 
+export type DeleteLockdownError = CommonErrors;
+
 export const deleteLockdown: API.OperationMethod<
   DeleteLockdownRequest,
   DeleteLockdownResponse,
-  CommonErrors,
+  DeleteLockdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteLockdownRequest,
@@ -1156,10 +1178,12 @@ export const GetRuleResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
+export type GetRuleError = CommonErrors;
+
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
-  CommonErrors,
+  GetRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRuleRequest,
@@ -1259,10 +1283,12 @@ export const ListRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
+export type ListRulesError = CommonErrors;
+
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  CommonErrors,
+  ListRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesRequest,
@@ -1382,10 +1408,12 @@ export const CreateRuleResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
+export type CreateRuleError = CommonErrors;
+
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  CommonErrors,
+  CreateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRuleRequest,
@@ -1511,10 +1539,12 @@ export const PutRuleResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutRuleResponse>;
 
+export type PutRuleError = CommonErrors;
+
 export const putRule: API.OperationMethod<
   PutRuleRequest,
   PutRuleResponse,
-  CommonErrors,
+  PutRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutRuleRequest,
@@ -1611,10 +1641,12 @@ export const DeleteRuleResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -1705,10 +1737,12 @@ export const BulkUpdateRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkUpdateRulesResponse>;
 
+export type BulkUpdateRulesError = CommonErrors;
+
 export const bulkUpdateRules: API.OperationMethod<
   BulkUpdateRulesRequest,
   BulkUpdateRulesResponse,
-  CommonErrors,
+  BulkUpdateRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkUpdateRulesRequest,
@@ -1796,10 +1830,12 @@ export const BulkDeleteRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkDeleteRulesResponse>;
 
+export type BulkDeleteRulesError = CommonErrors;
+
 export const bulkDeleteRules: API.OperationMethod<
   BulkDeleteRulesRequest,
   BulkDeleteRulesResponse,
-  CommonErrors,
+  BulkDeleteRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteRulesRequest,
@@ -1889,10 +1925,12 @@ export const EditRuleResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<EditRuleResponse>;
 
+export type EditRuleError = CommonErrors;
+
 export const editRule: API.OperationMethod<
   EditRuleRequest,
   EditRuleResponse,
-  CommonErrors,
+  EditRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EditRuleRequest,
@@ -1953,10 +1991,12 @@ export const GetUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetUaRuleResponse>;
 
+export type GetUaRuleError = CommonErrors;
+
 export const getUaRule: API.OperationMethod<
   GetUaRuleRequest,
   GetUaRuleResponse,
-  CommonErrors,
+  GetUaRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetUaRuleRequest,
@@ -2014,10 +2054,12 @@ export const ListUaRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListUaRulesResponse>;
 
+export type ListUaRulesError = CommonErrors;
+
 export const listUaRules: API.OperationMethod<
   ListUaRulesRequest,
   ListUaRulesResponse,
-  CommonErrors,
+  ListUaRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListUaRulesRequest,
@@ -2095,10 +2137,12 @@ export const CreateUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateUaRuleResponse>;
 
+export type CreateUaRuleError = CommonErrors;
+
 export const createUaRule: API.OperationMethod<
   CreateUaRuleRequest,
   CreateUaRuleResponse,
-  CommonErrors,
+  CreateUaRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateUaRuleRequest,
@@ -2178,10 +2222,12 @@ export const UpdateUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateUaRuleResponse>;
 
+export type UpdateUaRuleError = CommonErrors;
+
 export const updateUaRule: API.OperationMethod<
   UpdateUaRuleRequest,
   UpdateUaRuleResponse,
-  CommonErrors,
+  UpdateUaRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateUaRuleRequest,
@@ -2238,10 +2284,12 @@ export const DeleteUaRuleResponse = Schema.Struct({
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteUaRuleResponse>;
 
+export type DeleteUaRuleError = CommonErrors;
+
 export const deleteUaRule: API.OperationMethod<
   DeleteUaRuleRequest,
   DeleteUaRuleResponse,
-  CommonErrors,
+  DeleteUaRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteUaRuleRequest,
@@ -2364,10 +2412,12 @@ export const GetWafOverrideResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetWafOverrideResponse>;
 
+export type GetWafOverrideError = CommonErrors;
+
 export const getWafOverride: API.OperationMethod<
   GetWafOverrideRequest,
   GetWafOverrideResponse,
-  CommonErrors,
+  GetWafOverrideError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWafOverrideRequest,
@@ -2475,10 +2525,12 @@ export const ListWafOverridesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWafOverridesResponse>;
 
+export type ListWafOverridesError = CommonErrors;
+
 export const listWafOverrides: API.OperationMethod<
   ListWafOverridesRequest,
   ListWafOverridesResponse,
-  CommonErrors,
+  ListWafOverridesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWafOverridesRequest,
@@ -2595,10 +2647,12 @@ export const CreateWafOverrideResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateWafOverrideResponse>;
 
+export type CreateWafOverrideError = CommonErrors;
+
 export const createWafOverride: API.OperationMethod<
   CreateWafOverrideRequest,
   CreateWafOverrideResponse,
-  CommonErrors,
+  CreateWafOverrideError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateWafOverrideRequest,
@@ -2757,10 +2811,12 @@ export const UpdateWafOverrideResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateWafOverrideResponse>;
 
+export type UpdateWafOverrideError = CommonErrors;
+
 export const updateWafOverride: API.OperationMethod<
   UpdateWafOverrideRequest,
   UpdateWafOverrideResponse,
-  CommonErrors,
+  UpdateWafOverrideError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateWafOverrideRequest,
@@ -2793,10 +2849,12 @@ export const DeleteWafOverrideResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteWafOverrideResponse>;
 
+export type DeleteWafOverrideError = CommonErrors;
+
 export const deleteWafOverride: API.OperationMethod<
   DeleteWafOverrideRequest,
   DeleteWafOverrideResponse,
-  CommonErrors,
+  DeleteWafOverrideError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteWafOverrideRequest,
@@ -2845,10 +2903,12 @@ export const GetWafPackageResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetWafPackageResponse>;
 
+export type GetWafPackageError = CommonErrors;
+
 export const getWafPackage: API.OperationMethod<
   GetWafPackageRequest,
   GetWafPackageResponse,
-  CommonErrors,
+  GetWafPackageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWafPackageRequest,
@@ -2889,10 +2949,12 @@ export const ListWafPackagesResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListWafPackagesResponse>;
 
+export type ListWafPackagesError = CommonErrors;
+
 export const listWafPackages: API.OperationMethod<
   ListWafPackagesRequest,
   ListWafPackagesResponse,
-  CommonErrors,
+  ListWafPackagesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWafPackagesRequest,
@@ -2929,10 +2991,12 @@ export const GetWafPackageGroupResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<GetWafPackageGroupResponse>;
 
+export type GetWafPackageGroupError = CommonErrors;
+
 export const getWafPackageGroup: API.OperationMethod<
   GetWafPackageGroupRequest,
   GetWafPackageGroupResponse,
-  CommonErrors,
+  GetWafPackageGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWafPackageGroupRequest,
@@ -3017,10 +3081,12 @@ export const ListWafPackageGroupsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWafPackageGroupsResponse>;
 
+export type ListWafPackageGroupsError = CommonErrors;
+
 export const listWafPackageGroups: API.OperationMethod<
   ListWafPackageGroupsRequest,
   ListWafPackageGroupsResponse,
-  CommonErrors,
+  ListWafPackageGroupsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWafPackageGroupsRequest,
@@ -3056,10 +3122,12 @@ export const PatchWafPackageGroupResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<PatchWafPackageGroupResponse>;
 
+export type PatchWafPackageGroupError = CommonErrors;
+
 export const patchWafPackageGroup: API.OperationMethod<
   PatchWafPackageGroupRequest,
   PatchWafPackageGroupResponse,
-  CommonErrors,
+  PatchWafPackageGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchWafPackageGroupRequest,
@@ -3096,10 +3164,12 @@ export const GetWafPackageRuleResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<GetWafPackageRuleResponse>;
 
+export type GetWafPackageRuleError = CommonErrors;
+
 export const getWafPackageRule: API.OperationMethod<
   GetWafPackageRuleRequest,
   GetWafPackageRuleResponse,
-  CommonErrors,
+  GetWafPackageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWafPackageRuleRequest,
@@ -3244,10 +3314,12 @@ export const ListWafPackageRulesResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListWafPackageRulesResponse>;
 
+export type ListWafPackageRulesError = CommonErrors;
+
 export const listWafPackageRules: API.OperationMethod<
   ListWafPackageRulesRequest,
   ListWafPackageRulesResponse,
-  CommonErrors,
+  ListWafPackageRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWafPackageRulesRequest,
@@ -3371,10 +3443,12 @@ export const PatchWafPackageRuleResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<PatchWafPackageRuleResponse>;
 
+export type PatchWafPackageRuleError = CommonErrors;
+
 export const patchWafPackageRule: API.OperationMethod<
   PatchWafPackageRuleRequest,
   PatchWafPackageRuleResponse,
-  CommonErrors,
+  PatchWafPackageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchWafPackageRuleRequest,

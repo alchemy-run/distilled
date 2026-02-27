@@ -64,10 +64,12 @@ export const ListRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
+export type ListRulesError = CommonErrors;
+
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  CommonErrors,
+  ListRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesRequest,
@@ -149,10 +151,12 @@ export const UpdateRuleResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
+export type UpdateRuleError = CommonErrors;
+
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  CommonErrors,
+  UpdateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRuleRequest,

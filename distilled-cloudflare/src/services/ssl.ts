@@ -50,10 +50,12 @@ export type CreateAnalyzeResponse = unknown;
 export const CreateAnalyzeResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateAnalyzeResponse>;
 
+export type CreateAnalyzeError = CommonErrors;
+
 export const createAnalyze: API.OperationMethod<
   CreateAnalyzeRequest,
   CreateAnalyzeResponse,
-  CommonErrors,
+  CreateAnalyzeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAnalyzeRequest,
@@ -103,7 +105,6 @@ export interface GetCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -112,6 +113,7 @@ export interface GetCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -197,7 +199,6 @@ export const GetCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
-    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -206,6 +207,7 @@ export const GetCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
+    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -279,10 +281,12 @@ export const GetCertificatePackResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCertificatePackResponse>;
 
+export type GetCertificatePackError = CommonErrors;
+
 export const getCertificatePack: API.OperationMethod<
   GetCertificatePackRequest,
   GetCertificatePackResponse,
-  CommonErrors,
+  GetCertificatePackError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCertificatePackRequest,
@@ -322,7 +326,6 @@ export type ListCertificatePacksResponse = {
   }[];
   hosts: string[];
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -331,6 +334,7 @@ export type ListCertificatePacksResponse = {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -409,7 +413,6 @@ export const ListCertificatePacksResponse = Schema.Array(
     ),
     hosts: Schema.Array(Schema.String),
     status: Schema.Literals([
-      "active",
       "initializing",
       "pending_validation",
       "deleted",
@@ -418,6 +421,7 @@ export const ListCertificatePacksResponse = Schema.Array(
       "pending_deletion",
       "pending_expiration",
       "expired",
+      "active",
       "initializing_timed_out",
       "validation_timed_out",
       "issuance_timed_out",
@@ -494,10 +498,12 @@ export const ListCertificatePacksResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCertificatePacksResponse>;
 
+export type ListCertificatePacksError = CommonErrors;
+
 export const listCertificatePacks: API.OperationMethod<
   ListCertificatePacksRequest,
   ListCertificatePacksResponse,
-  CommonErrors,
+  ListCertificatePacksError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCertificatePacksRequest,
@@ -567,7 +573,6 @@ export interface CreateCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -576,6 +581,7 @@ export interface CreateCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -661,7 +667,6 @@ export const CreateCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
-    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -670,6 +675,7 @@ export const CreateCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
+    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -743,10 +749,12 @@ export const CreateCertificatePackResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateCertificatePackResponse>;
 
+export type CreateCertificatePackError = CommonErrors;
+
 export const createCertificatePack: API.OperationMethod<
   CreateCertificatePackRequest,
   CreateCertificatePackResponse,
-  CommonErrors,
+  CreateCertificatePackError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCertificatePackRequest,
@@ -796,7 +804,6 @@ export interface PatchCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
-    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -805,6 +812,7 @@ export interface PatchCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
+    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -890,7 +898,6 @@ export const PatchCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
-    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -899,6 +906,7 @@ export const PatchCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
+    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -972,10 +980,12 @@ export const PatchCertificatePackResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchCertificatePackResponse>;
 
+export type PatchCertificatePackError = CommonErrors;
+
 export const patchCertificatePack: API.OperationMethod<
   PatchCertificatePackRequest,
   PatchCertificatePackResponse,
-  CommonErrors,
+  PatchCertificatePackError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchCertificatePackRequest,
@@ -1008,10 +1018,12 @@ export const DeleteCertificatePackResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteCertificatePackResponse>;
 
+export type DeleteCertificatePackError = CommonErrors;
+
 export const deleteCertificatePack: API.OperationMethod<
   DeleteCertificatePackRequest,
   DeleteCertificatePackResponse,
-  CommonErrors,
+  DeleteCertificatePackError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteCertificatePackRequest,
@@ -1050,10 +1062,12 @@ export const GetCertificatePackQuotaResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetCertificatePackQuotaResponse>;
 
+export type GetCertificatePackQuotaError = CommonErrors;
+
 export const getCertificatePackQuota: API.OperationMethod<
   GetCertificatePackQuotaRequest,
   GetCertificatePackQuotaResponse,
-  CommonErrors,
+  GetCertificatePackQuotaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCertificatePackQuotaRequest,
@@ -1105,10 +1119,12 @@ export const GetRecommendationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRecommendationResponse>;
 
+export type GetRecommendationError = CommonErrors;
+
 export const getRecommendation: API.OperationMethod<
   GetRecommendationRequest,
   GetRecommendationResponse,
-  CommonErrors,
+  GetRecommendationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRecommendationRequest,
@@ -1140,10 +1156,12 @@ export const GetUniversalSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetUniversalSettingResponse>;
 
+export type GetUniversalSettingError = CommonErrors;
+
 export const getUniversalSetting: API.OperationMethod<
   GetUniversalSettingRequest,
   GetUniversalSettingResponse,
-  CommonErrors,
+  GetUniversalSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetUniversalSettingRequest,
@@ -1174,10 +1192,12 @@ export const PatchUniversalSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PatchUniversalSettingResponse>;
 
+export type PatchUniversalSettingError = CommonErrors;
+
 export const patchUniversalSetting: API.OperationMethod<
   PatchUniversalSettingRequest,
   PatchUniversalSettingResponse,
-  CommonErrors,
+  PatchUniversalSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchUniversalSettingRequest,
@@ -1215,7 +1235,7 @@ export type GetVerificationResponse = {
   brandCheck?: boolean;
   certPackUuid?: string;
   signature?: "ECDSAWithSHA256" | "SHA1WithRSA" | "SHA256WithRSA";
-  validationMethod?: "http" | "txt" | "cname";
+  validationMethod?: "http" | "cname" | "txt";
   verificationInfo?: {
     recordName?: "record_name" | "http_url" | "cname" | "txt_name";
     recordTarget?: "record_value" | "http_body" | "cname_target" | "txt_value";
@@ -1241,7 +1261,7 @@ export const GetVerificationResponse = Schema.Array(
       Schema.Literals(["ECDSAWithSHA256", "SHA1WithRSA", "SHA256WithRSA"]),
     ),
     validationMethod: Schema.optional(
-      Schema.Literals(["http", "txt", "cname"]),
+      Schema.Literals(["http", "cname", "txt"]),
     ),
     verificationInfo: Schema.optional(
       Schema.Struct({
@@ -1279,10 +1299,12 @@ export const GetVerificationResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetVerificationResponse>;
 
+export type GetVerificationError = CommonErrors;
+
 export const getVerification: API.OperationMethod<
   GetVerificationRequest,
   GetVerificationResponse,
-  CommonErrors,
+  GetVerificationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetVerificationRequest,
@@ -1329,10 +1351,12 @@ export const PatchVerificationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchVerificationResponse>;
 
+export type PatchVerificationError = CommonErrors;
+
 export const patchVerification: API.OperationMethod<
   PatchVerificationRequest,
   PatchVerificationResponse,
-  CommonErrors,
+  PatchVerificationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchVerificationRequest,

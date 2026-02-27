@@ -203,10 +203,12 @@ export const GetInstanceResponse = Schema.Struct({
   versionId: Schema.String,
 }) as unknown as Schema.Schema<GetInstanceResponse>;
 
+export type GetInstanceError = CommonErrors;
+
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
   GetInstanceResponse,
-  CommonErrors,
+  GetInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInstanceRequest,
@@ -318,10 +320,12 @@ export const ListInstancesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstancesResponse>;
 
+export type ListInstancesError = CommonErrors;
+
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
-  CommonErrors,
+  ListInstancesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListInstancesRequest,
@@ -414,10 +418,12 @@ export const CreateInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateInstanceResponse>;
 
+export type CreateInstanceError = CommonErrors;
+
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
   CreateInstanceResponse,
-  CommonErrors,
+  CreateInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInstanceRequest,
@@ -519,10 +525,12 @@ export const BulkInstanceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkInstanceResponse>;
 
+export type BulkInstanceError = CommonErrors;
+
 export const bulkInstance: API.OperationMethod<
   BulkInstanceRequest,
   BulkInstanceResponse,
-  CommonErrors,
+  BulkInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkInstanceRequest,
@@ -562,10 +570,12 @@ export type CreateInstanceEventResponse = unknown;
 export const CreateInstanceEventResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateInstanceEventResponse>;
 
+export type CreateInstanceEventError = CommonErrors;
+
 export const createInstanceEvent: API.OperationMethod<
   CreateInstanceEventRequest,
   CreateInstanceEventResponse,
-  CommonErrors,
+  CreateInstanceEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInstanceEventRequest,
@@ -626,10 +636,12 @@ export const PatchInstanceStatusResponse = Schema.Struct({
   timestamp: Schema.String,
 }) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
 
+export type PatchInstanceStatusError = CommonErrors;
+
 export const patchInstanceStatus: API.OperationMethod<
   PatchInstanceStatusRequest,
   PatchInstanceStatusResponse,
-  CommonErrors,
+  PatchInstanceStatusError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchInstanceStatusRequest,
@@ -682,10 +694,12 @@ export const GetVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetVersionResponse>;
 
+export type GetVersionError = CommonErrors;
+
 export const getVersion: API.OperationMethod<
   GetVersionRequest,
   GetVersionResponse,
-  CommonErrors,
+  GetVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetVersionRequest,
@@ -735,10 +749,12 @@ export const ListVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListVersionsResponse>;
 
+export type ListVersionsError = CommonErrors;
+
 export const listVersions: API.OperationMethod<
   ListVersionsRequest,
   ListVersionsResponse,
-  CommonErrors,
+  ListVersionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListVersionsRequest,
@@ -816,10 +832,12 @@ export const GetWorkflowResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetWorkflowResponse>;
 
+export type GetWorkflowError = CommonErrors;
+
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
   GetWorkflowResponse,
-  CommonErrors,
+  GetWorkflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWorkflowRequest,
@@ -894,10 +912,12 @@ export const ListWorkflowsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWorkflowsResponse>;
 
+export type ListWorkflowsError = CommonErrors;
+
 export const listWorkflows: API.OperationMethod<
   ListWorkflowsRequest,
   ListWorkflowsResponse,
-  CommonErrors,
+  ListWorkflowsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWorkflowsRequest,
@@ -967,10 +987,12 @@ export const PutWorkflowResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutWorkflowResponse>;
 
+export type PutWorkflowError = CommonErrors;
+
 export const putWorkflow: API.OperationMethod<
   PutWorkflowRequest,
   PutWorkflowResponse,
-  CommonErrors,
+  PutWorkflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutWorkflowRequest,
@@ -1003,10 +1025,12 @@ export const DeleteWorkflowResponse = Schema.Struct({
   success: Schema.Union([Schema.Boolean, Schema.Null]),
 }) as unknown as Schema.Schema<DeleteWorkflowResponse>;
 
+export type DeleteWorkflowError = CommonErrors;
+
 export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowRequest,
   DeleteWorkflowResponse,
-  CommonErrors,
+  DeleteWorkflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteWorkflowRequest,

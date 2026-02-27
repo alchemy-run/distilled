@@ -60,7 +60,7 @@ export interface PutCertificatePackCertificateResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -154,7 +154,7 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -315,10 +315,12 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutCertificatePackCertificateResponse>;
 
+export type PutCertificatePackCertificateError = CommonErrors;
+
 export const putCertificatePackCertificate: API.OperationMethod<
   PutCertificatePackCertificateRequest,
   PutCertificatePackCertificateResponse,
-  CommonErrors,
+  PutCertificatePackCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutCertificatePackCertificateRequest,
@@ -355,10 +357,12 @@ export const DeleteCertificatePackCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteCertificatePackCertificateResponse>;
 
+export type DeleteCertificatePackCertificateError = CommonErrors;
+
 export const deleteCertificatePackCertificate: API.OperationMethod<
   DeleteCertificatePackCertificateRequest,
   DeleteCertificatePackCertificateResponse,
-  CommonErrors,
+  DeleteCertificatePackCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteCertificatePackCertificateRequest,
@@ -394,7 +398,7 @@ export interface GetCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -488,7 +492,7 @@ export const GetCustomHostnameResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -649,10 +653,12 @@ export const GetCustomHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCustomHostnameResponse>;
 
+export type GetCustomHostnameError = CommonErrors;
+
 export const getCustomHostname: API.OperationMethod<
   GetCustomHostnameRequest,
   GetCustomHostnameResponse,
-  CommonErrors,
+  GetCustomHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCustomHostnameRequest,
@@ -696,7 +702,7 @@ export type ListCustomHostnamesResponse = {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -783,7 +789,7 @@ export const ListCustomHostnamesResponse = Schema.Array(
         Schema.Literals(["ubiquitous", "optimal", "force"]),
       ),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
       ),
       customCertificate: Schema.optional(Schema.String),
       customCsrId: Schema.optional(Schema.String),
@@ -947,10 +953,12 @@ export const ListCustomHostnamesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCustomHostnamesResponse>;
 
+export type ListCustomHostnamesError = CommonErrors;
+
 export const listCustomHostnames: API.OperationMethod<
   ListCustomHostnamesRequest,
   ListCustomHostnamesResponse,
-  CommonErrors,
+  ListCustomHostnamesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCustomHostnamesRequest,
@@ -968,7 +976,7 @@ export interface CreateCustomHostnameRequest {
   /** Body param: SSL properties used when creating the custom hostname. */
   ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     cloudflareBranding?: boolean;
     customCertBundle?: { customCertificate: string; customKey: string }[];
     customCertificate?: string;
@@ -996,7 +1004,7 @@ export const CreateCustomHostnameRequest = Schema.Struct({
         Schema.Literals(["ubiquitous", "optimal", "force"]),
       ),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
       ),
       cloudflareBranding: Schema.optional(Schema.Boolean),
       customCertBundle: Schema.optional(
@@ -1068,7 +1076,7 @@ export interface CreateCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -1162,7 +1170,7 @@ export const CreateCustomHostnameResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -1323,10 +1331,12 @@ export const CreateCustomHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateCustomHostnameResponse>;
 
+export type CreateCustomHostnameError = CommonErrors;
+
 export const createCustomHostname: API.OperationMethod<
   CreateCustomHostnameRequest,
   CreateCustomHostnameResponse,
-  CommonErrors,
+  CreateCustomHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCustomHostnameRequest,
@@ -1347,7 +1357,7 @@ export interface PatchCustomHostnameRequest {
   /** Body param: SSL properties used when creating the custom hostname. */
   ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     cloudflareBranding?: boolean;
     customCertBundle?: { customCertificate: string; customKey: string }[];
     customCertificate?: string;
@@ -1377,7 +1387,7 @@ export const PatchCustomHostnameRequest = Schema.Struct({
         Schema.Literals(["ubiquitous", "optimal", "force"]),
       ),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
       ),
       cloudflareBranding: Schema.optional(Schema.Boolean),
       customCertBundle: Schema.optional(
@@ -1453,7 +1463,7 @@ export interface PatchCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
+    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -1547,7 +1557,7 @@ export const PatchCustomHostnameResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
+      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -1708,10 +1718,12 @@ export const PatchCustomHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchCustomHostnameResponse>;
 
+export type PatchCustomHostnameError = CommonErrors;
+
 export const patchCustomHostname: API.OperationMethod<
   PatchCustomHostnameRequest,
   PatchCustomHostnameResponse,
-  CommonErrors,
+  PatchCustomHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchCustomHostnameRequest,
@@ -1744,10 +1756,12 @@ export const DeleteCustomHostnameResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteCustomHostnameResponse>;
 
+export type DeleteCustomHostnameError = CommonErrors;
+
 export const deleteCustomHostname: API.OperationMethod<
   DeleteCustomHostnameRequest,
   DeleteCustomHostnameResponse,
-  CommonErrors,
+  DeleteCustomHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteCustomHostnameRequest,
@@ -1817,10 +1831,12 @@ export const GetFallbackOriginResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetFallbackOriginResponse>;
 
+export type GetFallbackOriginError = CommonErrors;
+
 export const getFallbackOrigin: API.OperationMethod<
   GetFallbackOriginRequest,
   GetFallbackOriginResponse,
-  CommonErrors,
+  GetFallbackOriginError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetFallbackOriginRequest,
@@ -1889,10 +1905,12 @@ export const PutFallbackOriginResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutFallbackOriginResponse>;
 
+export type PutFallbackOriginError = CommonErrors;
+
 export const putFallbackOrigin: API.OperationMethod<
   PutFallbackOriginRequest,
   PutFallbackOriginResponse,
-  CommonErrors,
+  PutFallbackOriginError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutFallbackOriginRequest,
@@ -1958,10 +1976,12 @@ export const DeleteFallbackOriginResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteFallbackOriginResponse>;
 
+export type DeleteFallbackOriginError = CommonErrors;
+
 export const deleteFallbackOrigin: API.OperationMethod<
   DeleteFallbackOriginRequest,
   DeleteFallbackOriginResponse,
-  CommonErrors,
+  DeleteFallbackOriginError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteFallbackOriginRequest,

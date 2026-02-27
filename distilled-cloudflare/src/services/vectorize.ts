@@ -47,10 +47,12 @@ export type GetByIdsIndexResponse = unknown;
 export const GetByIdsIndexResponse =
   Schema.Unknown as unknown as Schema.Schema<GetByIdsIndexResponse>;
 
+export type GetByIdsIndexError = CommonErrors;
+
 export const getByIdsIndex: API.OperationMethod<
   GetByIdsIndexRequest,
   GetByIdsIndexResponse,
-  CommonErrors,
+  GetByIdsIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetByIdsIndexRequest,
@@ -86,10 +88,12 @@ export const DeleteByIdsIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
 
+export type DeleteByIdsIndexError = CommonErrors;
+
 export const deleteByIdsIndex: API.OperationMethod<
   DeleteByIdsIndexRequest,
   DeleteByIdsIndexResponse,
-  CommonErrors,
+  DeleteByIdsIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteByIdsIndexRequest,
@@ -152,10 +156,12 @@ export const GetIndexResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetIndexResponse>;
 
+export type GetIndexError = CommonErrors;
+
 export const getIndex: API.OperationMethod<
   GetIndexRequest,
   GetIndexResponse,
-  CommonErrors,
+  GetIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetIndexRequest,
@@ -211,10 +217,12 @@ export const ListIndexesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListIndexesResponse>;
 
+export type ListIndexesError = CommonErrors;
+
 export const listIndexes: API.OperationMethod<
   ListIndexesRequest,
   ListIndexesResponse,
-  CommonErrors,
+  ListIndexesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListIndexesRequest,
@@ -303,10 +311,12 @@ export const CreateIndexResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateIndexResponse>;
 
+export type CreateIndexError = CommonErrors;
+
 export const createIndex: API.OperationMethod<
   CreateIndexRequest,
   CreateIndexResponse,
-  CommonErrors,
+  CreateIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateIndexRequest,
@@ -335,10 +345,12 @@ export type DeleteIndexResponse = string;
 export const DeleteIndexResponse =
   Schema.String as unknown as Schema.Schema<DeleteIndexResponse>;
 
+export type DeleteIndexError = CommonErrors;
+
 export const deleteIndex: API.OperationMethod<
   DeleteIndexRequest,
   DeleteIndexResponse,
-  CommonErrors,
+  DeleteIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteIndexRequest,
@@ -382,10 +394,12 @@ export const InfoIndexResponse = Schema.Struct({
   vectorCount: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<InfoIndexResponse>;
 
+export type InfoIndexError = CommonErrors;
+
 export const infoIndex: API.OperationMethod<
   InfoIndexRequest,
   InfoIndexResponse,
-  CommonErrors,
+  InfoIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: InfoIndexRequest,
@@ -427,10 +441,12 @@ export const InsertIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<InsertIndexResponse>;
 
+export type InsertIndexError = CommonErrors;
+
 export const insertIndex: API.OperationMethod<
   InsertIndexRequest,
   InsertIndexResponse,
-  CommonErrors,
+  InsertIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: InsertIndexRequest,
@@ -499,10 +515,12 @@ export const QueryIndexResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<QueryIndexResponse>;
 
+export type QueryIndexError = CommonErrors;
+
 export const queryIndex: API.OperationMethod<
   QueryIndexRequest,
   QueryIndexResponse,
-  CommonErrors,
+  QueryIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryIndexRequest,
@@ -544,10 +562,12 @@ export const UpsertIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpsertIndexResponse>;
 
+export type UpsertIndexError = CommonErrors;
+
 export const upsertIndex: API.OperationMethod<
   UpsertIndexRequest,
   UpsertIndexResponse,
-  CommonErrors,
+  UpsertIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpsertIndexRequest,
@@ -596,10 +616,12 @@ export const ListIndexMetadataIndexesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
 
+export type ListIndexMetadataIndexesError = CommonErrors;
+
 export const listIndexMetadataIndexes: API.OperationMethod<
   ListIndexMetadataIndexesRequest,
   ListIndexMetadataIndexesResponse,
-  CommonErrors,
+  ListIndexMetadataIndexesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListIndexMetadataIndexesRequest,
@@ -638,10 +660,12 @@ export const CreateIndexMetadataIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
 
+export type CreateIndexMetadataIndexError = CommonErrors;
+
 export const createIndexMetadataIndex: API.OperationMethod<
   CreateIndexMetadataIndexRequest,
   CreateIndexMetadataIndexResponse,
-  CommonErrors,
+  CreateIndexMetadataIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateIndexMetadataIndexRequest,
@@ -677,10 +701,12 @@ export const DeleteIndexMetadataIndexResponse = Schema.Struct({
   mutationId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
 
+export type DeleteIndexMetadataIndexError = CommonErrors;
+
 export const deleteIndexMetadataIndex: API.OperationMethod<
   DeleteIndexMetadataIndexRequest,
   DeleteIndexMetadataIndexResponse,
-  CommonErrors,
+  DeleteIndexMetadataIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteIndexMetadataIndexRequest,
@@ -744,10 +770,12 @@ export const ListVectorsIndexResponse = Schema.Struct({
   nextCursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<ListVectorsIndexResponse>;
 
+export type ListVectorsIndexError = CommonErrors;
+
 export const listVectorsIndex: API.OperationMethod<
   ListVectorsIndexRequest,
   ListVectorsIndexResponse,
-  CommonErrors,
+  ListVectorsIndexError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListVectorsIndexRequest,

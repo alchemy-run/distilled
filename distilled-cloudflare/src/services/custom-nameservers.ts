@@ -64,10 +64,12 @@ export const GetCustomNameserverResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetCustomNameserverResponse>;
 
+export type GetCustomNameserverError = CommonErrors;
+
 export const getCustomNameserver: API.OperationMethod<
   GetCustomNameserverRequest,
   GetCustomNameserverResponse,
-  CommonErrors,
+  GetCustomNameserverError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCustomNameserverRequest,
@@ -127,10 +129,12 @@ export const CreateCustomNameserverResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateCustomNameserverResponse>;
 
+export type CreateCustomNameserverError = CommonErrors;
+
 export const createCustomNameserver: API.OperationMethod<
   CreateCustomNameserverRequest,
   CreateCustomNameserverResponse,
-  CommonErrors,
+  CreateCustomNameserverError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCustomNameserverRequest,
@@ -160,10 +164,12 @@ export const DeleteCustomNameserverResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<DeleteCustomNameserverResponse>;
 
+export type DeleteCustomNameserverError = CommonErrors;
+
 export const deleteCustomNameserver: API.OperationMethod<
   DeleteCustomNameserverRequest,
   DeleteCustomNameserverResponse,
-  CommonErrors,
+  DeleteCustomNameserverError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteCustomNameserverRequest,

@@ -80,10 +80,12 @@ export const GetDispatchNamespaceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDispatchNamespaceResponse>;
 
+export type GetDispatchNamespaceError = CommonErrors;
+
 export const getDispatchNamespace: API.OperationMethod<
   GetDispatchNamespaceRequest,
   GetDispatchNamespaceResponse,
-  CommonErrors,
+  GetDispatchNamespaceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDispatchNamespaceRequest,
@@ -140,10 +142,12 @@ export const ListDispatchNamespacesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDispatchNamespacesResponse>;
 
+export type ListDispatchNamespacesError = CommonErrors;
+
 export const listDispatchNamespaces: API.OperationMethod<
   ListDispatchNamespacesRequest,
   ListDispatchNamespacesResponse,
-  CommonErrors,
+  ListDispatchNamespacesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDispatchNamespacesRequest,
@@ -209,10 +213,12 @@ export const CreateDispatchNamespaceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDispatchNamespaceResponse>;
 
+export type CreateDispatchNamespaceError = CommonErrors;
+
 export const createDispatchNamespace: API.OperationMethod<
   CreateDispatchNamespaceRequest,
   CreateDispatchNamespaceResponse,
-  CommonErrors,
+  CreateDispatchNamespaceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDispatchNamespaceRequest,
@@ -241,10 +247,12 @@ export type DeleteDispatchNamespaceResponse = unknown;
 export const DeleteDispatchNamespaceResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDispatchNamespaceResponse>;
 
+export type DeleteDispatchNamespaceError = CommonErrors;
+
 export const deleteDispatchNamespace: API.OperationMethod<
   DeleteDispatchNamespaceRequest,
   DeleteDispatchNamespaceResponse,
-  CommonErrors,
+  DeleteDispatchNamespaceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDispatchNamespaceRequest,
@@ -298,10 +306,12 @@ export const GetDispatchNamespaceScriptResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDispatchNamespaceScriptResponse>;
 
+export type GetDispatchNamespaceScriptError = CommonErrors;
+
 export const getDispatchNamespaceScript: API.OperationMethod<
   GetDispatchNamespaceScriptRequest,
   GetDispatchNamespaceScriptResponse,
-  CommonErrors,
+  GetDispatchNamespaceScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDispatchNamespaceScriptRequest,
@@ -1140,10 +1150,12 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutDispatchNamespaceScriptResponse>;
 
+export type PutDispatchNamespaceScriptError = CommonErrors;
+
 export const putDispatchNamespaceScript: API.OperationMethod<
   PutDispatchNamespaceScriptRequest,
   PutDispatchNamespaceScriptResponse,
-  CommonErrors,
+  PutDispatchNamespaceScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutDispatchNamespaceScriptRequest,
@@ -1177,10 +1189,12 @@ export type DeleteDispatchNamespaceScriptResponse = unknown;
 export const DeleteDispatchNamespaceScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDispatchNamespaceScriptResponse>;
 
+export type DeleteDispatchNamespaceScriptError = CommonErrors;
+
 export const deleteDispatchNamespaceScript: API.OperationMethod<
   DeleteDispatchNamespaceScriptRequest,
   DeleteDispatchNamespaceScriptResponse,
-  CommonErrors,
+  DeleteDispatchNamespaceScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDispatchNamespaceScriptRequest,
@@ -1225,10 +1239,12 @@ export const CreateDispatchNamespaceScriptAssetUploadResponse = Schema.Struct({
   jwt: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDispatchNamespaceScriptAssetUploadResponse>;
 
+export type CreateDispatchNamespaceScriptAssetUploadError = CommonErrors;
+
 export const createDispatchNamespaceScriptAssetUpload: API.OperationMethod<
   CreateDispatchNamespaceScriptAssetUploadRequest,
   CreateDispatchNamespaceScriptAssetUploadResponse,
-  CommonErrors,
+  CreateDispatchNamespaceScriptAssetUploadError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDispatchNamespaceScriptAssetUploadRequest,
@@ -1585,10 +1601,12 @@ export const GetDispatchNamespaceScriptBindingResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<GetDispatchNamespaceScriptBindingResponse>;
 
+export type GetDispatchNamespaceScriptBindingError = CommonErrors;
+
 export const getDispatchNamespaceScriptBinding: API.OperationMethod<
   GetDispatchNamespaceScriptBindingRequest,
   GetDispatchNamespaceScriptBindingResponse,
-  CommonErrors,
+  GetDispatchNamespaceScriptBindingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDispatchNamespaceScriptBindingRequest,
@@ -1623,10 +1641,12 @@ export type GetDispatchNamespaceScriptContentResponse = unknown;
 export const GetDispatchNamespaceScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDispatchNamespaceScriptContentResponse>;
 
+export type GetDispatchNamespaceScriptContentError = CommonErrors;
+
 export const getDispatchNamespaceScriptContent: API.OperationMethod<
   GetDispatchNamespaceScriptContentRequest,
   GetDispatchNamespaceScriptContentResponse,
-  CommonErrors,
+  GetDispatchNamespaceScriptContentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDispatchNamespaceScriptContentRequest,
@@ -1676,10 +1696,12 @@ export type PutDispatchNamespaceScriptContentResponse = unknown;
 export const PutDispatchNamespaceScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<PutDispatchNamespaceScriptContentResponse>;
 
+export type PutDispatchNamespaceScriptContentError = CommonErrors;
+
 export const putDispatchNamespaceScriptContent: API.OperationMethod<
   PutDispatchNamespaceScriptContentRequest,
   PutDispatchNamespaceScriptContentResponse,
-  CommonErrors,
+  PutDispatchNamespaceScriptContentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutDispatchNamespaceScriptContentRequest,
@@ -1758,10 +1780,12 @@ export const GetDispatchNamespaceScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetDispatchNamespaceScriptSecretResponse>;
 
+export type GetDispatchNamespaceScriptSecretError = CommonErrors;
+
 export const getDispatchNamespaceScriptSecret: API.OperationMethod<
   GetDispatchNamespaceScriptSecretRequest,
   GetDispatchNamespaceScriptSecretResponse,
-  CommonErrors,
+  GetDispatchNamespaceScriptSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDispatchNamespaceScriptSecretRequest,
@@ -1834,10 +1858,12 @@ export const ListDispatchNamespaceScriptSecretsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListDispatchNamespaceScriptSecretsResponse>;
 
+export type ListDispatchNamespaceScriptSecretsError = CommonErrors;
+
 export const listDispatchNamespaceScriptSecrets: API.OperationMethod<
   ListDispatchNamespaceScriptSecretsRequest,
   ListDispatchNamespaceScriptSecretsResponse,
-  CommonErrors,
+  ListDispatchNamespaceScriptSecretsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDispatchNamespaceScriptSecretsRequest,
@@ -1916,10 +1942,12 @@ export const PutDispatchNamespaceScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<PutDispatchNamespaceScriptSecretResponse>;
 
+export type PutDispatchNamespaceScriptSecretError = CommonErrors;
+
 export const putDispatchNamespaceScriptSecret: API.OperationMethod<
   PutDispatchNamespaceScriptSecretRequest,
   PutDispatchNamespaceScriptSecretResponse,
-  CommonErrors,
+  PutDispatchNamespaceScriptSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutDispatchNamespaceScriptSecretRequest,
@@ -1955,10 +1983,12 @@ export type DeleteDispatchNamespaceScriptSecretResponse = unknown;
 export const DeleteDispatchNamespaceScriptSecretResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDispatchNamespaceScriptSecretResponse>;
 
+export type DeleteDispatchNamespaceScriptSecretError = CommonErrors;
+
 export const deleteDispatchNamespaceScriptSecret: API.OperationMethod<
   DeleteDispatchNamespaceScriptSecretRequest,
   DeleteDispatchNamespaceScriptSecretResponse,
-  CommonErrors,
+  DeleteDispatchNamespaceScriptSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDispatchNamespaceScriptSecretRequest,
@@ -2438,10 +2468,12 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDispatchNamespaceScriptSettingResponse>;
 
+export type GetDispatchNamespaceScriptSettingError = CommonErrors;
+
 export const getDispatchNamespaceScriptSetting: API.OperationMethod<
   GetDispatchNamespaceScriptSettingRequest,
   GetDispatchNamespaceScriptSettingResponse,
-  CommonErrors,
+  GetDispatchNamespaceScriptSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDispatchNamespaceScriptSettingRequest,
@@ -3395,10 +3427,12 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchDispatchNamespaceScriptSettingResponse>;
 
+export type PatchDispatchNamespaceScriptSettingError = CommonErrors;
+
 export const patchDispatchNamespaceScriptSetting: API.OperationMethod<
   PatchDispatchNamespaceScriptSettingRequest,
   PatchDispatchNamespaceScriptSettingResponse,
-  CommonErrors,
+  PatchDispatchNamespaceScriptSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDispatchNamespaceScriptSettingRequest,
@@ -3434,10 +3468,12 @@ export const ListDispatchNamespaceScriptTagsResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<ListDispatchNamespaceScriptTagsResponse>;
 
+export type ListDispatchNamespaceScriptTagsError = CommonErrors;
+
 export const listDispatchNamespaceScriptTags: API.OperationMethod<
   ListDispatchNamespaceScriptTagsRequest,
   ListDispatchNamespaceScriptTagsResponse,
-  CommonErrors,
+  ListDispatchNamespaceScriptTagsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDispatchNamespaceScriptTagsRequest,
@@ -3474,10 +3510,12 @@ export const UpdateDispatchNamespaceScriptTagResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<UpdateDispatchNamespaceScriptTagResponse>;
 
+export type UpdateDispatchNamespaceScriptTagError = CommonErrors;
+
 export const updateDispatchNamespaceScriptTag: API.OperationMethod<
   UpdateDispatchNamespaceScriptTagRequest,
   UpdateDispatchNamespaceScriptTagResponse,
-  CommonErrors,
+  UpdateDispatchNamespaceScriptTagError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDispatchNamespaceScriptTagRequest,
@@ -3510,10 +3548,12 @@ export type DeleteDispatchNamespaceScriptTagResponse = unknown;
 export const DeleteDispatchNamespaceScriptTagResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDispatchNamespaceScriptTagResponse>;
 
+export type DeleteDispatchNamespaceScriptTagError = CommonErrors;
+
 export const deleteDispatchNamespaceScriptTag: API.OperationMethod<
   DeleteDispatchNamespaceScriptTagRequest,
   DeleteDispatchNamespaceScriptTagResponse,
-  CommonErrors,
+  DeleteDispatchNamespaceScriptTagError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDispatchNamespaceScriptTagRequest,

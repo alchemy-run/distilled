@@ -123,10 +123,12 @@ export const ListInsightsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInsightsResponse>;
 
+export type ListInsightsError = CommonErrors;
+
 export const listInsights: API.OperationMethod<
   ListInsightsRequest,
   ListInsightsResponse,
-  CommonErrors,
+  ListInsightsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListInsightsRequest,
@@ -215,10 +217,12 @@ export const DismissInsightResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DismissInsightResponse>;
 
+export type DismissInsightError = CommonErrors;
+
 export const dismissInsight: API.OperationMethod<
   DismissInsightRequest,
   DismissInsightResponse,
-  CommonErrors,
+  DismissInsightError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DismissInsightRequest,
@@ -248,10 +252,12 @@ export const GetInsightClassResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetInsightClassResponse>;
 
+export type GetInsightClassError = CommonErrors;
+
 export const getInsightClass: API.OperationMethod<
   GetInsightClassRequest,
   GetInsightClassResponse,
-  CommonErrors,
+  GetInsightClassError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInsightClassRequest,
@@ -281,10 +287,12 @@ export const GetInsightSeverityResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetInsightSeverityResponse>;
 
+export type GetInsightSeverityError = CommonErrors;
+
 export const getInsightSeverity: API.OperationMethod<
   GetInsightSeverityRequest,
   GetInsightSeverityResponse,
-  CommonErrors,
+  GetInsightSeverityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInsightSeverityRequest,
@@ -314,10 +322,12 @@ export const GetInsightTypeResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetInsightTypeResponse>;
 
+export type GetInsightTypeError = CommonErrors;
+
 export const getInsightType: API.OperationMethod<
   GetInsightTypeRequest,
   GetInsightTypeResponse,
-  CommonErrors,
+  GetInsightTypeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInsightTypeRequest,

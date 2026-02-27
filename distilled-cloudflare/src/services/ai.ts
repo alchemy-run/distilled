@@ -188,10 +188,12 @@ export const RunAiResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<RunAiResponse>;
 
+export type RunAiError = CommonErrors | ModelNotFound;
+
 export const runAi: API.OperationMethod<
   RunAiRequest,
   RunAiResponse,
-  CommonErrors | ModelNotFound,
+  RunAiError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RunAiRequest,
@@ -219,10 +221,12 @@ export const ListAuthorsResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListAuthorsResponse>;
 
+export type ListAuthorsError = CommonErrors;
+
 export const listAuthors: API.OperationMethod<
   ListAuthorsRequest,
   ListAuthorsResponse,
-  CommonErrors,
+  ListAuthorsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAuthorsRequest,
@@ -273,10 +277,12 @@ export const ListFinetunesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListFinetunesResponse>;
 
+export type ListFinetunesError = CommonErrors | AccountNotFound;
+
 export const listFinetunes: API.OperationMethod<
   ListFinetunesRequest,
   ListFinetunesResponse,
-  CommonErrors | AccountNotFound,
+  ListFinetunesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListFinetunesRequest,
@@ -337,10 +343,15 @@ export const CreateFinetuneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateFinetuneResponse>;
 
+export type CreateFinetuneError =
+  | CommonErrors
+  | ModelNotSupported
+  | AccountNotFound;
+
 export const createFinetune: API.OperationMethod<
   CreateFinetuneRequest,
   CreateFinetuneResponse,
-  CommonErrors | ModelNotSupported | AccountNotFound,
+  CreateFinetuneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFinetuneRequest,
@@ -384,10 +395,15 @@ export const CreateFinetuneAssetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateFinetuneAssetResponse>;
 
+export type CreateFinetuneAssetError =
+  | CommonErrors
+  | ModelNotSupported
+  | AccountNotFound;
+
 export const createFinetuneAsset: API.OperationMethod<
   CreateFinetuneAssetRequest,
   CreateFinetuneAssetResponse,
-  CommonErrors | ModelNotSupported | AccountNotFound,
+  CreateFinetuneAssetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFinetuneAssetRequest,
@@ -451,10 +467,12 @@ export const ListFinetunePublicsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListFinetunePublicsResponse>;
 
+export type ListFinetunePublicsError = CommonErrors;
+
 export const listFinetunePublics: API.OperationMethod<
   ListFinetunePublicsRequest,
   ListFinetunePublicsResponse,
-  CommonErrors,
+  ListFinetunePublicsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListFinetunePublicsRequest,
@@ -500,10 +518,12 @@ export const ListModelsResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListModelsResponse>;
 
+export type ListModelsError = CommonErrors;
+
 export const listModels: API.OperationMethod<
   ListModelsRequest,
   ListModelsResponse,
-  CommonErrors,
+  ListModelsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListModelsRequest,
@@ -534,10 +554,16 @@ export type GetModelSchemaResponse = unknown;
 export const GetModelSchemaResponse =
   Schema.Unknown as unknown as Schema.Schema<GetModelSchemaResponse>;
 
+export type GetModelSchemaError =
+  | CommonErrors
+  | ModelNotSupported
+  | ModelSchemaNotFound
+  | AccountNotFound;
+
 export const getModelSchema: API.OperationMethod<
   GetModelSchemaRequest,
   GetModelSchemaResponse,
-  CommonErrors | ModelNotSupported | ModelSchemaNotFound | AccountNotFound,
+  GetModelSchemaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetModelSchemaRequest,
@@ -565,10 +591,12 @@ export const ListTasksResponse = Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListTasksResponse>;
 
+export type ListTasksError = CommonErrors;
+
 export const listTasks: API.OperationMethod<
   ListTasksRequest,
   ListTasksResponse,
-  CommonErrors,
+  ListTasksError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListTasksRequest,
@@ -605,10 +633,12 @@ export const SupportedToMarkdownResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<SupportedToMarkdownResponse>;
 
+export type SupportedToMarkdownError = CommonErrors;
+
 export const supportedToMarkdown: API.OperationMethod<
   SupportedToMarkdownRequest,
   SupportedToMarkdownResponse,
-  CommonErrors,
+  SupportedToMarkdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SupportedToMarkdownRequest,
@@ -645,10 +675,12 @@ export const TransformToMarkdownResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<TransformToMarkdownResponse>;
 
+export type TransformToMarkdownError = CommonErrors;
+
 export const transformToMarkdown: API.OperationMethod<
   TransformToMarkdownRequest,
   TransformToMarkdownResponse,
-  CommonErrors,
+  TransformToMarkdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TransformToMarkdownRequest,

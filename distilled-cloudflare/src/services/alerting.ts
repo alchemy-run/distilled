@@ -108,10 +108,12 @@ export const ListAvailableAlertsResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<ListAvailableAlertsResponse>;
 
+export type ListAvailableAlertsError = CommonErrors | InvalidRoute;
+
 export const listAvailableAlerts: API.OperationMethod<
   ListAvailableAlertsRequest,
   ListAvailableAlertsResponse,
-  CommonErrors | InvalidRoute,
+  ListAvailableAlertsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAvailableAlertsRequest,
@@ -143,10 +145,12 @@ export const GetDestinationEligibleResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<GetDestinationEligibleResponse>;
 
+export type GetDestinationEligibleError = CommonErrors | InvalidRoute;
+
 export const getDestinationEligible: API.OperationMethod<
   GetDestinationEligibleRequest,
   GetDestinationEligibleResponse,
-  CommonErrors | InvalidRoute,
+  GetDestinationEligibleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDestinationEligibleRequest,
@@ -181,10 +185,12 @@ export const GetDestinationPagerdutyResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetDestinationPagerdutyResponse>;
 
+export type GetDestinationPagerdutyError = CommonErrors;
+
 export const getDestinationPagerduty: API.OperationMethod<
   GetDestinationPagerdutyRequest,
   GetDestinationPagerdutyResponse,
-  CommonErrors,
+  GetDestinationPagerdutyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDestinationPagerdutyRequest,
@@ -215,10 +221,12 @@ export const CreateDestinationPagerdutyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDestinationPagerdutyResponse>;
 
+export type CreateDestinationPagerdutyError = CommonErrors | InvalidRoute;
+
 export const createDestinationPagerduty: API.OperationMethod<
   CreateDestinationPagerdutyRequest,
   CreateDestinationPagerdutyResponse,
-  CommonErrors | InvalidRoute,
+  CreateDestinationPagerdutyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDestinationPagerdutyRequest,
@@ -263,10 +271,12 @@ export const DeleteDestinationPagerdutyResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteDestinationPagerdutyResponse>;
 
+export type DeleteDestinationPagerdutyError = CommonErrors | InvalidRoute;
+
 export const deleteDestinationPagerduty: API.OperationMethod<
   DeleteDestinationPagerdutyRequest,
   DeleteDestinationPagerdutyResponse,
-  CommonErrors | InvalidRoute,
+  DeleteDestinationPagerdutyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDestinationPagerdutyRequest,
@@ -299,10 +309,12 @@ export const LinkDestinationPagerdutyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<LinkDestinationPagerdutyResponse>;
 
+export type LinkDestinationPagerdutyError = CommonErrors | InvalidRoute;
+
 export const linkDestinationPagerduty: API.OperationMethod<
   LinkDestinationPagerdutyRequest,
   LinkDestinationPagerdutyResponse,
-  CommonErrors | InvalidRoute,
+  LinkDestinationPagerdutyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LinkDestinationPagerdutyRequest,
@@ -386,10 +398,15 @@ export const GetDestinationWebhookResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDestinationWebhookResponse>;
 
+export type GetDestinationWebhookError =
+  | CommonErrors
+  | InvalidRoute
+  | WebhookNotFound;
+
 export const getDestinationWebhook: API.OperationMethod<
   GetDestinationWebhookRequest,
   GetDestinationWebhookResponse,
-  CommonErrors | InvalidRoute | WebhookNotFound,
+  GetDestinationWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDestinationWebhookRequest,
@@ -462,10 +479,12 @@ export const ListDestinationWebhooksResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDestinationWebhooksResponse>;
 
+export type ListDestinationWebhooksError = CommonErrors;
+
 export const listDestinationWebhooks: API.OperationMethod<
   ListDestinationWebhooksRequest,
   ListDestinationWebhooksResponse,
-  CommonErrors,
+  ListDestinationWebhooksError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDestinationWebhooksRequest,
@@ -505,10 +524,15 @@ export const CreateDestinationWebhookResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDestinationWebhookResponse>;
 
+export type CreateDestinationWebhookError =
+  | CommonErrors
+  | InvalidRoute
+  | WebhookTestFailed;
+
 export const createDestinationWebhook: API.OperationMethod<
   CreateDestinationWebhookRequest,
   CreateDestinationWebhookResponse,
-  CommonErrors | InvalidRoute | WebhookTestFailed,
+  CreateDestinationWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDestinationWebhookRequest,
@@ -550,10 +574,15 @@ export const UpdateDestinationWebhookResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateDestinationWebhookResponse>;
 
+export type UpdateDestinationWebhookError =
+  | CommonErrors
+  | InvalidRoute
+  | InvalidWebhookId;
+
 export const updateDestinationWebhook: API.OperationMethod<
   UpdateDestinationWebhookRequest,
   UpdateDestinationWebhookResponse,
-  CommonErrors | InvalidRoute | InvalidWebhookId,
+  UpdateDestinationWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDestinationWebhookRequest,
@@ -600,10 +629,15 @@ export const DeleteDestinationWebhookResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteDestinationWebhookResponse>;
 
+export type DeleteDestinationWebhookError =
+  | CommonErrors
+  | InvalidRoute
+  | InternalServerError;
+
 export const deleteDestinationWebhook: API.OperationMethod<
   DeleteDestinationWebhookRequest,
   DeleteDestinationWebhookResponse,
-  CommonErrors | InvalidRoute | InternalServerError,
+  DeleteDestinationWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDestinationWebhookRequest,
@@ -672,10 +706,12 @@ export const ListHistoriesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListHistoriesResponse>;
 
+export type ListHistoriesError = CommonErrors;
+
 export const listHistories: API.OperationMethod<
   ListHistoriesRequest,
   ListHistoriesResponse,
-  CommonErrors,
+  ListHistoriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListHistoriesRequest,
@@ -1071,10 +1107,12 @@ export const GetPolicyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPolicyResponse>;
 
+export type GetPolicyError = CommonErrors | InvalidRoute | PolicyNotFound;
+
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
-  CommonErrors | InvalidRoute | PolicyNotFound,
+  GetPolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPolicyRequest,
@@ -1458,10 +1496,12 @@ export const ListPoliciesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPoliciesResponse>;
 
+export type ListPoliciesError = CommonErrors;
+
 export const listPolicies: API.OperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
-  CommonErrors,
+  ListPoliciesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPoliciesRequest,
@@ -1839,10 +1879,16 @@ export const CreatePolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreatePolicyResponse>;
 
+export type CreatePolicyError =
+  | CommonErrors
+  | InvalidRoute
+  | FiltersRequired
+  | MechanismRequired;
+
 export const createPolicy: API.OperationMethod<
   CreatePolicyRequest,
   CreatePolicyResponse,
-  CommonErrors | InvalidRoute | FiltersRequired | MechanismRequired,
+  CreatePolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePolicyRequest,
@@ -2226,14 +2272,17 @@ export const UpdatePolicyResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
-export const updatePolicy: API.OperationMethod<
-  UpdatePolicyRequest,
-  UpdatePolicyResponse,
+export type UpdatePolicyError =
   | CommonErrors
   | InvalidRoute
   | PolicyNotFound
   | InvalidAlertType
-  | MechanismRequired,
+  | MechanismRequired;
+
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
+  UpdatePolicyResponse,
+  UpdatePolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdatePolicyRequest,
@@ -2312,10 +2361,12 @@ export const DeletePolicyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeletePolicyResponse>;
 
+export type DeletePolicyError = CommonErrors | InvalidRoute | PolicyNotFound;
+
 export const deletePolicy: API.OperationMethod<
   DeletePolicyRequest,
   DeletePolicyResponse,
-  CommonErrors | InvalidRoute | PolicyNotFound,
+  DeletePolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePolicyRequest,
@@ -2376,10 +2427,12 @@ export const GetSilenceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSilenceResponse>;
 
+export type GetSilenceError = CommonErrors | InvalidRoute | InternalServerError;
+
 export const getSilence: API.OperationMethod<
   GetSilenceRequest,
   GetSilenceResponse,
-  CommonErrors | InvalidRoute | InternalServerError,
+  GetSilenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSilenceRequest,
@@ -2430,10 +2483,12 @@ export const ListSilencesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSilencesResponse>;
 
+export type ListSilencesError = CommonErrors;
+
 export const listSilences: API.OperationMethod<
   ListSilencesRequest,
   ListSilencesResponse,
-  CommonErrors,
+  ListSilencesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSilencesRequest,
@@ -2493,10 +2548,12 @@ export const CreateSilenceResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<CreateSilenceResponse>;
 
+export type CreateSilenceError = CommonErrors | InvalidRoute;
+
 export const createSilence: API.OperationMethod<
   CreateSilenceRequest,
   CreateSilenceResponse,
-  CommonErrors | InvalidRoute,
+  CreateSilenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSilenceRequest,
@@ -2562,10 +2619,12 @@ export const UpdateSilenceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<UpdateSilenceResponse>;
 
+export type UpdateSilenceError = CommonErrors;
+
 export const updateSilence: API.OperationMethod<
   UpdateSilenceRequest,
   UpdateSilenceResponse,
-  CommonErrors,
+  UpdateSilenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSilenceRequest,
@@ -2612,10 +2671,12 @@ export const DeleteSilenceResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteSilenceResponse>;
 
+export type DeleteSilenceError = CommonErrors | InvalidRoute;
+
 export const deleteSilence: API.OperationMethod<
   DeleteSilenceRequest,
   DeleteSilenceResponse,
-  CommonErrors | InvalidRoute,
+  DeleteSilenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSilenceRequest,

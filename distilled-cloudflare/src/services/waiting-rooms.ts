@@ -143,10 +143,12 @@ export const GetEventResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetEventResponse>;
 
+export type GetEventError = CommonErrors;
+
 export const getEvent: API.OperationMethod<
   GetEventRequest,
   GetEventResponse,
-  CommonErrors,
+  GetEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEventRequest,
@@ -264,10 +266,12 @@ export const ListEventsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListEventsResponse>;
 
+export type ListEventsError = CommonErrors;
+
 export const listEvents: API.OperationMethod<
   ListEventsRequest,
   ListEventsResponse,
-  CommonErrors,
+  ListEventsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListEventsRequest,
@@ -481,10 +485,12 @@ export const CreateEventResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateEventResponse>;
 
+export type CreateEventError = CommonErrors;
+
 export const createEvent: API.OperationMethod<
   CreateEventRequest,
   CreateEventResponse,
-  CommonErrors,
+  CreateEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateEventRequest,
@@ -700,10 +706,12 @@ export const UpdateEventResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateEventResponse>;
 
+export type UpdateEventError = CommonErrors;
+
 export const updateEvent: API.OperationMethod<
   UpdateEventRequest,
   UpdateEventResponse,
-  CommonErrors,
+  UpdateEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateEventRequest,
@@ -919,10 +927,12 @@ export const PatchEventResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchEventResponse>;
 
+export type PatchEventError = CommonErrors;
+
 export const patchEvent: API.OperationMethod<
   PatchEventRequest,
   PatchEventResponse,
-  CommonErrors,
+  PatchEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchEventRequest,
@@ -956,10 +966,12 @@ export const DeleteEventResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteEventResponse>;
 
+export type DeleteEventError = CommonErrors;
+
 export const deleteEvent: API.OperationMethod<
   DeleteEventRequest,
   DeleteEventResponse,
-  CommonErrors,
+  DeleteEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteEventRequest,
@@ -1055,10 +1067,12 @@ export const GetEventDetailResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetEventDetailResponse>;
 
+export type GetEventDetailError = CommonErrors;
+
 export const getEventDetail: API.OperationMethod<
   GetEventDetailRequest,
   GetEventDetailResponse,
-  CommonErrors,
+  GetEventDetailError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEventDetailRequest,
@@ -1096,10 +1110,12 @@ export const PreviewPageResponse = Schema.Struct({
   Schema.encodeKeys({ previewUrl: "preview_url" }),
 ) as unknown as Schema.Schema<PreviewPageResponse>;
 
+export type PreviewPageError = CommonErrors;
+
 export const previewPage: API.OperationMethod<
   PreviewPageRequest,
   PreviewPageResponse,
-  CommonErrors,
+  PreviewPageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PreviewPageRequest,
@@ -1159,10 +1175,12 @@ export const GetRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetRuleResponse>;
 
+export type GetRuleError = CommonErrors;
+
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
-  CommonErrors,
+  GetRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRuleRequest,
@@ -1231,10 +1249,12 @@ export const CreateRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
+export type CreateRuleError = CommonErrors;
+
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  CommonErrors,
+  CreateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRuleRequest,
@@ -1305,10 +1325,12 @@ export const UpdateRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
+export type UpdateRuleError = CommonErrors;
+
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  CommonErrors,
+  UpdateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRuleRequest,
@@ -1366,10 +1388,12 @@ export const DeleteRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -1454,10 +1478,12 @@ export const EditRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<EditRuleResponse>;
 
+export type EditRuleError = CommonErrors;
+
 export const editRule: API.OperationMethod<
   EditRuleRequest,
   EditRuleResponse,
-  CommonErrors,
+  EditRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EditRuleRequest,
@@ -1493,10 +1519,12 @@ export const GetSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingResponse>;
 
+export type GetSettingError = CommonErrors;
+
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
-  CommonErrors,
+  GetSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingRequest,
@@ -1534,10 +1562,12 @@ export const PutSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSettingResponse>;
 
+export type PutSettingError = CommonErrors;
+
 export const putSetting: API.OperationMethod<
   PutSettingRequest,
   PutSettingResponse,
-  CommonErrors,
+  PutSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSettingRequest,
@@ -1575,10 +1605,12 @@ export const PatchSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingResponse>;
 
+export type PatchSettingError = CommonErrors;
+
 export const patchSetting: API.OperationMethod<
   PatchSettingRequest,
   PatchSettingResponse,
-  CommonErrors,
+  PatchSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingRequest,
@@ -1637,10 +1669,12 @@ export const GetStatusResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetStatusResponse>;
 
+export type GetStatusError = CommonErrors;
+
 export const getStatus: API.OperationMethod<
   GetStatusRequest,
   GetStatusResponse,
-  CommonErrors,
+  GetStatusError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetStatusRequest,
@@ -1893,10 +1927,12 @@ export const GetWaitingRoomResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetWaitingRoomResponse>;
 
+export type GetWaitingRoomError = CommonErrors;
+
 export const getWaitingRoom: API.OperationMethod<
   GetWaitingRoomRequest,
   GetWaitingRoomResponse,
-  CommonErrors,
+  GetWaitingRoomError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWaitingRoomRequest,
@@ -2119,10 +2155,12 @@ export const ListWaitingRoomsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWaitingRoomsResponse>;
 
+export type ListWaitingRoomsError = CommonErrors;
+
 export const listWaitingRooms: API.OperationMethod<
   ListWaitingRoomsRequest,
   ListWaitingRoomsResponse,
-  CommonErrors,
+  ListWaitingRoomsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListWaitingRoomsRequest,
@@ -2563,10 +2601,12 @@ export const CreateWaitingRoomResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateWaitingRoomResponse>;
 
+export type CreateWaitingRoomError = CommonErrors;
+
 export const createWaitingRoom: API.OperationMethod<
   CreateWaitingRoomRequest,
   CreateWaitingRoomResponse,
-  CommonErrors,
+  CreateWaitingRoomError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateWaitingRoomRequest,
@@ -3012,10 +3052,12 @@ export const UpdateWaitingRoomResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateWaitingRoomResponse>;
 
+export type UpdateWaitingRoomError = CommonErrors;
+
 export const updateWaitingRoom: API.OperationMethod<
   UpdateWaitingRoomRequest,
   UpdateWaitingRoomResponse,
-  CommonErrors,
+  UpdateWaitingRoomError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateWaitingRoomRequest,
@@ -3461,10 +3503,12 @@ export const PatchWaitingRoomResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchWaitingRoomResponse>;
 
+export type PatchWaitingRoomError = CommonErrors;
+
 export const patchWaitingRoom: API.OperationMethod<
   PatchWaitingRoomRequest,
   PatchWaitingRoomResponse,
-  CommonErrors,
+  PatchWaitingRoomError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchWaitingRoomRequest,
@@ -3496,10 +3540,12 @@ export const DeleteWaitingRoomResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteWaitingRoomResponse>;
 
+export type DeleteWaitingRoomError = CommonErrors;
+
 export const deleteWaitingRoom: API.OperationMethod<
   DeleteWaitingRoomRequest,
   DeleteWaitingRoomResponse,
-  CommonErrors,
+  DeleteWaitingRoomError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteWaitingRoomRequest,

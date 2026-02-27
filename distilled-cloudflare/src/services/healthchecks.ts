@@ -202,10 +202,12 @@ export const GetHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetHealthcheckResponse>;
 
+export type GetHealthcheckError = CommonErrors;
+
 export const getHealthcheck: API.OperationMethod<
   GetHealthcheckRequest,
   GetHealthcheckResponse,
-  CommonErrors,
+  GetHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHealthcheckRequest,
@@ -376,10 +378,12 @@ export const ListHealthchecksResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListHealthchecksResponse>;
 
+export type ListHealthchecksError = CommonErrors;
+
 export const listHealthchecks: API.OperationMethod<
   ListHealthchecksRequest,
   ListHealthchecksResponse,
-  CommonErrors,
+  ListHealthchecksError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListHealthchecksRequest,
@@ -699,10 +703,12 @@ export const CreateHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateHealthcheckResponse>;
 
+export type CreateHealthcheckError = CommonErrors;
+
 export const createHealthcheck: API.OperationMethod<
   CreateHealthcheckRequest,
   CreateHealthcheckResponse,
-  CommonErrors,
+  CreateHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateHealthcheckRequest,
@@ -1027,10 +1033,12 @@ export const UpdateHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateHealthcheckResponse>;
 
+export type UpdateHealthcheckError = CommonErrors;
+
 export const updateHealthcheck: API.OperationMethod<
   UpdateHealthcheckRequest,
   UpdateHealthcheckResponse,
-  CommonErrors,
+  UpdateHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateHealthcheckRequest,
@@ -1355,10 +1363,12 @@ export const PatchHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchHealthcheckResponse>;
 
+export type PatchHealthcheckError = CommonErrors;
+
 export const patchHealthcheck: API.OperationMethod<
   PatchHealthcheckRequest,
   PatchHealthcheckResponse,
-  CommonErrors,
+  PatchHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchHealthcheckRequest,
@@ -1391,10 +1401,12 @@ export const DeleteHealthcheckResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteHealthcheckResponse>;
 
+export type DeleteHealthcheckError = CommonErrors;
+
 export const deleteHealthcheck: API.OperationMethod<
   DeleteHealthcheckRequest,
   DeleteHealthcheckResponse,
-  CommonErrors,
+  DeleteHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteHealthcheckRequest,
@@ -1427,10 +1439,12 @@ export type GetPreviewResponse = unknown;
 export const GetPreviewResponse =
   Schema.Unknown as unknown as Schema.Schema<GetPreviewResponse>;
 
+export type GetPreviewError = CommonErrors;
+
 export const getPreview: API.OperationMethod<
   GetPreviewRequest,
   GetPreviewResponse,
-  CommonErrors,
+  GetPreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPreviewRequest,
@@ -1547,10 +1561,12 @@ export type CreatePreviewResponse = unknown;
 export const CreatePreviewResponse =
   Schema.Unknown as unknown as Schema.Schema<CreatePreviewResponse>;
 
+export type CreatePreviewError = CommonErrors;
+
 export const createPreview: API.OperationMethod<
   CreatePreviewRequest,
   CreatePreviewResponse,
-  CommonErrors,
+  CreatePreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePreviewRequest,
@@ -1583,10 +1599,12 @@ export const DeletePreviewResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePreviewResponse>;
 
+export type DeletePreviewError = CommonErrors;
+
 export const deletePreview: API.OperationMethod<
   DeletePreviewRequest,
   DeletePreviewResponse,
-  CommonErrors,
+  DeletePreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePreviewRequest,

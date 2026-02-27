@@ -61,10 +61,12 @@ export const GetOriginPostQuantumEncryptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
 
+export type GetOriginPostQuantumEncryptionError = CommonErrors;
+
 export const getOriginPostQuantumEncryption: API.OperationMethod<
   GetOriginPostQuantumEncryptionRequest,
   GetOriginPostQuantumEncryptionResponse,
-  CommonErrors,
+  GetOriginPostQuantumEncryptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOriginPostQuantumEncryptionRequest,
@@ -114,10 +116,12 @@ export const PutOriginPostQuantumEncryptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
 
+export type PutOriginPostQuantumEncryptionError = CommonErrors;
+
 export const putOriginPostQuantumEncryption: API.OperationMethod<
   PutOriginPostQuantumEncryptionRequest,
   PutOriginPostQuantumEncryptionResponse,
-  CommonErrors,
+  PutOriginPostQuantumEncryptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutOriginPostQuantumEncryptionRequest,

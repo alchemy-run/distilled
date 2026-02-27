@@ -87,10 +87,12 @@ export const GetConnectionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetConnectionResponse>;
 
+export type GetConnectionError = CommonErrors;
+
 export const getConnection: API.OperationMethod<
   GetConnectionRequest,
   GetConnectionResponse,
-  CommonErrors,
+  GetConnectionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConnectionRequest,
@@ -203,10 +205,12 @@ export const ListConnectionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListConnectionsResponse>;
 
+export type ListConnectionsError = CommonErrors;
+
 export const listConnections: API.OperationMethod<
   ListConnectionsRequest,
   ListConnectionsResponse,
-  CommonErrors,
+  ListConnectionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListConnectionsRequest,
@@ -288,10 +292,12 @@ export const GetCookyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCookyResponse>;
 
+export type GetCookyError = CommonErrors;
+
 export const getCooky: API.OperationMethod<
   GetCookyRequest,
   GetCookyResponse,
-  CommonErrors,
+  GetCookyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCookyRequest,
@@ -415,10 +421,12 @@ export const ListCookiesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCookiesResponse>;
 
+export type ListCookiesError = CommonErrors;
+
 export const listCookies: API.OperationMethod<
   ListCookiesRequest,
   ListCookiesResponse,
-  CommonErrors,
+  ListCookiesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCookiesRequest,
@@ -466,10 +474,12 @@ export const GetPageShieldResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPageShieldResponse>;
 
+export type GetPageShieldError = CommonErrors;
+
 export const getPageShield: API.OperationMethod<
   GetPageShieldRequest,
   GetPageShieldResponse,
-  CommonErrors,
+  GetPageShieldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPageShieldRequest,
@@ -527,10 +537,12 @@ export const PutPageShieldResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutPageShieldResponse>;
 
+export type PutPageShieldError = CommonErrors;
+
 export const putPageShield: API.OperationMethod<
   PutPageShieldRequest,
   PutPageShieldResponse,
-  CommonErrors,
+  PutPageShieldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutPageShieldRequest,
@@ -582,10 +594,12 @@ export const GetPolicyResponse = Schema.Struct({
   value: Schema.String,
 }) as unknown as Schema.Schema<GetPolicyResponse>;
 
+export type GetPolicyError = CommonErrors;
+
 export const getPolicy: API.OperationMethod<
   GetPolicyRequest,
   GetPolicyResponse,
-  CommonErrors,
+  GetPolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPolicyRequest,
@@ -624,10 +638,12 @@ export const ListPoliciesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPoliciesResponse>;
 
+export type ListPoliciesError = CommonErrors;
+
 export const listPolicies: API.OperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
-  CommonErrors,
+  ListPoliciesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPoliciesRequest,
@@ -685,10 +701,12 @@ export const CreatePolicyResponse = Schema.Struct({
   value: Schema.String,
 }) as unknown as Schema.Schema<CreatePolicyResponse>;
 
+export type CreatePolicyError = CommonErrors;
+
 export const createPolicy: API.OperationMethod<
   CreatePolicyRequest,
   CreatePolicyResponse,
-  CommonErrors,
+  CreatePolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePolicyRequest,
@@ -751,10 +769,12 @@ export const UpdatePolicyResponse = Schema.Struct({
   value: Schema.String,
 }) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
+export type UpdatePolicyError = CommonErrors;
+
 export const updatePolicy: API.OperationMethod<
   UpdatePolicyRequest,
   UpdatePolicyResponse,
-  CommonErrors,
+  UpdatePolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdatePolicyRequest,
@@ -783,10 +803,12 @@ export type DeletePolicyResponse = unknown;
 export const DeletePolicyResponse =
   Schema.Unknown as unknown as Schema.Schema<DeletePolicyResponse>;
 
+export type DeletePolicyError = CommonErrors;
+
 export const deletePolicy: API.OperationMethod<
   DeletePolicyRequest,
   DeletePolicyResponse,
-  CommonErrors,
+  DeletePolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePolicyRequest,
@@ -952,10 +974,12 @@ export const GetScriptResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptResponse>;
 
+export type GetScriptError = CommonErrors;
+
 export const getScript: API.OperationMethod<
   GetScriptRequest,
   GetScriptResponse,
-  CommonErrors,
+  GetScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptRequest,
@@ -1103,10 +1127,12 @@ export const ListScriptsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListScriptsResponse>;
 
+export type ListScriptsError = CommonErrors;
+
 export const listScripts: API.OperationMethod<
   ListScriptsRequest,
   ListScriptsResponse,
-  CommonErrors,
+  ListScriptsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScriptsRequest,

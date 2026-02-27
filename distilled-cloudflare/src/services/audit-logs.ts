@@ -82,10 +82,12 @@ export type ListAuditLogsResponse = unknown;
 export const ListAuditLogsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
 
+export type ListAuditLogsError = CommonErrors;
+
 export const listAuditLogs: API.OperationMethod<
   ListAuditLogsRequest,
   ListAuditLogsResponse,
-  CommonErrors,
+  ListAuditLogsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAuditLogsRequest,

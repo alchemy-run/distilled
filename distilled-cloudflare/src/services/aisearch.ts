@@ -563,10 +563,12 @@ export const ListInstancesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstancesResponse>;
 
+export type ListInstancesError = CommonErrors | InvalidRoute;
+
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
-  CommonErrors | InvalidRoute,
+  ListInstancesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListInstancesRequest,
@@ -1424,10 +1426,16 @@ export const CreateInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateInstanceResponse>;
 
+export type CreateInstanceError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
   CreateInstanceResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  CreateInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInstanceRequest,
@@ -2373,10 +2381,16 @@ export const UpdateInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateInstanceResponse>;
 
+export type UpdateInstanceError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,
   UpdateInstanceResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  UpdateInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateInstanceRequest,
@@ -2889,10 +2903,16 @@ export const DeleteInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteInstanceResponse>;
 
+export type DeleteInstanceError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
   DeleteInstanceResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  DeleteInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteInstanceRequest,
@@ -3405,10 +3425,16 @@ export const ReadInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ReadInstanceResponse>;
 
+export type ReadInstanceError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const readInstance: API.OperationMethod<
   ReadInstanceRequest,
   ReadInstanceResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  ReadInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ReadInstanceRequest,
@@ -3464,10 +3490,16 @@ export const StatsInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<StatsInstanceResponse>;
 
+export type StatsInstanceError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const statsInstance: API.OperationMethod<
   StatsInstanceRequest,
   StatsInstanceResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  StatsInstanceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StatsInstanceRequest,
@@ -3529,10 +3561,16 @@ export const GetInstanceItemResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetInstanceItemResponse>;
 
+export type GetInstanceItemError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const getInstanceItem: API.OperationMethod<
   GetInstanceItemRequest,
   GetInstanceItemResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  GetInstanceItemError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInstanceItemRequest,
@@ -3599,10 +3637,12 @@ export const ListInstanceItemsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstanceItemsResponse>;
 
+export type ListInstanceItemsError = CommonErrors;
+
 export const listInstanceItems: API.OperationMethod<
   ListInstanceItemsRequest,
   ListInstanceItemsResponse,
-  CommonErrors,
+  ListInstanceItemsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListInstanceItemsRequest,
@@ -3658,10 +3698,16 @@ export const GetInstanceJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetInstanceJobResponse>;
 
+export type GetInstanceJobError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const getInstanceJob: API.OperationMethod<
   GetInstanceJobRequest,
   GetInstanceJobResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  GetInstanceJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInstanceJobRequest,
@@ -3714,10 +3760,12 @@ export const ListInstanceJobsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstanceJobsResponse>;
 
+export type ListInstanceJobsError = CommonErrors;
+
 export const listInstanceJobs: API.OperationMethod<
   ListInstanceJobsRequest,
   ListInstanceJobsResponse,
-  CommonErrors,
+  ListInstanceJobsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListInstanceJobsRequest,
@@ -3767,15 +3815,18 @@ export const CreateInstanceJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateInstanceJobResponse>;
 
-export const createInstanceJob: API.OperationMethod<
-  CreateInstanceJobRequest,
-  CreateInstanceJobResponse,
+export type CreateInstanceJobError =
   | CommonErrors
   | ValidationError
   | NotFound
   | InvalidRoute
   | UnableToConnect
-  | SyncInCooldown,
+  | SyncInCooldown;
+
+export const createInstanceJob: API.OperationMethod<
+  CreateInstanceJobRequest,
+  CreateInstanceJobResponse,
+  CreateInstanceJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInstanceJobRequest,
@@ -3836,10 +3887,16 @@ export const LogsInstanceJobResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<LogsInstanceJobResponse>;
 
+export type LogsInstanceJobError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const logsInstanceJob: API.OperationMethod<
   LogsInstanceJobRequest,
   LogsInstanceJobResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  LogsInstanceJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LogsInstanceJobRequest,
@@ -3912,10 +3969,12 @@ export const ListTokensResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListTokensResponse>;
 
+export type ListTokensError = CommonErrors | InvalidRoute;
+
 export const listTokens: API.OperationMethod<
   ListTokensRequest,
   ListTokensResponse,
-  CommonErrors | InvalidRoute,
+  ListTokensError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListTokensRequest,
@@ -4000,10 +4059,16 @@ export const CreateTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateTokenResponse>;
 
+export type CreateTokenError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const createToken: API.OperationMethod<
   CreateTokenRequest,
   CreateTokenResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  CreateTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTokenRequest,
@@ -4074,10 +4139,16 @@ export const UpdateTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateTokenResponse>;
 
+export type UpdateTokenError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const updateToken: API.OperationMethod<
   UpdateTokenRequest,
   UpdateTokenResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  UpdateTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateTokenRequest,
@@ -4148,10 +4219,16 @@ export const DeleteTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteTokenResponse>;
 
+export type DeleteTokenError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const deleteToken: API.OperationMethod<
   DeleteTokenRequest,
   DeleteTokenResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  DeleteTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteTokenRequest,
@@ -4222,10 +4299,16 @@ export const ReadTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ReadTokenResponse>;
 
+export type ReadTokenError =
+  | CommonErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
 export const readToken: API.OperationMethod<
   ReadTokenRequest,
   ReadTokenResponse,
-  CommonErrors | ValidationError | NotFound | InvalidRoute,
+  ReadTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ReadTokenRequest,

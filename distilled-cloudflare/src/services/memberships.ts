@@ -179,10 +179,12 @@ export const GetMembershipResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetMembershipResponse>;
 
+export type GetMembershipError = CommonErrors;
+
 export const getMembership: API.OperationMethod<
   GetMembershipRequest,
   GetMembershipResponse,
-  CommonErrors,
+  GetMembershipError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMembershipRequest,
@@ -272,10 +274,12 @@ export const ListMembershipsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListMembershipsResponse>;
 
+export type ListMembershipsError = CommonErrors;
+
 export const listMemberships: API.OperationMethod<
   ListMembershipsRequest,
   ListMembershipsResponse,
-  CommonErrors,
+  ListMembershipsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListMembershipsRequest,
@@ -443,10 +447,12 @@ export const PutMembershipResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutMembershipResponse>;
 
+export type PutMembershipError = CommonErrors;
+
 export const putMembership: API.OperationMethod<
   PutMembershipRequest,
   PutMembershipResponse,
-  CommonErrors,
+  PutMembershipError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutMembershipRequest,
@@ -473,10 +479,12 @@ export const DeleteMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteMembershipResponse>;
 
+export type DeleteMembershipError = CommonErrors;
+
 export const deleteMembership: API.OperationMethod<
   DeleteMembershipRequest,
   DeleteMembershipResponse,
-  CommonErrors,
+  DeleteMembershipError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMembershipRequest,

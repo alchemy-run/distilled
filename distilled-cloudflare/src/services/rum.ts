@@ -98,10 +98,12 @@ export const ListRulesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListRulesResponse>;
 
+export type ListRulesError = CommonErrors;
+
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  CommonErrors,
+  ListRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesRequest,
@@ -178,10 +180,12 @@ export const CreateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
+export type CreateRuleError = CommonErrors;
+
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  CommonErrors,
+  CreateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRuleRequest,
@@ -260,10 +264,12 @@ export const UpdateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
+export type UpdateRuleError = CommonErrors;
+
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  CommonErrors,
+  UpdateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRuleRequest,
@@ -298,10 +304,12 @@ export const DeleteRuleResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -416,10 +424,12 @@ export const BulkCreateRulesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BulkCreateRulesResponse>;
 
+export type BulkCreateRulesError = CommonErrors;
+
 export const bulkCreateRules: API.OperationMethod<
   BulkCreateRulesRequest,
   BulkCreateRulesResponse,
-  CommonErrors,
+  BulkCreateRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkCreateRulesRequest,
@@ -501,10 +511,12 @@ export const GetSiteInfoResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSiteInfoResponse>;
 
+export type GetSiteInfoError = CommonErrors;
+
 export const getSiteInfo: API.OperationMethod<
   GetSiteInfoRequest,
   GetSiteInfoResponse,
-  CommonErrors,
+  GetSiteInfoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSiteInfoRequest,
@@ -579,10 +591,12 @@ export const ListSiteInfosResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSiteInfosResponse>;
 
+export type ListSiteInfosError = CommonErrors;
+
 export const listSiteInfos: API.OperationMethod<
   ListSiteInfosRequest,
   ListSiteInfosResponse,
-  CommonErrors,
+  ListSiteInfosError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSiteInfosRequest,
@@ -669,10 +683,12 @@ export const CreateSiteInfoResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSiteInfoResponse>;
 
+export type CreateSiteInfoError = CommonErrors;
+
 export const createSiteInfo: API.OperationMethod<
   CreateSiteInfoRequest,
   CreateSiteInfoResponse,
-  CommonErrors,
+  CreateSiteInfoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSiteInfoRequest,
@@ -772,10 +788,12 @@ export const UpdateSiteInfoResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateSiteInfoResponse>;
 
+export type UpdateSiteInfoError = CommonErrors;
+
 export const updateSiteInfo: API.OperationMethod<
   UpdateSiteInfoRequest,
   UpdateSiteInfoResponse,
-  CommonErrors,
+  UpdateSiteInfoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSiteInfoRequest,
@@ -810,10 +828,12 @@ export const DeleteSiteInfoResponse = Schema.Struct({
   Schema.encodeKeys({ siteTag: "site_tag" }),
 ) as unknown as Schema.Schema<DeleteSiteInfoResponse>;
 
+export type DeleteSiteInfoError = CommonErrors;
+
 export const deleteSiteInfo: API.OperationMethod<
   DeleteSiteInfoRequest,
   DeleteSiteInfoResponse,
-  CommonErrors,
+  DeleteSiteInfoError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSiteInfoRequest,

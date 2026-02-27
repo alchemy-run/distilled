@@ -88,10 +88,12 @@ export const ListManagedTransformsResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListManagedTransformsResponse>;
 
+export type ListManagedTransformsError = CommonErrors;
+
 export const listManagedTransforms: API.OperationMethod<
   ListManagedTransformsRequest,
   ListManagedTransformsResponse,
-  CommonErrors,
+  ListManagedTransformsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListManagedTransformsRequest,
@@ -185,10 +187,12 @@ export const PatchManagedTransformResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchManagedTransformResponse>;
 
+export type PatchManagedTransformError = CommonErrors;
+
 export const patchManagedTransform: API.OperationMethod<
   PatchManagedTransformRequest,
   PatchManagedTransformResponse,
-  CommonErrors,
+  PatchManagedTransformError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchManagedTransformRequest,
@@ -212,10 +216,12 @@ export type DeleteManagedTransformResponse = unknown;
 export const DeleteManagedTransformResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteManagedTransformResponse>;
 
+export type DeleteManagedTransformError = CommonErrors;
+
 export const deleteManagedTransform: API.OperationMethod<
   DeleteManagedTransformRequest,
   DeleteManagedTransformResponse,
-  CommonErrors,
+  DeleteManagedTransformError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteManagedTransformRequest,

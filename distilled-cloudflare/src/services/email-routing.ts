@@ -64,10 +64,12 @@ export const GetAddressResponse = Schema.Struct({
   verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetAddressResponse>;
 
+export type GetAddressError = CommonErrors;
+
 export const getAddress: API.OperationMethod<
   GetAddressRequest,
   GetAddressResponse,
-  CommonErrors,
+  GetAddressError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAddressRequest,
@@ -119,10 +121,12 @@ export const ListAddressesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListAddressesResponse>;
 
+export type ListAddressesError = CommonErrors;
+
 export const listAddresses: API.OperationMethod<
   ListAddressesRequest,
   ListAddressesResponse,
-  CommonErrors,
+  ListAddressesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAddressesRequest,
@@ -171,10 +175,12 @@ export const CreateAddressResponse = Schema.Struct({
   verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAddressResponse>;
 
+export type CreateAddressError = CommonErrors;
+
 export const createAddress: API.OperationMethod<
   CreateAddressRequest,
   CreateAddressResponse,
-  CommonErrors,
+  CreateAddressError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAddressRequest,
@@ -224,10 +230,12 @@ export const DeleteAddressResponse = Schema.Struct({
   verified: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteAddressResponse>;
 
+export type DeleteAddressError = CommonErrors;
+
 export const deleteAddress: API.OperationMethod<
   DeleteAddressRequest,
   DeleteAddressResponse,
-  CommonErrors,
+  DeleteAddressError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressRequest,
@@ -447,10 +455,12 @@ export const GetDnsResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetDnsResponse>;
 
+export type GetDnsError = CommonErrors;
+
 export const getDns: API.OperationMethod<
   GetDnsRequest,
   GetDnsResponse,
-  CommonErrors,
+  GetDnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDnsRequest,
@@ -477,10 +487,12 @@ export type CreateDnsResponse = unknown;
 export const CreateDnsResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateDnsResponse>;
 
+export type CreateDnsError = CommonErrors;
+
 export const createDns: API.OperationMethod<
   CreateDnsRequest,
   CreateDnsResponse,
-  CommonErrors,
+  CreateDnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDnsRequest,
@@ -507,10 +519,12 @@ export type PatchDnsResponse = unknown;
 export const PatchDnsResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchDnsResponse>;
 
+export type PatchDnsError = CommonErrors;
+
 export const patchDns: API.OperationMethod<
   PatchDnsRequest,
   PatchDnsResponse,
-  CommonErrors,
+  PatchDnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDnsRequest,
@@ -586,10 +600,12 @@ export const DeleteDnsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<DeleteDnsResponse>;
 
+export type DeleteDnsError = CommonErrors;
+
 export const deleteDns: API.OperationMethod<
   DeleteDnsRequest,
   DeleteDnsResponse,
-  CommonErrors,
+  DeleteDnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDnsRequest,
@@ -666,10 +682,12 @@ export const GetEmailRoutingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetEmailRoutingResponse>;
 
+export type GetEmailRoutingError = CommonErrors;
+
 export const getEmailRouting: API.OperationMethod<
   GetEmailRoutingRequest,
   GetEmailRoutingResponse,
-  CommonErrors,
+  GetEmailRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEmailRoutingRequest,
@@ -745,10 +763,12 @@ export const EnableEmailRoutingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
 
+export type EnableEmailRoutingError = CommonErrors;
+
 export const enableEmailRouting: API.OperationMethod<
   EnableEmailRoutingRequest,
   EnableEmailRoutingResponse,
-  CommonErrors,
+  EnableEmailRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EnableEmailRoutingRequest,
@@ -824,10 +844,12 @@ export const DisableEmailRoutingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
 
+export type DisableEmailRoutingError = CommonErrors;
+
 export const disableEmailRouting: API.OperationMethod<
   DisableEmailRoutingRequest,
   DisableEmailRoutingResponse,
-  CommonErrors,
+  DisableEmailRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DisableEmailRoutingRequest,
@@ -897,10 +919,12 @@ export const GetRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleResponse>;
 
+export type GetRuleError = CommonErrors;
+
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
-  CommonErrors,
+  GetRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRuleRequest,
@@ -961,10 +985,12 @@ export const ListRulesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
+export type ListRulesError = CommonErrors;
+
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  CommonErrors,
+  ListRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesRequest,
@@ -1051,10 +1077,12 @@ export const CreateRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateRuleResponse>;
 
+export type CreateRuleError = CommonErrors;
+
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  CommonErrors,
+  CreateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRuleRequest,
@@ -1146,10 +1174,12 @@ export const UpdateRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateRuleResponse>;
 
+export type UpdateRuleError = CommonErrors;
+
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  CommonErrors,
+  UpdateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRuleRequest,
@@ -1215,10 +1245,12 @@ export const DeleteRuleResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -1281,10 +1313,12 @@ export const GetRuleCatchAllResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRuleCatchAllResponse>;
 
+export type GetRuleCatchAllError = CommonErrors;
+
 export const getRuleCatchAll: API.OperationMethod<
   GetRuleCatchAllRequest,
   GetRuleCatchAllResponse,
-  CommonErrors,
+  GetRuleCatchAllError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRuleCatchAllRequest,
@@ -1364,10 +1398,12 @@ export const PutRuleCatchAllResponse = Schema.Struct({
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutRuleCatchAllResponse>;
 
+export type PutRuleCatchAllError = CommonErrors;
+
 export const putRuleCatchAll: API.OperationMethod<
   PutRuleCatchAllRequest,
   PutRuleCatchAllResponse,
-  CommonErrors,
+  PutRuleCatchAllError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutRuleCatchAllRequest,

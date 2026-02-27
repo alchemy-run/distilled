@@ -62,10 +62,12 @@ export const ListNamespacesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
+export type ListNamespacesError = CommonErrors;
+
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
   ListNamespacesResponse,
-  CommonErrors,
+  ListNamespacesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespacesRequest,
@@ -108,10 +110,12 @@ export const ListNamespaceObjectsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
 
+export type ListNamespaceObjectsError = CommonErrors;
+
 export const listNamespaceObjects: API.OperationMethod<
   ListNamespaceObjectsRequest,
   ListNamespaceObjectsResponse,
-  CommonErrors,
+  ListNamespaceObjectsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespaceObjectsRequest,

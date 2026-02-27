@@ -108,10 +108,12 @@ export const ListAvailabilitiesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListAvailabilitiesResponse>;
 
+export type ListAvailabilitiesError = CommonErrors;
+
 export const listAvailabilities: API.OperationMethod<
   ListAvailabilitiesRequest,
   ListAvailabilitiesResponse,
-  CommonErrors,
+  ListAvailabilitiesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAvailabilitiesRequest,
@@ -150,10 +152,12 @@ export const ListPagesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPagesResponse>;
 
+export type ListPagesError = CommonErrors;
+
 export const listPages: API.OperationMethod<
   ListPagesRequest,
   ListPagesResponse,
-  CommonErrors,
+  ListPagesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPagesRequest,
@@ -245,10 +249,12 @@ export type TrendPageResponse = unknown;
 export const TrendPageResponse =
   Schema.Unknown as unknown as Schema.Schema<TrendPageResponse>;
 
+export type TrendPageError = CommonErrors;
+
 export const trendPage: API.OperationMethod<
   TrendPageRequest,
   TrendPageResponse,
-  CommonErrors,
+  TrendPageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TrendPageRequest,
@@ -304,10 +310,12 @@ export const GetPageTestResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetPageTestResponse>;
 
+export type GetPageTestError = CommonErrors;
+
 export const getPageTest: API.OperationMethod<
   GetPageTestRequest,
   GetPageTestResponse,
-  CommonErrors,
+  GetPageTestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPageTestRequest,
@@ -401,10 +409,12 @@ export const ListPageTestsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPageTestsResponse>;
 
+export type ListPageTestsError = CommonErrors;
+
 export const listPageTests: API.OperationMethod<
   ListPageTestsRequest,
   ListPageTestsResponse,
-  CommonErrors,
+  ListPageTestsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPageTestsRequest,
@@ -502,10 +512,12 @@ export const CreatePageTestResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreatePageTestResponse>;
 
+export type CreatePageTestError = CommonErrors;
+
 export const createPageTest: API.OperationMethod<
   CreatePageTestRequest,
   CreatePageTestResponse,
-  CommonErrors,
+  CreatePageTestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePageTestRequest,
@@ -586,10 +598,12 @@ export const DeletePageTestResponse = Schema.Struct({
   count: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeletePageTestResponse>;
 
+export type DeletePageTestError = CommonErrors;
+
 export const deletePageTest: API.OperationMethod<
   DeletePageTestRequest,
   DeletePageTestResponse,
-  CommonErrors,
+  DeletePageTestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePageTestRequest,
@@ -722,10 +736,12 @@ export const GetScheduleResponse = Schema.Struct({
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetScheduleResponse>;
 
+export type GetScheduleError = CommonErrors;
+
 export const getSchedule: API.OperationMethod<
   GetScheduleRequest,
   GetScheduleResponse,
-  CommonErrors,
+  GetScheduleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScheduleRequest,
@@ -860,10 +876,12 @@ export const CreateScheduleResponse = Schema.Struct({
   test: Schema.optional(Schema.Unknown),
 }) as unknown as Schema.Schema<CreateScheduleResponse>;
 
+export type CreateScheduleError = CommonErrors;
+
 export const createSchedule: API.OperationMethod<
   CreateScheduleRequest,
   CreateScheduleResponse,
-  CommonErrors,
+  CreateScheduleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScheduleRequest,
@@ -944,10 +962,12 @@ export const DeleteScheduleResponse = Schema.Struct({
   count: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteScheduleResponse>;
 
+export type DeleteScheduleError = CommonErrors;
+
 export const deleteSchedule: API.OperationMethod<
   DeleteScheduleRequest,
   DeleteScheduleResponse,
-  CommonErrors,
+  DeleteScheduleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScheduleRequest,

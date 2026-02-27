@@ -266,10 +266,12 @@ export const GetPageRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPageRuleResponse>;
 
+export type GetPageRuleError = CommonErrors;
+
 export const getPageRule: API.OperationMethod<
   GetPageRuleRequest,
   GetPageRuleResponse,
-  CommonErrors,
+  GetPageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPageRuleRequest,
@@ -536,10 +538,12 @@ export const ListPageRulesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPageRulesResponse>;
 
+export type ListPageRulesError = CommonErrors;
+
 export const listPageRules: API.OperationMethod<
   ListPageRulesRequest,
   ListPageRulesResponse,
-  CommonErrors,
+  ListPageRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPageRulesRequest,
@@ -995,10 +999,12 @@ export const CreatePageRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePageRuleResponse>;
 
+export type CreatePageRuleError = CommonErrors;
+
 export const createPageRule: API.OperationMethod<
   CreatePageRuleRequest,
   CreatePageRuleResponse,
-  CommonErrors,
+  CreatePageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePageRuleRequest,
@@ -1456,10 +1462,12 @@ export const UpdatePageRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdatePageRuleResponse>;
 
+export type UpdatePageRuleError = CommonErrors;
+
 export const updatePageRule: API.OperationMethod<
   UpdatePageRuleRequest,
   UpdatePageRuleResponse,
-  CommonErrors,
+  UpdatePageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdatePageRuleRequest,
@@ -1923,10 +1931,12 @@ export const PatchPageRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchPageRuleResponse>;
 
+export type PatchPageRuleError = CommonErrors;
+
 export const patchPageRule: API.OperationMethod<
   PatchPageRuleRequest,
   PatchPageRuleResponse,
-  CommonErrors,
+  PatchPageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPageRuleRequest,
@@ -1956,10 +1966,12 @@ export const DeletePageRuleResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeletePageRuleResponse>;
 
+export type DeletePageRuleError = CommonErrors;
+
 export const deletePageRule: API.OperationMethod<
   DeletePageRuleRequest,
   DeletePageRuleResponse,
-  CommonErrors,
+  DeletePageRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePageRuleRequest,

@@ -154,10 +154,12 @@ export const GetRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetRateLimitResponse>;
 
+export type GetRateLimitError = CommonErrors;
+
 export const getRateLimit: API.OperationMethod<
   GetRateLimitRequest,
   GetRateLimitResponse,
-  CommonErrors,
+  GetRateLimitError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRateLimitRequest,
@@ -289,10 +291,12 @@ export const ListRateLimitsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRateLimitsResponse>;
 
+export type ListRateLimitsError = CommonErrors;
+
 export const listRateLimits: API.OperationMethod<
   ListRateLimitsRequest,
   ListRateLimitsResponse,
-  CommonErrors,
+  ListRateLimitsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRateLimitsRequest,
@@ -518,10 +522,12 @@ export const CreateRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<CreateRateLimitResponse>;
 
+export type CreateRateLimitError = CommonErrors;
+
 export const createRateLimit: API.OperationMethod<
   CreateRateLimitRequest,
   CreateRateLimitResponse,
-  CommonErrors,
+  CreateRateLimitError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRateLimitRequest,
@@ -664,10 +670,12 @@ export const DeleteRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteRateLimitResponse>;
 
+export type DeleteRateLimitError = CommonErrors;
+
 export const deleteRateLimit: API.OperationMethod<
   DeleteRateLimitRequest,
   DeleteRateLimitResponse,
-  CommonErrors,
+  DeleteRateLimitError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRateLimitRequest,
@@ -895,10 +903,12 @@ export const EditRateLimitResponse = Schema.Struct({
   threshold: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<EditRateLimitResponse>;
 
+export type EditRateLimitError = CommonErrors;
+
 export const editRateLimit: API.OperationMethod<
   EditRateLimitRequest,
   EditRateLimitResponse,
-  CommonErrors,
+  EditRateLimitError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EditRateLimitRequest,

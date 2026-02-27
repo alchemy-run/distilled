@@ -133,10 +133,12 @@ export const GetConsumerResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetConsumerResponse>;
 
+export type GetConsumerError = CommonErrors;
+
 export const getConsumer: API.OperationMethod<
   GetConsumerRequest,
   GetConsumerResponse,
-  CommonErrors,
+  GetConsumerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConsumerRequest,
@@ -256,10 +258,12 @@ export const ListConsumersResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListConsumersResponse>;
 
+export type ListConsumersError = CommonErrors;
+
 export const listConsumers: API.OperationMethod<
   ListConsumersRequest,
   ListConsumersResponse,
-  CommonErrors,
+  ListConsumersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListConsumersRequest,
@@ -416,10 +420,12 @@ export const CreateConsumerResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<CreateConsumerResponse>;
 
+export type CreateConsumerError = CommonErrors;
+
 export const createConsumer: API.OperationMethod<
   CreateConsumerRequest,
   CreateConsumerResponse,
-  CommonErrors,
+  CreateConsumerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateConsumerRequest,
@@ -578,10 +584,12 @@ export const UpdateConsumerResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<UpdateConsumerResponse>;
 
+export type UpdateConsumerError = CommonErrors;
+
 export const updateConsumer: API.OperationMethod<
   UpdateConsumerRequest,
   UpdateConsumerResponse,
-  CommonErrors,
+  UpdateConsumerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateConsumerRequest,
@@ -620,10 +628,12 @@ export const DeleteConsumerResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<DeleteConsumerResponse>;
 
+export type DeleteConsumerError = CommonErrors;
+
 export const deleteConsumer: API.OperationMethod<
   DeleteConsumerRequest,
   DeleteConsumerResponse,
-  CommonErrors,
+  DeleteConsumerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteConsumerRequest,
@@ -701,10 +711,12 @@ export const BulkPushMessagesResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<BulkPushMessagesResponse>;
 
+export type BulkPushMessagesError = CommonErrors;
+
 export const bulkPushMessages: API.OperationMethod<
   BulkPushMessagesRequest,
   BulkPushMessagesResponse,
-  CommonErrors,
+  BulkPushMessagesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkPushMessagesRequest,
@@ -781,10 +793,12 @@ export const PullMessageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PullMessageResponse>;
 
+export type PullMessageError = CommonErrors;
+
 export const pullMessage: API.OperationMethod<
   PullMessageRequest,
   PullMessageResponse,
-  CommonErrors,
+  PullMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PullMessageRequest,
@@ -834,10 +848,12 @@ export const PushMessageResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<PushMessageResponse>;
 
+export type PushMessageError = CommonErrors;
+
 export const pushMessage: API.OperationMethod<
   PushMessageRequest,
   PushMessageResponse,
-  CommonErrors,
+  PushMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PushMessageRequest,
@@ -899,10 +915,12 @@ export const AckMessageResponse = Schema.Struct({
   warnings: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<AckMessageResponse>;
 
+export type AckMessageError = CommonErrors;
+
 export const ackMessage: API.OperationMethod<
   AckMessageRequest,
   AckMessageResponse,
-  CommonErrors,
+  AckMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AckMessageRequest,
@@ -941,10 +959,12 @@ export type StartPurgeResponse = unknown;
 export const StartPurgeResponse =
   Schema.Unknown as unknown as Schema.Schema<StartPurgeResponse>;
 
+export type StartPurgeError = CommonErrors;
+
 export const startPurge: API.OperationMethod<
   StartPurgeRequest,
   StartPurgeResponse,
-  CommonErrors,
+  StartPurgeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StartPurgeRequest,
@@ -982,10 +1002,12 @@ export const StatusPurgeResponse = Schema.Struct({
   Schema.encodeKeys({ completed: "completed", startedAt: "started_at" }),
 ) as unknown as Schema.Schema<StatusPurgeResponse>;
 
+export type StatusPurgeError = CommonErrors;
+
 export const statusPurge: API.OperationMethod<
   StatusPurgeRequest,
   StatusPurgeResponse,
-  CommonErrors,
+  StatusPurgeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StatusPurgeRequest,
@@ -1078,10 +1100,12 @@ export const GetQueueResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetQueueResponse>;
 
+export type GetQueueError = CommonErrors;
+
 export const getQueue: API.OperationMethod<
   GetQueueRequest,
   GetQueueResponse,
-  CommonErrors,
+  GetQueueError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetQueueRequest,
@@ -1172,10 +1196,12 @@ export const ListQueuesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListQueuesResponse>;
 
+export type ListQueuesError = CommonErrors;
+
 export const listQueues: API.OperationMethod<
   ListQueuesRequest,
   ListQueuesResponse,
-  CommonErrors,
+  ListQueuesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListQueuesRequest,
@@ -1266,10 +1292,12 @@ export const CreateQueueResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateQueueResponse>;
 
+export type CreateQueueError = CommonErrors;
+
 export const createQueue: API.OperationMethod<
   CreateQueueRequest,
   CreateQueueResponse,
-  CommonErrors,
+  CreateQueueError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateQueueRequest,
@@ -1381,10 +1409,12 @@ export const UpdateQueueResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateQueueResponse>;
 
+export type UpdateQueueError = CommonErrors;
+
 export const updateQueue: API.OperationMethod<
   UpdateQueueRequest,
   UpdateQueueResponse,
-  CommonErrors,
+  UpdateQueueError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateQueueRequest,
@@ -1496,10 +1526,12 @@ export const PatchQueueResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchQueueResponse>;
 
+export type PatchQueueError = CommonErrors;
+
 export const patchQueue: API.OperationMethod<
   PatchQueueRequest,
   PatchQueueResponse,
-  CommonErrors,
+  PatchQueueError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchQueueRequest,
@@ -1533,10 +1565,12 @@ export const DeleteQueueResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<DeleteQueueResponse>;
 
+export type DeleteQueueError = CommonErrors;
+
 export const deleteQueue: API.OperationMethod<
   DeleteQueueRequest,
   DeleteQueueResponse,
-  CommonErrors,
+  DeleteQueueError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteQueueRequest,
@@ -1644,10 +1678,12 @@ export const GetSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
+export type GetSubscriptionError = CommonErrors;
+
 export const getSubscription: API.OperationMethod<
   GetSubscriptionRequest,
   GetSubscriptionResponse,
-  CommonErrors,
+  GetSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSubscriptionRequest,
@@ -1755,10 +1791,12 @@ export const ListSubscriptionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSubscriptionsResponse>;
 
+export type ListSubscriptionsError = CommonErrors;
+
 export const listSubscriptions: API.OperationMethod<
   ListSubscriptionsRequest,
   ListSubscriptionsResponse,
-  CommonErrors,
+  ListSubscriptionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSubscriptionsRequest,
@@ -1920,10 +1958,12 @@ export const CreateSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
+export type CreateSubscriptionError = CommonErrors;
+
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
   CreateSubscriptionResponse,
-  CommonErrors,
+  CreateSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSubscriptionRequest,
@@ -2044,10 +2084,12 @@ export const PatchSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSubscriptionResponse>;
 
+export type PatchSubscriptionError = CommonErrors;
+
 export const patchSubscription: API.OperationMethod<
   PatchSubscriptionRequest,
   PatchSubscriptionResponse,
-  CommonErrors,
+  PatchSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSubscriptionRequest,
@@ -2151,10 +2193,12 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
+export type DeleteSubscriptionError = CommonErrors;
+
 export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
-  CommonErrors,
+  DeleteSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSubscriptionRequest,

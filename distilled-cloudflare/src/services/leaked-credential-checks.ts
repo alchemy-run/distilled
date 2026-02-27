@@ -53,10 +53,12 @@ export const GetDetectionResponse = Schema.Struct({
   username: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetDetectionResponse>;
 
+export type GetDetectionError = CommonErrors;
+
 export const getDetection: API.OperationMethod<
   GetDetectionRequest,
   GetDetectionResponse,
-  CommonErrors,
+  GetDetectionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDetectionRequest,
@@ -92,10 +94,12 @@ export const ListDetectionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListDetectionsResponse>;
 
+export type ListDetectionsError = CommonErrors;
+
 export const listDetections: API.OperationMethod<
   ListDetectionsRequest,
   ListDetectionsResponse,
-  CommonErrors,
+  ListDetectionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDetectionsRequest,
@@ -138,10 +142,12 @@ export const CreateDetectionResponse = Schema.Struct({
   username: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateDetectionResponse>;
 
+export type CreateDetectionError = CommonErrors;
+
 export const createDetection: API.OperationMethod<
   CreateDetectionRequest,
   CreateDetectionResponse,
-  CommonErrors,
+  CreateDetectionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDetectionRequest,
@@ -186,10 +192,12 @@ export const UpdateDetectionResponse = Schema.Struct({
   username: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateDetectionResponse>;
 
+export type UpdateDetectionError = CommonErrors;
+
 export const updateDetection: API.OperationMethod<
   UpdateDetectionRequest,
   UpdateDetectionResponse,
-  CommonErrors,
+  UpdateDetectionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDetectionRequest,
@@ -218,10 +226,12 @@ export type DeleteDetectionResponse = unknown;
 export const DeleteDetectionResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDetectionResponse>;
 
+export type DeleteDetectionError = CommonErrors;
+
 export const deleteDetection: API.OperationMethod<
   DeleteDetectionRequest,
   DeleteDetectionResponse,
-  CommonErrors,
+  DeleteDetectionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDetectionRequest,
@@ -253,10 +263,12 @@ export const GetLeakedCredentialCheckResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetLeakedCredentialCheckResponse>;
 
+export type GetLeakedCredentialCheckError = CommonErrors;
+
 export const getLeakedCredentialCheck: API.OperationMethod<
   GetLeakedCredentialCheckRequest,
   GetLeakedCredentialCheckResponse,
-  CommonErrors,
+  GetLeakedCredentialCheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLeakedCredentialCheckRequest,
@@ -287,10 +299,12 @@ export const CreateLeakedCredentialCheckResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateLeakedCredentialCheckResponse>;
 
+export type CreateLeakedCredentialCheckError = CommonErrors;
+
 export const createLeakedCredentialCheck: API.OperationMethod<
   CreateLeakedCredentialCheckRequest,
   CreateLeakedCredentialCheckResponse,
-  CommonErrors,
+  CreateLeakedCredentialCheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateLeakedCredentialCheckRequest,

@@ -43,10 +43,12 @@ export type GetConfigResponse = unknown;
 export const GetConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
 
+export type GetConfigError = CommonErrors;
+
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
   GetConfigResponse,
-  CommonErrors,
+  GetConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConfigRequest,
@@ -70,10 +72,12 @@ export type ListConfigsResponse = unknown;
 export const ListConfigsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
 
+export type ListConfigsError = CommonErrors;
+
 export const listConfigs: API.OperationMethod<
   ListConfigsRequest,
   ListConfigsResponse,
-  CommonErrors,
+  ListConfigsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListConfigsRequest,
@@ -199,10 +203,12 @@ export type CreateConfigResponse = unknown;
 export const CreateConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
 
+export type CreateConfigError = CommonErrors;
+
 export const createConfig: API.OperationMethod<
   CreateConfigRequest,
   CreateConfigResponse,
-  CommonErrors,
+  CreateConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateConfigRequest,
@@ -333,10 +339,12 @@ export type UpdateConfigResponse = unknown;
 export const UpdateConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
 
+export type UpdateConfigError = CommonErrors;
+
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
   UpdateConfigResponse,
-  CommonErrors,
+  UpdateConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateConfigRequest,
@@ -456,10 +464,12 @@ export type PatchConfigResponse = unknown;
 export const PatchConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
 
+export type PatchConfigError = CommonErrors;
+
 export const patchConfig: API.OperationMethod<
   PatchConfigRequest,
   PatchConfigResponse,
-  CommonErrors,
+  PatchConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchConfigRequest,
@@ -488,10 +498,12 @@ export type DeleteConfigResponse = unknown;
 export const DeleteConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
 
+export type DeleteConfigError = CommonErrors;
+
 export const deleteConfig: API.OperationMethod<
   DeleteConfigRequest,
   DeleteConfigResponse,
-  CommonErrors,
+  DeleteConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteConfigRequest,

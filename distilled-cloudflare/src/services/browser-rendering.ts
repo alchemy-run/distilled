@@ -307,10 +307,12 @@ export type CreateContentResponse = string;
 export const CreateContentResponse =
   Schema.String as unknown as Schema.Schema<CreateContentResponse>;
 
+export type CreateContentError = CommonErrors;
+
 export const createContent: API.OperationMethod<
   CreateContentRequest,
   CreateContentResponse,
-  CommonErrors,
+  CreateContentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateContentRequest,
@@ -658,10 +660,12 @@ export const CreateJsonResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<CreateJsonResponse>;
 
+export type CreateJsonError = CommonErrors;
+
 export const createJson: API.OperationMethod<
   CreateJsonRequest,
   CreateJsonResponse,
-  CommonErrors,
+  CreateJsonError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateJsonRequest,
@@ -965,10 +969,12 @@ export const CreateLinkResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<CreateLinkResponse>;
 
+export type CreateLinkError = CommonErrors;
+
 export const createLink: API.OperationMethod<
   CreateLinkRequest,
   CreateLinkResponse,
-  CommonErrors,
+  CreateLinkError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateLinkRequest,
@@ -1265,10 +1271,12 @@ export type CreateMarkdownResponse = string;
 export const CreateMarkdownResponse =
   Schema.String as unknown as Schema.Schema<CreateMarkdownResponse>;
 
+export type CreateMarkdownError = CommonErrors;
+
 export const createMarkdown: API.OperationMethod<
   CreateMarkdownRequest,
   CreateMarkdownResponse,
-  CommonErrors,
+  CreateMarkdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMarkdownRequest,
@@ -1641,10 +1649,12 @@ export type CreatePdfResponse = unknown;
 export const CreatePdfResponse =
   Schema.Unknown as unknown as Schema.Schema<CreatePdfResponse>;
 
+export type CreatePdfError = CommonErrors;
+
 export const createPdf: API.OperationMethod<
   CreatePdfRequest,
   CreatePdfResponse,
-  CommonErrors,
+  CreatePdfError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePdfRequest,
@@ -1976,10 +1986,12 @@ export const CreateScrapeResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateScrapeResponse>;
 
+export type CreateScrapeError = CommonErrors;
+
 export const createScrape: API.OperationMethod<
   CreateScrapeRequest,
   CreateScrapeResponse,
-  CommonErrors,
+  CreateScrapeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScrapeRequest,
@@ -2334,10 +2346,12 @@ export const CreateScreenshotResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateScreenshotResponse>;
 
+export type CreateScreenshotError = CommonErrors;
+
 export const createScreenshot: API.OperationMethod<
   CreateScreenshotRequest,
   CreateScreenshotResponse,
-  CommonErrors,
+  CreateScreenshotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScreenshotRequest,
@@ -2678,10 +2692,12 @@ export const CreateSnapshotResponse = Schema.Struct({
   screenshot: Schema.String,
 }) as unknown as Schema.Schema<CreateSnapshotResponse>;
 
+export type CreateSnapshotError = CommonErrors;
+
 export const createSnapshot: API.OperationMethod<
   CreateSnapshotRequest,
   CreateSnapshotResponse,
-  CommonErrors,
+  CreateSnapshotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSnapshotRequest,

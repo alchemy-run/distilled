@@ -43,10 +43,12 @@ export type GetDomainResponse = unknown;
 export const GetDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDomainResponse>;
 
+export type GetDomainError = CommonErrors;
+
 export const getDomain: API.OperationMethod<
   GetDomainRequest,
   GetDomainResponse,
-  CommonErrors,
+  GetDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDomainRequest,
@@ -204,10 +206,12 @@ export const ListDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDomainsResponse>;
 
+export type ListDomainsError = CommonErrors;
+
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
-  CommonErrors,
+  ListDomainsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDomainsRequest,
@@ -250,10 +254,12 @@ export type PutDomainResponse = unknown;
 export const PutDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<PutDomainResponse>;
 
+export type PutDomainError = CommonErrors;
+
 export const putDomain: API.OperationMethod<
   PutDomainRequest,
   PutDomainResponse,
-  CommonErrors,
+  PutDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutDomainRequest,

@@ -92,10 +92,12 @@ export const GetKeylessCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetKeylessCertificateResponse>;
 
+export type GetKeylessCertificateError = CommonErrors;
+
 export const getKeylessCertificate: API.OperationMethod<
   GetKeylessCertificateRequest,
   GetKeylessCertificateResponse,
-  CommonErrors,
+  GetKeylessCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetKeylessCertificateRequest,
@@ -162,10 +164,12 @@ export const ListKeylessCertificatesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListKeylessCertificatesResponse>;
 
+export type ListKeylessCertificatesError = CommonErrors;
+
 export const listKeylessCertificates: API.OperationMethod<
   ListKeylessCertificatesRequest,
   ListKeylessCertificatesResponse,
-  CommonErrors,
+  ListKeylessCertificatesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListKeylessCertificatesRequest,
@@ -271,10 +275,12 @@ export const CreateKeylessCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateKeylessCertificateResponse>;
 
+export type CreateKeylessCertificateError = CommonErrors;
+
 export const createKeylessCertificate: API.OperationMethod<
   CreateKeylessCertificateRequest,
   CreateKeylessCertificateResponse,
-  CommonErrors,
+  CreateKeylessCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateKeylessCertificateRequest,
@@ -372,10 +378,12 @@ export const PatchKeylessCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchKeylessCertificateResponse>;
 
+export type PatchKeylessCertificateError = CommonErrors;
+
 export const patchKeylessCertificate: API.OperationMethod<
   PatchKeylessCertificateRequest,
   PatchKeylessCertificateResponse,
-  CommonErrors,
+  PatchKeylessCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchKeylessCertificateRequest,
@@ -408,10 +416,12 @@ export const DeleteKeylessCertificateResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteKeylessCertificateResponse>;
 
+export type DeleteKeylessCertificateError = CommonErrors;
+
 export const deleteKeylessCertificate: API.OperationMethod<
   DeleteKeylessCertificateRequest,
   DeleteKeylessCertificateResponse,
-  CommonErrors,
+  DeleteKeylessCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteKeylessCertificateRequest,

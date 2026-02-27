@@ -52,10 +52,12 @@ export const GetAccountSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccountSettingResponse>;
 
+export type GetAccountSettingError = CommonErrors;
+
 export const getAccountSetting: API.OperationMethod<
   GetAccountSettingRequest,
   GetAccountSettingResponse,
-  CommonErrors,
+  GetAccountSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAccountSettingRequest,
@@ -102,10 +104,12 @@ export const PutAccountSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAccountSettingResponse>;
 
+export type PutAccountSettingError = CommonErrors;
+
 export const putAccountSetting: API.OperationMethod<
   PutAccountSettingRequest,
   PutAccountSettingResponse,
-  CommonErrors,
+  PutAccountSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAccountSettingRequest,
@@ -146,10 +150,12 @@ export const CreateAssetUploadResponse = Schema.Struct({
   jwt: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAssetUploadResponse>;
 
+export type CreateAssetUploadError = CommonErrors;
+
 export const createAssetUpload: API.OperationMethod<
   CreateAssetUploadRequest,
   CreateAssetUploadResponse,
-  CommonErrors,
+  CreateAssetUploadError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAssetUploadRequest,
@@ -189,10 +195,12 @@ export const GetBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<GetBetaWorkerResponse>;
 
+export type GetBetaWorkerError = CommonErrors;
+
 export const getBetaWorker: API.OperationMethod<
   GetBetaWorkerRequest,
   GetBetaWorkerResponse,
-  CommonErrors,
+  GetBetaWorkerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBetaWorkerRequest,
@@ -220,10 +228,12 @@ export const ListBetaWorkersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListBetaWorkersResponse>;
 
+export type ListBetaWorkersError = CommonErrors;
+
 export const listBetaWorkers: API.OperationMethod<
   ListBetaWorkersRequest,
   ListBetaWorkersResponse,
-  CommonErrors,
+  ListBetaWorkersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBetaWorkersRequest,
@@ -328,10 +338,12 @@ export const CreateBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<CreateBetaWorkerResponse>;
 
+export type CreateBetaWorkerError = CommonErrors;
+
 export const createBetaWorker: API.OperationMethod<
   CreateBetaWorkerRequest,
   CreateBetaWorkerResponse,
-  CommonErrors,
+  CreateBetaWorkerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateBetaWorkerRequest,
@@ -441,10 +453,12 @@ export const UpdateBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<UpdateBetaWorkerResponse>;
 
+export type UpdateBetaWorkerError = CommonErrors;
+
 export const updateBetaWorker: API.OperationMethod<
   UpdateBetaWorkerRequest,
   UpdateBetaWorkerResponse,
-  CommonErrors,
+  UpdateBetaWorkerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateBetaWorkerRequest,
@@ -548,10 +562,12 @@ export const PatchBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<PatchBetaWorkerResponse>;
 
+export type PatchBetaWorkerError = CommonErrors;
+
 export const patchBetaWorker: API.OperationMethod<
   PatchBetaWorkerRequest,
   PatchBetaWorkerResponse,
-  CommonErrors,
+  PatchBetaWorkerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchBetaWorkerRequest,
@@ -634,10 +650,12 @@ export const DeleteBetaWorkerResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteBetaWorkerResponse>;
 
+export type DeleteBetaWorkerError = CommonErrors;
+
 export const deleteBetaWorker: API.OperationMethod<
   DeleteBetaWorkerRequest,
   DeleteBetaWorkerResponse,
-  CommonErrors,
+  DeleteBetaWorkerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBetaWorkerRequest,
@@ -1151,10 +1169,12 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetBetaWorkerVersionResponse>;
 
+export type GetBetaWorkerVersionError = CommonErrors;
+
 export const getBetaWorkerVersion: API.OperationMethod<
   GetBetaWorkerVersionRequest,
   GetBetaWorkerVersionResponse,
-  CommonErrors,
+  GetBetaWorkerVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBetaWorkerVersionRequest,
@@ -1645,10 +1665,12 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListBetaWorkerVersionsResponse>;
 
+export type ListBetaWorkerVersionsError = CommonErrors;
+
 export const listBetaWorkerVersions: API.OperationMethod<
   ListBetaWorkerVersionsRequest,
   ListBetaWorkerVersionsResponse,
-  CommonErrors,
+  ListBetaWorkerVersionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBetaWorkerVersionsRequest,
@@ -2627,10 +2649,12 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateBetaWorkerVersionResponse>;
 
+export type CreateBetaWorkerVersionError = CommonErrors;
+
 export const createBetaWorkerVersion: API.OperationMethod<
   CreateBetaWorkerVersionRequest,
   CreateBetaWorkerVersionResponse,
-  CommonErrors,
+  CreateBetaWorkerVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateBetaWorkerVersionRequest,
@@ -2715,10 +2739,12 @@ export const DeleteBetaWorkerVersionResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteBetaWorkerVersionResponse>;
 
+export type DeleteBetaWorkerVersionError = CommonErrors;
+
 export const deleteBetaWorkerVersion: API.OperationMethod<
   DeleteBetaWorkerVersionRequest,
   DeleteBetaWorkerVersionResponse,
-  CommonErrors,
+  DeleteBetaWorkerVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBetaWorkerVersionRequest,
@@ -2779,10 +2805,12 @@ export const GetDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDomainResponse>;
 
+export type GetDomainError = CommonErrors;
+
 export const getDomain: API.OperationMethod<
   GetDomainRequest,
   GetDomainResponse,
-  CommonErrors,
+  GetDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDomainRequest,
@@ -2845,10 +2873,12 @@ export const ListDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDomainsResponse>;
 
+export type ListDomainsError = CommonErrors;
+
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
-  CommonErrors,
+  ListDomainsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDomainsRequest,
@@ -2918,10 +2948,12 @@ export const PutDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutDomainResponse>;
 
+export type PutDomainError = CommonErrors;
+
 export const putDomain: API.OperationMethod<
   PutDomainRequest,
   PutDomainResponse,
-  CommonErrors,
+  PutDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutDomainRequest,
@@ -2950,10 +2982,12 @@ export type DeleteDomainResponse = unknown;
 export const DeleteDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDomainResponse>;
 
+export type DeleteDomainError = CommonErrors;
+
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeleteDomainResponse,
-  CommonErrors,
+  DeleteDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDomainRequest,
@@ -3107,10 +3141,12 @@ export const KeysObservabilityTelemetryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<KeysObservabilityTelemetryResponse>;
 
+export type KeysObservabilityTelemetryError = CommonErrors;
+
 export const keysObservabilityTelemetry: API.OperationMethod<
   KeysObservabilityTelemetryRequest,
   KeysObservabilityTelemetryResponse,
-  CommonErrors,
+  KeysObservabilityTelemetryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: KeysObservabilityTelemetryRequest,
@@ -4236,10 +4272,12 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<QueryObservabilityTelemetryResponse>;
 
+export type QueryObservabilityTelemetryError = CommonErrors;
+
 export const queryObservabilityTelemetry: API.OperationMethod<
   QueryObservabilityTelemetryRequest,
   QueryObservabilityTelemetryResponse,
-  CommonErrors,
+  QueryObservabilityTelemetryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryObservabilityTelemetryRequest,
@@ -4384,10 +4422,12 @@ export const ValuesObservabilityTelemetryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ValuesObservabilityTelemetryResponse>;
 
+export type ValuesObservabilityTelemetryError = CommonErrors;
+
 export const valuesObservabilityTelemetry: API.OperationMethod<
   ValuesObservabilityTelemetryRequest,
   ValuesObservabilityTelemetryResponse,
-  CommonErrors,
+  ValuesObservabilityTelemetryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ValuesObservabilityTelemetryRequest,
@@ -4427,10 +4467,12 @@ export const GetRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRouteResponse>;
 
+export type GetRouteError = CommonErrors;
+
 export const getRoute: API.OperationMethod<
   GetRouteRequest,
   GetRouteResponse,
-  CommonErrors,
+  GetRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRouteRequest,
@@ -4463,10 +4505,12 @@ export const ListRoutesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRoutesResponse>;
 
+export type ListRoutesError = CommonErrors;
+
 export const listRoutes: API.OperationMethod<
   ListRoutesRequest,
   ListRoutesResponse,
-  CommonErrors,
+  ListRoutesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRoutesRequest,
@@ -4506,10 +4550,12 @@ export const CreateRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateRouteResponse>;
 
+export type CreateRouteError = CommonErrors;
+
 export const createRoute: API.OperationMethod<
   CreateRouteRequest,
   CreateRouteResponse,
-  CommonErrors,
+  CreateRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRouteRequest,
@@ -4551,10 +4597,12 @@ export const UpdateRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateRouteResponse>;
 
+export type UpdateRouteError = CommonErrors;
+
 export const updateRoute: API.OperationMethod<
   UpdateRouteRequest,
   UpdateRouteResponse,
-  CommonErrors,
+  UpdateRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRouteRequest,
@@ -4587,10 +4635,12 @@ export const DeleteRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRouteResponse>;
 
+export type DeleteRouteError = CommonErrors;
+
 export const deleteRoute: API.OperationMethod<
   DeleteRouteRequest,
   DeleteRouteResponse,
-  CommonErrors,
+  DeleteRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRouteRequest,
@@ -4623,10 +4673,12 @@ export type GetScriptResponse = unknown;
 export const GetScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptResponse>;
 
+export type GetScriptError = CommonErrors;
+
 export const getScript: API.OperationMethod<
   GetScriptRequest,
   GetScriptResponse,
-  CommonErrors,
+  GetScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptRequest,
@@ -4906,10 +4958,12 @@ export const ListScriptsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListScriptsResponse>;
 
+export type ListScriptsError = CommonErrors;
+
 export const listScripts: API.OperationMethod<
   ListScriptsRequest,
   ListScriptsResponse,
-  CommonErrors,
+  ListScriptsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScriptsRequest,
@@ -5746,10 +5800,12 @@ export const PutScriptResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutScriptResponse>;
 
+export type PutScriptError = CommonErrors;
+
 export const putScript: API.OperationMethod<
   PutScriptRequest,
   PutScriptResponse,
-  CommonErrors,
+  PutScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutScriptRequest,
@@ -5781,10 +5837,12 @@ export type DeleteScriptResponse = unknown;
 export const DeleteScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScriptResponse>;
 
+export type DeleteScriptError = CommonErrors;
+
 export const deleteScript: API.OperationMethod<
   DeleteScriptRequest,
   DeleteScriptResponse,
-  CommonErrors,
+  DeleteScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScriptRequest,
@@ -5855,10 +5913,12 @@ export const SearchScriptResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<SearchScriptResponse>;
 
+export type SearchScriptError = CommonErrors;
+
 export const searchScript: API.OperationMethod<
   SearchScriptRequest,
   SearchScriptResponse,
-  CommonErrors,
+  SearchScriptError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SearchScriptRequest,
@@ -5901,10 +5961,12 @@ export const CreateScriptAssetUploadResponse = Schema.Struct({
   jwt: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateScriptAssetUploadResponse>;
 
+export type CreateScriptAssetUploadError = CommonErrors;
+
 export const createScriptAssetUpload: API.OperationMethod<
   CreateScriptAssetUploadRequest,
   CreateScriptAssetUploadResponse,
-  CommonErrors,
+  CreateScriptAssetUploadError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScriptAssetUploadRequest,
@@ -5937,10 +5999,12 @@ export type GetScriptContentResponse = unknown;
 export const GetScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptContentResponse>;
 
+export type GetScriptContentError = CommonErrors;
+
 export const getScriptContent: API.OperationMethod<
   GetScriptContentRequest,
   GetScriptContentResponse,
-  CommonErrors,
+  GetScriptContentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptContentRequest,
@@ -5993,10 +6057,12 @@ export type PutScriptContentResponse = unknown;
 export const PutScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<PutScriptContentResponse>;
 
+export type PutScriptContentError = CommonErrors;
+
 export const putScriptContent: API.OperationMethod<
   PutScriptContentRequest,
   PutScriptContentResponse,
-  CommonErrors,
+  PutScriptContentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutScriptContentRequest,
@@ -6073,10 +6139,12 @@ export const GetScriptDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptDeploymentResponse>;
 
+export type GetScriptDeploymentError = CommonErrors;
+
 export const getScriptDeployment: API.OperationMethod<
   GetScriptDeploymentRequest,
   GetScriptDeploymentResponse,
-  CommonErrors,
+  GetScriptDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptDeploymentRequest,
@@ -6159,10 +6227,12 @@ export const ListScriptDeploymentsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListScriptDeploymentsResponse>;
 
+export type ListScriptDeploymentsError = CommonErrors;
+
 export const listScriptDeployments: API.OperationMethod<
   ListScriptDeploymentsRequest,
   ListScriptDeploymentsResponse,
-  CommonErrors,
+  ListScriptDeploymentsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScriptDeploymentsRequest,
@@ -6256,10 +6326,12 @@ export const CreateScriptDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScriptDeploymentResponse>;
 
+export type CreateScriptDeploymentError = CommonErrors;
+
 export const createScriptDeployment: API.OperationMethod<
   CreateScriptDeploymentRequest,
   CreateScriptDeploymentResponse,
-  CommonErrors,
+  CreateScriptDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScriptDeploymentRequest,
@@ -6344,10 +6416,12 @@ export const DeleteScriptDeploymentResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteScriptDeploymentResponse>;
 
+export type DeleteScriptDeploymentError = CommonErrors;
+
 export const deleteScriptDeployment: API.OperationMethod<
   DeleteScriptDeploymentRequest,
   DeleteScriptDeploymentResponse,
-  CommonErrors,
+  DeleteScriptDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScriptDeploymentRequest,
@@ -6395,10 +6469,12 @@ export const GetScriptScheduleResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetScriptScheduleResponse>;
 
+export type GetScriptScheduleError = CommonErrors;
+
 export const getScriptSchedule: API.OperationMethod<
   GetScriptScheduleRequest,
   GetScriptScheduleResponse,
-  CommonErrors,
+  GetScriptScheduleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptScheduleRequest,
@@ -6449,10 +6525,12 @@ export const PutScriptScheduleResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PutScriptScheduleResponse>;
 
+export type PutScriptScheduleError = CommonErrors;
+
 export const putScriptSchedule: API.OperationMethod<
   PutScriptScheduleRequest,
   PutScriptScheduleResponse,
-  CommonErrors,
+  PutScriptScheduleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutScriptScheduleRequest,
@@ -6930,10 +7008,12 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptScriptAndVersionSettingResponse>;
 
+export type GetScriptScriptAndVersionSettingError = CommonErrors;
+
 export const getScriptScriptAndVersionSetting: API.OperationMethod<
   GetScriptScriptAndVersionSettingRequest,
   GetScriptScriptAndVersionSettingResponse,
-  CommonErrors,
+  GetScriptScriptAndVersionSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptScriptAndVersionSettingRequest,
@@ -7885,10 +7965,12 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchScriptScriptAndVersionSettingResponse>;
 
+export type PatchScriptScriptAndVersionSettingError = CommonErrors;
+
 export const patchScriptScriptAndVersionSetting: API.OperationMethod<
   PatchScriptScriptAndVersionSettingRequest,
   PatchScriptScriptAndVersionSettingResponse,
-  CommonErrors,
+  PatchScriptScriptAndVersionSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchScriptScriptAndVersionSettingRequest,
@@ -7965,10 +8047,12 @@ export const GetScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetScriptSecretResponse>;
 
+export type GetScriptSecretError = CommonErrors;
+
 export const getScriptSecret: API.OperationMethod<
   GetScriptSecretRequest,
   GetScriptSecretResponse,
-  CommonErrors,
+  GetScriptSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptSecretRequest,
@@ -8039,10 +8123,12 @@ export const ListScriptSecretsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListScriptSecretsResponse>;
 
+export type ListScriptSecretsError = CommonErrors;
+
 export const listScriptSecrets: API.OperationMethod<
   ListScriptSecretsRequest,
   ListScriptSecretsResponse,
-  CommonErrors,
+  ListScriptSecretsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScriptSecretsRequest,
@@ -8119,10 +8205,12 @@ export const PutScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<PutScriptSecretResponse>;
 
+export type PutScriptSecretError = CommonErrors;
+
 export const putScriptSecret: API.OperationMethod<
   PutScriptSecretRequest,
   PutScriptSecretResponse,
-  CommonErrors,
+  PutScriptSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutScriptSecretRequest,
@@ -8156,10 +8244,12 @@ export type DeleteScriptSecretResponse = unknown;
 export const DeleteScriptSecretResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScriptSecretResponse>;
 
+export type DeleteScriptSecretError = CommonErrors;
+
 export const deleteScriptSecret: API.OperationMethod<
   DeleteScriptSecretRequest,
   DeleteScriptSecretResponse,
-  CommonErrors,
+  DeleteScriptSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScriptSecretRequest,
@@ -8192,10 +8282,12 @@ export type GetScriptSettingResponse = unknown;
 export const GetScriptSettingResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptSettingResponse>;
 
+export type GetScriptSettingError = CommonErrors;
+
 export const getScriptSetting: API.OperationMethod<
   GetScriptSettingRequest,
   GetScriptSettingResponse,
-  CommonErrors,
+  GetScriptSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptSettingRequest,
@@ -8294,10 +8386,12 @@ export type PatchScriptSettingResponse = unknown;
 export const PatchScriptSettingResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchScriptSettingResponse>;
 
+export type PatchScriptSettingError = CommonErrors;
+
 export const patchScriptSetting: API.OperationMethod<
   PatchScriptSettingRequest,
   PatchScriptSettingResponse,
-  CommonErrors,
+  PatchScriptSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchScriptSettingRequest,
@@ -8342,10 +8436,12 @@ export const GetScriptSubdomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptSubdomainResponse>;
 
+export type GetScriptSubdomainError = CommonErrors;
+
 export const getScriptSubdomain: API.OperationMethod<
   GetScriptSubdomainRequest,
   GetScriptSubdomainResponse,
-  CommonErrors,
+  GetScriptSubdomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptSubdomainRequest,
@@ -8396,10 +8492,12 @@ export const CreateScriptSubdomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScriptSubdomainResponse>;
 
+export type CreateScriptSubdomainError = CommonErrors;
+
 export const createScriptSubdomain: API.OperationMethod<
   CreateScriptSubdomainRequest,
   CreateScriptSubdomainResponse,
-  CommonErrors,
+  CreateScriptSubdomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScriptSubdomainRequest,
@@ -8440,10 +8538,12 @@ export const DeleteScriptSubdomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteScriptSubdomainResponse>;
 
+export type DeleteScriptSubdomainError = CommonErrors;
+
 export const deleteScriptSubdomain: API.OperationMethod<
   DeleteScriptSubdomainRequest,
   DeleteScriptSubdomainResponse,
-  CommonErrors,
+  DeleteScriptSubdomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScriptSubdomainRequest,
@@ -8486,10 +8586,12 @@ export const GetScriptTailResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
 ) as unknown as Schema.Schema<GetScriptTailResponse>;
 
+export type GetScriptTailError = CommonErrors;
+
 export const getScriptTail: API.OperationMethod<
   GetScriptTailRequest,
   GetScriptTailResponse,
-  CommonErrors,
+  GetScriptTailError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptTailRequest,
@@ -8531,10 +8633,12 @@ export const CreateScriptTailResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
 ) as unknown as Schema.Schema<CreateScriptTailResponse>;
 
+export type CreateScriptTailError = CommonErrors;
+
 export const createScriptTail: API.OperationMethod<
   CreateScriptTailRequest,
   CreateScriptTailResponse,
-  CommonErrors,
+  CreateScriptTailError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScriptTailRequest,
@@ -8619,10 +8723,12 @@ export const DeleteScriptTailResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteScriptTailResponse>;
 
+export type DeleteScriptTailError = CommonErrors;
+
 export const deleteScriptTail: API.OperationMethod<
   DeleteScriptTailRequest,
   DeleteScriptTailResponse,
-  CommonErrors,
+  DeleteScriptTailError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScriptTailRequest,
@@ -9113,10 +9219,12 @@ export const GetScriptVersionResponse = Schema.Struct({
   number: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetScriptVersionResponse>;
 
+export type GetScriptVersionError = CommonErrors;
+
 export const getScriptVersion: API.OperationMethod<
   GetScriptVersionRequest,
   GetScriptVersionResponse,
-  CommonErrors,
+  GetScriptVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScriptVersionRequest,
@@ -9205,10 +9313,12 @@ export const ListScriptVersionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListScriptVersionsResponse>;
 
+export type ListScriptVersionsError = CommonErrors;
+
 export const listScriptVersions: API.OperationMethod<
   ListScriptVersionsRequest,
   ListScriptVersionsResponse,
-  CommonErrors,
+  ListScriptVersionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScriptVersionsRequest,
@@ -10095,10 +10205,12 @@ export const CreateScriptVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScriptVersionResponse>;
 
+export type CreateScriptVersionError = CommonErrors;
+
 export const createScriptVersion: API.OperationMethod<
   CreateScriptVersionRequest,
   CreateScriptVersionResponse,
-  CommonErrors,
+  CreateScriptVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScriptVersionRequest,
@@ -10129,10 +10241,12 @@ export const GetSubdomainResponse = Schema.Struct({
   subdomain: Schema.String,
 }) as unknown as Schema.Schema<GetSubdomainResponse>;
 
+export type GetSubdomainError = CommonErrors;
+
 export const getSubdomain: API.OperationMethod<
   GetSubdomainRequest,
   GetSubdomainResponse,
-  CommonErrors,
+  GetSubdomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSubdomainRequest,
@@ -10162,10 +10276,12 @@ export const PutSubdomainResponse = Schema.Struct({
   subdomain: Schema.String,
 }) as unknown as Schema.Schema<PutSubdomainResponse>;
 
+export type PutSubdomainError = CommonErrors;
+
 export const putSubdomain: API.OperationMethod<
   PutSubdomainRequest,
   PutSubdomainResponse,
-  CommonErrors,
+  PutSubdomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSubdomainRequest,
@@ -10192,10 +10308,12 @@ export type DeleteSubdomainResponse = unknown;
 export const DeleteSubdomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteSubdomainResponse>;
 
+export type DeleteSubdomainError = CommonErrors;
+
 export const deleteSubdomain: API.OperationMethod<
   DeleteSubdomainRequest,
   DeleteSubdomainResponse,
-  CommonErrors,
+  DeleteSubdomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSubdomainRequest,

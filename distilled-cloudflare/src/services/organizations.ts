@@ -114,10 +114,12 @@ export const GetOrganizationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOrganizationResponse>;
 
+export type GetOrganizationError = CommonErrors;
+
 export const getOrganization: API.OperationMethod<
   GetOrganizationRequest,
   GetOrganizationResponse,
-  CommonErrors,
+  GetOrganizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOrganizationRequest,
@@ -215,10 +217,12 @@ export const ListOrganizationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
+export type ListOrganizationsError = CommonErrors;
+
 export const listOrganizations: API.OperationMethod<
   ListOrganizationsRequest,
   ListOrganizationsResponse,
-  CommonErrors,
+  ListOrganizationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListOrganizationsRequest,
@@ -348,10 +352,12 @@ export const CreateOrganizationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateOrganizationResponse>;
 
+export type CreateOrganizationError = CommonErrors;
+
 export const createOrganization: API.OperationMethod<
   CreateOrganizationRequest,
   CreateOrganizationResponse,
-  CommonErrors,
+  CreateOrganizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateOrganizationRequest,
@@ -483,10 +489,12 @@ export const UpdateOrganizationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateOrganizationResponse>;
 
+export type UpdateOrganizationError = CommonErrors;
+
 export const updateOrganization: API.OperationMethod<
   UpdateOrganizationRequest,
   UpdateOrganizationResponse,
-  CommonErrors,
+  UpdateOrganizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateOrganizationRequest,
@@ -512,10 +520,12 @@ export const DeleteOrganizationResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteOrganizationResponse>;
 
+export type DeleteOrganizationError = CommonErrors;
+
 export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationRequest,
   DeleteOrganizationResponse,
-  CommonErrors,
+  DeleteOrganizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteOrganizationRequest,
@@ -561,10 +571,12 @@ export const GetOrganizationProfileResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOrganizationProfileResponse>;
 
+export type GetOrganizationProfileError = CommonErrors;
+
 export const getOrganizationProfile: API.OperationMethod<
   GetOrganizationProfileRequest,
   GetOrganizationProfileResponse,
-  CommonErrors,
+  GetOrganizationProfileError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOrganizationProfileRequest,
@@ -604,10 +616,12 @@ export type PutOrganizationProfileResponse = unknown;
 export const PutOrganizationProfileResponse =
   Schema.Unknown as unknown as Schema.Schema<PutOrganizationProfileResponse>;
 
+export type PutOrganizationProfileError = CommonErrors;
+
 export const putOrganizationProfile: API.OperationMethod<
   PutOrganizationProfileRequest,
   PutOrganizationProfileResponse,
-  CommonErrors,
+  PutOrganizationProfileError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutOrganizationProfileRequest,

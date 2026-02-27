@@ -35,7 +35,7 @@ export interface GetPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -131,7 +131,7 @@ export interface GetPhasResponse {
 
 export const GetPhasResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -305,10 +305,12 @@ export const GetPhasResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPhasResponse>;
 
+export type GetPhasError = CommonErrors;
+
 export const getPhas: API.OperationMethod<
   GetPhasRequest,
   GetPhasResponse,
-  CommonErrors,
+  GetPhasError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPhasRequest,
@@ -516,7 +518,7 @@ export interface PutPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -612,7 +614,7 @@ export interface PutPhasResponse {
 
 export const PutPhasResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -786,10 +788,12 @@ export const PutPhasResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutPhasResponse>;
 
+export type PutPhasError = CommonErrors;
+
 export const putPhas: API.OperationMethod<
   PutPhasRequest,
   PutPhasResponse,
-  CommonErrors,
+  PutPhasError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutPhasRequest,
@@ -818,7 +822,7 @@ export interface GetPhasVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -914,7 +918,7 @@ export interface GetPhasVersionResponse {
 
 export const GetPhasVersionResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -1088,10 +1092,12 @@ export const GetPhasVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPhasVersionResponse>;
 
+export type GetPhasVersionError = CommonErrors;
+
 export const getPhasVersion: API.OperationMethod<
   GetPhasVersionRequest,
   GetPhasVersionResponse,
-  CommonErrors,
+  GetPhasVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPhasVersionRequest,
@@ -1110,7 +1116,7 @@ export const ListPhasVersionsRequest = Schema.Struct({}).pipe(
 
 export type ListPhasVersionsResponse = {
   id: string;
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   lastUpdated: string;
   name: string;
   phase:
@@ -1144,7 +1150,7 @@ export type ListPhasVersionsResponse = {
 export const ListPhasVersionsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -1187,10 +1193,12 @@ export const ListPhasVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPhasVersionsResponse>;
 
+export type ListPhasVersionsError = CommonErrors;
+
 export const listPhasVersions: API.OperationMethod<
   ListPhasVersionsRequest,
   ListPhasVersionsResponse,
-  CommonErrors,
+  ListPhasVersionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPhasVersionsRequest,
@@ -1349,7 +1357,7 @@ export interface CreateRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -2101,7 +2109,7 @@ export interface CreateRuleResponse {
 
 export const CreateRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -4099,10 +4107,12 @@ export const CreateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
+export type CreateRuleError = CommonErrors;
+
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  CommonErrors,
+  CreateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRuleRequest,
@@ -4259,7 +4269,7 @@ export interface PatchRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -5011,7 +5021,7 @@ export interface PatchRuleResponse {
 
 export const PatchRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -7009,10 +7019,12 @@ export const PatchRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchRuleResponse>;
 
+export type PatchRuleError = CommonErrors;
+
 export const patchRule: API.OperationMethod<
   PatchRuleRequest,
   PatchRuleResponse,
-  CommonErrors,
+  PatchRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchRuleRequest,
@@ -7039,7 +7051,7 @@ export interface DeleteRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -7791,7 +7803,7 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -9789,10 +9801,12 @@ export const DeleteRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -9821,7 +9835,7 @@ export interface GetRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -9917,7 +9931,7 @@ export interface GetRulesetResponse {
 
 export const GetRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -10091,10 +10105,12 @@ export const GetRulesetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRulesetResponse>;
 
+export type GetRulesetError = CommonErrors;
+
 export const getRuleset: API.OperationMethod<
   GetRulesetRequest,
   GetRulesetResponse,
-  CommonErrors,
+  GetRulesetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRulesetRequest,
@@ -10113,7 +10129,7 @@ export const ListRulesetsRequest = Schema.Struct({}).pipe(
 
 export type ListRulesetsResponse = {
   id: string;
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   lastUpdated: string;
   name: string;
   phase:
@@ -10147,7 +10163,7 @@ export type ListRulesetsResponse = {
 export const ListRulesetsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -10190,10 +10206,12 @@ export const ListRulesetsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListRulesetsResponse>;
 
+export type ListRulesetsError = CommonErrors;
+
 export const listRulesets: API.OperationMethod<
   ListRulesetsRequest,
   ListRulesetsResponse,
-  CommonErrors,
+  ListRulesetsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesetsRequest,
@@ -10207,7 +10225,7 @@ export interface CreateRulesetRequest {
   /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId?: string;
   /** Body param: The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** Body param: The human-readable name of the ruleset. */
   name: string;
   /** Body param: The phase of the ruleset. */
@@ -10294,7 +10312,7 @@ export interface CreateRulesetRequest {
 export const CreateRulesetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -10454,7 +10472,7 @@ export interface CreateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -10550,7 +10568,7 @@ export interface CreateRulesetResponse {
 
 export const CreateRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -10724,10 +10742,12 @@ export const CreateRulesetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRulesetResponse>;
 
+export type CreateRulesetError = CommonErrors;
+
 export const createRuleset: API.OperationMethod<
   CreateRulesetRequest,
   CreateRulesetResponse,
-  CommonErrors,
+  CreateRulesetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRulesetRequest,
@@ -10744,7 +10764,7 @@ export interface UpdateRulesetRequest {
   /** Body param: An informative description of the ruleset. */
   description?: string;
   /** Body param: The kind of the ruleset. */
-  kind?: "zone" | "managed" | "custom" | "root";
+  kind?: "managed" | "custom" | "root" | "zone";
   /** Body param: The human-readable name of the ruleset. */
   name?: string;
   /** Body param: The phase of the ruleset. */
@@ -10831,7 +10851,7 @@ export const UpdateRulesetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["zone", "managed", "custom", "root"])),
+  kind: Schema.optional(Schema.Literals(["managed", "custom", "root", "zone"])),
   name: Schema.optional(Schema.String),
   phase: Schema.optional(
     Schema.Literals([
@@ -10992,7 +11012,7 @@ export interface UpdateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -11088,7 +11108,7 @@ export interface UpdateRulesetResponse {
 
 export const UpdateRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -11262,10 +11282,12 @@ export const UpdateRulesetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRulesetResponse>;
 
+export type UpdateRulesetError = CommonErrors;
+
 export const updateRuleset: API.OperationMethod<
   UpdateRulesetRequest,
   UpdateRulesetResponse,
-  CommonErrors,
+  UpdateRulesetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRulesetRequest,
@@ -11291,10 +11313,12 @@ export type DeleteRulesetResponse = unknown;
 export const DeleteRulesetResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteRulesetResponse>;
 
+export type DeleteRulesetError = CommonErrors;
+
 export const deleteRuleset: API.OperationMethod<
   DeleteRulesetRequest,
   DeleteRulesetResponse,
-  CommonErrors,
+  DeleteRulesetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRulesetRequest,
@@ -11325,7 +11349,7 @@ export interface GetVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -11421,7 +11445,7 @@ export interface GetVersionResponse {
 
 export const GetVersionResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -11595,10 +11619,12 @@ export const GetVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetVersionResponse>;
 
+export type GetVersionError = CommonErrors;
+
 export const getVersion: API.OperationMethod<
   GetVersionRequest,
   GetVersionResponse,
-  CommonErrors,
+  GetVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetVersionRequest,
@@ -11621,7 +11647,7 @@ export const ListVersionsRequest = Schema.Struct({
 
 export type ListVersionsResponse = {
   id: string;
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   lastUpdated: string;
   name: string;
   phase:
@@ -11655,7 +11681,7 @@ export type ListVersionsResponse = {
 export const ListVersionsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -11698,10 +11724,12 @@ export const ListVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListVersionsResponse>;
 
+export type ListVersionsError = CommonErrors;
+
 export const listVersions: API.OperationMethod<
   ListVersionsRequest,
   ListVersionsResponse,
-  CommonErrors,
+  ListVersionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListVersionsRequest,
@@ -11729,10 +11757,12 @@ export type DeleteVersionResponse = unknown;
 export const DeleteVersionResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteVersionResponse>;
 
+export type DeleteVersionError = CommonErrors;
+
 export const deleteVersion: API.OperationMethod<
   DeleteVersionRequest,
   DeleteVersionResponse,
-  CommonErrors,
+  DeleteVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteVersionRequest,

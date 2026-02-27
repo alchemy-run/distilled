@@ -48,10 +48,12 @@ export const GetContentScanningResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetContentScanningResponse>;
 
+export type GetContentScanningError = CommonErrors;
+
 export const getContentScanning: API.OperationMethod<
   GetContentScanningRequest,
   GetContentScanningResponse,
-  CommonErrors,
+  GetContentScanningError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetContentScanningRequest,
@@ -88,10 +90,12 @@ export const CreateContentScanningResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateContentScanningResponse>;
 
+export type CreateContentScanningError = CommonErrors;
+
 export const createContentScanning: API.OperationMethod<
   CreateContentScanningRequest,
   CreateContentScanningResponse,
-  CommonErrors,
+  CreateContentScanningError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateContentScanningRequest,
@@ -128,10 +132,12 @@ export const PutContentScanningResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutContentScanningResponse>;
 
+export type PutContentScanningError = CommonErrors;
+
 export const putContentScanning: API.OperationMethod<
   PutContentScanningRequest,
   PutContentScanningResponse,
-  CommonErrors,
+  PutContentScanningError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutContentScanningRequest,
@@ -158,10 +164,12 @@ export type EnableContentScanningResponse = unknown;
 export const EnableContentScanningResponse =
   Schema.Unknown as unknown as Schema.Schema<EnableContentScanningResponse>;
 
+export type EnableContentScanningError = CommonErrors;
+
 export const enableContentScanning: API.OperationMethod<
   EnableContentScanningRequest,
   EnableContentScanningResponse,
-  CommonErrors,
+  EnableContentScanningError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EnableContentScanningRequest,
@@ -188,10 +196,12 @@ export type DisableContentScanningResponse = unknown;
 export const DisableContentScanningResponse =
   Schema.Unknown as unknown as Schema.Schema<DisableContentScanningResponse>;
 
+export type DisableContentScanningError = CommonErrors;
+
 export const disableContentScanning: API.OperationMethod<
   DisableContentScanningRequest,
   DisableContentScanningResponse,
-  CommonErrors,
+  DisableContentScanningError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DisableContentScanningRequest,
@@ -226,10 +236,12 @@ export const ListPayloadsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListPayloadsResponse>;
 
+export type ListPayloadsError = CommonErrors;
+
 export const listPayloads: API.OperationMethod<
   ListPayloadsRequest,
   ListPayloadsResponse,
-  CommonErrors,
+  ListPayloadsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPayloadsRequest,
@@ -267,10 +279,12 @@ export const CreatePayloadResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreatePayloadResponse>;
 
+export type CreatePayloadError = CommonErrors;
+
 export const createPayload: API.OperationMethod<
   CreatePayloadRequest,
   CreatePayloadResponse,
-  CommonErrors,
+  CreatePayloadError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePayloadRequest,
@@ -303,10 +317,12 @@ export const DeletePayloadResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<DeletePayloadResponse>;
 
+export type DeletePayloadError = CommonErrors;
+
 export const deletePayload: API.OperationMethod<
   DeletePayloadRequest,
   DeletePayloadResponse,
-  CommonErrors,
+  DeletePayloadError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePayloadRequest,
@@ -344,10 +360,12 @@ export const GetSettingResponse = Schema.Struct({
   value: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
+export type GetSettingError = CommonErrors;
+
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
-  CommonErrors,
+  GetSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingRequest,

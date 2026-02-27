@@ -53,10 +53,12 @@ export const GetSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetSfuResponse>;
 
+export type GetSfuError = CommonErrors;
+
 export const getSfu: API.OperationMethod<
   GetSfuRequest,
   GetSfuResponse,
-  CommonErrors,
+  GetSfuError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSfuRequest,
@@ -99,10 +101,12 @@ export const CreateSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateSfuResponse>;
 
+export type CreateSfuError = CommonErrors;
+
 export const createSfu: API.OperationMethod<
   CreateSfuRequest,
   CreateSfuResponse,
-  CommonErrors,
+  CreateSfuError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSfuRequest,
@@ -144,10 +148,12 @@ export const UpdateSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateSfuResponse>;
 
+export type UpdateSfuError = CommonErrors;
+
 export const updateSfu: API.OperationMethod<
   UpdateSfuRequest,
   UpdateSfuResponse,
-  CommonErrors,
+  UpdateSfuError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSfuRequest,
@@ -189,10 +195,12 @@ export const DeleteSfuResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteSfuResponse>;
 
+export type DeleteSfuError = CommonErrors;
+
 export const deleteSfu: API.OperationMethod<
   DeleteSfuRequest,
   DeleteSfuResponse,
-  CommonErrors,
+  DeleteSfuError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSfuRequest,
@@ -231,10 +239,12 @@ export const ListSfusResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListSfusResponse>;
 
+export type ListSfusError = CommonErrors;
+
 export const listSfus: API.OperationMethod<
   ListSfusRequest,
   ListSfusResponse,
-  CommonErrors,
+  ListSfusError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSfusRequest,
@@ -280,10 +290,12 @@ export const GetTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetTurnResponse>;
 
+export type GetTurnError = CommonErrors;
+
 export const getTurn: API.OperationMethod<
   GetTurnRequest,
   GetTurnResponse,
-  CommonErrors,
+  GetTurnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTurnRequest,
@@ -318,10 +330,12 @@ export const ListTurnsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListTurnsResponse>;
 
+export type ListTurnsError = CommonErrors;
+
 export const listTurns: API.OperationMethod<
   ListTurnsRequest,
   ListTurnsResponse,
-  CommonErrors,
+  ListTurnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListTurnsRequest,
@@ -364,10 +378,12 @@ export const CreateTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateTurnResponse>;
 
+export type CreateTurnError = CommonErrors;
+
 export const createTurn: API.OperationMethod<
   CreateTurnRequest,
   CreateTurnResponse,
-  CommonErrors,
+  CreateTurnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTurnRequest,
@@ -412,10 +428,12 @@ export const UpdateTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateTurnResponse>;
 
+export type UpdateTurnError = CommonErrors;
+
 export const updateTurn: API.OperationMethod<
   UpdateTurnRequest,
   UpdateTurnResponse,
-  CommonErrors,
+  UpdateTurnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateTurnRequest,
@@ -457,10 +475,12 @@ export const DeleteTurnResponse = Schema.Struct({
   uid: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteTurnResponse>;
 
+export type DeleteTurnError = CommonErrors;
+
 export const deleteTurn: API.OperationMethod<
   DeleteTurnRequest,
   DeleteTurnResponse,
-  CommonErrors,
+  DeleteTurnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteTurnRequest,

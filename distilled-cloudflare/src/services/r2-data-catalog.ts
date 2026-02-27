@@ -86,10 +86,15 @@ export type CreateCredentialResponse = unknown;
 export const CreateCredentialResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateCredentialResponse>;
 
+export type CreateCredentialError =
+  | CommonErrors
+  | InvalidRoute
+  | InvalidCredential;
+
 export const createCredential: API.OperationMethod<
   CreateCredentialRequest,
   CreateCredentialResponse,
-  CommonErrors | InvalidRoute | InvalidCredential,
+  CreateCredentialError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCredentialRequest,
@@ -171,10 +176,16 @@ export const GetMaintenanceConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetMaintenanceConfigResponse>;
 
+export type GetMaintenanceConfigError =
+  | CommonErrors
+  | InvalidRoute
+  | WarehouseInactive
+  | WarehouseNotFound;
+
 export const getMaintenanceConfig: API.OperationMethod<
   GetMaintenanceConfigRequest,
   GetMaintenanceConfigResponse,
-  CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
+  GetMaintenanceConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMaintenanceConfigRequest,
@@ -279,10 +290,15 @@ export const UpdateMaintenanceConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
 
+export type UpdateMaintenanceConfigError =
+  | CommonErrors
+  | InvalidRoute
+  | WarehouseInactive;
+
 export const updateMaintenanceConfig: API.OperationMethod<
   UpdateMaintenanceConfigRequest,
   UpdateMaintenanceConfigResponse,
-  CommonErrors | InvalidRoute | WarehouseInactive,
+  UpdateMaintenanceConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMaintenanceConfigRequest,
@@ -386,10 +402,16 @@ export const ListNamespacesResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
+export type ListNamespacesError =
+  | CommonErrors
+  | InvalidRoute
+  | WarehouseInactive
+  | WarehouseNotFound;
+
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
   ListNamespacesResponse,
-  CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
+  ListNamespacesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespacesRequest,
@@ -508,10 +530,15 @@ export const ListNamespaceTablesResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
 
+export type ListNamespaceTablesError =
+  | CommonErrors
+  | InvalidRoute
+  | WarehouseInactive;
+
 export const listNamespaceTables: API.OperationMethod<
   ListNamespaceTablesRequest,
   ListNamespaceTablesResponse,
-  CommonErrors | InvalidRoute | WarehouseInactive,
+  ListNamespaceTablesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespaceTablesRequest,
@@ -591,10 +618,16 @@ export const GetNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   Schema.encodeKeys({ maintenanceConfig: "maintenance_config" }),
 ) as unknown as Schema.Schema<GetNamespaceTableMaintenanceConfigResponse>;
 
+export type GetNamespaceTableMaintenanceConfigError =
+  | CommonErrors
+  | TableNotFound
+  | InvalidRoute
+  | WarehouseInactive;
+
 export const getNamespaceTableMaintenanceConfig: API.OperationMethod<
   GetNamespaceTableMaintenanceConfigRequest,
   GetNamespaceTableMaintenanceConfigResponse,
-  CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
+  GetNamespaceTableMaintenanceConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetNamespaceTableMaintenanceConfigRequest,
@@ -703,10 +736,16 @@ export const UpdateNamespaceTableMaintenanceConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
 
+export type UpdateNamespaceTableMaintenanceConfigError =
+  | CommonErrors
+  | TableNotFound
+  | InvalidRoute
+  | WarehouseInactive;
+
 export const updateNamespaceTableMaintenanceConfig: API.OperationMethod<
   UpdateNamespaceTableMaintenanceConfigRequest,
   UpdateNamespaceTableMaintenanceConfigResponse,
-  CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
+  UpdateNamespaceTableMaintenanceConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateNamespaceTableMaintenanceConfigRequest,
@@ -818,10 +857,12 @@ export const GetR2DataCatalogResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
 
+export type GetR2DataCatalogError = CommonErrors | NoSuchBucket | InvalidRoute;
+
 export const getR2DataCatalog: API.OperationMethod<
   GetR2DataCatalogRequest,
   GetR2DataCatalogResponse,
-  CommonErrors | NoSuchBucket | InvalidRoute,
+  GetR2DataCatalogError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetR2DataCatalogRequest,
@@ -925,10 +966,12 @@ export const ListR2DataCatalogsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListR2DataCatalogsResponse>;
 
+export type ListR2DataCatalogsError = CommonErrors | InvalidRoute;
+
 export const listR2DataCatalogs: API.OperationMethod<
   ListR2DataCatalogsRequest,
   ListR2DataCatalogsResponse,
-  CommonErrors | InvalidRoute,
+  ListR2DataCatalogsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListR2DataCatalogsRequest,
@@ -964,10 +1007,15 @@ export const EnableR2DataCatalogResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
 
+export type EnableR2DataCatalogError =
+  | CommonErrors
+  | NoSuchBucket
+  | InvalidRoute;
+
 export const enableR2DataCatalog: API.OperationMethod<
   EnableR2DataCatalogRequest,
   EnableR2DataCatalogResponse,
-  CommonErrors | NoSuchBucket | InvalidRoute,
+  EnableR2DataCatalogError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EnableR2DataCatalogRequest,
@@ -996,10 +1044,15 @@ export type DisableR2DataCatalogResponse = unknown;
 export const DisableR2DataCatalogResponse =
   Schema.Unknown as unknown as Schema.Schema<DisableR2DataCatalogResponse>;
 
+export type DisableR2DataCatalogError =
+  | CommonErrors
+  | NoSuchBucket
+  | InvalidRoute;
+
 export const disableR2DataCatalog: API.OperationMethod<
   DisableR2DataCatalogRequest,
   DisableR2DataCatalogResponse,
-  CommonErrors | NoSuchBucket | InvalidRoute,
+  DisableR2DataCatalogError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DisableR2DataCatalogRequest,

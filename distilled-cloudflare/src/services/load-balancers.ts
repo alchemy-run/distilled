@@ -151,10 +151,12 @@ export const BulkEditPoolsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkEditPoolsResponse>;
 
+export type BulkEditPoolsError = CommonErrors;
+
 export const bulkEditPools: API.OperationMethod<
   BulkEditPoolsRequest,
   BulkEditPoolsResponse,
-  CommonErrors,
+  BulkEditPoolsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkEditPoolsRequest,
@@ -473,10 +475,12 @@ export const GetLoadBalancerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetLoadBalancerResponse>;
 
+export type GetLoadBalancerError = CommonErrors;
+
 export const getLoadBalancer: API.OperationMethod<
   GetLoadBalancerRequest,
   GetLoadBalancerResponse,
-  CommonErrors,
+  GetLoadBalancerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLoadBalancerRequest,
@@ -769,10 +773,12 @@ export const ListLoadBalancersResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListLoadBalancersResponse>;
 
+export type ListLoadBalancersError = CommonErrors;
+
 export const listLoadBalancers: API.OperationMethod<
   ListLoadBalancersRequest,
   ListLoadBalancersResponse,
-  CommonErrors,
+  ListLoadBalancersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListLoadBalancersRequest,
@@ -1352,10 +1358,12 @@ export const CreateLoadBalancerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateLoadBalancerResponse>;
 
+export type CreateLoadBalancerError = CommonErrors;
+
 export const createLoadBalancer: API.OperationMethod<
   CreateLoadBalancerRequest,
   CreateLoadBalancerResponse,
-  CommonErrors,
+  CreateLoadBalancerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateLoadBalancerRequest,
@@ -1944,10 +1952,12 @@ export const UpdateLoadBalancerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateLoadBalancerResponse>;
 
+export type UpdateLoadBalancerError = CommonErrors;
+
 export const updateLoadBalancer: API.OperationMethod<
   UpdateLoadBalancerRequest,
   UpdateLoadBalancerResponse,
-  CommonErrors,
+  UpdateLoadBalancerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateLoadBalancerRequest,
@@ -2532,10 +2542,12 @@ export const PatchLoadBalancerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchLoadBalancerResponse>;
 
+export type PatchLoadBalancerError = CommonErrors;
+
 export const patchLoadBalancer: API.OperationMethod<
   PatchLoadBalancerRequest,
   PatchLoadBalancerResponse,
-  CommonErrors,
+  PatchLoadBalancerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchLoadBalancerRequest,
@@ -2566,10 +2578,12 @@ export const DeleteLoadBalancerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteLoadBalancerResponse>;
 
+export type DeleteLoadBalancerError = CommonErrors;
+
 export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerRequest,
   DeleteLoadBalancerResponse,
-  CommonErrors,
+  DeleteLoadBalancerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteLoadBalancerRequest,
@@ -2681,10 +2695,12 @@ export const GetMonitorResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetMonitorResponse>;
 
+export type GetMonitorError = CommonErrors;
+
 export const getMonitor: API.OperationMethod<
   GetMonitorRequest,
   GetMonitorResponse,
-  CommonErrors,
+  GetMonitorError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMonitorRequest,
@@ -2783,10 +2799,12 @@ export const ListMonitorsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListMonitorsResponse>;
 
+export type ListMonitorsError = CommonErrors;
+
 export const listMonitors: API.OperationMethod<
   ListMonitorsRequest,
   ListMonitorsResponse,
-  CommonErrors,
+  ListMonitorsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListMonitorsRequest,
@@ -2960,10 +2978,12 @@ export const CreateMonitorResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateMonitorResponse>;
 
+export type CreateMonitorError = CommonErrors;
+
 export const createMonitor: API.OperationMethod<
   CreateMonitorRequest,
   CreateMonitorResponse,
-  CommonErrors,
+  CreateMonitorError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMonitorRequest,
@@ -3139,10 +3159,12 @@ export const UpdateMonitorResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateMonitorResponse>;
 
+export type UpdateMonitorError = CommonErrors;
+
 export const updateMonitor: API.OperationMethod<
   UpdateMonitorRequest,
   UpdateMonitorResponse,
-  CommonErrors,
+  UpdateMonitorError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMonitorRequest,
@@ -3318,10 +3340,12 @@ export const PatchMonitorResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchMonitorResponse>;
 
+export type PatchMonitorError = CommonErrors;
+
 export const patchMonitor: API.OperationMethod<
   PatchMonitorRequest,
   PatchMonitorResponse,
-  CommonErrors,
+  PatchMonitorError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchMonitorRequest,
@@ -3353,10 +3377,12 @@ export const DeleteMonitorResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteMonitorResponse>;
 
+export type DeleteMonitorError = CommonErrors;
+
 export const deleteMonitor: API.OperationMethod<
   DeleteMonitorRequest,
   DeleteMonitorResponse,
-  CommonErrors,
+  DeleteMonitorError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMonitorRequest,
@@ -3438,10 +3464,12 @@ export const GetMonitorGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetMonitorGroupResponse>;
 
+export type GetMonitorGroupError = CommonErrors;
+
 export const getMonitorGroup: API.OperationMethod<
   GetMonitorGroupRequest,
   GetMonitorGroupResponse,
-  CommonErrors,
+  GetMonitorGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMonitorGroupRequest,
@@ -3514,10 +3542,12 @@ export const ListMonitorGroupsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListMonitorGroupsResponse>;
 
+export type ListMonitorGroupsError = CommonErrors;
+
 export const listMonitorGroups: API.OperationMethod<
   ListMonitorGroupsRequest,
   ListMonitorGroupsResponse,
-  CommonErrors,
+  ListMonitorGroupsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListMonitorGroupsRequest,
@@ -3621,10 +3651,12 @@ export const CreateMonitorGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateMonitorGroupResponse>;
 
+export type CreateMonitorGroupError = CommonErrors;
+
 export const createMonitorGroup: API.OperationMethod<
   CreateMonitorGroupRequest,
   CreateMonitorGroupResponse,
-  CommonErrors,
+  CreateMonitorGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMonitorGroupRequest,
@@ -3730,10 +3762,12 @@ export const UpdateMonitorGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateMonitorGroupResponse>;
 
+export type UpdateMonitorGroupError = CommonErrors;
+
 export const updateMonitorGroup: API.OperationMethod<
   UpdateMonitorGroupRequest,
   UpdateMonitorGroupResponse,
-  CommonErrors,
+  UpdateMonitorGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMonitorGroupRequest,
@@ -3839,10 +3873,12 @@ export const PatchMonitorGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchMonitorGroupResponse>;
 
+export type PatchMonitorGroupError = CommonErrors;
+
 export const patchMonitorGroup: API.OperationMethod<
   PatchMonitorGroupRequest,
   PatchMonitorGroupResponse,
-  CommonErrors,
+  PatchMonitorGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchMonitorGroupRequest,
@@ -3920,10 +3956,12 @@ export const DeleteMonitorGroupResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteMonitorGroupResponse>;
 
+export type DeleteMonitorGroupError = CommonErrors;
+
 export const deleteMonitorGroup: API.OperationMethod<
   DeleteMonitorGroupRequest,
   DeleteMonitorGroupResponse,
-  CommonErrors,
+  DeleteMonitorGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMonitorGroupRequest,
@@ -4032,10 +4070,12 @@ export const CreateMonitorPreviewResponse = Schema.Struct({
   Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }),
 ) as unknown as Schema.Schema<CreateMonitorPreviewResponse>;
 
+export type CreateMonitorPreviewError = CommonErrors;
+
 export const createMonitorPreview: API.OperationMethod<
   CreateMonitorPreviewRequest,
   CreateMonitorPreviewResponse,
-  CommonErrors,
+  CreateMonitorPreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMonitorPreviewRequest,
@@ -4088,10 +4128,12 @@ export const GetMonitorReferenceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetMonitorReferenceResponse>;
 
+export type GetMonitorReferenceError = CommonErrors;
+
 export const getMonitorReference: API.OperationMethod<
   GetMonitorReferenceRequest,
   GetMonitorReferenceResponse,
-  CommonErrors,
+  GetMonitorReferenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMonitorReferenceRequest,
@@ -4242,10 +4284,12 @@ export const GetPoolResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetPoolResponse>;
 
+export type GetPoolError = CommonErrors;
+
 export const getPool: API.OperationMethod<
   GetPoolRequest,
   GetPoolResponse,
-  CommonErrors,
+  GetPoolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPoolRequest,
@@ -4381,10 +4425,12 @@ export const ListPoolsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListPoolsResponse>;
 
+export type ListPoolsError = CommonErrors;
+
 export const listPools: API.OperationMethod<
   ListPoolsRequest,
   ListPoolsResponse,
-  CommonErrors,
+  ListPoolsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPoolsRequest,
@@ -4585,10 +4631,12 @@ export const CreatePoolResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePoolResponse>;
 
+export type CreatePoolError = CommonErrors;
+
 export const createPool: API.OperationMethod<
   CreatePoolRequest,
   CreatePoolResponse,
-  CommonErrors,
+  CreatePoolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePoolRequest,
@@ -4834,10 +4882,12 @@ export const UpdatePoolResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdatePoolResponse>;
 
+export type UpdatePoolError = CommonErrors;
+
 export const updatePool: API.OperationMethod<
   UpdatePoolRequest,
   UpdatePoolResponse,
-  CommonErrors,
+  UpdatePoolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdatePoolRequest,
@@ -5083,10 +5133,12 @@ export const PatchPoolResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchPoolResponse>;
 
+export type PatchPoolError = CommonErrors;
+
 export const patchPool: API.OperationMethod<
   PatchPoolRequest,
   PatchPoolResponse,
-  CommonErrors,
+  PatchPoolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPoolRequest,
@@ -5118,10 +5170,12 @@ export const DeletePoolResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeletePoolResponse>;
 
+export type DeletePoolError = CommonErrors;
+
 export const deletePool: API.OperationMethod<
   DeletePoolRequest,
   DeletePoolResponse,
-  CommonErrors,
+  DeletePoolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePoolRequest,
@@ -5198,10 +5252,12 @@ export const GetPoolHealthResponse = Schema.Struct({
   Schema.encodeKeys({ poolId: "pool_id", popHealth: "pop_health" }),
 ) as unknown as Schema.Schema<GetPoolHealthResponse>;
 
+export type GetPoolHealthError = CommonErrors;
+
 export const getPoolHealth: API.OperationMethod<
   GetPoolHealthRequest,
   GetPoolHealthResponse,
-  CommonErrors,
+  GetPoolHealthError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPoolHealthRequest,
@@ -5306,10 +5362,12 @@ export const CreatePoolHealthResponse = Schema.Struct({
   Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }),
 ) as unknown as Schema.Schema<CreatePoolHealthResponse>;
 
+export type CreatePoolHealthError = CommonErrors;
+
 export const createPoolHealth: API.OperationMethod<
   CreatePoolHealthRequest,
   CreatePoolHealthResponse,
-  CommonErrors,
+  CreatePoolHealthError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePoolHealthRequest,
@@ -5362,10 +5420,12 @@ export const GetPoolReferenceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetPoolReferenceResponse>;
 
+export type GetPoolReferenceError = CommonErrors;
+
 export const getPoolReference: API.OperationMethod<
   GetPoolReferenceRequest,
   GetPoolReferenceResponse,
-  CommonErrors,
+  GetPoolReferenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPoolReferenceRequest,
@@ -5399,10 +5459,12 @@ export const GetPreviewResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<GetPreviewResponse>;
 
+export type GetPreviewError = CommonErrors;
+
 export const getPreview: API.OperationMethod<
   GetPreviewRequest,
   GetPreviewResponse,
-  CommonErrors,
+  GetPreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPreviewRequest,
@@ -5464,10 +5526,12 @@ export const GetRegionResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<GetRegionResponse>;
 
+export type GetRegionError = CommonErrors;
+
 export const getRegion: API.OperationMethod<
   GetRegionRequest,
   GetRegionResponse,
-  CommonErrors,
+  GetRegionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRegionRequest,
@@ -5511,10 +5575,12 @@ export const ListRegionsResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<ListRegionsResponse>;
 
+export type ListRegionsError = CommonErrors;
+
 export const listRegions: API.OperationMethod<
   ListRegionsRequest,
   ListRegionsResponse,
-  CommonErrors,
+  ListRegionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRegionsRequest,
@@ -5586,10 +5652,12 @@ export const ListSearchesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListSearchesResponse>;
 
+export type ListSearchesError = CommonErrors;
+
 export const listSearches: API.OperationMethod<
   ListSearchesRequest,
   ListSearchesResponse,
-  CommonErrors,
+  ListSearchesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSearchesRequest,

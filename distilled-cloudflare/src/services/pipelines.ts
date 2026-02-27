@@ -119,10 +119,12 @@ export const GetPipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<GetPipelineResponse>;
 
+export type GetPipelineError = CommonErrors;
+
 export const getPipeline: API.OperationMethod<
   GetPipelineRequest,
   GetPipelineResponse,
-  CommonErrors,
+  GetPipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPipelineRequest,
@@ -261,10 +263,12 @@ export const ListPipelinesResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPipelinesResponse>;
 
+export type ListPipelinesError = CommonErrors;
+
 export const listPipelines: API.OperationMethod<
   ListPipelinesRequest,
   ListPipelinesResponse,
-  CommonErrors,
+  ListPipelinesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListPipelinesRequest,
@@ -448,10 +452,12 @@ export const CreatePipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<CreatePipelineResponse>;
 
+export type CreatePipelineError = CommonErrors;
+
 export const createPipeline: API.OperationMethod<
   CreatePipelineRequest,
   CreatePipelineResponse,
-  CommonErrors,
+  CreatePipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePipelineRequest,
@@ -642,10 +648,12 @@ export const UpdatePipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<UpdatePipelineResponse>;
 
+export type UpdatePipelineError = CommonErrors;
+
 export const updatePipeline: API.OperationMethod<
   UpdatePipelineRequest,
   UpdatePipelineResponse,
-  CommonErrors,
+  UpdatePipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdatePipelineRequest,
@@ -674,10 +682,12 @@ export type DeletePipelineResponse = unknown;
 export const DeletePipelineResponse =
   Schema.Unknown as unknown as Schema.Schema<DeletePipelineResponse>;
 
+export type DeletePipelineError = CommonErrors;
+
 export const deletePipeline: API.OperationMethod<
   DeletePipelineRequest,
   DeletePipelineResponse,
-  CommonErrors,
+  DeletePipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePipelineRequest,
@@ -1198,10 +1208,12 @@ export const GetSinkResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSinkResponse>;
 
+export type GetSinkError = CommonErrors;
+
 export const getSink: API.OperationMethod<
   GetSinkRequest,
   GetSinkResponse,
-  CommonErrors,
+  GetSinkError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSinkRequest,
@@ -1714,10 +1726,12 @@ export const ListSinksResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSinksResponse>;
 
+export type ListSinksError = CommonErrors;
+
 export const listSinks: API.OperationMethod<
   ListSinksRequest,
   ListSinksResponse,
-  CommonErrors,
+  ListSinksError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSinksRequest,
@@ -2700,10 +2714,12 @@ export const CreateSinkResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSinkResponse>;
 
+export type CreateSinkError = CommonErrors;
+
 export const createSink: API.OperationMethod<
   CreateSinkRequest,
   CreateSinkResponse,
-  CommonErrors,
+  CreateSinkError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSinkRequest,
@@ -2735,10 +2751,12 @@ export type DeleteSinkResponse = unknown;
 export const DeleteSinkResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteSinkResponse>;
 
+export type DeleteSinkError = CommonErrors;
+
 export const deleteSink: API.OperationMethod<
   DeleteSinkRequest,
   DeleteSinkResponse,
-  CommonErrors,
+  DeleteSinkError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSinkRequest,
@@ -2827,10 +2845,12 @@ export const ValidateSqlPipelineResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ValidateSqlPipelineResponse>;
 
+export type ValidateSqlPipelineError = CommonErrors;
+
 export const validateSqlPipeline: API.OperationMethod<
   ValidateSqlPipelineRequest,
   ValidateSqlPipelineResponse,
-  CommonErrors,
+  ValidateSqlPipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ValidateSqlPipelineRequest,
@@ -3256,10 +3276,12 @@ export const GetStreamResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetStreamResponse>;
 
+export type GetStreamError = CommonErrors;
+
 export const getStream: API.OperationMethod<
   GetStreamRequest,
   GetStreamResponse,
-  CommonErrors,
+  GetStreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetStreamRequest,
@@ -3680,10 +3702,12 @@ export const ListStreamsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListStreamsResponse>;
 
+export type ListStreamsError = CommonErrors;
+
 export const listStreams: API.OperationMethod<
   ListStreamsRequest,
   ListStreamsResponse,
-  CommonErrors,
+  ListStreamsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListStreamsRequest,
@@ -4484,10 +4508,12 @@ export const CreateStreamResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateStreamResponse>;
 
+export type CreateStreamError = CommonErrors;
+
 export const createStream: API.OperationMethod<
   CreateStreamRequest,
   CreateStreamResponse,
-  CommonErrors,
+  CreateStreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateStreamRequest,
@@ -4636,10 +4662,12 @@ export const PatchStreamResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchStreamResponse>;
 
+export type PatchStreamError = CommonErrors;
+
 export const patchStream: API.OperationMethod<
   PatchStreamRequest,
   PatchStreamResponse,
-  CommonErrors,
+  PatchStreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchStreamRequest,
@@ -4671,10 +4699,12 @@ export type DeleteStreamResponse = unknown;
 export const DeleteStreamResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteStreamResponse>;
 
+export type DeleteStreamError = CommonErrors;
+
 export const deleteStream: API.OperationMethod<
   DeleteStreamRequest,
   DeleteStreamResponse,
-  CommonErrors,
+  DeleteStreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteStreamRequest,
@@ -4751,10 +4781,12 @@ export const GetV1PipelineResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetV1PipelineResponse>;
 
+export type GetV1PipelineError = CommonErrors;
+
 export const getV1Pipeline: API.OperationMethod<
   GetV1PipelineRequest,
   GetV1PipelineResponse,
-  CommonErrors,
+  GetV1PipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetV1PipelineRequest,
@@ -4805,10 +4837,12 @@ export const ListV1PipelineResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListV1PipelineResponse>;
 
+export type ListV1PipelineError = CommonErrors;
+
 export const listV1Pipeline: API.OperationMethod<
   ListV1PipelineRequest,
   ListV1PipelineResponse,
-  CommonErrors,
+  ListV1PipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListV1PipelineRequest,
@@ -4867,10 +4901,12 @@ export const CreateV1PipelineResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateV1PipelineResponse>;
 
+export type CreateV1PipelineError = CommonErrors;
+
 export const createV1Pipeline: API.OperationMethod<
   CreateV1PipelineRequest,
   CreateV1PipelineResponse,
-  CommonErrors,
+  CreateV1PipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateV1PipelineRequest,
@@ -4899,10 +4935,12 @@ export type DeleteV1PipelineResponse = unknown;
 export const DeleteV1PipelineResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteV1PipelineResponse>;
 
+export type DeleteV1PipelineError = CommonErrors;
+
 export const deleteV1Pipeline: API.OperationMethod<
   DeleteV1PipelineRequest,
   DeleteV1PipelineResponse,
-  CommonErrors,
+  DeleteV1PipelineError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteV1PipelineRequest,

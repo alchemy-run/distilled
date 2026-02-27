@@ -81,10 +81,12 @@ export const GetHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetHostnameResponse>;
 
+export type GetHostnameError = CommonErrors;
+
 export const getHostname: API.OperationMethod<
   GetHostnameRequest,
   GetHostnameResponse,
-  CommonErrors,
+  GetHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHostnameRequest,
@@ -142,10 +144,12 @@ export const ListHostnamesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListHostnamesResponse>;
 
+export type ListHostnamesError = CommonErrors;
+
 export const listHostnames: API.OperationMethod<
   ListHostnamesRequest,
   ListHostnamesResponse,
-  CommonErrors,
+  ListHostnamesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListHostnamesRequest,
@@ -219,10 +223,12 @@ export const CreateHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateHostnameResponse>;
 
+export type CreateHostnameError = CommonErrors;
+
 export const createHostname: API.OperationMethod<
   CreateHostnameRequest,
   CreateHostnameResponse,
-  CommonErrors,
+  CreateHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateHostnameRequest,
@@ -295,10 +301,12 @@ export const PatchHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchHostnameResponse>;
 
+export type PatchHostnameError = CommonErrors;
+
 export const patchHostname: API.OperationMethod<
   PatchHostnameRequest,
   PatchHostnameResponse,
-  CommonErrors,
+  PatchHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchHostnameRequest,
@@ -331,10 +339,12 @@ export const DeleteHostnameResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteHostnameResponse>;
 
+export type DeleteHostnameError = CommonErrors;
+
 export const deleteHostname: API.OperationMethod<
   DeleteHostnameRequest,
   DeleteHostnameResponse,
-  CommonErrors,
+  DeleteHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteHostnameRequest,
@@ -371,10 +381,12 @@ export const GetHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
   action: Schema.optional(Schema.Literal("block")),
 }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListResponse>;
 
+export type GetHostnameIpfsUniversalPathContentListError = CommonErrors;
+
 export const getHostnameIpfsUniversalPathContentList: API.OperationMethod<
   GetHostnameIpfsUniversalPathContentListRequest,
   GetHostnameIpfsUniversalPathContentListResponse,
-  CommonErrors,
+  GetHostnameIpfsUniversalPathContentListError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHostnameIpfsUniversalPathContentListRequest,
@@ -423,10 +435,12 @@ export const PutHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
   action: Schema.optional(Schema.Literal("block")),
 }) as unknown as Schema.Schema<PutHostnameIpfsUniversalPathContentListResponse>;
 
+export type PutHostnameIpfsUniversalPathContentListError = CommonErrors;
+
 export const putHostnameIpfsUniversalPathContentList: API.OperationMethod<
   PutHostnameIpfsUniversalPathContentListRequest,
   PutHostnameIpfsUniversalPathContentListResponse,
-  CommonErrors,
+  PutHostnameIpfsUniversalPathContentListError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutHostnameIpfsUniversalPathContentListRequest,
@@ -491,10 +505,12 @@ export const GetHostnameIpfsUniversalPathContentListEntryResponse =
     }),
   ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
 
+export type GetHostnameIpfsUniversalPathContentListEntryError = CommonErrors;
+
 export const getHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   GetHostnameIpfsUniversalPathContentListEntryRequest,
   GetHostnameIpfsUniversalPathContentListEntryResponse,
-  CommonErrors,
+  GetHostnameIpfsUniversalPathContentListEntryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHostnameIpfsUniversalPathContentListEntryRequest,
@@ -556,10 +572,12 @@ export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
     ),
   }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
 
+export type ListHostnameIpfsUniversalPathContentListEntriesError = CommonErrors;
+
 export const listHostnameIpfsUniversalPathContentListEntries: API.OperationMethod<
   ListHostnameIpfsUniversalPathContentListEntriesRequest,
   ListHostnameIpfsUniversalPathContentListEntriesResponse,
-  CommonErrors,
+  ListHostnameIpfsUniversalPathContentListEntriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListHostnameIpfsUniversalPathContentListEntriesRequest,
@@ -625,10 +643,12 @@ export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
     }),
   ) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
 
+export type CreateHostnameIpfsUniversalPathContentListEntryError = CommonErrors;
+
 export const createHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   CreateHostnameIpfsUniversalPathContentListEntryRequest,
   CreateHostnameIpfsUniversalPathContentListEntryResponse,
-  CommonErrors,
+  CreateHostnameIpfsUniversalPathContentListEntryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateHostnameIpfsUniversalPathContentListEntryRequest,
@@ -698,10 +718,12 @@ export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
     }),
   ) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
 
+export type UpdateHostnameIpfsUniversalPathContentListEntryError = CommonErrors;
+
 export const updateHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   UpdateHostnameIpfsUniversalPathContentListEntryRequest,
   UpdateHostnameIpfsUniversalPathContentListEntryResponse,
-  CommonErrors,
+  UpdateHostnameIpfsUniversalPathContentListEntryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateHostnameIpfsUniversalPathContentListEntryRequest,
@@ -740,10 +762,12 @@ export const DeleteHostnameIpfsUniversalPathContentListEntryResponse =
     id: Schema.String,
   }) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryResponse>;
 
+export type DeleteHostnameIpfsUniversalPathContentListEntryError = CommonErrors;
+
 export const deleteHostnameIpfsUniversalPathContentListEntry: API.OperationMethod<
   DeleteHostnameIpfsUniversalPathContentListEntryRequest,
   DeleteHostnameIpfsUniversalPathContentListEntryResponse,
-  CommonErrors,
+  DeleteHostnameIpfsUniversalPathContentListEntryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteHostnameIpfsUniversalPathContentListEntryRequest,

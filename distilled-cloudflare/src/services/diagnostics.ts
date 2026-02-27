@@ -63,10 +63,12 @@ export const GetEndpointHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetEndpointHealthcheckResponse>;
 
+export type GetEndpointHealthcheckError = CommonErrors;
+
 export const getEndpointHealthcheck: API.OperationMethod<
   GetEndpointHealthcheckRequest,
   GetEndpointHealthcheckResponse,
-  CommonErrors,
+  GetEndpointHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEndpointHealthcheckRequest,
@@ -113,10 +115,12 @@ export const ListEndpointHealthchecksResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListEndpointHealthchecksResponse>;
 
+export type ListEndpointHealthchecksError = CommonErrors;
+
 export const listEndpointHealthchecks: API.OperationMethod<
   ListEndpointHealthchecksRequest,
   ListEndpointHealthchecksResponse,
-  CommonErrors,
+  ListEndpointHealthchecksError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListEndpointHealthchecksRequest,
@@ -177,10 +181,12 @@ export const CreateEndpointHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateEndpointHealthcheckResponse>;
 
+export type CreateEndpointHealthcheckError = CommonErrors;
+
 export const createEndpointHealthcheck: API.OperationMethod<
   CreateEndpointHealthcheckRequest,
   CreateEndpointHealthcheckResponse,
-  CommonErrors,
+  CreateEndpointHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateEndpointHealthcheckRequest,
@@ -243,10 +249,12 @@ export const UpdateEndpointHealthcheckResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateEndpointHealthcheckResponse>;
 
+export type UpdateEndpointHealthcheckError = CommonErrors;
+
 export const updateEndpointHealthcheck: API.OperationMethod<
   UpdateEndpointHealthcheckRequest,
   UpdateEndpointHealthcheckResponse,
-  CommonErrors,
+  UpdateEndpointHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateEndpointHealthcheckRequest,
@@ -329,10 +337,12 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteEndpointHealthcheckResponse>;
 
+export type DeleteEndpointHealthcheckError = CommonErrors;
+
 export const deleteEndpointHealthcheck: API.OperationMethod<
   DeleteEndpointHealthcheckRequest,
   DeleteEndpointHealthcheckResponse,
-  CommonErrors,
+  DeleteEndpointHealthcheckError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteEndpointHealthcheckRequest,
@@ -502,10 +512,12 @@ export const CreateTracerouteResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateTracerouteResponse>;
 
+export type CreateTracerouteError = CommonErrors;
+
 export const createTraceroute: API.OperationMethod<
   CreateTracerouteRequest,
   CreateTracerouteResponse,
-  CommonErrors,
+  CreateTracerouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTracerouteRequest,

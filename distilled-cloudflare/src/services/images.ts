@@ -63,10 +63,12 @@ export const GetV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<GetV1Response>;
 
+export type GetV1Error = CommonErrors;
+
 export const getV1: API.OperationMethod<
   GetV1Request,
   GetV1Response,
-  CommonErrors,
+  GetV1Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetV1Request,
@@ -120,10 +122,12 @@ export const ListV1sResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListV1sResponse>;
 
+export type ListV1sError = CommonErrors;
+
 export const listV1s: API.OperationMethod<
   ListV1sRequest,
   ListV1sResponse,
-  CommonErrors,
+  ListV1sError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListV1sRequest,
@@ -191,10 +195,12 @@ export const CreateV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<CreateV1Response>;
 
+export type CreateV1Error = CommonErrors;
+
 export const createV1: API.OperationMethod<
   CreateV1Request,
   CreateV1Response,
-  CommonErrors,
+  CreateV1Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateV1Request,
@@ -254,10 +260,12 @@ export const PatchV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<PatchV1Response>;
 
+export type PatchV1Error = CommonErrors;
+
 export const patchV1: API.OperationMethod<
   PatchV1Request,
   PatchV1Response,
-  CommonErrors,
+  PatchV1Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchV1Request,
@@ -286,10 +294,12 @@ export type DeleteV1Response = string;
 export const DeleteV1Response =
   Schema.String as unknown as Schema.Schema<DeleteV1Response>;
 
+export type DeleteV1Error = CommonErrors;
+
 export const deleteV1: API.OperationMethod<
   DeleteV1Request,
   DeleteV1Response,
-  CommonErrors,
+  DeleteV1Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteV1Request,
@@ -322,10 +332,12 @@ export type GetV1BlobResponse = unknown;
 export const GetV1BlobResponse =
   Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
 
+export type GetV1BlobError = CommonErrors;
+
 export const getV1Blob: API.OperationMethod<
   GetV1BlobRequest,
   GetV1BlobResponse,
-  CommonErrors,
+  GetV1BlobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetV1BlobRequest,
@@ -363,10 +375,12 @@ export const ListV1KeysResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListV1KeysResponse>;
 
+export type ListV1KeysError = CommonErrors;
+
 export const listV1Keys: API.OperationMethod<
   ListV1KeysRequest,
   ListV1KeysResponse,
-  CommonErrors,
+  ListV1KeysError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListV1KeysRequest,
@@ -405,10 +419,12 @@ export const PutV1KeyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PutV1KeyResponse>;
 
+export type PutV1KeyError = CommonErrors;
+
 export const putV1Key: API.OperationMethod<
   PutV1KeyRequest,
   PutV1KeyResponse,
-  CommonErrors,
+  PutV1KeyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutV1KeyRequest,
@@ -447,10 +463,12 @@ export const DeleteV1KeyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DeleteV1KeyResponse>;
 
+export type DeleteV1KeyError = CommonErrors;
+
 export const deleteV1Key: API.OperationMethod<
   DeleteV1KeyRequest,
   DeleteV1KeyResponse,
-  CommonErrors,
+  DeleteV1KeyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteV1KeyRequest,
@@ -486,10 +504,12 @@ export const GetV1StatResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetV1StatResponse>;
 
+export type GetV1StatError = CommonErrors;
+
 export const getV1Stat: API.OperationMethod<
   GetV1StatRequest,
   GetV1StatResponse,
-  CommonErrors,
+  GetV1StatError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetV1StatRequest,
@@ -545,10 +565,12 @@ export const GetV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetV1VariantResponse>;
 
+export type GetV1VariantError = CommonErrors;
+
 export const getV1Variant: API.OperationMethod<
   GetV1VariantRequest,
   GetV1VariantResponse,
-  CommonErrors,
+  GetV1VariantError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetV1VariantRequest,
@@ -591,10 +613,12 @@ export const ListV1VariantsResponse = Schema.Struct({
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ListV1VariantsResponse>;
 
+export type ListV1VariantsError = CommonErrors;
+
 export const listV1Variants: API.OperationMethod<
   ListV1VariantsRequest,
   ListV1VariantsResponse,
-  CommonErrors,
+  ListV1VariantsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListV1VariantsRequest,
@@ -660,10 +684,12 @@ export const CreateV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateV1VariantResponse>;
 
+export type CreateV1VariantError = CommonErrors;
+
 export const createV1Variant: API.OperationMethod<
   CreateV1VariantRequest,
   CreateV1VariantResponse,
-  CommonErrors,
+  CreateV1VariantError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateV1VariantRequest,
@@ -731,10 +757,12 @@ export const PatchV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PatchV1VariantResponse>;
 
+export type PatchV1VariantError = CommonErrors;
+
 export const patchV1Variant: API.OperationMethod<
   PatchV1VariantRequest,
   PatchV1VariantResponse,
-  CommonErrors,
+  PatchV1VariantError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchV1VariantRequest,
@@ -763,10 +791,12 @@ export type DeleteV1VariantResponse = string;
 export const DeleteV1VariantResponse =
   Schema.String as unknown as Schema.Schema<DeleteV1VariantResponse>;
 
+export type DeleteV1VariantError = CommonErrors;
+
 export const deleteV1Variant: API.OperationMethod<
   DeleteV1VariantRequest,
   DeleteV1VariantResponse,
-  CommonErrors,
+  DeleteV1VariantError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteV1VariantRequest,
@@ -825,10 +855,12 @@ export const ListV2sResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListV2sResponse>;
 
+export type ListV2sError = CommonErrors;
+
 export const listV2s: API.OperationMethod<
   ListV2sRequest,
   ListV2sResponse,
-  CommonErrors,
+  ListV2sError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListV2sRequest,
@@ -881,10 +913,12 @@ export const CreateV2DirectUploadResponse = Schema.Struct({
   uploadURL: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
 
+export type CreateV2DirectUploadError = CommonErrors;
+
 export const createV2DirectUpload: API.OperationMethod<
   CreateV2DirectUploadRequest,
   CreateV2DirectUploadResponse,
-  CommonErrors,
+  CreateV2DirectUploadError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateV2DirectUploadRequest,

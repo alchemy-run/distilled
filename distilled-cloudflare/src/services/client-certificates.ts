@@ -131,10 +131,12 @@ export const GetClientCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetClientCertificateResponse>;
 
+export type GetClientCertificateError = CommonErrors;
+
 export const getClientCertificate: API.OperationMethod<
   GetClientCertificateRequest,
   GetClientCertificateResponse,
-  CommonErrors,
+  GetClientCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetClientCertificateRequest,
@@ -252,10 +254,12 @@ export const ListClientCertificatesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListClientCertificatesResponse>;
 
+export type ListClientCertificatesError = CommonErrors;
+
 export const listClientCertificates: API.OperationMethod<
   ListClientCertificatesRequest,
   ListClientCertificatesResponse,
-  CommonErrors,
+  ListClientCertificatesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListClientCertificatesRequest,
@@ -374,10 +378,12 @@ export const CreateClientCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateClientCertificateResponse>;
 
+export type CreateClientCertificateError = CommonErrors;
+
 export const createClientCertificate: API.OperationMethod<
   CreateClientCertificateRequest,
   CreateClientCertificateResponse,
-  CommonErrors,
+  CreateClientCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateClientCertificateRequest,
@@ -497,10 +503,12 @@ export const PatchClientCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchClientCertificateResponse>;
 
+export type PatchClientCertificateError = CommonErrors;
+
 export const patchClientCertificate: API.OperationMethod<
   PatchClientCertificateRequest,
   PatchClientCertificateResponse,
-  CommonErrors,
+  PatchClientCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchClientCertificateRequest,
@@ -617,10 +625,12 @@ export const DeleteClientCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteClientCertificateResponse>;
 
+export type DeleteClientCertificateError = CommonErrors;
+
 export const deleteClientCertificate: API.OperationMethod<
   DeleteClientCertificateRequest,
   DeleteClientCertificateResponse,
-  CommonErrors,
+  DeleteClientCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteClientCertificateRequest,

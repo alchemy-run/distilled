@@ -159,10 +159,15 @@ export const GetAbuseReportResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAbuseReportResponse>;
 
+export type GetAbuseReportError =
+  | CommonErrors
+  | InvalidAccountId
+  | AbuseReportNotFound;
+
 export const getAbuseReport: API.OperationMethod<
   GetAbuseReportRequest,
   GetAbuseReportResponse,
-  CommonErrors | InvalidAccountId | AbuseReportNotFound,
+  GetAbuseReportError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAbuseReportRequest,
@@ -337,10 +342,12 @@ export const ListAbuseReportsResponse = Schema.Struct({
   ]),
 }) as unknown as Schema.Schema<ListAbuseReportsResponse>;
 
+export type ListAbuseReportsError = CommonErrors | InvalidAccountId;
+
 export const listAbuseReports: API.OperationMethod<
   ListAbuseReportsRequest,
   ListAbuseReportsResponse,
-  CommonErrors | InvalidAccountId,
+  ListAbuseReportsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAbuseReportsRequest,
@@ -455,10 +462,12 @@ export type CreateAbuseReportResponse = string;
 export const CreateAbuseReportResponse =
   Schema.String as unknown as Schema.Schema<CreateAbuseReportResponse>;
 
+export type CreateAbuseReportError = CommonErrors | InvalidRequest;
+
 export const createAbuseReport: API.OperationMethod<
   CreateAbuseReportRequest,
   CreateAbuseReportResponse,
-  CommonErrors | InvalidRequest,
+  CreateAbuseReportError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAbuseReportRequest,
@@ -600,10 +609,12 @@ export const ListMitigationsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListMitigationsResponse>;
 
+export type ListMitigationsError = CommonErrors;
+
 export const listMitigations: API.OperationMethod<
   ListMitigationsRequest,
   ListMitigationsResponse,
-  CommonErrors,
+  ListMitigationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListMitigationsRequest,
@@ -683,10 +694,12 @@ export const ReviewMitigationResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ReviewMitigationResponse>;
 
+export type ReviewMitigationError = CommonErrors;
+
 export const reviewMitigation: API.OperationMethod<
   ReviewMitigationRequest,
   ReviewMitigationResponse,
-  CommonErrors,
+  ReviewMitigationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ReviewMitigationRequest,

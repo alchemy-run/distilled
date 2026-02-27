@@ -56,10 +56,12 @@ export const GetFilterResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetFilterResponse>;
 
+export type GetFilterError = CommonErrors;
+
 export const getFilter: API.OperationMethod<
   GetFilterRequest,
   GetFilterResponse,
-  CommonErrors,
+  GetFilterError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetFilterRequest,
@@ -111,10 +113,12 @@ export const ListFiltersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListFiltersResponse>;
 
+export type ListFiltersError = CommonErrors;
+
 export const listFilters: API.OperationMethod<
   ListFiltersRequest,
   ListFiltersResponse,
-  CommonErrors,
+  ListFiltersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListFiltersRequest,
@@ -166,10 +170,12 @@ export const CreateFilterResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateFilterResponse>;
 
+export type CreateFilterError = CommonErrors;
+
 export const createFilter: API.OperationMethod<
   CreateFilterRequest,
   CreateFilterResponse,
-  CommonErrors,
+  CreateFilterError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFilterRequest,
@@ -223,10 +229,12 @@ export const PutFilterResponse = Schema.Struct({
   ref: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutFilterResponse>;
 
+export type PutFilterError = CommonErrors;
+
 export const putFilter: API.OperationMethod<
   PutFilterRequest,
   PutFilterResponse,
-  CommonErrors,
+  PutFilterError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutFilterRequest,
@@ -256,10 +264,12 @@ export const DeleteFilterResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteFilterResponse>;
 
+export type DeleteFilterError = CommonErrors;
+
 export const deleteFilter: API.OperationMethod<
   DeleteFilterRequest,
   DeleteFilterResponse,
-  CommonErrors,
+  DeleteFilterError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteFilterRequest,
@@ -311,10 +321,12 @@ export const BulkUpdateFiltersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkUpdateFiltersResponse>;
 
+export type BulkUpdateFiltersError = CommonErrors;
+
 export const bulkUpdateFilters: API.OperationMethod<
   BulkUpdateFiltersRequest,
   BulkUpdateFiltersResponse,
-  CommonErrors,
+  BulkUpdateFiltersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkUpdateFiltersRequest,
@@ -344,10 +356,12 @@ export const BulkDeleteFiltersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
 
+export type BulkDeleteFiltersError = CommonErrors;
+
 export const bulkDeleteFilters: API.OperationMethod<
   BulkDeleteFiltersRequest,
   BulkDeleteFiltersResponse,
-  CommonErrors,
+  BulkDeleteFiltersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteFiltersRequest,

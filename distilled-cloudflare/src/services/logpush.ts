@@ -103,10 +103,12 @@ export type GetDatasetFieldResponse = unknown;
 export const GetDatasetFieldResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
 
+export type GetDatasetFieldError = CommonErrors;
+
 export const getDatasetField: API.OperationMethod<
   GetDatasetFieldRequest,
   GetDatasetFieldResponse,
-  CommonErrors,
+  GetDatasetFieldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDatasetFieldRequest,
@@ -199,10 +201,12 @@ export type GetDatasetJobResponse = unknown;
 export const GetDatasetJobResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatasetJobResponse>;
 
+export type GetDatasetJobError = CommonErrors;
+
 export const getDatasetJob: API.OperationMethod<
   GetDatasetJobRequest,
   GetDatasetJobResponse,
-  CommonErrors,
+  GetDatasetJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDatasetJobRequest,
@@ -230,10 +234,12 @@ export type GetEdgeResponse = unknown;
 export const GetEdgeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetEdgeResponse>;
 
+export type GetEdgeError = CommonErrors;
+
 export const getEdge: API.OperationMethod<
   GetEdgeRequest,
   GetEdgeResponse,
-  CommonErrors,
+  GetEdgeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEdgeRequest,
@@ -290,10 +296,12 @@ export const CreateEdgeResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateEdgeResponse>;
 
+export type CreateEdgeError = CommonErrors;
+
 export const createEdge: API.OperationMethod<
   CreateEdgeRequest,
   CreateEdgeResponse,
-  CommonErrors,
+  CreateEdgeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateEdgeRequest,
@@ -334,10 +342,12 @@ export const DestinationExistsValidateResponse = Schema.Struct({
   exists: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
+export type DestinationExistsValidateError = CommonErrors;
+
 export const destinationExistsValidate: API.OperationMethod<
   DestinationExistsValidateRequest,
   DestinationExistsValidateResponse,
-  CommonErrors,
+  DestinationExistsValidateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DestinationExistsValidateRequest,
@@ -568,10 +578,12 @@ export const GetJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetJobResponse>;
 
+export type GetJobError = CommonErrors;
+
 export const getJob: API.OperationMethod<
   GetJobRequest,
   GetJobResponse,
-  CommonErrors,
+  GetJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetJobRequest,
@@ -593,10 +605,12 @@ export type ListJobsResponse = unknown;
 export const ListJobsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListJobsResponse>;
 
+export type ListJobsError = CommonErrors;
+
 export const listJobs: API.OperationMethod<
   ListJobsRequest,
   ListJobsResponse,
-  CommonErrors,
+  ListJobsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListJobsRequest,
@@ -1018,10 +1032,12 @@ export const CreateJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateJobResponse>;
 
+export type CreateJobError = CommonErrors;
+
 export const createJob: API.OperationMethod<
   CreateJobRequest,
   CreateJobResponse,
-  CommonErrors,
+  CreateJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateJobRequest,
@@ -1376,10 +1392,12 @@ export const UpdateJobResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateJobResponse>;
 
+export type UpdateJobError = CommonErrors;
+
 export const updateJob: API.OperationMethod<
   UpdateJobRequest,
   UpdateJobResponse,
-  CommonErrors,
+  UpdateJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateJobRequest,
@@ -1409,10 +1427,12 @@ export const DeleteJobResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteJobResponse>;
 
+export type DeleteJobError = CommonErrors;
+
 export const deleteJob: API.OperationMethod<
   DeleteJobRequest,
   DeleteJobResponse,
-  CommonErrors,
+  DeleteJobError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteJobRequest,
@@ -1457,10 +1477,12 @@ export const CreateOwnershipResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
+export type CreateOwnershipError = CommonErrors;
+
 export const createOwnership: API.OperationMethod<
   CreateOwnershipRequest,
   CreateOwnershipResponse,
-  CommonErrors,
+  CreateOwnershipError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateOwnershipRequest,
@@ -1503,10 +1525,12 @@ export const ValidateOwnershipResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
+export type ValidateOwnershipError = CommonErrors;
+
 export const validateOwnership: API.OperationMethod<
   ValidateOwnershipRequest,
   ValidateOwnershipResponse,
-  CommonErrors,
+  ValidateOwnershipError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ValidateOwnershipRequest,
@@ -1549,10 +1573,12 @@ export const DestinationValidateResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DestinationValidateResponse>;
 
+export type DestinationValidateError = CommonErrors;
+
 export const destinationValidate: API.OperationMethod<
   DestinationValidateRequest,
   DestinationValidateResponse,
-  CommonErrors,
+  DestinationValidateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DestinationValidateRequest,
@@ -1591,10 +1617,12 @@ export const OriginValidateResponse = Schema.Struct({
   valid: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<OriginValidateResponse>;
 
+export type OriginValidateError = CommonErrors;
+
 export const originValidate: API.OperationMethod<
   OriginValidateRequest,
   OriginValidateResponse,
-  CommonErrors,
+  OriginValidateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: OriginValidateRequest,

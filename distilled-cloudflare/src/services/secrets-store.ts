@@ -44,10 +44,12 @@ export const GetQuotaResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetQuotaResponse>;
 
+export type GetQuotaError = CommonErrors;
+
 export const getQuota: API.OperationMethod<
   GetQuotaRequest,
   GetQuotaResponse,
-  CommonErrors,
+  GetQuotaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetQuotaRequest,
@@ -99,10 +101,12 @@ export const ListStoresResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListStoresResponse>;
 
+export type ListStoresError = CommonErrors;
+
 export const listStores: API.OperationMethod<
   ListStoresRequest,
   ListStoresResponse,
-  CommonErrors,
+  ListStoresError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListStoresRequest,
@@ -147,10 +151,12 @@ export const CreateStoreResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateStoreResponse>;
 
+export type CreateStoreError = CommonErrors;
+
 export const createStore: API.OperationMethod<
   CreateStoreRequest,
   CreateStoreResponse,
-  CommonErrors,
+  CreateStoreError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateStoreRequest,
@@ -192,10 +198,12 @@ export const DeleteStoreResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<DeleteStoreResponse>;
 
+export type DeleteStoreError = CommonErrors;
+
 export const deleteStore: API.OperationMethod<
   DeleteStoreRequest,
   DeleteStoreResponse,
-  CommonErrors,
+  DeleteStoreError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteStoreRequest,
@@ -261,10 +269,12 @@ export const GetStoreSecretResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetStoreSecretResponse>;
 
+export type GetStoreSecretError = CommonErrors;
+
 export const getStoreSecret: API.OperationMethod<
   GetStoreSecretRequest,
   GetStoreSecretResponse,
-  CommonErrors,
+  GetStoreSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetStoreSecretRequest,
@@ -338,10 +348,12 @@ export const ListStoreSecretsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListStoreSecretsResponse>;
 
+export type ListStoreSecretsError = CommonErrors;
+
 export const listStoreSecrets: API.OperationMethod<
   ListStoreSecretsRequest,
   ListStoreSecretsResponse,
-  CommonErrors,
+  ListStoreSecretsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListStoreSecretsRequest,
@@ -407,10 +419,12 @@ export const CreateStoreSecretResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateStoreSecretResponse>;
 
+export type CreateStoreSecretError = CommonErrors;
+
 export const createStoreSecret: API.OperationMethod<
   CreateStoreSecretRequest,
   CreateStoreSecretResponse,
-  CommonErrors,
+  CreateStoreSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateStoreSecretRequest,
@@ -478,10 +492,12 @@ export const PatchStoreSecretResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchStoreSecretResponse>;
 
+export type PatchStoreSecretError = CommonErrors;
+
 export const patchStoreSecret: API.OperationMethod<
   PatchStoreSecretRequest,
   PatchStoreSecretResponse,
-  CommonErrors,
+  PatchStoreSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchStoreSecretRequest,
@@ -543,10 +559,12 @@ export const DeleteStoreSecretResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
 
+export type DeleteStoreSecretError = CommonErrors;
+
 export const deleteStoreSecret: API.OperationMethod<
   DeleteStoreSecretRequest,
   DeleteStoreSecretResponse,
-  CommonErrors,
+  DeleteStoreSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteStoreSecretRequest,
@@ -602,10 +620,12 @@ export const BulkDeleteStoreSecretsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkDeleteStoreSecretsResponse>;
 
+export type BulkDeleteStoreSecretsError = CommonErrors;
+
 export const bulkDeleteStoreSecrets: API.OperationMethod<
   BulkDeleteStoreSecretsRequest,
   BulkDeleteStoreSecretsResponse,
-  CommonErrors,
+  BulkDeleteStoreSecretsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteStoreSecretsRequest,
@@ -676,10 +696,12 @@ export const DuplicateStoreSecretResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;
 
+export type DuplicateStoreSecretError = CommonErrors;
+
 export const duplicateStoreSecret: API.OperationMethod<
   DuplicateStoreSecretRequest,
   DuplicateStoreSecretResponse,
-  CommonErrors,
+  DuplicateStoreSecretError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DuplicateStoreSecretRequest,

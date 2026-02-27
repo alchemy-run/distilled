@@ -74,10 +74,15 @@ export const GetSmartRoutingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSmartRoutingResponse>;
 
+export type GetSmartRoutingError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotAuthorized;
+
 export const getSmartRouting: API.OperationMethod<
   GetSmartRoutingRequest,
   GetSmartRoutingResponse,
-  CommonErrors | InvalidObjectIdentifier | NotAuthorized,
+  GetSmartRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSmartRoutingRequest,
@@ -124,10 +129,15 @@ export const PatchSmartRoutingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
 
+export type PatchSmartRoutingError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotAuthorized;
+
 export const patchSmartRouting: API.OperationMethod<
   PatchSmartRoutingRequest,
   PatchSmartRoutingResponse,
-  CommonErrors | InvalidObjectIdentifier | NotAuthorized,
+  PatchSmartRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSmartRoutingRequest,
@@ -175,10 +185,12 @@ export const GetTieredCachingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetTieredCachingResponse>;
 
+export type GetTieredCachingError = CommonErrors | InvalidObjectIdentifier;
+
 export const getTieredCaching: API.OperationMethod<
   GetTieredCachingRequest,
   GetTieredCachingResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  GetTieredCachingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTieredCachingRequest,
@@ -225,10 +237,12 @@ export const PatchTieredCachingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchTieredCachingResponse>;
 
+export type PatchTieredCachingError = CommonErrors | InvalidObjectIdentifier;
+
 export const patchTieredCaching: API.OperationMethod<
   PatchTieredCachingRequest,
   PatchTieredCachingResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  PatchTieredCachingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchTieredCachingRequest,

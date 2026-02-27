@@ -783,10 +783,12 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DiscoverAllCloudIntegrationResponse>;
 
+export type DiscoverAllCloudIntegrationError = CommonErrors;
+
 export const discoverAllCloudIntegration: API.OperationMethod<
   DiscoverAllCloudIntegrationRequest,
   DiscoverAllCloudIntegrationResponse,
-  CommonErrors,
+  DiscoverAllCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DiscoverAllCloudIntegrationRequest,
@@ -858,10 +860,12 @@ export const GetCatalogSyncResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCatalogSyncResponse>;
 
+export type GetCatalogSyncError = CommonErrors;
+
 export const getCatalogSync: API.OperationMethod<
   GetCatalogSyncRequest,
   GetCatalogSyncResponse,
-  CommonErrors,
+  GetCatalogSyncError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCatalogSyncRequest,
@@ -929,10 +933,12 @@ export const ListCatalogSyncsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCatalogSyncsResponse>;
 
+export type ListCatalogSyncsError = CommonErrors;
+
 export const listCatalogSyncs: API.OperationMethod<
   ListCatalogSyncsRequest,
   ListCatalogSyncsResponse,
-  CommonErrors,
+  ListCatalogSyncsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCatalogSyncsRequest,
@@ -1024,10 +1030,12 @@ export const CreateCatalogSyncResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateCatalogSyncResponse>;
 
+export type CreateCatalogSyncError = CommonErrors;
+
 export const createCatalogSync: API.OperationMethod<
   CreateCatalogSyncRequest,
   CreateCatalogSyncResponse,
-  CommonErrors,
+  CreateCatalogSyncError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCatalogSyncRequest,
@@ -1114,10 +1122,12 @@ export const UpdateCatalogSyncResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateCatalogSyncResponse>;
 
+export type UpdateCatalogSyncError = CommonErrors;
+
 export const updateCatalogSync: API.OperationMethod<
   UpdateCatalogSyncRequest,
   UpdateCatalogSyncResponse,
-  CommonErrors,
+  UpdateCatalogSyncError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateCatalogSyncRequest,
@@ -1204,10 +1214,12 @@ export const PatchCatalogSyncResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchCatalogSyncResponse>;
 
+export type PatchCatalogSyncError = CommonErrors;
+
 export const patchCatalogSync: API.OperationMethod<
   PatchCatalogSyncRequest,
   PatchCatalogSyncResponse,
-  CommonErrors,
+  PatchCatalogSyncError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchCatalogSyncRequest,
@@ -1244,10 +1256,12 @@ export const DeleteCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteCatalogSyncResponse>;
 
+export type DeleteCatalogSyncError = CommonErrors;
+
 export const deleteCatalogSync: API.OperationMethod<
   DeleteCatalogSyncRequest,
   DeleteCatalogSyncResponse,
-  CommonErrors,
+  DeleteCatalogSyncError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteCatalogSyncRequest,
@@ -1275,10 +1289,12 @@ export type RefreshCatalogSyncResponse = string;
 export const RefreshCatalogSyncResponse =
   Schema.String as unknown as Schema.Schema<RefreshCatalogSyncResponse>;
 
+export type RefreshCatalogSyncError = CommonErrors;
+
 export const refreshCatalogSync: API.OperationMethod<
   RefreshCatalogSyncRequest,
   RefreshCatalogSyncResponse,
-  CommonErrors,
+  RefreshCatalogSyncError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RefreshCatalogSyncRequest,
@@ -1334,10 +1350,12 @@ export const ListCatalogSyncPrebuiltPoliciesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCatalogSyncPrebuiltPoliciesResponse>;
 
+export type ListCatalogSyncPrebuiltPoliciesError = CommonErrors;
+
 export const listCatalogSyncPrebuiltPolicies: API.OperationMethod<
   ListCatalogSyncPrebuiltPoliciesRequest,
   ListCatalogSyncPrebuiltPoliciesResponse,
-  CommonErrors,
+  ListCatalogSyncPrebuiltPoliciesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCatalogSyncPrebuiltPoliciesRequest,
@@ -1534,10 +1552,12 @@ export const GetCloudIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCloudIntegrationResponse>;
 
+export type GetCloudIntegrationError = CommonErrors;
+
 export const getCloudIntegration: API.OperationMethod<
   GetCloudIntegrationRequest,
   GetCloudIntegrationResponse,
-  CommonErrors,
+  GetCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCloudIntegrationRequest,
@@ -1739,10 +1759,12 @@ export const ListCloudIntegrationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListCloudIntegrationsResponse>;
 
+export type ListCloudIntegrationsError = CommonErrors;
+
 export const listCloudIntegrations: API.OperationMethod<
   ListCloudIntegrationsRequest,
   ListCloudIntegrationsResponse,
-  CommonErrors,
+  ListCloudIntegrationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCloudIntegrationsRequest,
@@ -1947,10 +1969,12 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateCloudIntegrationResponse>;
 
+export type CreateCloudIntegrationError = CommonErrors;
+
 export const createCloudIntegration: API.OperationMethod<
   CreateCloudIntegrationRequest,
   CreateCloudIntegrationResponse,
-  CommonErrors,
+  CreateCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCloudIntegrationRequest,
@@ -2170,10 +2194,12 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateCloudIntegrationResponse>;
 
+export type UpdateCloudIntegrationError = CommonErrors;
+
 export const updateCloudIntegration: API.OperationMethod<
   UpdateCloudIntegrationRequest,
   UpdateCloudIntegrationResponse,
-  CommonErrors,
+  UpdateCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateCloudIntegrationRequest,
@@ -2393,10 +2419,12 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchCloudIntegrationResponse>;
 
+export type PatchCloudIntegrationError = CommonErrors;
+
 export const patchCloudIntegration: API.OperationMethod<
   PatchCloudIntegrationRequest,
   PatchCloudIntegrationResponse,
-  CommonErrors,
+  PatchCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchCloudIntegrationRequest,
@@ -2427,10 +2455,12 @@ export const DeleteCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteCloudIntegrationResponse>;
 
+export type DeleteCloudIntegrationError = CommonErrors;
+
 export const deleteCloudIntegration: API.OperationMethod<
   DeleteCloudIntegrationRequest,
   DeleteCloudIntegrationResponse,
-  CommonErrors,
+  DeleteCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteCloudIntegrationRequest,
@@ -3205,10 +3235,12 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DiscoverCloudIntegrationResponse>;
 
+export type DiscoverCloudIntegrationError = CommonErrors;
+
 export const discoverCloudIntegration: API.OperationMethod<
   DiscoverCloudIntegrationRequest,
   DiscoverCloudIntegrationResponse,
-  CommonErrors,
+  DiscoverCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DiscoverCloudIntegrationRequest,
@@ -3636,10 +3668,12 @@ export const GetOnRampResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOnRampResponse>;
 
+export type GetOnRampError = CommonErrors;
+
 export const getOnRamp: API.OperationMethod<
   GetOnRampRequest,
   GetOnRampResponse,
-  CommonErrors,
+  GetOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOnRampRequest,
@@ -4063,10 +4097,12 @@ export const ListOnRampsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListOnRampsResponse>;
 
+export type ListOnRampsError = CommonErrors;
+
 export const listOnRamps: API.OperationMethod<
   ListOnRampsRequest,
   ListOnRampsResponse,
-  CommonErrors,
+  ListOnRampsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListOnRampsRequest,
@@ -4541,10 +4577,12 @@ export const CreateOnRampResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateOnRampResponse>;
 
+export type CreateOnRampError = CommonErrors;
+
 export const createOnRamp: API.OperationMethod<
   CreateOnRampRequest,
   CreateOnRampResponse,
-  CommonErrors,
+  CreateOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateOnRampRequest,
@@ -4990,10 +5028,12 @@ export const UpdateOnRampResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateOnRampResponse>;
 
+export type UpdateOnRampError = CommonErrors;
+
 export const updateOnRamp: API.OperationMethod<
   UpdateOnRampRequest,
   UpdateOnRampResponse,
-  CommonErrors,
+  UpdateOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateOnRampRequest,
@@ -5439,10 +5479,12 @@ export const PatchOnRampResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchOnRampResponse>;
 
+export type PatchOnRampError = CommonErrors;
+
 export const patchOnRamp: API.OperationMethod<
   PatchOnRampRequest,
   PatchOnRampResponse,
-  CommonErrors,
+  PatchOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchOnRampRequest,
@@ -5480,10 +5522,12 @@ export const DeleteOnRampResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteOnRampResponse>;
 
+export type DeleteOnRampError = CommonErrors;
+
 export const deleteOnRamp: API.OperationMethod<
   DeleteOnRampRequest,
   DeleteOnRampResponse,
-  CommonErrors,
+  DeleteOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteOnRampRequest,
@@ -6254,10 +6298,12 @@ export const ApplyOnRampResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<ApplyOnRampResponse>;
 
+export type ApplyOnRampError = CommonErrors;
+
 export const applyOnRamp: API.OperationMethod<
   ApplyOnRampRequest,
   ApplyOnRampResponse,
-  CommonErrors,
+  ApplyOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ApplyOnRampRequest,
@@ -6285,10 +6331,12 @@ export type ExportOnRampResponse = unknown;
 export const ExportOnRampResponse =
   Schema.Unknown as unknown as Schema.Schema<ExportOnRampResponse>;
 
+export type ExportOnRampError = CommonErrors;
+
 export const exportOnRamp: API.OperationMethod<
   ExportOnRampRequest,
   ExportOnRampResponse,
-  CommonErrors,
+  ExportOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ExportOnRampRequest,
@@ -7059,10 +7107,12 @@ export const PlanOnRampResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<PlanOnRampResponse>;
 
+export type PlanOnRampError = CommonErrors;
+
 export const planOnRamp: API.OperationMethod<
   PlanOnRampRequest,
   PlanOnRampResponse,
-  CommonErrors,
+  PlanOnRampError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PlanOnRampRequest,
@@ -7095,10 +7145,12 @@ export const ListOnRampAddressSpacesResponse = Schema.Struct({
   prefixes: Schema.Array(Schema.String),
 }) as unknown as Schema.Schema<ListOnRampAddressSpacesResponse>;
 
+export type ListOnRampAddressSpacesError = CommonErrors;
+
 export const listOnRampAddressSpaces: API.OperationMethod<
   ListOnRampAddressSpacesRequest,
   ListOnRampAddressSpacesResponse,
-  CommonErrors,
+  ListOnRampAddressSpacesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListOnRampAddressSpacesRequest,
@@ -7131,10 +7183,12 @@ export const PutOnRampAddressSpaceResponse = Schema.Struct({
   prefixes: Schema.Array(Schema.String),
 }) as unknown as Schema.Schema<PutOnRampAddressSpaceResponse>;
 
+export type PutOnRampAddressSpaceError = CommonErrors;
+
 export const putOnRampAddressSpace: API.OperationMethod<
   PutOnRampAddressSpaceRequest,
   PutOnRampAddressSpaceResponse,
-  CommonErrors,
+  PutOnRampAddressSpaceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutOnRampAddressSpaceRequest,
@@ -7167,10 +7221,12 @@ export const PatchOnRampAddressSpaceResponse = Schema.Struct({
   prefixes: Schema.Array(Schema.String),
 }) as unknown as Schema.Schema<PatchOnRampAddressSpaceResponse>;
 
+export type PatchOnRampAddressSpaceError = CommonErrors;
+
 export const patchOnRampAddressSpace: API.OperationMethod<
   PatchOnRampAddressSpaceRequest,
   PatchOnRampAddressSpaceResponse,
-  CommonErrors,
+  PatchOnRampAddressSpaceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchOnRampAddressSpaceRequest,
@@ -7204,10 +7260,12 @@ export type PolicyPreviewResourceResponse = string;
 export const PolicyPreviewResourceResponse =
   Schema.String as unknown as Schema.Schema<PolicyPreviewResourceResponse>;
 
+export type PolicyPreviewResourceError = CommonErrors;
+
 export const policyPreviewResource: API.OperationMethod<
   PolicyPreviewResourceRequest,
   PolicyPreviewResourceResponse,
-  CommonErrors,
+  PolicyPreviewResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PolicyPreviewResourceRequest,
@@ -8145,10 +8203,12 @@ export const GetResourceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetResourceResponse>;
 
+export type GetResourceError = CommonErrors;
+
 export const getResource: API.OperationMethod<
   GetResourceRequest,
   GetResourceResponse,
-  CommonErrors,
+  GetResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetResourceRequest,
@@ -9066,10 +9126,12 @@ export const ListResourcesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListResourcesResponse>;
 
+export type ListResourcesError = CommonErrors;
+
 export const listResources: API.OperationMethod<
   ListResourcesRequest,
   ListResourcesResponse,
-  CommonErrors,
+  ListResourcesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListResourcesRequest,
@@ -9249,10 +9311,12 @@ export type ExportResourceResponse = unknown;
 export const ExportResourceResponse =
   Schema.Unknown as unknown as Schema.Schema<ExportResourceResponse>;
 
+export type ExportResourceError = CommonErrors;
+
 export const exportResource: API.OperationMethod<
   ExportResourceRequest,
   ExportResourceResponse,
-  CommonErrors,
+  ExportResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ExportResourceRequest,
@@ -9325,10 +9389,12 @@ export const InitialSetupCloudIntegrationResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<InitialSetupCloudIntegrationResponse>;
 
+export type InitialSetupCloudIntegrationError = CommonErrors;
+
 export const initialSetupCloudIntegration: API.OperationMethod<
   InitialSetupCloudIntegrationRequest,
   InitialSetupCloudIntegrationResponse,
-  CommonErrors,
+  InitialSetupCloudIntegrationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: InitialSetupCloudIntegrationRequest,

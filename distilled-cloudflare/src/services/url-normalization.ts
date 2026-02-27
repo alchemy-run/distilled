@@ -45,10 +45,12 @@ export const GetURLNormalizationResponse = Schema.Struct({
   type: Schema.Literals(["cloudflare", "rfc3986"]),
 }) as unknown as Schema.Schema<GetURLNormalizationResponse>;
 
+export type GetURLNormalizationError = CommonErrors;
+
 export const getURLNormalization: API.OperationMethod<
   GetURLNormalizationRequest,
   GetURLNormalizationResponse,
-  CommonErrors,
+  GetURLNormalizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetURLNormalizationRequest,
@@ -85,10 +87,12 @@ export const PutURLNormalizationResponse = Schema.Struct({
   type: Schema.Literals(["cloudflare", "rfc3986"]),
 }) as unknown as Schema.Schema<PutURLNormalizationResponse>;
 
+export type PutURLNormalizationError = CommonErrors;
+
 export const putURLNormalization: API.OperationMethod<
   PutURLNormalizationRequest,
   PutURLNormalizationResponse,
-  CommonErrors,
+  PutURLNormalizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutURLNormalizationRequest,
@@ -112,10 +116,12 @@ export type DeleteURLNormalizationResponse = unknown;
 export const DeleteURLNormalizationResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteURLNormalizationResponse>;
 
+export type DeleteURLNormalizationError = CommonErrors;
+
 export const deleteURLNormalization: API.OperationMethod<
   DeleteURLNormalizationRequest,
   DeleteURLNormalizationResponse,
-  CommonErrors,
+  DeleteURLNormalizationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteURLNormalizationRequest,

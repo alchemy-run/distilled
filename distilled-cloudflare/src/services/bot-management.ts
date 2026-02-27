@@ -199,10 +199,12 @@ export const GetBotManagementResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetBotManagementResponse>;
 
+export type GetBotManagementError = CommonErrors;
+
 export const getBotManagement: API.OperationMethod<
   GetBotManagementRequest,
   GetBotManagementResponse,
-  CommonErrors,
+  GetBotManagementError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBotManagementRequest,
@@ -415,10 +417,12 @@ export const PutBotManagementResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<PutBotManagementResponse>;
 
+export type PutBotManagementError = CommonErrors;
+
 export const putBotManagement: API.OperationMethod<
   PutBotManagementRequest,
   PutBotManagementResponse,
-  CommonErrors,
+  PutBotManagementError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBotManagementRequest,

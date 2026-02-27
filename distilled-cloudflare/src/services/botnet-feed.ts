@@ -44,10 +44,12 @@ export const GetConfigAsnResponse = Schema.Struct({
   asn: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetConfigAsnResponse>;
 
+export type GetConfigAsnError = CommonErrors;
+
 export const getConfigAsn: API.OperationMethod<
   GetConfigAsnRequest,
   GetConfigAsnResponse,
-  CommonErrors,
+  GetConfigAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConfigAsnRequest,
@@ -79,10 +81,12 @@ export const DeleteConfigAsnResponse = Schema.Struct({
   asn: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
 
+export type DeleteConfigAsnError = CommonErrors;
+
 export const deleteConfigAsn: API.OperationMethod<
   DeleteConfigAsnRequest,
   DeleteConfigAsnResponse,
-  CommonErrors,
+  DeleteConfigAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteConfigAsnRequest,
@@ -131,10 +135,12 @@ export const DayReportAsnResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DayReportAsnResponse>;
 
+export type DayReportAsnError = CommonErrors;
+
 export const dayReportAsn: API.OperationMethod<
   DayReportAsnRequest,
   DayReportAsnResponse,
-  CommonErrors,
+  DayReportAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DayReportAsnRequest,
@@ -176,10 +182,12 @@ export const FullReportAsnResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<FullReportAsnResponse>;
 
+export type FullReportAsnError = CommonErrors;
+
 export const fullReportAsn: API.OperationMethod<
   FullReportAsnRequest,
   FullReportAsnResponse,
-  CommonErrors,
+  FullReportAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: FullReportAsnRequest,

@@ -111,10 +111,12 @@ export const GetAnalyticReportResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAnalyticReportResponse>;
 
+export type GetAnalyticReportError = CommonErrors;
+
 export const getAnalyticReport: API.OperationMethod<
   GetAnalyticReportRequest,
   GetAnalyticReportResponse,
-  CommonErrors,
+  GetAnalyticReportError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticReportRequest,
@@ -282,10 +284,12 @@ export const GetAnalyticReportBytimeResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
 
+export type GetAnalyticReportBytimeError = CommonErrors;
+
 export const getAnalyticReportBytime: API.OperationMethod<
   GetAnalyticReportBytimeRequest,
   GetAnalyticReportBytimeResponse,
-  CommonErrors,
+  GetAnalyticReportBytimeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticReportBytimeRequest,
@@ -381,10 +385,12 @@ export const GetDnssecResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDnssecResponse>;
 
+export type GetDnssecError = CommonErrors;
+
 export const getDnssec: API.OperationMethod<
   GetDnssecRequest,
   GetDnssecResponse,
-  CommonErrors,
+  GetDnssecError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDnssecRequest,
@@ -494,10 +500,12 @@ export const PatchDnssecResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchDnssecResponse>;
 
+export type PatchDnssecError = CommonErrors;
+
 export const patchDnssec: API.OperationMethod<
   PatchDnssecRequest,
   PatchDnssecResponse,
-  CommonErrors,
+  PatchDnssecError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDnssecRequest,
@@ -521,10 +529,12 @@ export type DeleteDnssecResponse = string;
 export const DeleteDnssecResponse =
   Schema.String as unknown as Schema.Schema<DeleteDnssecResponse>;
 
+export type DeleteDnssecError = CommonErrors;
+
 export const deleteDnssec: API.OperationMethod<
   DeleteDnssecRequest,
   DeleteDnssecResponse,
-  CommonErrors,
+  DeleteDnssecError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDnssecRequest,
@@ -640,10 +650,12 @@ export const ScanListRecordResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ScanListRecordResponse>;
 
+export type ScanListRecordError = CommonErrors;
+
 export const scanListRecord: API.OperationMethod<
   ScanListRecordRequest,
   ScanListRecordResponse,
-  CommonErrors,
+  ScanListRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ScanListRecordRequest,
@@ -677,10 +689,12 @@ export type ForceNotifyZoneTransferOutgoingResponse = string;
 export const ForceNotifyZoneTransferOutgoingResponse =
   Schema.String as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingResponse>;
 
+export type ForceNotifyZoneTransferOutgoingError = CommonErrors;
+
 export const forceNotifyZoneTransferOutgoing: API.OperationMethod<
   ForceNotifyZoneTransferOutgoingRequest,
   ForceNotifyZoneTransferOutgoingResponse,
-  CommonErrors,
+  ForceNotifyZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ForceNotifyZoneTransferOutgoingRequest,
@@ -795,10 +809,12 @@ export const GetRecordResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetRecordResponse>;
 
+export type GetRecordError = CommonErrors;
+
 export const getRecord: API.OperationMethod<
   GetRecordRequest,
   GetRecordResponse,
-  CommonErrors,
+  GetRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRecordRequest,
@@ -1052,10 +1068,12 @@ export const ListRecordsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListRecordsResponse>;
 
+export type ListRecordsError = CommonErrors;
+
 export const listRecords: API.OperationMethod<
   ListRecordsRequest,
   ListRecordsResponse,
-  CommonErrors,
+  ListRecordsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRecordsRequest,
@@ -1195,10 +1213,12 @@ export const CreateRecordResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<CreateRecordResponse>;
 
+export type CreateRecordError = CommonErrors;
+
 export const createRecord: API.OperationMethod<
   CreateRecordRequest,
   CreateRecordResponse,
-  CommonErrors,
+  CreateRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRecordRequest,
@@ -1340,10 +1360,12 @@ export const UpdateRecordResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<UpdateRecordResponse>;
 
+export type UpdateRecordError = CommonErrors;
+
 export const updateRecord: API.OperationMethod<
   UpdateRecordRequest,
   UpdateRecordResponse,
-  CommonErrors,
+  UpdateRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRecordRequest,
@@ -1488,10 +1510,12 @@ export const PatchRecordResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<PatchRecordResponse>;
 
+export type PatchRecordError = CommonErrors;
+
 export const patchRecord: API.OperationMethod<
   PatchRecordRequest,
   PatchRecordResponse,
-  CommonErrors,
+  PatchRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchRecordRequest,
@@ -1524,10 +1548,12 @@ export const DeleteRecordResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRecordResponse>;
 
+export type DeleteRecordError = CommonErrors;
+
 export const deleteRecord: API.OperationMethod<
   DeleteRecordRequest,
   DeleteRecordResponse,
-  CommonErrors,
+  DeleteRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRecordRequest,
@@ -5033,10 +5059,12 @@ export const BatchRecordResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BatchRecordResponse>;
 
+export type BatchRecordError = CommonErrors;
+
 export const batchRecord: API.OperationMethod<
   BatchRecordRequest,
   BatchRecordResponse,
-  CommonErrors,
+  BatchRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BatchRecordRequest,
@@ -5060,10 +5088,12 @@ export type ExportRecordResponse = unknown;
 export const ExportRecordResponse =
   Schema.Unknown as unknown as Schema.Schema<ExportRecordResponse>;
 
+export type ExportRecordError = CommonErrors;
+
 export const exportRecord: API.OperationMethod<
   ExportRecordRequest,
   ExportRecordResponse,
-  CommonErrors,
+  ExportRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ExportRecordRequest,
@@ -5105,10 +5135,12 @@ export const ImportRecordResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ImportRecordResponse>;
 
+export type ImportRecordError = CommonErrors;
+
 export const importRecord: API.OperationMethod<
   ImportRecordRequest,
   ImportRecordResponse,
-  CommonErrors,
+  ImportRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ImportRecordRequest,
@@ -5147,10 +5179,12 @@ export const ScanRecordResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ScanRecordResponse>;
 
+export type ScanRecordError = CommonErrors;
+
 export const scanRecord: API.OperationMethod<
   ScanRecordRequest,
   ScanRecordResponse,
-  CommonErrors,
+  ScanRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ScanRecordRequest,
@@ -6127,10 +6161,12 @@ export const ScanReviewRecordResponse = Schema.Struct({
   rejects: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<ScanReviewRecordResponse>;
 
+export type ScanReviewRecordError = CommonErrors;
+
 export const scanReviewRecord: API.OperationMethod<
   ScanReviewRecordRequest,
   ScanReviewRecordResponse,
-  CommonErrors,
+  ScanReviewRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ScanReviewRecordRequest,
@@ -6238,10 +6274,12 @@ export const GetSettingAccountResponse = Schema.Struct({
   Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
 ) as unknown as Schema.Schema<GetSettingAccountResponse>;
 
+export type GetSettingAccountError = CommonErrors;
+
 export const getSettingAccount: API.OperationMethod<
   GetSettingAccountRequest,
   GetSettingAccountResponse,
-  CommonErrors,
+  GetSettingAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingAccountRequest,
@@ -6434,10 +6472,12 @@ export const PatchSettingAccountResponse = Schema.Struct({
   Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
 ) as unknown as Schema.Schema<PatchSettingAccountResponse>;
 
+export type PatchSettingAccountError = CommonErrors;
+
 export const patchSettingAccount: API.OperationMethod<
   PatchSettingAccountRequest,
   PatchSettingAccountResponse,
-  CommonErrors,
+  PatchSettingAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingAccountRequest,
@@ -6494,10 +6534,12 @@ export const GetSettingAccountViewResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingAccountViewResponse>;
 
+export type GetSettingAccountViewError = CommonErrors;
+
 export const getSettingAccountView: API.OperationMethod<
   GetSettingAccountViewRequest,
   GetSettingAccountViewResponse,
-  CommonErrors,
+  GetSettingAccountViewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingAccountViewRequest,
@@ -6578,10 +6620,12 @@ export const ListSettingAccountViewsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingAccountViewsResponse>;
 
+export type ListSettingAccountViewsError = CommonErrors;
+
 export const listSettingAccountViews: API.OperationMethod<
   ListSettingAccountViewsRequest,
   ListSettingAccountViewsResponse,
-  CommonErrors,
+  ListSettingAccountViewsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSettingAccountViewsRequest,
@@ -6635,10 +6679,12 @@ export const CreateSettingAccountViewResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSettingAccountViewResponse>;
 
+export type CreateSettingAccountViewError = CommonErrors;
+
 export const createSettingAccountView: API.OperationMethod<
   CreateSettingAccountViewRequest,
   CreateSettingAccountViewResponse,
-  CommonErrors,
+  CreateSettingAccountViewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSettingAccountViewRequest,
@@ -6697,10 +6743,12 @@ export const PatchSettingAccountViewResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingAccountViewResponse>;
 
+export type PatchSettingAccountViewError = CommonErrors;
+
 export const patchSettingAccountView: API.OperationMethod<
   PatchSettingAccountViewRequest,
   PatchSettingAccountViewResponse,
-  CommonErrors,
+  PatchSettingAccountViewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingAccountViewRequest,
@@ -6733,10 +6781,12 @@ export const DeleteSettingAccountViewResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
 
+export type DeleteSettingAccountViewError = CommonErrors;
+
 export const deleteSettingAccountView: API.OperationMethod<
   DeleteSettingAccountViewRequest,
   DeleteSettingAccountViewResponse,
-  CommonErrors,
+  DeleteSettingAccountViewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingAccountViewRequest,
@@ -6847,10 +6897,12 @@ export const GetSettingZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingZoneResponse>;
 
+export type GetSettingZoneError = CommonErrors;
+
 export const getSettingZone: API.OperationMethod<
   GetSettingZoneRequest,
   GetSettingZoneResponse,
-  CommonErrors,
+  GetSettingZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingZoneRequest,
@@ -7048,10 +7100,12 @@ export const PatchSettingZoneResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingZoneResponse>;
 
+export type PatchSettingZoneError = CommonErrors;
+
 export const patchSettingZone: API.OperationMethod<
   PatchSettingZoneRequest,
   PatchSettingZoneResponse,
-  CommonErrors,
+  PatchSettingZoneError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingZoneRequest,
@@ -7133,10 +7187,12 @@ export const ScanTriggerRecordResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<ScanTriggerRecordResponse>;
 
+export type ScanTriggerRecordError = CommonErrors;
+
 export const scanTriggerRecord: API.OperationMethod<
   ScanTriggerRecordRequest,
   ScanTriggerRecordResponse,
-  CommonErrors,
+  ScanTriggerRecordError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ScanTriggerRecordRequest,
@@ -7179,10 +7235,12 @@ export const GetZoneTransferAclResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
 ) as unknown as Schema.Schema<GetZoneTransferAclResponse>;
 
+export type GetZoneTransferAclError = CommonErrors;
+
 export const getZoneTransferAcl: API.OperationMethod<
   GetZoneTransferAclRequest,
   GetZoneTransferAclResponse,
-  CommonErrors,
+  GetZoneTransferAclError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneTransferAclRequest,
@@ -7214,10 +7272,12 @@ export const ListZoneTransferAclsResponse = Schema.Array(
   }).pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" })),
 ) as unknown as Schema.Schema<ListZoneTransferAclsResponse>;
 
+export type ListZoneTransferAclsError = CommonErrors;
+
 export const listZoneTransferAcls: API.OperationMethod<
   ListZoneTransferAclsRequest,
   ListZoneTransferAclsResponse,
-  CommonErrors,
+  ListZoneTransferAclsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListZoneTransferAclsRequest,
@@ -7259,10 +7319,12 @@ export const CreateZoneTransferAclResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
 ) as unknown as Schema.Schema<CreateZoneTransferAclResponse>;
 
+export type CreateZoneTransferAclError = CommonErrors;
+
 export const createZoneTransferAcl: API.OperationMethod<
   CreateZoneTransferAclRequest,
   CreateZoneTransferAclResponse,
-  CommonErrors,
+  CreateZoneTransferAclError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneTransferAclRequest,
@@ -7309,10 +7371,12 @@ export const UpdateZoneTransferAclResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
 ) as unknown as Schema.Schema<UpdateZoneTransferAclResponse>;
 
+export type UpdateZoneTransferAclError = CommonErrors;
+
 export const updateZoneTransferAcl: API.OperationMethod<
   UpdateZoneTransferAclRequest,
   UpdateZoneTransferAclResponse,
-  CommonErrors,
+  UpdateZoneTransferAclError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateZoneTransferAclRequest,
@@ -7343,10 +7407,12 @@ export const DeleteZoneTransferAclResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
 
+export type DeleteZoneTransferAclError = CommonErrors;
+
 export const deleteZoneTransferAcl: API.OperationMethod<
   DeleteZoneTransferAclRequest,
   DeleteZoneTransferAclResponse,
-  CommonErrors,
+  DeleteZoneTransferAclError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteZoneTransferAclRequest,
@@ -7377,10 +7443,12 @@ export type CreateZoneTransferForceAxfrResponse = string;
 export const CreateZoneTransferForceAxfrResponse =
   Schema.String as unknown as Schema.Schema<CreateZoneTransferForceAxfrResponse>;
 
+export type CreateZoneTransferForceAxfrError = CommonErrors;
+
 export const createZoneTransferForceAxfr: API.OperationMethod<
   CreateZoneTransferForceAxfrRequest,
   CreateZoneTransferForceAxfrResponse,
-  CommonErrors,
+  CreateZoneTransferForceAxfrError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneTransferForceAxfrRequest,
@@ -7442,10 +7510,12 @@ export const GetZoneTransferIncomingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetZoneTransferIncomingResponse>;
 
+export type GetZoneTransferIncomingError = CommonErrors;
+
 export const getZoneTransferIncoming: API.OperationMethod<
   GetZoneTransferIncomingRequest,
   GetZoneTransferIncomingResponse,
-  CommonErrors,
+  GetZoneTransferIncomingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneTransferIncomingRequest,
@@ -7518,10 +7588,12 @@ export const CreateZoneTransferIncomingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateZoneTransferIncomingResponse>;
 
+export type CreateZoneTransferIncomingError = CommonErrors;
+
 export const createZoneTransferIncoming: API.OperationMethod<
   CreateZoneTransferIncomingRequest,
   CreateZoneTransferIncomingResponse,
-  CommonErrors,
+  CreateZoneTransferIncomingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneTransferIncomingRequest,
@@ -7594,10 +7666,12 @@ export const UpdateZoneTransferIncomingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateZoneTransferIncomingResponse>;
 
+export type UpdateZoneTransferIncomingError = CommonErrors;
+
 export const updateZoneTransferIncoming: API.OperationMethod<
   UpdateZoneTransferIncomingRequest,
   UpdateZoneTransferIncomingResponse,
-  CommonErrors,
+  UpdateZoneTransferIncomingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateZoneTransferIncomingRequest,
@@ -7623,10 +7697,12 @@ export const DeleteZoneTransferIncomingResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
 
+export type DeleteZoneTransferIncomingError = CommonErrors;
+
 export const deleteZoneTransferIncoming: API.OperationMethod<
   DeleteZoneTransferIncomingRequest,
   DeleteZoneTransferIncomingResponse,
-  CommonErrors,
+  DeleteZoneTransferIncomingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteZoneTransferIncomingRequest,
@@ -7684,10 +7760,12 @@ export const GetZoneTransferOutgoingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetZoneTransferOutgoingResponse>;
 
+export type GetZoneTransferOutgoingError = CommonErrors;
+
 export const getZoneTransferOutgoing: API.OperationMethod<
   GetZoneTransferOutgoingRequest,
   GetZoneTransferOutgoingResponse,
-  CommonErrors,
+  GetZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneTransferOutgoingRequest,
@@ -7748,10 +7826,12 @@ export const CreateZoneTransferOutgoingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateZoneTransferOutgoingResponse>;
 
+export type CreateZoneTransferOutgoingError = CommonErrors;
+
 export const createZoneTransferOutgoing: API.OperationMethod<
   CreateZoneTransferOutgoingRequest,
   CreateZoneTransferOutgoingResponse,
-  CommonErrors,
+  CreateZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneTransferOutgoingRequest,
@@ -7812,10 +7892,12 @@ export const UpdateZoneTransferOutgoingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingResponse>;
 
+export type UpdateZoneTransferOutgoingError = CommonErrors;
+
 export const updateZoneTransferOutgoing: API.OperationMethod<
   UpdateZoneTransferOutgoingRequest,
   UpdateZoneTransferOutgoingResponse,
-  CommonErrors,
+  UpdateZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateZoneTransferOutgoingRequest,
@@ -7841,10 +7923,12 @@ export const DeleteZoneTransferOutgoingResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
 
+export type DeleteZoneTransferOutgoingError = CommonErrors;
+
 export const deleteZoneTransferOutgoing: API.OperationMethod<
   DeleteZoneTransferOutgoingRequest,
   DeleteZoneTransferOutgoingResponse,
-  CommonErrors,
+  DeleteZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteZoneTransferOutgoingRequest,
@@ -7874,10 +7958,12 @@ export type EnableZoneTransferOutgoingResponse = string;
 export const EnableZoneTransferOutgoingResponse =
   Schema.String as unknown as Schema.Schema<EnableZoneTransferOutgoingResponse>;
 
+export type EnableZoneTransferOutgoingError = CommonErrors;
+
 export const enableZoneTransferOutgoing: API.OperationMethod<
   EnableZoneTransferOutgoingRequest,
   EnableZoneTransferOutgoingResponse,
-  CommonErrors,
+  EnableZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EnableZoneTransferOutgoingRequest,
@@ -7907,10 +7993,12 @@ export type DisableZoneTransferOutgoingResponse = string;
 export const DisableZoneTransferOutgoingResponse =
   Schema.String as unknown as Schema.Schema<DisableZoneTransferOutgoingResponse>;
 
+export type DisableZoneTransferOutgoingError = CommonErrors;
+
 export const disableZoneTransferOutgoing: API.OperationMethod<
   DisableZoneTransferOutgoingRequest,
   DisableZoneTransferOutgoingResponse,
-  CommonErrors,
+  DisableZoneTransferOutgoingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DisableZoneTransferOutgoingRequest,
@@ -7940,10 +8028,12 @@ export type GetZoneTransferOutgoingStatusResponse = unknown;
 export const GetZoneTransferOutgoingStatusResponse =
   Schema.Unknown as unknown as Schema.Schema<GetZoneTransferOutgoingStatusResponse>;
 
+export type GetZoneTransferOutgoingStatusError = CommonErrors;
+
 export const getZoneTransferOutgoingStatus: API.OperationMethod<
   GetZoneTransferOutgoingStatusRequest,
   GetZoneTransferOutgoingStatusResponse,
-  CommonErrors,
+  GetZoneTransferOutgoingStatusError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneTransferOutgoingStatusRequest,
@@ -8002,10 +8092,12 @@ export const GetZoneTransferPeerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetZoneTransferPeerResponse>;
 
+export type GetZoneTransferPeerError = CommonErrors;
+
 export const getZoneTransferPeer: API.OperationMethod<
   GetZoneTransferPeerRequest,
   GetZoneTransferPeerResponse,
-  CommonErrors,
+  GetZoneTransferPeerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneTransferPeerRequest,
@@ -8052,10 +8144,12 @@ export const ListZoneTransferPeersResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListZoneTransferPeersResponse>;
 
+export type ListZoneTransferPeersError = CommonErrors;
+
 export const listZoneTransferPeers: API.OperationMethod<
   ListZoneTransferPeersRequest,
   ListZoneTransferPeersResponse,
-  CommonErrors,
+  ListZoneTransferPeersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListZoneTransferPeersRequest,
@@ -8112,10 +8206,12 @@ export const CreateZoneTransferPeerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateZoneTransferPeerResponse>;
 
+export type CreateZoneTransferPeerError = CommonErrors;
+
 export const createZoneTransferPeer: API.OperationMethod<
   CreateZoneTransferPeerRequest,
   CreateZoneTransferPeerResponse,
-  CommonErrors,
+  CreateZoneTransferPeerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneTransferPeerRequest,
@@ -8193,10 +8289,12 @@ export const UpdateZoneTransferPeerResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateZoneTransferPeerResponse>;
 
+export type UpdateZoneTransferPeerError = CommonErrors;
+
 export const updateZoneTransferPeer: API.OperationMethod<
   UpdateZoneTransferPeerRequest,
   UpdateZoneTransferPeerResponse,
-  CommonErrors,
+  UpdateZoneTransferPeerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateZoneTransferPeerRequest,
@@ -8227,10 +8325,12 @@ export const DeleteZoneTransferPeerResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
 
+export type DeleteZoneTransferPeerError = CommonErrors;
+
 export const deleteZoneTransferPeer: API.OperationMethod<
   DeleteZoneTransferPeerRequest,
   DeleteZoneTransferPeerResponse,
-  CommonErrors,
+  DeleteZoneTransferPeerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteZoneTransferPeerRequest,
@@ -8274,10 +8374,12 @@ export const GetZoneTransferTsigResponse = Schema.Struct({
   secret: Schema.String,
 }) as unknown as Schema.Schema<GetZoneTransferTsigResponse>;
 
+export type GetZoneTransferTsigError = CommonErrors;
+
 export const getZoneTransferTsig: API.OperationMethod<
   GetZoneTransferTsigRequest,
   GetZoneTransferTsigResponse,
-  CommonErrors,
+  GetZoneTransferTsigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetZoneTransferTsigRequest,
@@ -8311,10 +8413,12 @@ export const ListZoneTransferTsigsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
 
+export type ListZoneTransferTsigsError = CommonErrors;
+
 export const listZoneTransferTsigs: API.OperationMethod<
   ListZoneTransferTsigsRequest,
   ListZoneTransferTsigsResponse,
-  CommonErrors,
+  ListZoneTransferTsigsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListZoneTransferTsigsRequest,
@@ -8362,10 +8466,12 @@ export const CreateZoneTransferTsigResponse = Schema.Struct({
   secret: Schema.String,
 }) as unknown as Schema.Schema<CreateZoneTransferTsigResponse>;
 
+export type CreateZoneTransferTsigError = CommonErrors;
+
 export const createZoneTransferTsig: API.OperationMethod<
   CreateZoneTransferTsigRequest,
   CreateZoneTransferTsigResponse,
-  CommonErrors,
+  CreateZoneTransferTsigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateZoneTransferTsigRequest,
@@ -8415,10 +8521,12 @@ export const UpdateZoneTransferTsigResponse = Schema.Struct({
   secret: Schema.String,
 }) as unknown as Schema.Schema<UpdateZoneTransferTsigResponse>;
 
+export type UpdateZoneTransferTsigError = CommonErrors;
+
 export const updateZoneTransferTsig: API.OperationMethod<
   UpdateZoneTransferTsigRequest,
   UpdateZoneTransferTsigResponse,
-  CommonErrors,
+  UpdateZoneTransferTsigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateZoneTransferTsigRequest,
@@ -8449,10 +8557,12 @@ export const DeleteZoneTransferTsigResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
 
+export type DeleteZoneTransferTsigError = CommonErrors;
+
 export const deleteZoneTransferTsig: API.OperationMethod<
   DeleteZoneTransferTsigRequest,
   DeleteZoneTransferTsigResponse,
-  CommonErrors,
+  DeleteZoneTransferTsigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteZoneTransferTsigRequest,

@@ -47,10 +47,12 @@ export const GetAssociationResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetAssociationResponse>;
 
+export type GetAssociationError = CommonErrors;
+
 export const getAssociation: API.OperationMethod<
   GetAssociationRequest,
   GetAssociationResponse,
-  CommonErrors,
+  GetAssociationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAssociationRequest,
@@ -123,10 +125,12 @@ export const GetMtlsCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetMtlsCertificateResponse>;
 
+export type GetMtlsCertificateError = CommonErrors;
+
 export const getMtlsCertificate: API.OperationMethod<
   GetMtlsCertificateRequest,
   GetMtlsCertificateResponse,
-  CommonErrors,
+  GetMtlsCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMtlsCertificateRequest,
@@ -183,10 +187,12 @@ export const ListMtlsCertificatesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListMtlsCertificatesResponse>;
 
+export type ListMtlsCertificatesError = CommonErrors;
+
 export const listMtlsCertificates: API.OperationMethod<
   ListMtlsCertificatesRequest,
   ListMtlsCertificatesResponse,
-  CommonErrors,
+  ListMtlsCertificatesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListMtlsCertificatesRequest,
@@ -272,10 +278,12 @@ export const CreateMtlsCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateMtlsCertificateResponse>;
 
+export type CreateMtlsCertificateError = CommonErrors;
+
 export const createMtlsCertificate: API.OperationMethod<
   CreateMtlsCertificateRequest,
   CreateMtlsCertificateResponse,
-  CommonErrors,
+  CreateMtlsCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMtlsCertificateRequest,
@@ -344,10 +352,12 @@ export const DeleteMtlsCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteMtlsCertificateResponse>;
 
+export type DeleteMtlsCertificateError = CommonErrors;
+
 export const deleteMtlsCertificate: API.OperationMethod<
   DeleteMtlsCertificateRequest,
   DeleteMtlsCertificateResponse,
-  CommonErrors,
+  DeleteMtlsCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMtlsCertificateRequest,

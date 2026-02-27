@@ -64,10 +64,12 @@ export type GetAnalyticReportResponse = unknown;
 export const GetAnalyticReportResponse =
   Schema.Unknown as unknown as Schema.Schema<GetAnalyticReportResponse>;
 
+export type GetAnalyticReportError = CommonErrors;
+
 export const getAnalyticReport: API.OperationMethod<
   GetAnalyticReportRequest,
   GetAnalyticReportResponse,
-  CommonErrors,
+  GetAnalyticReportError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticReportRequest,
@@ -147,10 +149,12 @@ export type GetAnalyticReportBytimeResponse = unknown;
 export const GetAnalyticReportBytimeResponse =
   Schema.Unknown as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
 
+export type GetAnalyticReportBytimeError = CommonErrors;
+
 export const getAnalyticReportBytime: API.OperationMethod<
   GetAnalyticReportBytimeRequest,
   GetAnalyticReportBytimeResponse,
-  CommonErrors,
+  GetAnalyticReportBytimeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnalyticReportBytimeRequest,
@@ -253,10 +257,12 @@ export const GetDnsFirewallResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDnsFirewallResponse>;
 
+export type GetDnsFirewallError = CommonErrors;
+
 export const getDnsFirewall: API.OperationMethod<
   GetDnsFirewallRequest,
   GetDnsFirewallResponse,
-  CommonErrors,
+  GetDnsFirewallError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDnsFirewallRequest,
@@ -341,10 +347,12 @@ export const ListDnsFirewallsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDnsFirewallsResponse>;
 
+export type ListDnsFirewallsError = CommonErrors;
+
 export const listDnsFirewalls: API.OperationMethod<
   ListDnsFirewallsRequest,
   ListDnsFirewallsResponse,
-  CommonErrors,
+  ListDnsFirewallsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDnsFirewallsRequest,
@@ -496,10 +504,12 @@ export const CreateDnsFirewallResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDnsFirewallResponse>;
 
+export type CreateDnsFirewallError = CommonErrors;
+
 export const createDnsFirewall: API.OperationMethod<
   CreateDnsFirewallRequest,
   CreateDnsFirewallResponse,
-  CommonErrors,
+  CreateDnsFirewallError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDnsFirewallRequest,
@@ -656,10 +666,12 @@ export const PatchDnsFirewallResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchDnsFirewallResponse>;
 
+export type PatchDnsFirewallError = CommonErrors;
+
 export const patchDnsFirewall: API.OperationMethod<
   PatchDnsFirewallRequest,
   PatchDnsFirewallResponse,
-  CommonErrors,
+  PatchDnsFirewallError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDnsFirewallRequest,
@@ -692,10 +704,12 @@ export const DeleteDnsFirewallResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteDnsFirewallResponse>;
 
+export type DeleteDnsFirewallError = CommonErrors;
+
 export const deleteDnsFirewall: API.OperationMethod<
   DeleteDnsFirewallRequest,
   DeleteDnsFirewallResponse,
-  CommonErrors,
+  DeleteDnsFirewallError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDnsFirewallRequest,
@@ -732,10 +746,12 @@ export const GetReverseDnResponse = Schema.Struct({
   ptr: Schema.Struct({}),
 }) as unknown as Schema.Schema<GetReverseDnResponse>;
 
+export type GetReverseDnError = CommonErrors;
+
 export const getReverseDn: API.OperationMethod<
   GetReverseDnRequest,
   GetReverseDnResponse,
-  CommonErrors,
+  GetReverseDnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetReverseDnRequest,
@@ -771,10 +787,12 @@ export const PatchReverseDnResponse = Schema.Struct({
   ptr: Schema.Struct({}),
 }) as unknown as Schema.Schema<PatchReverseDnResponse>;
 
+export type PatchReverseDnError = CommonErrors;
+
 export const patchReverseDn: API.OperationMethod<
   PatchReverseDnRequest,
   PatchReverseDnResponse,
-  CommonErrors,
+  PatchReverseDnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchReverseDnRequest,

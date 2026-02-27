@@ -107,10 +107,12 @@ export const GetRecipientResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRecipientResponse>;
 
+export type GetRecipientError = CommonErrors;
+
 export const getRecipient: API.OperationMethod<
   GetRecipientRequest,
   GetRecipientResponse,
-  CommonErrors,
+  GetRecipientError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRecipientRequest,
@@ -198,10 +200,12 @@ export const ListRecipientsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListRecipientsResponse>;
 
+export type ListRecipientsError = CommonErrors;
+
 export const listRecipients: API.OperationMethod<
   ListRecipientsRequest,
   ListRecipientsResponse,
-  CommonErrors,
+  ListRecipientsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRecipientsRequest,
@@ -297,10 +301,12 @@ export const CreateRecipientResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRecipientResponse>;
 
+export type CreateRecipientError = CommonErrors;
+
 export const createRecipient: API.OperationMethod<
   CreateRecipientRequest,
   CreateRecipientResponse,
-  CommonErrors,
+  CreateRecipientError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRecipientRequest,
@@ -388,10 +394,12 @@ export const DeleteRecipientResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteRecipientResponse>;
 
+export type DeleteRecipientError = CommonErrors;
+
 export const deleteRecipient: API.OperationMethod<
   DeleteRecipientRequest,
   DeleteRecipientResponse,
-  CommonErrors,
+  DeleteRecipientError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRecipientRequest,
@@ -479,10 +487,12 @@ export const GetResourceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetResourceResponse>;
 
+export type GetResourceError = CommonErrors;
+
 export const getResource: API.OperationMethod<
   GetResourceRequest,
   GetResourceResponse,
-  CommonErrors,
+  GetResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetResourceRequest,
@@ -580,10 +590,12 @@ export const ListResourcesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListResourcesResponse>;
 
+export type ListResourcesError = CommonErrors;
+
 export const listResources: API.OperationMethod<
   ListResourcesRequest,
   ListResourcesResponse,
-  CommonErrors,
+  ListResourcesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListResourcesRequest,
@@ -696,10 +708,12 @@ export const CreateResourceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateResourceResponse>;
 
+export type CreateResourceError = CommonErrors;
+
 export const createResource: API.OperationMethod<
   CreateResourceRequest,
   CreateResourceResponse,
-  CommonErrors,
+  CreateResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateResourceRequest,
@@ -786,10 +800,12 @@ export const UpdateResourceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateResourceResponse>;
 
+export type UpdateResourceError = CommonErrors;
+
 export const updateResource: API.OperationMethod<
   UpdateResourceRequest,
   UpdateResourceResponse,
-  CommonErrors,
+  UpdateResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateResourceRequest,
@@ -873,10 +889,12 @@ export const DeleteResourceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteResourceResponse>;
 
+export type DeleteResourceError = CommonErrors;
+
 export const deleteResource: API.OperationMethod<
   DeleteResourceRequest,
   DeleteResourceResponse,
-  CommonErrors,
+  DeleteResourceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteResourceRequest,
@@ -1026,10 +1044,12 @@ export const GetResourceSharingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetResourceSharingResponse>;
 
+export type GetResourceSharingError = CommonErrors;
+
 export const getResourceSharing: API.OperationMethod<
   GetResourceSharingRequest,
   GetResourceSharingResponse,
-  CommonErrors,
+  GetResourceSharingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetResourceSharingRequest,
@@ -1209,10 +1229,12 @@ export const ListResourceSharingsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListResourceSharingsResponse>;
 
+export type ListResourceSharingsError = CommonErrors;
+
 export const listResourceSharings: API.OperationMethod<
   ListResourceSharingsRequest,
   ListResourceSharingsResponse,
-  CommonErrors,
+  ListResourceSharingsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListResourceSharingsRequest,
@@ -1397,10 +1419,12 @@ export const CreateResourceSharingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateResourceSharingResponse>;
 
+export type CreateResourceSharingError = CommonErrors;
+
 export const createResourceSharing: API.OperationMethod<
   CreateResourceSharingRequest,
   CreateResourceSharingResponse,
-  CommonErrors,
+  CreateResourceSharingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateResourceSharingRequest,
@@ -1539,10 +1563,12 @@ export const UpdateResourceSharingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateResourceSharingResponse>;
 
+export type UpdateResourceSharingError = CommonErrors;
+
 export const updateResourceSharing: API.OperationMethod<
   UpdateResourceSharingRequest,
   UpdateResourceSharingResponse,
-  CommonErrors,
+  UpdateResourceSharingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateResourceSharingRequest,
@@ -1678,10 +1704,12 @@ export const DeleteResourceSharingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteResourceSharingResponse>;
 
+export type DeleteResourceSharingError = CommonErrors;
+
 export const deleteResourceSharing: API.OperationMethod<
   DeleteResourceSharingRequest,
   DeleteResourceSharingResponse,
-  CommonErrors,
+  DeleteResourceSharingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteResourceSharingRequest,

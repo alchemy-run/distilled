@@ -160,10 +160,12 @@ export const GetProfileResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetProfileResponse>;
 
+export type GetProfileError = CommonErrors;
+
 export const getProfile: API.OperationMethod<
   GetProfileRequest,
   GetProfileResponse,
-  CommonErrors,
+  GetProfileError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetProfileRequest,

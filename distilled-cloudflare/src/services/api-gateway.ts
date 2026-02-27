@@ -89,10 +89,15 @@ export const GetConfigurationResponse = Schema.Struct({
   Schema.encodeKeys({ authIdCharacteristics: "auth_id_characteristics" }),
 ) as unknown as Schema.Schema<GetConfigurationResponse>;
 
+export type GetConfigurationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotEntitled;
+
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest,
   GetConfigurationResponse,
-  CommonErrors | InvalidObjectIdentifier | NotEntitled,
+  GetConfigurationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConfigurationRequest,
@@ -156,10 +161,15 @@ export const PutConfigurationResponse = Schema.Struct({
   Schema.encodeKeys({ authIdCharacteristics: "auth_id_characteristics" }),
 ) as unknown as Schema.Schema<PutConfigurationResponse>;
 
+export type PutConfigurationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotEntitled;
+
 export const putConfiguration: API.OperationMethod<
   PutConfigurationRequest,
   PutConfigurationResponse,
-  CommonErrors | InvalidObjectIdentifier | NotEntitled,
+  PutConfigurationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutConfigurationRequest,
@@ -192,10 +202,15 @@ export const GetDiscoveryResponse = Schema.Struct({
   timestamp: Schema.String,
 }) as unknown as Schema.Schema<GetDiscoveryResponse>;
 
+export type GetDiscoveryError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotEntitled;
+
 export const getDiscovery: API.OperationMethod<
   GetDiscoveryRequest,
   GetDiscoveryResponse,
-  CommonErrors | InvalidObjectIdentifier | NotEntitled,
+  GetDiscoveryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDiscoveryRequest,
@@ -271,10 +286,12 @@ export type ListDiscoveryOperationsResponse = unknown;
 export const ListDiscoveryOperationsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListDiscoveryOperationsResponse>;
 
+export type ListDiscoveryOperationsError = CommonErrors;
+
 export const listDiscoveryOperations: API.OperationMethod<
   ListDiscoveryOperationsRequest,
   ListDiscoveryOperationsResponse,
-  CommonErrors,
+  ListDiscoveryOperationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDiscoveryOperationsRequest,
@@ -310,10 +327,15 @@ export const PatchDiscoveryOperationResponse = Schema.Struct({
   state: Schema.optional(Schema.Literals(["review", "saved", "ignored"])),
 }) as unknown as Schema.Schema<PatchDiscoveryOperationResponse>;
 
+export type PatchDiscoveryOperationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotEntitled;
+
 export const patchDiscoveryOperation: API.OperationMethod<
   PatchDiscoveryOperationRequest,
   PatchDiscoveryOperationResponse,
-  CommonErrors | InvalidObjectIdentifier | NotEntitled,
+  PatchDiscoveryOperationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDiscoveryOperationRequest,
@@ -344,10 +366,15 @@ export const BulkPatchDiscoveryOperationsResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<BulkPatchDiscoveryOperationsResponse>;
 
+export type BulkPatchDiscoveryOperationsError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NotEntitled;
+
 export const bulkPatchDiscoveryOperations: API.OperationMethod<
   BulkPatchDiscoveryOperationsRequest,
   BulkPatchDiscoveryOperationsResponse,
-  CommonErrors | InvalidObjectIdentifier | NotEntitled,
+  BulkPatchDiscoveryOperationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkPatchDiscoveryOperationsRequest,
@@ -388,10 +415,14 @@ export const CreateExpressionTemplateFallthroughResponse = Schema.Struct({
   title: Schema.String,
 }) as unknown as Schema.Schema<CreateExpressionTemplateFallthroughResponse>;
 
+export type CreateExpressionTemplateFallthroughError =
+  | CommonErrors
+  | InvalidObjectIdentifier;
+
 export const createExpressionTemplateFallthrough: API.OperationMethod<
   CreateExpressionTemplateFallthroughRequest,
   CreateExpressionTemplateFallthroughResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  CreateExpressionTemplateFallthroughError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateExpressionTemplateFallthroughRequest,
@@ -659,10 +690,15 @@ export const GetOperationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOperationResponse>;
 
+export type GetOperationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | OperationNotFound;
+
 export const getOperation: API.OperationMethod<
   GetOperationRequest,
   GetOperationResponse,
-  CommonErrors | InvalidObjectIdentifier | OperationNotFound,
+  GetOperationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOperationRequest,
@@ -943,10 +979,12 @@ export const ListOperationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListOperationsResponse>;
 
+export type ListOperationsError = CommonErrors;
+
 export const listOperations: API.OperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
-  CommonErrors,
+  ListOperationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListOperationsRequest,
@@ -1229,10 +1267,12 @@ export const CreateOperationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateOperationResponse>;
 
+export type CreateOperationError = CommonErrors | InvalidObjectIdentifier;
+
 export const createOperation: API.OperationMethod<
   CreateOperationRequest,
   CreateOperationResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  CreateOperationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateOperationRequest,
@@ -1269,10 +1309,15 @@ export const DeleteOperationResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteOperationResponse>;
 
+export type DeleteOperationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | OperationNotFound;
+
 export const deleteOperation: API.OperationMethod<
   DeleteOperationRequest,
   DeleteOperationResponse,
-  CommonErrors | InvalidObjectIdentifier | OperationNotFound,
+  DeleteOperationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteOperationRequest,
@@ -1557,10 +1602,12 @@ export const BulkCreateOperationsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkCreateOperationsResponse>;
 
+export type BulkCreateOperationsError = CommonErrors;
+
 export const bulkCreateOperations: API.OperationMethod<
   BulkCreateOperationsRequest,
   BulkCreateOperationsResponse,
-  CommonErrors,
+  BulkCreateOperationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkCreateOperationsRequest,
@@ -1592,10 +1639,12 @@ export const BulkDeleteOperationsResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<BulkDeleteOperationsResponse>;
 
+export type BulkDeleteOperationsError = CommonErrors | InvalidObjectIdentifier;
+
 export const bulkDeleteOperations: API.OperationMethod<
   BulkDeleteOperationsRequest,
   BulkDeleteOperationsResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  BulkDeleteOperationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteOperationsRequest,
@@ -1647,10 +1696,15 @@ export const GetOperationSchemaValidationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOperationSchemaValidationResponse>;
 
+export type GetOperationSchemaValidationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | OperationNotFound;
+
 export const getOperationSchemaValidation: API.OperationMethod<
   GetOperationSchemaValidationRequest,
   GetOperationSchemaValidationResponse,
-  CommonErrors | InvalidObjectIdentifier | OperationNotFound,
+  GetOperationSchemaValidationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOperationSchemaValidationRequest,
@@ -1709,10 +1763,15 @@ export const PutOperationSchemaValidationResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutOperationSchemaValidationResponse>;
 
+export type PutOperationSchemaValidationError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | OperationNotFound;
+
 export const putOperationSchemaValidation: API.OperationMethod<
   PutOperationSchemaValidationRequest,
   PutOperationSchemaValidationResponse,
-  CommonErrors | InvalidObjectIdentifier | OperationNotFound,
+  PutOperationSchemaValidationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutOperationSchemaValidationRequest,
@@ -1744,10 +1803,14 @@ export const PatchOperationSchemaValidationResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<PatchOperationSchemaValidationResponse>;
 
+export type PatchOperationSchemaValidationError =
+  | CommonErrors
+  | InvalidObjectIdentifier;
+
 export const patchOperationSchemaValidation: API.OperationMethod<
   PatchOperationSchemaValidationRequest,
   PatchOperationSchemaValidationResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  PatchOperationSchemaValidationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchOperationSchemaValidationRequest,
@@ -1790,10 +1853,12 @@ export const ListSchemasResponse = Schema.Struct({
   timestamp: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<ListSchemasResponse>;
 
+export type ListSchemasError = CommonErrors | InvalidObjectIdentifier;
+
 export const listSchemas: API.OperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  ListSchemasError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSchemasRequest,
@@ -1824,10 +1889,14 @@ export type GetSettingSchemaValidationResponse = unknown;
 export const GetSettingSchemaValidationResponse =
   Schema.Unknown as unknown as Schema.Schema<GetSettingSchemaValidationResponse>;
 
+export type GetSettingSchemaValidationError =
+  | CommonErrors
+  | InvalidObjectIdentifier;
+
 export const getSettingSchemaValidation: API.OperationMethod<
   GetSettingSchemaValidationRequest,
   GetSettingSchemaValidationResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  GetSettingSchemaValidationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingSchemaValidationRequest,
@@ -1870,10 +1939,14 @@ export type PutSettingSchemaValidationResponse = unknown;
 export const PutSettingSchemaValidationResponse =
   Schema.Unknown as unknown as Schema.Schema<PutSettingSchemaValidationResponse>;
 
+export type PutSettingSchemaValidationError =
+  | CommonErrors
+  | InvalidObjectIdentifier;
+
 export const putSettingSchemaValidation: API.OperationMethod<
   PutSettingSchemaValidationRequest,
   PutSettingSchemaValidationResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  PutSettingSchemaValidationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSettingSchemaValidationRequest,
@@ -1923,10 +1996,14 @@ export type PatchSettingSchemaValidationResponse = unknown;
 export const PatchSettingSchemaValidationResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchSettingSchemaValidationResponse>;
 
+export type PatchSettingSchemaValidationError =
+  | CommonErrors
+  | InvalidObjectIdentifier;
+
 export const patchSettingSchemaValidation: API.OperationMethod<
   PatchSettingSchemaValidationRequest,
   PatchSettingSchemaValidationResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  PatchSettingSchemaValidationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingSchemaValidationRequest,
@@ -1989,10 +2066,15 @@ export const GetUserSchemaResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetUserSchemaResponse>;
 
+export type GetUserSchemaError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | SchemaNotFound;
+
 export const getUserSchema: API.OperationMethod<
   GetUserSchemaRequest,
   GetUserSchemaResponse,
-  CommonErrors | InvalidObjectIdentifier | SchemaNotFound,
+  GetUserSchemaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetUserSchemaRequest,
@@ -2048,10 +2130,12 @@ export const ListUserSchemasResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListUserSchemasResponse>;
 
+export type ListUserSchemasError = CommonErrors;
+
 export const listUserSchemas: API.OperationMethod<
   ListUserSchemasRequest,
   ListUserSchemasResponse,
-  CommonErrors,
+  ListUserSchemasError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListUserSchemasRequest,
@@ -2141,10 +2225,12 @@ export const CreateUserSchemaResponse = Schema.Struct({
   Schema.encodeKeys({ schema: "schema", uploadDetails: "upload_details" }),
 ) as unknown as Schema.Schema<CreateUserSchemaResponse>;
 
+export type CreateUserSchemaError = CommonErrors | InvalidObjectIdentifier;
+
 export const createUserSchema: API.OperationMethod<
   CreateUserSchemaRequest,
   CreateUserSchemaResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  CreateUserSchemaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateUserSchemaRequest,
@@ -2204,10 +2290,15 @@ export const PatchUserSchemaResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchUserSchemaResponse>;
 
+export type PatchUserSchemaError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | SchemaNotFound;
+
 export const patchUserSchema: API.OperationMethod<
   PatchUserSchemaRequest,
   PatchUserSchemaResponse,
-  CommonErrors | InvalidObjectIdentifier | SchemaNotFound,
+  PatchUserSchemaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchUserSchemaRequest,
@@ -2244,10 +2335,15 @@ export const DeleteUserSchemaResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteUserSchemaResponse>;
 
+export type DeleteUserSchemaError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | SchemaNotFound;
+
 export const deleteUserSchema: API.OperationMethod<
   DeleteUserSchemaRequest,
   DeleteUserSchemaResponse,
-  CommonErrors | InvalidObjectIdentifier | SchemaNotFound,
+  DeleteUserSchemaError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteUserSchemaRequest,
@@ -2296,10 +2392,12 @@ export const ListUserSchemaHostsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListUserSchemaHostsResponse>;
 
+export type ListUserSchemaHostsError = CommonErrors;
+
 export const listUserSchemaHosts: API.OperationMethod<
   ListUserSchemaHostsRequest,
   ListUserSchemaHostsResponse,
-  CommonErrors,
+  ListUserSchemaHostsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListUserSchemaHostsRequest,
@@ -2617,10 +2715,12 @@ export const ListUserSchemaOperationsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListUserSchemaOperationsResponse>;
 
+export type ListUserSchemaOperationsError = CommonErrors;
+
 export const listUserSchemaOperations: API.OperationMethod<
   ListUserSchemaOperationsRequest,
   ListUserSchemaOperationsResponse,
-  CommonErrors,
+  ListUserSchemaOperationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListUserSchemaOperationsRequest,

@@ -49,10 +49,12 @@ export const GetHostnameAssociationResponse = Schema.Struct({
   hostnames: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
 
+export type GetHostnameAssociationError = CommonErrors;
+
 export const getHostnameAssociation: API.OperationMethod<
   GetHostnameAssociationRequest,
   GetHostnameAssociationResponse,
-  CommonErrors,
+  GetHostnameAssociationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHostnameAssociationRequest,
@@ -92,10 +94,12 @@ export const PutHostnameAssociationResponse = Schema.Struct({
   hostnames: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
 
+export type PutHostnameAssociationError = CommonErrors;
+
 export const putHostnameAssociation: API.OperationMethod<
   PutHostnameAssociationRequest,
   PutHostnameAssociationResponse,
-  CommonErrors,
+  PutHostnameAssociationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutHostnameAssociationRequest,

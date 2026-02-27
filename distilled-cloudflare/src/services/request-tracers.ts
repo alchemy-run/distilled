@@ -150,10 +150,12 @@ export const CreateTraceResponse = Schema.Struct({
   Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }),
 ) as unknown as Schema.Schema<CreateTraceResponse>;
 
+export type CreateTraceError = CommonErrors;
+
 export const createTrace: API.OperationMethod<
   CreateTraceRequest,
   CreateTraceResponse,
-  CommonErrors,
+  CreateTraceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTraceRequest,

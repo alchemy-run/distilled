@@ -43,10 +43,12 @@ export type GetResponsResponse = unknown;
 export const GetResponsResponse =
   Schema.Unknown as unknown as Schema.Schema<GetResponsResponse>;
 
+export type GetResponsError = CommonErrors;
+
 export const getRespons: API.OperationMethod<
   GetResponsRequest,
   GetResponsResponse,
-  CommonErrors,
+  GetResponsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetResponsRequest,
@@ -923,10 +925,12 @@ export const GetScanResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetScanResponse>;
 
+export type GetScanError = CommonErrors;
+
 export const getScan: API.OperationMethod<
   GetScanRequest,
   GetScanResponse,
-  CommonErrors,
+  GetScanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScanRequest,
@@ -1009,10 +1013,12 @@ export const ListScansResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListScansResponse>;
 
+export type ListScansError = CommonErrors;
+
 export const listScans: API.OperationMethod<
   ListScansRequest,
   ListScansResponse,
-  CommonErrors,
+  ListScansError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScansRequest,
@@ -1476,10 +1482,12 @@ export const CreateScanResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateScanResponse>;
 
+export type CreateScanError = CommonErrors;
+
 export const createScan: API.OperationMethod<
   CreateScanRequest,
   CreateScanResponse,
-  CommonErrors,
+  CreateScanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScanRequest,
@@ -1545,10 +1553,12 @@ export const BulkCreateScansResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkCreateScansResponse>;
 
+export type BulkCreateScansError = CommonErrors;
+
 export const bulkCreateScans: API.OperationMethod<
   BulkCreateScansRequest,
   BulkCreateScansResponse,
-  CommonErrors,
+  BulkCreateScansError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkCreateScansRequest,
@@ -1577,10 +1587,12 @@ export type DomScanResponse = unknown;
 export const DomScanResponse =
   Schema.Unknown as unknown as Schema.Schema<DomScanResponse>;
 
+export type DomScanError = CommonErrors;
+
 export const domScan: API.OperationMethod<
   DomScanRequest,
   DomScanResponse,
-  CommonErrors,
+  DomScanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DomScanRequest,
@@ -1750,10 +1762,12 @@ export const HarScanResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HarScanResponse>;
 
+export type HarScanError = CommonErrors;
+
 export const harScan: API.OperationMethod<
   HarScanRequest,
   HarScanResponse,
-  CommonErrors,
+  HarScanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HarScanRequest,
@@ -1787,10 +1801,12 @@ export type ScreenshotScanResponse = unknown;
 export const ScreenshotScanResponse =
   Schema.Unknown as unknown as Schema.Schema<ScreenshotScanResponse>;
 
+export type ScreenshotScanError = CommonErrors;
+
 export const screenshotScan: API.OperationMethod<
   ScreenshotScanRequest,
   ScreenshotScanResponse,
-  CommonErrors,
+  ScreenshotScanError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ScreenshotScanRequest,

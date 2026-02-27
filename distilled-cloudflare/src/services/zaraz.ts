@@ -148,10 +148,12 @@ export const GetConfigResponse = Schema.Struct({
   historyChange: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetConfigResponse>;
 
+export type GetConfigError = CommonErrors;
+
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
   GetConfigResponse,
-  CommonErrors,
+  GetConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConfigRequest,
@@ -394,10 +396,12 @@ export const PutConfigResponse = Schema.Struct({
   historyChange: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PutConfigResponse>;
 
+export type PutConfigError = CommonErrors;
+
 export const putConfig: API.OperationMethod<
   PutConfigRequest,
   PutConfigResponse,
-  CommonErrors,
+  PutConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutConfigRequest,
@@ -425,10 +429,12 @@ export type GetDefaultResponse = unknown;
 export const GetDefaultResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
 
+export type GetDefaultError = CommonErrors;
+
 export const getDefault: API.OperationMethod<
   GetDefaultRequest,
   GetDefaultResponse,
-  CommonErrors,
+  GetDefaultError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDefaultRequest,
@@ -456,10 +462,12 @@ export type GetExportResponse = unknown;
 export const GetExportResponse =
   Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
 
+export type GetExportError = CommonErrors;
+
 export const getExport: API.OperationMethod<
   GetExportRequest,
   GetExportResponse,
-  CommonErrors,
+  GetExportError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetExportRequest,
@@ -522,10 +530,12 @@ export const ListHistoriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListHistoriesResponse>;
 
+export type ListHistoriesError = CommonErrors;
+
 export const listHistories: API.OperationMethod<
   ListHistoriesRequest,
   ListHistoriesResponse,
-  CommonErrors,
+  ListHistoriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListHistoriesRequest,
@@ -552,10 +562,12 @@ export type PutHistoryResponse = unknown;
 export const PutHistoryResponse =
   Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
 
+export type PutHistoryError = CommonErrors;
+
 export const putHistory: API.OperationMethod<
   PutHistoryRequest,
   PutHistoryResponse,
-  CommonErrors,
+  PutHistoryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutHistoryRequest,
@@ -590,10 +602,12 @@ export const GetHistoryConfigResponse = Schema.Struct(
   {},
 ) as unknown as Schema.Schema<GetHistoryConfigResponse>;
 
+export type GetHistoryConfigError = CommonErrors;
+
 export const getHistoryConfig: API.OperationMethod<
   GetHistoryConfigRequest,
   GetHistoryConfigResponse,
-  CommonErrors,
+  GetHistoryConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHistoryConfigRequest,
@@ -624,10 +638,12 @@ export type CreatePublishResponse = string;
 export const CreatePublishResponse =
   Schema.String as unknown as Schema.Schema<CreatePublishResponse>;
 
+export type CreatePublishError = CommonErrors;
+
 export const createPublish: API.OperationMethod<
   CreatePublishRequest,
   CreatePublishResponse,
-  CommonErrors,
+  CreatePublishError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePublishRequest,
@@ -657,10 +673,12 @@ export const GetWorkflowResponse = Schema.Literals([
   "preview",
 ]) as unknown as Schema.Schema<GetWorkflowResponse>;
 
+export type GetWorkflowError = CommonErrors;
+
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
   GetWorkflowResponse,
-  CommonErrors,
+  GetWorkflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWorkflowRequest,
@@ -691,10 +709,12 @@ export type PutZarazResponse = unknown;
 export const PutZarazResponse =
   Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
 
+export type PutZarazError = CommonErrors;
+
 export const putZaraz: API.OperationMethod<
   PutZarazRequest,
   PutZarazResponse,
-  CommonErrors,
+  PutZarazError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutZarazRequest,

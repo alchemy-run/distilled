@@ -102,14 +102,17 @@ export const GetBookmarkDatabaseTimeTravelResponse = Schema.Struct({
   bookmark: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelResponse>;
 
-export const getBookmarkDatabaseTimeTravel: API.OperationMethod<
-  GetBookmarkDatabaseTimeTravelRequest,
-  GetBookmarkDatabaseTimeTravelResponse,
+export type GetBookmarkDatabaseTimeTravelError =
   | CommonErrors
   | InvalidObjectIdentifier
   | NoHistoryAvailable
   | TimestampTooOld
-  | DatabaseNotFound,
+  | DatabaseNotFound;
+
+export const getBookmarkDatabaseTimeTravel: API.OperationMethod<
+  GetBookmarkDatabaseTimeTravelRequest,
+  GetBookmarkDatabaseTimeTravelResponse,
+  GetBookmarkDatabaseTimeTravelError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBookmarkDatabaseTimeTravelRequest,
@@ -163,10 +166,12 @@ export const ListDatabasesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDatabasesResponse>;
 
+export type ListDatabasesError = CommonErrors;
+
 export const listDatabases: API.OperationMethod<
   ListDatabasesRequest,
   ListDatabasesResponse,
-  CommonErrors,
+  ListDatabasesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDatabasesRequest,
@@ -199,10 +204,16 @@ export type GetDatabaseResponse = unknown;
 export const GetDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatabaseResponse>;
 
+export type GetDatabaseError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | DatabaseNotFound
+  | UnknownError;
+
 export const getDatabase: API.OperationMethod<
   GetDatabaseRequest,
   GetDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | DatabaseNotFound | UnknownError,
+  GetDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDatabaseRequest,
@@ -242,10 +253,15 @@ export type CreateDatabaseResponse = unknown;
 export const CreateDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateDatabaseResponse>;
 
+export type CreateDatabaseError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | InvalidProperty;
+
 export const createDatabase: API.OperationMethod<
   CreateDatabaseRequest,
   CreateDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InvalidProperty,
+  CreateDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDatabaseRequest,
@@ -280,10 +296,16 @@ export type UpdateDatabaseResponse = unknown;
 export const UpdateDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateDatabaseResponse>;
 
+export type UpdateDatabaseError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | InternalError
+  | DatabaseNotFound;
+
 export const updateDatabase: API.OperationMethod<
   UpdateDatabaseRequest,
   UpdateDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InternalError | DatabaseNotFound,
+  UpdateDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDatabaseRequest,
@@ -320,10 +342,16 @@ export type PatchDatabaseResponse = unknown;
 export const PatchDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchDatabaseResponse>;
 
+export type PatchDatabaseError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | InternalError
+  | DatabaseNotFound;
+
 export const patchDatabase: API.OperationMethod<
   PatchDatabaseRequest,
   PatchDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InternalError | DatabaseNotFound,
+  PatchDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDatabaseRequest,
@@ -352,10 +380,16 @@ export type DeleteDatabaseResponse = unknown;
 export const DeleteDatabaseResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDatabaseResponse>;
 
+export type DeleteDatabaseError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | DatabaseNotFound
+  | UnknownError;
+
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
   DeleteDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | DatabaseNotFound | UnknownError,
+  DeleteDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDatabaseRequest,
@@ -446,10 +480,16 @@ export const ExportDatabaseResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ExportDatabaseResponse>;
 
+export type ExportDatabaseError =
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | InvalidRequest
+  | DatabaseNotFound;
+
 export const exportDatabase: API.OperationMethod<
   ExportDatabaseRequest,
   ExportDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InvalidRequest | DatabaseNotFound,
+  ExportDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ExportDatabaseRequest,
@@ -583,10 +623,12 @@ export const ImportDatabaseResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ImportDatabaseResponse>;
 
+export type ImportDatabaseError = CommonErrors | InvalidObjectIdentifier;
+
 export const importDatabase: API.OperationMethod<
   ImportDatabaseRequest,
   ImportDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  ImportDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ImportDatabaseRequest,
@@ -676,10 +718,12 @@ export const QueryDatabaseResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<QueryDatabaseResponse>;
 
+export type QueryDatabaseError = CommonErrors;
+
 export const queryDatabase: API.OperationMethod<
   QueryDatabaseRequest,
   QueryDatabaseResponse,
-  CommonErrors,
+  QueryDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryDatabaseRequest,
@@ -778,10 +822,12 @@ export const RawDatabaseResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<RawDatabaseResponse>;
 
+export type RawDatabaseError = CommonErrors;
+
 export const rawDatabase: API.OperationMethod<
   RawDatabaseRequest,
   RawDatabaseResponse,
-  CommonErrors,
+  RawDatabaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RawDatabaseRequest,
@@ -836,14 +882,17 @@ export const RestoreDatabaseTimeTravelResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
 
-export const restoreDatabaseTimeTravel: API.OperationMethod<
-  RestoreDatabaseTimeTravelRequest,
-  RestoreDatabaseTimeTravelResponse,
+export type RestoreDatabaseTimeTravelError =
   | CommonErrors
   | InvalidObjectIdentifier
   | NoHistoryAvailable
   | DatabaseNotFound
-  | InvalidProperty,
+  | InvalidProperty;
+
+export const restoreDatabaseTimeTravel: API.OperationMethod<
+  RestoreDatabaseTimeTravelRequest,
+  RestoreDatabaseTimeTravelResponse,
+  RestoreDatabaseTimeTravelError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RestoreDatabaseTimeTravelRequest,

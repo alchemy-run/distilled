@@ -87,9 +87,9 @@ export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(MethodNotAllowed, [
-  { code: 7001 },
   { code: 10000 },
   { code: 10405 },
+  { code: 7001 },
 ]);
 
 export class MissingAuthenticationToken extends Schema.TaggedErrorClass<MissingAuthenticationToken>()(
@@ -192,10 +192,12 @@ export const GetAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccountResponse>;
 
+export type GetAccountError = CommonErrors | InvalidRoute;
+
 export const getAccount: API.OperationMethod<
   GetAccountRequest,
   GetAccountResponse,
-  CommonErrors | InvalidRoute,
+  GetAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAccountRequest,
@@ -265,10 +267,12 @@ export const ListAccountsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListAccountsResponse>;
 
+export type ListAccountsError = CommonErrors;
+
 export const listAccounts: API.OperationMethod<
   ListAccountsRequest,
   ListAccountsResponse,
-  CommonErrors,
+  ListAccountsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAccountsRequest,
@@ -348,10 +352,15 @@ export const CreateAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateAccountResponse>;
 
+export type CreateAccountError =
+  | CommonErrors
+  | AccountCreationForbidden
+  | MissingName;
+
 export const createAccount: API.OperationMethod<
   CreateAccountRequest,
   CreateAccountResponse,
-  CommonErrors | AccountCreationForbidden | MissingName,
+  CreateAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAccountRequest,
@@ -461,15 +470,18 @@ export const UpdateAccountResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateAccountResponse>;
 
-export const updateAccount: API.OperationMethod<
-  UpdateAccountRequest,
-  UpdateAccountResponse,
+export type UpdateAccountError =
   | CommonErrors
   | InvalidAccountName
   | AccountNameTooLong
   | UpdateAccountTypeNotSupported
   | InvalidRoute
-  | MethodNotAllowed,
+  | MethodNotAllowed;
+
+export const updateAccount: API.OperationMethod<
+  UpdateAccountRequest,
+  UpdateAccountResponse,
+  UpdateAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateAccountRequest,
@@ -503,10 +515,12 @@ export const DeleteAccountResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAccountResponse>;
 
+export type DeleteAccountError = CommonErrors | InvalidRoute | MethodNotAllowed;
+
 export const deleteAccount: API.OperationMethod<
   DeleteAccountRequest,
   DeleteAccountResponse,
-  CommonErrors | InvalidRoute | MethodNotAllowed,
+  DeleteAccountError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAccountRequest,
@@ -839,10 +853,12 @@ export const ListLogAuditsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListLogAuditsResponse>;
 
+export type ListLogAuditsError = CommonErrors;
+
 export const listLogAudits: API.OperationMethod<
   ListLogAuditsRequest,
   ListLogAuditsResponse,
-  CommonErrors,
+  ListLogAuditsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListLogAuditsRequest,
@@ -872,10 +888,12 @@ export type GetMemberResponse = unknown;
 export const GetMemberResponse =
   Schema.Unknown as unknown as Schema.Schema<GetMemberResponse>;
 
+export type GetMemberError = CommonErrors | MemberNotFound | InvalidRoute;
+
 export const getMember: API.OperationMethod<
   GetMemberRequest,
   GetMemberResponse,
-  CommonErrors | MemberNotFound | InvalidRoute,
+  GetMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMemberRequest,
@@ -919,10 +937,12 @@ export type ListMembersResponse = unknown;
 export const ListMembersResponse =
   Schema.Unknown as unknown as Schema.Schema<ListMembersResponse>;
 
+export type ListMembersError = CommonErrors;
+
 export const listMembers: API.OperationMethod<
   ListMembersRequest,
   ListMembersResponse,
-  CommonErrors,
+  ListMembersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListMembersRequest,
@@ -955,10 +975,12 @@ export type CreateMemberResponse = unknown;
 export const CreateMemberResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateMemberResponse>;
 
+export type CreateMemberError = CommonErrors | InvalidRoute | ValidationError;
+
 export const createMember: API.OperationMethod<
   CreateMemberRequest,
   CreateMemberResponse,
-  CommonErrors | InvalidRoute | ValidationError,
+  CreateMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMemberRequest,
@@ -987,10 +1009,17 @@ export type UpdateMemberResponse = unknown;
 export const UpdateMemberResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateMemberResponse>;
 
+export type UpdateMemberError =
+  | CommonErrors
+  | MemberNotFound
+  | InvalidRoute
+  | BadRequest
+  | MethodNotAllowed;
+
 export const updateMember: API.OperationMethod<
   UpdateMemberRequest,
   UpdateMemberResponse,
-  CommonErrors | MemberNotFound | InvalidRoute | BadRequest | MethodNotAllowed,
+  UpdateMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMemberRequest,
@@ -1023,10 +1052,12 @@ export const DeleteMemberResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteMemberResponse>;
 
+export type DeleteMemberError = CommonErrors | MemberNotFound | InvalidRoute;
+
 export const deleteMember: API.OperationMethod<
   DeleteMemberRequest,
   DeleteMemberResponse,
-  CommonErrors | MemberNotFound | InvalidRoute,
+  DeleteMemberError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMemberRequest,
@@ -1056,10 +1087,12 @@ export type GetRoleResponse = unknown;
 export const GetRoleResponse =
   Schema.Unknown as unknown as Schema.Schema<GetRoleResponse>;
 
+export type GetRoleError = CommonErrors | InvalidRoute;
+
 export const getRole: API.OperationMethod<
   GetRoleRequest,
   GetRoleResponse,
-  CommonErrors | InvalidRoute,
+  GetRoleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRoleRequest,
@@ -1083,10 +1116,12 @@ export type ListRolesResponse = unknown;
 export const ListRolesResponse =
   Schema.Unknown as unknown as Schema.Schema<ListRolesResponse>;
 
+export type ListRolesError = CommonErrors;
+
 export const listRoles: API.OperationMethod<
   ListRolesRequest,
   ListRolesResponse,
-  CommonErrors,
+  ListRolesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRolesRequest,
@@ -1114,10 +1149,12 @@ export type GetSubscriptionResponse = unknown;
 export const GetSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
 
+export type GetSubscriptionError = CommonErrors;
+
 export const getSubscription: API.OperationMethod<
   GetSubscriptionRequest,
   GetSubscriptionResponse,
-  CommonErrors,
+  GetSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSubscriptionRequest,
@@ -1150,10 +1187,15 @@ export type CreateSubscriptionResponse = unknown;
 export const CreateSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
+export type CreateSubscriptionError =
+  | CommonErrors
+  | JsonDecodeFailure
+  | InvalidRoute;
+
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
   CreateSubscriptionResponse,
-  CommonErrors | JsonDecodeFailure | InvalidRoute,
+  CreateSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSubscriptionRequest,
@@ -1193,10 +1235,16 @@ export type UpdateSubscriptionResponse = unknown;
 export const UpdateSubscriptionResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
+export type UpdateSubscriptionError =
+  | CommonErrors
+  | JsonDecodeFailure
+  | InvalidRoute
+  | EndpointNotFound;
+
 export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
-  CommonErrors | JsonDecodeFailure | InvalidRoute | EndpointNotFound,
+  UpdateSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSubscriptionRequest,
@@ -1233,10 +1281,15 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   Schema.encodeKeys({ subscriptionId: "subscription_id" }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
+export type DeleteSubscriptionError =
+  | CommonErrors
+  | InvalidRoute
+  | EndpointNotFound;
+
 export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
-  CommonErrors | InvalidRoute | EndpointNotFound,
+  DeleteSubscriptionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSubscriptionRequest,
@@ -1266,10 +1319,12 @@ export type GetTokenResponse = unknown;
 export const GetTokenResponse =
   Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
 
+export type GetTokenError = CommonErrors | InvalidRoute;
+
 export const getToken: API.OperationMethod<
   GetTokenRequest,
   GetTokenResponse,
-  CommonErrors | InvalidRoute,
+  GetTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTokenRequest,
@@ -1298,10 +1353,12 @@ export type ListTokensResponse = unknown;
 export const ListTokensResponse =
   Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
 
+export type ListTokensError = CommonErrors;
+
 export const listTokens: API.OperationMethod<
   ListTokensRequest,
   ListTokensResponse,
-  CommonErrors,
+  ListTokensError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListTokensRequest,
@@ -1412,10 +1469,12 @@ export const CreateTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateTokenResponse>;
 
+export type CreateTokenError = CommonErrors | InvalidRoute | InvalidTokenName;
+
 export const createToken: API.OperationMethod<
   CreateTokenRequest,
   CreateTokenResponse,
-  CommonErrors | InvalidRoute | InvalidTokenName,
+  CreateTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTokenRequest,
@@ -1476,10 +1535,12 @@ export type UpdateTokenResponse = unknown;
 export const UpdateTokenResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
 
+export type UpdateTokenError = CommonErrors | InvalidRoute | MethodNotAllowed;
+
 export const updateToken: API.OperationMethod<
   UpdateTokenRequest,
   UpdateTokenResponse,
-  CommonErrors | InvalidRoute | MethodNotAllowed,
+  UpdateTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateTokenRequest,
@@ -1509,10 +1570,12 @@ export const DeleteTokenResponse = Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteTokenResponse>;
 
+export type DeleteTokenError = CommonErrors | InvalidRoute | MethodNotAllowed;
+
 export const deleteToken: API.OperationMethod<
   DeleteTokenRequest,
   DeleteTokenResponse,
-  CommonErrors | InvalidRoute | MethodNotAllowed,
+  DeleteTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteTokenRequest,
@@ -1556,10 +1619,15 @@ export const VerifyTokenResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<VerifyTokenResponse>;
 
+export type VerifyTokenError =
+  | CommonErrors
+  | MissingAuthenticationToken
+  | InvalidRoute;
+
 export const verifyToken: API.OperationMethod<
   VerifyTokenRequest,
   VerifyTokenResponse,
-  CommonErrors | MissingAuthenticationToken | InvalidRoute,
+  VerifyTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerifyTokenRequest,
@@ -1619,10 +1687,12 @@ export const GetTokenPermissionGroupResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<GetTokenPermissionGroupResponse>;
 
+export type GetTokenPermissionGroupError = CommonErrors | InvalidRoute;
+
 export const getTokenPermissionGroup: API.OperationMethod<
   GetTokenPermissionGroupRequest,
   GetTokenPermissionGroupResponse,
-  CommonErrors | InvalidRoute,
+  GetTokenPermissionGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTokenPermissionGroupRequest,
@@ -1678,10 +1748,12 @@ export const ListTokenPermissionGroupsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
 
+export type ListTokenPermissionGroupsError = CommonErrors;
+
 export const listTokenPermissionGroups: API.OperationMethod<
   ListTokenPermissionGroupsRequest,
   ListTokenPermissionGroupsResponse,
-  CommonErrors,
+  ListTokenPermissionGroupsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListTokenPermissionGroupsRequest,
@@ -1717,10 +1789,12 @@ export type PutTokenValueResponse = unknown;
 export const PutTokenValueResponse =
   Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
 
+export type PutTokenValueError = CommonErrors | InvalidRoute;
+
 export const putTokenValue: API.OperationMethod<
   PutTokenValueRequest,
   PutTokenValueResponse,
-  CommonErrors | InvalidRoute,
+  PutTokenValueError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutTokenValueRequest,

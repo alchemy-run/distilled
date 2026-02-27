@@ -166,10 +166,12 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<UserAgentAiBotSummaryResponse>;
 
+export type UserAgentAiBotSummaryError = CommonErrors;
+
 export const userAgentAiBotSummary: API.OperationMethod<
   UserAgentAiBotSummaryRequest,
   UserAgentAiBotSummaryResponse,
-  CommonErrors,
+  UserAgentAiBotSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UserAgentAiBotSummaryRequest,
@@ -343,10 +345,12 @@ export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<UserAgentAiTimeseriesGroupResponse>;
 
+export type UserAgentAiTimeseriesGroupError = CommonErrors;
+
 export const userAgentAiTimeseriesGroup: API.OperationMethod<
   UserAgentAiTimeseriesGroupRequest,
   UserAgentAiTimeseriesGroupResponse,
-  CommonErrors,
+  UserAgentAiTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UserAgentAiTimeseriesGroupRequest,
@@ -513,10 +517,12 @@ export const TimeseriesAiBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAiBotResponse>;
 
+export type TimeseriesAiBotError = CommonErrors;
+
 export const timeseriesAiBot: API.OperationMethod<
   TimeseriesAiBotRequest,
   TimeseriesAiBotResponse,
-  CommonErrors,
+  TimeseriesAiBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesAiBotRequest,
@@ -672,10 +678,12 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ModelAiInferenceSummaryResponse>;
 
+export type ModelAiInferenceSummaryError = CommonErrors;
+
 export const modelAiInferenceSummary: API.OperationMethod<
   ModelAiInferenceSummaryRequest,
   ModelAiInferenceSummaryResponse,
-  CommonErrors,
+  ModelAiInferenceSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ModelAiInferenceSummaryRequest,
@@ -827,10 +835,12 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<TaskAiInferenceSummaryResponse>;
 
+export type TaskAiInferenceSummaryError = CommonErrors;
+
 export const taskAiInferenceSummary: API.OperationMethod<
   TaskAiInferenceSummaryRequest,
   TaskAiInferenceSummaryResponse,
-  CommonErrors,
+  TaskAiInferenceSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TaskAiInferenceSummaryRequest,
@@ -1006,10 +1016,12 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ModelAiInferenceTimeseriesGroupSummaryResponse>;
 
+export type ModelAiInferenceTimeseriesGroupSummaryError = CommonErrors;
+
 export const modelAiInferenceTimeseriesGroupSummary: API.OperationMethod<
   ModelAiInferenceTimeseriesGroupSummaryRequest,
   ModelAiInferenceTimeseriesGroupSummaryResponse,
-  CommonErrors,
+  ModelAiInferenceTimeseriesGroupSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ModelAiInferenceTimeseriesGroupSummaryRequest,
@@ -1178,10 +1190,12 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TaskAiInferenceTimeseriesGroupSummaryResponse>;
 
+export type TaskAiInferenceTimeseriesGroupSummaryError = CommonErrors;
+
 export const taskAiInferenceTimeseriesGroupSummary: API.OperationMethod<
   TaskAiInferenceTimeseriesGroupSummaryRequest,
   TaskAiInferenceTimeseriesGroupSummaryResponse,
-  CommonErrors,
+  TaskAiInferenceTimeseriesGroupSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TaskAiInferenceTimeseriesGroupSummaryRequest,
@@ -1346,10 +1360,12 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryAiTimeseriesGroupResponse>;
 
+export type SummaryAiTimeseriesGroupError = CommonErrors;
+
 export const summaryAiTimeseriesGroup: API.OperationMethod<
   SummaryAiTimeseriesGroupRequest,
   SummaryAiTimeseriesGroupResponse,
-  CommonErrors,
+  SummaryAiTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryAiTimeseriesGroupRequest,
@@ -1512,10 +1528,12 @@ export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAiTimeseriesGroupResponse>;
 
+export type TimeseriesAiTimeseriesGroupError = CommonErrors;
+
 export const timeseriesAiTimeseriesGroup: API.OperationMethod<
   TimeseriesAiTimeseriesGroupRequest,
   TimeseriesAiTimeseriesGroupResponse,
-  CommonErrors,
+  TimeseriesAiTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesAiTimeseriesGroupRequest,
@@ -1556,10 +1574,12 @@ export const CreateAiToMarkdownResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<CreateAiToMarkdownResponse>;
 
+export type CreateAiToMarkdownError = CommonErrors;
+
 export const createAiToMarkdown: API.OperationMethod<
   CreateAiToMarkdownRequest,
   CreateAiToMarkdownResponse,
-  CommonErrors,
+  CreateAiToMarkdownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAiToMarkdownRequest,
@@ -1647,10 +1667,12 @@ export const ListAnnotationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListAnnotationsResponse>;
 
+export type ListAnnotationsError = CommonErrors;
+
 export const listAnnotations: API.OperationMethod<
   ListAnnotationsRequest,
   ListAnnotationsResponse,
-  CommonErrors,
+  ListAnnotationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAnnotationsRequest,
@@ -1738,10 +1760,12 @@ export const GetAnnotationOutageResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetAnnotationOutageResponse>;
 
+export type GetAnnotationOutageError = CommonErrors;
+
 export const getAnnotationOutage: API.OperationMethod<
   GetAnnotationOutageRequest,
   GetAnnotationOutageResponse,
-  CommonErrors,
+  GetAnnotationOutageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAnnotationOutageRequest,
@@ -1773,10 +1797,12 @@ export const LocationsAnnotationOutageResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsAnnotationOutageResponse>;
 
+export type LocationsAnnotationOutageError = CommonErrors;
+
 export const locationsAnnotationOutage: API.OperationMethod<
   LocationsAnnotationOutageRequest,
   LocationsAnnotationOutageResponse,
-  CommonErrors,
+  LocationsAnnotationOutageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LocationsAnnotationOutageRequest,
@@ -1935,10 +1961,12 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<MatchingAnswerDnsSummaryResponse>;
 
+export type MatchingAnswerDnsSummaryError = CommonErrors;
+
 export const matchingAnswerDnsSummary: API.OperationMethod<
   MatchingAnswerDnsSummaryRequest,
   MatchingAnswerDnsSummaryResponse,
-  CommonErrors,
+  MatchingAnswerDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MatchingAnswerDnsSummaryRequest,
@@ -2113,10 +2141,12 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupResponse>;
 
+export type MatchingAnswerDnsTimeseriesGroupError = CommonErrors;
+
 export const matchingAnswerDnsTimeseriesGroup: API.OperationMethod<
   MatchingAnswerDnsTimeseriesGroupRequest,
   MatchingAnswerDnsTimeseriesGroupResponse,
-  CommonErrors,
+  MatchingAnswerDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MatchingAnswerDnsTimeseriesGroupRequest,
@@ -2283,10 +2313,12 @@ export const TimeseriesAs112Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAs112Response>;
 
+export type TimeseriesAs112Error = CommonErrors;
+
 export const timeseriesAs112: API.OperationMethod<
   TimeseriesAs112Request,
   TimeseriesAs112Response,
-  CommonErrors,
+  TimeseriesAs112Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesAs112Request,
@@ -2450,10 +2482,12 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAs112SummaryResponse>;
 
+export type DnssecAs112SummaryError = CommonErrors;
+
 export const dnssecAs112Summary: API.OperationMethod<
   DnssecAs112SummaryRequest,
   DnssecAs112SummaryResponse,
-  CommonErrors,
+  DnssecAs112SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecAs112SummaryRequest,
@@ -2613,10 +2647,12 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EdnsAs112SummaryResponse>;
 
+export type EdnsAs112SummaryError = CommonErrors;
+
 export const ednsAs112Summary: API.OperationMethod<
   EdnsAs112SummaryRequest,
   EdnsAs112SummaryResponse,
-  CommonErrors,
+  EdnsAs112SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EdnsAs112SummaryRequest,
@@ -2775,10 +2811,12 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAs112SummaryResponse>;
 
+export type ProtocolAs112SummaryError = CommonErrors;
+
 export const protocolAs112Summary: API.OperationMethod<
   ProtocolAs112SummaryRequest,
   ProtocolAs112SummaryResponse,
-  CommonErrors,
+  ProtocolAs112SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ProtocolAs112SummaryRequest,
@@ -2955,10 +2993,12 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
 
+export type DnssecAs112TimeseriesGroupError = CommonErrors;
+
 export const dnssecAs112TimeseriesGroup: API.OperationMethod<
   DnssecAs112TimeseriesGroupRequest,
   DnssecAs112TimeseriesGroupResponse,
-  CommonErrors,
+  DnssecAs112TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecAs112TimeseriesGroupRequest,
@@ -3131,10 +3171,12 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
 
+export type EdnsAs112TimeseriesGroupError = CommonErrors;
+
 export const ednsAs112TimeseriesGroup: API.OperationMethod<
   EdnsAs112TimeseriesGroupRequest,
   EdnsAs112TimeseriesGroupResponse,
-  CommonErrors,
+  EdnsAs112TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EdnsAs112TimeseriesGroupRequest,
@@ -3306,10 +3348,12 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAs112TimeseriesGroupResponse>;
 
+export type ProtocolAs112TimeseriesGroupError = CommonErrors;
+
 export const protocolAs112TimeseriesGroup: API.OperationMethod<
   ProtocolAs112TimeseriesGroupRequest,
   ProtocolAs112TimeseriesGroupResponse,
-  CommonErrors,
+  ProtocolAs112TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ProtocolAs112TimeseriesGroupRequest,
@@ -3484,10 +3528,12 @@ export const DnssecAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAs112TopResponse>;
 
+export type DnssecAs112TopError = CommonErrors;
+
 export const dnssecAs112Top: API.OperationMethod<
   DnssecAs112TopRequest,
   DnssecAs112TopResponse,
-  CommonErrors,
+  DnssecAs112TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecAs112TopRequest,
@@ -3658,10 +3704,12 @@ export const EdnsAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EdnsAs112TopResponse>;
 
+export type EdnsAs112TopError = CommonErrors;
+
 export const ednsAs112Top: API.OperationMethod<
   EdnsAs112TopRequest,
   EdnsAs112TopResponse,
-  CommonErrors,
+  EdnsAs112TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EdnsAs112TopRequest,
@@ -3826,10 +3874,12 @@ export const LocationsAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsAs112TopResponse>;
 
+export type LocationsAs112TopError = CommonErrors;
+
 export const locationsAs112Top: API.OperationMethod<
   LocationsAs112TopRequest,
   LocationsAs112TopResponse,
-  CommonErrors,
+  LocationsAs112TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LocationsAs112TopRequest,
@@ -3996,10 +4046,12 @@ export const TimeseriesAttackLayer3Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAttackLayer3Response>;
 
+export type TimeseriesAttackLayer3Error = CommonErrors;
+
 export const timeseriesAttackLayer3: API.OperationMethod<
   TimeseriesAttackLayer3Request,
   TimeseriesAttackLayer3Response,
-  CommonErrors,
+  TimeseriesAttackLayer3Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesAttackLayer3Request,
@@ -4175,10 +4227,12 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BitrateAttackLayer3SummaryResponse>;
 
+export type BitrateAttackLayer3SummaryError = CommonErrors;
+
 export const bitrateAttackLayer3Summary: API.OperationMethod<
   BitrateAttackLayer3SummaryRequest,
   BitrateAttackLayer3SummaryResponse,
-  CommonErrors,
+  BitrateAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BitrateAttackLayer3SummaryRequest,
@@ -4353,10 +4407,12 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DurationAttackLayer3SummaryResponse>;
 
+export type DurationAttackLayer3SummaryError = CommonErrors;
+
 export const durationAttackLayer3Summary: API.OperationMethod<
   DurationAttackLayer3SummaryRequest,
   DurationAttackLayer3SummaryResponse,
-  CommonErrors,
+  DurationAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DurationAttackLayer3SummaryRequest,
@@ -4508,10 +4564,12 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<IndustryAttackLayer3SummaryResponse>;
 
+export type IndustryAttackLayer3SummaryError = CommonErrors;
+
 export const industryAttackLayer3Summary: API.OperationMethod<
   IndustryAttackLayer3SummaryRequest,
   IndustryAttackLayer3SummaryResponse,
-  CommonErrors,
+  IndustryAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IndustryAttackLayer3SummaryRequest,
@@ -4670,10 +4728,12 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3SummaryResponse>;
 
+export type ProtocolAttackLayer3SummaryError = CommonErrors;
+
 export const protocolAttackLayer3Summary: API.OperationMethod<
   ProtocolAttackLayer3SummaryRequest,
   ProtocolAttackLayer3SummaryResponse,
-  CommonErrors,
+  ProtocolAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ProtocolAttackLayer3SummaryRequest,
@@ -4825,10 +4885,12 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<VectorAttackLayer3SummaryResponse>;
 
+export type VectorAttackLayer3SummaryError = CommonErrors;
+
 export const vectorAttackLayer3Summary: API.OperationMethod<
   VectorAttackLayer3SummaryRequest,
   VectorAttackLayer3SummaryResponse,
-  CommonErrors,
+  VectorAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VectorAttackLayer3SummaryRequest,
@@ -4980,10 +5042,12 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<VerticalAttackLayer3SummaryResponse>;
 
+export type VerticalAttackLayer3SummaryError = CommonErrors;
+
 export const verticalAttackLayer3Summary: API.OperationMethod<
   VerticalAttackLayer3SummaryRequest,
   VerticalAttackLayer3SummaryResponse,
-  CommonErrors,
+  VerticalAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerticalAttackLayer3SummaryRequest,
@@ -5178,10 +5242,12 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
 
+export type BitrateAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const bitrateAttackLayer3TimeseriesGroup: API.OperationMethod<
   BitrateAttackLayer3TimeseriesGroupRequest,
   BitrateAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  BitrateAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BitrateAttackLayer3TimeseriesGroupRequest,
@@ -5377,10 +5443,12 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
 
+export type DurationAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const durationAttackLayer3TimeseriesGroup: API.OperationMethod<
   DurationAttackLayer3TimeseriesGroupRequest,
   DurationAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  DurationAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DurationAttackLayer3TimeseriesGroupRequest,
@@ -5552,10 +5620,12 @@ export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<IndustryAttackLayer3TimeseriesGroupResponse>;
 
+export type IndustryAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const industryAttackLayer3TimeseriesGroup: API.OperationMethod<
   IndustryAttackLayer3TimeseriesGroupRequest,
   IndustryAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  IndustryAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IndustryAttackLayer3TimeseriesGroupRequest,
@@ -5745,10 +5815,12 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupResponse>;
 
+export type ProtocolAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const protocolAttackLayer3TimeseriesGroup: API.OperationMethod<
   ProtocolAttackLayer3TimeseriesGroupRequest,
   ProtocolAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  ProtocolAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ProtocolAttackLayer3TimeseriesGroupRequest,
@@ -5918,10 +5990,12 @@ export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<VectorAttackLayer3TimeseriesGroupResponse>;
 
+export type VectorAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const vectorAttackLayer3TimeseriesGroup: API.OperationMethod<
   VectorAttackLayer3TimeseriesGroupRequest,
   VectorAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  VectorAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VectorAttackLayer3TimeseriesGroupRequest,
@@ -6093,10 +6167,12 @@ export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<VerticalAttackLayer3TimeseriesGroupResponse>;
 
+export type VerticalAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const verticalAttackLayer3TimeseriesGroup: API.OperationMethod<
   VerticalAttackLayer3TimeseriesGroupRequest,
   VerticalAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  VerticalAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerticalAttackLayer3TimeseriesGroupRequest,
@@ -6265,10 +6341,12 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AttacksAttackLayer3TopResponse>;
 
+export type AttacksAttackLayer3TopError = CommonErrors;
+
 export const attacksAttackLayer3Top: API.OperationMethod<
   AttacksAttackLayer3TopRequest,
   AttacksAttackLayer3TopResponse,
-  CommonErrors,
+  AttacksAttackLayer3TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AttacksAttackLayer3TopRequest,
@@ -6428,10 +6506,12 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IndustryAttackLayer3TopResponse>;
 
+export type IndustryAttackLayer3TopError = CommonErrors;
+
 export const industryAttackLayer3Top: API.OperationMethod<
   IndustryAttackLayer3TopRequest,
   IndustryAttackLayer3TopResponse,
-  CommonErrors,
+  IndustryAttackLayer3TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IndustryAttackLayer3TopRequest,
@@ -6591,10 +6671,12 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<VerticalAttackLayer3TopResponse>;
 
+export type VerticalAttackLayer3TopError = CommonErrors;
+
 export const verticalAttackLayer3Top: API.OperationMethod<
   VerticalAttackLayer3TopRequest,
   VerticalAttackLayer3TopResponse,
-  CommonErrors,
+  VerticalAttackLayer3TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerticalAttackLayer3TopRequest,
@@ -6765,10 +6847,12 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<OriginAttackLayer3TopLocationResponse>;
 
+export type OriginAttackLayer3TopLocationError = CommonErrors;
+
 export const originAttackLayer3TopLocation: API.OperationMethod<
   OriginAttackLayer3TopLocationRequest,
   OriginAttackLayer3TopLocationResponse,
-  CommonErrors,
+  OriginAttackLayer3TopLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: OriginAttackLayer3TopLocationRequest,
@@ -6935,10 +7019,12 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TargetAttackLayer3TopLocationResponse>;
 
+export type TargetAttackLayer3TopLocationError = CommonErrors;
+
 export const targetAttackLayer3TopLocation: API.OperationMethod<
   TargetAttackLayer3TopLocationRequest,
   TargetAttackLayer3TopLocationResponse,
-  CommonErrors,
+  TargetAttackLayer3TopLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TargetAttackLayer3TopLocationRequest,
@@ -7110,10 +7196,12 @@ export const TimeseriesAttackLayer7Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesAttackLayer7Response>;
 
+export type TimeseriesAttackLayer7Error = CommonErrors;
+
 export const timeseriesAttackLayer7: API.OperationMethod<
   TimeseriesAttackLayer7Request,
   TimeseriesAttackLayer7Response,
-  CommonErrors,
+  TimeseriesAttackLayer7Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesAttackLayer7Request,
@@ -7269,10 +7357,12 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<IndustryAttackLayer7SummaryResponse>;
 
+export type IndustryAttackLayer7SummaryError = CommonErrors;
+
 export const industryAttackLayer7Summary: API.OperationMethod<
   IndustryAttackLayer7SummaryRequest,
   IndustryAttackLayer7SummaryResponse,
-  CommonErrors,
+  IndustryAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IndustryAttackLayer7SummaryRequest,
@@ -7424,10 +7514,12 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<VerticalAttackLayer7SummaryResponse>;
 
+export type VerticalAttackLayer7SummaryError = CommonErrors;
+
 export const verticalAttackLayer7Summary: API.OperationMethod<
   VerticalAttackLayer7SummaryRequest,
   VerticalAttackLayer7SummaryResponse,
-  CommonErrors,
+  VerticalAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerticalAttackLayer7SummaryRequest,
@@ -7603,10 +7695,12 @@ export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<IndustryAttackLayer7TimeseriesGroupResponse>;
 
+export type IndustryAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const industryAttackLayer7TimeseriesGroup: API.OperationMethod<
   IndustryAttackLayer7TimeseriesGroupRequest,
   IndustryAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  IndustryAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IndustryAttackLayer7TimeseriesGroupRequest,
@@ -7778,10 +7872,12 @@ export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<VerticalAttackLayer7TimeseriesGroupResponse>;
 
+export type VerticalAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const verticalAttackLayer7TimeseriesGroup: API.OperationMethod<
   VerticalAttackLayer7TimeseriesGroupRequest,
   VerticalAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  VerticalAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerticalAttackLayer7TimeseriesGroupRequest,
@@ -7954,10 +8050,12 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AttacksAttackLayer7TopResponse>;
 
+export type AttacksAttackLayer7TopError = CommonErrors;
+
 export const attacksAttackLayer7Top: API.OperationMethod<
   AttacksAttackLayer7TopRequest,
   AttacksAttackLayer7TopResponse,
-  CommonErrors,
+  AttacksAttackLayer7TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AttacksAttackLayer7TopRequest,
@@ -8117,10 +8215,12 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IndustryAttackLayer7TopResponse>;
 
+export type IndustryAttackLayer7TopError = CommonErrors;
+
 export const industryAttackLayer7Top: API.OperationMethod<
   IndustryAttackLayer7TopRequest,
   IndustryAttackLayer7TopResponse,
-  CommonErrors,
+  IndustryAttackLayer7TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IndustryAttackLayer7TopRequest,
@@ -8280,10 +8380,12 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<VerticalAttackLayer7TopResponse>;
 
+export type VerticalAttackLayer7TopError = CommonErrors;
+
 export const verticalAttackLayer7Top: API.OperationMethod<
   VerticalAttackLayer7TopRequest,
   VerticalAttackLayer7TopResponse,
-  CommonErrors,
+  VerticalAttackLayer7TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerticalAttackLayer7TopRequest,
@@ -8454,10 +8556,12 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<OriginAttackLayer7TopAsResponse>;
 
+export type OriginAttackLayer7TopAsError = CommonErrors;
+
 export const originAttackLayer7TopAs: API.OperationMethod<
   OriginAttackLayer7TopAsRequest,
   OriginAttackLayer7TopAsResponse,
-  CommonErrors,
+  OriginAttackLayer7TopAsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: OriginAttackLayer7TopAsRequest,
@@ -8628,10 +8732,12 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<OriginAttackLayer7TopLocationResponse>;
 
+export type OriginAttackLayer7TopLocationError = CommonErrors;
+
 export const originAttackLayer7TopLocation: API.OperationMethod<
   OriginAttackLayer7TopLocationRequest,
   OriginAttackLayer7TopLocationResponse,
-  CommonErrors,
+  OriginAttackLayer7TopLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: OriginAttackLayer7TopLocationRequest,
@@ -8798,10 +8904,12 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TargetAttackLayer7TopLocationResponse>;
 
+export type TargetAttackLayer7TopLocationError = CommonErrors;
+
 export const targetAttackLayer7TopLocation: API.OperationMethod<
   TargetAttackLayer7TopLocationRequest,
   TargetAttackLayer7TopLocationResponse,
-  CommonErrors,
+  TargetAttackLayer7TopLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TargetAttackLayer7TopLocationRequest,
@@ -8965,10 +9073,12 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAwareDnsSummaryResponse>;
 
+export type DnssecAwareDnsSummaryError = CommonErrors;
+
 export const dnssecAwareDnsSummary: API.OperationMethod<
   DnssecAwareDnsSummaryRequest,
   DnssecAwareDnsSummaryResponse,
-  CommonErrors,
+  DnssecAwareDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecAwareDnsSummaryRequest,
@@ -9145,10 +9255,12 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
 
+export type DnssecAwareDnsTimeseriesGroupError = CommonErrors;
+
 export const dnssecAwareDnsTimeseriesGroup: API.OperationMethod<
   DnssecAwareDnsTimeseriesGroupRequest,
   DnssecAwareDnsTimeseriesGroupResponse,
-  CommonErrors,
+  DnssecAwareDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecAwareDnsTimeseriesGroupRequest,
@@ -9282,10 +9394,12 @@ export const TimeseriesBgpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesBgpResponse>;
 
+export type TimeseriesBgpError = CommonErrors;
+
 export const timeseriesBgp: API.OperationMethod<
   TimeseriesBgpRequest,
   TimeseriesBgpResponse,
-  CommonErrors,
+  TimeseriesBgpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesBgpRequest,
@@ -9401,10 +9515,12 @@ export const ListBgpHijackEventsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListBgpHijackEventsResponse>;
 
+export type ListBgpHijackEventsError = CommonErrors;
+
 export const listBgpHijackEvents: API.OperationMethod<
   ListBgpHijackEventsRequest,
   ListBgpHijackEventsResponse,
-  CommonErrors,
+  ListBgpHijackEventsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBgpHijackEventsRequest,
@@ -9631,10 +9747,12 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesBgpIpResponse>;
 
+export type TimeseriesBgpIpError = CommonErrors;
+
 export const timeseriesBgpIp: API.OperationMethod<
   TimeseriesBgpIpRequest,
   TimeseriesBgpIpResponse,
-  CommonErrors,
+  TimeseriesBgpIpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesBgpIpRequest,
@@ -9722,10 +9840,12 @@ export const ListBgpLeakEventsResponse = Schema.Array(
   }).pipe(Schema.encodeKeys({ asnInfo: "asn_info", events: "events" })),
 ) as unknown as Schema.Schema<ListBgpLeakEventsResponse>;
 
+export type ListBgpLeakEventsError = CommonErrors;
+
 export const listBgpLeakEvents: API.OperationMethod<
   ListBgpLeakEventsRequest,
   ListBgpLeakEventsResponse,
-  CommonErrors,
+  ListBgpLeakEventsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBgpLeakEventsRequest,
@@ -9781,10 +9901,12 @@ export const AsesBgpRouteResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<AsesBgpRouteResponse>;
 
+export type AsesBgpRouteError = CommonErrors;
+
 export const asesBgpRoute: API.OperationMethod<
   AsesBgpRouteRequest,
   AsesBgpRouteResponse,
-  CommonErrors,
+  AsesBgpRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AsesBgpRouteRequest,
@@ -9838,10 +9960,12 @@ export const MoasBgpRouteResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<MoasBgpRouteResponse>;
 
+export type MoasBgpRouteError = CommonErrors;
+
 export const moasBgpRoute: API.OperationMethod<
   MoasBgpRouteRequest,
   MoasBgpRouteResponse,
-  CommonErrors,
+  MoasBgpRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MoasBgpRouteRequest,
@@ -9896,10 +10020,12 @@ export const Pfx2asBgpRouteResponse = Schema.Struct({
   Schema.encodeKeys({ meta: "meta", prefixOrigins: "prefix_origins" }),
 ) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
 
+export type Pfx2asBgpRouteError = CommonErrors;
+
 export const pfx2asBgpRoute: API.OperationMethod<
   Pfx2asBgpRouteRequest,
   Pfx2asBgpRouteResponse,
-  CommonErrors,
+  Pfx2asBgpRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: Pfx2asBgpRouteRequest,
@@ -10040,10 +10166,12 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<RealtimeBgpRouteResponse>;
 
+export type RealtimeBgpRouteError = CommonErrors;
+
 export const realtimeBgpRoute: API.OperationMethod<
   RealtimeBgpRouteRequest,
   RealtimeBgpRouteResponse,
-  CommonErrors,
+  RealtimeBgpRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RealtimeBgpRouteRequest,
@@ -10136,10 +10264,12 @@ export const StatsBgpRouteResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<StatsBgpRouteResponse>;
 
+export type StatsBgpRouteError = CommonErrors;
+
 export const statsBgpRoute: API.OperationMethod<
   StatsBgpRouteRequest,
   StatsBgpRouteResponse,
-  CommonErrors,
+  StatsBgpRouteError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StatsBgpRouteRequest,
@@ -10179,10 +10309,12 @@ export const PrefixesBgpTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PrefixesBgpTopResponse>;
 
+export type PrefixesBgpTopError = CommonErrors;
+
 export const prefixesBgpTop: API.OperationMethod<
   PrefixesBgpTopRequest,
   PrefixesBgpTopResponse,
-  CommonErrors,
+  PrefixesBgpTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PrefixesBgpTopRequest,
@@ -10225,10 +10357,12 @@ export const GetBgpTopAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetBgpTopAsResponse>;
 
+export type GetBgpTopAsError = CommonErrors;
+
 export const getBgpTopAs: API.OperationMethod<
   GetBgpTopAsRequest,
   GetBgpTopAsResponse,
-  CommonErrors,
+  GetBgpTopAsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBgpTopAsRequest,
@@ -10276,10 +10410,12 @@ export const PrefixesBgpTopAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PrefixesBgpTopAsResponse>;
 
+export type PrefixesBgpTopAsError = CommonErrors;
+
 export const prefixesBgpTopAs: API.OperationMethod<
   PrefixesBgpTopAsRequest,
   PrefixesBgpTopAsResponse,
-  CommonErrors,
+  PrefixesBgpTopAsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PrefixesBgpTopAsRequest,
@@ -10329,10 +10465,12 @@ export const GetBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetBotResponse>;
 
+export type GetBotError = CommonErrors;
+
 export const getBot: API.OperationMethod<
   GetBotRequest,
   GetBotResponse,
-  CommonErrors,
+  GetBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBotRequest,
@@ -10372,10 +10510,12 @@ export const ListBotsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListBotsResponse>;
 
+export type ListBotsError = CommonErrors;
+
 export const listBots: API.OperationMethod<
   ListBotsRequest,
   ListBotsResponse,
-  CommonErrors,
+  ListBotsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBotsRequest,
@@ -10536,10 +10676,12 @@ export const SummaryBotResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryBotResponse>;
 
+export type SummaryBotError = CommonErrors;
+
 export const summaryBot: API.OperationMethod<
   SummaryBotRequest,
   SummaryBotResponse,
-  CommonErrors,
+  SummaryBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryBotRequest,
@@ -10702,10 +10844,12 @@ export const TimeseriesBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesBotResponse>;
 
+export type TimeseriesBotError = CommonErrors;
+
 export const timeseriesBot: API.OperationMethod<
   TimeseriesBotRequest,
   TimeseriesBotResponse,
-  CommonErrors,
+  TimeseriesBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesBotRequest,
@@ -10878,10 +11022,12 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryBotWebCrawlerResponse>;
 
+export type SummaryBotWebCrawlerError = CommonErrors;
+
 export const summaryBotWebCrawler: API.OperationMethod<
   SummaryBotWebCrawlerRequest,
   SummaryBotWebCrawlerResponse,
-  CommonErrors,
+  SummaryBotWebCrawlerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryBotWebCrawlerRequest,
@@ -11045,10 +11191,12 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DomainCategoriesRobotsTxtTopResponse>;
 
+export type DomainCategoriesRobotsTxtTopError = CommonErrors;
+
 export const domainCategoriesRobotsTxtTop: API.OperationMethod<
   DomainCategoriesRobotsTxtTopRequest,
   DomainCategoriesRobotsTxtTopResponse,
-  CommonErrors,
+  DomainCategoriesRobotsTxtTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DomainCategoriesRobotsTxtTopRequest,
@@ -11224,10 +11372,12 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryResponse>;
 
+export type ThreatCategoryEmailSecuritySummaryError = CommonErrors;
+
 export const threatCategoryEmailSecuritySummary: API.OperationMethod<
   ThreatCategoryEmailSecuritySummaryRequest,
   ThreatCategoryEmailSecuritySummaryResponse,
-  CommonErrors,
+  ThreatCategoryEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ThreatCategoryEmailSecuritySummaryRequest,
@@ -11420,10 +11570,12 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
   },
 ) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
 
+export type ThreatCategoryEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const threatCategoryEmailSecurityTimeseriesGroup: API.OperationMethod<
   ThreatCategoryEmailSecurityTimeseriesGroupRequest,
   ThreatCategoryEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  ThreatCategoryEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ThreatCategoryEmailSecurityTimeseriesGroupRequest,
@@ -11582,10 +11734,12 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassHttpSummaryResponse>;
 
+export type BotClassHttpSummaryError = CommonErrors;
+
 export const botClassHttpSummary: API.OperationMethod<
   BotClassHttpSummaryRequest,
   BotClassHttpSummaryResponse,
-  CommonErrors,
+  BotClassHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BotClassHttpSummaryRequest,
@@ -11758,10 +11912,12 @@ export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassHttpTimeseriesGroupResponse>;
 
+export type BotClassHttpTimeseriesGroupError = CommonErrors;
+
 export const botClassHttpTimeseriesGroup: API.OperationMethod<
   BotClassHttpTimeseriesGroupRequest,
   BotClassHttpTimeseriesGroupResponse,
-  CommonErrors,
+  BotClassHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BotClassHttpTimeseriesGroupRequest,
@@ -11923,10 +12079,12 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassLeakedCredentialSummaryResponse>;
 
+export type BotClassLeakedCredentialSummaryError = CommonErrors;
+
 export const botClassLeakedCredentialSummary: API.OperationMethod<
   BotClassLeakedCredentialSummaryRequest,
   BotClassLeakedCredentialSummaryResponse,
-  CommonErrors,
+  BotClassLeakedCredentialSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BotClassLeakedCredentialSummaryRequest,
@@ -12104,10 +12262,12 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BotClassLeakedCredentialTimeseriesGroupResponse>;
 
+export type BotClassLeakedCredentialTimeseriesGroupError = CommonErrors;
+
 export const botClassLeakedCredentialTimeseriesGroup: API.OperationMethod<
   BotClassLeakedCredentialTimeseriesGroupRequest,
   BotClassLeakedCredentialTimeseriesGroupResponse,
-  CommonErrors,
+  BotClassLeakedCredentialTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BotClassLeakedCredentialTimeseriesGroupRequest,
@@ -12263,10 +12423,12 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ResponseCodeDnsSummaryResponse>;
 
+export type ResponseCodeDnsSummaryError = CommonErrors;
+
 export const responseCodeDnsSummary: API.OperationMethod<
   ResponseCodeDnsSummaryRequest,
   ResponseCodeDnsSummaryResponse,
-  CommonErrors,
+  ResponseCodeDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ResponseCodeDnsSummaryRequest,
@@ -12437,10 +12599,12 @@ export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ResponseCodeDnsTimeseriesGroupResponse>;
 
+export type ResponseCodeDnsTimeseriesGroupError = CommonErrors;
+
 export const responseCodeDnsTimeseriesGroup: API.OperationMethod<
   ResponseCodeDnsTimeseriesGroupRequest,
   ResponseCodeDnsTimeseriesGroupResponse,
-  CommonErrors,
+  ResponseCodeDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ResponseCodeDnsTimeseriesGroupRequest,
@@ -12596,10 +12760,12 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ResponseCodesAs112SummaryResponse>;
 
+export type ResponseCodesAs112SummaryError = CommonErrors;
+
 export const responseCodesAs112Summary: API.OperationMethod<
   ResponseCodesAs112SummaryRequest,
   ResponseCodesAs112SummaryResponse,
-  CommonErrors,
+  ResponseCodesAs112SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ResponseCodesAs112SummaryRequest,
@@ -12773,10 +12939,12 @@ export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ResponseCodesAs112TimeseriesGroupResponse>;
 
+export type ResponseCodesAs112TimeseriesGroupError = CommonErrors;
+
 export const responseCodesAs112TimeseriesGroup: API.OperationMethod<
   ResponseCodesAs112TimeseriesGroupRequest,
   ResponseCodesAs112TimeseriesGroupResponse,
-  CommonErrors,
+  ResponseCodesAs112TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ResponseCodesAs112TimeseriesGroupRequest,
@@ -13036,10 +13204,12 @@ export const SummaryCtResponse = Schema.Struct({
   ]),
 }) as unknown as Schema.Schema<SummaryCtResponse>;
 
+export type SummaryCtError = CommonErrors;
+
 export const summaryCt: API.OperationMethod<
   SummaryCtRequest,
   SummaryCtResponse,
-  CommonErrors,
+  SummaryCtError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryCtRequest,
@@ -13202,10 +13372,12 @@ export const TimeseriesCtResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesCtResponse>;
 
+export type TimeseriesCtError = CommonErrors;
+
 export const timeseriesCt: API.OperationMethod<
   TimeseriesCtRequest,
   TimeseriesCtResponse,
-  CommonErrors,
+  TimeseriesCtError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesCtRequest,
@@ -13359,10 +13531,12 @@ export const GetCtAuthorityResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetCtAuthorityResponse>;
 
+export type GetCtAuthorityError = CommonErrors;
+
 export const getCtAuthority: API.OperationMethod<
   GetCtAuthorityRequest,
   GetCtAuthorityResponse,
-  CommonErrors,
+  GetCtAuthorityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCtAuthorityRequest,
@@ -13413,10 +13587,12 @@ export const ListCtAuthoritiesResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListCtAuthoritiesResponse>;
 
+export type ListCtAuthoritiesError = CommonErrors;
+
 export const listCtAuthorities: API.OperationMethod<
   ListCtAuthoritiesRequest,
   ListCtAuthoritiesResponse,
-  CommonErrors,
+  ListCtAuthoritiesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCtAuthoritiesRequest,
@@ -13554,10 +13730,12 @@ export const GetCtLogResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetCtLogResponse>;
 
+export type GetCtLogError = CommonErrors;
+
 export const getCtLog: API.OperationMethod<
   GetCtLogRequest,
   GetCtLogResponse,
-  CommonErrors,
+  GetCtLogError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetCtLogRequest,
@@ -13614,10 +13792,12 @@ export const ListCtLogsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListCtLogsResponse>;
 
+export type ListCtLogsError = CommonErrors;
+
 export const listCtLogs: API.OperationMethod<
   ListCtLogsRequest,
   ListCtLogsResponse,
-  CommonErrors,
+  ListCtLogsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListCtLogsRequest,
@@ -13644,10 +13824,12 @@ export type GetDatasetResponse = unknown;
 export const GetDatasetResponse =
   Schema.Unknown as unknown as Schema.Schema<GetDatasetResponse>;
 
+export type GetDatasetError = CommonErrors;
+
 export const getDataset: API.OperationMethod<
   GetDatasetRequest,
   GetDatasetResponse,
-  CommonErrors,
+  GetDatasetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDatasetRequest,
@@ -13685,10 +13867,12 @@ export const ListDatasetsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListDatasetsResponse>;
 
+export type ListDatasetsError = CommonErrors;
+
 export const listDatasets: API.OperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
-  CommonErrors,
+  ListDatasetsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListDatasetsRequest,
@@ -13722,10 +13906,12 @@ export const DownloadDatasetResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<DownloadDatasetResponse>;
 
+export type DownloadDatasetError = CommonErrors;
+
 export const downloadDataset: API.OperationMethod<
   DownloadDatasetRequest,
   DownloadDatasetResponse,
-  CommonErrors,
+  DownloadDatasetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DownloadDatasetRequest,
@@ -13892,10 +14078,12 @@ export const TimeseriesDnsResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesDnsResponse>;
 
+export type TimeseriesDnsError = CommonErrors;
+
 export const timeseriesDns: API.OperationMethod<
   TimeseriesDnsRequest,
   TimeseriesDnsResponse,
-  CommonErrors,
+  TimeseriesDnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesDnsRequest,
@@ -14068,10 +14256,12 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecDnsSummaryResponse>;
 
+export type DnssecDnsSummaryError = CommonErrors;
+
 export const dnssecDnsSummary: API.OperationMethod<
   DnssecDnsSummaryRequest,
   DnssecDnsSummaryResponse,
-  CommonErrors,
+  DnssecDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecDnsSummaryRequest,
@@ -14230,10 +14420,12 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolDnsSummaryResponse>;
 
+export type ProtocolDnsSummaryError = CommonErrors;
+
 export const protocolDnsSummary: API.OperationMethod<
   ProtocolDnsSummaryRequest,
   ProtocolDnsSummaryResponse,
-  CommonErrors,
+  ProtocolDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ProtocolDnsSummaryRequest,
@@ -14419,10 +14611,12 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DnssecDnsTimeseriesGroupResponse>;
 
+export type DnssecDnsTimeseriesGroupError = CommonErrors;
+
 export const dnssecDnsTimeseriesGroup: API.OperationMethod<
   DnssecDnsTimeseriesGroupRequest,
   DnssecDnsTimeseriesGroupResponse,
-  CommonErrors,
+  DnssecDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecDnsTimeseriesGroupRequest,
@@ -14594,10 +14788,12 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ProtocolDnsTimeseriesGroupResponse>;
 
+export type ProtocolDnsTimeseriesGroupError = CommonErrors;
+
 export const protocolDnsTimeseriesGroup: API.OperationMethod<
   ProtocolDnsTimeseriesGroupRequest,
   ProtocolDnsTimeseriesGroupResponse,
-  CommonErrors,
+  ProtocolDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ProtocolDnsTimeseriesGroupRequest,
@@ -14762,10 +14958,12 @@ export const AsesDnsTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AsesDnsTopResponse>;
 
+export type AsesDnsTopError = CommonErrors;
+
 export const asesDnsTop: API.OperationMethod<
   AsesDnsTopRequest,
   AsesDnsTopResponse,
-  CommonErrors,
+  AsesDnsTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AsesDnsTopRequest,
@@ -14930,10 +15128,12 @@ export const LocationsDnsTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsDnsTopResponse>;
 
+export type LocationsDnsTopError = CommonErrors;
+
 export const locationsDnsTop: API.OperationMethod<
   LocationsDnsTopRequest,
   LocationsDnsTopResponse,
-  CommonErrors,
+  LocationsDnsTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LocationsDnsTopRequest,
@@ -15092,10 +15292,12 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<DnssecE2EDnsSummaryResponse>;
 
+export type DnssecE2EDnsSummaryError = CommonErrors;
+
 export const dnssecE2EDnsSummary: API.OperationMethod<
   DnssecE2EDnsSummaryRequest,
   DnssecE2EDnsSummaryResponse,
-  CommonErrors,
+  DnssecE2EDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecE2EDnsSummaryRequest,
@@ -15267,10 +15469,12 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<DnssecE2EDnsTimeseriesGroupResponse>;
 
+export type DnssecE2EDnsTimeseriesGroupError = CommonErrors;
+
 export const dnssecE2EDnsTimeseriesGroup: API.OperationMethod<
   DnssecE2EDnsTimeseriesGroupRequest,
   DnssecE2EDnsTimeseriesGroupResponse,
-  CommonErrors,
+  DnssecE2EDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DnssecE2EDnsTimeseriesGroupRequest,
@@ -15426,10 +15630,12 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailRoutingSummaryResponse>;
 
+export type ArcEmailRoutingSummaryError = CommonErrors;
+
 export const arcEmailRoutingSummary: API.OperationMethod<
   ArcEmailRoutingSummaryRequest,
   ArcEmailRoutingSummaryResponse,
-  CommonErrors,
+  ArcEmailRoutingSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ArcEmailRoutingSummaryRequest,
@@ -15581,10 +15787,12 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailRoutingSummaryResponse>;
 
+export type DkimEmailRoutingSummaryError = CommonErrors;
+
 export const dkimEmailRoutingSummary: API.OperationMethod<
   DkimEmailRoutingSummaryRequest,
   DkimEmailRoutingSummaryResponse,
-  CommonErrors,
+  DkimEmailRoutingSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DkimEmailRoutingSummaryRequest,
@@ -15736,10 +15944,12 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailRoutingSummaryResponse>;
 
+export type DmarcEmailRoutingSummaryError = CommonErrors;
+
 export const dmarcEmailRoutingSummary: API.OperationMethod<
   DmarcEmailRoutingSummaryRequest,
   DmarcEmailRoutingSummaryResponse,
-  CommonErrors,
+  DmarcEmailRoutingSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DmarcEmailRoutingSummaryRequest,
@@ -15899,10 +16109,12 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingSummaryResponse>;
 
+export type EncryptedEmailRoutingSummaryError = CommonErrors;
+
 export const encryptedEmailRoutingSummary: API.OperationMethod<
   EncryptedEmailRoutingSummaryRequest,
   EncryptedEmailRoutingSummaryResponse,
-  CommonErrors,
+  EncryptedEmailRoutingSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EncryptedEmailRoutingSummaryRequest,
@@ -16054,10 +16266,12 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailRoutingSummaryResponse>;
 
+export type SpfEmailRoutingSummaryError = CommonErrors;
+
 export const spfEmailRoutingSummary: API.OperationMethod<
   SpfEmailRoutingSummaryRequest,
   SpfEmailRoutingSummaryResponse,
-  CommonErrors,
+  SpfEmailRoutingSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpfEmailRoutingSummaryRequest,
@@ -16226,10 +16440,12 @@ export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailRoutingTimeseriesGroupResponse>;
 
+export type ArcEmailRoutingTimeseriesGroupError = CommonErrors;
+
 export const arcEmailRoutingTimeseriesGroup: API.OperationMethod<
   ArcEmailRoutingTimeseriesGroupRequest,
   ArcEmailRoutingTimeseriesGroupResponse,
-  CommonErrors,
+  ArcEmailRoutingTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ArcEmailRoutingTimeseriesGroupRequest,
@@ -16397,10 +16613,12 @@ export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailRoutingTimeseriesGroupResponse>;
 
+export type DkimEmailRoutingTimeseriesGroupError = CommonErrors;
+
 export const dkimEmailRoutingTimeseriesGroup: API.OperationMethod<
   DkimEmailRoutingTimeseriesGroupRequest,
   DkimEmailRoutingTimeseriesGroupResponse,
-  CommonErrors,
+  DkimEmailRoutingTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DkimEmailRoutingTimeseriesGroupRequest,
@@ -16568,10 +16786,12 @@ export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailRoutingTimeseriesGroupResponse>;
 
+export type DmarcEmailRoutingTimeseriesGroupError = CommonErrors;
+
 export const dmarcEmailRoutingTimeseriesGroup: API.OperationMethod<
   DmarcEmailRoutingTimeseriesGroupRequest,
   DmarcEmailRoutingTimeseriesGroupResponse,
-  CommonErrors,
+  DmarcEmailRoutingTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DmarcEmailRoutingTimeseriesGroupRequest,
@@ -16749,10 +16969,12 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
+export type EncryptedEmailRoutingTimeseriesGroupError = CommonErrors;
+
 export const encryptedEmailRoutingTimeseriesGroup: API.OperationMethod<
   EncryptedEmailRoutingTimeseriesGroupRequest,
   EncryptedEmailRoutingTimeseriesGroupResponse,
-  CommonErrors,
+  EncryptedEmailRoutingTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EncryptedEmailRoutingTimeseriesGroupRequest,
@@ -16917,10 +17139,12 @@ export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailRoutingTimeseriesGroupResponse>;
 
+export type SpfEmailRoutingTimeseriesGroupError = CommonErrors;
+
 export const spfEmailRoutingTimeseriesGroup: API.OperationMethod<
   SpfEmailRoutingTimeseriesGroupRequest,
   SpfEmailRoutingTimeseriesGroupResponse,
-  CommonErrors,
+  SpfEmailRoutingTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpfEmailRoutingTimeseriesGroupRequest,
@@ -17076,10 +17300,12 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailSecuritySummaryResponse>;
 
+export type ArcEmailSecuritySummaryError = CommonErrors;
+
 export const arcEmailSecuritySummary: API.OperationMethod<
   ArcEmailSecuritySummaryRequest,
   ArcEmailSecuritySummaryResponse,
-  CommonErrors,
+  ArcEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ArcEmailSecuritySummaryRequest,
@@ -17231,10 +17457,12 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailSecuritySummaryResponse>;
 
+export type DkimEmailSecuritySummaryError = CommonErrors;
+
 export const dkimEmailSecuritySummary: API.OperationMethod<
   DkimEmailSecuritySummaryRequest,
   DkimEmailSecuritySummaryResponse,
-  CommonErrors,
+  DkimEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DkimEmailSecuritySummaryRequest,
@@ -17386,10 +17614,12 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailSecuritySummaryResponse>;
 
+export type DmarcEmailSecuritySummaryError = CommonErrors;
+
 export const dmarcEmailSecuritySummary: API.OperationMethod<
   DmarcEmailSecuritySummaryRequest,
   DmarcEmailSecuritySummaryResponse,
-  CommonErrors,
+  DmarcEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DmarcEmailSecuritySummaryRequest,
@@ -17549,10 +17779,12 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<MaliciousEmailSecuritySummaryResponse>;
 
+export type MaliciousEmailSecuritySummaryError = CommonErrors;
+
 export const maliciousEmailSecuritySummary: API.OperationMethod<
   MaliciousEmailSecuritySummaryRequest,
   MaliciousEmailSecuritySummaryResponse,
-  CommonErrors,
+  MaliciousEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MaliciousEmailSecuritySummaryRequest,
@@ -17707,10 +17939,12 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
 }) as unknown as Schema.Schema<SpamEmailSecuritySummaryResponse>;
 
+export type SpamEmailSecuritySummaryError = CommonErrors;
+
 export const spamEmailSecuritySummary: API.OperationMethod<
   SpamEmailSecuritySummaryRequest,
   SpamEmailSecuritySummaryResponse,
-  CommonErrors,
+  SpamEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpamEmailSecuritySummaryRequest,
@@ -17862,10 +18096,12 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
   summary_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailSecuritySummaryResponse>;
 
+export type SpfEmailSecuritySummaryError = CommonErrors;
+
 export const spfEmailSecuritySummary: API.OperationMethod<
   SpfEmailSecuritySummaryRequest,
   SpfEmailSecuritySummaryResponse,
-  CommonErrors,
+  SpfEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpfEmailSecuritySummaryRequest,
@@ -18020,10 +18256,12 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
 }) as unknown as Schema.Schema<SpoofEmailSecuritySummaryResponse>;
 
+export type SpoofEmailSecuritySummaryError = CommonErrors;
+
 export const spoofEmailSecuritySummary: API.OperationMethod<
   SpoofEmailSecuritySummaryRequest,
   SpoofEmailSecuritySummaryResponse,
-  CommonErrors,
+  SpoofEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpoofEmailSecuritySummaryRequest,
@@ -18195,10 +18433,12 @@ export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<ArcEmailSecurityTimeseriesGroupResponse>;
 
+export type ArcEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const arcEmailSecurityTimeseriesGroup: API.OperationMethod<
   ArcEmailSecurityTimeseriesGroupRequest,
   ArcEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  ArcEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ArcEmailSecurityTimeseriesGroupRequest,
@@ -18366,10 +18606,12 @@ export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DkimEmailSecurityTimeseriesGroupResponse>;
 
+export type DkimEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const dkimEmailSecurityTimeseriesGroup: API.OperationMethod<
   DkimEmailSecurityTimeseriesGroupRequest,
   DkimEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  DkimEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DkimEmailSecurityTimeseriesGroupRequest,
@@ -18537,10 +18779,12 @@ export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<DmarcEmailSecurityTimeseriesGroupResponse>;
 
+export type DmarcEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const dmarcEmailSecurityTimeseriesGroup: API.OperationMethod<
   DmarcEmailSecurityTimeseriesGroupRequest,
   DmarcEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  DmarcEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DmarcEmailSecurityTimeseriesGroupRequest,
@@ -18718,10 +18962,12 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
 
+export type MaliciousEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const maliciousEmailSecurityTimeseriesGroup: API.OperationMethod<
   MaliciousEmailSecurityTimeseriesGroupRequest,
   MaliciousEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  MaliciousEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MaliciousEmailSecurityTimeseriesGroupRequest,
@@ -18892,10 +19138,12 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
 }) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupResponse>;
 
+export type SpamEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const spamEmailSecurityTimeseriesGroup: API.OperationMethod<
   SpamEmailSecurityTimeseriesGroupRequest,
   SpamEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  SpamEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpamEmailSecurityTimeseriesGroupRequest,
@@ -19063,10 +19311,12 @@ export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   serie_0: Schema.Unknown,
 }) as unknown as Schema.Schema<SpfEmailSecurityTimeseriesGroupResponse>;
 
+export type SpfEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const spfEmailSecurityTimeseriesGroup: API.OperationMethod<
   SpfEmailSecurityTimeseriesGroupRequest,
   SpfEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  SpfEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpfEmailSecurityTimeseriesGroupRequest,
@@ -19237,10 +19487,12 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
 }) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupResponse>;
 
+export type SpoofEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const spoofEmailSecurityTimeseriesGroup: API.OperationMethod<
   SpoofEmailSecurityTimeseriesGroupRequest,
   SpoofEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  SpoofEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SpoofEmailSecurityTimeseriesGroupRequest,
@@ -19404,10 +19656,12 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldResponse>;
 
+export type GetEmailSecurityTopTldError = CommonErrors;
+
 export const getEmailSecurityTopTld: API.OperationMethod<
   GetEmailSecurityTopTldRequest,
   GetEmailSecurityTopTldResponse,
-  CommonErrors,
+  GetEmailSecurityTopTldError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEmailSecurityTopTldRequest,
@@ -19580,10 +19834,12 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldMaliciousResponse>;
 
+export type GetEmailSecurityTopTldMaliciousError = CommonErrors;
+
 export const getEmailSecurityTopTldMalicious: API.OperationMethod<
   GetEmailSecurityTopTldMaliciousRequest,
   GetEmailSecurityTopTldMaliciousResponse,
-  CommonErrors,
+  GetEmailSecurityTopTldMaliciousError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEmailSecurityTopTldMaliciousRequest,
@@ -19751,10 +20007,12 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldSpamResponse>;
 
+export type GetEmailSecurityTopTldSpamError = CommonErrors;
+
 export const getEmailSecurityTopTldSpam: API.OperationMethod<
   GetEmailSecurityTopTldSpamRequest,
   GetEmailSecurityTopTldSpamResponse,
-  CommonErrors,
+  GetEmailSecurityTopTldSpamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEmailSecurityTopTldSpamRequest,
@@ -19925,10 +20183,12 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetEmailSecurityTopTldSpoofResponse>;
 
+export type GetEmailSecurityTopTldSpoofError = CommonErrors;
+
 export const getEmailSecurityTopTldSpoof: API.OperationMethod<
   GetEmailSecurityTopTldSpoofRequest,
   GetEmailSecurityTopTldSpoofResponse,
-  CommonErrors,
+  GetEmailSecurityTopTldSpoofError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEmailSecurityTopTldSpoofRequest,
@@ -19980,10 +20240,12 @@ export const GetEntityResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetEntityResponse>;
 
+export type GetEntityError = CommonErrors;
+
 export const getEntity: API.OperationMethod<
   GetEntityRequest,
   GetEntityResponse,
-  CommonErrors,
+  GetEntityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEntityRequest,
@@ -20065,10 +20327,12 @@ export const GetEntityAsnResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetEntityAsnResponse>;
 
+export type GetEntityAsnError = CommonErrors;
+
 export const getEntityAsn: API.OperationMethod<
   GetEntityAsnRequest,
   GetEntityAsnResponse,
-  CommonErrors,
+  GetEntityAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEntityAsnRequest,
@@ -20108,10 +20372,12 @@ export const ListEntityAsnsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListEntityAsnsResponse>;
 
+export type ListEntityAsnsError = CommonErrors;
+
 export const listEntityAsns: API.OperationMethod<
   ListEntityAsnsRequest,
   ListEntityAsnsResponse,
-  CommonErrors,
+  ListEntityAsnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListEntityAsnsRequest,
@@ -20191,10 +20457,12 @@ export const IpEntityAsnResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<IpEntityAsnResponse>;
 
+export type IpEntityAsnError = CommonErrors;
+
 export const ipEntityAsn: API.OperationMethod<
   IpEntityAsnRequest,
   IpEntityAsnResponse,
-  CommonErrors,
+  IpEntityAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpEntityAsnRequest,
@@ -20260,10 +20528,12 @@ export const RelEntityAsnResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<RelEntityAsnResponse>;
 
+export type RelEntityAsnError = CommonErrors;
+
 export const relEntityAsn: API.OperationMethod<
   RelEntityAsnRequest,
   RelEntityAsnResponse,
-  CommonErrors,
+  RelEntityAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RelEntityAsnRequest,
@@ -20309,10 +20579,12 @@ export const GetEntityLocationResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetEntityLocationResponse>;
 
+export type GetEntityLocationError = CommonErrors;
+
 export const getEntityLocation: API.OperationMethod<
   GetEntityLocationRequest,
   GetEntityLocationResponse,
-  CommonErrors,
+  GetEntityLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetEntityLocationRequest,
@@ -20346,10 +20618,12 @@ export const ListEntityLocationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListEntityLocationsResponse>;
 
+export type ListEntityLocationsError = CommonErrors;
+
 export const listEntityLocations: API.OperationMethod<
   ListEntityLocationsRequest,
   ListEntityLocationsResponse,
-  CommonErrors,
+  ListEntityLocationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListEntityLocationsRequest,
@@ -20523,10 +20797,12 @@ export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BrowserFamilyHttpTimeseriesGroupResponse>;
 
+export type BrowserFamilyHttpTimeseriesGroupError = CommonErrors;
+
 export const browserFamilyHttpTimeseriesGroup: API.OperationMethod<
   BrowserFamilyHttpTimeseriesGroupRequest,
   BrowserFamilyHttpTimeseriesGroupResponse,
-  CommonErrors,
+  BrowserFamilyHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BrowserFamilyHttpTimeseriesGroupRequest,
@@ -20690,10 +20966,12 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BrowserFamilyHttpTopResponse>;
 
+export type BrowserFamilyHttpTopError = CommonErrors;
+
 export const browserFamilyHttpTop: API.OperationMethod<
   BrowserFamilyHttpTopRequest,
   BrowserFamilyHttpTopResponse,
-  CommonErrors,
+  BrowserFamilyHttpTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BrowserFamilyHttpTopRequest,
@@ -20763,10 +21041,12 @@ export const GetGeolocationResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetGeolocationResponse>;
 
+export type GetGeolocationError = CommonErrors;
+
 export const getGeolocation: API.OperationMethod<
   GetGeolocationRequest,
   GetGeolocationResponse,
-  CommonErrors,
+  GetGeolocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetGeolocationRequest,
@@ -20830,10 +21110,12 @@ export const ListGeolocationsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListGeolocationsResponse>;
 
+export type ListGeolocationsError = CommonErrors;
+
 export const listGeolocations: API.OperationMethod<
   ListGeolocationsRequest,
   ListGeolocationsResponse,
-  CommonErrors,
+  ListGeolocationsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListGeolocationsRequest,
@@ -21016,10 +21298,12 @@ export const TimeseriesGroupsAiBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsAiBotResponse>;
 
+export type TimeseriesGroupsAiBotError = CommonErrors;
+
 export const timeseriesGroupsAiBot: API.OperationMethod<
   TimeseriesGroupsAiBotRequest,
   TimeseriesGroupsAiBotResponse,
-  CommonErrors,
+  TimeseriesGroupsAiBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsAiBotRequest,
@@ -21202,10 +21486,12 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsAiTimeseriesGroupResponse>;
 
+export type TimeseriesGroupsAiTimeseriesGroupError = CommonErrors;
+
 export const timeseriesGroupsAiTimeseriesGroup: API.OperationMethod<
   TimeseriesGroupsAiTimeseriesGroupRequest,
   TimeseriesGroupsAiTimeseriesGroupResponse,
-  CommonErrors,
+  TimeseriesGroupsAiTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsAiTimeseriesGroupRequest,
@@ -21385,10 +21671,12 @@ export const TimeseriesGroupsBotResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsBotResponse>;
 
+export type TimeseriesGroupsBotError = CommonErrors;
+
 export const timeseriesGroupsBot: API.OperationMethod<
   TimeseriesGroupsBotRequest,
   TimeseriesGroupsBotResponse,
-  CommonErrors,
+  TimeseriesGroupsBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsBotRequest,
@@ -21579,10 +21867,12 @@ export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsBotWebCrawlerResponse>;
 
+export type TimeseriesGroupsBotWebCrawlerError = CommonErrors;
+
 export const timeseriesGroupsBotWebCrawler: API.OperationMethod<
   TimeseriesGroupsBotWebCrawlerRequest,
   TimeseriesGroupsBotWebCrawlerResponse,
-  CommonErrors,
+  TimeseriesGroupsBotWebCrawlerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsBotWebCrawlerRequest,
@@ -21857,10 +22147,12 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
   ]),
 }) as unknown as Schema.Schema<TimeseriesGroupsCtResponse>;
 
+export type TimeseriesGroupsCtError = CommonErrors;
+
 export const timeseriesGroupsCt: API.OperationMethod<
   TimeseriesGroupsCtRequest,
   TimeseriesGroupsCtResponse,
-  CommonErrors,
+  TimeseriesGroupsCtError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsCtRequest,
@@ -22038,10 +22330,12 @@ export const TimeseriesGroupsNetflowResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsNetflowResponse>;
 
+export type TimeseriesGroupsNetflowError = CommonErrors;
+
 export const timeseriesGroupsNetflow: API.OperationMethod<
   TimeseriesGroupsNetflowRequest,
   TimeseriesGroupsNetflowResponse,
-  CommonErrors,
+  TimeseriesGroupsNetflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsNetflowRequest,
@@ -22255,10 +22549,12 @@ export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsQualityIqiResponse>;
 
+export type TimeseriesGroupsQualityIqiError = CommonErrors;
+
 export const timeseriesGroupsQualityIqi: API.OperationMethod<
   TimeseriesGroupsQualityIqiRequest,
   TimeseriesGroupsQualityIqiResponse,
-  CommonErrors,
+  TimeseriesGroupsQualityIqiError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsQualityIqiRequest,
@@ -22429,10 +22725,12 @@ export const TimeseriesGroupsRankingResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsRankingResponse>;
 
+export type TimeseriesGroupsRankingError = CommonErrors;
+
 export const timeseriesGroupsRanking: API.OperationMethod<
   TimeseriesGroupsRankingRequest,
   TimeseriesGroupsRankingResponse,
-  CommonErrors,
+  TimeseriesGroupsRankingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsRankingRequest,
@@ -22608,10 +22906,12 @@ export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsRankingInternetServiceResponse>;
 
+export type TimeseriesGroupsRankingInternetServiceError = CommonErrors;
+
 export const timeseriesGroupsRankingInternetService: API.OperationMethod<
   TimeseriesGroupsRankingInternetServiceRequest,
   TimeseriesGroupsRankingInternetServiceResponse,
-  CommonErrors,
+  TimeseriesGroupsRankingInternetServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsRankingInternetServiceRequest,
@@ -22806,10 +23106,12 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutResponse>;
 
+export type TimeseriesGroupsTcpResetsTimeoutError = CommonErrors;
+
 export const timeseriesGroupsTcpResetsTimeout: API.OperationMethod<
   TimeseriesGroupsTcpResetsTimeoutRequest,
   TimeseriesGroupsTcpResetsTimeoutResponse,
-  CommonErrors,
+  TimeseriesGroupsTcpResetsTimeoutError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsTcpResetsTimeoutRequest,
@@ -22987,10 +23289,12 @@ export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2AiInferenceResponse>;
 
+export type TimeseriesGroupsV2AiInferenceError = CommonErrors;
+
 export const timeseriesGroupsV2AiInference: API.OperationMethod<
   TimeseriesGroupsV2AiInferenceRequest,
   TimeseriesGroupsV2AiInferenceResponse,
-  CommonErrors,
+  TimeseriesGroupsV2AiInferenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2AiInferenceRequest,
@@ -23178,10 +23482,12 @@ export const TimeseriesGroupsV2As112Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2As112Response>;
 
+export type TimeseriesGroupsV2As112Error = CommonErrors;
+
 export const timeseriesGroupsV2As112: API.OperationMethod<
   TimeseriesGroupsV2As112Request,
   TimeseriesGroupsV2As112Response,
-  CommonErrors,
+  TimeseriesGroupsV2As112Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2As112Request,
@@ -23374,10 +23680,12 @@ export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer3Response>;
 
+export type TimeseriesGroupsV2AttackLayer3Error = CommonErrors;
+
 export const timeseriesGroupsV2AttackLayer3: API.OperationMethod<
   TimeseriesGroupsV2AttackLayer3Request,
   TimeseriesGroupsV2AttackLayer3Response,
-  CommonErrors,
+  TimeseriesGroupsV2AttackLayer3Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2AttackLayer3Request,
@@ -23570,10 +23878,12 @@ export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer7Response>;
 
+export type TimeseriesGroupsV2AttackLayer7Error = CommonErrors;
+
 export const timeseriesGroupsV2AttackLayer7: API.OperationMethod<
   TimeseriesGroupsV2AttackLayer7Request,
   TimeseriesGroupsV2AttackLayer7Response,
-  CommonErrors,
+  TimeseriesGroupsV2AttackLayer7Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2AttackLayer7Request,
@@ -23771,10 +24081,12 @@ export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2DnsResponse>;
 
+export type TimeseriesGroupsV2DnsError = CommonErrors;
+
 export const timeseriesGroupsV2Dns: API.OperationMethod<
   TimeseriesGroupsV2DnsRequest,
   TimeseriesGroupsV2DnsResponse,
-  CommonErrors,
+  TimeseriesGroupsV2DnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2DnsRequest,
@@ -23959,10 +24271,12 @@ export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2EmailRoutingResponse>;
 
+export type TimeseriesGroupsV2EmailRoutingError = CommonErrors;
+
 export const timeseriesGroupsV2EmailRouting: API.OperationMethod<
   TimeseriesGroupsV2EmailRoutingRequest,
   TimeseriesGroupsV2EmailRoutingResponse,
-  CommonErrors,
+  TimeseriesGroupsV2EmailRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2EmailRoutingRequest,
@@ -24159,10 +24473,12 @@ export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2EmailSecurityResponse>;
 
+export type TimeseriesGroupsV2EmailSecurityError = CommonErrors;
+
 export const timeseriesGroupsV2EmailSecurity: API.OperationMethod<
   TimeseriesGroupsV2EmailSecurityRequest,
   TimeseriesGroupsV2EmailSecurityResponse,
-  CommonErrors,
+  TimeseriesGroupsV2EmailSecurityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2EmailSecurityRequest,
@@ -24360,10 +24676,12 @@ export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2HttpResponse>;
 
+export type TimeseriesGroupsV2HttpError = CommonErrors;
+
 export const timeseriesGroupsV2Http: API.OperationMethod<
   TimeseriesGroupsV2HttpRequest,
   TimeseriesGroupsV2HttpResponse,
-  CommonErrors,
+  TimeseriesGroupsV2HttpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2HttpRequest,
@@ -24543,10 +24861,12 @@ export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesGroupsV2LeakedCredentialResponse>;
 
+export type TimeseriesGroupsV2LeakedCredentialError = CommonErrors;
+
 export const timeseriesGroupsV2LeakedCredential: API.OperationMethod<
   TimeseriesGroupsV2LeakedCredentialRequest,
   TimeseriesGroupsV2LeakedCredentialResponse,
-  CommonErrors,
+  TimeseriesGroupsV2LeakedCredentialError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesGroupsV2LeakedCredentialRequest,
@@ -24705,10 +25025,12 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<CacheHitDnsSummaryResponse>;
 
+export type CacheHitDnsSummaryError = CommonErrors;
+
 export const cacheHitDnsSummary: API.OperationMethod<
   CacheHitDnsSummaryRequest,
   CacheHitDnsSummaryResponse,
-  CommonErrors,
+  CacheHitDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CacheHitDnsSummaryRequest,
@@ -24880,10 +25202,12 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<CacheHitDnsTimeseriesGroupResponse>;
 
+export type CacheHitDnsTimeseriesGroupError = CommonErrors;
+
 export const cacheHitDnsTimeseriesGroup: API.OperationMethod<
   CacheHitDnsTimeseriesGroupRequest,
   CacheHitDnsTimeseriesGroupResponse,
-  CommonErrors,
+  CacheHitDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CacheHitDnsTimeseriesGroupRequest,
@@ -25050,10 +25374,12 @@ export const TimeseriesHttpResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesHttpResponse>;
 
+export type TimeseriesHttpError = CommonErrors;
+
 export const timeseriesHttp: API.OperationMethod<
   TimeseriesHttpRequest,
   TimeseriesHttpResponse,
-  CommonErrors,
+  TimeseriesHttpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesHttpRequest,
@@ -25218,10 +25544,12 @@ export const GetHttpAsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsResponse>;
 
+export type GetHttpAsError = CommonErrors;
+
 export const getHttpAs: API.OperationMethod<
   GetHttpAsRequest,
   GetHttpAsResponse,
-  CommonErrors,
+  GetHttpAsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsRequest,
@@ -25392,10 +25720,12 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsBotClassResponse>;
 
+export type GetHttpAsBotClassError = CommonErrors;
+
 export const getHttpAsBotClass: API.OperationMethod<
   GetHttpAsBotClassRequest,
   GetHttpAsBotClassResponse,
-  CommonErrors,
+  GetHttpAsBotClassError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsBotClassRequest,
@@ -25569,10 +25899,12 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsBrowserFamilyResponse>;
 
+export type GetHttpAsBrowserFamilyError = CommonErrors;
+
 export const getHttpAsBrowserFamily: API.OperationMethod<
   GetHttpAsBrowserFamilyRequest,
   GetHttpAsBrowserFamilyResponse,
-  CommonErrors,
+  GetHttpAsBrowserFamilyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsBrowserFamilyRequest,
@@ -25746,10 +26078,12 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsDeviceTypeResponse>;
 
+export type GetHttpAsDeviceTypeError = CommonErrors;
+
 export const getHttpAsDeviceType: API.OperationMethod<
   GetHttpAsDeviceTypeRequest,
   GetHttpAsDeviceTypeResponse,
-  CommonErrors,
+  GetHttpAsDeviceTypeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsDeviceTypeRequest,
@@ -25923,10 +26257,12 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsHttpMethodResponse>;
 
+export type GetHttpAsHttpMethodError = CommonErrors;
+
 export const getHttpAsHttpMethod: API.OperationMethod<
   GetHttpAsHttpMethodRequest,
   GetHttpAsHttpMethodResponse,
-  CommonErrors,
+  GetHttpAsHttpMethodError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsHttpMethodRequest,
@@ -26100,10 +26436,12 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsHttpProtocolResponse>;
 
+export type GetHttpAsHttpProtocolError = CommonErrors;
+
 export const getHttpAsHttpProtocol: API.OperationMethod<
   GetHttpAsHttpProtocolRequest,
   GetHttpAsHttpProtocolResponse,
-  CommonErrors,
+  GetHttpAsHttpProtocolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsHttpProtocolRequest,
@@ -26275,10 +26613,12 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsIpVersionResponse>;
 
+export type GetHttpAsIpVersionError = CommonErrors;
+
 export const getHttpAsIpVersion: API.OperationMethod<
   GetHttpAsIpVersionRequest,
   GetHttpAsIpVersionResponse,
-  CommonErrors,
+  GetHttpAsIpVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsIpVersionRequest,
@@ -26462,10 +26802,12 @@ export const GetHttpAsOsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsOsResponse>;
 
+export type GetHttpAsOsError = CommonErrors;
+
 export const getHttpAsOs: API.OperationMethod<
   GetHttpAsOsRequest,
   GetHttpAsOsResponse,
-  CommonErrors,
+  GetHttpAsOsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsOsRequest,
@@ -26643,10 +26985,12 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpAsTlsVersionResponse>;
 
+export type GetHttpAsTlsVersionError = CommonErrors;
+
 export const getHttpAsTlsVersion: API.OperationMethod<
   GetHttpAsTlsVersionRequest,
   GetHttpAsTlsVersionResponse,
-  CommonErrors,
+  GetHttpAsTlsVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpAsTlsVersionRequest,
@@ -26815,10 +27159,12 @@ export const GetHttpLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationResponse>;
 
+export type GetHttpLocationError = CommonErrors;
+
 export const getHttpLocation: API.OperationMethod<
   GetHttpLocationRequest,
   GetHttpLocationResponse,
-  CommonErrors,
+  GetHttpLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationRequest,
@@ -26996,10 +27342,12 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationBotClassResponse>;
 
+export type GetHttpLocationBotClassError = CommonErrors;
+
 export const getHttpLocationBotClass: API.OperationMethod<
   GetHttpLocationBotClassRequest,
   GetHttpLocationBotClassResponse,
-  CommonErrors,
+  GetHttpLocationBotClassError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationBotClassRequest,
@@ -27177,10 +27525,12 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationBrowserFamilyResponse>;
 
+export type GetHttpLocationBrowserFamilyError = CommonErrors;
+
 export const getHttpLocationBrowserFamily: API.OperationMethod<
   GetHttpLocationBrowserFamilyRequest,
   GetHttpLocationBrowserFamilyResponse,
-  CommonErrors,
+  GetHttpLocationBrowserFamilyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationBrowserFamilyRequest,
@@ -27358,10 +27708,12 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationDeviceTypeResponse>;
 
+export type GetHttpLocationDeviceTypeError = CommonErrors;
+
 export const getHttpLocationDeviceType: API.OperationMethod<
   GetHttpLocationDeviceTypeRequest,
   GetHttpLocationDeviceTypeResponse,
-  CommonErrors,
+  GetHttpLocationDeviceTypeError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationDeviceTypeRequest,
@@ -27539,10 +27891,12 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationHttpMethodResponse>;
 
+export type GetHttpLocationHttpMethodError = CommonErrors;
+
 export const getHttpLocationHttpMethod: API.OperationMethod<
   GetHttpLocationHttpMethodRequest,
   GetHttpLocationHttpMethodResponse,
-  CommonErrors,
+  GetHttpLocationHttpMethodError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationHttpMethodRequest,
@@ -27720,10 +28074,12 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationHttpProtocolResponse>;
 
+export type GetHttpLocationHttpProtocolError = CommonErrors;
+
 export const getHttpLocationHttpProtocol: API.OperationMethod<
   GetHttpLocationHttpProtocolRequest,
   GetHttpLocationHttpProtocolResponse,
-  CommonErrors,
+  GetHttpLocationHttpProtocolError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationHttpProtocolRequest,
@@ -27899,10 +28255,12 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationIpVersionResponse>;
 
+export type GetHttpLocationIpVersionError = CommonErrors;
+
 export const getHttpLocationIpVersion: API.OperationMethod<
   GetHttpLocationIpVersionRequest,
   GetHttpLocationIpVersionResponse,
-  CommonErrors,
+  GetHttpLocationIpVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationIpVersionRequest,
@@ -28090,10 +28448,12 @@ export const GetHttpLocationOsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationOsResponse>;
 
+export type GetHttpLocationOsError = CommonErrors;
+
 export const getHttpLocationOs: API.OperationMethod<
   GetHttpLocationOsRequest,
   GetHttpLocationOsResponse,
-  CommonErrors,
+  GetHttpLocationOsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationOsRequest,
@@ -28275,10 +28635,12 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetHttpLocationTlsVersionResponse>;
 
+export type GetHttpLocationTlsVersionError = CommonErrors;
+
 export const getHttpLocationTlsVersion: API.OperationMethod<
   GetHttpLocationTlsVersionRequest,
   GetHttpLocationTlsVersionResponse,
-  CommonErrors,
+  GetHttpLocationTlsVersionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHttpLocationTlsVersionRequest,
@@ -28437,10 +28799,12 @@ export const OsHttpSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ aNDROID: "ANDROID", iOS: "IOS" })),
 }) as unknown as Schema.Schema<OsHttpSummaryResponse>;
 
+export type OsHttpSummaryError = CommonErrors;
+
 export const osHttpSummary: API.OperationMethod<
   OsHttpSummaryRequest,
   OsHttpSummaryResponse,
-  CommonErrors,
+  OsHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: OsHttpSummaryRequest,
@@ -28611,10 +28975,12 @@ export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<BrowserHttpTimeseriesGroupResponse>;
 
+export type BrowserHttpTimeseriesGroupError = CommonErrors;
+
 export const browserHttpTimeseriesGroup: API.OperationMethod<
   BrowserHttpTimeseriesGroupRequest,
   BrowserHttpTimeseriesGroupResponse,
-  CommonErrors,
+  BrowserHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BrowserHttpTimeseriesGroupRequest,
@@ -28781,10 +29147,12 @@ export const OsHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<OsHttpTimeseriesGroupResponse>;
 
+export type OsHttpTimeseriesGroupError = CommonErrors;
+
 export const osHttpTimeseriesGroup: API.OperationMethod<
   OsHttpTimeseriesGroupRequest,
   OsHttpTimeseriesGroupResponse,
-  CommonErrors,
+  OsHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: OsHttpTimeseriesGroupRequest,
@@ -28948,10 +29316,12 @@ export const BrowserHttpTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BrowserHttpTopResponse>;
 
+export type BrowserHttpTopError = CommonErrors;
+
 export const browserHttpTop: API.OperationMethod<
   BrowserHttpTopRequest,
   BrowserHttpTopResponse,
-  CommonErrors,
+  BrowserHttpTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BrowserHttpTopRequest,
@@ -29113,10 +29483,12 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
 }) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryResponse>;
 
+export type CompromisedLeakedCredentialSummaryError = CommonErrors;
+
 export const compromisedLeakedCredentialSummary: API.OperationMethod<
   CompromisedLeakedCredentialSummaryRequest,
   CompromisedLeakedCredentialSummaryResponse,
-  CommonErrors,
+  CompromisedLeakedCredentialSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CompromisedLeakedCredentialSummaryRequest,
@@ -29302,10 +29674,12 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
   },
 ) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
 
+export type CompromisedLeakedCredentialTimeseriesGroupError = CommonErrors;
+
 export const compromisedLeakedCredentialTimeseriesGroup: API.OperationMethod<
   CompromisedLeakedCredentialTimeseriesGroupRequest,
   CompromisedLeakedCredentialTimeseriesGroupResponse,
-  CommonErrors,
+  CompromisedLeakedCredentialTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CompromisedLeakedCredentialTimeseriesGroupRequest,
@@ -29461,10 +29835,12 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<HttpMethodAttackLayer7SummaryResponse>;
 
+export type HttpMethodAttackLayer7SummaryError = CommonErrors;
+
 export const httpMethodAttackLayer7Summary: API.OperationMethod<
   HttpMethodAttackLayer7SummaryRequest,
   HttpMethodAttackLayer7SummaryResponse,
-  CommonErrors,
+  HttpMethodAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpMethodAttackLayer7SummaryRequest,
@@ -29640,10 +30016,12 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpMethodAttackLayer7TimeseriesGroupResponse>;
 
+export type HttpMethodAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const httpMethodAttackLayer7TimeseriesGroup: API.OperationMethod<
   HttpMethodAttackLayer7TimeseriesGroupRequest,
   HttpMethodAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  HttpMethodAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpMethodAttackLayer7TimeseriesGroupRequest,
@@ -29802,10 +30180,12 @@ export const SummaryNetflowResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ hTTP: "HTTP", oTHER: "OTHER" })),
 }) as unknown as Schema.Schema<SummaryNetflowResponse>;
 
+export type SummaryNetflowError = CommonErrors;
+
 export const summaryNetflow: API.OperationMethod<
   SummaryNetflowRequest,
   SummaryNetflowResponse,
-  CommonErrors,
+  SummaryNetflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryNetflowRequest,
@@ -29973,10 +30353,12 @@ export const TimeseriesNetflowResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TimeseriesNetflowResponse>;
 
+export type TimeseriesNetflowError = CommonErrors;
+
 export const timeseriesNetflow: API.OperationMethod<
   TimeseriesNetflowRequest,
   TimeseriesNetflowResponse,
-  CommonErrors,
+  TimeseriesNetflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TimeseriesNetflowRequest,
@@ -30141,10 +30523,12 @@ export const AsesNetflowTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AsesNetflowTopResponse>;
 
+export type AsesNetflowTopError = CommonErrors;
+
 export const asesNetflowTop: API.OperationMethod<
   AsesNetflowTopRequest,
   AsesNetflowTopResponse,
-  CommonErrors,
+  AsesNetflowTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AsesNetflowTopRequest,
@@ -30309,10 +30693,12 @@ export const LocationsNetflowTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsNetflowTopResponse>;
 
+export type LocationsNetflowTopError = CommonErrors;
+
 export const locationsNetflowTop: API.OperationMethod<
   LocationsNetflowTopRequest,
   LocationsNetflowTopResponse,
-  CommonErrors,
+  LocationsNetflowTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LocationsNetflowTopRequest,
@@ -30473,10 +30859,12 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<MitigationProductAttackLayer7SummaryResponse>;
 
+export type MitigationProductAttackLayer7SummaryError = CommonErrors;
+
 export const mitigationProductAttackLayer7Summary: API.OperationMethod<
   MitigationProductAttackLayer7SummaryRequest,
   MitigationProductAttackLayer7SummaryResponse,
-  CommonErrors,
+  MitigationProductAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MitigationProductAttackLayer7SummaryRequest,
@@ -30652,10 +31040,12 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
     }),
   }) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupResponse>;
 
+export type MitigationProductAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const mitigationProductAttackLayer7TimeseriesGroup: API.OperationMethod<
   MitigationProductAttackLayer7TimeseriesGroupRequest,
   MitigationProductAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  MitigationProductAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: MitigationProductAttackLayer7TimeseriesGroupRequest,
@@ -30814,10 +31204,12 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpProtocolHttpSummaryResponse>;
 
+export type HttpProtocolHttpSummaryError = CommonErrors;
+
 export const httpProtocolHttpSummary: API.OperationMethod<
   HttpProtocolHttpSummaryRequest,
   HttpProtocolHttpSummaryResponse,
-  CommonErrors,
+  HttpProtocolHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpProtocolHttpSummaryRequest,
@@ -30993,10 +31385,12 @@ export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpProtocolHttpTimeseriesGroupResponse>;
 
+export type HttpProtocolHttpTimeseriesGroupError = CommonErrors;
+
 export const httpProtocolHttpTimeseriesGroup: API.OperationMethod<
   HttpProtocolHttpTimeseriesGroupRequest,
   HttpProtocolHttpTimeseriesGroupResponse,
-  CommonErrors,
+  HttpProtocolHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpProtocolHttpTimeseriesGroupRequest,
@@ -31185,10 +31579,12 @@ export const SummaryQualityIqiResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<SummaryQualityIqiResponse>;
 
+export type SummaryQualityIqiError = CommonErrors;
+
 export const summaryQualityIqi: API.OperationMethod<
   SummaryQualityIqiRequest,
   SummaryQualityIqiResponse,
-  CommonErrors,
+  SummaryQualityIqiError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryQualityIqiRequest,
@@ -31356,10 +31752,12 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HistogramQualitySpeedResponse>;
 
+export type HistogramQualitySpeedError = CommonErrors;
+
 export const histogramQualitySpeed: API.OperationMethod<
   HistogramQualitySpeedRequest,
   HistogramQualitySpeedResponse,
-  CommonErrors,
+  HistogramQualitySpeedError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HistogramQualitySpeedRequest,
@@ -31527,10 +31925,12 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<SummaryQualitySpeedResponse>;
 
+export type SummaryQualitySpeedError = CommonErrors;
+
 export const summaryQualitySpeed: API.OperationMethod<
   SummaryQualitySpeedRequest,
   SummaryQualitySpeedResponse,
-  CommonErrors,
+  SummaryQualitySpeedError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryQualitySpeedRequest,
@@ -31713,10 +32113,12 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AsesQualitySpeedTopResponse>;
 
+export type AsesQualitySpeedTopError = CommonErrors;
+
 export const asesQualitySpeedTop: API.OperationMethod<
   AsesQualitySpeedTopRequest,
   AsesQualitySpeedTopResponse,
-  CommonErrors,
+  AsesQualitySpeedTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AsesQualitySpeedTopRequest,
@@ -31895,10 +32297,12 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<LocationsQualitySpeedTopResponse>;
 
+export type LocationsQualitySpeedTopError = CommonErrors;
+
 export const locationsQualitySpeedTop: API.OperationMethod<
   LocationsQualitySpeedTopRequest,
   LocationsQualitySpeedTopResponse,
-  CommonErrors,
+  LocationsQualitySpeedTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LocationsQualitySpeedTopRequest,
@@ -32062,10 +32466,12 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PostQuantumHttpSummaryResponse>;
 
+export type PostQuantumHttpSummaryError = CommonErrors;
+
 export const postQuantumHttpSummary: API.OperationMethod<
   PostQuantumHttpSummaryRequest,
   PostQuantumHttpSummaryResponse,
-  CommonErrors,
+  PostQuantumHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PostQuantumHttpSummaryRequest,
@@ -32248,10 +32654,12 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PostQuantumHttpTimeseriesGroupResponse>;
 
+export type PostQuantumHttpTimeseriesGroupError = CommonErrors;
+
 export const postQuantumHttpTimeseriesGroup: API.OperationMethod<
   PostQuantumHttpTimeseriesGroupRequest,
   PostQuantumHttpTimeseriesGroupResponse,
-  CommonErrors,
+  PostQuantumHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PostQuantumHttpTimeseriesGroupRequest,
@@ -32427,10 +32835,12 @@ export const TopRankingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TopRankingResponse>;
 
+export type TopRankingError = CommonErrors;
+
 export const topRanking: API.OperationMethod<
   TopRankingRequest,
   TopRankingResponse,
-  CommonErrors,
+  TopRankingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TopRankingRequest,
@@ -32504,10 +32914,12 @@ export const GetRankingDomainResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetRankingDomainResponse>;
 
+export type GetRankingDomainError = CommonErrors;
+
 export const getRankingDomain: API.OperationMethod<
   GetRankingDomainRequest,
   GetRankingDomainResponse,
-  CommonErrors,
+  GetRankingDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRankingDomainRequest,
@@ -32540,10 +32952,12 @@ export const CategoriesRankingInternetServiceResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CategoriesRankingInternetServiceResponse>;
 
+export type CategoriesRankingInternetServiceError = CommonErrors;
+
 export const categoriesRankingInternetService: API.OperationMethod<
   CategoriesRankingInternetServiceRequest,
   CategoriesRankingInternetServiceResponse,
-  CommonErrors,
+  CategoriesRankingInternetServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CategoriesRankingInternetServiceRequest,
@@ -32702,10 +33116,12 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<TopRankingInternetServiceResponse>;
 
+export type TopRankingInternetServiceError = CommonErrors;
+
 export const topRankingInternetService: API.OperationMethod<
   TopRankingInternetServiceRequest,
   TopRankingInternetServiceResponse,
-  CommonErrors,
+  TopRankingInternetServiceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TopRankingInternetServiceRequest,
@@ -32874,10 +33290,12 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DirectiveRobotsTxtTopUserAgentResponse>;
 
+export type DirectiveRobotsTxtTopUserAgentError = CommonErrors;
+
 export const directiveRobotsTxtTopUserAgent: API.OperationMethod<
   DirectiveRobotsTxtTopUserAgentRequest,
   DirectiveRobotsTxtTopUserAgentResponse,
-  CommonErrors,
+  DirectiveRobotsTxtTopUserAgentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DirectiveRobotsTxtTopUserAgentRequest,
@@ -33036,10 +33454,12 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<ManagedRulesAttackLayer7SummaryResponse>;
 
+export type ManagedRulesAttackLayer7SummaryError = CommonErrors;
+
 export const managedRulesAttackLayer7Summary: API.OperationMethod<
   ManagedRulesAttackLayer7SummaryRequest,
   ManagedRulesAttackLayer7SummaryResponse,
-  CommonErrors,
+  ManagedRulesAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ManagedRulesAttackLayer7SummaryRequest,
@@ -33215,10 +33635,12 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<ManagedRulesAttackLayer7TimeseriesGroupResponse>;
 
+export type ManagedRulesAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const managedRulesAttackLayer7TimeseriesGroup: API.OperationMethod<
   ManagedRulesAttackLayer7TimeseriesGroupRequest,
   ManagedRulesAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  ManagedRulesAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ManagedRulesAttackLayer7TimeseriesGroupRequest,
@@ -33330,10 +33752,12 @@ export const GlobalSearchResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GlobalSearchResponse>;
 
+export type GlobalSearchError = CommonErrors;
+
 export const globalSearch: API.OperationMethod<
   GlobalSearchRequest,
   GlobalSearchResponse,
-  CommonErrors,
+  GlobalSearchError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GlobalSearchRequest,
@@ -33402,10 +33826,12 @@ export const AsSetEntityAsnResponse = Schema.Struct({
   Schema.encodeKeys({ asSets: "as_sets", paths: "paths" }),
 ) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
 
+export type AsSetEntityAsnError = CommonErrors;
+
 export const asSetEntityAsn: API.OperationMethod<
   AsSetEntityAsnRequest,
   AsSetEntityAsnResponse,
-  CommonErrors,
+  AsSetEntityAsnError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AsSetEntityAsnRequest,
@@ -33581,10 +34007,12 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<SummaryTcpResetsTimeoutResponse>;
 
+export type SummaryTcpResetsTimeoutError = CommonErrors;
+
 export const summaryTcpResetsTimeout: API.OperationMethod<
   SummaryTcpResetsTimeoutRequest,
   SummaryTcpResetsTimeoutResponse,
-  CommonErrors,
+  SummaryTcpResetsTimeoutError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryTcpResetsTimeoutRequest,
@@ -33657,10 +34085,12 @@ export const GetTrafficAnomalyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetTrafficAnomalyResponse>;
 
+export type GetTrafficAnomalyError = CommonErrors;
+
 export const getTrafficAnomaly: API.OperationMethod<
   GetTrafficAnomalyRequest,
   GetTrafficAnomalyResponse,
-  CommonErrors,
+  GetTrafficAnomalyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTrafficAnomalyRequest,
@@ -33696,10 +34126,12 @@ export const GetTrafficAnomalyLocationResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetTrafficAnomalyLocationResponse>;
 
+export type GetTrafficAnomalyLocationError = CommonErrors;
+
 export const getTrafficAnomalyLocation: API.OperationMethod<
   GetTrafficAnomalyLocationRequest,
   GetTrafficAnomalyLocationResponse,
-  CommonErrors,
+  GetTrafficAnomalyLocationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTrafficAnomalyLocationRequest,
@@ -33881,10 +34313,12 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ResponseTTLDnsSummaryResponse>;
 
+export type ResponseTTLDnsSummaryError = CommonErrors;
+
 export const responseTTLDnsSummary: API.OperationMethod<
   ResponseTTLDnsSummaryRequest,
   ResponseTTLDnsSummaryResponse,
-  CommonErrors,
+  ResponseTTLDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ResponseTTLDnsSummaryRequest,
@@ -34079,10 +34513,12 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ResponseTTLDnsTimeseriesGroupResponse>;
 
+export type ResponseTTLDnsTimeseriesGroupError = CommonErrors;
+
 export const responseTTLDnsTimeseriesGroup: API.OperationMethod<
   ResponseTTLDnsTimeseriesGroupRequest,
   ResponseTTLDnsTimeseriesGroupResponse,
-  CommonErrors,
+  ResponseTTLDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ResponseTTLDnsTimeseriesGroupRequest,
@@ -34238,10 +34674,12 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<QueryTypeAs112SummaryResponse>;
 
+export type QueryTypeAs112SummaryError = CommonErrors;
+
 export const queryTypeAs112Summary: API.OperationMethod<
   QueryTypeAs112SummaryRequest,
   QueryTypeAs112SummaryResponse,
-  CommonErrors,
+  QueryTypeAs112SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryTypeAs112SummaryRequest,
@@ -34412,10 +34850,12 @@ export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<QueryTypeAs112TimeseriesGroupResponse>;
 
+export type QueryTypeAs112TimeseriesGroupError = CommonErrors;
+
 export const queryTypeAs112TimeseriesGroup: API.OperationMethod<
   QueryTypeAs112TimeseriesGroupRequest,
   QueryTypeAs112TimeseriesGroupResponse,
-  CommonErrors,
+  QueryTypeAs112TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryTypeAs112TimeseriesGroupRequest,
@@ -34571,10 +35011,12 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<QueryTypeDnsSummaryResponse>;
 
+export type QueryTypeDnsSummaryError = CommonErrors;
+
 export const queryTypeDnsSummary: API.OperationMethod<
   QueryTypeDnsSummaryRequest,
   QueryTypeDnsSummaryResponse,
-  CommonErrors,
+  QueryTypeDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryTypeDnsSummaryRequest,
@@ -34745,10 +35187,12 @@ export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<QueryTypeDnsTimeseriesGroupResponse>;
 
+export type QueryTypeDnsTimeseriesGroupError = CommonErrors;
+
 export const queryTypeDnsTimeseriesGroup: API.OperationMethod<
   QueryTypeDnsTimeseriesGroupRequest,
   QueryTypeDnsTimeseriesGroupResponse,
-  CommonErrors,
+  QueryTypeDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QueryTypeDnsTimeseriesGroupRequest,
@@ -34908,10 +35352,12 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<DeviceTypeHttpSummaryResponse>;
 
+export type DeviceTypeHttpSummaryError = CommonErrors;
+
 export const deviceTypeHttpSummary: API.OperationMethod<
   DeviceTypeHttpSummaryRequest,
   DeviceTypeHttpSummaryResponse,
-  CommonErrors,
+  DeviceTypeHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeviceTypeHttpSummaryRequest,
@@ -35090,10 +35536,12 @@ export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<DeviceTypeHttpTimeseriesGroupResponse>;
 
+export type DeviceTypeHttpTimeseriesGroupError = CommonErrors;
+
 export const deviceTypeHttpTimeseriesGroup: API.OperationMethod<
   DeviceTypeHttpTimeseriesGroupRequest,
   DeviceTypeHttpTimeseriesGroupResponse,
-  CommonErrors,
+  DeviceTypeHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeviceTypeHttpTimeseriesGroupRequest,
@@ -35258,10 +35706,12 @@ export const SummaryV2AiBotResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AiBotResponse>;
 
+export type SummaryV2AiBotError = CommonErrors;
+
 export const summaryV2AiBot: API.OperationMethod<
   SummaryV2AiBotRequest,
   SummaryV2AiBotResponse,
-  CommonErrors,
+  SummaryV2AiBotError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2AiBotRequest,
@@ -35421,10 +35871,12 @@ export const SummaryV2AiInferenceResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AiInferenceResponse>;
 
+export type SummaryV2AiInferenceError = CommonErrors;
+
 export const summaryV2AiInference: API.OperationMethod<
   SummaryV2AiInferenceRequest,
   SummaryV2AiInferenceResponse,
-  CommonErrors,
+  SummaryV2AiInferenceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2AiInferenceRequest,
@@ -35597,10 +36049,12 @@ export const SummaryV2As112Response = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2As112Response>;
 
+export type SummaryV2As112Error = CommonErrors;
+
 export const summaryV2As112: API.OperationMethod<
   SummaryV2As112Request,
   SummaryV2As112Response,
-  CommonErrors,
+  SummaryV2As112Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2As112Request,
@@ -35775,10 +36229,12 @@ export const SummaryV2AttackLayer3Response = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AttackLayer3Response>;
 
+export type SummaryV2AttackLayer3Error = CommonErrors;
+
 export const summaryV2AttackLayer3: API.OperationMethod<
   SummaryV2AttackLayer3Request,
   SummaryV2AttackLayer3Response,
-  CommonErrors,
+  SummaryV2AttackLayer3Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2AttackLayer3Request,
@@ -35953,10 +36409,12 @@ export const SummaryV2AttackLayer7Response = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2AttackLayer7Response>;
 
+export type SummaryV2AttackLayer7Error = CommonErrors;
+
 export const summaryV2AttackLayer7: API.OperationMethod<
   SummaryV2AttackLayer7Request,
   SummaryV2AttackLayer7Response,
-  CommonErrors,
+  SummaryV2AttackLayer7Error,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2AttackLayer7Request,
@@ -36141,10 +36599,12 @@ export const SummaryV2DnsResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2DnsResponse>;
 
+export type SummaryV2DnsError = CommonErrors;
+
 export const summaryV2Dns: API.OperationMethod<
   SummaryV2DnsRequest,
   SummaryV2DnsResponse,
-  CommonErrors,
+  SummaryV2DnsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2DnsRequest,
@@ -36311,10 +36771,12 @@ export const SummaryV2EmailRoutingResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2EmailRoutingResponse>;
 
+export type SummaryV2EmailRoutingError = CommonErrors;
+
 export const summaryV2EmailRouting: API.OperationMethod<
   SummaryV2EmailRoutingRequest,
   SummaryV2EmailRoutingResponse,
-  CommonErrors,
+  SummaryV2EmailRoutingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2EmailRoutingRequest,
@@ -36493,10 +36955,12 @@ export const SummaryV2EmailSecurityResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2EmailSecurityResponse>;
 
+export type SummaryV2EmailSecurityError = CommonErrors;
+
 export const summaryV2EmailSecurity: API.OperationMethod<
   SummaryV2EmailSecurityRequest,
   SummaryV2EmailSecurityResponse,
-  CommonErrors,
+  SummaryV2EmailSecurityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2EmailSecurityRequest,
@@ -36679,10 +37143,12 @@ export const SummaryV2HttpResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2HttpResponse>;
 
+export type SummaryV2HttpError = CommonErrors;
+
 export const summaryV2Http: API.OperationMethod<
   SummaryV2HttpRequest,
   SummaryV2HttpResponse,
-  CommonErrors,
+  SummaryV2HttpError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2HttpRequest,
@@ -36847,10 +37313,12 @@ export const SummaryV2LeakedCredentialResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2LeakedCredentialResponse>;
 
+export type SummaryV2LeakedCredentialError = CommonErrors;
+
 export const summaryV2LeakedCredential: API.OperationMethod<
   SummaryV2LeakedCredentialRequest,
   SummaryV2LeakedCredentialResponse,
-  CommonErrors,
+  SummaryV2LeakedCredentialError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2LeakedCredentialRequest,
@@ -37010,10 +37478,12 @@ export const SummaryV2NetflowResponse = Schema.Struct({
   summary_0: Schema.Struct({}),
 }) as unknown as Schema.Schema<SummaryV2NetflowResponse>;
 
+export type SummaryV2NetflowError = CommonErrors;
+
 export const summaryV2Netflow: API.OperationMethod<
   SummaryV2NetflowRequest,
   SummaryV2NetflowResponse,
-  CommonErrors,
+  SummaryV2NetflowError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: SummaryV2NetflowRequest,
@@ -37184,10 +37654,12 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BotsVerifiedBotTopResponse>;
 
+export type BotsVerifiedBotTopError = CommonErrors;
+
 export const botsVerifiedBotTop: API.OperationMethod<
   BotsVerifiedBotTopRequest,
   BotsVerifiedBotTopResponse,
-  CommonErrors,
+  BotsVerifiedBotTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BotsVerifiedBotTopRequest,
@@ -37347,10 +37819,12 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CategoriesVerifiedBotTopResponse>;
 
+export type CategoriesVerifiedBotTopError = CommonErrors;
+
 export const categoriesVerifiedBotTop: API.OperationMethod<
   CategoriesVerifiedBotTopRequest,
   CategoriesVerifiedBotTopResponse,
-  CommonErrors,
+  CategoriesVerifiedBotTopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CategoriesVerifiedBotTopRequest,
@@ -37509,10 +37983,12 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAs112SummaryResponse>;
 
+export type IpVersionAs112SummaryError = CommonErrors;
+
 export const ipVersionAs112Summary: API.OperationMethod<
   IpVersionAs112SummaryRequest,
   IpVersionAs112SummaryResponse,
-  CommonErrors,
+  IpVersionAs112SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAs112SummaryRequest,
@@ -37684,10 +38160,12 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAs112TimeseriesGroupResponse>;
 
+export type IpVersionAs112TimeseriesGroupError = CommonErrors;
+
 export const ipVersionAs112TimeseriesGroup: API.OperationMethod<
   IpVersionAs112TimeseriesGroupRequest,
   IpVersionAs112TimeseriesGroupResponse,
-  CommonErrors,
+  IpVersionAs112TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAs112TimeseriesGroupRequest,
@@ -37863,10 +38341,12 @@ export const IpVersionAs112TopResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IpVersionAs112TopResponse>;
 
+export type IpVersionAs112TopError = CommonErrors;
+
 export const ipVersionAs112Top: API.OperationMethod<
   IpVersionAs112TopRequest,
   IpVersionAs112TopResponse,
-  CommonErrors,
+  IpVersionAs112TopError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAs112TopRequest,
@@ -38025,10 +38505,12 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3SummaryResponse>;
 
+export type IpVersionAttackLayer3SummaryError = CommonErrors;
+
 export const ipVersionAttackLayer3Summary: API.OperationMethod<
   IpVersionAttackLayer3SummaryRequest,
   IpVersionAttackLayer3SummaryResponse,
-  CommonErrors,
+  IpVersionAttackLayer3SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAttackLayer3SummaryRequest,
@@ -38208,10 +38690,12 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupResponse>;
 
+export type IpVersionAttackLayer3TimeseriesGroupError = CommonErrors;
+
 export const ipVersionAttackLayer3TimeseriesGroup: API.OperationMethod<
   IpVersionAttackLayer3TimeseriesGroupRequest,
   IpVersionAttackLayer3TimeseriesGroupResponse,
-  CommonErrors,
+  IpVersionAttackLayer3TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAttackLayer3TimeseriesGroupRequest,
@@ -38371,10 +38855,12 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionAttackLayer7SummaryResponse>;
 
+export type HttpVersionAttackLayer7SummaryError = CommonErrors;
+
 export const httpVersionAttackLayer7Summary: API.OperationMethod<
   HttpVersionAttackLayer7SummaryRequest,
   HttpVersionAttackLayer7SummaryResponse,
-  CommonErrors,
+  HttpVersionAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpVersionAttackLayer7SummaryRequest,
@@ -38529,10 +39015,12 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7SummaryResponse>;
 
+export type IpVersionAttackLayer7SummaryError = CommonErrors;
+
 export const ipVersionAttackLayer7Summary: API.OperationMethod<
   IpVersionAttackLayer7SummaryRequest,
   IpVersionAttackLayer7SummaryResponse,
-  CommonErrors,
+  IpVersionAttackLayer7SummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAttackLayer7SummaryRequest,
@@ -38716,10 +39204,12 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionAttackLayer7TimeseriesGroupResponse>;
 
+export type HttpVersionAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const httpVersionAttackLayer7TimeseriesGroup: API.OperationMethod<
   HttpVersionAttackLayer7TimeseriesGroupRequest,
   HttpVersionAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  HttpVersionAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpVersionAttackLayer7TimeseriesGroupRequest,
@@ -38895,10 +39385,12 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupResponse>;
 
+export type IpVersionAttackLayer7TimeseriesGroupError = CommonErrors;
+
 export const ipVersionAttackLayer7TimeseriesGroup: API.OperationMethod<
   IpVersionAttackLayer7TimeseriesGroupRequest,
   IpVersionAttackLayer7TimeseriesGroupResponse,
-  CommonErrors,
+  IpVersionAttackLayer7TimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionAttackLayer7TimeseriesGroupRequest,
@@ -39057,10 +39549,12 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionDnsSummaryResponse>;
 
+export type IpVersionDnsSummaryError = CommonErrors;
+
 export const ipVersionDnsSummary: API.OperationMethod<
   IpVersionDnsSummaryRequest,
   IpVersionDnsSummaryResponse,
-  CommonErrors,
+  IpVersionDnsSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionDnsSummaryRequest,
@@ -39232,10 +39726,12 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionDnsTimeseriesGroupResponse>;
 
+export type IpVersionDnsTimeseriesGroupError = CommonErrors;
+
 export const ipVersionDnsTimeseriesGroup: API.OperationMethod<
   IpVersionDnsTimeseriesGroupRequest,
   IpVersionDnsTimeseriesGroupResponse,
-  CommonErrors,
+  IpVersionDnsTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionDnsTimeseriesGroupRequest,
@@ -39394,10 +39890,12 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingSummaryResponse>;
 
+export type IpVersionEmailRoutingSummaryError = CommonErrors;
+
 export const ipVersionEmailRoutingSummary: API.OperationMethod<
   IpVersionEmailRoutingSummaryRequest,
   IpVersionEmailRoutingSummaryResponse,
-  CommonErrors,
+  IpVersionEmailRoutingSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionEmailRoutingSummaryRequest,
@@ -39574,10 +40072,12 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupResponse>;
 
+export type IpVersionEmailRoutingTimeseriesGroupError = CommonErrors;
+
 export const ipVersionEmailRoutingTimeseriesGroup: API.OperationMethod<
   IpVersionEmailRoutingTimeseriesGroupRequest,
   IpVersionEmailRoutingTimeseriesGroupResponse,
-  CommonErrors,
+  IpVersionEmailRoutingTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionEmailRoutingTimeseriesGroupRequest,
@@ -39743,10 +40243,12 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionEmailSecuritySummaryResponse>;
 
+export type TlsVersionEmailSecuritySummaryError = CommonErrors;
+
 export const tlsVersionEmailSecuritySummary: API.OperationMethod<
   TlsVersionEmailSecuritySummaryRequest,
   TlsVersionEmailSecuritySummaryResponse,
-  CommonErrors,
+  TlsVersionEmailSecuritySummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TlsVersionEmailSecuritySummaryRequest,
@@ -39930,10 +40432,12 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionEmailSecurityTimeseriesGroupResponse>;
 
+export type TlsVersionEmailSecurityTimeseriesGroupError = CommonErrors;
+
 export const tlsVersionEmailSecurityTimeseriesGroup: API.OperationMethod<
   TlsVersionEmailSecurityTimeseriesGroupRequest,
   TlsVersionEmailSecurityTimeseriesGroupResponse,
-  CommonErrors,
+  TlsVersionEmailSecurityTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TlsVersionEmailSecurityTimeseriesGroupRequest,
@@ -40093,10 +40597,12 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionHttpSummaryResponse>;
 
+export type HttpVersionHttpSummaryError = CommonErrors;
+
 export const httpVersionHttpSummary: API.OperationMethod<
   HttpVersionHttpSummaryRequest,
   HttpVersionHttpSummaryResponse,
-  CommonErrors,
+  HttpVersionHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpVersionHttpSummaryRequest,
@@ -40251,10 +40757,12 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
   }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionHttpSummaryResponse>;
 
+export type IpVersionHttpSummaryError = CommonErrors;
+
 export const ipVersionHttpSummary: API.OperationMethod<
   IpVersionHttpSummaryRequest,
   IpVersionHttpSummaryResponse,
-  CommonErrors,
+  IpVersionHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionHttpSummaryRequest,
@@ -40418,10 +40926,12 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionHttpSummaryResponse>;
 
+export type TlsVersionHttpSummaryError = CommonErrors;
+
 export const tlsVersionHttpSummary: API.OperationMethod<
   TlsVersionHttpSummaryRequest,
   TlsVersionHttpSummaryResponse,
-  CommonErrors,
+  TlsVersionHttpSummaryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TlsVersionHttpSummaryRequest,
@@ -40600,10 +41110,12 @@ export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<HttpVersionHttpTimeseriesGroupResponse>;
 
+export type HttpVersionHttpTimeseriesGroupError = CommonErrors;
+
 export const httpVersionHttpTimeseriesGroup: API.OperationMethod<
   HttpVersionHttpTimeseriesGroupRequest,
   HttpVersionHttpTimeseriesGroupResponse,
-  CommonErrors,
+  HttpVersionHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: HttpVersionHttpTimeseriesGroupRequest,
@@ -40774,10 +41286,12 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<IpVersionHttpTimeseriesGroupResponse>;
 
+export type IpVersionHttpTimeseriesGroupError = CommonErrors;
+
 export const ipVersionHttpTimeseriesGroup: API.OperationMethod<
   IpVersionHttpTimeseriesGroupRequest,
   IpVersionHttpTimeseriesGroupResponse,
-  CommonErrors,
+  IpVersionHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: IpVersionHttpTimeseriesGroupRequest,
@@ -40956,10 +41470,12 @@ export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<TlsVersionHttpTimeseriesGroupResponse>;
 
+export type TlsVersionHttpTimeseriesGroupError = CommonErrors;
+
 export const tlsVersionHttpTimeseriesGroup: API.OperationMethod<
   TlsVersionHttpTimeseriesGroupRequest,
   TlsVersionHttpTimeseriesGroupResponse,
-  CommonErrors,
+  TlsVersionHttpTimeseriesGroupError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TlsVersionHttpTimeseriesGroupRequest,

@@ -43,10 +43,12 @@ export type GetContentResponse = unknown;
 export const GetContentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetContentResponse>;
 
+export type GetContentError = CommonErrors;
+
 export const getContent: API.OperationMethod<
   GetContentRequest,
   GetContentResponse,
-  CommonErrors,
+  GetContentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetContentRequest,
@@ -98,10 +100,12 @@ export const ListRulesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
+export type ListRulesError = CommonErrors;
+
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  CommonErrors,
+  ListRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesRequest,
@@ -171,10 +175,12 @@ export const UpdateRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
+export type UpdateRuleError = CommonErrors;
+
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  CommonErrors,
+  UpdateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRuleRequest,
@@ -222,10 +228,12 @@ export const DeleteRuleResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -271,10 +279,12 @@ export const GetSnippetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSnippetResponse>;
 
+export type GetSnippetError = CommonErrors;
+
 export const getSnippet: API.OperationMethod<
   GetSnippetRequest,
   GetSnippetResponse,
-  CommonErrors,
+  GetSnippetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSnippetRequest,
@@ -313,10 +323,12 @@ export const ListSnippetsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSnippetsResponse>;
 
+export type ListSnippetsError = CommonErrors;
+
 export const listSnippets: API.OperationMethod<
   ListSnippetsRequest,
   ListSnippetsResponse,
-  CommonErrors,
+  ListSnippetsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSnippetsRequest,
@@ -363,10 +375,12 @@ export const PutSnippetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSnippetResponse>;
 
+export type PutSnippetError = CommonErrors;
+
 export const putSnippet: API.OperationMethod<
   PutSnippetRequest,
   PutSnippetResponse,
-  CommonErrors,
+  PutSnippetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSnippetRequest,
@@ -394,10 +408,12 @@ export const DeleteSnippetResponse = Schema.Union([
   Schema.Null,
 ]) as unknown as Schema.Schema<DeleteSnippetResponse>;
 
+export type DeleteSnippetError = CommonErrors;
+
 export const deleteSnippet: API.OperationMethod<
   DeleteSnippetRequest,
   DeleteSnippetResponse,
-  CommonErrors,
+  DeleteSnippetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSnippetRequest,

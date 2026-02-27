@@ -44,10 +44,12 @@ export type PurgeBuildCacheProjectResponse = unknown;
 export const PurgeBuildCacheProjectResponse =
   Schema.Unknown as unknown as Schema.Schema<PurgeBuildCacheProjectResponse>;
 
+export type PurgeBuildCacheProjectError = CommonErrors;
+
 export const purgeBuildCacheProject: API.OperationMethod<
   PurgeBuildCacheProjectRequest,
   PurgeBuildCacheProjectResponse,
-  CommonErrors,
+  PurgeBuildCacheProjectError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PurgeBuildCacheProjectRequest,
@@ -731,10 +733,12 @@ export const GetProjectResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetProjectResponse>;
 
+export type GetProjectError = CommonErrors;
+
 export const getProject: API.OperationMethod<
   GetProjectRequest,
   GetProjectResponse,
-  CommonErrors,
+  GetProjectError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetProjectRequest,
@@ -1397,10 +1401,12 @@ export const ListProjectsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListProjectsResponse>;
 
+export type ListProjectsError = CommonErrors;
+
 export const listProjects: API.OperationMethod<
   ListProjectsRequest,
   ListProjectsResponse,
-  CommonErrors,
+  ListProjectsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListProjectsRequest,
@@ -2356,10 +2362,12 @@ export const CreateProjectResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateProjectResponse>;
 
+export type CreateProjectError = CommonErrors;
+
 export const createProject: API.OperationMethod<
   CreateProjectRequest,
   CreateProjectResponse,
-  CommonErrors,
+  CreateProjectError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateProjectRequest,
@@ -3320,10 +3328,12 @@ export const PatchProjectResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchProjectResponse>;
 
+export type PatchProjectError = CommonErrors;
+
 export const patchProject: API.OperationMethod<
   PatchProjectRequest,
   PatchProjectResponse,
-  CommonErrors,
+  PatchProjectError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchProjectRequest,
@@ -3352,10 +3362,12 @@ export type DeleteProjectResponse = unknown;
 export const DeleteProjectResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteProjectResponse>;
 
+export type DeleteProjectError = CommonErrors;
+
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
-  CommonErrors,
+  DeleteProjectError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteProjectRequest,
@@ -3558,10 +3570,12 @@ export const GetProjectDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetProjectDeploymentResponse>;
 
+export type GetProjectDeploymentError = CommonErrors;
+
 export const getProjectDeployment: API.OperationMethod<
   GetProjectDeploymentRequest,
   GetProjectDeploymentResponse,
-  CommonErrors,
+  GetProjectDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetProjectDeploymentRequest,
@@ -3752,10 +3766,12 @@ export const ListProjectDeploymentsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListProjectDeploymentsResponse>;
 
+export type ListProjectDeploymentsError = CommonErrors;
+
 export const listProjectDeployments: API.OperationMethod<
   ListProjectDeploymentsRequest,
   ListProjectDeploymentsResponse,
-  CommonErrors,
+  ListProjectDeploymentsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListProjectDeploymentsRequest,
@@ -4010,10 +4026,12 @@ export const CreateProjectDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateProjectDeploymentResponse>;
 
+export type CreateProjectDeploymentError = CommonErrors;
+
 export const createProjectDeployment: API.OperationMethod<
   CreateProjectDeploymentRequest,
   CreateProjectDeploymentResponse,
-  CommonErrors,
+  CreateProjectDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateProjectDeploymentRequest,
@@ -4044,10 +4062,12 @@ export type DeleteProjectDeploymentResponse = unknown;
 export const DeleteProjectDeploymentResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteProjectDeploymentResponse>;
 
+export type DeleteProjectDeploymentError = CommonErrors;
+
 export const deleteProjectDeployment: API.OperationMethod<
   DeleteProjectDeploymentRequest,
   DeleteProjectDeploymentResponse,
-  CommonErrors,
+  DeleteProjectDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteProjectDeploymentRequest,
@@ -4246,10 +4266,12 @@ export const RetryProjectDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<RetryProjectDeploymentResponse>;
 
+export type RetryProjectDeploymentError = CommonErrors;
+
 export const retryProjectDeployment: API.OperationMethod<
   RetryProjectDeploymentRequest,
   RetryProjectDeploymentResponse,
-  CommonErrors,
+  RetryProjectDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RetryProjectDeploymentRequest,
@@ -4448,10 +4470,12 @@ export const RollbackProjectDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<RollbackProjectDeploymentResponse>;
 
+export type RollbackProjectDeploymentError = CommonErrors;
+
 export const rollbackProjectDeployment: API.OperationMethod<
   RollbackProjectDeploymentRequest,
   RollbackProjectDeploymentResponse,
-  CommonErrors,
+  RollbackProjectDeploymentError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RollbackProjectDeploymentRequest,
@@ -4504,10 +4528,12 @@ export const GetProjectDeploymentHistoryLogResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetProjectDeploymentHistoryLogResponse>;
 
+export type GetProjectDeploymentHistoryLogError = CommonErrors;
+
 export const getProjectDeploymentHistoryLog: API.OperationMethod<
   GetProjectDeploymentHistoryLogRequest,
   GetProjectDeploymentHistoryLogResponse,
-  CommonErrors,
+  GetProjectDeploymentHistoryLogError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetProjectDeploymentHistoryLogRequest,
@@ -4627,10 +4653,12 @@ export const GetProjectDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetProjectDomainResponse>;
 
+export type GetProjectDomainError = CommonErrors;
+
 export const getProjectDomain: API.OperationMethod<
   GetProjectDomainRequest,
   GetProjectDomainResponse,
-  CommonErrors,
+  GetProjectDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetProjectDomainRequest,
@@ -4745,10 +4773,12 @@ export const ListProjectDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListProjectDomainsResponse>;
 
+export type ListProjectDomainsError = CommonErrors;
+
 export const listProjectDomains: API.OperationMethod<
   ListProjectDomainsRequest,
   ListProjectDomainsResponse,
-  CommonErrors,
+  ListProjectDomainsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListProjectDomainsRequest,
@@ -4865,10 +4895,12 @@ export const CreateProjectDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateProjectDomainResponse>;
 
+export type CreateProjectDomainError = CommonErrors;
+
 export const createProjectDomain: API.OperationMethod<
   CreateProjectDomainRequest,
   CreateProjectDomainResponse,
-  CommonErrors,
+  CreateProjectDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateProjectDomainRequest,
@@ -4984,10 +5016,12 @@ export const PatchProjectDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchProjectDomainResponse>;
 
+export type PatchProjectDomainError = CommonErrors;
+
 export const patchProjectDomain: API.OperationMethod<
   PatchProjectDomainRequest,
   PatchProjectDomainResponse,
-  CommonErrors,
+  PatchProjectDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchProjectDomainRequest,
@@ -5018,10 +5052,12 @@ export type DeleteProjectDomainResponse = unknown;
 export const DeleteProjectDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteProjectDomainResponse>;
 
+export type DeleteProjectDomainError = CommonErrors;
+
 export const deleteProjectDomain: API.OperationMethod<
   DeleteProjectDomainRequest,
   DeleteProjectDomainResponse,
-  CommonErrors,
+  DeleteProjectDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteProjectDomainRequest,

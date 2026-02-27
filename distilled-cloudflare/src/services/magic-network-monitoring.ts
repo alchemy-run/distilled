@@ -63,10 +63,12 @@ export const GetConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetConfigResponse>;
 
+export type GetConfigError = CommonErrors;
+
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
   GetConfigResponse,
-  CommonErrors,
+  GetConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConfigRequest,
@@ -144,10 +146,12 @@ export const CreateConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateConfigResponse>;
 
+export type CreateConfigError = CommonErrors;
+
 export const createConfig: API.OperationMethod<
   CreateConfigRequest,
   CreateConfigResponse,
-  CommonErrors,
+  CreateConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateConfigRequest,
@@ -225,10 +229,12 @@ export const UpdateConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateConfigResponse>;
 
+export type UpdateConfigError = CommonErrors;
+
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
   UpdateConfigResponse,
-  CommonErrors,
+  UpdateConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateConfigRequest,
@@ -306,10 +312,12 @@ export const PatchConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchConfigResponse>;
 
+export type PatchConfigError = CommonErrors;
+
 export const patchConfig: API.OperationMethod<
   PatchConfigRequest,
   PatchConfigResponse,
-  CommonErrors,
+  PatchConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchConfigRequest,
@@ -358,10 +366,12 @@ export const DeleteConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteConfigResponse>;
 
+export type DeleteConfigError = CommonErrors;
+
 export const deleteConfig: API.OperationMethod<
   DeleteConfigRequest,
   DeleteConfigResponse,
-  CommonErrors,
+  DeleteConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteConfigRequest,
@@ -388,10 +398,12 @@ export type GetConfigFullResponse = unknown;
 export const GetConfigFullResponse =
   Schema.Unknown as unknown as Schema.Schema<GetConfigFullResponse>;
 
+export type GetConfigFullError = CommonErrors;
+
 export const getConfigFull: API.OperationMethod<
   GetConfigFullRequest,
   GetConfigFullResponse,
-  CommonErrors,
+  GetConfigFullError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetConfigFullRequest,
@@ -489,10 +501,12 @@ export const GetRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRuleResponse>;
 
+export type GetRuleError = CommonErrors;
+
 export const getRule: API.OperationMethod<
   GetRuleRequest,
   GetRuleResponse,
-  CommonErrors,
+  GetRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRuleRequest,
@@ -515,10 +529,12 @@ export type ListRulesResponse = unknown;
 export const ListRulesResponse =
   Schema.Unknown as unknown as Schema.Schema<ListRulesResponse>;
 
+export type ListRulesError = CommonErrors;
+
 export const listRules: API.OperationMethod<
   ListRulesRequest,
   ListRulesResponse,
-  CommonErrors,
+  ListRulesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRulesRequest,
@@ -648,10 +664,12 @@ export const CreateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRuleResponse>;
 
+export type CreateRuleError = CommonErrors;
+
 export const createRule: API.OperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
-  CommonErrors,
+  CreateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRuleRequest,
@@ -785,10 +803,12 @@ export const UpdateRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
+export type UpdateRuleError = CommonErrors;
+
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
   UpdateRuleResponse,
-  CommonErrors,
+  UpdateRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRuleRequest,
@@ -916,10 +936,12 @@ export const PatchRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchRuleResponse>;
 
+export type PatchRuleError = CommonErrors;
+
 export const patchRule: API.OperationMethod<
   PatchRuleRequest,
   PatchRuleResponse,
-  CommonErrors,
+  PatchRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchRuleRequest,
@@ -1016,10 +1038,12 @@ export const DeleteRuleResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
+export type DeleteRuleError = CommonErrors;
+
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
-  CommonErrors,
+  DeleteRuleError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRuleRequest,
@@ -1061,10 +1085,12 @@ export const PatchRuleAdvertisementResponse = Schema.Struct({
   Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
 ) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
 
+export type PatchRuleAdvertisementError = CommonErrors;
+
 export const patchRuleAdvertisement: API.OperationMethod<
   PatchRuleAdvertisementRequest,
   PatchRuleAdvertisementResponse,
-  CommonErrors,
+  PatchRuleAdvertisementError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchRuleAdvertisementRequest,
@@ -1094,10 +1120,12 @@ export type CreateVpcFlowTokenResponse = string;
 export const CreateVpcFlowTokenResponse =
   Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
 
+export type CreateVpcFlowTokenError = CommonErrors;
+
 export const createVpcFlowToken: API.OperationMethod<
   CreateVpcFlowTokenRequest,
   CreateVpcFlowTokenResponse,
-  CommonErrors,
+  CreateVpcFlowTokenError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateVpcFlowTokenRequest,

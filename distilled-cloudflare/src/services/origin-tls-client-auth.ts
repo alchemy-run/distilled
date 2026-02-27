@@ -137,10 +137,12 @@ export const GetHostnameResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetHostnameResponse>;
 
+export type GetHostnameError = CommonErrors;
+
 export const getHostname: API.OperationMethod<
   GetHostnameRequest,
   GetHostnameResponse,
-  CommonErrors,
+  GetHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHostnameRequest,
@@ -206,10 +208,12 @@ export const UpdateHostnameResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<UpdateHostnameResponse>;
 
+export type UpdateHostnameError = CommonErrors;
+
 export const updateHostname: API.OperationMethod<
   UpdateHostnameRequest,
   UpdateHostnameResponse,
-  CommonErrors,
+  UpdateHostnameError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateHostnameRequest,
@@ -295,10 +299,12 @@ export const GetHostnameCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetHostnameCertificateResponse>;
 
+export type GetHostnameCertificateError = CommonErrors;
+
 export const getHostnameCertificate: API.OperationMethod<
   GetHostnameCertificateRequest,
   GetHostnameCertificateResponse,
-  CommonErrors,
+  GetHostnameCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetHostnameCertificateRequest,
@@ -349,10 +355,12 @@ export const ListHostnameCertificatesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListHostnameCertificatesResponse>;
 
+export type ListHostnameCertificatesError = CommonErrors;
+
 export const listHostnameCertificates: API.OperationMethod<
   ListHostnameCertificatesRequest,
   ListHostnameCertificatesResponse,
-  CommonErrors,
+  ListHostnameCertificatesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListHostnameCertificatesRequest,
@@ -439,10 +447,12 @@ export const CreateHostnameCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateHostnameCertificateResponse>;
 
+export type CreateHostnameCertificateError = CommonErrors;
+
 export const createHostnameCertificate: API.OperationMethod<
   CreateHostnameCertificateRequest,
   CreateHostnameCertificateResponse,
-  CommonErrors,
+  CreateHostnameCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateHostnameCertificateRequest,
@@ -524,10 +534,12 @@ export const DeleteHostnameCertificateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteHostnameCertificateResponse>;
 
+export type DeleteHostnameCertificateError = CommonErrors;
+
 export const deleteHostnameCertificate: API.OperationMethod<
   DeleteHostnameCertificateRequest,
   DeleteHostnameCertificateResponse,
-  CommonErrors,
+  DeleteHostnameCertificateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteHostnameCertificateRequest,
@@ -580,10 +592,12 @@ export const GetOriginTlsClientAuthResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetOriginTlsClientAuthResponse>;
 
+export type GetOriginTlsClientAuthError = CommonErrors;
+
 export const getOriginTlsClientAuth: API.OperationMethod<
   GetOriginTlsClientAuthRequest,
   GetOriginTlsClientAuthResponse,
-  CommonErrors,
+  GetOriginTlsClientAuthError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOriginTlsClientAuthRequest,
@@ -625,10 +639,12 @@ export const ListOriginTlsClientAuthsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListOriginTlsClientAuthsResponse>;
 
+export type ListOriginTlsClientAuthsError = CommonErrors;
+
 export const listOriginTlsClientAuths: API.OperationMethod<
   ListOriginTlsClientAuthsRequest,
   ListOriginTlsClientAuthsResponse,
-  CommonErrors,
+  ListOriginTlsClientAuthsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListOriginTlsClientAuthsRequest,
@@ -679,10 +695,12 @@ export const CreateOriginTlsClientAuthResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateOriginTlsClientAuthResponse>;
 
+export type CreateOriginTlsClientAuthError = CommonErrors;
+
 export const createOriginTlsClientAuth: API.OperationMethod<
   CreateOriginTlsClientAuthRequest,
   CreateOriginTlsClientAuthResponse,
-  CommonErrors,
+  CreateOriginTlsClientAuthError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateOriginTlsClientAuthRequest,
@@ -731,10 +749,12 @@ export const DeleteOriginTlsClientAuthResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteOriginTlsClientAuthResponse>;
 
+export type DeleteOriginTlsClientAuthError = CommonErrors;
+
 export const deleteOriginTlsClientAuth: API.OperationMethod<
   DeleteOriginTlsClientAuthRequest,
   DeleteOriginTlsClientAuthResponse,
-  CommonErrors,
+  DeleteOriginTlsClientAuthError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteOriginTlsClientAuthRequest,
@@ -769,10 +789,12 @@ export const GetSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
+export type GetSettingError = CommonErrors;
+
 export const getSetting: API.OperationMethod<
   GetSettingRequest,
   GetSettingResponse,
-  CommonErrors,
+  GetSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingRequest,
@@ -806,10 +828,12 @@ export const PutSettingResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PutSettingResponse>;
 
+export type PutSettingError = CommonErrors;
+
 export const putSetting: API.OperationMethod<
   PutSettingRequest,
   PutSettingResponse,
-  CommonErrors,
+  PutSettingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSettingRequest,

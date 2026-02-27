@@ -44,10 +44,12 @@ export type GetBinaryStorageResponse = unknown;
 export const GetBinaryStorageResponse =
   Schema.Unknown as unknown as Schema.Schema<GetBinaryStorageResponse>;
 
+export type GetBinaryStorageError = CommonErrors;
+
 export const getBinaryStorage: API.OperationMethod<
   GetBinaryStorageRequest,
   GetBinaryStorageResponse,
-  CommonErrors,
+  GetBinaryStorageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBinaryStorageRequest,
@@ -94,10 +96,12 @@ export const CreateBinaryStorageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateBinaryStorageResponse>;
 
+export type CreateBinaryStorageError = CommonErrors;
+
 export const createBinaryStorage: API.OperationMethod<
   CreateBinaryStorageRequest,
   CreateBinaryStorageResponse,
-  CommonErrors,
+  CreateBinaryStorageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateBinaryStorageRequest,
@@ -197,10 +201,12 @@ export const GetRequestResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetRequestResponse>;
 
+export type GetRequestError = CommonErrors;
+
 export const getRequest: API.OperationMethod<
   GetRequestRequest,
   GetRequestResponse,
-  CommonErrors,
+  GetRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRequestRequest,
@@ -341,10 +347,12 @@ export const ListRequestsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListRequestsResponse>;
 
+export type ListRequestsError = CommonErrors;
+
 export const listRequests: API.OperationMethod<
   ListRequestsRequest,
   ListRequestsResponse,
-  CommonErrors,
+  ListRequestsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListRequestsRequest,
@@ -462,10 +470,12 @@ export const CreateRequestResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRequestResponse>;
 
+export type CreateRequestError = CommonErrors;
+
 export const createRequest: API.OperationMethod<
   CreateRequestRequest,
   CreateRequestResponse,
-  CommonErrors,
+  CreateRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRequestRequest,
@@ -585,10 +595,12 @@ export const UpdateRequestResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRequestResponse>;
 
+export type UpdateRequestError = CommonErrors;
+
 export const updateRequest: API.OperationMethod<
   UpdateRequestRequest,
   UpdateRequestResponse,
-  CommonErrors,
+  UpdateRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRequestRequest,
@@ -671,10 +683,12 @@ export const DeleteRequestResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestResponse>;
 
+export type DeleteRequestError = CommonErrors;
+
 export const deleteRequest: API.OperationMethod<
   DeleteRequestRequest,
   DeleteRequestResponse,
-  CommonErrors,
+  DeleteRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRequestRequest,
@@ -732,10 +746,12 @@ export const ConstantsRequestResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ConstantsRequestResponse>;
 
+export type ConstantsRequestError = CommonErrors;
+
 export const constantsRequest: API.OperationMethod<
   ConstantsRequestRequest,
   ConstantsRequestResponse,
-  CommonErrors,
+  ConstantsRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ConstantsRequestRequest,
@@ -782,10 +798,12 @@ export const QuotaRequestResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<QuotaRequestResponse>;
 
+export type QuotaRequestError = CommonErrors;
+
 export const quotaRequest: API.OperationMethod<
   QuotaRequestRequest,
   QuotaRequestResponse,
-  CommonErrors,
+  QuotaRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QuotaRequestRequest,
@@ -813,10 +831,12 @@ export const TypesRequestResponse = Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<TypesRequestResponse>;
 
+export type TypesRequestError = CommonErrors;
+
 export const typesRequest: API.OperationMethod<
   TypesRequestRequest,
   TypesRequestResponse,
-  CommonErrors,
+  TypesRequestError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: TypesRequestRequest,
@@ -872,10 +892,12 @@ export const GetRequestAssetResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetRequestAssetResponse>;
 
+export type GetRequestAssetError = CommonErrors;
+
 export const getRequestAsset: API.OperationMethod<
   GetRequestAssetRequest,
   GetRequestAssetResponse,
-  CommonErrors,
+  GetRequestAssetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRequestAssetRequest,
@@ -932,10 +954,12 @@ export const CreateRequestAssetResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateRequestAssetResponse>;
 
+export type CreateRequestAssetError = CommonErrors;
+
 export const createRequestAsset: API.OperationMethod<
   CreateRequestAssetRequest,
   CreateRequestAssetResponse,
-  CommonErrors,
+  CreateRequestAssetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRequestAssetRequest,
@@ -993,10 +1017,12 @@ export const PutRequestAssetResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutRequestAssetResponse>;
 
+export type PutRequestAssetError = CommonErrors;
+
 export const putRequestAsset: API.OperationMethod<
   PutRequestAssetRequest,
   PutRequestAssetResponse,
-  CommonErrors,
+  PutRequestAssetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutRequestAssetRequest,
@@ -1081,10 +1107,12 @@ export const DeleteRequestAssetResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestAssetResponse>;
 
+export type DeleteRequestAssetError = CommonErrors;
+
 export const deleteRequestAsset: API.OperationMethod<
   DeleteRequestAssetRequest,
   DeleteRequestAssetResponse,
-  CommonErrors,
+  DeleteRequestAssetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRequestAssetRequest,
@@ -1165,10 +1193,12 @@ export const GetRequestMessageResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetRequestMessageResponse>;
 
+export type GetRequestMessageError = CommonErrors;
+
 export const getRequestMessage: API.OperationMethod<
   GetRequestMessageRequest,
   GetRequestMessageResponse,
-  CommonErrors,
+  GetRequestMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRequestMessageRequest,
@@ -1220,10 +1250,12 @@ export const CreateRequestMessageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateRequestMessageResponse>;
 
+export type CreateRequestMessageError = CommonErrors;
+
 export const createRequestMessage: API.OperationMethod<
   CreateRequestMessageRequest,
   CreateRequestMessageResponse,
-  CommonErrors,
+  CreateRequestMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRequestMessageRequest,
@@ -1277,10 +1309,12 @@ export const UpdateRequestMessageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
 
+export type UpdateRequestMessageError = CommonErrors;
+
 export const updateRequestMessage: API.OperationMethod<
   UpdateRequestMessageRequest,
   UpdateRequestMessageResponse,
-  CommonErrors,
+  UpdateRequestMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRequestMessageRequest,
@@ -1365,10 +1399,12 @@ export const DeleteRequestMessageResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestMessageResponse>;
 
+export type DeleteRequestMessageError = CommonErrors;
+
 export const deleteRequestMessage: API.OperationMethod<
   DeleteRequestMessageRequest,
   DeleteRequestMessageResponse,
-  CommonErrors,
+  DeleteRequestMessageError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRequestMessageRequest,
@@ -1401,10 +1437,12 @@ export type GetRequestPriorityResponse = unknown;
 export const GetRequestPriorityResponse =
   Schema.Unknown as unknown as Schema.Schema<GetRequestPriorityResponse>;
 
+export type GetRequestPriorityError = CommonErrors;
+
 export const getRequestPriority: API.OperationMethod<
   GetRequestPriorityRequest,
   GetRequestPriorityResponse,
-  CommonErrors,
+  GetRequestPriorityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRequestPriorityRequest,
@@ -1465,10 +1503,12 @@ export const CreateRequestPriorityResponse = Schema.Struct({
   updated: Schema.String,
 }) as unknown as Schema.Schema<CreateRequestPriorityResponse>;
 
+export type CreateRequestPriorityError = CommonErrors;
+
 export const createRequestPriority: API.OperationMethod<
   CreateRequestPriorityRequest,
   CreateRequestPriorityResponse,
-  CommonErrors,
+  CreateRequestPriorityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRequestPriorityRequest,
@@ -1509,10 +1549,12 @@ export type UpdateRequestPriorityResponse = unknown;
 export const UpdateRequestPriorityResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateRequestPriorityResponse>;
 
+export type UpdateRequestPriorityError = CommonErrors;
+
 export const updateRequestPriority: API.OperationMethod<
   UpdateRequestPriorityRequest,
   UpdateRequestPriorityResponse,
-  CommonErrors,
+  UpdateRequestPriorityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateRequestPriorityRequest,
@@ -1595,10 +1637,12 @@ export const DeleteRequestPriorityResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteRequestPriorityResponse>;
 
+export type DeleteRequestPriorityError = CommonErrors;
+
 export const deleteRequestPriority: API.OperationMethod<
   DeleteRequestPriorityRequest,
   DeleteRequestPriorityResponse,
-  CommonErrors,
+  DeleteRequestPriorityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRequestPriorityRequest,
@@ -1625,10 +1669,12 @@ export type QuotaRequestPriorityResponse = unknown;
 export const QuotaRequestPriorityResponse =
   Schema.Unknown as unknown as Schema.Schema<QuotaRequestPriorityResponse>;
 
+export type QuotaRequestPriorityError = CommonErrors;
+
 export const quotaRequestPriority: API.OperationMethod<
   QuotaRequestPriorityRequest,
   QuotaRequestPriorityResponse,
-  CommonErrors,
+  QuotaRequestPriorityError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: QuotaRequestPriorityRequest,
@@ -1680,10 +1726,12 @@ export const ListScanConfigsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListScanConfigsResponse>;
 
+export type ListScanConfigsError = CommonErrors;
+
 export const listScanConfigs: API.OperationMethod<
   ListScanConfigsRequest,
   ListScanConfigsResponse,
-  CommonErrors,
+  ListScanConfigsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListScanConfigsRequest,
@@ -1742,10 +1790,12 @@ export const CreateScanConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScanConfigResponse>;
 
+export type CreateScanConfigError = CommonErrors;
+
 export const createScanConfig: API.OperationMethod<
   CreateScanConfigRequest,
   CreateScanConfigResponse,
-  CommonErrors,
+  CreateScanConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateScanConfigRequest,
@@ -1806,10 +1856,12 @@ export const PatchScanConfigResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchScanConfigResponse>;
 
+export type PatchScanConfigError = CommonErrors;
+
 export const patchScanConfig: API.OperationMethod<
   PatchScanConfigRequest,
   PatchScanConfigResponse,
-  CommonErrors,
+  PatchScanConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchScanConfigRequest,
@@ -1838,10 +1890,12 @@ export type DeleteScanConfigResponse = unknown;
 export const DeleteScanConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScanConfigResponse>;
 
+export type DeleteScanConfigError = CommonErrors;
+
 export const deleteScanConfig: API.OperationMethod<
   DeleteScanConfigRequest,
   DeleteScanConfigResponse,
-  CommonErrors,
+  DeleteScanConfigError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteScanConfigRequest,
@@ -1883,10 +1937,12 @@ export const GetScanResultResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetScanResultResponse>;
 
+export type GetScanResultError = CommonErrors;
+
 export const getScanResult: API.OperationMethod<
   GetScanResultRequest,
   GetScanResultResponse,
-  CommonErrors,
+  GetScanResultError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetScanResultRequest,
@@ -1970,10 +2026,12 @@ export const GetThreatEventResponse = Schema.Struct({
   releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetThreatEventResponse>;
 
+export type GetThreatEventError = CommonErrors;
+
 export const getThreatEvent: API.OperationMethod<
   GetThreatEventRequest,
   GetThreatEventResponse,
-  CommonErrors,
+  GetThreatEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetThreatEventRequest,
@@ -2130,10 +2188,12 @@ export const ListThreatEventsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventsResponse>;
 
+export type ListThreatEventsError = CommonErrors;
+
 export const listThreatEvents: API.OperationMethod<
   ListThreatEventsRequest,
   ListThreatEventsResponse,
-  CommonErrors,
+  ListThreatEventsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventsRequest,
@@ -2270,10 +2330,12 @@ export const CreateThreatEventResponse = Schema.Struct({
   releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventResponse>;
 
+export type CreateThreatEventError = CommonErrors;
+
 export const createThreatEvent: API.OperationMethod<
   CreateThreatEventRequest,
   CreateThreatEventResponse,
-  CommonErrors,
+  CreateThreatEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateThreatEventRequest,
@@ -2405,10 +2467,12 @@ export const PatchThreatEventResponse = Schema.Struct({
   releasabilityId: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchThreatEventResponse>;
 
+export type PatchThreatEventError = CommonErrors;
+
 export const patchThreatEvent: API.OperationMethod<
   PatchThreatEventRequest,
   PatchThreatEventResponse,
-  CommonErrors,
+  PatchThreatEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchThreatEventRequest,
@@ -2440,10 +2504,12 @@ export const DeleteThreatEventResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<DeleteThreatEventResponse>;
 
+export type DeleteThreatEventError = CommonErrors;
+
 export const deleteThreatEvent: API.OperationMethod<
   DeleteThreatEventRequest,
   DeleteThreatEventResponse,
-  CommonErrors,
+  DeleteThreatEventError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteThreatEventRequest,
@@ -2561,10 +2627,12 @@ export const BulkCreateThreatEventsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<BulkCreateThreatEventsResponse>;
 
+export type BulkCreateThreatEventsError = CommonErrors;
+
 export const bulkCreateThreatEvents: API.OperationMethod<
   BulkCreateThreatEventsRequest,
   BulkCreateThreatEventsResponse,
-  CommonErrors,
+  BulkCreateThreatEventsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkCreateThreatEventsRequest,
@@ -2607,10 +2675,12 @@ export const ListThreatEventAttackersResponse = Schema.Struct({
   type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventAttackersResponse>;
 
+export type ListThreatEventAttackersError = CommonErrors;
+
 export const listThreatEventAttackers: API.OperationMethod<
   ListThreatEventAttackersRequest,
   ListThreatEventAttackersResponse,
-  CommonErrors,
+  ListThreatEventAttackersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventAttackersRequest,
@@ -2654,10 +2724,12 @@ export const GetThreatEventCategoryResponse = Schema.Struct({
   shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetThreatEventCategoryResponse>;
 
+export type GetThreatEventCategoryError = CommonErrors;
+
 export const getThreatEventCategory: API.OperationMethod<
   GetThreatEventCategoryRequest,
   GetThreatEventCategoryResponse,
-  CommonErrors,
+  GetThreatEventCategoryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetThreatEventCategoryRequest,
@@ -2702,10 +2774,12 @@ export const ListThreatEventCategoriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventCategoriesResponse>;
 
+export type ListThreatEventCategoriesError = CommonErrors;
+
 export const listThreatEventCategories: API.OperationMethod<
   ListThreatEventCategoriesRequest,
   ListThreatEventCategoriesResponse,
-  CommonErrors,
+  ListThreatEventCategoriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventCategoriesRequest,
@@ -2755,10 +2829,12 @@ export const CreateThreatEventCategoryResponse = Schema.Struct({
   shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventCategoryResponse>;
 
+export type CreateThreatEventCategoryError = CommonErrors;
+
 export const createThreatEventCategory: API.OperationMethod<
   CreateThreatEventCategoryRequest,
   CreateThreatEventCategoryResponse,
-  CommonErrors,
+  CreateThreatEventCategoryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateThreatEventCategoryRequest,
@@ -2810,10 +2886,12 @@ export const PatchThreatEventCategoryResponse = Schema.Struct({
   shortname: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchThreatEventCategoryResponse>;
 
+export type PatchThreatEventCategoryError = CommonErrors;
+
 export const patchThreatEventCategory: API.OperationMethod<
   PatchThreatEventCategoryRequest,
   PatchThreatEventCategoryResponse,
-  CommonErrors,
+  PatchThreatEventCategoryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchThreatEventCategoryRequest,
@@ -2845,10 +2923,12 @@ export const DeleteThreatEventCategoryResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<DeleteThreatEventCategoryResponse>;
 
+export type DeleteThreatEventCategoryError = CommonErrors;
+
 export const deleteThreatEventCategory: API.OperationMethod<
   DeleteThreatEventCategoryRequest,
   DeleteThreatEventCategoryResponse,
-  CommonErrors,
+  DeleteThreatEventCategoryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteThreatEventCategoryRequest,
@@ -2891,10 +2971,12 @@ export const ListThreatEventCountriesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventCountriesResponse>;
 
+export type ListThreatEventCountriesError = CommonErrors;
+
 export const listThreatEventCountries: API.OperationMethod<
   ListThreatEventCountriesRequest,
   ListThreatEventCountriesResponse,
-  CommonErrors,
+  ListThreatEventCountriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventCountriesRequest,
@@ -2934,10 +3016,12 @@ export const GetThreatEventDatasetResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<GetThreatEventDatasetResponse>;
 
+export type GetThreatEventDatasetError = CommonErrors;
+
 export const getThreatEventDataset: API.OperationMethod<
   GetThreatEventDatasetRequest,
   GetThreatEventDatasetResponse,
-  CommonErrors,
+  GetThreatEventDatasetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetThreatEventDatasetRequest,
@@ -2973,10 +3057,12 @@ export const ListThreatEventDatasetsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListThreatEventDatasetsResponse>;
 
+export type ListThreatEventDatasetsError = CommonErrors;
+
 export const listThreatEventDatasets: API.OperationMethod<
   ListThreatEventDatasetsRequest,
   ListThreatEventDatasetsResponse,
-  CommonErrors,
+  ListThreatEventDatasetsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventDatasetsRequest,
@@ -3016,10 +3102,12 @@ export const CreateThreatEventDatasetResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<CreateThreatEventDatasetResponse>;
 
+export type CreateThreatEventDatasetError = CommonErrors;
+
 export const createThreatEventDataset: API.OperationMethod<
   CreateThreatEventDatasetRequest,
   CreateThreatEventDatasetResponse,
-  CommonErrors,
+  CreateThreatEventDatasetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateThreatEventDatasetRequest,
@@ -3061,10 +3149,12 @@ export const PatchThreatEventDatasetResponse = Schema.Struct({
   uuid: Schema.String,
 }) as unknown as Schema.Schema<PatchThreatEventDatasetResponse>;
 
+export type PatchThreatEventDatasetError = CommonErrors;
+
 export const patchThreatEventDataset: API.OperationMethod<
   PatchThreatEventDatasetRequest,
   PatchThreatEventDatasetResponse,
-  CommonErrors,
+  PatchThreatEventDatasetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchThreatEventDatasetRequest,
@@ -3108,10 +3198,12 @@ export const RawThreatEventDatasetResponse = Schema.Struct({
   tlp: Schema.String,
 }) as unknown as Schema.Schema<RawThreatEventDatasetResponse>;
 
+export type RawThreatEventDatasetError = CommonErrors;
+
 export const rawThreatEventDataset: API.OperationMethod<
   RawThreatEventDatasetRequest,
   RawThreatEventDatasetResponse,
-  CommonErrors,
+  RawThreatEventDatasetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RawThreatEventDatasetRequest,
@@ -3150,10 +3242,12 @@ export const CreateThreatEventEventTagResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateThreatEventEventTagResponse>;
 
+export type CreateThreatEventEventTagError = CommonErrors;
+
 export const createThreatEventEventTag: API.OperationMethod<
   CreateThreatEventEventTagRequest,
   CreateThreatEventEventTagResponse,
-  CommonErrors,
+  CreateThreatEventEventTagError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateThreatEventEventTagRequest,
@@ -3185,10 +3279,12 @@ export const DeleteThreatEventEventTagResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteThreatEventEventTagResponse>;
 
+export type DeleteThreatEventEventTagError = CommonErrors;
+
 export const deleteThreatEventEventTag: API.OperationMethod<
   DeleteThreatEventEventTagRequest,
   DeleteThreatEventEventTagResponse,
-  CommonErrors,
+  DeleteThreatEventEventTagError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteThreatEventEventTagRequest,
@@ -3226,10 +3322,12 @@ export const ListThreatEventIndicatorTypesResponse = Schema.Struct({
   type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventIndicatorTypesResponse>;
 
+export type ListThreatEventIndicatorTypesError = CommonErrors;
+
 export const listThreatEventIndicatorTypes: API.OperationMethod<
   ListThreatEventIndicatorTypesRequest,
   ListThreatEventIndicatorTypesResponse,
-  CommonErrors,
+  ListThreatEventIndicatorTypesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventIndicatorTypesRequest,
@@ -3277,10 +3375,12 @@ export const GetThreatEventRawResponse = Schema.Struct({
   tlp: Schema.String,
 }) as unknown as Schema.Schema<GetThreatEventRawResponse>;
 
+export type GetThreatEventRawError = CommonErrors;
+
 export const getThreatEventRaw: API.OperationMethod<
   GetThreatEventRawRequest,
   GetThreatEventRawResponse,
-  CommonErrors,
+  GetThreatEventRawError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetThreatEventRawRequest,
@@ -3325,10 +3425,12 @@ export const PatchThreatEventRawResponse = Schema.Struct({
   data: Schema.Unknown,
 }) as unknown as Schema.Schema<PatchThreatEventRawResponse>;
 
+export type PatchThreatEventRawError = CommonErrors;
+
 export const patchThreatEventRaw: API.OperationMethod<
   PatchThreatEventRawRequest,
   PatchThreatEventRawResponse,
-  CommonErrors,
+  PatchThreatEventRawError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchThreatEventRawRequest,
@@ -3364,10 +3466,12 @@ export const DeleteThreatEventRelateResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteThreatEventRelateResponse>;
 
+export type DeleteThreatEventRelateError = CommonErrors;
+
 export const deleteThreatEventRelate: API.OperationMethod<
   DeleteThreatEventRelateRequest,
   DeleteThreatEventRelateResponse,
-  CommonErrors,
+  DeleteThreatEventRelateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteThreatEventRelateRequest,
@@ -3483,10 +3587,12 @@ export const CreateThreatEventTagResponse = Schema.Struct({
   sophisticationLevel: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateThreatEventTagResponse>;
 
+export type CreateThreatEventTagError = CommonErrors;
+
 export const createThreatEventTag: API.OperationMethod<
   CreateThreatEventTagRequest,
   CreateThreatEventTagResponse,
-  CommonErrors,
+  CreateThreatEventTagError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateThreatEventTagRequest,
@@ -3529,10 +3635,12 @@ export const ListThreatEventTargetIndustriesResponse = Schema.Struct({
   type: Schema.String,
 }) as unknown as Schema.Schema<ListThreatEventTargetIndustriesResponse>;
 
+export type ListThreatEventTargetIndustriesError = CommonErrors;
+
 export const listThreatEventTargetIndustries: API.OperationMethod<
   ListThreatEventTargetIndustriesRequest,
   ListThreatEventTargetIndustriesResponse,
-  CommonErrors,
+  ListThreatEventTargetIndustriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListThreatEventTargetIndustriesRequest,

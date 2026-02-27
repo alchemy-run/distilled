@@ -943,18 +943,22 @@ function generateOperationSchema(
     lines.push("");
   }
 
-  // Generate explicitly typed API function
+  // Generate error type alias and explicitly typed API function
   const errorsArray =
     errorClassNames.length > 0 ? `[${errorClassNames.join(", ")}]` : "[]";
-  const errorUnion =
+  const errorTypeName = `${pascalOpName}Error`;
+  const errorUnionMembers =
     errorClassNames.length > 0
-      ? `CommonErrors | ${errorClassNames.join(" | ")}`
-      : "CommonErrors";
+      ? ["CommonErrors", ...errorClassNames]
+      : ["CommonErrors"];
+  lines.push(
+    `export type ${errorTypeName} =\n  | ${errorUnionMembers.join("\n  | ")};\n`,
+  );
 
   lines.push(`export const ${normalizedOpName}: API.OperationMethod<`);
   lines.push(`  ${requestTypeName},`);
   lines.push(`  ${responseTypeName},`);
-  lines.push(`  ${errorUnion},`);
+  lines.push(`  ${errorTypeName},`);
   lines.push(`  ApiToken | HttpClient.HttpClient`);
   lines.push(`> = API.make(() => ({`);
   lines.push(`  input: ${requestTypeName},`);

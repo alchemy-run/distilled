@@ -136,10 +136,12 @@ export const GetActiveLivestreamsForLivestreamIdLivestreamResponse =
     success: Schema.optional(Schema.Boolean),
   }) as unknown as Schema.Schema<GetActiveLivestreamsForLivestreamIdLivestreamResponse>;
 
+export type GetActiveLivestreamsForLivestreamIdLivestreamError = CommonErrors;
+
 export const getActiveLivestreamsForLivestreamIdLivestream: API.OperationMethod<
   GetActiveLivestreamsForLivestreamIdLivestreamRequest,
   GetActiveLivestreamsForLivestreamIdLivestreamResponse,
-  CommonErrors,
+  GetActiveLivestreamsForLivestreamIdLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetActiveLivestreamsForLivestreamIdLivestreamRequest,
@@ -235,10 +237,12 @@ export const GetActiveRecordingsRecordingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetActiveRecordingsRecordingResponse>;
 
+export type GetActiveRecordingsRecordingError = CommonErrors;
+
 export const getActiveRecordingsRecording: API.OperationMethod<
   GetActiveRecordingsRecordingRequest,
   GetActiveRecordingsRecordingResponse,
-  CommonErrors,
+  GetActiveRecordingsRecordingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetActiveRecordingsRecordingRequest,
@@ -330,10 +334,12 @@ export const GetActiveSessionActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetActiveSessionActiveSessionResponse>;
 
+export type GetActiveSessionActiveSessionError = CommonErrors;
+
 export const getActiveSessionActiveSession: API.OperationMethod<
   GetActiveSessionActiveSessionRequest,
   GetActiveSessionActiveSessionResponse,
-  CommonErrors,
+  GetActiveSessionActiveSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetActiveSessionActiveSessionRequest,
@@ -452,10 +458,12 @@ export const GetAllLivestreamsLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetAllLivestreamsLivestreamResponse>;
 
+export type GetAllLivestreamsLivestreamError = CommonErrors;
+
 export const getAllLivestreamsLivestream: API.OperationMethod<
   GetAllLivestreamsLivestreamRequest,
   GetAllLivestreamsLivestreamResponse,
-  CommonErrors,
+  GetAllLivestreamsLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAllLivestreamsLivestreamRequest,
@@ -505,10 +513,12 @@ export const KickAllParticipantsActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<KickAllParticipantsActiveSessionResponse>;
 
+export type KickAllParticipantsActiveSessionError = CommonErrors;
+
 export const kickAllParticipantsActiveSession: API.OperationMethod<
   KickAllParticipantsActiveSessionRequest,
   KickAllParticipantsActiveSessionResponse,
-  CommonErrors,
+  KickAllParticipantsActiveSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: KickAllParticipantsActiveSessionRequest,
@@ -551,10 +561,12 @@ export const GetAppResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetAppResponse>;
 
+export type GetAppError = CommonErrors;
+
 export const getApp: API.OperationMethod<
   GetAppRequest,
   GetAppResponse,
-  CommonErrors,
+  GetAppError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAppRequest,
@@ -602,10 +614,12 @@ export const PostAppResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<PostAppResponse>;
 
+export type PostAppError = CommonErrors;
+
 export const postApp: API.OperationMethod<
   PostAppRequest,
   PostAppResponse,
-  CommonErrors,
+  PostAppError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PostAppRequest,
@@ -679,10 +693,12 @@ export const CreateIndependentLivestreamLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateIndependentLivestreamLivestreamResponse>;
 
+export type CreateIndependentLivestreamLivestreamError = CommonErrors;
+
 export const createIndependentLivestreamLivestream: API.OperationMethod<
   CreateIndependentLivestreamLivestreamRequest,
   CreateIndependentLivestreamLivestreamResponse,
-  CommonErrors,
+  CreateIndependentLivestreamLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateIndependentLivestreamLivestreamRequest,
@@ -742,10 +758,12 @@ export const GetLivestreamAnalyticsCompleteLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetLivestreamAnalyticsCompleteLivestreamResponse>;
 
+export type GetLivestreamAnalyticsCompleteLivestreamError = CommonErrors;
+
 export const getLivestreamAnalyticsCompleteLivestream: API.OperationMethod<
   GetLivestreamAnalyticsCompleteLivestreamRequest,
   GetLivestreamAnalyticsCompleteLivestreamResponse,
-  CommonErrors,
+  GetLivestreamAnalyticsCompleteLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLivestreamAnalyticsCompleteLivestreamRequest,
@@ -821,10 +839,12 @@ export const StartLivestreamingAMeetingLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<StartLivestreamingAMeetingLivestreamResponse>;
 
+export type StartLivestreamingAMeetingLivestreamError = CommonErrors;
+
 export const startLivestreamingAMeetingLivestream: API.OperationMethod<
   StartLivestreamingAMeetingLivestreamRequest,
   StartLivestreamingAMeetingLivestreamResponse,
-  CommonErrors,
+  StartLivestreamingAMeetingLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StartLivestreamingAMeetingLivestreamRequest,
@@ -864,10 +884,12 @@ export const StopLivestreamingAMeetingLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<StopLivestreamingAMeetingLivestreamResponse>;
 
+export type StopLivestreamingAMeetingLivestreamError = CommonErrors;
+
 export const stopLivestreamingAMeetingLivestream: API.OperationMethod<
   StopLivestreamingAMeetingLivestreamRequest,
   StopLivestreamingAMeetingLivestreamResponse,
-  CommonErrors,
+  StopLivestreamingAMeetingLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StopLivestreamingAMeetingLivestreamRequest,
@@ -943,10 +965,13 @@ export const GetLivestreamSessionDetailsForSessionIdLivestreamResponse =
     success: Schema.optional(Schema.Boolean),
   }) as unknown as Schema.Schema<GetLivestreamSessionDetailsForSessionIdLivestreamResponse>;
 
+export type GetLivestreamSessionDetailsForSessionIdLivestreamError =
+  CommonErrors;
+
 export const getLivestreamSessionDetailsForSessionIdLivestream: API.OperationMethod<
   GetLivestreamSessionDetailsForSessionIdLivestreamRequest,
   GetLivestreamSessionDetailsForSessionIdLivestreamResponse,
-  CommonErrors,
+  GetLivestreamSessionDetailsForSessionIdLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLivestreamSessionDetailsForSessionIdLivestreamRequest,
@@ -1092,10 +1117,12 @@ export const GetLivestreamSessionForLivestreamIdLivestreamResponse =
     success: Schema.optional(Schema.Boolean),
   }) as unknown as Schema.Schema<GetLivestreamSessionForLivestreamIdLivestreamResponse>;
 
+export type GetLivestreamSessionForLivestreamIdLivestreamError = CommonErrors;
+
 export const getLivestreamSessionForLivestreamIdLivestream: API.OperationMethod<
   GetLivestreamSessionForLivestreamIdLivestreamRequest,
   GetLivestreamSessionForLivestreamIdLivestreamResponse,
-  CommonErrors,
+  GetLivestreamSessionForLivestreamIdLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLivestreamSessionForLivestreamIdLivestreamRequest,
@@ -1197,10 +1224,12 @@ export const GetMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingResponse>;
 
+export type GetMeetingError = CommonErrors;
+
 export const getMeeting: API.OperationMethod<
   GetMeetingRequest,
   GetMeetingResponse,
-  CommonErrors,
+  GetMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMeetingRequest,
@@ -1785,10 +1814,12 @@ export const CreateMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateMeetingResponse>;
 
+export type CreateMeetingError = CommonErrors;
+
 export const createMeeting: API.OperationMethod<
   CreateMeetingRequest,
   CreateMeetingResponse,
-  CommonErrors,
+  CreateMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMeetingRequest,
@@ -1867,10 +1898,12 @@ export const GetMeetingActiveLivestreamsLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetMeetingActiveLivestreamsLivestreamResponse>;
 
+export type GetMeetingActiveLivestreamsLivestreamError = CommonErrors;
+
 export const getMeetingActiveLivestreamsLivestream: API.OperationMethod<
   GetMeetingActiveLivestreamsLivestreamRequest,
   GetMeetingActiveLivestreamsLivestreamResponse,
-  CommonErrors,
+  GetMeetingActiveLivestreamsLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMeetingActiveLivestreamsLivestreamRequest,
@@ -2194,10 +2227,12 @@ export const GetMeetingByIdMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetMeetingByIdMeetingResponse>;
 
+export type GetMeetingByIdMeetingError = CommonErrors;
+
 export const getMeetingByIdMeeting: API.OperationMethod<
   GetMeetingByIdMeetingRequest,
   GetMeetingByIdMeetingResponse,
-  CommonErrors,
+  GetMeetingByIdMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMeetingByIdMeetingRequest,
@@ -2634,10 +2669,12 @@ export const UpdateMeetingByIdMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<UpdateMeetingByIdMeetingResponse>;
 
+export type UpdateMeetingByIdMeetingError = CommonErrors;
+
 export const updateMeetingByIdMeeting: API.OperationMethod<
   UpdateMeetingByIdMeetingRequest,
   UpdateMeetingByIdMeetingResponse,
-  CommonErrors,
+  UpdateMeetingByIdMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMeetingByIdMeetingRequest,
@@ -3224,10 +3261,12 @@ export const ReplaceMeetingByIdMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ReplaceMeetingByIdMeetingResponse>;
 
+export type ReplaceMeetingByIdMeetingError = CommonErrors;
+
 export const replaceMeetingByIdMeeting: API.OperationMethod<
   ReplaceMeetingByIdMeetingRequest,
   ReplaceMeetingByIdMeetingResponse,
-  CommonErrors,
+  ReplaceMeetingByIdMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ReplaceMeetingByIdMeetingRequest,
@@ -3297,10 +3336,12 @@ export const GetMeetingParticipantMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingParticipantMeetingResponse>;
 
+export type GetMeetingParticipantMeetingError = CommonErrors;
+
 export const getMeetingParticipantMeeting: API.OperationMethod<
   GetMeetingParticipantMeetingRequest,
   GetMeetingParticipantMeetingResponse,
-  CommonErrors,
+  GetMeetingParticipantMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMeetingParticipantMeetingRequest,
@@ -3359,10 +3400,12 @@ export const DeleteMeetingParticipantMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DeleteMeetingParticipantMeetingResponse>;
 
+export type DeleteMeetingParticipantMeetingError = CommonErrors;
+
 export const deleteMeetingParticipantMeeting: API.OperationMethod<
   DeleteMeetingParticipantMeetingRequest,
   DeleteMeetingParticipantMeetingResponse,
-  CommonErrors,
+  DeleteMeetingParticipantMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMeetingParticipantMeetingRequest,
@@ -3448,10 +3491,12 @@ export const GetMeetingParticipantsMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetMeetingParticipantsMeetingResponse>;
 
+export type GetMeetingParticipantsMeetingError = CommonErrors;
+
 export const getMeetingParticipantsMeeting: API.OperationMethod<
   GetMeetingParticipantsMeetingRequest,
   GetMeetingParticipantsMeetingResponse,
-  CommonErrors,
+  GetMeetingParticipantsMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMeetingParticipantsMeetingRequest,
@@ -3647,10 +3692,12 @@ export const GetOneRecordingRecordingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetOneRecordingRecordingResponse>;
 
+export type GetOneRecordingRecordingError = CommonErrors;
+
 export const getOneRecordingRecording: API.OperationMethod<
   GetOneRecordingRecordingRequest,
   GetOneRecordingRecordingResponse,
-  CommonErrors,
+  GetOneRecordingRecordingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOneRecordingRecordingRequest,
@@ -3775,10 +3822,12 @@ export const GetOrgAnalyticsAnalyticResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetOrgAnalyticsAnalyticResponse>;
 
+export type GetOrgAnalyticsAnalyticError = CommonErrors;
+
 export const getOrgAnalyticsAnalytic: API.OperationMethod<
   GetOrgAnalyticsAnalyticRequest,
   GetOrgAnalyticsAnalyticResponse,
-  CommonErrors,
+  GetOrgAnalyticsAnalyticError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOrgAnalyticsAnalyticRequest,
@@ -3903,10 +3952,12 @@ export const GetOrgAnalyticsLivestreamResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetOrgAnalyticsLivestreamResponse>;
 
+export type GetOrgAnalyticsLivestreamError = CommonErrors;
+
 export const getOrgAnalyticsLivestream: API.OperationMethod<
   GetOrgAnalyticsLivestreamRequest,
   GetOrgAnalyticsLivestreamResponse,
-  CommonErrors,
+  GetOrgAnalyticsLivestreamError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetOrgAnalyticsLivestreamRequest,
@@ -4005,10 +4056,12 @@ export const GetParticipantDataFromPeerIdSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetParticipantDataFromPeerIdSessionResponse>;
 
+export type GetParticipantDataFromPeerIdSessionError = CommonErrors;
+
 export const getParticipantDataFromPeerIdSession: API.OperationMethod<
   GetParticipantDataFromPeerIdSessionRequest,
   GetParticipantDataFromPeerIdSessionResponse,
-  CommonErrors,
+  GetParticipantDataFromPeerIdSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetParticipantDataFromPeerIdSessionRequest,
@@ -4099,10 +4152,12 @@ export const AddParticipantMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<AddParticipantMeetingResponse>;
 
+export type AddParticipantMeetingError = CommonErrors;
+
 export const addParticipantMeeting: API.OperationMethod<
   AddParticipantMeetingRequest,
   AddParticipantMeetingResponse,
-  CommonErrors,
+  AddParticipantMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: AddParticipantMeetingRequest,
@@ -4187,10 +4242,12 @@ export const EditParticipantMeetingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<EditParticipantMeetingResponse>;
 
+export type EditParticipantMeetingError = CommonErrors;
+
 export const editParticipantMeeting: API.OperationMethod<
   EditParticipantMeetingRequest,
   EditParticipantMeetingResponse,
-  CommonErrors,
+  EditParticipantMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EditParticipantMeetingRequest,
@@ -4275,10 +4332,12 @@ export const KickParticipantsActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<KickParticipantsActiveSessionResponse>;
 
+export type KickParticipantsActiveSessionError = CommonErrors;
+
 export const kickParticipantsActiveSession: API.OperationMethod<
   KickParticipantsActiveSessionRequest,
   KickParticipantsActiveSessionResponse,
-  CommonErrors,
+  KickParticipantsActiveSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: KickParticipantsActiveSessionRequest,
@@ -4324,10 +4383,12 @@ export const RefreshParticipantTokenMeetingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<RefreshParticipantTokenMeetingResponse>;
 
+export type RefreshParticipantTokenMeetingError = CommonErrors;
+
 export const refreshParticipantTokenMeeting: API.OperationMethod<
   RefreshParticipantTokenMeetingRequest,
   RefreshParticipantTokenMeetingResponse,
-  CommonErrors,
+  RefreshParticipantTokenMeetingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RefreshParticipantTokenMeetingRequest,
@@ -4436,10 +4497,12 @@ export const CreatePollActiveSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreatePollActiveSessionResponse>;
 
+export type CreatePollActiveSessionError = CommonErrors;
+
 export const createPollActiveSession: API.OperationMethod<
   CreatePollActiveSessionRequest,
   CreatePollActiveSessionResponse,
-  CommonErrors,
+  CreatePollActiveSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePollActiveSessionRequest,
@@ -4514,10 +4577,12 @@ export const GetPresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetPresetResponse>;
 
+export type GetPresetError = CommonErrors;
+
 export const getPreset: API.OperationMethod<
   GetPresetRequest,
   GetPresetResponse,
-  CommonErrors,
+  GetPresetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPresetRequest,
@@ -5245,10 +5310,12 @@ export const CreatePresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreatePresetResponse>;
 
+export type CreatePresetError = CommonErrors;
+
 export const createPreset: API.OperationMethod<
   CreatePresetRequest,
   CreatePresetResponse,
-  CommonErrors,
+  CreatePresetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePresetRequest,
@@ -6000,10 +6067,12 @@ export const PatchPresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<PatchPresetResponse>;
 
+export type PatchPresetError = CommonErrors;
+
 export const patchPreset: API.OperationMethod<
   PatchPresetRequest,
   PatchPresetResponse,
-  CommonErrors,
+  PatchPresetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPresetRequest,
@@ -6389,10 +6458,12 @@ export const DeletePresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeletePresetResponse>;
 
+export type DeletePresetError = CommonErrors;
+
 export const deletePreset: API.OperationMethod<
   DeletePresetRequest,
   DeletePresetResponse,
-  CommonErrors,
+  DeletePresetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePresetRequest,
@@ -6782,10 +6853,12 @@ export const GetPresetByIdPresetResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetPresetByIdPresetResponse>;
 
+export type GetPresetByIdPresetError = CommonErrors;
+
 export const getPresetByIdPreset: API.OperationMethod<
   GetPresetByIdPresetRequest,
   GetPresetByIdPresetResponse,
-  CommonErrors,
+  GetPresetByIdPresetError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPresetByIdPresetRequest,
@@ -7021,10 +7094,12 @@ export const GetRecordingsRecordingResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetRecordingsRecordingResponse>;
 
+export type GetRecordingsRecordingError = CommonErrors;
+
 export const getRecordingsRecording: API.OperationMethod<
   GetRecordingsRecordingRequest,
   GetRecordingsRecordingResponse,
-  CommonErrors,
+  GetRecordingsRecordingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRecordingsRecordingRequest,
@@ -7378,10 +7453,12 @@ export const StartRecordingsRecordingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<StartRecordingsRecordingResponse>;
 
+export type StartRecordingsRecordingError = CommonErrors;
+
 export const startRecordingsRecording: API.OperationMethod<
   StartRecordingsRecordingRequest,
   StartRecordingsRecordingResponse,
-  CommonErrors,
+  StartRecordingsRecordingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StartRecordingsRecordingRequest,
@@ -7580,10 +7657,12 @@ export const PauseResumeStopRecordingRecordingResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PauseResumeStopRecordingRecordingResponse>;
 
+export type PauseResumeStopRecordingRecordingError = CommonErrors;
+
 export const pauseResumeStopRecordingRecording: API.OperationMethod<
   PauseResumeStopRecordingRecordingRequest,
   PauseResumeStopRecordingRecordingResponse,
-  CommonErrors,
+  PauseResumeStopRecordingRecordingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PauseResumeStopRecordingRecordingRequest,
@@ -7633,10 +7712,12 @@ export const GetSessionChatSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionChatSessionResponse>;
 
+export type GetSessionChatSessionError = CommonErrors;
+
 export const getSessionChatSession: API.OperationMethod<
   GetSessionChatSessionRequest,
   GetSessionChatSessionResponse,
-  CommonErrors,
+  GetSessionChatSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionChatSessionRequest,
@@ -7739,10 +7820,12 @@ export const GetSessionDetailsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionDetailsSessionResponse>;
 
+export type GetSessionDetailsSessionError = CommonErrors;
+
 export const getSessionDetailsSession: API.OperationMethod<
   GetSessionDetailsSessionRequest,
   GetSessionDetailsSessionResponse,
-  CommonErrors,
+  GetSessionDetailsSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionDetailsSessionRequest,
@@ -7848,10 +7931,12 @@ export const GetSessionParticipantDetailsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionParticipantDetailsSessionResponse>;
 
+export type GetSessionParticipantDetailsSessionError = CommonErrors;
+
 export const getSessionParticipantDetailsSession: API.OperationMethod<
   GetSessionParticipantDetailsSessionRequest,
   GetSessionParticipantDetailsSessionResponse,
-  CommonErrors,
+  GetSessionParticipantDetailsSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionParticipantDetailsSessionRequest,
@@ -7965,10 +8050,12 @@ export const GetSessionParticipantsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionParticipantsSessionResponse>;
 
+export type GetSessionParticipantsSessionError = CommonErrors;
+
 export const getSessionParticipantsSession: API.OperationMethod<
   GetSessionParticipantsSessionRequest,
   GetSessionParticipantsSessionResponse,
-  CommonErrors,
+  GetSessionParticipantsSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionParticipantsSessionRequest,
@@ -8106,10 +8193,12 @@ export const GetSessionsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionsSessionResponse>;
 
+export type GetSessionsSessionError = CommonErrors;
+
 export const getSessionsSession: API.OperationMethod<
   GetSessionsSessionRequest,
   GetSessionsSessionResponse,
-  CommonErrors,
+  GetSessionsSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionsSessionRequest,
@@ -8159,10 +8248,12 @@ export const GetSessionSummarySessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionSummarySessionResponse>;
 
+export type GetSessionSummarySessionError = CommonErrors;
+
 export const getSessionSummarySession: API.OperationMethod<
   GetSessionSummarySessionRequest,
   GetSessionSummarySessionResponse,
-  CommonErrors,
+  GetSessionSummarySessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionSummarySessionRequest,
@@ -8218,10 +8309,12 @@ export const GetSessionTranscriptsSessionResponse = Schema.Struct({
   success: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetSessionTranscriptsSessionResponse>;
 
+export type GetSessionTranscriptsSessionError = CommonErrors;
+
 export const getSessionTranscriptsSession: API.OperationMethod<
   GetSessionTranscriptsSessionRequest,
   GetSessionTranscriptsSessionResponse,
-  CommonErrors,
+  GetSessionTranscriptsSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSessionTranscriptsSessionRequest,
@@ -8256,10 +8349,12 @@ export type GenerateSummaryOfTranscriptsSessionResponse = unknown;
 export const GenerateSummaryOfTranscriptsSessionResponse =
   Schema.Unknown as unknown as Schema.Schema<GenerateSummaryOfTranscriptsSessionResponse>;
 
+export type GenerateSummaryOfTranscriptsSessionError = CommonErrors;
+
 export const generateSummaryOfTranscriptsSession: API.OperationMethod<
   GenerateSummaryOfTranscriptsSessionRequest,
   GenerateSummaryOfTranscriptsSessionResponse,
-  CommonErrors,
+  GenerateSummaryOfTranscriptsSessionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GenerateSummaryOfTranscriptsSessionRequest,
@@ -8306,10 +8401,12 @@ export type StartTrackRecordingRecordingResponse = unknown;
 export const StartTrackRecordingRecordingResponse =
   Schema.Unknown as unknown as Schema.Schema<StartTrackRecordingRecordingResponse>;
 
+export type StartTrackRecordingRecordingError = CommonErrors;
+
 export const startTrackRecordingRecording: API.OperationMethod<
   StartTrackRecordingRecordingRequest,
   StartTrackRecordingRecordingResponse,
-  CommonErrors,
+  StartTrackRecordingRecordingError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: StartTrackRecordingRecordingRequest,
@@ -8397,10 +8494,12 @@ export const GetWebhookByIdWebhookResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetWebhookByIdWebhookResponse>;
 
+export type GetWebhookByIdWebhookError = CommonErrors;
+
 export const getWebhookByIdWebhook: API.OperationMethod<
   GetWebhookByIdWebhookRequest,
   GetWebhookByIdWebhookResponse,
-  CommonErrors,
+  GetWebhookByIdWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWebhookByIdWebhookRequest,
@@ -8488,10 +8587,12 @@ export const GetWebhooksWebhookResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<GetWebhooksWebhookResponse>;
 
+export type GetWebhooksWebhookError = CommonErrors;
+
 export const getWebhooksWebhook: API.OperationMethod<
   GetWebhooksWebhookRequest,
   GetWebhooksWebhookResponse,
-  CommonErrors,
+  GetWebhooksWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetWebhooksWebhookRequest,
@@ -8611,10 +8712,12 @@ export const CreateWebhookWebhookResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<CreateWebhookWebhookResponse>;
 
+export type CreateWebhookWebhookError = CommonErrors;
+
 export const createWebhookWebhook: API.OperationMethod<
   CreateWebhookWebhookRequest,
   CreateWebhookWebhookResponse,
-  CommonErrors,
+  CreateWebhookWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateWebhookWebhookRequest,
@@ -8698,10 +8801,12 @@ export const DeleteWebhookWebhookResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<DeleteWebhookWebhookResponse>;
 
+export type DeleteWebhookWebhookError = CommonErrors;
+
 export const deleteWebhookWebhook: API.OperationMethod<
   DeleteWebhookWebhookRequest,
   DeleteWebhookWebhookResponse,
-  CommonErrors,
+  DeleteWebhookWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteWebhookWebhookRequest,
@@ -8821,10 +8926,12 @@ export const EditWebhookWebhookResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<EditWebhookWebhookResponse>;
 
+export type EditWebhookWebhookError = CommonErrors;
+
 export const editWebhookWebhook: API.OperationMethod<
   EditWebhookWebhookRequest,
   EditWebhookWebhookResponse,
-  CommonErrors,
+  EditWebhookWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EditWebhookWebhookRequest,
@@ -8942,10 +9049,12 @@ export const ReplaceWebhookWebhookResponse = Schema.Struct({
   success: Schema.Boolean,
 }) as unknown as Schema.Schema<ReplaceWebhookWebhookResponse>;
 
+export type ReplaceWebhookWebhookError = CommonErrors;
+
 export const replaceWebhookWebhook: API.OperationMethod<
   ReplaceWebhookWebhookRequest,
   ReplaceWebhookWebhookResponse,
-  CommonErrors,
+  ReplaceWebhookWebhookError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ReplaceWebhookWebhookRequest,

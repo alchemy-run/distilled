@@ -350,10 +350,12 @@ export const GetInvestigateResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetInvestigateResponse>;
 
+export type GetInvestigateError = CommonErrors;
+
 export const getInvestigate: API.OperationMethod<
   GetInvestigateRequest,
   GetInvestigateResponse,
-  CommonErrors,
+  GetInvestigateError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInvestigateRequest,
@@ -756,10 +758,12 @@ export const ListInvestigatesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInvestigatesResponse>;
 
+export type ListInvestigatesError = CommonErrors;
+
 export const listInvestigates: API.OperationMethod<
   ListInvestigatesRequest,
   ListInvestigatesResponse,
-  CommonErrors,
+  ListInvestigatesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListInvestigatesRequest,
@@ -969,10 +973,12 @@ export const GetInvestigateDetectionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetInvestigateDetectionResponse>;
 
+export type GetInvestigateDetectionError = CommonErrors;
+
 export const getInvestigateDetection: API.OperationMethod<
   GetInvestigateDetectionRequest,
   GetInvestigateDetectionResponse,
-  CommonErrors,
+  GetInvestigateDetectionError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInvestigateDetectionRequest,
@@ -1049,10 +1055,12 @@ export const CreateInvestigateMoveResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<CreateInvestigateMoveResponse>;
 
+export type CreateInvestigateMoveError = CommonErrors;
+
 export const createInvestigateMove: API.OperationMethod<
   CreateInvestigateMoveRequest,
   CreateInvestigateMoveResponse,
-  CommonErrors,
+  CreateInvestigateMoveError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInvestigateMoveRequest,
@@ -1127,10 +1135,12 @@ export const BulkInvestigateMoveResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkInvestigateMoveResponse>;
 
+export type BulkInvestigateMoveError = CommonErrors;
+
 export const bulkInvestigateMove: API.OperationMethod<
   BulkInvestigateMoveRequest,
   BulkInvestigateMoveResponse,
-  CommonErrors,
+  BulkInvestigateMoveError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkInvestigateMoveRequest,
@@ -1167,10 +1177,12 @@ export const GetInvestigatePreviewResponse = Schema.Struct({
   screenshot: Schema.String,
 }) as unknown as Schema.Schema<GetInvestigatePreviewResponse>;
 
+export type GetInvestigatePreviewError = CommonErrors;
+
 export const getInvestigatePreview: API.OperationMethod<
   GetInvestigatePreviewRequest,
   GetInvestigatePreviewResponse,
-  CommonErrors,
+  GetInvestigatePreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInvestigatePreviewRequest,
@@ -1205,10 +1217,12 @@ export const CreateInvestigatePreviewResponse = Schema.Struct({
   screenshot: Schema.String,
 }) as unknown as Schema.Schema<CreateInvestigatePreviewResponse>;
 
+export type CreateInvestigatePreviewError = CommonErrors;
+
 export const createInvestigatePreview: API.OperationMethod<
   CreateInvestigatePreviewRequest,
   CreateInvestigatePreviewResponse,
-  CommonErrors,
+  CreateInvestigatePreviewError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInvestigatePreviewRequest,
@@ -1245,10 +1259,12 @@ export const GetInvestigateRawResponse = Schema.Struct({
   raw: Schema.String,
 }) as unknown as Schema.Schema<GetInvestigateRawResponse>;
 
+export type GetInvestigateRawError = CommonErrors;
+
 export const getInvestigateRaw: API.OperationMethod<
   GetInvestigateRawRequest,
   GetInvestigateRawResponse,
-  CommonErrors,
+  GetInvestigateRawError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInvestigateRawRequest,
@@ -1308,10 +1324,12 @@ export type CreateInvestigateReclassifyResponse = unknown;
 export const CreateInvestigateReclassifyResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateInvestigateReclassifyResponse>;
 
+export type CreateInvestigateReclassifyError = CommonErrors;
+
 export const createInvestigateReclassify: API.OperationMethod<
   CreateInvestigateReclassifyRequest,
   CreateInvestigateReclassifyResponse,
-  CommonErrors,
+  CreateInvestigateReclassifyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateInvestigateReclassifyRequest,
@@ -1369,10 +1387,12 @@ export const BulkInvestigateReleaseResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkInvestigateReleaseResponse>;
 
+export type BulkInvestigateReleaseError = CommonErrors;
+
 export const bulkInvestigateRelease: API.OperationMethod<
   BulkInvestigateReleaseRequest,
   BulkInvestigateReleaseResponse,
-  CommonErrors,
+  BulkInvestigateReleaseError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkInvestigateReleaseRequest,
@@ -1444,10 +1464,12 @@ export const GetInvestigateTraceResponse = Schema.Struct({
   }),
 }) as unknown as Schema.Schema<GetInvestigateTraceResponse>;
 
+export type GetInvestigateTraceError = CommonErrors;
+
 export const getInvestigateTrace: API.OperationMethod<
   GetInvestigateTraceRequest,
   GetInvestigateTraceResponse,
-  CommonErrors,
+  GetInvestigateTraceError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetInvestigateTraceRequest,
@@ -1534,10 +1556,12 @@ export const GetSettingAllowPolicyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingAllowPolicyResponse>;
 
+export type GetSettingAllowPolicyError = CommonErrors;
+
 export const getSettingAllowPolicy: API.OperationMethod<
   GetSettingAllowPolicyRequest,
   GetSettingAllowPolicyResponse,
-  CommonErrors,
+  GetSettingAllowPolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingAllowPolicyRequest,
@@ -1664,10 +1688,12 @@ export const ListSettingAllowPoliciesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingAllowPoliciesResponse>;
 
+export type ListSettingAllowPoliciesError = CommonErrors;
+
 export const listSettingAllowPolicies: API.OperationMethod<
   ListSettingAllowPoliciesRequest,
   ListSettingAllowPoliciesResponse,
-  CommonErrors,
+  ListSettingAllowPoliciesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSettingAllowPoliciesRequest,
@@ -1794,10 +1820,12 @@ export const CreateSettingAllowPolicyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSettingAllowPolicyResponse>;
 
+export type CreateSettingAllowPolicyError = CommonErrors;
+
 export const createSettingAllowPolicy: API.OperationMethod<
   CreateSettingAllowPolicyRequest,
   CreateSettingAllowPolicyResponse,
-  CommonErrors,
+  CreateSettingAllowPolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSettingAllowPolicyRequest,
@@ -1926,10 +1954,12 @@ export const PatchSettingAllowPolicyResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingAllowPolicyResponse>;
 
+export type PatchSettingAllowPolicyError = CommonErrors;
+
 export const patchSettingAllowPolicy: API.OperationMethod<
   PatchSettingAllowPolicyRequest,
   PatchSettingAllowPolicyResponse,
-  CommonErrors,
+  PatchSettingAllowPolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingAllowPolicyRequest,
@@ -1962,10 +1992,12 @@ export const DeleteSettingAllowPolicyResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingAllowPolicyResponse>;
 
+export type DeleteSettingAllowPolicyError = CommonErrors;
+
 export const deleteSettingAllowPolicy: API.OperationMethod<
   DeleteSettingAllowPolicyRequest,
   DeleteSettingAllowPolicyResponse,
-  CommonErrors,
+  DeleteSettingAllowPolicyError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingAllowPolicyRequest,
@@ -2024,10 +2056,12 @@ export const GetSettingBlockSenderResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingBlockSenderResponse>;
 
+export type GetSettingBlockSenderError = CommonErrors;
+
 export const getSettingBlockSender: API.OperationMethod<
   GetSettingBlockSenderRequest,
   GetSettingBlockSenderResponse,
-  CommonErrors,
+  GetSettingBlockSenderError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingBlockSenderRequest,
@@ -2102,10 +2136,12 @@ export const ListSettingBlockSendersResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingBlockSendersResponse>;
 
+export type ListSettingBlockSendersError = CommonErrors;
+
 export const listSettingBlockSenders: API.OperationMethod<
   ListSettingBlockSendersRequest,
   ListSettingBlockSendersResponse,
-  CommonErrors,
+  ListSettingBlockSendersError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSettingBlockSendersRequest,
@@ -2176,10 +2212,12 @@ export const CreateSettingBlockSenderResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSettingBlockSenderResponse>;
 
+export type CreateSettingBlockSenderError = CommonErrors;
+
 export const createSettingBlockSender: API.OperationMethod<
   CreateSettingBlockSenderRequest,
   CreateSettingBlockSenderResponse,
-  CommonErrors,
+  CreateSettingBlockSenderError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSettingBlockSenderRequest,
@@ -2260,10 +2298,12 @@ export const PatchSettingBlockSenderResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingBlockSenderResponse>;
 
+export type PatchSettingBlockSenderError = CommonErrors;
+
 export const patchSettingBlockSender: API.OperationMethod<
   PatchSettingBlockSenderRequest,
   PatchSettingBlockSenderResponse,
-  CommonErrors,
+  PatchSettingBlockSenderError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingBlockSenderRequest,
@@ -2296,10 +2336,12 @@ export const DeleteSettingBlockSenderResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingBlockSenderResponse>;
 
+export type DeleteSettingBlockSenderError = CommonErrors;
+
 export const deleteSettingBlockSender: API.OperationMethod<
   DeleteSettingBlockSenderRequest,
   DeleteSettingBlockSenderResponse,
-  CommonErrors,
+  DeleteSettingBlockSenderError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingBlockSenderRequest,
@@ -2495,10 +2537,12 @@ export const GetSettingDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingDomainResponse>;
 
+export type GetSettingDomainError = CommonErrors;
+
 export const getSettingDomain: API.OperationMethod<
   GetSettingDomainRequest,
   GetSettingDomainResponse,
-  CommonErrors,
+  GetSettingDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingDomainRequest,
@@ -2722,10 +2766,12 @@ export const ListSettingDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingDomainsResponse>;
 
+export type ListSettingDomainsError = CommonErrors;
+
 export const listSettingDomains: API.OperationMethod<
   ListSettingDomainsRequest,
   ListSettingDomainsResponse,
-  CommonErrors,
+  ListSettingDomainsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSettingDomainsRequest,
@@ -3001,10 +3047,12 @@ export const PatchSettingDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingDomainResponse>;
 
+export type PatchSettingDomainError = CommonErrors;
+
 export const patchSettingDomain: API.OperationMethod<
   PatchSettingDomainRequest,
   PatchSettingDomainResponse,
-  CommonErrors,
+  PatchSettingDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingDomainRequest,
@@ -3037,10 +3085,12 @@ export const DeleteSettingDomainResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingDomainResponse>;
 
+export type DeleteSettingDomainError = CommonErrors;
+
 export const deleteSettingDomain: API.OperationMethod<
   DeleteSettingDomainRequest,
   DeleteSettingDomainResponse,
-  CommonErrors,
+  DeleteSettingDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingDomainRequest,
@@ -3070,10 +3120,12 @@ export const BulkDeleteSettingDomainsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<BulkDeleteSettingDomainsResponse>;
 
+export type BulkDeleteSettingDomainsError = CommonErrors;
+
 export const bulkDeleteSettingDomains: API.OperationMethod<
   BulkDeleteSettingDomainsRequest,
   BulkDeleteSettingDomainsResponse,
-  CommonErrors,
+  BulkDeleteSettingDomainsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: BulkDeleteSettingDomainsRequest,
@@ -3146,10 +3198,12 @@ export const GetSettingImpersonationRegistryResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingImpersonationRegistryResponse>;
 
+export type GetSettingImpersonationRegistryError = CommonErrors;
+
 export const getSettingImpersonationRegistry: API.OperationMethod<
   GetSettingImpersonationRegistryRequest,
   GetSettingImpersonationRegistryResponse,
-  CommonErrors,
+  GetSettingImpersonationRegistryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingImpersonationRegistryRequest,
@@ -3246,10 +3300,12 @@ export const ListSettingImpersonationRegistriesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingImpersonationRegistriesResponse>;
 
+export type ListSettingImpersonationRegistriesError = CommonErrors;
+
 export const listSettingImpersonationRegistries: API.OperationMethod<
   ListSettingImpersonationRegistriesRequest,
   ListSettingImpersonationRegistriesResponse,
-  CommonErrors,
+  ListSettingImpersonationRegistriesError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSettingImpersonationRegistriesRequest,
@@ -3330,10 +3386,12 @@ export const CreateSettingImpersonationRegistryResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSettingImpersonationRegistryResponse>;
 
+export type CreateSettingImpersonationRegistryError = CommonErrors;
+
 export const createSettingImpersonationRegistry: API.OperationMethod<
   CreateSettingImpersonationRegistryRequest,
   CreateSettingImpersonationRegistryResponse,
-  CommonErrors,
+  CreateSettingImpersonationRegistryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSettingImpersonationRegistryRequest,
@@ -3416,10 +3474,12 @@ export const PatchSettingImpersonationRegistryResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingImpersonationRegistryResponse>;
 
+export type PatchSettingImpersonationRegistryError = CommonErrors;
+
 export const patchSettingImpersonationRegistry: API.OperationMethod<
   PatchSettingImpersonationRegistryRequest,
   PatchSettingImpersonationRegistryResponse,
-  CommonErrors,
+  PatchSettingImpersonationRegistryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingImpersonationRegistryRequest,
@@ -3451,10 +3511,12 @@ export const DeleteSettingImpersonationRegistryResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingImpersonationRegistryResponse>;
 
+export type DeleteSettingImpersonationRegistryError = CommonErrors;
+
 export const deleteSettingImpersonationRegistry: API.OperationMethod<
   DeleteSettingImpersonationRegistryRequest,
   DeleteSettingImpersonationRegistryResponse,
-  CommonErrors,
+  DeleteSettingImpersonationRegistryError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingImpersonationRegistryRequest,
@@ -3518,10 +3580,12 @@ export const GetSettingTrustedDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingTrustedDomainResponse>;
 
+export type GetSettingTrustedDomainError = CommonErrors;
+
 export const getSettingTrustedDomain: API.OperationMethod<
   GetSettingTrustedDomainRequest,
   GetSettingTrustedDomainResponse,
-  CommonErrors,
+  GetSettingTrustedDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingTrustedDomainRequest,
@@ -3602,10 +3666,12 @@ export const ListSettingTrustedDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSettingTrustedDomainsResponse>;
 
+export type ListSettingTrustedDomainsError = CommonErrors;
+
 export const listSettingTrustedDomains: API.OperationMethod<
   ListSettingTrustedDomainsRequest,
   ListSettingTrustedDomainsResponse,
-  CommonErrors,
+  ListSettingTrustedDomainsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSettingTrustedDomainsRequest,
@@ -3718,10 +3784,12 @@ export const CreateSettingTrustedDomainResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<CreateSettingTrustedDomainResponse>;
 
+export type CreateSettingTrustedDomainError = CommonErrors;
+
 export const createSettingTrustedDomain: API.OperationMethod<
   CreateSettingTrustedDomainRequest,
   CreateSettingTrustedDomainResponse,
-  CommonErrors,
+  CreateSettingTrustedDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSettingTrustedDomainRequest,
@@ -3803,10 +3871,12 @@ export const PatchSettingTrustedDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSettingTrustedDomainResponse>;
 
+export type PatchSettingTrustedDomainError = CommonErrors;
+
 export const patchSettingTrustedDomain: API.OperationMethod<
   PatchSettingTrustedDomainRequest,
   PatchSettingTrustedDomainResponse,
-  CommonErrors,
+  PatchSettingTrustedDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSettingTrustedDomainRequest,
@@ -3839,10 +3909,12 @@ export const DeleteSettingTrustedDomainResponse = Schema.Struct({
   id: Schema.Number,
 }) as unknown as Schema.Schema<DeleteSettingTrustedDomainResponse>;
 
+export type DeleteSettingTrustedDomainError = CommonErrors;
+
 export const deleteSettingTrustedDomain: API.OperationMethod<
   DeleteSettingTrustedDomainRequest,
   DeleteSettingTrustedDomainResponse,
-  CommonErrors,
+  DeleteSettingTrustedDomainError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingTrustedDomainRequest,
@@ -4067,10 +4139,12 @@ export const ListSubmissionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListSubmissionsResponse>;
 
+export type ListSubmissionsError = CommonErrors;
+
 export const listSubmissions: API.OperationMethod<
   ListSubmissionsRequest,
   ListSubmissionsResponse,
-  CommonErrors,
+  ListSubmissionsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListSubmissionsRequest,

@@ -68,10 +68,12 @@ export const GetSettingTlsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<GetSettingTlsResponse>;
 
+export type GetSettingTlsError = CommonErrors;
+
 export const getSettingTls: API.OperationMethod<
   GetSettingTlsRequest,
   GetSettingTlsResponse,
-  CommonErrors,
+  GetSettingTlsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSettingTlsRequest,
@@ -133,10 +135,12 @@ export const PutSettingTlsResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
+export type PutSettingTlsError = CommonErrors;
+
 export const putSettingTls: API.OperationMethod<
   PutSettingTlsRequest,
   PutSettingTlsResponse,
-  CommonErrors,
+  PutSettingTlsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutSettingTlsRequest,
@@ -195,10 +199,12 @@ export const DeleteSettingTlsResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
+export type DeleteSettingTlsError = CommonErrors;
+
 export const deleteSettingTls: API.OperationMethod<
   DeleteSettingTlsRequest,
   DeleteSettingTlsResponse,
-  CommonErrors,
+  DeleteSettingTlsError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSettingTlsRequest,
