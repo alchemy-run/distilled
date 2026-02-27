@@ -60,7 +60,7 @@ export interface PutCertificatePackCertificateResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -154,7 +154,7 @@ export const PutCertificatePackCertificateResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -394,7 +394,7 @@ export interface GetCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -488,7 +488,7 @@ export const GetCustomHostnameResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -696,7 +696,7 @@ export type ListCustomHostnamesResponse = {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -783,7 +783,7 @@ export const ListCustomHostnamesResponse = Schema.Array(
         Schema.Literals(["ubiquitous", "optimal", "force"]),
       ),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
       ),
       customCertificate: Schema.optional(Schema.String),
       customCsrId: Schema.optional(Schema.String),
@@ -968,7 +968,7 @@ export interface CreateCustomHostnameRequest {
   /** Body param: SSL properties used when creating the custom hostname. */
   ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     cloudflareBranding?: boolean;
     customCertBundle?: { customCertificate: string; customKey: string }[];
     customCertificate?: string;
@@ -996,7 +996,7 @@ export const CreateCustomHostnameRequest = Schema.Struct({
         Schema.Literals(["ubiquitous", "optimal", "force"]),
       ),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
       ),
       cloudflareBranding: Schema.optional(Schema.Boolean),
       customCertBundle: Schema.optional(
@@ -1068,7 +1068,7 @@ export interface CreateCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -1162,7 +1162,7 @@ export const CreateCustomHostnameResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),
@@ -1347,7 +1347,7 @@ export interface PatchCustomHostnameRequest {
   /** Body param: SSL properties used when creating the custom hostname. */
   ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     cloudflareBranding?: boolean;
     customCertBundle?: { customCertificate: string; customKey: string }[];
     customCertificate?: string;
@@ -1377,7 +1377,7 @@ export const PatchCustomHostnameRequest = Schema.Struct({
         Schema.Literals(["ubiquitous", "optimal", "force"]),
       ),
       certificateAuthority: Schema.optional(
-        Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+        Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
       ),
       cloudflareBranding: Schema.optional(Schema.Boolean),
       customCertBundle: Schema.optional(
@@ -1453,7 +1453,7 @@ export interface PatchCustomHostnameResponse {
   ssl: {
     id?: string;
     bundleMethod?: "ubiquitous" | "optimal" | "force";
-    certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
+    certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | "digicert";
     customCertificate?: string;
     customCsrId?: string;
     customKey?: string;
@@ -1547,7 +1547,7 @@ export const PatchCustomHostnameResponse = Schema.Struct({
       Schema.Literals(["ubiquitous", "optimal", "force"]),
     ),
     certificateAuthority: Schema.optional(
-      Schema.Literals(["digicert", "google", "lets_encrypt", "ssl_com"]),
+      Schema.Literals(["google", "lets_encrypt", "ssl_com", "digicert"]),
     ),
     customCertificate: Schema.optional(Schema.String),
     customCsrId: Schema.optional(Schema.String),

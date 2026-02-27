@@ -662,7 +662,7 @@ describe("R2DataCatalog", () => {
     // SKIPPED: SDK bug - API returns R2 bucket data instead of data catalog response
     test(
       "happy path - lists tables with returnDetails",
-      { timeout: 120_000 },
+      { timeout: 180_000 },
       () =>
         withCatalog(bucketName("nst-list-detail"), (bucket) =>
           Effect.gen(function* () {

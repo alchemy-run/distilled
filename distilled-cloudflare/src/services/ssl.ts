@@ -103,6 +103,7 @@ export interface GetCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
+    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -111,7 +112,6 @@ export interface GetCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
-    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -197,6 +197,7 @@ export const GetCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
+    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -205,7 +206,6 @@ export const GetCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
-    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -322,6 +322,7 @@ export type ListCertificatePacksResponse = {
   }[];
   hosts: string[];
   status:
+    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -330,7 +331,6 @@ export type ListCertificatePacksResponse = {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
-    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -409,6 +409,7 @@ export const ListCertificatePacksResponse = Schema.Array(
     ),
     hosts: Schema.Array(Schema.String),
     status: Schema.Literals([
+      "active",
       "initializing",
       "pending_validation",
       "deleted",
@@ -417,7 +418,6 @@ export const ListCertificatePacksResponse = Schema.Array(
       "pending_deletion",
       "pending_expiration",
       "expired",
-      "active",
       "initializing_timed_out",
       "validation_timed_out",
       "issuance_timed_out",
@@ -567,6 +567,7 @@ export interface CreateCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
+    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -575,7 +576,6 @@ export interface CreateCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
-    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -661,6 +661,7 @@ export const CreateCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
+    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -669,7 +670,6 @@ export const CreateCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
-    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -796,6 +796,7 @@ export interface PatchCertificatePackResponse {
   hosts: string[];
   /** Status of certificate pack. */
   status:
+    | "active"
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -804,7 +805,6 @@ export interface PatchCertificatePackResponse {
     | "pending_deletion"
     | "pending_expiration"
     | "expired"
-    | "active"
     | "initializing_timed_out"
     | "validation_timed_out"
     | "issuance_timed_out"
@@ -890,6 +890,7 @@ export const PatchCertificatePackResponse = Schema.Struct({
   ),
   hosts: Schema.Array(Schema.String),
   status: Schema.Literals([
+    "active",
     "initializing",
     "pending_validation",
     "deleted",
@@ -898,7 +899,6 @@ export const PatchCertificatePackResponse = Schema.Struct({
     "pending_deletion",
     "pending_expiration",
     "expired",
-    "active",
     "initializing_timed_out",
     "validation_timed_out",
     "issuance_timed_out",
@@ -1215,7 +1215,7 @@ export type GetVerificationResponse = {
   brandCheck?: boolean;
   certPackUuid?: string;
   signature?: "ECDSAWithSHA256" | "SHA1WithRSA" | "SHA256WithRSA";
-  validationMethod?: "http" | "cname" | "txt";
+  validationMethod?: "http" | "txt" | "cname";
   verificationInfo?: {
     recordName?: "record_name" | "http_url" | "cname" | "txt_name";
     recordTarget?: "record_value" | "http_body" | "cname_target" | "txt_value";
@@ -1241,7 +1241,7 @@ export const GetVerificationResponse = Schema.Array(
       Schema.Literals(["ECDSAWithSHA256", "SHA1WithRSA", "SHA256WithRSA"]),
     ),
     validationMethod: Schema.optional(
-      Schema.Literals(["http", "cname", "txt"]),
+      Schema.Literals(["http", "txt", "cname"]),
     ),
     verificationInfo: Schema.optional(
       Schema.Struct({

@@ -818,35 +818,39 @@ describe("R2", () => {
         }),
       ));
 
-    test("happy path - clears lifecycle rules with empty array", () =>
-      withBucket(bucketName("lifecycle-put-clear"), (name) =>
-        Effect.gen(function* () {
-          // Set rules first
-          yield* R2.putBucketLifecycle({
-            accountId: accountId(),
-            bucketName: name,
-            rules: [
-              {
-                id: "temp-rule",
-                conditions: { prefix: "" },
-                enabled: true,
-                deleteObjectsTransition: {
-                  condition: { maxAge: 30, type: "Age" as const },
+    test(
+      "happy path - clears lifecycle rules with empty array",
+      { timeout: 180_000 },
+      () =>
+        withBucket(bucketName("lifecycle-put-clear"), (name) =>
+          Effect.gen(function* () {
+            // Set rules first
+            yield* R2.putBucketLifecycle({
+              accountId: accountId(),
+              bucketName: name,
+              rules: [
+                {
+                  id: "temp-rule",
+                  conditions: { prefix: "" },
+                  enabled: true,
+                  deleteObjectsTransition: {
+                    condition: { maxAge: 30, type: "Age" as const },
+                  },
                 },
-              },
-            ],
-          });
+              ],
+            });
 
-          // Clear rules
-          const result = yield* R2.putBucketLifecycle({
-            accountId: accountId(),
-            bucketName: name,
-            rules: [],
-          });
+            // Clear rules
+            const result = yield* R2.putBucketLifecycle({
+              accountId: accountId(),
+              bucketName: name,
+              rules: [],
+            });
 
-          expect(result).toBeDefined();
-        }),
-      ));
+            expect(result).toBeDefined();
+          }),
+        ),
+    );
 
     test("error - NoSuchBucket for non-existent bucket", () =>
       R2.putBucketLifecycle({

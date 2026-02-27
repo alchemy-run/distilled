@@ -86,7 +86,11 @@ export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>(
   "MethodNotAllowed",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(MethodNotAllowed, [{ code: 10000 }, { code: 7001 }]);
+T.applyErrorMatchers(MethodNotAllowed, [
+  { code: 7001 },
+  { code: 10000 },
+  { code: 10405 },
+]);
 
 export class MissingAuthenticationToken extends Schema.TaggedErrorClass<MissingAuthenticationToken>()(
   "MissingAuthenticationToken",

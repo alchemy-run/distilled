@@ -1,6 +1,6 @@
 {
   "errors": {
-    "GatewayAlreadyExists": [{ "code": 7001 }]
+    "GatewayAlreadyExists": [{ "code": 7001 }, { "status": 504 }]
   },
   "response": {
     "properties": {

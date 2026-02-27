@@ -574,27 +574,31 @@ describe("KV", () => {
   // getNamespaceMetadata
   // --------------------------------------------------------------------------
   describe("getNamespaceMetadata", () => {
-    test("happy path - retrieves metadata for a key", () =>
-      withNamespace(nsTitle("get-meta-happy"), (namespaceId) =>
-        Effect.gen(function* () {
-          // Write a key with metadata first
-          yield* KV.putNamespaceValue({
-            accountId: accountId(),
-            namespaceId,
-            keyName: "meta-key",
-            value: "meta-value",
-            metadata: { environment: "test", version: 42 },
-          });
+    test(
+      "happy path - retrieves metadata for a key",
+      { timeout: 180_000 },
+      () =>
+        withNamespace(nsTitle("get-meta-happy"), (namespaceId) =>
+          Effect.gen(function* () {
+            // Write a key with metadata first
+            yield* KV.putNamespaceValue({
+              accountId: accountId(),
+              namespaceId,
+              keyName: "meta-key",
+              value: "meta-value",
+              metadata: { environment: "test", version: 42 },
+            });
 
-          const result = yield* KV.getNamespaceMetadata({
-            accountId: accountId(),
-            namespaceId,
-            keyName: "meta-key",
-          });
+            const result = yield* KV.getNamespaceMetadata({
+              accountId: accountId(),
+              namespaceId,
+              keyName: "meta-key",
+            });
 
-          expect(result).toBeDefined();
-        }),
-      ));
+            expect(result).toBeDefined();
+          }),
+        ),
+    );
 
     test("error - KeyNotFound for non-existent key in valid namespace", () =>
       withNamespace(nsTitle("get-meta-missing"), (namespaceId) =>

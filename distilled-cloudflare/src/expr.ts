@@ -39,10 +39,10 @@ export type MessageMatcher = { includes: string } | { matches: string }; // rege
  * { code: 10000, message: { includes: "CORS configuration not found" } }
  */
 export interface ErrorMatcher {
-  /** Cloudflare error code (required) */
-  code: number;
+  /** Cloudflare error code (optional — required unless status is provided) */
+  code?: number;
 
-  /** HTTP status code (optional, for disambiguation) */
+  /** HTTP status code (optional, for disambiguation or status-only matching) */
   status?: number;
 
   /** Message matcher (optional, for disambiguation) */
@@ -170,12 +170,15 @@ export function matchesMessage(
  */
 export function matchesError(
   matcher: ErrorMatcher,
-  code: number,
+  code: number | undefined,
   status: number,
   message: string,
 ): boolean {
-  // Code must match
-  if (matcher.code !== code) return false;
+  // Must have at least code or status to match
+  if (matcher.code === undefined && matcher.status === undefined) return false;
+
+  // Code must match if specified in matcher
+  if (matcher.code !== undefined && matcher.code !== code) return false;
 
   // Status must match if specified
   if (matcher.status !== undefined && matcher.status !== status) return false;
@@ -195,8 +198,9 @@ export function matchesError(
  * Higher score = more specific match.
  */
 export function matcherSpecificity(matcher: ErrorMatcher): number {
-  let score = 1; // Base score for code match
-  if (matcher.status !== undefined) score += 1;
-  if (matcher.message !== undefined) score += 1;
+  let score = 0;
+  if (matcher.code !== undefined) score += 1; // Score for code match
+  if (matcher.status !== undefined) score += 1; // Score for status match
+  if (matcher.message !== undefined) score += 1; // Score for message match
   return score;
 }
