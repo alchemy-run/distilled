@@ -1,10 +1,12 @@
+import * as Effect from "effect/Effect";
+import { pipeArguments } from "effect/Pipeable";
+import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
-import * as Stream from "effect/Stream";
+import { SingleShotGen } from "effect/Utils";
 import * as Category from "./category";
 import { Credentials } from "./credentials";
 import {
@@ -633,27 +635,22 @@ export const API = {
         );
       });
 
-    // Effect that, when yielded, captures services and returns a requirement-free fn.
-    const eff = Effect.map(
-      Effect.services(),
-      (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
-    );
+    const Proto = {
+      [Symbol.iterator]() {
+        return new SingleShotGen(this);
+      },
+      pipe() {
+        return pipeArguments(this.asEffect(), arguments);
+      },
+      asEffect() {
+        return Effect.map(
+          Effect.services(),
+          (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
+        );
+      },
+    };
 
-    // Proxy: target is fn (so apply trap works), property access delegates to eff.
-    return new Proxy(fn, {
-      get(_target, prop, _receiver) {
-        return Reflect.get(eff, prop, eff);
-      },
-      getPrototypeOf() {
-        return Object.getPrototypeOf(eff);
-      },
-      getOwnPropertyDescriptor(_target, prop) {
-        return Object.getOwnPropertyDescriptor(eff, prop);
-      },
-      has(_target, prop) {
-        return prop in eff;
-      },
-    }) as OperationMethod<Input, Output, Errors, Context>;
+    return Object.assign(fn, Proto);
   },
 
   /**

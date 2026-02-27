@@ -2,12 +2,14 @@ import { AwsV4Signer } from "aws4fetch";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Option from "effect/Option";
+import { pipeArguments } from "effect/Pipeable";
 import * as Redacted from "effect/Redacted";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import { SingleShotGen } from "effect/Utils";
 
 import { makeDefault, Retry } from "../retry.ts";
 import { makeEndpointResolver } from "../rules-engine/endpoint-resolver.ts";
@@ -288,7 +290,7 @@ export const make = <Op extends Operation<any, any, any>>(
   });
 
   const outerFn = Object.assign(
-    Effect.fn(function* (payload: Operation.Input<Op>) {
+    Effect.fn(function* (payload: Operation.Input<any>) {
       const lastError = yield* Ref.make<unknown>(undefined);
       const policy = (yield* Effect.serviceOption(Retry)).pipe(
         Option.map((value) =>
@@ -297,6 +299,7 @@ export const make = <Op extends Operation<any, any, any>>(
         Option.getOrElse(() => makeDefault(lastError)),
       );
 
+      // @ts-expect-error
       const eff = fn(payload);
       return yield* pipe(
         eff,
@@ -313,30 +316,23 @@ export const make = <Op extends Operation<any, any, any>>(
     op,
   );
 
-  // Effect that, when yielded, captures services and returns a requirement-free fn.
-  const captureEffect = Effect.map(
-    Effect.services(),
-    (sm) => (input: Operation.Input<Op>) =>
-      outerFn(input).pipe(Effect.provide(sm)),
-  );
+  const Proto = {
+    [Symbol.iterator]() {
+      return new SingleShotGen(this);
+    },
+    pipe() {
+      return pipeArguments(this.asEffect(), arguments);
+    },
+    asEffect() {
+      return Effect.map(
+        Effect.services(),
+        (sm) => (input: Operation.Input<Op>) =>
+          outerFn(input).pipe(Effect.provide(sm)),
+      );
+    },
+  };
 
-  // Proxy: target is outerFn (so apply trap works), property access delegates to captureEffect.
-  return new Proxy(outerFn, {
-    get(_target, prop, _receiver) {
-      // Preserve operation metadata and any props on the target (pages, items, etc.)
-      if (prop in _target) {
-        return Reflect.get(_target, prop, _target);
-      }
-      // Everything else (Effect protocol) delegates to captureEffect
-      return Reflect.get(captureEffect, prop, captureEffect);
-    },
-    getPrototypeOf() {
-      return Object.getPrototypeOf(captureEffect);
-    },
-    has(_target, prop) {
-      return prop in _target || prop in captureEffect;
-    },
-  });
+  return Object.assign(outerFn, Proto);
 };
 
 export const makePaginated = <Op extends Operation<any, any, any>>(

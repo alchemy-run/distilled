@@ -16,6 +16,8 @@ import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 
+import { pipeArguments } from "effect/Pipeable";
+import { SingleShotGen } from "effect/Utils";
 import { ApiToken } from "../auth.ts";
 import {
   CloudflareHttpError,
@@ -268,49 +270,22 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
       return yield* operation;
     });
 
-  // Effect that, when yielded, captures services and returns a requirement-free fn.
-  const eff = Effect.map(
-    Effect.services(),
-    (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
-  );
-
-  // Proxy: target is fn (so apply trap works), property access delegates to eff.
-  return new Proxy(fn, {
-    get(_target, prop, _receiver) {
-      if (prop === "input") return op.input;
-      if (prop === "output") return op.output;
-      if (prop === "errors") return op.errors;
-      if (prop === "pagination") return op.pagination;
-      return Reflect.get(eff, prop, eff);
+  const Proto = {
+    [Symbol.iterator]() {
+      return new SingleShotGen(this);
     },
-    getPrototypeOf() {
-      return Object.getPrototypeOf(eff);
+    pipe() {
+      return pipeArguments(this.asEffect(), arguments);
     },
-    getOwnPropertyDescriptor(_target, prop) {
-      if (
-        prop === "input" ||
-        prop === "output" ||
-        prop === "errors" ||
-        prop === "pagination"
-      ) {
-        return {
-          configurable: true,
-          enumerable: true,
-          value: (op as any)[prop],
-        };
-      }
-      return Object.getOwnPropertyDescriptor(eff, prop);
-    },
-    has(_target, prop) {
-      return (
-        prop in eff ||
-        prop === "input" ||
-        prop === "output" ||
-        prop === "errors" ||
-        prop === "pagination"
+    asEffect() {
+      return Effect.map(
+        Effect.services(),
+        (sm) => (input: Input) => fn(input).pipe(Effect.provide(sm)),
       );
     },
-  }) as any;
+  };
+
+  return Object.assign(fn, Proto);
 };
 
 /**
