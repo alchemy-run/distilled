@@ -4,22 +4,34 @@
   "type": "module",
   "exports": {
     "./*": {
-      "bun": "./src/services/*.ts"
+      "types": "./lib/services/*.d.ts",
+      "bun": "./src/services/*.ts",
+      "default": "./lib/services/*.js"
     },
     "./Auth": {
-      "bun": "./src/auth.ts"
+      "types": "./lib/auth.d.ts",
+      "bun": "./src/auth.ts",
+      "default": "./lib/auth.js"
     },
     "./Category": {
-      "bun": "./src/category.ts"
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
     },
     "./Errors": {
-      "bun": "./src/errors.ts"
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
     },
     "./Traits": {
-      "bun": "./src/traits.ts"
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
     },
     ".": {
-      "bun": "./src/index.ts"
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "default": "./lib/index.js"
     }
   },
   "scripts": {
