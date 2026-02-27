@@ -26,7 +26,7 @@ export class GatewayAlreadyExists extends Schema.TaggedErrorClass<GatewayAlready
   "GatewayAlreadyExists",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(GatewayAlreadyExists, [{ code: 7001 }]);
+T.applyErrorMatchers(GatewayAlreadyExists, [{ code: 7001 }, { status: 504 }]);
 
 export class GatewayNotFound extends Schema.TaggedErrorClass<GatewayNotFound>()(
   "GatewayNotFound",

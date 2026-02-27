@@ -3,6 +3,6 @@
     "MemberNotFound": [{ "code": 1003 }],
     "InvalidRoute": [{ "code": 7003 }],
     "BadRequest": [{ "code": 400 }],
-    "MethodNotAllowed": [{ "code": 10000 }]
+    "MethodNotAllowed": [{ "code": 10000 }, { "code": 10405 }]
   }
 }
