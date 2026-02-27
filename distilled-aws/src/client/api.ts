@@ -299,7 +299,6 @@ export const make = <Op extends Operation<any, any, any>>(
         Option.getOrElse(() => makeDefault(lastError)),
       );
 
-      // @ts-expect-error
       const eff = fn(payload);
       return yield* pipe(
         eff,
